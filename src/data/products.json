@@ -1,0 +1,2094 @@
+[
+  {
+    "id": "kit-01",
+    "name": "Organic Bamboo Cutlery Set with Travel Pouch",
+    "category": "Kitchen",
+    "price": 349,
+    "icon": "🎋",
+    "badge": "Zero Waste Best-Seller",
+    "description": "Handcrafted bamboo fork, spoon, knife, straw, and cleaner in a natural unbleached cotton pouch. Completely biodegradable and lightweight.",
+    "material": "Organic Bamboo & Cotton",
+    "packaging": "plastic-free",
+    "carbonKg": 0.35,
+    "waterLitres": 18,
+    "plasticGrams": 0,
+    "certifications": [
+      "FSC Certified",
+      "USDA Biobased",
+      "Zero Waste"
+    ],
+    "madeInKm": 140,
+    "isEcoFriendly": true,
+    "conventionalAlternativeId": "kit-01-conv",
+    "ecoHighlights": [
+      "100% Compostable",
+      "Pesticide-Free Bamboo",
+      "Plastic-Free Packaging"
+    ],
+    "imageQuery": "1584308666744-24d5c474f2ae",
+    "photographer": "Eiliv Aceron",
+    "image": "/images/products/kit-01.jpg",
+    "images": [
+      "/images/products/kit-01.jpg",
+      "/images/products/kit-01.svg"
+    ],
+    "photoId": "photo-1584308666744-24d5c474f2ae"
+  },
+  {
+    "id": "kit-01-conv",
+    "name": "Single-Use Plastic Cutlery Pack (50 pcs)",
+    "category": "Kitchen",
+    "price": 129,
+    "icon": "🍴",
+    "badge": "High Plastic Footprint",
+    "description": "Conventional single-use disposable plastic fork and spoon set manufactured from virgin polystyrene polymer. Takes 450+ years to degrade.",
+    "material": "Virgin Polystyrene Plastic",
+    "packaging": "plastic",
+    "carbonKg": 2.45,
+    "waterLitres": 115,
+    "plasticGrams": 145,
+    "certifications": [],
+    "madeInKm": 1850,
+    "isEcoFriendly": false,
+    "conventionalAlternativeId": "kit-01",
+    "ecoHighlights": [
+      "Non-Biodegradable",
+      "Virgin Fossil Fuel Origin",
+      "Single-Use Waste"
+    ],
+    "imageQuery": "1617347454431-f49d7ff5c3b1",
+    "photographer": "Pawel Czerwinski",
+    "image": "/images/products/kit-01-conv.jpg",
+    "images": [
+      "/images/products/kit-01-conv.jpg",
+      "/images/products/kit-01-conv.svg"
+    ],
+    "photoId": "photo-1617347454431-f49d7ff5c3b1"
+  },
+  {
+    "id": "kit-02",
+    "name": "Reclaimed Coconut Shell Salad Bowls (Set of 2)",
+    "category": "Kitchen",
+    "price": 499,
+    "icon": "🥥",
+    "badge": "Upcycled Artisan",
+    "description": "Upcycled discarded coconut shells hand-polished with virgin coconut oil. No artificial glazes or lacquer used. Artisanal coastal craft.",
+    "material": "Discarded Coconut Shell & Cold-Pressed Coconut Oil",
+    "packaging": "plastic-free",
+    "carbonKg": 0.42,
+    "waterLitres": 12,
+    "plasticGrams": 0,
+    "certifications": [
+      "Upcycled Certified",
+      "Fair Trade Artisan"
+    ],
+    "madeInKm": 280,
+    "isEcoFriendly": true,
+    "conventionalAlternativeId": "kit-02-conv",
+    "ecoHighlights": [
+      "Upcycled Agricultural Waste",
+      "Zero Synthetic Chemicals",
+      "Plastic-Free"
+    ],
+    "imageQuery": "1546069901-ba9599a7e63c",
+    "photographer": "Brooke Lark",
+    "image": "/images/products/kit-02.jpg",
+    "images": [
+      "/images/products/kit-02.jpg",
+      "/images/products/kit-02.svg"
+    ],
+    "photoId": "photo-1546069901-ba9599a7e63c"
+  },
+  {
+    "id": "kit-02-conv",
+    "name": "Melamine Printed Dinner Bowls (Set of 4)",
+    "category": "Kitchen",
+    "price": 389,
+    "icon": "🥣",
+    "badge": "Conventional Plastic",
+    "description": "Standard synthetic melamine resin bowls with chemical dyes and plastic shrink-wrap packaging. Emits micro-plastics over high heat.",
+    "material": "Melamine Formaldehyde Resin",
+    "packaging": "plastic",
+    "carbonKg": 3.2,
+    "waterLitres": 160,
+    "plasticGrams": 220,
+    "certifications": [],
+    "madeInKm": 1400,
+    "isEcoFriendly": false,
+    "conventionalAlternativeId": "kit-02",
+    "ecoHighlights": [
+      "Formaldehyde Base",
+      "Non-Recyclable Thermoset",
+      "High Chemical Footprint"
+    ],
+    "imageQuery": "1576402187878-974f70c890a5",
+    "photographer": "Mona Eendra",
+    "image": "/images/products/kit-02-conv.jpg",
+    "images": [
+      "/images/products/kit-02-conv.jpg",
+      "/images/products/kit-02-conv.svg"
+    ],
+    "photoId": "photo-1576402187878-974f70c890a5"
+  },
+  {
+    "id": "kit-03",
+    "name": "Pure Beeswax Food Wraps (Pack of 3)",
+    "category": "Kitchen",
+    "price": 420,
+    "icon": "🐝",
+    "badge": "Cling-Film Alternative",
+    "description": "Breathable, reusable organic cotton infused with pure beeswax, jojoba oil, and tree resin. Keeps greens crisp 3x longer than plastic foil.",
+    "material": "GOTS Organic Cotton, Natural Beeswax & Tree Resin",
+    "packaging": "plastic-free",
+    "carbonKg": 0.55,
+    "waterLitres": 34,
+    "plasticGrams": 0,
+    "certifications": [
+      "GOTS Organic",
+      "Zero Waste",
+      "FDA Food Safe"
+    ],
+    "madeInKm": 190,
+    "isEcoFriendly": true,
+    "conventionalAlternativeId": "kit-03-conv",
+    "ecoHighlights": [
+      "Replaces 300+ m of Plastic Cling",
+      "100% Backyard Compostable",
+      "Naturally Antibacterial"
+    ],
+    "imageQuery": "1607344645866-009c320c5ab8",
+    "photographer": "Tania Melnyczuk",
+    "image": "/images/products/kit-03.svg",
+    "images": [
+      "/images/products/kit-03.svg",
+      "/images/products/kit-03.svg"
+    ],
+    "photoId": "photo-1607344645866-009c320c5ab8"
+  },
+  {
+    "id": "kit-03-conv",
+    "name": "PVC Plastic Food Cling Wrap (30m Roll)",
+    "category": "Kitchen",
+    "price": 140,
+    "icon": "📦",
+    "badge": "Single-Use Plastic Film",
+    "description": "Standard PVC plastic cling film with plastic cutter box. Generates toxic dioxins if incinerated and cannot be recycled curbside.",
+    "material": "Polyvinyl Chloride (PVC) Plastic",
+    "packaging": "plastic",
+    "carbonKg": 2.1,
+    "waterLitres": 85,
+    "plasticGrams": 160,
+    "certifications": [],
+    "madeInKm": 1200,
+    "isEcoFriendly": false,
+    "conventionalAlternativeId": "kit-03",
+    "ecoHighlights": [
+      "Plasticizer Leaching Risk",
+      "Non-Recyclable Film",
+      "Hazardous Incineration"
+    ],
+    "imageQuery": "1586528116311-ad8dd3c8310d",
+    "photographer": "Chuttersnap",
+    "image": "/images/products/kit-03-conv.jpg",
+    "images": [
+      "/images/products/kit-03-conv.jpg",
+      "/images/products/kit-03-conv.svg"
+    ],
+    "photoId": "photo-1586528116311-ad8dd3c8310d"
+  },
+  {
+    "id": "kit-04",
+    "name": "Ayurvedic Hammered Pure Copper Bottle (950ml)",
+    "category": "Kitchen",
+    "price": 899,
+    "icon": "🏺",
+    "badge": "Lifetime Durability",
+    "description": "Hand-hammered 99.4% pure copper water vessel. Infuses water with natural copper ions, replaces thousands of disposable plastic water bottles.",
+    "material": "Pure Handcrafted Copper",
+    "packaging": "recycled",
+    "carbonKg": 1.25,
+    "waterLitres": 45,
+    "plasticGrams": 0,
+    "certifications": [
+      "ISO 9001",
+      "Artisan Guild Certified"
+    ],
+    "madeInKm": 310,
+    "isEcoFriendly": true,
+    "conventionalAlternativeId": "kit-04-conv",
+    "ecoHighlights": [
+      "Lifetime Reusable",
+      "Natural Antimicrobial",
+      "100% Infinitely Recyclable"
+    ],
+    "imageQuery": "1602143407151-7111542de6e8",
+    "photographer": "Bluewater Globe",
+    "image": "/images/products/kit-04.jpg",
+    "images": [
+      "/images/products/kit-04.jpg",
+      "/images/products/kit-04.svg"
+    ],
+    "photoId": "photo-1602143407151-7111542de6e8"
+  },
+  {
+    "id": "kit-04-conv",
+    "name": "Polycarbonate Plastic Gym Bottle (1000ml)",
+    "category": "Kitchen",
+    "price": 299,
+    "icon": "🍶",
+    "badge": "BPA Plastic Container",
+    "description": "Molded petroleum polycarbonate water bottle with plastic flip-cap and silicone seal. Leaches microplastics over extended sunlight exposure.",
+    "material": "Polycarbonate Synthetic Plastic",
+    "packaging": "plastic",
+    "carbonKg": 3.1,
+    "waterLitres": 195,
+    "plasticGrams": 180,
+    "certifications": [],
+    "madeInKm": 1600,
+    "isEcoFriendly": false,
+    "conventionalAlternativeId": "kit-04",
+    "ecoHighlights": [
+      "Plasticizer Degradation",
+      "Non-Biodegradable",
+      "High Fossil-Fuel Use"
+    ],
+    "imageQuery": "1523362628745-0c100150b504",
+    "photographer": "Jonathan Cooper",
+    "image": "/images/products/kit-04-conv.jpg",
+    "images": [
+      "/images/products/kit-04-conv.jpg",
+      "/images/products/kit-04-conv.svg"
+    ],
+    "photoId": "photo-1523362628745-0c100150b504"
+  },
+  {
+    "id": "care-01",
+    "name": "Compostable Bamboo Toothbrush (Pack of 4)",
+    "category": "Personal Care",
+    "price": 249,
+    "icon": "🪥",
+    "badge": "Everyday Essential",
+    "description": "Moso bamboo handles with castor oil bean bio-based bristles. Packed in recycled kraft card. Smooth ergonomic handle.",
+    "material": "Moso Bamboo & Castor Bean Bristles",
+    "packaging": "plastic-free",
+    "carbonKg": 0.28,
+    "waterLitres": 14,
+    "plasticGrams": 0,
+    "certifications": [
+      "FSC Certified",
+      "PETA Vegan",
+      "Plastic Free"
+    ],
+    "madeInKm": 160,
+    "isEcoFriendly": true,
+    "conventionalAlternativeId": "care-01-conv",
+    "ecoHighlights": [
+      "Castor Oil Plant Bristles",
+      "100% Home Compostable Handle",
+      "Zero Plastic Waste"
+    ],
+    "imageQuery": "1607613009820-a29f7ab81c04",
+    "photographer": "Superkitina",
+    "image": "/images/products/care-01.svg",
+    "images": [
+      "/images/products/care-01.svg",
+      "/images/products/care-01.svg"
+    ],
+    "photoId": "photo-1607613009820-a29f7ab81c04"
+  },
+  {
+    "id": "care-01-conv",
+    "name": "Nylon Bristle Plastic Toothbrushes (Pack of 4)",
+    "category": "Personal Care",
+    "price": 120,
+    "icon": "🪥",
+    "badge": "Ocean Bound Plastic",
+    "description": "Molded virgin polypropylene and elastomer rubber handles with nylon-6 bristles. Over 1 billion end up in landfills every single year.",
+    "material": "Polypropylene & Synthetic Elastomer",
+    "packaging": "plastic",
+    "carbonKg": 1.85,
+    "waterLitres": 65,
+    "plasticGrams": 92,
+    "certifications": [],
+    "madeInKm": 1650,
+    "isEcoFriendly": false,
+    "conventionalAlternativeId": "care-01",
+    "ecoHighlights": [
+      "400-Year Landfill Life",
+      "Micro-Plastic Generator",
+      "Blister Plastic Packaging"
+    ],
+    "imageQuery": "1559494007-9f5847c49d94",
+    "photographer": "Henrik Hjortshøj",
+    "image": "/images/products/care-01-conv.jpg",
+    "images": [
+      "/images/products/care-01-conv.jpg",
+      "/images/products/care-01-conv.svg"
+    ],
+    "photoId": "photo-1559494007-9f5847c49d94"
+  },
+  {
+    "id": "care-02",
+    "name": "Organic Neem & Argan Solid Shampoo Bar (100g)",
+    "category": "Personal Care",
+    "price": 320,
+    "icon": "🧼",
+    "badge": "Waterless Formula",
+    "description": "Cold-pressed ayurvedic shampoo bar equal to 3 liquid shampoo bottles. Sulphate-free, palm-oil-free, and wrapped in seeded butter paper.",
+    "material": "Cold-Pressed Argan, Neem & Coconut Oils",
+    "packaging": "plastic-free",
+    "carbonKg": 0.32,
+    "waterLitres": 8,
+    "plasticGrams": 0,
+    "certifications": [
+      "USDA Organic",
+      "Cruelty-Free",
+      "Palm-Oil Free"
+    ],
+    "madeInKm": 95,
+    "isEcoFriendly": true,
+    "conventionalAlternativeId": "care-02-conv",
+    "ecoHighlights": [
+      "Saves 3 Plastic Bottles",
+      "Zero Added Water in Formula",
+      "Seed Paper Wrapper"
+    ],
+    "imageQuery": "1607006314180-a6ddfc02f829",
+    "photographer": "Sarah Chai",
+    "image": "/images/products/care-02.svg",
+    "images": [
+      "/images/products/care-02.svg",
+      "/images/products/care-02.svg"
+    ],
+    "photoId": "photo-1607006314180-a6ddfc02f829"
+  },
+  {
+    "id": "care-02-conv",
+    "name": "Chemical Liquid Shampoo in HDPE Bottle (350ml)",
+    "category": "Personal Care",
+    "price": 280,
+    "icon": "🧴",
+    "badge": "High Water Footprint",
+    "description": "Commercial liquid shampoo consisting of 80% tap water, sodium laureth sulphate, artificial fragrance, and thick HDPE plastic bottle.",
+    "material": "Water (80%), Sulphates & HDPE Plastic",
+    "packaging": "plastic",
+    "carbonKg": 2.65,
+    "waterLitres": 210,
+    "plasticGrams": 78,
+    "certifications": [],
+    "madeInKm": 1100,
+    "isEcoFriendly": false,
+    "conventionalAlternativeId": "care-02",
+    "ecoHighlights": [
+      "80% Transported Water",
+      "Sulphates Pollute Waterways",
+      "Non-Biodegradable Bottle"
+    ],
+    "imageQuery": "1584308666744-24d5c474f2ae",
+    "photographer": "Curology",
+    "image": "/images/products/care-02-conv.jpg",
+    "images": [
+      "/images/products/care-02-conv.jpg",
+      "/images/products/care-02-conv.svg"
+    ],
+    "photoId": "photo-1584308666744-24d5c474f2ae"
+  },
+  {
+    "id": "care-03",
+    "name": "Zero-Waste Vintage Brass Safety Razor",
+    "category": "Personal Care",
+    "price": 599,
+    "icon": "🪒",
+    "badge": "Built for Decades",
+    "description": "Heavy-duty solid brass double-edge razor with 10 recyclable Swedish steel blades. Never buy disposable cartridge plastic razors again.",
+    "material": "Solid Machined Brass & Stainless Steel",
+    "packaging": "plastic-free",
+    "carbonKg": 0.95,
+    "waterLitres": 28,
+    "plasticGrams": 0,
+    "certifications": [
+      "Zero Waste",
+      "Life-Cycle Assessed"
+    ],
+    "madeInKm": 240,
+    "isEcoFriendly": true,
+    "conventionalAlternativeId": "care-03-conv",
+    "ecoHighlights": [
+      "100% Plastic Free Shave",
+      "Lifetime Metal Construction",
+      "Recyclable Steel Blades"
+    ],
+    "imageQuery": "1508380702597-707c1b00695c",
+    "photographer": "Supply",
+    "image": "/images/products/care-03.jpg",
+    "images": [
+      "/images/products/care-03.jpg",
+      "/images/products/care-03.svg"
+    ],
+    "photoId": "photo-1508380702597-707c1b00695c"
+  },
+  {
+    "id": "care-03-conv",
+    "name": "Disposable Triple-Blade Plastic Razors (Pack of 6)",
+    "category": "Personal Care",
+    "price": 210,
+    "icon": "🪒",
+    "badge": "High Plastic Landfill",
+    "description": "Glued plastic heads and rubberised handles that cannot be recycled due to bonded steel and plastic composites.",
+    "material": "Polystyrene, Rubber & Glued Steel",
+    "packaging": "plastic",
+    "carbonKg": 2.9,
+    "waterLitres": 95,
+    "plasticGrams": 130,
+    "certifications": [],
+    "madeInKm": 2100,
+    "isEcoFriendly": false,
+    "conventionalAlternativeId": "care-03",
+    "ecoHighlights": [
+      "Unrecyclable Composite",
+      "Short Use Cycle",
+      "Heavy Blister Packaging"
+    ],
+    "imageQuery": "1585829365295-ab7cd400c167",
+    "photographer": "Nick Page",
+    "image": "/images/products/care-03-conv.jpg",
+    "images": [
+      "/images/products/care-03-conv.jpg",
+      "/images/products/care-03-conv.svg"
+    ],
+    "photoId": "photo-1585829365295-ab7cd400c167"
+  },
+  {
+    "id": "care-04",
+    "name": "Raw Shea Butter & Mint Lip Balm (Aluminium Tin)",
+    "category": "Personal Care",
+    "price": 185,
+    "icon": "👄",
+    "badge": "Clean Beauty",
+    "description": "Hand-whipped unrefined shea butter, sweet almond oil, and peppermint in an infinitely recyclable push-top aluminum tin. No petroleum jelly.",
+    "material": "Unrefined Shea Butter & Almond Oil",
+    "packaging": "recycled",
+    "carbonKg": 0.19,
+    "waterLitres": 15,
+    "plasticGrams": 0,
+    "certifications": [
+      "Cruelty-Free",
+      "Zero Microplastics"
+    ],
+    "madeInKm": 110,
+    "isEcoFriendly": true,
+    "conventionalAlternativeId": "care-04-conv",
+    "ecoHighlights": [
+      "No Petroleum Byproducts",
+      "Infinitely Recyclable Tin",
+      "Food-Grade Ingredients"
+    ],
+    "imageQuery": "1608248597359-009772a8c3d2",
+    "photographer": "Brittany Neale",
+    "image": "/images/products/care-04.svg",
+    "images": [
+      "/images/products/care-04.svg",
+      "/images/products/care-04.svg"
+    ],
+    "photoId": "photo-1608248597359-009772a8c3d2"
+  },
+  {
+    "id": "care-04-conv",
+    "name": "Petroleum Jelly Twist-Up Lip Balm (Plastic Tube)",
+    "category": "Personal Care",
+    "price": 95,
+    "icon": "💄",
+    "badge": "Fossil Fuel Derivative",
+    "description": "Synthetic petrolatum, mineral oil, and artificial cherry flavoring packed in non-recyclable multi-layer twist plastic stick.",
+    "material": "Petroleum Mineral Jelly & Polypropylene Tube",
+    "packaging": "plastic",
+    "carbonKg": 1.45,
+    "waterLitres": 45,
+    "plasticGrams": 28,
+    "certifications": [],
+    "madeInKm": 1750,
+    "isEcoFriendly": false,
+    "conventionalAlternativeId": "care-04",
+    "ecoHighlights": [
+      "Crude Oil Derivative",
+      "Non-Recyclable Dispenser Tube",
+      "Synthetic Additives"
+    ],
+    "imageQuery": "1599305445671-ac291c95aaa9",
+    "photographer": "Ashley Piszek",
+    "image": "/images/products/care-04-conv.jpg",
+    "images": [
+      "/images/products/care-04-conv.jpg",
+      "/images/products/care-04-conv.svg"
+    ],
+    "photoId": "photo-1599305445671-ac291c95aaa9"
+  },
+  {
+    "id": "fash-01",
+    "name": "Handspun Organic Khadi Cotton Everyday Shirt",
+    "category": "Fashion",
+    "price": 1499,
+    "icon": "👔",
+    "badge": "GOTS Certified Organic",
+    "description": "Sun-dried indigenous organic cotton spun on traditional charkhas by rural artisans. Dyed with natural indigo and pomegranate peels. Breathable luxury.",
+    "material": "100% Handspun Organic Cotton",
+    "packaging": "plastic-free",
+    "carbonKg": 1.1,
+    "waterLitres": 320,
+    "plasticGrams": 0,
+    "certifications": [
+      "GOTS Organic",
+      "Fair Trade Certified",
+      "Craftmark India"
+    ],
+    "madeInKm": 180,
+    "isEcoFriendly": true,
+    "conventionalAlternativeId": "fash-01-conv",
+    "ecoHighlights": [
+      "90% Less Water than Mill Cotton",
+      "Zero Synthetic Dyes",
+      "Sustains Handloom Weavers"
+    ],
+    "imageQuery": "1598033129183-c4f50c736f10",
+    "photographer": "Waldemar Brandt",
+    "image": "/images/products/fash-01.jpg",
+    "images": [
+      "/images/products/fash-01.jpg",
+      "/images/products/fash-01.svg"
+    ],
+    "photoId": "photo-1598033129183-c4f50c736f10"
+  },
+  {
+    "id": "fash-01-conv",
+    "name": "Fast-Fashion Synthetic Polyester Slim Shirt",
+    "category": "Fashion",
+    "price": 899,
+    "icon": "👕",
+    "badge": "Petrochemical Fiber",
+    "description": "100% virgin polyester garment dyed with heavy chemical dispersants. Sheds up to 700,000 microplastic fibers per domestic wash cycle.",
+    "material": "100% Virgin Polyester (Petrochemical)",
+    "packaging": "plastic",
+    "carbonKg": 6.8,
+    "waterLitres": 1450,
+    "plasticGrams": 310,
+    "certifications": [],
+    "madeInKm": 2900,
+    "isEcoFriendly": false,
+    "conventionalAlternativeId": "fash-01",
+    "ecoHighlights": [
+      "Massive Microfiber Shedding",
+      "Petroleum-Derived Fabric",
+      "Synthetic Azo Dyes"
+    ],
+    "imageQuery": "1620012253295-c15c429f6b96",
+    "photographer": "Nimble Made",
+    "image": "/images/products/fash-01-conv.svg",
+    "images": [
+      "/images/products/fash-01-conv.svg",
+      "/images/products/fash-01-conv.svg"
+    ],
+    "photoId": "photo-1620012253295-c15c429f6b96"
+  },
+  {
+    "id": "fash-02",
+    "name": "Natural Hemp & Upcycled Rubber Sneakers",
+    "category": "Fashion",
+    "price": 2399,
+    "icon": "👟",
+    "badge": "Circular Design",
+    "description": "Breathable high-tensile Himalayan hemp canvas uppers with soles cast from discarded car tyres. Padded with organic cork insoles.",
+    "material": "Himalayan Hemp, Upcycled Tyre Rubber & Cork",
+    "packaging": "plastic-free",
+    "carbonKg": 2.1,
+    "waterLitres": 90,
+    "plasticGrams": 0,
+    "certifications": [
+      "OEKO-TEX Standard 100",
+      "PETA Approved Vegan"
+    ],
+    "madeInKm": 340,
+    "isEcoFriendly": true,
+    "conventionalAlternativeId": "fash-02-conv",
+    "ecoHighlights": [
+      "Hemp Absorbs CO2 while Growing",
+      "Upcycled Vulcanised Soles",
+      "Glue-Free Stitching"
+    ],
+    "imageQuery": "1560769629-975ec94e6a86",
+    "photographer": "Paul Volkmer",
+    "image": "/images/products/fash-02.jpg",
+    "images": [
+      "/images/products/fash-02.jpg",
+      "/images/products/fash-02.svg"
+    ],
+    "photoId": "photo-1560769629-975ec94e6a86"
+  },
+  {
+    "id": "fash-02-conv",
+    "name": "Synthetic PU Leather Trainers with PVC Sole",
+    "category": "Fashion",
+    "price": 1599,
+    "icon": "👟",
+    "badge": "Toxic PU Resin",
+    "description": "Polyurethane faux leather backed with synthetic polyester mesh and non-biodegradable PVC injection-molded outsoles.",
+    "material": "Polyurethane (PU) & PVC Sole",
+    "packaging": "plastic",
+    "carbonKg": 8.4,
+    "waterLitres": 980,
+    "plasticGrams": 460,
+    "certifications": [],
+    "madeInKm": 3100,
+    "isEcoFriendly": false,
+    "conventionalAlternativeId": "fash-02",
+    "ecoHighlights": [
+      "Solvent Based Polyurethane",
+      "Non-Recyclable Layering",
+      "Heavy Plastic Content"
+    ],
+    "imageQuery": "1542291026-7eec264c27ff",
+    "photographer": "Hermes Rivera",
+    "image": "/images/products/fash-02-conv.jpg",
+    "images": [
+      "/images/products/fash-02-conv.jpg",
+      "/images/products/fash-02-conv.svg"
+    ],
+    "photoId": "photo-1542291026-7eec264c27ff"
+  },
+  {
+    "id": "fash-03",
+    "name": "Artisanal Ahimsa Peace Silk Stole",
+    "category": "Fashion",
+    "price": 1850,
+    "icon": "🧣",
+    "badge": "Cruelty-Free Silk",
+    "description": "Cultivated without harming the silkworms after moths naturally emerge. Woven by rural heritage handlooms using herbal extracts.",
+    "material": "Eri Ahimsa Silk & Herbal Madder Dye",
+    "packaging": "plastic-free",
+    "carbonKg": 0.85,
+    "waterLitres": 140,
+    "plasticGrams": 0,
+    "certifications": [
+      "Silk Mark",
+      "Fair Trade Handloom"
+    ],
+    "madeInKm": 260,
+    "isEcoFriendly": true,
+    "conventionalAlternativeId": "fash-03-conv",
+    "ecoHighlights": [
+      "Zero Silkworm Slaughter",
+      "Plant-Based Botanical Dyes",
+      "Generations-Old Heritage"
+    ],
+    "imageQuery": "1609357605129-26f69add5d6e",
+    "photographer": "Kelly Sikkema",
+    "image": "/images/products/fash-03.jpg",
+    "images": [
+      "/images/products/fash-03.jpg",
+      "/images/products/fash-03.svg"
+    ],
+    "photoId": "photo-1609357605129-26f69add5d6e"
+  },
+  {
+    "id": "fash-03-conv",
+    "name": "Acrylic Polyester Printed Scarf",
+    "category": "Fashion",
+    "price": 499,
+    "icon": "🧣",
+    "badge": "Synthetic Static Fabric",
+    "description": "Non-breathable petrochemical acrylic and polyester scarf dyed with chlorinated chemicals. Sheds thousands of microfibres.",
+    "material": "Acrylic & Polyester Synthetic Yarn",
+    "packaging": "plastic",
+    "carbonKg": 4.8,
+    "waterLitres": 480,
+    "plasticGrams": 140,
+    "certifications": [],
+    "madeInKm": 2200,
+    "isEcoFriendly": false,
+    "conventionalAlternativeId": "fash-03",
+    "ecoHighlights": [
+      "100% Petrochemical Origin",
+      "Plastic Bag Packaging",
+      "Static Cling Microfibers"
+    ],
+    "imageQuery": "1520903920243-00d872a2d1c9",
+    "photographer": "Tamara Bellis",
+    "image": "/images/products/fash-03-conv.jpg",
+    "images": [
+      "/images/products/fash-03-conv.jpg",
+      "/images/products/fash-03-conv.svg"
+    ],
+    "photoId": "photo-1520903920243-00d872a2d1c9"
+  },
+  {
+    "id": "fash-04",
+    "name": "Organic Bamboo Fiber Antibacterial Socks (3 Pairs)",
+    "category": "Fashion",
+    "price": 449,
+    "icon": "🧦",
+    "badge": "Thermoregulating",
+    "description": "85% natural bamboo viscose and 15% elastane free of toxic dyes. Naturally odour-resistant, moisture-wicking, and super soft.",
+    "material": "Organic Bamboo Viscose & Natural Elastic",
+    "packaging": "plastic-free",
+    "carbonKg": 0.45,
+    "waterLitres": 65,
+    "plasticGrams": 0,
+    "certifications": [
+      "OEKO-TEX 100",
+      "Eco-Cert"
+    ],
+    "madeInKm": 150,
+    "isEcoFriendly": true,
+    "conventionalAlternativeId": "fash-04-conv",
+    "ecoHighlights": [
+      "Hypoallergenic Fiber",
+      "Zero Harmful Bleaches",
+      "Cardboard Band Wrap"
+    ],
+    "imageQuery": "1586350977771-b3b0abd50c82",
+    "photographer": "NordWood Themes",
+    "image": "/images/products/fash-04.jpg",
+    "images": [
+      "/images/products/fash-04.jpg",
+      "/images/products/fash-04.svg"
+    ],
+    "photoId": "photo-1586350977771-b3b0abd50c82"
+  },
+  {
+    "id": "fash-04-conv",
+    "name": "Synthetic Nylon & Acrylic Crew Socks (3 Pairs)",
+    "category": "Fashion",
+    "price": 220,
+    "icon": "🧦",
+    "badge": "Petroleum Thread",
+    "description": "High proportion nylon and acrylic yarn with plastic hanger hook and polythene wrap. Traps heat and releases microplastics in every wash.",
+    "material": "Nylon & Acrylic Synthetic Fibers",
+    "packaging": "plastic",
+    "carbonKg": 2.1,
+    "waterLitres": 290,
+    "plasticGrams": 75,
+    "certifications": [],
+    "madeInKm": 1800,
+    "isEcoFriendly": false,
+    "conventionalAlternativeId": "fash-04",
+    "ecoHighlights": [
+      "Petroleum Microplastics",
+      "Chemical Anti-Static Coating",
+      "Excessive Plastic Packaging"
+    ],
+    "imageQuery": "1582966770380-4822839218d6",
+    "photographer": "Lucas Hoang",
+    "image": "/images/products/fash-04-conv.svg",
+    "images": [
+      "/images/products/fash-04-conv.svg",
+      "/images/products/fash-04-conv.svg"
+    ],
+    "photoId": "photo-1582966770380-4822839218d6"
+  },
+  {
+    "id": "stat-01",
+    "name": "Plantable Seed Paper Journal with Basil & Marigold Seeds",
+    "category": "Stationery",
+    "price": 299,
+    "icon": "🌱",
+    "badge": "Grows into Plants",
+    "description": "100-page handmade recycled cotton rag paper embedded with organic non-GMO seeds. Plant the cover in soil when finished and watch it bloom!",
+    "material": "Recycled Cotton Rag Paper & Live Seeds",
+    "packaging": "plastic-free",
+    "carbonKg": 0.22,
+    "waterLitres": 16,
+    "plasticGrams": 0,
+    "certifications": [
+      "FSC Recycled",
+      "Zero Waste",
+      "Tree-Free Paper"
+    ],
+    "madeInKm": 80,
+    "isEcoFriendly": true,
+    "conventionalAlternativeId": "stat-01-conv",
+    "ecoHighlights": [
+      "100% Tree-Free Cotton Rag",
+      "Live Pollinator Friendly Seeds",
+      "Chlorine-Free Process"
+    ],
+    "imageQuery": "1544816155-12df9643f363",
+    "photographer": "Jan Kahánek",
+    "image": "/images/products/stat-01.jpg",
+    "images": [
+      "/images/products/stat-01.jpg",
+      "/images/products/stat-01.svg"
+    ],
+    "photoId": "photo-1544816155-12df9643f363"
+  },
+  {
+    "id": "stat-01-conv",
+    "name": "Plastic-Coated Spiral Notebook (Bleached Paper)",
+    "category": "Stationery",
+    "price": 149,
+    "icon": "📓",
+    "badge": "Virgin Wood Pulp",
+    "description": "Virgin chlorine-bleached pine pulp with a glossy plastic lamination cover and PVC spiral binding. Non-recyclable due to plastic film.",
+    "material": "Bleached Virgin Pulp, PVC Spiral & Plastic Film",
+    "packaging": "plastic",
+    "carbonKg": 1.75,
+    "waterLitres": 140,
+    "plasticGrams": 65,
+    "certifications": [],
+    "madeInKm": 1350,
+    "isEcoFriendly": false,
+    "conventionalAlternativeId": "stat-01",
+    "ecoHighlights": [
+      "Virgin Deforestation Pulp",
+      "Chlorine Bleach Effluents",
+      "Plastic Lamination Prevents Recycling"
+    ],
+    "imageQuery": "1589998059171-988d887df646",
+    "photographer": "Kelly Sikkema",
+    "image": "/images/products/stat-01-conv.jpg",
+    "images": [
+      "/images/products/stat-01-conv.jpg",
+      "/images/products/stat-01-conv.svg"
+    ],
+    "photoId": "photo-1589998059171-988d887df646"
+  },
+  {
+    "id": "stat-02",
+    "name": "Recycled Newspaper Seed Pens (Box of 10)",
+    "category": "Stationery",
+    "price": 199,
+    "icon": "🖊️",
+    "badge": "Plantable Stationery",
+    "description": "Barrels rolled tight from reclaimed waste newspapers, tipped with tomato and coriander seed capsules. Non-toxic ink.",
+    "material": "Reclaimed Discarded Newsprint & Non-Toxic Ink",
+    "packaging": "plastic-free",
+    "carbonKg": 0.18,
+    "waterLitres": 9,
+    "plasticGrams": 4,
+    "certifications": [
+      "Recycled Content Verified",
+      "Non-Toxic Child Safe"
+    ],
+    "madeInKm": 65,
+    "isEcoFriendly": true,
+    "conventionalAlternativeId": "stat-02-conv",
+    "ecoHighlights": [
+      "Repurposed Local Newsprint",
+      "Biodegradable Body",
+      "Edible Vegetable Seeds"
+    ],
+    "imageQuery": "1585336261026-41804f877d94",
+    "photographer": "Ashkan Forouzani",
+    "image": "/images/products/stat-02.svg",
+    "images": [
+      "/images/products/stat-02.svg",
+      "/images/products/stat-02.svg"
+    ],
+    "photoId": "photo-1585336261026-41804f877d94"
+  },
+  {
+    "id": "stat-02-conv",
+    "name": "Disposable Plastic Ballpoint Pens (Pack of 10)",
+    "category": "Stationery",
+    "price": 80,
+    "icon": "🖊️",
+    "badge": "Single-Use Plastic Barrels",
+    "description": "Molded virgin crystal polystyrene bodies with tungsten carbide tips and petroleum solvent inks. Millions discarded daily.",
+    "material": "Polystyrene & Polypropylene Plastic",
+    "packaging": "plastic",
+    "carbonKg": 1.4,
+    "waterLitres": 45,
+    "plasticGrams": 85,
+    "certifications": [],
+    "madeInKm": 1600,
+    "isEcoFriendly": false,
+    "conventionalAlternativeId": "stat-02",
+    "ecoHighlights": [
+      "Non-Refillable Plastic Barrels",
+      "Petroleum Solvent Solvents",
+      "Single-Use Convenience"
+    ],
+    "imageQuery": "1583485088034-697b5bc54ccd",
+    "photographer": "Krzysztof Niewolny",
+    "image": "/images/products/stat-02-conv.jpg",
+    "images": [
+      "/images/products/stat-02-conv.jpg",
+      "/images/products/stat-02-conv.svg"
+    ],
+    "photoId": "photo-1583485088034-697b5bc54ccd"
+  },
+  {
+    "id": "stat-03",
+    "name": "Reclaimed Teak Wood Desk Tidy & Phone Stand",
+    "category": "Stationery",
+    "price": 649,
+    "icon": "🪵",
+    "badge": "Salvaged Timber",
+    "description": "Artisan carved organizer made from salvaged old colonial architectural rafters. Polished with organic linseed oil and beeswax.",
+    "material": "Salvaged Heritage Teak Wood & Natural Oil",
+    "packaging": "recycled",
+    "carbonKg": 0.48,
+    "waterLitres": 11,
+    "plasticGrams": 0,
+    "certifications": [
+      "Upcycled Timber Assured",
+      "Fair Trade Craft"
+    ],
+    "madeInKm": 120,
+    "isEcoFriendly": true,
+    "conventionalAlternativeId": "stat-03-conv",
+    "ecoHighlights": [
+      "Prevents Timber Waste",
+      "Zero Formaldehyde Glues",
+      "Handcrafted in Small Batches"
+    ],
+    "imageQuery": "1516962215378-7fa2e137ae93",
+    "photographer": "Joanna Kosinska",
+    "image": "/images/products/stat-03.jpg",
+    "images": [
+      "/images/products/stat-03.jpg",
+      "/images/products/stat-03.svg"
+    ],
+    "photoId": "photo-1516962215378-7fa2e137ae93"
+  },
+  {
+    "id": "stat-03-conv",
+    "name": "Molded Acrylic Plastic Desk Organizer",
+    "category": "Stationery",
+    "price": 399,
+    "icon": "🗄️",
+    "badge": "Petrochemical Acrylic",
+    "description": "Clear polymethyl methacrylate plastic tray with foam rubber feet and cellophane shrink packaging. Brittle and oil-intensive.",
+    "material": "Polymethyl Methacrylate (PMMA) Acrylic",
+    "packaging": "plastic",
+    "carbonKg": 3.8,
+    "waterLitres": 180,
+    "plasticGrams": 240,
+    "certifications": [],
+    "madeInKm": 2400,
+    "isEcoFriendly": false,
+    "conventionalAlternativeId": "stat-03",
+    "ecoHighlights": [
+      "High Carbon PMMA Polymer",
+      "Crack Prone & Landfill Bound",
+      "High Embodied Energy"
+    ],
+    "imageQuery": "1586075010923-2dd4570fb338",
+    "photographer": "Michał Parzuchowski",
+    "image": "/images/products/stat-03-conv.jpg",
+    "images": [
+      "/images/products/stat-03-conv.jpg",
+      "/images/products/stat-03-conv.svg"
+    ],
+    "photoId": "photo-1586075010923-2dd4570fb338"
+  },
+  {
+    "id": "stat-04",
+    "name": "Cork Hardcover Bullet Journal (Tree-Free)",
+    "category": "Stationery",
+    "price": 499,
+    "icon": "📖",
+    "badge": "Harvested Without Cutting Trees",
+    "description": "Cover harvested sustainably by peeling cork oak bark every 9 years without damaging the living trees. 120gsm recycled wheat straw paper inside.",
+    "material": "Natural Cork Bark & Recycled Wheat Straw Paper",
+    "packaging": "plastic-free",
+    "carbonKg": 0.38,
+    "waterLitres": 24,
+    "plasticGrams": 0,
+    "certifications": [
+      "FSC 100% Cork",
+      "Tree-Free Assured"
+    ],
+    "madeInKm": 190,
+    "isEcoFriendly": true,
+    "conventionalAlternativeId": "stat-04-conv",
+    "ecoHighlights": [
+      "Cork Trees Absorb 5x More CO2 When Harvested",
+      "Zero PVC Faux-Leather",
+      "Agricultural Wheat Straw Paper"
+    ],
+    "imageQuery": "1506784983877-45594efa4cbe",
+    "photographer": "Alina Grubnyak",
+    "image": "/images/products/stat-04.jpg",
+    "images": [
+      "/images/products/stat-04.jpg",
+      "/images/products/stat-04.svg"
+    ],
+    "photoId": "photo-1506784983877-45594efa4cbe"
+  },
+  {
+    "id": "stat-04-conv",
+    "name": "Faux PU Leather Executive Diary",
+    "category": "Stationery",
+    "price": 380,
+    "icon": "📕",
+    "badge": "Polyurethane Plastic",
+    "description": "Synthetic polyurethane cover glued to chlorine bleached paper with polyester bookmark ribbon and plastic shrink packaging.",
+    "material": "Polyurethane Foam & Bleached Virgin Paper",
+    "packaging": "plastic",
+    "carbonKg": 3.2,
+    "waterLitres": 210,
+    "plasticGrams": 110,
+    "certifications": [],
+    "madeInKm": 1950,
+    "isEcoFriendly": false,
+    "conventionalAlternativeId": "stat-04",
+    "ecoHighlights": [
+      "Fossil Fuel Resin",
+      "Chlorine Effluents",
+      "Plastic Shrink Wrapping"
+    ],
+    "imageQuery": "1531346878377-a5be20888e57",
+    "photographer": "Aaron Burden",
+    "image": "/images/products/stat-04-conv.jpg",
+    "images": [
+      "/images/products/stat-04-conv.jpg",
+      "/images/products/stat-04-conv.svg"
+    ],
+    "photoId": "photo-1531346878377-a5be20888e57"
+  },
+  {
+    "id": "home-01",
+    "name": "Hand-Poured Soy Wax Candle in Terracotta Pot",
+    "category": "Home",
+    "price": 449,
+    "icon": "🕯️",
+    "badge": "Clean Burn Aromatherapy",
+    "description": "100% natural GMO-free soybean wax infused with Indian lavender and bergamot essential oils, set in an artisan unglazed earthenware vessel.",
+    "material": "Non-GMO Soy Wax, Cotton Wick & Earthen Clay",
+    "packaging": "plastic-free",
+    "carbonKg": 0.38,
+    "waterLitres": 22,
+    "plasticGrams": 0,
+    "certifications": [
+      "100% Vegan",
+      "Toxin Free Clean Air",
+      "Artisan Clay"
+    ],
+    "madeInKm": 90,
+    "isEcoFriendly": true,
+    "conventionalAlternativeId": "home-01-conv",
+    "ecoHighlights": [
+      "Clean Soot-Free Burn",
+      "Terracotta Pot Reusable as Planter",
+      "Essential Oils Only"
+    ],
+    "imageQuery": "1603006905003-be475563bc59",
+    "photographer": "Sixteen Miles Out",
+    "image": "/images/products/home-01.jpg",
+    "images": [
+      "/images/products/home-01.jpg",
+      "/images/products/home-01.svg"
+    ],
+    "photoId": "photo-1603006905003-be475563bc59"
+  },
+  {
+    "id": "home-01-conv",
+    "name": "Petroleum Paraffin Scented Candle in Plastic Tub",
+    "category": "Home",
+    "price": 220,
+    "icon": "🕯️",
+    "badge": "Petroleum Wax Byproduct",
+    "description": "Paraffin wax derived from crude oil refinement, infused with synthetic phthalate perfumes that emit toluene and benzene soot into indoor air.",
+    "material": "Petroleum Paraffin & Synthetic Phthalates",
+    "packaging": "plastic",
+    "carbonKg": 2.7,
+    "waterLitres": 125,
+    "plasticGrams": 95,
+    "certifications": [],
+    "madeInKm": 1700,
+    "isEcoFriendly": false,
+    "conventionalAlternativeId": "home-01",
+    "ecoHighlights": [
+      "Petroleum Byproduct",
+      "Phthalate Fume Emissions",
+      "Disposable Plastic Container"
+    ],
+    "imageQuery": "1572726729437-3eb32111b4af",
+    "photographer": "Dima Pechurin",
+    "image": "/images/products/home-01-conv.svg",
+    "images": [
+      "/images/products/home-01-conv.svg",
+      "/images/products/home-01-conv.svg"
+    ],
+    "photoId": "photo-1572726729437-3eb32111b4af"
+  },
+  {
+    "id": "home-02",
+    "name": "Upcycled Pine Wood Serving Tray with Brass Inlay",
+    "category": "Home",
+    "price": 799,
+    "icon": "☕",
+    "badge": "Reclaimed Pallet Wood",
+    "description": "Crafted from discarded industrial freight shipping crates, planed smooth and finished with natural walnut stain. Durable and rustic.",
+    "material": "Reclaimed Pallet Pine Wood & Brass Accents",
+    "packaging": "plastic-free",
+    "carbonKg": 0.65,
+    "waterLitres": 18,
+    "plasticGrams": 0,
+    "certifications": [
+      "FSC Upcycled",
+      "Zero Deforestation"
+    ],
+    "madeInKm": 110,
+    "isEcoFriendly": true,
+    "conventionalAlternativeId": "home-02-conv",
+    "ecoHighlights": [
+      "Prevents Pallet Landfill Waste",
+      "Low VOC Vegetable Stain",
+      "Plastic-Free Kraft Packaging"
+    ],
+    "imageQuery": "1533090161767-e6ffed986b88",
+    "photographer": "Brooke Cagle",
+    "image": "/images/products/home-02.svg",
+    "images": [
+      "/images/products/home-02.svg",
+      "/images/products/home-02.svg"
+    ],
+    "photoId": "photo-1533090161767-e6ffed986b88"
+  },
+  {
+    "id": "home-02-conv",
+    "name": "Polycarbonate Printed Plastic Serving Tray",
+    "category": "Home",
+    "price": 320,
+    "icon": "🍽️",
+    "badge": "BPA Plastic Compound",
+    "description": "Molded polycarbonate plastic with synthetic chemical graphic printing. Scratches easily and emits microplastic shavings when washed.",
+    "material": "Polycarbonate Plastic & Chemical Ink",
+    "packaging": "plastic",
+    "carbonKg": 3.4,
+    "waterLitres": 190,
+    "plasticGrams": 280,
+    "certifications": [],
+    "madeInKm": 2200,
+    "isEcoFriendly": false,
+    "conventionalAlternativeId": "home-02",
+    "ecoHighlights": [
+      "Contains Bisphenol Additives",
+      "Non-Biodegradable",
+      "Excess Bubble Plastic Wrap"
+    ],
+    "imageQuery": "1590736969955-71cc94801759",
+    "photographer": "Devon Janse",
+    "image": "/images/products/home-02-conv.jpg",
+    "images": [
+      "/images/products/home-02-conv.jpg",
+      "/images/products/home-02-conv.svg"
+    ],
+    "photoId": "photo-1590736969955-71cc94801759"
+  },
+  {
+    "id": "home-03",
+    "name": "Natural Coir & Coconut Fiber Welcome Doormat",
+    "category": "Home",
+    "price": 499,
+    "icon": "🚪",
+    "badge": "100% Biodegradable Fibers",
+    "description": "Woven by Kerala coastal coir co-operatives from coconut husk fibers with a natural vulcanised tree latex non-slip backing.",
+    "material": "100% Natural Coconut Coir & Natural Latex",
+    "packaging": "plastic-free",
+    "carbonKg": 0.52,
+    "waterLitres": 25,
+    "plasticGrams": 0,
+    "certifications": [
+      "Coir Board Certified",
+      "Eco-Cert Natural",
+      "Fair Wage Co-op"
+    ],
+    "madeInKm": 380,
+    "isEcoFriendly": true,
+    "conventionalAlternativeId": "home-03-conv",
+    "ecoHighlights": [
+      "Harnesses Coconut Agriloop Waste",
+      "Natural Rubber Latex Backing",
+      "Zero Microplastic Shedding"
+    ],
+    "imageQuery": "1588854337236-6889d631faa8",
+    "photographer": "Sandy Millar",
+    "image": "/images/products/home-03.jpg",
+    "images": [
+      "/images/products/home-03.jpg",
+      "/images/products/home-03.svg"
+    ],
+    "photoId": "photo-1588854337236-6889d631faa8"
+  },
+  {
+    "id": "home-03-conv",
+    "name": "Synthetic PVC Rubber Entry Mat",
+    "category": "Home",
+    "price": 280,
+    "icon": "🚪",
+    "badge": "Petrochemical PVC Rubber",
+    "description": "Heavy extruded PVC and synthetic rubber mat with chemical dye patterns. Crumbles into fine micro-rubber dust that pollutes stormwater.",
+    "material": "Polyvinyl Chloride & Styrene Butadiene Rubber",
+    "packaging": "plastic",
+    "carbonKg": 4.1,
+    "waterLitres": 220,
+    "plasticGrams": 550,
+    "certifications": [],
+    "madeInKm": 1950,
+    "isEcoFriendly": false,
+    "conventionalAlternativeId": "home-03",
+    "ecoHighlights": [
+      "Toxic Phthalate Plasticizers",
+      "Sheds Outdoor Micro-Rubbers",
+      "Landfill Non-Degradable"
+    ],
+    "imageQuery": "1513694203232-719a280e022f",
+    "photographer": "Bench Accounting",
+    "image": "/images/products/home-03-conv.jpg",
+    "images": [
+      "/images/products/home-03-conv.jpg",
+      "/images/products/home-03-conv.svg"
+    ],
+    "photoId": "photo-1513694203232-719a280e022f"
+  },
+  {
+    "id": "home-04",
+    "name": "Ceramic Self-Watering Planter with Organic Herb Seeds",
+    "category": "Home",
+    "price": 699,
+    "icon": "🪴",
+    "badge": "Indoor Micro-Garden",
+    "description": "Porous terracotta reservoir keeps soil perfectly hydrated via natural capillary action. Includes compressed coconut coir pellet and basil seeds.",
+    "material": "Natural Red Clay & Terracotta",
+    "packaging": "recycled",
+    "carbonKg": 0.72,
+    "waterLitres": 30,
+    "plasticGrams": 0,
+    "certifications": [
+      "Lead-Free Glaze",
+      "Artisan Earthenware"
+    ],
+    "madeInKm": 130,
+    "isEcoFriendly": true,
+    "conventionalAlternativeId": "home-04-conv",
+    "ecoHighlights": [
+      "Zero Electricity or Plastics",
+      "Natural Terracotta Capillary Action",
+      "Includes Heirloom Seeds"
+    ],
+    "imageQuery": "1485955900006-10f4d324d411",
+    "photographer": "Galina N",
+    "image": "/images/products/home-04.jpg",
+    "images": [
+      "/images/products/home-04.jpg",
+      "/images/products/home-04.svg"
+    ],
+    "photoId": "photo-1485955900006-10f4d324d411"
+  },
+  {
+    "id": "home-04-conv",
+    "name": "Injection-Molded Plastic Plant Pot (Pack of 3)",
+    "category": "Home",
+    "price": 349,
+    "icon": "🪴",
+    "badge": "Virgin Polypropylene",
+    "description": "Thin non-biodegradable black plastic nursery pots that crack under UV sunlight in 6 months, contributing to garden plastic waste.",
+    "material": "Virgin Polypropylene Plastic (PP)",
+    "packaging": "plastic",
+    "carbonKg": 2.8,
+    "waterLitres": 140,
+    "plasticGrams": 230,
+    "certifications": [],
+    "madeInKm": 1800,
+    "isEcoFriendly": false,
+    "conventionalAlternativeId": "home-04",
+    "ecoHighlights": [
+      "UV Degradation",
+      "Brittle Landfill Waste",
+      "Petroleum Polymer"
+    ],
+    "imageQuery": "1509423350716-97f9360b4e09",
+    "photographer": "Severin Candrian",
+    "image": "/images/products/home-04-conv.jpg",
+    "images": [
+      "/images/products/home-04-conv.jpg",
+      "/images/products/home-04-conv.svg"
+    ],
+    "photoId": "photo-1509423350716-97f9360b4e09"
+  },
+  {
+    "id": "bag-01",
+    "name": "Heavyweight Organic Cotton Canvas Market Tote",
+    "category": "Bags",
+    "price": 399,
+    "icon": "👜",
+    "badge": "Replace 500+ Polybags",
+    "description": "14oz certified organic ring-spun cotton canvas with reinforced box-stitched handles and interior pocket for keys and bottle. Holds 15kg easily.",
+    "material": "GOTS Certified Heavy Organic Cotton Canvas",
+    "packaging": "plastic-free",
+    "carbonKg": 0.45,
+    "waterLitres": 180,
+    "plasticGrams": 0,
+    "certifications": [
+      "GOTS Organic",
+      "Fair Trade Textile",
+      "Zero Waste"
+    ],
+    "madeInKm": 170,
+    "isEcoFriendly": true,
+    "conventionalAlternativeId": "bag-01-conv",
+    "ecoHighlights": [
+      "Tested to 1000+ Wash & Use Cycles",
+      "Plastic-Free Reinforced Stitching",
+      "Chemical-Free Natural Bleach"
+    ],
+    "imageQuery": "1544816155-12df9643f363",
+    "photographer": "Kelly Sikkema",
+    "image": "/images/products/bag-01.jpg",
+    "images": [
+      "/images/products/bag-01.jpg",
+      "/images/products/bag-01.svg"
+    ],
+    "photoId": "photo-1544816155-12df9643f363"
+  },
+  {
+    "id": "bag-01-conv",
+    "name": "Non-Woven Polypropylene Plastic Bags (Pack of 10)",
+    "category": "Bags",
+    "price": 110,
+    "icon": "🛍️",
+    "badge": "Faux 'Cloth' Plastic Bag",
+    "description": "Commonly misidentified as cloth, these are spun-bond polypropylene thermoplastic fibers that shred into toxic microplastics within months.",
+    "material": "Spunbond Polypropylene (Plastic #5)",
+    "packaging": "plastic",
+    "carbonKg": 2.3,
+    "waterLitres": 110,
+    "plasticGrams": 180,
+    "certifications": [],
+    "madeInKm": 1600,
+    "isEcoFriendly": false,
+    "conventionalAlternativeId": "bag-01",
+    "ecoHighlights": [
+      "Misleading Greenwash 'Fabric'",
+      "Decomposes into Lethal Microplastics",
+      "Very Low Tensile Tear Strength"
+    ],
+    "imageQuery": "1597484662317-c9312b9d29ef",
+    "photographer": "Brian Yurasits",
+    "image": "/images/products/bag-01-conv.svg",
+    "images": [
+      "/images/products/bag-01-conv.svg",
+      "/images/products/bag-01-conv.svg"
+    ],
+    "photoId": "photo-1597484662317-c9312b9d29ef"
+  },
+  {
+    "id": "bag-02",
+    "name": "Handcrafted Natural Golden Jute Laptop Messenger Bag",
+    "category": "Bags",
+    "price": 1299,
+    "icon": "💼",
+    "badge": "Golden Fiber Heritage",
+    "description": "Dense Bengal woven jute fiber with cotton padding and antique brass hardware. Fits up to 15.6-inch laptops with dedicated accessories slot.",
+    "material": "100% Biodegradable Raw Jute & Brass Metal",
+    "packaging": "plastic-free",
+    "carbonKg": 0.82,
+    "waterLitres": 45,
+    "plasticGrams": 0,
+    "certifications": [
+      "Jute Mark India",
+      "Eco-Friendly Fiber Award",
+      "Fair Trade"
+    ],
+    "madeInKm": 210,
+    "isEcoFriendly": true,
+    "conventionalAlternativeId": "bag-02-conv",
+    "ecoHighlights": [
+      "Jute Requires Zero Synthetic Fertilizers",
+      "Rain-Fed Natural Crop",
+      "Extremely Durable High-Tensile"
+    ],
+    "imageQuery": "1553062407-98eeb64c6a62",
+    "photographer": "Santanu Manna",
+    "image": "/images/products/bag-02.jpg",
+    "images": [
+      "/images/products/bag-02.jpg",
+      "/images/products/bag-02.svg"
+    ],
+    "photoId": "photo-1553062407-98eeb64c6a62"
+  },
+  {
+    "id": "bag-02-conv",
+    "name": "Synthetic Nylon & Polyester Water-Repellent Laptop Bag",
+    "category": "Bags",
+    "price": 1050,
+    "icon": "🎒",
+    "badge": "PFAS Coated Synthetic",
+    "description": "Virgin ballistic nylon and polyester blend coated with toxic fluorinated chemical DWR water repellent. Takes hundreds of years to decay.",
+    "material": "Ballistic Nylon, Polyurethane & Fluorocarbon DWR",
+    "packaging": "plastic",
+    "carbonKg": 7.5,
+    "waterLitres": 820,
+    "plasticGrams": 420,
+    "certifications": [],
+    "madeInKm": 2800,
+    "isEcoFriendly": false,
+    "conventionalAlternativeId": "bag-02",
+    "ecoHighlights": [
+      "PFAS 'Forever Chemical' Coating",
+      "Fossil-Fuel Derived Textiles",
+      "Non-Biodegradable Synthetic Foam"
+    ],
+    "imageQuery": "1622560480605-d83c853bc5c3",
+    "photographer": "Sun Lingyan",
+    "image": "/images/products/bag-02-conv.jpg",
+    "images": [
+      "/images/products/bag-02-conv.jpg",
+      "/images/products/bag-02-conv.svg"
+    ],
+    "photoId": "photo-1622560480605-d83c853bc5c3"
+  },
+  {
+    "id": "bag-03",
+    "name": "Upcycled Cement & Grain Sack Weekend Duffel",
+    "category": "Bags",
+    "price": 1150,
+    "icon": "🧳",
+    "badge": "Circularity in Motion",
+    "description": "Constructed by upcycling discarded high-density polypropylene woven agricultural sacks. Thoroughly sanitised, water-resistant, ultra-tough.",
+    "material": "Sanitised Upcycled Woven Sacks & Cotton Webbing",
+    "packaging": "recycled",
+    "carbonKg": 0.68,
+    "waterLitres": 28,
+    "plasticGrams": 0,
+    "certifications": [
+      "Upcycled Innovation",
+      "Social Enterprise Made"
+    ],
+    "madeInKm": 140,
+    "isEcoFriendly": true,
+    "conventionalAlternativeId": "bag-03-conv",
+    "ecoHighlights": [
+      "Diverts 4 Industrial Sacks from Landfill",
+      "Lightweight Water-Repellent",
+      "Each Pattern is Completely Unique"
+    ],
+    "imageQuery": "1547949003-9792a18a2601",
+    "photographer": "Krzysztof Kowalik",
+    "image": "/images/products/bag-03.jpg",
+    "images": [
+      "/images/products/bag-03.jpg",
+      "/images/products/bag-03.svg"
+    ],
+    "photoId": "photo-1547949003-9792a18a2601"
+  },
+  {
+    "id": "bag-03-conv",
+    "name": "PVC Synthetic Leather Gym Duffel Bag",
+    "category": "Bags",
+    "price": 899,
+    "icon": "🧳",
+    "badge": "PVC Synthetic Leather",
+    "description": "Heavy polyvinyl chloride faux leather with polyester lining and zinc alloy zippers wrapped in virgin polythene film.",
+    "material": "PVC Faux Leather & Polyester Lining",
+    "packaging": "plastic",
+    "carbonKg": 6.2,
+    "waterLitres": 750,
+    "plasticGrams": 480,
+    "certifications": [],
+    "madeInKm": 2600,
+    "isEcoFriendly": false,
+    "conventionalAlternativeId": "bag-03",
+    "ecoHighlights": [
+      "PVC Toxic Dioxins",
+      "Synthetic Adhesive Lining",
+      "High Chemical Footprint"
+    ],
+    "imageQuery": "1553062407-98eeb64c6a62",
+    "photographer": "Taylor Beach",
+    "image": "/images/products/bag-03-conv.jpg",
+    "images": [
+      "/images/products/bag-03-conv.jpg",
+      "/images/products/bag-03-conv.svg"
+    ],
+    "photoId": "photo-1553062407-98eeb64c6a62"
+  },
+  {
+    "id": "bag-04",
+    "name": "Organic Cotton Mesh Produce Grocery Bags (Set of 6)",
+    "category": "Bags",
+    "price": 379,
+    "icon": "🥬",
+    "badge": "Grocery Zero Waste",
+    "description": "Breathable unbleached cotton mesh with tare weight tags and drawstring toggles. Keeps vegetables crisp in refrigerator without plastic condensation.",
+    "material": "100% GOTS Certified Cotton Mesh",
+    "packaging": "plastic-free",
+    "carbonKg": 0.31,
+    "waterLitres": 70,
+    "plasticGrams": 0,
+    "certifications": [
+      "GOTS Organic",
+      "Zero Waste",
+      "USDA Biobased"
+    ],
+    "madeInKm": 160,
+    "isEcoFriendly": true,
+    "conventionalAlternativeId": "bag-04-conv",
+    "ecoHighlights": [
+      "Eliminates 150+ Single-Use Fridge Bags/Year",
+      "Breathable Mesh Prevents Produce Rot",
+      "Tare Weight Stitched On Labels"
+    ],
+    "imageQuery": "1610557892470-55d9e80c0bce",
+    "photographer": "Elly Endeavour",
+    "image": "/images/products/bag-04.jpg",
+    "images": [
+      "/images/products/bag-04.jpg",
+      "/images/products/bag-04.svg"
+    ],
+    "photoId": "photo-1610557892470-55d9e80c0bce"
+  },
+  {
+    "id": "bag-04-conv",
+    "name": "Single-Use Plastic Produce Bags (Roll of 100)",
+    "category": "Bags",
+    "price": 99,
+    "icon": "🛍️",
+    "badge": "Ultra-Thin Film Plastic",
+    "description": "Ultra-thin high density polyethylene (HDPE) produce bags. Easily tear after one trip to the market and end up in rivers and wildlife stomachs.",
+    "material": "High Density Polyethylene (HDPE)",
+    "packaging": "plastic",
+    "carbonKg": 2.6,
+    "waterLitres": 130,
+    "plasticGrams": 240,
+    "certifications": [],
+    "madeInKm": 1900,
+    "isEcoFriendly": false,
+    "conventionalAlternativeId": "bag-04",
+    "ecoHighlights": [
+      "Single-Use Litter Hazard",
+      "Suffocation Danger to Marine Life",
+      "Cannot Be Mechanically Recycled"
+    ],
+    "imageQuery": "1530587191325-3db32d826c18",
+    "photographer": "Sylvie Tittel",
+    "image": "/images/products/bag-04-conv.jpg",
+    "images": [
+      "/images/products/bag-04-conv.jpg",
+      "/images/products/bag-04-conv.svg"
+    ],
+    "photoId": "photo-1530587191325-3db32d826c18"
+  },
+  {
+    "id": "out-01",
+    "name": "Solar-Powered Reclaimed Wood Camping Lantern",
+    "category": "Outdoor & Travel",
+    "price": 1199,
+    "icon": "🏮",
+    "badge": "Clean Renewable Power",
+    "description": "Reclaimed cedar housing with high-efficiency monocrystalline solar lid and warm 300-lumen LED. USB-C emergency reverse power bank.",
+    "material": "Salvaged Cedar Wood, Glass & Monocrystalline Solar Panel",
+    "packaging": "plastic-free",
+    "carbonKg": 1.1,
+    "waterLitres": 35,
+    "plasticGrams": 0,
+    "certifications": [
+      "RoHS Compliant",
+      "Zero Waste Packaging"
+    ],
+    "madeInKm": 210,
+    "isEcoFriendly": true,
+    "conventionalAlternativeId": "out-01-conv",
+    "ecoHighlights": [
+      "Zero Disposable Batteries Needed",
+      "Harvests Sunlight Anywhere",
+      "Upcycled Timber Frame"
+    ],
+    "imageQuery": "1508873696983-2df5293cb32b",
+    "photographer": "Matt Hoffman",
+    "image": "/images/products/out-01.svg",
+    "images": [
+      "/images/products/out-01.svg",
+      "/images/products/out-01.svg"
+    ],
+    "photoId": "photo-1508873696983-2df5293cb32b"
+  },
+  {
+    "id": "out-01-conv",
+    "name": "Disposable Battery Plastic Camping Flashlight",
+    "category": "Outdoor & Travel",
+    "price": 450,
+    "icon": "🔦",
+    "badge": "Alkaline Battery Waste",
+    "description": "Molded ABS plastic torch requiring 3 disposable alkaline AAA batteries every 12 hours of use. Toxic heavy metal leakage risk in landfills.",
+    "material": "ABS Virgin Plastic & Alkaline Batteries",
+    "packaging": "plastic",
+    "carbonKg": 4.8,
+    "waterLitres": 240,
+    "plasticGrams": 210,
+    "certifications": [],
+    "madeInKm": 2400,
+    "isEcoFriendly": false,
+    "conventionalAlternativeId": "out-01",
+    "ecoHighlights": [
+      "Battery Heavy Metal Waste",
+      "Virgin Petrochemical Housing",
+      "Frequent Discard Cycle"
+    ],
+    "imageQuery": "1543269865-cbf427effbad",
+    "photographer": "Claudio Schwarz",
+    "image": "/images/products/out-01-conv.jpg",
+    "images": [
+      "/images/products/out-01-conv.jpg",
+      "/images/products/out-01-conv.svg"
+    ],
+    "photoId": "photo-1543269865-cbf427effbad"
+  },
+  {
+    "id": "out-02",
+    "name": "Recycled Stainless Steel Insulated Travel Thermos (750ml)",
+    "category": "Outdoor & Travel",
+    "price": 949,
+    "icon": "🏕️",
+    "badge": "24-Hour Thermal Retention",
+    "description": "90% post-consumer recycled food-grade 18/8 stainless steel with natural cork seal on lid. Keeps drinks iced 24h or steaming hot 12h.",
+    "material": "Recycled 18/8 Stainless Steel & Natural Cork",
+    "packaging": "plastic-free",
+    "carbonKg": 1.3,
+    "waterLitres": 40,
+    "plasticGrams": 0,
+    "certifications": [
+      "B Corp Certified",
+      "Climate Neutral"
+    ],
+    "madeInKm": 320,
+    "isEcoFriendly": true,
+    "conventionalAlternativeId": "out-02-conv",
+    "ecoHighlights": [
+      "90% Recycled Metal Content",
+      "Eliminates Single-Use Cups & Bottles",
+      "Plastic-Free Cork Seal"
+    ],
+    "imageQuery": "1602143407151-7111542de6e8",
+    "photographer": "Bluewater Globe",
+    "image": "/images/products/out-02.jpg",
+    "images": [
+      "/images/products/out-02.jpg",
+      "/images/products/out-02.svg"
+    ],
+    "photoId": "photo-1602143407151-7111542de6e8"
+  },
+  {
+    "id": "out-02-conv",
+    "name": "Styrofoam Disposable Thermal Cups (Pack of 50)",
+    "category": "Outdoor & Travel",
+    "price": 180,
+    "icon": "☕",
+    "badge": "Expanded Polystyrene Foam",
+    "description": "Lightweight expanded polystyrene (EPS) foam cups that fragment into toxic ocean particles and cannot be recycled in municipal plants.",
+    "material": "Expanded Polystyrene (EPS Foam)",
+    "packaging": "plastic",
+    "carbonKg": 3.5,
+    "waterLitres": 190,
+    "plasticGrams": 260,
+    "certifications": [],
+    "madeInKm": 1650,
+    "isEcoFriendly": false,
+    "conventionalAlternativeId": "out-02",
+    "ecoHighlights": [
+      "Non-Biodegradable EPS Foam",
+      "Leaches Styrene Monomers",
+      "Ocean Wildlife Choking Hazard"
+    ],
+    "imageQuery": "1517256064527-09c73fc73e38",
+    "photographer": "Nathan Dumlao",
+    "image": "/images/products/out-02-conv.jpg",
+    "images": [
+      "/images/products/out-02-conv.jpg",
+      "/images/products/out-02-conv.svg"
+    ],
+    "photoId": "photo-1517256064527-09c73fc73e38"
+  },
+  {
+    "id": "out-03",
+    "name": "Natural Tree Resin & Cork Yoga Travel Mat",
+    "category": "Outdoor & Travel",
+    "price": 1699,
+    "icon": "🧘",
+    "badge": "Microplastic-Free Grip",
+    "description": "Grip increases with sweat. Crafted from sustainable cork top sheet backed with sustainably tapped natural Malaysian tree rubber.",
+    "material": "Mediterranean Cork & Natural Tree Rubber",
+    "packaging": "plastic-free",
+    "carbonKg": 1.2,
+    "waterLitres": 55,
+    "plasticGrams": 0,
+    "certifications": [
+      "OEKO-TEX Standard 100",
+      "SGS Certified"
+    ],
+    "madeInKm": 420,
+    "isEcoFriendly": true,
+    "conventionalAlternativeId": "out-03-conv",
+    "ecoHighlights": [
+      "100% Biodegradable",
+      "Naturally Antimicrobial Cork",
+      "Zero Chemical PVC Smell"
+    ],
+    "imageQuery": "1601925260368-ae2f83cf8b7f",
+    "photographer": "Dane Wetton",
+    "image": "/images/products/out-03.jpg",
+    "images": [
+      "/images/products/out-03.jpg",
+      "/images/products/out-03.svg"
+    ],
+    "photoId": "photo-1601925260368-ae2f83cf8b7f"
+  },
+  {
+    "id": "out-03-conv",
+    "name": "Synthetic PVC Foam Exercise Mat",
+    "category": "Outdoor & Travel",
+    "price": 699,
+    "icon": "🧘",
+    "badge": "Chlorinated Polyvinyl Compound",
+    "description": "Heavy chemical foam mat softened with toxic di-isononyl phthalates. Releases volatile organic compounds (VOCs) when warm.",
+    "material": "PVC Foam & Phthalate Plasticizers",
+    "packaging": "plastic",
+    "carbonKg": 6.9,
+    "waterLitres": 480,
+    "plasticGrams": 850,
+    "certifications": [],
+    "madeInKm": 2900,
+    "isEcoFriendly": false,
+    "conventionalAlternativeId": "out-03",
+    "ecoHighlights": [
+      "Toxic Phthalates",
+      "Non-Recyclable Thermoplastic",
+      "Off-Gasses Chemical Smell"
+    ],
+    "imageQuery": "1592417817098-8f3d6ff30950",
+    "photographer": "Elena Kloppenburg",
+    "image": "/images/products/out-03-conv.svg",
+    "images": [
+      "/images/products/out-03-conv.svg",
+      "/images/products/out-03-conv.svg"
+    ],
+    "photoId": "photo-1592417817098-8f3d6ff30950"
+  },
+  {
+    "id": "out-04",
+    "name": "Organic Cotton Camp Picnic Blanket with Leather Carrier",
+    "category": "Outdoor & Travel",
+    "price": 1399,
+    "icon": "🧺",
+    "badge": "Heritage Loomed",
+    "description": "Thick woven organic cotton twill weave with vegetable-tanned scrap leather carry handle. Water-resistant wax finish.",
+    "material": "GOTS Organic Cotton & Vegetable-Waxed Finish",
+    "packaging": "plastic-free",
+    "carbonKg": 0.88,
+    "waterLitres": 160,
+    "plasticGrams": 0,
+    "certifications": [
+      "GOTS Certified",
+      "Artisan Loomed"
+    ],
+    "madeInKm": 190,
+    "isEcoFriendly": true,
+    "conventionalAlternativeId": "out-04-conv",
+    "ecoHighlights": [
+      "Non-Toxic Vegetable Waxing",
+      "Pure Organic Cotton",
+      "Biodegradable"
+    ],
+    "imageQuery": "1528698827591-e19ccd7bc23d",
+    "photographer": "Evgeni Tcherkasski",
+    "image": "/images/products/out-04.jpg",
+    "images": [
+      "/images/products/out-04.jpg",
+      "/images/products/out-04.svg"
+    ],
+    "photoId": "photo-1528698827591-e19ccd7bc23d"
+  },
+  {
+    "id": "out-04-conv",
+    "name": "Synthetic Fleece Polyester Picnic Rug with PEVA Backing",
+    "category": "Outdoor & Travel",
+    "price": 749,
+    "icon": "🧺",
+    "badge": "Fleece Microfiber Shedder",
+    "description": "High-loft polar fleece made from virgin petrochemical yarn backed with bonded polyethylene vinyl acetate (PEVA) waterproof sheeting.",
+    "material": "Polyester Polar Fleece & PEVA Plastic",
+    "packaging": "plastic",
+    "carbonKg": 5.6,
+    "waterLitres": 640,
+    "plasticGrams": 410,
+    "certifications": [],
+    "madeInKm": 2700,
+    "isEcoFriendly": false,
+    "conventionalAlternativeId": "out-04",
+    "ecoHighlights": [
+      "Extreme Microplastic Shedding",
+      "Glued Unrecyclable Composite",
+      "Petroleum Raw Material"
+    ],
+    "imageQuery": "1507652313519-d4e9174996dd",
+    "photographer": "Sander Wehkamp",
+    "image": "/images/products/out-04-conv.jpg",
+    "images": [
+      "/images/products/out-04-conv.jpg",
+      "/images/products/out-04-conv.svg"
+    ],
+    "photoId": "photo-1507652313519-d4e9174996dd"
+  },
+  {
+    "id": "clean-01",
+    "name": "Organic Soapnut Berries Laundry Wash (500g Bag)",
+    "category": "Cleaning & Laundry",
+    "price": 349,
+    "icon": "🌰",
+    "badge": "Nature's Pure Detergent",
+    "description": "Wild-harvested Himalayan soapberry shells containing natural saponin. Replaces chemical washing powders for up to 120 wash loads.",
+    "material": "100% Wild Himalayan Sapindus Mukorossi Berries",
+    "packaging": "plastic-free",
+    "carbonKg": 0.22,
+    "waterLitres": 12,
+    "plasticGrams": 0,
+    "certifications": [
+      "USDA Organic",
+      "Zero Chemical Effluents",
+      "Wild Harvested"
+    ],
+    "madeInKm": 240,
+    "isEcoFriendly": true,
+    "conventionalAlternativeId": "clean-01-conv",
+    "ecoHighlights": [
+      "100% Backyard Compostable Berries",
+      "Greywater Safe & River Friendly",
+      "Cotton Wash Bag Included"
+    ],
+    "imageQuery": "1583947215259-38e31be8751f",
+    "photographer": "Monika Grabkowska",
+    "image": "/images/products/clean-01.jpg",
+    "images": [
+      "/images/products/clean-01.jpg",
+      "/images/products/clean-01.svg"
+    ],
+    "photoId": "photo-1583947215259-38e31be8751f"
+  },
+  {
+    "id": "clean-01-conv",
+    "name": "Synthetic Chemical Laundry Powder in Plastic Tub (2kg)",
+    "category": "Cleaning & Laundry",
+    "price": 399,
+    "icon": "🧺",
+    "badge": "High Phosphate Pollutant",
+    "description": "Petrochemical surfactants, optical brighteners, and phosphates that cause toxic algal blooms in lakes and groundwater.",
+    "material": "Linear Alkylbenzene Sulfonate, Phosphates & HDPE Tub",
+    "packaging": "plastic",
+    "carbonKg": 4.9,
+    "waterLitres": 340,
+    "plasticGrams": 320,
+    "certifications": [],
+    "madeInKm": 1850,
+    "isEcoFriendly": false,
+    "conventionalAlternativeId": "clean-01",
+    "ecoHighlights": [
+      "Phosphates Choke Aquatic Ecosystems",
+      "Petroleum Surfactants",
+      "Heavy Rigid Plastic Tub"
+    ],
+    "imageQuery": "1585670210693-e7fdd16b142e",
+    "photographer": "No Revisions",
+    "image": "/images/products/clean-01-conv.jpg",
+    "images": [
+      "/images/products/clean-01-conv.jpg",
+      "/images/products/clean-01-conv.svg"
+    ],
+    "photoId": "photo-1585670210693-e7fdd16b142e"
+  },
+  {
+    "id": "clean-02",
+    "name": "Natural Loofah & Coconut Coir Dish Scrubber (Pack of 4)",
+    "category": "Cleaning & Laundry",
+    "price": 199,
+    "icon": "🧽",
+    "badge": "Zero Microplastic Scrubbing",
+    "description": "Naturally dried luffa aegyptiaca gourds stitched with natural cotton thread. Tough on grease yet 100% backyard compostable after use.",
+    "material": "Natural Loofah Vine & Coconut Husk Coir",
+    "packaging": "plastic-free",
+    "carbonKg": 0.16,
+    "waterLitres": 10,
+    "plasticGrams": 0,
+    "certifications": [
+      "Compostable Certified",
+      "Plastic Free Assured"
+    ],
+    "madeInKm": 110,
+    "isEcoFriendly": true,
+    "conventionalAlternativeId": "clean-02-conv",
+    "ecoHighlights": [
+      "Plant Grown Dish Scrubber",
+      "Zero Microplastics Down the Drain",
+      "100% Home Compostable"
+    ],
+    "imageQuery": "1584308666744-24d5c474f2ae",
+    "photographer": "Sarah Chai",
+    "image": "/images/products/clean-02.jpg",
+    "images": [
+      "/images/products/clean-02.jpg",
+      "/images/products/clean-02.svg"
+    ],
+    "photoId": "photo-1584308666744-24d5c474f2ae"
+  },
+  {
+    "id": "clean-02-conv",
+    "name": "Synthetic Polyurethane Yellow-Green Sponges (Pack of 6)",
+    "category": "Cleaning & Laundry",
+    "price": 120,
+    "icon": "🧽",
+    "badge": "Drain Microplastic Source",
+    "description": "Petroleum polyurethane sponge bonded with abrasive nylon-polyester scouring fleece. Sheds millions of microplastics down kitchen drains.",
+    "material": "Polyurethane Foam & Nylon Abrasive Pad",
+    "packaging": "plastic",
+    "carbonKg": 2.3,
+    "waterLitres": 110,
+    "plasticGrams": 115,
+    "certifications": [],
+    "madeInKm": 1600,
+    "isEcoFriendly": false,
+    "conventionalAlternativeId": "clean-02",
+    "ecoHighlights": [
+      "Sheds Microplastics Directly into Rivers",
+      "Glued Non-Biodegradable Foam",
+      "Plastic Wrap Packaging"
+    ],
+    "imageQuery": "1585670210693-e7fdd16b142e",
+    "photographer": "Volodymyr Hryshchenko",
+    "image": "/images/products/clean-02-conv.jpg",
+    "images": [
+      "/images/products/clean-02-conv.jpg",
+      "/images/products/clean-02-conv.svg"
+    ],
+    "photoId": "photo-1585670210693-e7fdd16b142e"
+  },
+  {
+    "id": "clean-03",
+    "name": "Plant-Based Concentrated Multi-Surface Cleaner Tabs (Pack of 6)",
+    "category": "Cleaning & Laundry",
+    "price": 299,
+    "icon": "✨",
+    "badge": "Dissolve in Tap Water",
+    "description": "Compact effervescent cleaning tablets packed in compostable paper. Drop one in 500ml tap water in any reusable spray bottle.",
+    "material": "Citric Acid, Sodium Bicarbonate & Lemon Essential Oil",
+    "packaging": "plastic-free",
+    "carbonKg": 0.28,
+    "waterLitres": 4,
+    "plasticGrams": 0,
+    "certifications": [
+      "Leaping Bunny Certified",
+      "Carbon Neutral Verified"
+    ],
+    "madeInKm": 140,
+    "isEcoFriendly": true,
+    "conventionalAlternativeId": "clean-03-conv",
+    "ecoHighlights": [
+      "Saves 6 Single-Use Spray Bottles",
+      "Zero Shipping of Heavy Water Weight",
+      "100% Biodegradable Ingredients"
+    ],
+    "imageQuery": "1584820927498-cfe5211fd8bf",
+    "photographer": "Kelly Sikkema",
+    "image": "/images/products/clean-03.jpg",
+    "images": [
+      "/images/products/clean-03.jpg",
+      "/images/products/clean-03.svg"
+    ],
+    "photoId": "photo-1584820927498-cfe5211fd8bf"
+  },
+  {
+    "id": "clean-03-conv",
+    "name": "Pre-Diluted Liquid Glass Cleaner Spray (500ml Bottle)",
+    "category": "Cleaning & Laundry",
+    "price": 160,
+    "icon": "🧴",
+    "badge": "95% Shipped Water",
+    "description": "Single-use PET trigger bottle filled with 95% dyed tap water, ammonia, and chemical solvents. Discarded after a few weeks of use.",
+    "material": "Water (95%), Ammonia, Chemical Dye & PET Plastic",
+    "packaging": "plastic",
+    "carbonKg": 2.8,
+    "waterLitres": 180,
+    "plasticGrams": 95,
+    "certifications": [],
+    "madeInKm": 1750,
+    "isEcoFriendly": false,
+    "conventionalAlternativeId": "clean-03",
+    "ecoHighlights": [
+      "Massive Fuel Waste Shipping Water",
+      "Toxic Ammonia Vapors",
+      "Disposable Trigger Spray Head"
+    ],
+    "imageQuery": "1585670210693-e7fdd16b142e",
+    "photographer": "The Creative Exchange",
+    "image": "/images/products/clean-03-conv.jpg",
+    "images": [
+      "/images/products/clean-03-conv.jpg",
+      "/images/products/clean-03-conv.svg"
+    ],
+    "photoId": "photo-1585670210693-e7fdd16b142e"
+  },
+  {
+    "id": "clean-04",
+    "name": "Artisan Beech Wood Toilet Brush with Coconut Coir Bristles",
+    "category": "Cleaning & Laundry",
+    "price": 499,
+    "icon": "🧹",
+    "badge": "Plastic-Free Bathroom",
+    "description": "Untreated German beech wood handle with stiff, naturally antibacterial coconut coir bristles set in terracotta drip holder.",
+    "material": "FSC Beech Wood, Coir Fibre & Terracotta Dish",
+    "packaging": "plastic-free",
+    "carbonKg": 0.45,
+    "waterLitres": 18,
+    "plasticGrams": 0,
+    "certifications": [
+      "FSC 100%",
+      "Zero Waste Assured"
+    ],
+    "madeInKm": 180,
+    "isEcoFriendly": true,
+    "conventionalAlternativeId": "clean-04-conv",
+    "ecoHighlights": [
+      "Completely Compostable Handle & Bristles",
+      "Terracotta Stand Will Not Trap Odour",
+      "Replaces Plastic Scrubber"
+    ],
+    "imageQuery": "1584308666744-24d5c474f2ae",
+    "photographer": "Sarah Chai",
+    "image": "/images/products/clean-04.jpg",
+    "images": [
+      "/images/products/clean-04.jpg",
+      "/images/products/clean-04.svg"
+    ],
+    "photoId": "photo-1584308666744-24d5c474f2ae"
+  },
+  {
+    "id": "clean-04-conv",
+    "name": "Plastic Toilet Brush & Polypropylene Caddy Set",
+    "category": "Cleaning & Laundry",
+    "price": 199,
+    "icon": "🧹",
+    "badge": "Bacteria Trap Plastic",
+    "description": "Molded virgin polypropylene brush handle with stiff nylon bristles that fray and discolor quickly, heading straight to landfill.",
+    "material": "Virgin Polypropylene & Nylon Bristles",
+    "packaging": "plastic",
+    "carbonKg": 3.1,
+    "waterLitres": 165,
+    "plasticGrams": 280,
+    "certifications": [],
+    "madeInKm": 1900,
+    "isEcoFriendly": false,
+    "conventionalAlternativeId": "clean-04",
+    "ecoHighlights": [
+      "Non-Recyclable Bathroom Waste",
+      "Petroleum Polymers",
+      "Excessive Plastic Packaging"
+    ],
+    "imageQuery": "1585670210693-e7fdd16b142e",
+    "photographer": "Anton",
+    "image": "/images/products/clean-04-conv.jpg",
+    "images": [
+      "/images/products/clean-04-conv.jpg",
+      "/images/products/clean-04-conv.svg"
+    ],
+    "photoId": "photo-1585670210693-e7fdd16b142e"
+  }
+]

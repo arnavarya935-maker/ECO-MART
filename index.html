@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EcoMart — Don't just shop. Shop with purpose.</title>
+    <meta name="description" content="EcoMart is an offline-native sustainable e-commerce platform powered by an intelligent Eco Agent. Every product transparently scored across materials, packaging, carbon, certifications, and transport distance." />
+    <meta name="keywords" content="sustainable shopping, eco-friendly, zero waste, plastic-free, carbon footprint, eco score, green shopping assistant" />
+    <meta name="theme-color" content="#047857" />
+
+    <link rel="manifest" href="/manifest.json" />
+    <script>
+      (function() {
+        try {
+          ['ecomart_theme', 'ecomart_theme_v2', 'ecomart_theme_v3', 'ecomart_theme_v4', 'theme'].forEach(function(k) {
+            localStorage.removeItem(k);
+          });
+          document.documentElement.classList.remove('dark');
+        } catch(e) {}
+      })();
+    </script>
+  </head>
+  <body class="bg-[#F7FAF8] text-[#111827] antialiased selection:bg-emerald-200 selection:text-emerald-950">
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

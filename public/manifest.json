@@ -1,0 +1,16 @@
+{
+  "name": "EcoMart — Sustainable Living Agent",
+  "short_name": "EcoMart",
+  "description": "Offline-native sustainable shopping platform powered by an intelligent Eco Agent.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F7FAF8",
+  "theme_color": "#0B3B2C",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}
