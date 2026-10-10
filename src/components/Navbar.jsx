@@ -10,6 +10,7 @@ export default function Navbar({ activePage, setActivePage }) {
   const navLinks = [
     { id: 'home', label: 'Home' },
     { id: 'shop', label: 'Shop Catalog' },
+    { id: 'tools', label: 'Eco Tools' },
     { id: 'impact', label: 'Impact Dashboard' },
     { id: 'how-it-works', label: 'How It Works' }
   ];

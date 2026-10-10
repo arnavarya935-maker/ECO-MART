@@ -18,6 +18,9 @@ import NotFoundPage from './pages/NotFoundPage';
 const ImpactPage = lazy(() => import('./pages/ImpactPage'));
 const ProfilePage = lazy(() => import('./pages/ProfilePage'));
 const SettingsPage = lazy(() => import('./pages/SettingsPage'));
+const ToolsPage = lazy(() => import('./pages/ToolsPage'));
+
+import ImpactPulseWidget from './components/tools/ImpactPulseWidget';
 
 // Modals and Drawers
 import CartDrawer from './components/CartDrawer';
@@ -51,7 +54,7 @@ function AppContent() {
     setActivePage('shop');
   };
 
-  const validPages = ['home', 'shop', 'impact', 'how-it-works', 'login', 'signup', 'wishlist', 'profile', 'orders', 'settings'];
+  const validPages = ['home', 'shop', 'tools', 'impact', 'how-it-works', 'login', 'signup', 'wishlist', 'profile', 'orders', 'settings'];
   const is404 = !validPages.includes(activePage);
 
   return (
@@ -90,6 +93,7 @@ function AppContent() {
               onCategoryChange={setSelectedCategory}
             />
           )}
+          {activePage === 'tools' && <ToolsPage />}
           {activePage === 'impact' && <ImpactPage setActivePage={setActivePage} />}
           {activePage === 'how-it-works' && <HowItWorksPage />}
           {activePage === 'login' && <LoginPage setActivePage={setActivePage} />}
@@ -148,6 +152,9 @@ function AppContent() {
           </div>
         </div>
       )}
+
+      {/* Sticky Impact Pulse Mini-Widget (Feature 48) */}
+      <ImpactPulseWidget />
 
       {/* Footer */}
       <Footer setActivePage={setActivePage} />
