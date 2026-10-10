@@ -3,6 +3,7 @@ import Hero from '../components/Hero';
 import CategoryGrid from '../components/CategoryGrid';
 import ProductCard from '../components/ProductCard';
 import ImpactDashboard from '../components/ImpactDashboard';
+import LiveSwapDemo from '../components/LiveSwapDemo';
 import { useCart } from '../context/CartContext';
 import { Sparkles, ArrowRight, ShieldCheck, Award } from 'lucide-react';
 
@@ -57,6 +58,9 @@ export default function HomePage({ setActivePage, onCategorySelect }) {
           ))}
         </div>
       </section>
+
+      {/* Live Swap Demo (Feature 24) */}
+      <LiveSwapDemo />
 
       {/* Live Impact Dashboard Preview */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

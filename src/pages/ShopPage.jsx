@@ -1,11 +1,46 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import {
   Search, Filter, SlidersHorizontal, RotateCcw, Sparkles, X, ChevronRight,
-  ChevronLeft, ArrowUpDown, Star, ShieldCheck, Scale, History, Heart
+  ChevronLeft, ArrowUpDown, Star, ShieldCheck, Scale, History, Heart, Scan,
+  Tag, Compass, Lightbulb
 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { calculateEcoScore } from '../lib/ecoScore';
 import ProductCard from '../components/ProductCard';
+import BarcodeScannerModal from '../components/BarcodeScannerModal';
+
+const CATEGORY_DETAILS = {
+  Kitchen: {
+    tagline: 'Zero-Waste Culinary Essentials',
+    description: 'Replace toxic non-stick coatings and single-use cling film with renewable bamboo, copper, and beeswax.',
+    fact: 'Conventional kitchens throw out over 24 rolls of plastic film and 6 plastic sponges per household annually.'
+  },
+  'Personal Care': {
+    tagline: 'Clean Routine, Clean Oceans',
+    description: 'Sulfate-free, microplastic-free formulas packed in compostable paper or infinitely recyclable aluminum.',
+    fact: 'Over 1 billion plastic toothbrushes end up in landfills each year in India and Southeast Asia alone.'
+  },
+  Fashion: {
+    tagline: 'Circular & Organic Textiles',
+    description: 'GOTS certified organic cotton, recycled canvas, and zero polyester runoff in every wash.',
+    fact: 'A single polyester garment sheds up to 700,000 synthetic microfibers into our waterways per wash cycle.'
+  },
+  Stationery: {
+    tagline: 'Tree-Free Paper & Seed Embedded Pens',
+    description: 'Recycled cotton rag paper and pencils that sprout into tulsi and coriander when planted.',
+    fact: 'Recycling 1 ton of office paper saves 17 trees, 7,000 gallons of water, and 4,100 kWh of electricity.'
+  },
+  Home: {
+    tagline: 'Conscious Living Spaces',
+    description: 'Sustainably harvested neem wood, natural coir fiber, and terracotta artisan homeware.',
+    fact: 'Coir and terracotta support rural Indian artisan clusters while emitting near-zero net carbon.'
+  },
+  Bags: {
+    tagline: 'Handwoven Artisanal Totes',
+    description: 'Heavyweight organic jute, canvas, and hemp carriers engineered for 1,000+ reliable shopping trips.',
+    fact: 'One reusable cotton bag used for 2 years prevents over 400 plastic grocery bags from entering landfills.'
+  }
+};
 
 export default function ShopPage({ initialCategory, onCategoryChange }) {
   const {
@@ -18,6 +53,52 @@ export default function ShopPage({ initialCategory, onCategoryChange }) {
   } = useCart();
 
   const [searchQuery, setSearchQuery] = useState('');
+  const [searchFocused, setSearchFocused] = useState(false);
+  const [isBarcodeOpen, setIsBarcodeOpen] = useState(false);
+  const [recentSearches, setRecentSearches] = useState(() => {
+    try {
+      const saved = localStorage.getItem('eco_recent_searches');
+      return saved ? JSON.parse(saved) : ['Bamboo', 'Organic Cotton', 'Plastic-Free', 'Copper', 'Neem'];
+    } catch {
+      return ['Bamboo', 'Organic Cotton', 'Plastic-Free'];
+    }
+  });
+  const searchContainerRef = useRef(null);
+
+  const addRecentSearch = (term) => {
+    if (!term || !term.trim()) return;
+    const clean = term.trim();
+    const updated = [clean, ...recentSearches.filter((s) => s.toLowerCase() !== clean.toLowerCase())].slice(0, 8);
+    setRecentSearches(updated);
+    try {
+      localStorage.setItem('eco_recent_searches', JSON.stringify(updated));
+    } catch (e) {
+      console.warn(e);
+    }
+  };
+
+  const removeRecentSearch = (term, e) => {
+    e.stopPropagation();
+    const updated = recentSearches.filter((s) => s !== term);
+    setRecentSearches(updated);
+    try {
+      localStorage.setItem('eco_recent_searches', JSON.stringify(updated));
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+
+  // Close suggestions on outside click
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (searchContainerRef.current && !searchContainerRef.current.contains(e.target)) {
+        setSearchFocused(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   const [category, setCategory] = useState(initialCategory || 'All');
   const [gradeFilter, setGradeFilter] = useState('All');
   const [maxPrice, setMaxPrice] = useState(3500);
@@ -193,6 +274,22 @@ export default function ShopPage({ initialCategory, onCategoryChange }) {
     sortBy
   ]);
 
+  // Smart search suggestions
+  const searchSuggestions = useMemo(() => {
+    if (!searchQuery.trim()) return [];
+    const q = searchQuery.toLowerCase().trim();
+    const suggestions = [];
+    (allProducts || []).forEach((p) => {
+      if (p.name.toLowerCase().includes(q) && !suggestions.some((s) => s.text.toLowerCase() === p.name.toLowerCase())) {
+        suggestions.push({ type: 'product', text: p.name, product: p });
+      }
+      if (p.material && p.material.toLowerCase().includes(q) && !suggestions.some((s) => s.text.toLowerCase() === p.material.toLowerCase())) {
+        suggestions.push({ type: 'material', text: p.material });
+      }
+    });
+    return suggestions.slice(0, 6);
+  }, [searchQuery, allProducts]);
+
   // Paginated slice
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
   const paginatedProducts = useMemo(() => {
@@ -243,23 +340,141 @@ export default function ShopPage({ initialCategory, onCategoryChange }) {
         </div>
       </div>
 
+      {/* Category Landing Highlight (Feature 28) */}
+      {category !== 'All' && CATEGORY_DETAILS[category] && (
+        <div className="p-6 rounded-3xl bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-950/40 dark:to-teal-950/40 border border-emerald-200 dark:border-emerald-800 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <span className="text-[11px] font-black uppercase tracking-wider text-emerald-800 dark:text-emerald-300 bg-emerald-100 dark:bg-emerald-900/60 px-2 py-0.5 rounded-full">
+                Category Spotlight: {category}
+              </span>
+            </div>
+            <h2 className="text-xl font-black text-stone-900 dark:text-stone-100">
+              {CATEGORY_DETAILS[category].tagline}
+            </h2>
+            <p className="text-xs text-stone-600 dark:text-stone-300 max-w-xl">
+              {CATEGORY_DETAILS[category].description}
+            </p>
+          </div>
+          <div className="p-3.5 rounded-2xl bg-white/80 dark:bg-stone-900/80 border border-emerald-200/60 dark:border-emerald-800/60 max-w-xs text-xs text-emerald-900 dark:text-emerald-200 flex items-start gap-2.5">
+            <Lightbulb className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+            <span className="text-[11px] leading-relaxed">
+              <strong>Eco Fact:</strong> {CATEGORY_DETAILS[category].fact}
+            </span>
+          </div>
+        </div>
+      )}
+
       {/* Filter and Search Bar Control Strip */}
       <div className="p-5 rounded-3xl bg-white dark:bg-stone-850 border border-stone-200 dark:border-stone-800 shadow-xs space-y-5">
-        {/* Search Input & Sort Selector */}
+        {/* Search Input, Barcode Scanner & Sort Selector */}
         <div className="flex flex-col sm:flex-row items-center gap-3">
-          <div className="relative flex-1 w-full">
+          <div ref={searchContainerRef} className="relative flex-1 w-full">
             <Search className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               value={searchQuery}
+              onFocus={() => setSearchFocused(true)}
               onChange={(e) => {
                 setSearchQuery(e.target.value);
                 setCurrentPage(1);
               }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  addRecentSearch(searchQuery);
+                  setSearchFocused(false);
+                }
+              }}
               placeholder="Search products by material, name, keyword (e.g. bamboo, cotton, copper, neem)..."
-              className="w-full pl-10 pr-4 py-2.5 rounded-2xl bg-stone-100/80 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-sm text-stone-900 dark:text-stone-100 placeholder-stone-400 focus:outline-hidden focus:border-emerald-500"
+              className="w-full pl-10 pr-10 py-2.5 rounded-2xl bg-stone-100/80 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-sm text-stone-900 dark:text-stone-100 placeholder-stone-400 focus:outline-hidden focus:border-emerald-500"
             />
+            {searchQuery && (
+              <button
+                type="button"
+                onClick={() => setSearchQuery('')}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            )}
+
+            {/* Smart Suggestions & Recent Searches Dropdown */}
+            {searchFocused && (
+              <div className="absolute left-0 right-0 top-full mt-2 z-50 bg-white dark:bg-stone-900 rounded-2xl border border-stone-200 dark:border-stone-800 shadow-xl overflow-hidden p-3 space-y-3">
+                {/* Search suggestions */}
+                {searchSuggestions.length > 0 && (
+                  <div>
+                    <div className="text-[11px] font-bold uppercase tracking-wider text-stone-400 mb-1.5 px-2">
+                      Matching Suggestions
+                    </div>
+                    <div className="space-y-1">
+                      {searchSuggestions.map((s, idx) => (
+                        <div
+                          key={idx}
+                          onMouseDown={() => {
+                            if (s.product) setSelectedProduct(s.product);
+                            setSearchQuery(s.text);
+                            addRecentSearch(s.text);
+                            setSearchFocused(false);
+                          }}
+                          className="flex items-center justify-between px-3 py-2 rounded-xl text-xs hover:bg-stone-100 dark:hover:bg-stone-800 cursor-pointer text-stone-800 dark:text-stone-200"
+                        >
+                          <div className="flex items-center gap-2">
+                            <Search className="w-3.5 h-3.5 text-emerald-600" />
+                            <span className="font-semibold">{s.text}</span>
+                          </div>
+                          <span className="text-[10px] text-stone-400 uppercase font-medium">{s.type}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Recent Searches */}
+                {recentSearches.length > 0 && (
+                  <div className="pt-2 border-t border-stone-100 dark:border-stone-800">
+                    <div className="text-[11px] font-bold uppercase tracking-wider text-stone-400 mb-1.5 px-2 flex items-center justify-between">
+                      <span>Recent Searches</span>
+                      <History className="w-3 h-3 text-stone-400" />
+                    </div>
+                    <div className="flex flex-wrap gap-1.5 px-1">
+                      {recentSearches.map((term, idx) => (
+                        <span
+                          key={idx}
+                          onMouseDown={() => {
+                            setSearchQuery(term);
+                            addRecentSearch(term);
+                            setSearchFocused(false);
+                          }}
+                          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-stone-100 dark:bg-stone-800 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 text-stone-700 dark:text-stone-300 hover:text-emerald-700 text-xs cursor-pointer border border-stone-200/60 dark:border-stone-700/60 transition"
+                        >
+                          <span>{term}</span>
+                          <button
+                            type="button"
+                            onMouseDown={(e) => removeRecentSearch(term, e)}
+                            className="hover:text-rose-500 rounded-full"
+                          >
+                            <X className="w-3 h-3" />
+                          </button>
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
+
+          {/* Barcode Scanner Button */}
+          <button
+            type="button"
+            onClick={() => setIsBarcodeOpen(true)}
+            className="flex items-center gap-2 px-3.5 py-2.5 rounded-2xl bg-stone-100 dark:bg-stone-800 hover:bg-emerald-50 dark:hover:bg-emerald-950 text-stone-800 dark:text-stone-200 border border-stone-200 dark:border-stone-700 font-bold text-xs transition shadow-2xs whitespace-nowrap shrink-0"
+            title="Scan barcode or enter code to find eco alternative"
+          >
+            <Scan className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+            <span>Scan Barcode</span>
+          </button>
 
           <div className="flex items-center gap-2 w-full sm:w-auto">
             <span className="text-xs font-bold text-stone-500 uppercase tracking-wider shrink-0">
@@ -597,6 +812,12 @@ export default function ShopPage({ initialCategory, onCategoryChange }) {
           </button>
         </div>
       )}
+
+      {/* Barcode Scanner Modal (Feature 30) */}
+      <BarcodeScannerModal
+        isOpen={isBarcodeOpen}
+        onClose={() => setIsBarcodeOpen(false)}
+      />
     </div>
   );
 }
