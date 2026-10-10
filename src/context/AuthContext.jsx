@@ -195,12 +195,29 @@ export function AuthProvider({ children }) {
     });
   };
 
+  const updateUserAvatar = (avatar) => {
+    if (!currentUser) return;
+    setCurrentUser((prev) => {
+      const updated = { ...prev, avatar };
+      if (!prev.isGuest && prev.provider === 'local') {
+        const users = getLocalUsers();
+        const idx = users.findIndex((u) => u.id === prev.id);
+        if (idx !== -1) {
+          users[idx].avatar = avatar;
+          saveLocalUsers(users);
+        }
+      }
+      return updated;
+    });
+  };
+
   const userLevel = calculateEcoLevel(currentUser?.ecoPoints || 0);
 
   return (
     <AuthContext.Provider
       value={{
         currentUser,
+        user: currentUser,
         isAuthenticated: Boolean(currentUser),
         isGuest: Boolean(currentUser?.isGuest),
         userLevel,
@@ -214,6 +231,7 @@ export function AuthProvider({ children }) {
         loginAsGuest,
         logout,
         addEcoPoints,
+        updateUserAvatar,
         isFirebaseConfigured
       }}
     >

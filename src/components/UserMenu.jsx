@@ -151,6 +151,18 @@ export default function UserMenu({ setActivePage }) {
               <span>Saved Wishlist</span>
             </button>
 
+            <button
+              type="button"
+              onClick={() => {
+                setMenuOpen(false);
+                setActivePage('settings');
+              }}
+              className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl hover:bg-white dark:hover:bg-stone-800 text-stone-700 dark:text-stone-300 hover:text-emerald-700 transition"
+            >
+              <Settings className="w-4 h-4 text-teal-600" />
+              <span>Settings & Preferences</span>
+            </button>
+
             <div className="border-t border-stone-200 dark:border-stone-800 my-1 pt-1" />
 
             <button

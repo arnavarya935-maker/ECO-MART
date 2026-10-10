@@ -27,9 +27,24 @@ const CATEGORY_IMPACT_DATA = [
   { category: 'Stationery', co2Saved: 1.1 }
 ];
 
+import Modal from '../components/ui/Modal';
+import Button from '../components/ui/Button';
+
+const LOCAL_AVATARS = [
+  { id: 'av-1', name: 'Bamboo Forester', emoji: '🎋', bg: 'from-emerald-600 to-teal-700' },
+  { id: 'av-2', name: 'Ocean Rescuer', emoji: '🌊', bg: 'from-sky-600 to-blue-700' },
+  { id: 'av-3', name: 'Solar Pioneer', emoji: '☀️', bg: 'from-amber-500 to-orange-600' },
+  { id: 'av-4', name: 'Wildlife Guardian', emoji: '🐘', bg: 'from-emerald-700 to-stone-800' },
+  { id: 'av-5', name: 'Pollinator Keeper', emoji: '🐝', bg: 'from-yellow-500 to-amber-600' },
+  { id: 'av-6', name: 'Zero Waste Guide', emoji: '🥗', bg: 'from-teal-600 to-emerald-800' },
+  { id: 'av-7', name: 'Seed Planter', emoji: '🌱', bg: 'from-green-600 to-emerald-700' },
+  { id: 'av-8', name: 'Canopy Steward', emoji: '🌲', bg: 'from-emerald-800 to-teal-900' }
+];
+
 export default function ProfilePage({ setActivePage }) {
-  const { user, isGuest } = useAuth();
+  const { user, isGuest, updateUserAvatar } = useAuth();
   const { orders } = useCart();
+  const [avatarModalOpen, setAvatarModalOpen] = useState(false);
 
   // Tier calculation based on orders / points
   const points = (orders.length * 80) + 120;
@@ -64,13 +79,21 @@ export default function ProfilePage({ setActivePage }) {
         <div className="absolute -top-12 -right-12 w-48 h-48 bg-emerald-500/20 rounded-full blur-3xl pointer-events-none" />
 
         <div className="flex items-center gap-4">
-          <div className="w-20 h-20 rounded-3xl bg-emerald-500/20 border-2 border-emerald-400/40 flex items-center justify-center text-3xl font-black text-emerald-300 shadow-inner">
-            {user?.avatar ? (
+          <button
+            type="button"
+            onClick={() => setAvatarModalOpen(true)}
+            className="w-20 h-20 rounded-3xl bg-emerald-500/20 border-2 border-emerald-400/40 flex items-center justify-center text-3xl font-black text-emerald-300 shadow-inner hover:scale-105 transition cursor-pointer relative group shrink-0"
+            title="Click to choose a local avatar"
+          >
+            {user?.avatar?.length > 4 ? (
               <img src={user.avatar} alt="Avatar" className="w-full h-full object-cover rounded-3xl" />
             ) : (
-              user?.name ? user.name.slice(0, 2).toUpperCase() : 'CE'
+              user?.avatar || (user?.name ? user.name.slice(0, 2).toUpperCase() : 'CE')
             )}
-          </div>
+            <div className="absolute inset-0 bg-black/50 rounded-3xl opacity-0 group-hover:opacity-100 flex items-center justify-center text-[10px] font-black text-white transition">
+              Change
+            </div>
+          </button>
           <div>
             <div className="flex items-center gap-2">
               <h1 className="text-2xl sm:text-3xl font-black text-white">
@@ -83,8 +106,17 @@ export default function ProfilePage({ setActivePage }) {
               )}
             </div>
             <div className="text-xs text-stone-300 mt-1">{user?.email || 'guest@ecomart.local'}</div>
-            <div className="mt-2 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-emerald-300 text-xs font-bold border border-white/20">
-              <span>{level.title}</span>
+            <div className="mt-2 inline-flex items-center gap-2">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-emerald-300 text-xs font-bold border border-white/20">
+                {level.title}
+              </span>
+              <button
+                type="button"
+                onClick={() => setAvatarModalOpen(true)}
+                className="text-[11px] text-emerald-300 hover:text-white underline cursor-pointer"
+              >
+                Change Avatar
+              </button>
             </div>
           </div>
         </div>
@@ -302,13 +334,57 @@ export default function ProfilePage({ setActivePage }) {
           <button
             type="button"
             onClick={() => setActivePage('orders')}
-            className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs transition shadow-sm"
+            className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs transition shadow-sm cursor-pointer"
           >
             <span>View All Orders ({orders.length})</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>
       </div>
+
+      {/* Local Avatar Picker Modal (Feature 12) */}
+      <Modal
+        isOpen={avatarModalOpen}
+        onClose={() => setAvatarModalOpen(false)}
+        title="Choose Your Eco Avatar"
+      >
+        <div className="space-y-4">
+          <p className="text-xs text-stone-600 dark:text-stone-300 font-medium">
+            Select an eco persona. Stored 100% locally on your machine with zero external uploads.
+          </p>
+
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            {LOCAL_AVATARS.map((av) => (
+              <button
+                key={av.id}
+                type="button"
+                onClick={() => {
+                  updateUserAvatar(av.emoji);
+                  setAvatarModalOpen(false);
+                }}
+                className={`p-4 rounded-2xl border text-center transition-all duration-200 hover:scale-105 cursor-pointer flex flex-col items-center gap-2 ${
+                  user?.avatar === av.emoji
+                    ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/60 shadow-md ring-2 ring-emerald-500/30'
+                    : 'border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 hover:border-emerald-300'
+                }`}
+              >
+                <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${av.bg} flex items-center justify-center text-3xl shadow-sm text-white`}>
+                  {av.emoji}
+                </div>
+                <div className="text-xs font-black text-[#0B3B2C] dark:text-stone-100">
+                  {av.name}
+                </div>
+              </button>
+            ))}
+          </div>
+
+          <div className="pt-2 flex justify-end">
+            <Button variant="secondary" size="sm" onClick={() => setAvatarModalOpen(false)}>
+              Close
+            </Button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }

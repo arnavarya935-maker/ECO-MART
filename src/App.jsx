@@ -17,6 +17,7 @@ import NotFoundPage from './pages/NotFoundPage';
 // Lazy load chart and 3D heavy pages for fast first load
 const ImpactPage = lazy(() => import('./pages/ImpactPage'));
 const ProfilePage = lazy(() => import('./pages/ProfilePage'));
+const SettingsPage = lazy(() => import('./pages/SettingsPage'));
 
 // Modals and Drawers
 import CartDrawer from './components/CartDrawer';
@@ -48,7 +49,7 @@ function AppContent() {
     setActivePage('shop');
   };
 
-  const validPages = ['home', 'shop', 'impact', 'how-it-works', 'login', 'signup', 'wishlist', 'profile', 'orders'];
+  const validPages = ['home', 'shop', 'impact', 'how-it-works', 'login', 'signup', 'wishlist', 'profile', 'orders', 'settings'];
   const is404 = !validPages.includes(activePage);
 
   return (
@@ -88,6 +89,7 @@ function AppContent() {
           {activePage === 'wishlist' && <WishlistPage setActivePage={setActivePage} />}
           {activePage === 'profile' && <ProfilePage setActivePage={setActivePage} />}
           {activePage === 'orders' && <OrdersPage setActivePage={setActivePage} />}
+          {activePage === 'settings' && <SettingsPage setActivePage={setActivePage} />}
           {is404 && <NotFoundPage setActivePage={setActivePage} />}
         </Suspense>
       </main>

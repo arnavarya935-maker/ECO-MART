@@ -16,7 +16,7 @@ export default function OrdersPage({ setActivePage }) {
             </span>
             <span className="text-xs text-stone-500 font-medium">{orders.length} Orders</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-black text-stone-900 dark:text-stone-100 mt-1">
+          <h1 className="text-3xl sm:text-4xl font-black text-[#0B3B2C] dark:text-stone-100 mt-1">
             Order History & Impact Receipts
           </h1>
           <p className="text-sm text-stone-500 dark:text-stone-400">
