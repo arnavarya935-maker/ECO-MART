@@ -1,66 +1,138 @@
-import React from 'react';
-import { Sparkles, Leaf, ShieldCheck, ArrowRight, X } from 'lucide-react';
+import React, { useState } from 'react';
+import { Sparkles, Leaf, ShieldCheck, ArrowRight, ArrowLeft, X, Layers, Users, RefreshCw } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+
+const TOUR_STEPS = [
+  {
+    step: 1,
+    title: 'Don’t Just Shop. Shop with Purpose.',
+    subtitle: 'Transparent 0-100 Eco-Score Engine',
+    desc: 'Every item in our catalog undergoes rigorous lifecycle auditing. We track carbon footprint, freshwater consumption, plastic packaging, and transportation distance down to the exact gram.',
+    icon: Leaf,
+    badge: 'Step 1 of 4: The Eco-Score'
+  },
+  {
+    step: 2,
+    title: 'Proactive Cart Swap Assistant',
+    subtitle: '1-Tap Cleaner Product Upgrades',
+    desc: 'When you add conventional petrochemical items to your cart, our built-in Eco Agent suggests cleaner, biodegradable alternatives—showing exact grams of plastic diverted and kilograms of CO₂ avoided.',
+    icon: RefreshCw,
+    badge: 'Step 2 of 4: Live Swap Intelligence'
+  },
+  {
+    step: 3,
+    title: '100% Offline & High Performance',
+    subtitle: 'PWA Offline Cache & School Laptop Mode',
+    desc: 'EcoMart works completely offline. All fonts, 3D visualizers, textures, and calculations are local. Use the "Reduce Effects" toggle anytime for ultra-fast low-spec school laptop performance.',
+    icon: ShieldCheck,
+    badge: 'Step 3 of 4: Resilient Technology'
+  },
+  {
+    step: 4,
+    title: 'Interactive Tools & Community',
+    subtitle: 'Track Goals, Badges & Plant-a-Tree',
+    desc: 'Explore the carbon footprint calculator, sign the pledge wall, take the eco quiz, and watch your virtual grove grow with every conscious order. Ready to shop with purpose?',
+    icon: Users,
+    badge: 'Step 4 of 4: Community & Tools'
+  }
+];
 
 export default function WelcomeModal() {
   const { welcomeModalOpen, dismissWelcomeModal } = useCart();
+  const [currentStep, setCurrentStep] = useState(0);
 
   if (!welcomeModalOpen) return null;
 
+  const stepData = TOUR_STEPS[currentStep];
+  const Icon = stepData.icon;
+
+  const handleNext = () => {
+    if (currentStep < TOUR_STEPS.length - 1) {
+      setCurrentStep(currentStep + 1);
+    } else {
+      dismissWelcomeModal();
+    }
+  };
+
+  const handleBack = () => {
+    if (currentStep > 0) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
+
   return (
     <div className="fixed inset-0 z-50 bg-stone-950/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fadeIn">
-      <div className="relative w-full max-w-lg bg-white dark:bg-stone-900 rounded-3xl border border-stone-200 dark:border-stone-800 shadow-2xl p-6 sm:p-8 overflow-hidden">
+      <div className="relative w-full max-w-lg bg-white dark:bg-stone-900 rounded-3xl border border-stone-200 dark:border-stone-800 shadow-2xl p-6 sm:p-8 overflow-hidden space-y-6">
         {/* Glow accent */}
         <div className="absolute -top-16 -right-16 w-44 h-44 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none" />
 
-        <button
-          type="button"
-          onClick={dismissWelcomeModal}
-          className="absolute top-4 right-4 p-2 rounded-full text-stone-400 hover:text-stone-700 dark:hover:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-800 transition"
-        >
-          <X className="w-5 h-5" />
-        </button>
+        <div className="flex items-center justify-between border-b border-stone-100 dark:border-stone-800 pb-3">
+          <span className="text-[11px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300">
+            {stepData.badge}
+          </span>
 
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 text-xs font-bold border border-emerald-300/40 mb-4">
-          <Sparkles className="w-3.5 h-3.5" /> Welcome to EcoMart
-        </div>
-
-        <h2 className="text-2xl sm:text-3xl font-extrabold text-stone-900 dark:text-stone-100 leading-tight">
-          Don’t just shop. <br />
-          <span className="text-emerald-600 dark:text-emerald-400">Shop with purpose.</span>
-        </h2>
-
-        <p className="mt-3 text-sm text-stone-600 dark:text-stone-300 leading-relaxed">
-          EcoMart pairs every product with transparent lifecycle metrics (carbon, water, plastic) and an automated <strong>Eco-Score Engine</strong> that suggests cleaner swaps right inside your cart.
-        </p>
-
-        <div className="mt-5 space-y-2.5">
-          <div className="flex items-start gap-3 p-3 rounded-2xl bg-stone-50 dark:bg-stone-850 border border-stone-200/60 dark:border-stone-800">
-            <Leaf className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
-            <div>
-              <div className="text-xs font-bold text-stone-900 dark:text-stone-100">Live Impact Calculator</div>
-              <div className="text-[11px] text-stone-500 dark:text-stone-400">Watch CO₂ and plastic waste decrease dynamically as you swap items.</div>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-3 p-3 rounded-2xl bg-stone-50 dark:bg-stone-850 border border-stone-200/60 dark:border-stone-800">
-            <ShieldCheck className="w-5 h-5 text-sky-600 shrink-0 mt-0.5" />
-            <div>
-              <div className="text-xs font-bold text-stone-900 dark:text-stone-100">100% Offline Capable</div>
-              <div className="text-[11px] text-stone-500 dark:text-stone-400">Works seamlessly with or without internet. Real photos and 3D visualizers run locally.</div>
-            </div>
-          </div>
-        </div>
-
-        <div className="mt-6 flex flex-col sm:flex-row gap-3">
           <button
             type="button"
             onClick={dismissWelcomeModal}
-            className="flex-1 flex items-center justify-center gap-2 py-3 px-5 rounded-2xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-sm shadow-lg shadow-emerald-900/20 active:scale-98 transition-all"
+            className="p-1 rounded-full text-stone-400 hover:text-stone-700 dark:hover:text-stone-200 hover:bg-stone-100 dark:hover:bg-stone-800 transition"
+            aria-label="Skip tour"
           >
-            <span>Start Exploring</span>
-            <ArrowRight className="w-4 h-4" />
+            <X className="w-5 h-5" />
           </button>
+        </div>
+
+        <div className="space-y-4">
+          <div className="w-14 h-14 rounded-2xl bg-emerald-100 dark:bg-emerald-950 flex items-center justify-center text-emerald-700 dark:text-emerald-300 shadow-xs">
+            <Icon className="w-7 h-7" />
+          </div>
+
+          <div className="space-y-1">
+            <h2 className="text-xl sm:text-2xl font-black text-stone-900 dark:text-stone-100">
+              {stepData.title}
+            </h2>
+            <div className="text-xs font-bold text-emerald-700 dark:text-emerald-400">
+              {stepData.subtitle}
+            </div>
+          </div>
+
+          <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-300 leading-relaxed font-medium">
+            {stepData.desc}
+          </p>
+        </div>
+
+        {/* Step Dots & Navigation Buttons */}
+        <div className="flex items-center justify-between pt-4 border-t border-stone-100 dark:border-stone-800">
+          <div className="flex items-center gap-1.5">
+            {TOUR_STEPS.map((_, idx) => (
+              <span
+                key={idx}
+                className={`h-2 rounded-full transition-all ${
+                  currentStep === idx ? 'w-6 bg-emerald-600' : 'w-2 bg-stone-300 dark:bg-stone-700'
+                }`}
+              />
+            ))}
+          </div>
+
+          <div className="flex items-center gap-2">
+            {currentStep > 0 && (
+              <button
+                type="button"
+                onClick={handleBack}
+                className="px-3.5 py-2 rounded-xl border border-stone-300 dark:border-stone-700 text-xs font-bold text-stone-700 dark:text-stone-300 hover:bg-stone-100 cursor-pointer"
+              >
+                Back
+              </button>
+            )}
+
+            <button
+              type="button"
+              onClick={handleNext}
+              className="flex items-center gap-1.5 px-5 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs shadow-md transition active:scale-95 cursor-pointer"
+            >
+              <span>{currentStep === TOUR_STEPS.length - 1 ? 'Get Started' : 'Next'}</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
         </div>
       </div>
     </div>

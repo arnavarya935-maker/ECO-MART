@@ -1,158 +1,140 @@
-# EcoMart — Premium Sustainable E-Commerce Platform Powered by an Eco Agent
+# EcoMart — Sustainable E-Commerce Platform Powered by Eco Agent
 
 > *"Don't just shop. Shop with purpose."*
 
-EcoMart is a premium, offline-first sustainable e-commerce web application built with **React 19**, **Vite**, **Tailwind CSS v4**, **Framer Motion**, and **React Three Fiber (Three.js)**. It empowers users to make conscious purchasing decisions through an automated **Eco Agent**, transparent 5-pillar lifecycle scoring, real local product photography, dual authentication (Firebase Google + Web Crypto SHA-256 fallback + Guest), interactive 3D visualizations, and gamified planetary impact tracking.
+EcoMart is a complete, fully offline-capable, sustainable e-commerce web application built with **React**, **Vite**, **Vanilla CSS & Tailwind CSS tokens**, and **React Three Fiber (Three.js)**. EcoMart transparently scores products with a 0-100 lifecycle formula, suggests greener product swaps, and provides 11 interactive calculators and tools—all running 100% locally with zero CDN dependencies.
 
 ---
 
-## 🌟 Key Upgraded Highlights
+## 🚀 Quick Setup & Running Locally
 
-### 1. 🔐 Dual Authentication & Offline Guest Mode
-- **Dual Flow**: Sign Up and Log In with email + password, dynamic password strength meter, show/hide toggle, and real-time validation.
-- **Firebase Google Authentication**: Optional Google provider reading securely from environment variables (`VITE_FIREBASE_*`).
-- **Offline / Local Web Crypto SHA-256 Fallback**: When Firebase is unconfigured or the network is offline, user credentials are encrypted with Web Crypto SHA-256 + salt and persisted in `localStorage`.
-  > *⚠️ Demo Limitation Note: Local Web Crypto SHA-256 hashing is designed for offline demonstration and educational purposes only. In production environments, authentication should be managed with an enterprise identity provider or salted bcrypt/argon2 hashing on a hardened server.*
-- **1-Click Guest Mode**: "Continue as Conscious Explorer" enables instant access with no sign-in or network required.
-- **Protected Sessions**: Saved addresses, wishlist, order history, and gamified eco-points persist across refreshes.
-
-### 2. 📸 60+ Products Catalogue & Real Photographic Assets
-- **Expanded Catalogue**: 64 audited items across **8 categories**:
-  - *Kitchen, Personal Care, Fashion, Stationery, Home, Bags, Outdoor & Travel, Cleaning & Laundry*.
-- **100% Local Photographic Imagery**: Real product photographs stored in `/public/images/products/` with WebP/JPG compression (max 800px). Zero hotlinked external URLs.
-- **Graceful Fallbacks**: Every product includes blur-up loading, hover zoom, and a local handcrafted SVG fallback (`/public/images/products/<id>.svg`).
-- **Product Gallery**: High-resolution image gallery with thumbnails, zoom-on-hover lens, and a fullscreen lightbox.
-- **Attribution & Licensing**: Full credits documented in `/public/images/CREDITS.md` adhering to the Unsplash license.
-
-### 3. 🎨 Design System & Theme
-- **Curated Earthy Palette**:
-  - Forest Green (`#0F3D2E`), Emerald (`#10B981`), Mint (`#D1FAE5`), Cream (`#FAF7F0`), Warm Sand (`#E9DFC8`), Amber Accent (`#F59E0B`), Charcoal Text.
-- **Polished Dark Mode**: Seamless toggle persisted in `localStorage` with glassmorphic cards (`backdrop-blur-md`), soft elevation shadows, and rounded-3xl corners.
-- **Global "Reduce Effects" Toggle**: Disables intensive 3D models and heavy Framer Motion transitions (respects `prefers-reduced-motion`).
-
-### 4. 🌐 3D Interactive Features (React Three Fiber + Drei)
-- **Hero Section (`LeafyGlobe3D.jsx`)**: Interactive 3D Earth globe with wireframe continents, atmospheric glow, and orbiting low-poly crystal/leaf particles reacting to mouse movement.
-- **Impact Dashboard (`EcoForest3D.jsx`)**: Procedural 3D forest that visibly sprouts and blossoms as the cart's average Eco-Score rises towards Grade A.
-- **Product 3D Inspect (`Product3DFlipCard.jsx`)**: Interactive CSS 3D card flip showcasing front product imagery and back lifecycle environmental specifications.
-- **Automatic Fallback**: If WebGL is unavailable or "Reduce Effects" is turned on, cleanly transitions to static animated SVGs.
-
-### 5. 🤖 Voice-Enabled Eco Agent
-- **Web Speech API Voice Input**: Click the microphone icon to speak naturally (progressively enhanced; hidden if unsupported).
-- **Streaming Responses**: Live typewriter-style streaming responses for incoming recommendations.
-- **Transparent Reasoning**: Expandable *"Why I picked this"* breakdown revealing carbon, plastic, and regional distance metrics.
-- **Personalization**: Remembers user preferences (budget limit, favorite categories) stored locally.
-- **Weekly Eco Challenge**: Track weekly goals (e.g. swap 3 plastic items), streak counter (🔥), and community leaderboard.
-- **Optional Serverless LLM**: Integrated with `/api/agent` (Vercel serverless function); falls back silently to local rule templates if offline or unconfigured.
-
-### 6. 🛍️ Advanced Shopping Capabilities
-- **Wishlist**: Save favorite products with 1-click move-to-cart and localStorage persistence.
-- **Side-by-Side Product Comparison (`ProductCompareModal.jsx`)**: Compare up to 3 products with visual eco-score breakdown bars.
-- **Advanced Filters**: Price range slider, Eco Grade (A-E), packaging material, plastic-free toggle, certifications, rating, material, and active filter chips with a "Clear all" button.
-- **Verified Eco Reviews**: Star ratings with verified eco buyer badges saved locally.
-- **Coupons & Pincode Estimator**: Discount codes (`GREEN10`, `EARTHDAY`, `ZERO15`) and instant 6-digit Indian PIN delivery estimator for EV fleet transit.
-- **Multi-Step Checkout**:
-  1. Address & Shipping Details
-  2. Plastic-Free Packaging & Gold Standard Carbon Offset (+₹20)
-  3. Mock Payment Processing (UPI, Card, Cash on Delivery)
-- **Shareable Impact Card**: Downloadable / copyable "I shopped with purpose" achievement card.
-
-### 7. 📈 Gamified Profile & Planetary Ledger (Recharts)
-- **User Profile Page**: Tier level (Seedling 🌱, Sapling 🌿, Tree 🌳, Forest Guardian 🛡️) with animated XP progress bar.
-- **Animated Recharts**:
-  - Monthly avoided carbon footprint area chart.
-  - Category breakdown bar chart.
-- **Badges Gallery**: Unlocked and locked achievements (*Planetary Steward*, *Zero Plastic Pioneer*, *Eco Alchemist*, *Tree Planter*).
-- **Order History**: Complete log with carbon avoidance receipts.
-
----
-
-## 🔬 The 5-Pillar Eco-Score Formula (`src/lib/ecoScore.js`)
-
-Every product receives a mathematical score from **0 to 100** based on 5 audited sustainability pillars:
-
-$$\text{Eco-Score} = \text{Materials (30\%)} + \text{Packaging (20\%)} + \text{Carbon (25\%)} + \text{Certifications (15\%)} + \text{Proximity (10\%)}$$
-
-| Pillar | Weight | Scoring Logic |
-| :--- | :---: | :--- |
-| **Renewable & Organic Materials** | **30%** | Upcycled/Organic = 28-30 pts; Wood/Bamboo = 22-26 pts; Recycled/Metal = 15-20 pts; Virgin Plastic = 0-5 pts |
-| **Plastic-Free Packaging** | **20%** | 100% Plastic-free / Kraft seed paper = 20 pts; Post-consumer recycled = 14 pts; Virgin plastic packaging = 3 pts |
-| **Carbon Footprint** | **25%** | Under 1.0kg CO₂ = 25 pts; 1.0-3.0kg = 18-22 pts; 3.0-6.0kg = 12-16 pts; >10.0kg = 2-6 pts |
-| **Third-Party Certifications** | **15%** | 5 pts per certified body (GOTS, FSC, Fair Trade, Zero Waste, Cruelty-Free), capped at 15 pts |
-| **Local Sourcing Proximity** | **10%** | < 100km = 10 pts; 100-300km = 8 pts; 300-800km = 5 pts; > 800km = 2 pts |
-
-### Grade Scale
-- **Grade A (85–100)**: Exceptional Sustainable Standard (Emerald)
-- **Grade B (70–84)**: Very Good Conscious Pick (Teal)
-- **Grade C (55–69)**: Moderate Environmental Footprint (Amber)
-- **Grade D (40–54)**: High Resource Intensity (Orange)
-- **Grade E (0–39)**: Petrochemical / Low Sustainability (Crimson)
-
----
-
-## 🛠️ Environment Variables Configuration
-
-Copy `.env.example` to `.env` to configure optional online features:
-
+### 1. Install Dependencies
 ```bash
-cp .env.example .env
-```
-
-```ini
-# Optional: Firebase Authentication (Google Provider)
-VITE_FIREBASE_API_KEY=
-VITE_FIREBASE_AUTH_DOMAIN=
-VITE_FIREBASE_PROJECT_ID=
-VITE_FIREBASE_STORAGE_BUCKET=
-VITE_FIREBASE_MESSAGING_SENDER_ID=
-VITE_FIREBASE_APP_ID=
-
-# Optional: Serverless Gemini / LLM Key for /api/agent
-ECO_AGENT_API_KEY=
-```
-
-*If no environment variables are provided, EcoMart automatically runs in 100% offline-native mode with local Web Crypto SHA-256 auth, rule-based NLP, and zero network dependency.*
-
----
-
-## 🚀 Running Locally
-
-```bash
-# 1. Install dependencies
 npm install
+```
 
-# 2. Start Vite dev server
+### 2. Start Local Development Server
+```bash
 npm run dev
+```
+Open `http://localhost:5173` in your browser.
 
-# 3. Build for production (Code-split into lean chunks)
+### 3. Production Build
+```bash
 npm run build
-
-# 4. Preview production build
 npm run preview
 ```
 
-The application will be live at `http://127.0.0.1:5173/`.
-
 ---
 
-## 🚢 Deployment to Vercel
+## 🔒 Firebase Configuration (Optional)
+The application works **100% offline without Firebase**. When Firebase is unconfigured or when your device is offline, Google Sign-In is automatically hidden or gracefully disabled with a tooltip, falling back seamlessly to local salted SHA-256 password hashing or 1-click **Guest Mode**.
 
-EcoMart includes a preconfigured `vercel.json` with Single Page Application (SPA) rewrite rules:
-
-```json
-{
-  "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/$1" },
-    { "source": "/(.*)", "destination": "/index.html" }
-  ]
-}
-```
-
-Deploy in one command with the Vercel CLI:
-```bash
-vercel
+To enable real Google Sign-In via Firebase, create a `.env` file in the project root:
+```env
+VITE_FIREBASE_API_KEY=your_api_key_here
+VITE_FIREBASE_AUTH_DOMAIN=your_project.firebaseapp.com
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_project.appspot.com
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_messaging_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
 ```
 
 ---
 
-## 📄 License
-MIT — Original code built for EcoMart. Real photographic product credits are detailed in `/public/images/CREDITS.md`.
+## 🛡️ Offline-First Architecture & Graceful Degradation
+- **Zero External Assets**: All fonts, SVGs, real product images (`/public/images/products/`), textures, icons, and audio synthesis are bundled locally in `/public` and `src`.
+- **Zero Runtime CDNs**: No Google Fonts, no unpkg, no external image links.
+- **Service Worker / PWA**: Registered service worker (`/sw.js`) caches app assets for offline use with an installable `manifest.json`.
+- **School Laptop Performance**: A persistent **"Reduce Effects"** toggle defaults to ON if `prefers-reduced-motion` is active or if WebGL is unavailable, disabling 3D renders, canvas particle layers, and parallax.
+- **Safe 3D Wrapper**: Every 3D visualizer is wrapped in `<Safe3D>` with a loading progress bar and an accessible static-image fallback.
+
+---
+
+## 📋 Complete 66-Feature Checklist
+
+### PHASE 1: FOUNDATION (Features 1–8)
+- [x] **1. Design tokens file and global theme**: Single `src/styles/tokens.css` with CSS variables for deep forest green headings, pure white/soft off-white backgrounds, emerald/teal accents, and amber highlights.
+- [x] **2. Local font loading (no Google Fonts), type scale**: Local system font stack (`Outfit`, system-ui, sans-serif), zero external font requests in `index.html`.
+- [x] **3. Reusable component library**: `Button`, `Card`, `Badge`, `Modal`, `Tooltip`, `Tabs`, `Toast`, and `Skeleton` in `src/components/ui/`.
+- [x] **4. "Reduce effects" toggle in the header, wired app-wide**: Dedicated toggle button in header and settings, auto-detecting WebGL and prefers-reduced-motion.
+- [x] **5. Offline/online status detector with a small banner**: `OfflineDetector.jsx` listens to network events and notifies the user with a friendly banner.
+- [x] **6. Service worker / PWA setup with an installable manifest**: `public/sw.js` offline cache and `public/manifest.json` registered in `src/main.jsx`.
+- [x] **7. Error boundary and friendly 404 page**: Reusable `ErrorBoundary.jsx` and `NotFoundPage.jsx` styled with light design tokens.
+- [x] **8. Responsive layout system and sticky navigation**: Mobile, tablet, and desktop sticky navbar with navigation links and cart badges.
+
+### PHASE 2: ACCOUNTS AND DATA (Features 9–16)
+- [x] **9. Local email/password signup and login**: Web Crypto SHA-256 + salt authentication persisted in `localStorage`.
+- [x] **10. "Continue as Guest" option**: Instant 1-click access with guest session indicators and persistent cart.
+- [x] **11. Optional Google login via Firebase**: Gracefully disabled with friendly tooltip when offline or unconfigured.
+- [x] **12. Profile page with avatar picker and eco level**: 8 local avatars (`LOCAL_AVATARS`), level titles, XP, and order stats in `ProfilePage.jsx`.
+- [x] **13. Wishlist / saved items**: Add/remove items with persistent localStorage state and 1-tap move-to-cart on `WishlistPage.jsx`.
+- [x] **14. Shopping cart with quantity controls and persistent state**: Slide-out `CartDrawer.jsx` with real-time carbon, plastic, and water savings totals.
+- [x] **15. Order history and checkout simulation**: `OrdersPage.jsx` and multi-step `CheckoutModal.jsx` with digital impact receipts.
+- [x] **16. Settings page**: Complete controls for theme accents, Reduce Effects, audio effects, and local data reset in `SettingsPage.jsx`.
+
+### PHASE 3: CATALOG AND SEARCH (Features 17–30)
+- [x] **17. Product grid with locally saved real product images**: Local WebP images with SVG fallbacks in `ProductCard.jsx`.
+- [x] **18. Product detail page with image gallery and zoom**: `ProductGallery.jsx` with thumbnail switcher, cursor zoom, and fullscreen view.
+- [x] **19. Smart search with fuzzy matching, suggestions, and recent searches**: Dropdown suggestions and recent search chips in `ShopPage.jsx`.
+- [x] **20. Filters (category, price, eco score, certification)**: Interactive sliders, grade pills, and multi-select criteria.
+- [x] **21. Sort options**: Highest Eco-Score, Lowest Carbon Footprint, Nearest Origin, and Price Low/High.
+- [x] **22. Eco score badge on every product**: Universal 0-100 `EcoScoreBadge.jsx` with letter grades (A–E).
+- [x] **23. Product badges**: Plastic-free, Recycled, Vegan, Fair Trade, Local, and Low-carbon chips.
+- [x] **24. Live swap demo**: Side-by-side interactive comparison in `LiveSwapDemo.jsx` on Home and Shop pages.
+- [x] **25. Compare tool for up to 3 products**: Side-by-side metric comparison modal in `ProductCompareModal.jsx`.
+- [x] **26. Recently viewed products**: Local storage carousel showing last viewed items in `ShopPage.jsx`.
+- [x] **27. "Better alternative" suggestions on product pages**: Proactive greener swaps highlighted in `ProductDetailModal.jsx`.
+- [x] **28. Category landing pages**: Category spotlights with educational environmental facts and banner taglines.
+- [x] **29. Product reviews (local) with star rating**: Verified buyer reviews with star ratings and impact tags.
+- [x] **30. Barcode-style "scan" simulation for swap finder**: `BarcodeScannerModal.jsx` with quick-scan simulations and manual code entry fallback.
+
+### PHASE 4: HERO AND VISUAL EXPERIENCE (Features 31–42)
+- [x] **31. Animated hero with mint-to-white gradient**: Styled in `Hero.jsx` using `#E8F5EE` to white gradients.
+- [x] **32. 3D hero object inside `<Safe3D>`**: `LeafyGlobe3D.jsx` planetary biosphere wrapped in `<Safe3D>`.
+- [x] **33. Cursor-reactive effects (parallax, glow)**: `CursorGlow.jsx` disabled under Reduce Effects.
+- [x] **34. Scroll storytelling section ("From waste to wonder")**: 4-stage interactive reveal in `StorytellingSection.jsx`.
+- [x] **35. Animated impact counters**: `AnimatedImpactCounters.jsx` animating CO2, plastic, trees, and water.
+- [x] **36. Floating leaf particle layer (capped, pausable)**: `LeafParticles.jsx` capped at 10 particles, paused on tab hidden or Reduce Effects.
+- [x] **37. Page transitions**: Smooth fade/slide transitions between application routes.
+- [x] **38. Micro-interactions on buttons, cards, and cart icon**: Hover scale, active compress, and `.cart-icon-bounce`.
+- [x] **39. Skeleton loaders for lazy sections**: Reusable `Skeleton.jsx` shown during lazy code loading.
+- [x] **40. Marquee of partner and certification logos**: Local SVG badges for GOTS, FSC, Fair Trade, and India Organic in `PartnerMarquee.jsx`.
+- [x] **41. Testimonials carousel**: Customer and artisan stories with ratings and navigation in `TestimonialsCarousel.jsx`.
+- [x] **42. Before/after image slider**: Interactive draggable slider in `BeforeAfterSlider.jsx` comparing conventional clutter vs circular living.
+
+### PHASE 5: INTERACTIVE TOOLS (Features 43–54)
+- [x] **43. Interactive Eco Quiz**: 4-question quiz with score percentage, result tiers, and shareable result card in `EcoQuiz.jsx`.
+- [x] **44. Carbon footprint calculator**: Interactive transport, diet, energy, and shopping sliders with breakdown bars in `CarbonFootprintCalculator.jsx`.
+- [x] **45. Eco Map as a bundled static SVG map**: Interactive clickable craft regions (zero map tiles) in `EcoMap.jsx`.
+- [x] **46. Daily eco challenge with streak counter**: Daily tasks with XP and streak count in `DailyEcoChallenge.jsx`.
+- [x] **47. Eco goals tracker with progress rings**: SVG circular progress arcs in `EcoGoalsTracker.jsx`.
+- [x] **48. Sticky "Impact Pulse" mini-widget**: Collapsible floating widget displaying real-time cart impact in `ImpactPulseWidget.jsx`.
+- [x] **49. Savings vs. impact calculator for switching products**: Interactive checkboxes revealing annual ₹ savings and CO2 in `SavingsImpactCalculator.jsx`.
+- [x] **50. Recycling guide: "Where does this go?" lookup**: Searchable circular disposal directory in `RecyclingGuide.jsx`.
+- [x] **51. Seasonal produce and product guide**: Summer, Monsoon, and Winter local produce guide in `SeasonalGuide.jsx`.
+- [x] **52. Eco glossary with tooltips**: Interactive definitions for Cradle-to-Cradle, GOTS, Embodied Carbon, and Greenwashing in `EcoGlossary.jsx`.
+- [x] **53. Water and energy usage estimator**: Shower, laundry, and kitchen water/heating calculator in `WaterEnergyEstimator.jsx`.
+- [x] **54. Plant-a-tree virtual garden**: Gamified tree that grows across 5 levels from seedling to grove in `PlantATreeGarden.jsx`.
+
+### PHASE 6: COMMUNITY AND GAMIFICATION (Features 55–61)
+- [x] **55. Community section with local posts, tips, and likes**: Community feed with tip sharing, tags, and likes in `CommunityFeed.jsx`.
+- [x] **56. Leaderboard (local users and sample data)**: Regional champions honor roll in `EcoLeaderboard.jsx`.
+- [x] **57. Achievements and badges with unlock animations**: `AchievementUnlockedModal.jsx` and unlock criteria in `ProfilePage.jsx`.
+- [x] **58. XP and level system**: Tier levels from Seedling to Forest Guardian with animated progress bars.
+- [x] **59. Shareable impact summary card (export as PNG, offline)**: HTML5 `<canvas>` rendering and downloading an official offline PNG in `ShareableImpactCard.jsx`.
+- [x] **60. Pledge wall**: Interactive community pledge wall with local storage persistence in `PledgeWall.jsx`.
+- [x] **61. Newsletter signup form**: Offline-safe newsletter subscription with confirmation in `NewsletterSignup.jsx`.
+
+### PHASE 7: POLISH AND DELIGHT (Features 62–66)
+- [x] **62. Sound effects**: Offline Web Audio API synth (`audio.js`) muted by default, toggleable in settings and disabled under Reduce Effects.
+- [x] **63. Guided onboarding tour on first visit**: 4-step guided tour (`WelcomeModal.jsx`), skippable and replayable from Settings.
+- [x] **64. Hidden Easter egg (Konami code)**: Entering `↑ ↑ ↓ ↓ ← → ← → B A` triggers a floating leaf-confetti celebration and unlocks a secret badge in `EasterEggKonami.jsx`.
+- [x] **65. Keyboard shortcuts overlay (press "?")**: Keyboard cheat sheet modal (`KeyboardShortcutsModal.jsx`) triggered by pressing `?`.
+- [x] **66. Accessibility and QA pass**: WCAG AA color contrast, visible focus rings, aria labels, zero external URLs, and offline test pass.
+
+---
+
+## 📄 License & Attribution
+- Product photography rights adhere to the Unsplash License (see `/public/images/CREDITS.md`).
+- Core codebase licensed under the MIT License.

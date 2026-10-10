@@ -38,6 +38,8 @@ import EcoAgentChat from './components/EcoAgent/EcoAgentChat';
 import OfflineDetector from './components/OfflineDetector';
 import CursorGlow from './components/CursorGlow';
 import LeafParticles from './components/LeafParticles';
+import EasterEggKonami from './components/EasterEggKonami';
+import KeyboardShortcutsModal from './components/KeyboardShortcutsModal';
 import { CheckCircle2, Sparkles, Info } from 'lucide-react';
 
 function AppContent() {
@@ -135,6 +137,12 @@ function AppContent() {
 
       {/* Achievement Unlocked Pop-up */}
       <AchievementUnlockedModal />
+
+      {/* Konami Code Easter Egg (Feature 64) */}
+      <EasterEggKonami />
+
+      {/* Keyboard Shortcuts Overlay (Feature 65) */}
+      <KeyboardShortcutsModal setActivePage={setActivePage} />
 
       {/* Floating Eco Agent AI Chat Widget */}
       <EcoAgentChat />
