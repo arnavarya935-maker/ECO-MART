@@ -11,6 +11,7 @@ export default function Navbar({ activePage, setActivePage }) {
     { id: 'home', label: 'Home' },
     { id: 'shop', label: 'Shop Catalog' },
     { id: 'tools', label: 'Eco Tools' },
+    { id: 'community', label: 'Community' },
     { id: 'impact', label: 'Impact Dashboard' },
     { id: 'how-it-works', label: 'How It Works' }
   ];

@@ -19,6 +19,7 @@ const ImpactPage = lazy(() => import('./pages/ImpactPage'));
 const ProfilePage = lazy(() => import('./pages/ProfilePage'));
 const SettingsPage = lazy(() => import('./pages/SettingsPage'));
 const ToolsPage = lazy(() => import('./pages/ToolsPage'));
+const CommunityPage = lazy(() => import('./pages/CommunityPage'));
 
 import ImpactPulseWidget from './components/tools/ImpactPulseWidget';
 
@@ -54,7 +55,7 @@ function AppContent() {
     setActivePage('shop');
   };
 
-  const validPages = ['home', 'shop', 'tools', 'impact', 'how-it-works', 'login', 'signup', 'wishlist', 'profile', 'orders', 'settings'];
+  const validPages = ['home', 'shop', 'tools', 'community', 'impact', 'how-it-works', 'login', 'signup', 'wishlist', 'profile', 'orders', 'settings'];
   const is404 = !validPages.includes(activePage);
 
   return (
@@ -94,6 +95,7 @@ function AppContent() {
             />
           )}
           {activePage === 'tools' && <ToolsPage />}
+          {activePage === 'community' && <CommunityPage />}
           {activePage === 'impact' && <ImpactPage setActivePage={setActivePage} />}
           {activePage === 'how-it-works' && <HowItWorksPage />}
           {activePage === 'login' && <LoginPage setActivePage={setActivePage} />}
