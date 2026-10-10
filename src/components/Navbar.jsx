@@ -112,7 +112,7 @@ export default function Navbar({ activePage, setActivePage }) {
           <button
             type="button"
             onClick={() => setIsCartOpen(true)}
-            className="relative flex items-center gap-2 px-4 py-2 rounded-2xl bg-stone-900 hover:bg-stone-800 text-white font-bold text-xs shadow-sm transition active:scale-95"
+            className="relative flex items-center gap-2 px-4 py-2 rounded-2xl bg-stone-900 hover:bg-stone-800 text-white font-bold text-xs shadow-sm transition active:scale-95 cart-icon-bounce"
           >
             <ShoppingBag className="w-4 h-4 text-emerald-400" />
             <span>Cart</span>

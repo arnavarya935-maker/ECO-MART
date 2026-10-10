@@ -213,3 +213,22 @@ html.dark ::-webkit-scrollbar-thumb {
 html.dark ::-webkit-scrollbar-thumb:hover {
   background: rgba(16, 185, 129, 0.45);
 }
+
+/* Micro-interactions (Feature 38) */
+.btn-micro {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.btn-micro:hover {
+  transform: translateY(-1px);
+}
+.btn-micro:active {
+  transform: scale(0.97);
+}
+
+.cart-icon-bounce {
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.cart-icon-bounce:hover {
+  transform: scale(1.12) rotate(-5deg);
+}
+

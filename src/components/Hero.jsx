@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Sparkles, ArrowRight, Leaf, RefreshCw, CheckCircle2, Globe2, TrendingUp, Users, Droplets } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import LeafyGlobe3D from './3D/LeafyGlobe3D';
+import Safe3D from './3D/Safe3D';
 
 const TYPEWRITER_HEADLINES = [
   {
@@ -175,7 +176,14 @@ export default function Hero({ onExploreClick }) {
               {/* 3D GLOBE VIEW */}
               {heroView === '3d' ? (
                 <div className="space-y-3">
-                  <LeafyGlobe3D />
+                  <Safe3D
+                    fallbackTitle="Interactive 3D Earth Biosphere"
+                    fallbackSubtitle="3D planet paused under Reduce Effects or when WebGL is unavailable."
+                    fallbackEmoji="🌍"
+                    className="w-full"
+                  >
+                    <LeafyGlobe3D />
+                  </Safe3D>
                   <div className="p-3.5 rounded-2xl bg-emerald-50/80 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/80 text-center">
                     <div className="text-xs font-bold text-emerald-950 dark:text-emerald-200">
                       🌍 Procedural 3D Earth Biosphere

@@ -32,6 +32,8 @@ import ProductCompareModal from './components/ProductCompareModal';
 import SwapSuggestionBanner from './components/EcoAgent/SwapSuggestionBanner';
 import EcoAgentChat from './components/EcoAgent/EcoAgentChat';
 import OfflineDetector from './components/OfflineDetector';
+import CursorGlow from './components/CursorGlow';
+import LeafParticles from './components/LeafParticles';
 import { CheckCircle2, Sparkles, Info } from 'lucide-react';
 
 function AppContent() {
@@ -53,9 +55,15 @@ function AppContent() {
   const is404 = !validPages.includes(activePage);
 
   return (
-    <div className="min-h-screen bg-[#F7FAF8] dark:bg-[#06110D] text-stone-900 dark:text-stone-100 flex flex-col selection:bg-emerald-200 selection:text-emerald-950 font-sans transition-colors">
+    <div className="min-h-screen bg-[#F7FAF8] dark:bg-[#06110D] text-stone-900 dark:text-stone-100 flex flex-col selection:bg-emerald-200 selection:text-emerald-950 font-sans transition-colors relative">
       {/* Offline Status Banner */}
       <OfflineDetector />
+
+      {/* Floating Leaf Particles (Feature 36) */}
+      <LeafParticles />
+
+      {/* Cursor Parallax Glow (Feature 33) */}
+      <CursorGlow />
 
       {/* Top Proactive Swap Alert Banner */}
       <SwapSuggestionBanner />

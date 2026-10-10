@@ -4,6 +4,11 @@ import CategoryGrid from '../components/CategoryGrid';
 import ProductCard from '../components/ProductCard';
 import ImpactDashboard from '../components/ImpactDashboard';
 import LiveSwapDemo from '../components/LiveSwapDemo';
+import PartnerMarquee from '../components/PartnerMarquee';
+import AnimatedImpactCounters from '../components/AnimatedImpactCounters';
+import StorytellingSection from '../components/StorytellingSection';
+import BeforeAfterSlider from '../components/BeforeAfterSlider';
+import TestimonialsCarousel from '../components/TestimonialsCarousel';
 import { useCart } from '../context/CartContext';
 import { Sparkles, ArrowRight, ShieldCheck, Award } from 'lucide-react';
 
@@ -24,6 +29,12 @@ export default function HomePage({ setActivePage, onCategorySelect }) {
     <div className="space-y-12">
       {/* Hero with interactive swap simulation */}
       <Hero onExploreClick={() => setActivePage('shop')} />
+
+      {/* Partner & Certification Marquee (Feature 40) */}
+      <PartnerMarquee />
+
+      {/* Animated Impact Counters (Feature 35) */}
+      <AnimatedImpactCounters />
 
       {/* Category Tiles */}
       <CategoryGrid onSelectCategory={handleCategoryClick} />
@@ -59,8 +70,17 @@ export default function HomePage({ setActivePage, onCategorySelect }) {
         </div>
       </section>
 
+      {/* Storytelling Section ("From waste to wonder", Feature 34) */}
+      <StorytellingSection />
+
+      {/* Before / After Interactive Slider (Feature 42) */}
+      <BeforeAfterSlider />
+
       {/* Live Swap Demo (Feature 24) */}
       <LiveSwapDemo />
+
+      {/* Testimonials Carousel (Feature 41) */}
+      <TestimonialsCarousel />
 
       {/* Live Impact Dashboard Preview */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
