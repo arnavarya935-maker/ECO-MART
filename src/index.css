@@ -120,12 +120,11 @@ html.light .editorial-header {
 .lc-bl { bottom: -6px; left: -6px; }
 .lc-br { bottom: -6px; right: -6px; }
 
-/* Glowing Cyber Button (img2m3 Signature) */
 .cyber-button {
   position: relative;
   cursor: pointer;
-  border: 1px solid var(--line-strong);
-  padding: 12px 28px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 14px 32px;
   background: #0a0a0a;
   color: #ffffff;
   display: inline-flex;
@@ -142,12 +141,86 @@ html.light .editorial-header {
 .cyber-button:hover {
   background: #141414;
   border-color: #A8C7FA;
-  box-shadow: 0 0 25px rgba(168, 199, 250, 0.25);
-  transform: translateY(-1px);
+  box-shadow: 0 0 30px rgba(168, 199, 250, 0.3);
+  transform: translateY(-2px);
 }
 
 .cyber-button:active {
   transform: scale(0.98);
+}
+
+.cyber-button .a {
+  pointer-events: none;
+  position: absolute;
+  --w: 2px;
+  --t: -40px;
+  --s: calc(var(--t) * -1);
+  --e: calc(100% + var(--t));
+  --g: #fff0, #fff3 var(--s), #fffa var(--s), #fff, #fffa var(--e), #fff3 var(--e), #fff0;
+}
+
+.cyber-button .a:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: inherit;
+  filter: blur(8px);
+  z-index: -2;
+}
+
+.cyber-button .l { left: -2px; }
+.cyber-button .r { right: -2px; }
+.cyber-button .l, .cyber-button .r {
+  background: linear-gradient(var(--g));
+  top: var(--t);
+  bottom: var(--t);
+  width: var(--w);
+}
+.cyber-button .t { top: -2px; }
+.cyber-button .b { bottom: -2px; }
+.cyber-button .t, .cyber-button .b {
+  background: linear-gradient(90deg, var(--g));
+  left: var(--t);
+  right: var(--t);
+  height: var(--w);
+}
+
+/* Architectural Wireframe Crosshair Frames */
+.f-top {
+  position: absolute;
+  top: 0;
+  left: -2rem;
+  right: -2rem;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.15);
+  pointer-events: none;
+}
+.f-bottom {
+  position: absolute;
+  bottom: 0;
+  left: -2rem;
+  right: -2rem;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.15);
+  pointer-events: none;
+}
+.f-left {
+  position: absolute;
+  top: -2rem;
+  bottom: -2rem;
+  left: 0;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.15);
+  pointer-events: none;
+}
+.f-right {
+  position: absolute;
+  top: -2rem;
+  bottom: -2rem;
+  right: 0;
+  width: 1px;
+  background: rgba(255, 255, 255, 0.15);
+  pointer-events: none;
 }
 
 /* Floating Color Nodes (from img2m3 hero) */
