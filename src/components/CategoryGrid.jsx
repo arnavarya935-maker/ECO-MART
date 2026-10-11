@@ -94,33 +94,33 @@ export default function CategoryGrid({ onSelectCategory, selectedCategory }) {
               <div
                 key={cat.name}
                 onClick={() => onSelectCategory(isSelected ? null : cat.name)}
-                className={`group relative p-5 rounded-xs bg-[#0a0a0a] light:bg-white border transition-all duration-300 cursor-pointer shadow-xl hover:border-white/30 ${
+                className={`group relative p-5 rounded-xs bg-white dark:bg-[#0a0a0a] border transition-all duration-300 cursor-pointer shadow-md hover:border-black/30 dark:hover:border-white/30 ${
                   isSelected
-                    ? 'border-[#A8C7FA] ring-1 ring-[#A8C7FA]/40 bg-[#111]'
-                    : 'border-white/10 light:border-black/10'
+                    ? 'border-[#2563eb] ring-1 ring-[#2563eb]/40 bg-neutral-50 dark:bg-[#111]'
+                    : 'border-black/10 dark:border-white/10'
                 }`}
               >
                 {/* Viewfinder Brackets */}
-                <span className="bracket bracket-tl !w-2.5 !h-2.5 opacity-0 group-hover:opacity-100 transition-opacity !border-[#A8C7FA]" />
-                <span className="bracket bracket-br !w-2.5 !h-2.5 opacity-0 group-hover:opacity-100 transition-opacity !border-[#A8C7FA]" />
+                <span className="bracket bracket-tl !w-2.5 !h-2.5 opacity-0 group-hover:opacity-100 transition-opacity !border-[#2563eb] dark:!border-[#A8C7FA]" />
+                <span className="bracket bracket-br !w-2.5 !h-2.5 opacity-0 group-hover:opacity-100 transition-opacity !border-[#2563eb] dark:!border-[#A8C7FA]" />
 
                 <div className="flex items-start justify-between">
-                  <span className="text-3xl p-2 rounded-2xs bg-[#050505] light:bg-zinc-100 border border-white/10 select-none group-hover:scale-105 transition-transform">
+                  <span className="text-3xl p-2 rounded-2xs bg-neutral-100 dark:bg-[#050505] border border-black/10 dark:border-white/10 select-none group-hover:scale-105 transition-transform">
                     {cat.icon}
                   </span>
-                  <span className="text-[9px] font-space-mono uppercase px-2 py-0.5 rounded-2xs bg-white text-black light:bg-black light:text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                  <span className="text-[9px] font-space-mono uppercase px-2 py-0.5 rounded-2xs bg-black text-white dark:bg-white dark:text-black opacity-0 group-hover:opacity-100 transition-opacity font-bold">
                     0{idx + 1} // Open →
                   </span>
                 </div>
 
                 <div className="mt-4">
-                  <h3 className="font-newsreader italic text-lg text-white light:text-zinc-900 group-hover:text-[#A8C7FA] transition-colors">
+                  <h3 className="font-newsreader italic text-lg text-[#0a0a0a] dark:text-white group-hover:text-[#2563eb] dark:group-hover:text-[#A8C7FA] transition-colors">
                     {cat.name}
                   </h3>
-                  <div className="text-[10px] font-space-mono text-[#E2D3B6] light:text-amber-800 mt-0.5 uppercase tracking-wider">
+                  <div className="text-[10px] font-space-mono text-[#b45309] dark:text-[#E2D3B6] mt-0.5 uppercase tracking-wider font-bold">
                     {cat.tagline}
                   </div>
-                  <p className="text-xs text-neutral-400 light:text-zinc-500 mt-2 leading-relaxed font-sans">
+                  <p className="text-xs text-neutral-600 dark:text-neutral-400 mt-2 leading-relaxed font-sans font-normal">
                     {cat.desc}
                   </p>
                 </div>

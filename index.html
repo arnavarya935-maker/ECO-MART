@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>EcoMart — Futuristic Modern Editorial Conscious Commerce</title>
     <meta name="description" content="EcoMart is a futuristic modern editorial sustainable commerce platform. Transparent lifecycle intelligence, zero plastic living, powered by autonomous AI co-pilot." />
-    <meta name="theme-color" content="#030303" />
+    <meta name="theme-color" content="#f4f4f5" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -17,18 +17,18 @@
       (function() {
         try {
           var saved = localStorage.getItem('ecomart_theme');
-          if (saved === 'light') {
-            document.documentElement.classList.remove('dark');
-            document.documentElement.classList.add('light');
-          } else {
+          if (saved === 'dark') {
             document.documentElement.classList.add('dark');
             document.documentElement.classList.remove('light');
+          } else {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.classList.add('light');
           }
         } catch(e) {}
       })();
     </script>
   </head>
-  <body class="bg-[#030303] text-white antialiased selection:bg-[#A8C7FA] selection:text-black">
+  <body class="bg-[#f4f4f5] text-[#0a0a0a] antialiased selection:bg-[#A8C7FA] selection:text-black">
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

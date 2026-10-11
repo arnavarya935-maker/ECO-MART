@@ -6,10 +6,10 @@ export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(() => {
     try {
       const saved = localStorage.getItem('ecomart_theme');
-      if (saved === 'light') return 'light';
-      return 'dark'; // Default to Payload obsidian dark theme
+      if (saved === 'dark') return 'dark';
+      return 'light'; // Default to img2m3 light editorial theme
     } catch (_e) {
-      return 'dark';
+      return 'light';
     }
   });
 

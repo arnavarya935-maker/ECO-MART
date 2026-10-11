@@ -1,33 +1,72 @@
-/* img2m3 Futuristic Modern Editorial Theme Tokens */
+/* img2m3 Futuristic Modern Editorial Theme Tokens (Light Mode Default) */
 :root {
-  /* Core Void Black & Editorial Surfaces */
+  /* Core Light Editorial & Archival Paper Surfaces */
+  --bg: #f4f4f5;
+  --bg-secondary: #e4e4e7;
+  --panel: #ffffff;
+  --panel-elevated: #fafafa;
+  --panel-hover: #f0f0f2;
+  
+  /* Hairline & Viewfinder Borders */
+  --line: rgba(0, 0, 0, 0.08);
+  --line-strong: rgba(0, 0, 0, 0.22);
+  --line-subtle: rgba(0, 0, 0, 0.04);
+  --theme-bracket: rgba(0, 0, 0, 0.35);
+  
+  /* High-Contrast Editorial Typography */
+  --text: #0a0a0a;
+  --text-primary: #0a0a0a;
+  --muted: #52525b;
+  --text-muted: #52525b;
+  --text-subtle: #71717a;
+  
+  /* img2m3 Editorial Pastels & Accents */
+  --accent-cyan: #2563eb;
+  --accent-champagne: #b45309;
+  --accent-rose: #e11d48;
+  --accent-emerald: #059669;
+  --accent-mint: #10b981;
+  
+  /* Backward-compatible components mappings */
+  --bg-main: #f4f4f5;
+  --bg-card: #ffffff;
+  --bg-subtle: #fafafa;
+  --bg-muted: #e4e4e7;
+  --text-main: #0a0a0a;
+  --text-forest: #059669;
+  --border-color: rgba(0, 0, 0, 0.08);
+  --border-light: rgba(0, 0, 0, 0.08);
+  --border-emerald: rgba(5, 150, 105, 0.3);
+  --shadow-card: 0 20px 40px rgba(0, 0, 0, 0.06), inset 0 1px rgba(255, 255, 255, 0.8);
+
+  /* Typography Stacks */
+  --font-serif: 'Newsreader', 'Georgia', serif;
+  --font-mono: 'Space Mono', 'Menlo', monospace;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Newsreader', 'Georgia', serif;
+}
+
+/* Optional Dark Surfaces */
+html.dark {
   --bg: #030303;
   --bg-secondary: #050505;
   --panel: #0a0a0a;
   --panel-elevated: #111111;
   --panel-hover: #161616;
-  
-  /* Hairline & Viewfinder Borders */
   --line: rgba(255, 255, 255, 0.08);
   --line-strong: rgba(255, 255, 255, 0.22);
   --line-subtle: rgba(255, 255, 255, 0.04);
   --theme-bracket: rgba(255, 255, 255, 0.4);
-  
-  /* High-Contrast Editorial Typography */
   --text: #ffffff;
   --text-primary: #ffffff;
   --muted: #9ca3af;
   --text-muted: #9ca3af;
   --text-subtle: #6b7280;
-  
-  /* img2m3 Editorial Pastels & Accents */
   --accent-cyan: #A8C7FA;
   --accent-champagne: #E2D3B6;
   --accent-rose: #F1C6D4;
   --accent-emerald: #34d399;
-  --accent-mint: #22c55e;
-  
-  /* Backward-compatible components mappings */
+
   --bg-main: #030303;
   --bg-card: #0a0a0a;
   --bg-subtle: #111111;
@@ -38,42 +77,4 @@
   --border-light: rgba(255, 255, 255, 0.08);
   --border-emerald: rgba(168, 199, 250, 0.35);
   --shadow-card: 0 40px 80px rgba(0, 0, 0, 0.9), inset 0 1px rgba(255, 255, 255, 0.05);
-
-  /* Typography Stacks */
-  --font-serif: 'Newsreader', 'Georgia', serif;
-  --font-mono: 'Space Mono', 'Menlo', monospace;
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-heading: 'Newsreader', 'Georgia', serif;
-}
-
-/* Light Mode mapping (Editorial Gallery / Archival Paper) */
-html.light {
-  --bg: #f4f4f5;
-  --bg-secondary: #e4e4e7;
-  --panel: #ffffff;
-  --panel-elevated: #fafafa;
-  --panel-hover: #f4f4f5;
-  --line: rgba(0, 0, 0, 0.08);
-  --line-strong: rgba(0, 0, 0, 0.25);
-  --line-subtle: rgba(0, 0, 0, 0.04);
-  --theme-bracket: rgba(0, 0, 0, 0.4);
-  --text: #0a0a0a;
-  --text-primary: #0a0a0a;
-  --muted: #52525b;
-  --text-muted: #52525b;
-  --accent-cyan: #2563eb;
-  --accent-champagne: #b45309;
-  --accent-rose: #e11d48;
-  --accent-emerald: #059669;
-
-  --bg-main: #f4f4f5;
-  --bg-card: #ffffff;
-  --bg-subtle: #fafafa;
-  --bg-muted: #e4e4e7;
-  --text-main: #0a0a0a;
-  --text-forest: #059669;
-  --border-color: rgba(0, 0, 0, 0.08);
-  --border-light: rgba(0, 0, 0, 0.08);
-  --border-emerald: rgba(5, 150, 105, 0.25);
-  --shadow-card: 0 20px 40px rgba(0, 0, 0, 0.05), inset 0 1px rgba(255, 255, 255, 0.5);
 }
