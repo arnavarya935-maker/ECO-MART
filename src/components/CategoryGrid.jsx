@@ -87,36 +87,40 @@ export default function CategoryGrid({ onSelectCategory, selectedCategory }) {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {categories.map((cat) => {
+          {categories.map((cat, idx) => {
             const isSelected = selectedCategory === cat.name;
 
             return (
               <div
                 key={cat.name}
                 onClick={() => onSelectCategory(isSelected ? null : cat.name)}
-                className={`group relative p-5 rounded-md bg-[#111116] light:bg-white border transition-all duration-300 cursor-pointer shadow-md hover:border-[#666675] ${
+                className={`group relative p-5 rounded-xs bg-[#0a0a0a] light:bg-white border transition-all duration-300 cursor-pointer shadow-xl hover:border-white/30 ${
                   isSelected
-                    ? 'border-emerald-400 ring-1 ring-emerald-400/40 bg-[#16161d]'
-                    : 'border-[#33333a] light:border-zinc-200'
+                    ? 'border-[#A8C7FA] ring-1 ring-[#A8C7FA]/40 bg-[#111]'
+                    : 'border-white/10 light:border-black/10'
                 }`}
               >
+                {/* Viewfinder Brackets */}
+                <span className="bracket bracket-tl !w-2.5 !h-2.5 opacity-0 group-hover:opacity-100 transition-opacity !border-[#A8C7FA]" />
+                <span className="bracket bracket-br !w-2.5 !h-2.5 opacity-0 group-hover:opacity-100 transition-opacity !border-[#A8C7FA]" />
+
                 <div className="flex items-start justify-between">
-                  <span className="text-3xl p-2 rounded-sm bg-[#07080b] light:bg-zinc-100 border border-[#222228] light:border-zinc-200 select-none group-hover:scale-105 transition-transform">
+                  <span className="text-3xl p-2 rounded-2xs bg-[#050505] light:bg-zinc-100 border border-white/10 select-none group-hover:scale-105 transition-transform">
                     {cat.icon}
                   </span>
-                  <span className="text-[11px] font-mono px-2 py-0.5 rounded-sm bg-white text-black light:bg-black light:text-white opacity-0 group-hover:opacity-100 transition-opacity">
-                    Explore →
+                  <span className="text-[9px] font-space-mono uppercase px-2 py-0.5 rounded-2xs bg-white text-black light:bg-black light:text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                    0{idx + 1} // Open →
                   </span>
                 </div>
 
                 <div className="mt-4">
-                  <h3 className="text-base font-bold text-[#f4f4f2] light:text-zinc-900 group-hover:text-emerald-400 transition-colors">
+                  <h3 className="font-newsreader italic text-lg text-white light:text-zinc-900 group-hover:text-[#A8C7FA] transition-colors">
                     {cat.name}
                   </h3>
-                  <div className="text-[11px] font-mono text-emerald-400 light:text-emerald-700 mt-0.5">
+                  <div className="text-[10px] font-space-mono text-[#E2D3B6] light:text-amber-800 mt-0.5 uppercase tracking-wider">
                     {cat.tagline}
                   </div>
-                  <p className="text-xs text-[#aaaab0] light:text-zinc-500 mt-2 leading-relaxed">
+                  <p className="text-xs text-neutral-400 light:text-zinc-500 mt-2 leading-relaxed font-sans">
                     {cat.desc}
                   </p>
                 </div>

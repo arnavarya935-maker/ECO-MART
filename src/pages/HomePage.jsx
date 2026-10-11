@@ -1,5 +1,6 @@
 import React from 'react';
 import Hero from '../components/Hero';
+import CinematicVideoShowcase from '../components/CinematicVideoShowcase';
 import CategoryGrid from '../components/CategoryGrid';
 import ProductCard from '../components/ProductCard';
 import ImpactDashboard from '../components/ImpactDashboard';
@@ -27,13 +28,16 @@ export default function HomePage({ setActivePage, onCategorySelect }) {
 
   return (
     <div className="space-y-12">
-      {/* Hero with interactive swap simulation */}
+      {/* Hero with interactive swap simulation and ambient video */}
       <Hero onExploreClick={() => setActivePage('shop')} />
 
-      {/* Partner & Certification Marquee (Feature 40) */}
+      {/* Cinematic Earth & Biosphere Video Observatory */}
+      <CinematicVideoShowcase />
+
+      {/* Partner & Certification Marquee */}
       <PartnerMarquee />
 
-      {/* Animated Impact Counters (Feature 35) */}
+      {/* Animated Impact Counters */}
       <AnimatedImpactCounters />
 
       {/* Category Tiles */}

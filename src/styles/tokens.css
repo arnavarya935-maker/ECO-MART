@@ -1,66 +1,79 @@
-/* Payload Marketing Theme Design Tokens */
+/* img2m3 Futuristic Modern Editorial Theme Tokens */
 :root {
-  /* Payload Core Palette */
-  --bg: #0b0b0d;
-  --bg-secondary: #07080b;
-  --panel: #111116;
-  --panel-elevated: #16161d;
-  --panel-hover: #1b1b22;
-  --line: #33333a;
-  --line-strong: #484852;
-  --line-subtle: #222228;
-  --text: #f4f4f2;
-  --muted: #aaaab0;
-  --acid: #ffffff;
-  --accent-emerald: #10b981;
-  --accent-neon: #00ff88;
+  /* Core Void Black & Editorial Surfaces */
+  --bg: #030303;
+  --bg-secondary: #050505;
+  --panel: #0a0a0a;
+  --panel-elevated: #111111;
+  --panel-hover: #161616;
+  
+  /* Hairline & Viewfinder Borders */
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.22);
+  --line-subtle: rgba(255, 255, 255, 0.04);
+  --theme-bracket: rgba(255, 255, 255, 0.4);
+  
+  /* High-Contrast Editorial Typography */
+  --text: #ffffff;
+  --text-primary: #ffffff;
+  --muted: #9ca3af;
+  --text-muted: #9ca3af;
+  --text-subtle: #6b7280;
+  
+  /* img2m3 Editorial Pastels & Accents */
+  --accent-cyan: #A8C7FA;
+  --accent-champagne: #E2D3B6;
+  --accent-rose: #F1C6D4;
+  --accent-emerald: #34d399;
+  --accent-mint: #22c55e;
+  
+  /* Backward-compatible components mappings */
+  --bg-main: #030303;
+  --bg-card: #0a0a0a;
+  --bg-subtle: #111111;
+  --bg-muted: #1a1a1a;
+  --text-main: #ffffff;
+  --text-forest: #A8C7FA;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-light: rgba(255, 255, 255, 0.08);
+  --border-emerald: rgba(168, 199, 250, 0.35);
+  --shadow-card: 0 40px 80px rgba(0, 0, 0, 0.9), inset 0 1px rgba(255, 255, 255, 0.05);
 
-  /* Mapped tokens for existing components */
-  --bg-main: #0b0b0d;
-  --bg-card: #111116;
-  --bg-subtle: #16161d;
-  --bg-muted: #1e1e24;
-  --text-main: #f4f4f2;
-  --text-forest: #34d399;
-  --text-muted: #aaaab0;
-  --text-subtle: #71717a;
-  --border-color: #33333a;
-  --border-light: #33333a;
-  --border-emerald: rgba(16, 185, 129, 0.35);
-  --shadow-card: 0 4px 24px -2px rgba(0, 0, 0, 0.65);
-
-  /* Typography */
-  --font-sans: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  --font-heading: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  /* Typography Stacks */
+  --font-serif: 'Newsreader', 'Georgia', serif;
+  --font-mono: 'Space Mono', 'Menlo', monospace;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Newsreader', 'Georgia', serif;
 }
 
-/* Light Mode mapping (Payload Studio Architectural Zinc) */
+/* Light Mode mapping (Editorial Gallery / Archival Paper) */
 html.light {
-  --bg: #fafafa;
-  --bg-secondary: #f4f4f5;
+  --bg: #f4f4f5;
+  --bg-secondary: #e4e4e7;
   --panel: #ffffff;
-  --panel-elevated: #f4f4f5;
-  --panel-hover: #ececee;
-  --line: #e4e4e7;
-  --line-strong: #d4d4d8;
-  --line-subtle: #f4f4f5;
-  --text: #09090b;
-  --muted: #71717a;
-  --acid: #09090b;
+  --panel-elevated: #fafafa;
+  --panel-hover: #f4f4f5;
+  --line: rgba(0, 0, 0, 0.08);
+  --line-strong: rgba(0, 0, 0, 0.25);
+  --line-subtle: rgba(0, 0, 0, 0.04);
+  --theme-bracket: rgba(0, 0, 0, 0.4);
+  --text: #0a0a0a;
+  --text-primary: #0a0a0a;
+  --muted: #52525b;
+  --text-muted: #52525b;
+  --accent-cyan: #2563eb;
+  --accent-champagne: #b45309;
+  --accent-rose: #e11d48;
   --accent-emerald: #059669;
-  --accent-neon: #10b981;
 
-  --bg-main: #fafafa;
+  --bg-main: #f4f4f5;
   --bg-card: #ffffff;
-  --bg-subtle: #f4f4f5;
+  --bg-subtle: #fafafa;
   --bg-muted: #e4e4e7;
-  --text-main: #09090b;
-  --text-forest: #065f46;
-  --text-muted: #71717a;
-  --text-subtle: #a1a1aa;
-  --border-color: #e4e4e7;
-  --border-light: #e4e4e7;
+  --text-main: #0a0a0a;
+  --text-forest: #059669;
+  --border-color: rgba(0, 0, 0, 0.08);
+  --border-light: rgba(0, 0, 0, 0.08);
   --border-emerald: rgba(5, 150, 105, 0.25);
-  --shadow-card: 0 4px 20px -2px rgba(0, 0, 0, 0.06);
+  --shadow-card: 0 20px 40px rgba(0, 0, 0, 0.05), inset 0 1px rgba(255, 255, 255, 0.5);
 }

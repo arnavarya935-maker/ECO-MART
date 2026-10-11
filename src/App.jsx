@@ -61,7 +61,7 @@ function AppContent() {
   const is404 = !validPages.includes(activePage);
 
   return (
-    <div className="min-h-screen bg-[#0b0b0d] text-[#f4f4f2] dark:bg-[#0b0b0d] dark:text-[#f4f4f2] flex flex-col selection:bg-white selection:text-black font-sans transition-colors relative">
+    <div className="min-h-screen bg-[#030303] text-white dark:bg-[#030303] dark:text-white flex flex-col selection:bg-[#A8C7FA] selection:text-black font-sans transition-colors relative">
       {/* Offline Status Banner */}
       <OfflineDetector />
 
