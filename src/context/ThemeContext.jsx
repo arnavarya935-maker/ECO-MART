@@ -5,15 +5,12 @@ const ThemeContext = createContext();
 export function ThemeProvider({ children }) {
   const [theme, setTheme] = useState(() => {
     try {
-      // Purge all legacy and current theme keys so it strictly resets to light
-      ['ecomart_theme', 'ecomart_theme_v2', 'ecomart_theme_v3', 'ecomart_theme_v4', 'theme'].forEach((k) => {
-        localStorage.removeItem(k);
-      });
-      if (typeof document !== 'undefined') {
-        document.documentElement.classList.remove('dark');
-      }
-    } catch (_e) {}
-    return 'light'; // Strictly light theme
+      const saved = localStorage.getItem('ecomart_theme');
+      if (saved === 'light') return 'light';
+      return 'dark'; // Default to Payload obsidian dark theme
+    } catch (_e) {
+      return 'dark';
+    }
   });
 
   const [reduceEffects, setReduceEffects] = useState(() => {
@@ -21,16 +18,8 @@ export function ThemeProvider({ children }) {
       const saved = localStorage.getItem('ecomart_reduce_effects');
       if (saved !== null) return JSON.parse(saved);
 
-      // Default to ON if user prefers reduced motion or if WebGL is unavailable (school laptops)
       const prefersReduced = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      let hasWebGL = true;
-      try {
-        const canvas = document.createElement('canvas');
-        hasWebGL = !!(canvas.getContext('webgl') || canvas.getContext('experimental-webgl'));
-      } catch (_e) {
-        hasWebGL = false;
-      }
-      return prefersReduced || !hasWebGL;
+      return prefersReduced;
     } catch (_e) {
       return false;
     }
@@ -38,10 +27,13 @@ export function ThemeProvider({ children }) {
 
   useEffect(() => {
     try {
+      localStorage.setItem('ecomart_theme', theme);
       if (theme === 'dark') {
         document.documentElement.classList.add('dark');
+        document.documentElement.classList.remove('light');
       } else {
         document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
       }
     } catch (_e) {}
   }, [theme]);

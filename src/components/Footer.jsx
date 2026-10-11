@@ -3,31 +3,29 @@ import { Leaf, ShieldCheck, Heart, Sparkles, MapPin } from 'lucide-react';
 
 export default function Footer({ setActivePage }) {
   return (
-    <footer className="mt-20 border-t border-stone-200 dark:border-stone-800/80 bg-white dark:bg-[#06110D] text-stone-700 dark:text-stone-300 transition-colors">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+    <footer className="mt-20 border-t border-[#33333a] light:border-zinc-200 bg-[#0b0b0d] light:bg-[#fafafa] text-[#aaaab0] light:text-zinc-600 transition-colors">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
           {/* Brand & Manifesto */}
           <div className="md:col-span-2 space-y-4">
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-emerald-700 flex items-center justify-center text-white">
-                <Leaf className="w-5 h-5 text-emerald-200" />
+              <div className="w-8 h-8 rounded-md bg-white light:bg-black text-black light:text-white flex items-center justify-center font-black">
+                <Leaf className="w-4 h-4 text-emerald-600 fill-emerald-600" />
               </div>
-              <span className="font-black text-xl tracking-tight text-stone-900 dark:text-stone-100">
-                Eco<span className="text-emerald-700 dark:text-emerald-400">Mart</span>
+              <span className="font-bold text-xl tracking-tighter text-[#f4f4f2] light:text-zinc-950">
+                ECO<span className="text-emerald-400">MART</span>
               </span>
             </div>
 
-            <p className="text-sm text-stone-600 dark:text-stone-400 max-w-md leading-relaxed">
-              Every purchase casts a vote for the world we want to inhabit.
-              EcoMart pairs artisanal sustainable goods with an intelligent Eco Agent that
-              calculates real lifecycle footprints and swaps high-impact items for verified alternatives.
+            <p className="text-sm text-[#aaaab0] light:text-zinc-600 max-w-md leading-relaxed font-normal">
+              Autonomous cognitive commerce co-pilot. Every transaction verified through transparent 0-100 lifecycle scoring and zero-greenwash principles.
             </p>
 
-            <div className="pt-2 flex flex-wrap gap-2 text-xs">
-              <span className="px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 font-semibold border border-emerald-200 dark:border-emerald-800">
-                🌱 100% Plastic-Free Catalog
+            <div className="pt-2 flex flex-wrap gap-2 text-xs font-mono">
+              <span className="px-2.5 py-1 rounded-sm bg-[#111116] light:bg-white text-emerald-400 light:text-emerald-700 border border-[#33333a] light:border-zinc-300">
+                🌱 100% Zero-Plastic SKUs
               </span>
-              <span className="px-3 py-1 rounded-full bg-teal-100 dark:bg-teal-950 text-teal-800 dark:text-teal-300 font-semibold border border-teal-200 dark:border-teal-800">
+              <span className="px-2.5 py-1 rounded-sm bg-[#111116] light:bg-white text-zinc-300 light:text-zinc-700 border border-[#33333a] light:border-zinc-300">
                 ⚡ Offline Native Architecture
               </span>
             </div>
@@ -35,62 +33,62 @@ export default function Footer({ setActivePage }) {
 
           {/* Quick Navigation */}
           <div>
-            <h4 className="font-bold text-xs uppercase tracking-wider text-stone-900 dark:text-stone-100 mb-3">
-              Explore & Understand
+            <h4 className="font-mono text-xs uppercase tracking-widest text-[#f4f4f2] light:text-zinc-900 mb-4 font-semibold">
+              Platform
             </h4>
-            <ul className="space-y-2 text-xs">
+            <ul className="space-y-2.5 text-xs font-mono">
               <li>
                 <button
                   onClick={() => setActivePage('shop')}
-                  className="hover:text-emerald-700 dark:hover:text-emerald-400 transition"
+                  className="hover:text-white light:hover:text-black transition cursor-pointer"
                 >
-                  Sustainable Catalog (60+ items)
+                  Product Catalog
                 </button>
               </li>
               <li>
                 <button
                   onClick={() => setActivePage('impact')}
-                  className="hover:text-emerald-700 dark:hover:text-emerald-400 transition"
+                  className="hover:text-white light:hover:text-black transition cursor-pointer"
                 >
-                  Live Impact Dashboard
+                  Impact Dashboard
                 </button>
               </li>
               <li>
                 <button
                   onClick={() => setActivePage('how-it-works')}
-                  className="hover:text-emerald-700 dark:hover:text-emerald-400 transition"
+                  className="hover:text-white light:hover:text-black transition cursor-pointer"
                 >
-                  How EcoMart Agent Works
+                  Architecture & Logic
                 </button>
               </li>
               <li>
-                <span className="text-stone-400">Zero Greenwashing Policy</span>
+                <span className="text-zinc-600">Zero Greenwash Protocol</span>
               </li>
             </ul>
           </div>
 
           {/* Scoring Methodology */}
           <div>
-            <h4 className="font-bold text-xs uppercase tracking-wider text-stone-900 dark:text-stone-100 mb-3">
-              5-Pillar EcoScore
+            <h4 className="font-mono text-xs uppercase tracking-widest text-[#f4f4f2] light:text-zinc-900 mb-4 font-semibold">
+              Scoring Weights
             </h4>
-            <ul className="space-y-1.5 text-xs text-stone-500 dark:text-stone-400">
+            <ul className="space-y-2 text-xs font-mono text-[#aaaab0] light:text-zinc-500">
               <li>• Renewable Materials (30%)</li>
               <li>• Plastic-Free Packaging (20%)</li>
               <li>• Carbon Footprint (25%)</li>
               <li>• Verified Certifications (15%)</li>
-              <li>• Transport Distance (10%)</li>
+              <li>• Transport Logistics (10%)</li>
             </ul>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-12 pt-6 border-t border-stone-200 dark:border-stone-800 flex flex-col sm:flex-row items-center justify-between text-xs text-stone-400 gap-4">
+        <div className="mt-14 pt-6 border-t border-[#33333a] light:border-zinc-200 flex flex-col sm:flex-row items-center justify-between text-xs font-mono text-zinc-500 gap-4">
           <div>
-            © 2026 EcoMart. Built for conscious shoppers everywhere.
+            © 2026 EcoMart. Payload Modern Marketing Design Theme.
           </div>
-          <div className="flex items-center gap-1 text-emerald-800 dark:text-emerald-400 font-medium">
-            <span>Theme: "Don't just shop. Shop with purpose."</span>
+          <div className="flex items-center gap-1 text-emerald-400">
+            <span>Powered by Autonomous EcoAgent v3.0</span>
           </div>
         </div>
       </div>

@@ -1,27 +1,35 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>EcoMart — Don't just shop. Shop with purpose.</title>
-    <meta name="description" content="EcoMart is an offline-native sustainable e-commerce platform powered by an intelligent Eco Agent. Every product transparently scored across materials, packaging, carbon, certifications, and transport distance." />
+    <meta name="description" content="EcoMart is an offline-native sustainable e-commerce platform powered by an intelligent Eco Agent. Transparently scored lifecycle intelligence." />
     <meta name="keywords" content="sustainable shopping, eco-friendly, zero waste, plastic-free, carbon footprint, eco score, green shopping assistant" />
-    <meta name="theme-color" content="#047857" />
+    <meta name="theme-color" content="#0b0b0d" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 
     <link rel="manifest" href="/manifest.json" />
     <script>
       (function() {
         try {
-          ['ecomart_theme', 'ecomart_theme_v2', 'ecomart_theme_v3', 'ecomart_theme_v4', 'theme'].forEach(function(k) {
-            localStorage.removeItem(k);
-          });
-          document.documentElement.classList.remove('dark');
+          var saved = localStorage.getItem('ecomart_theme');
+          if (saved === 'light') {
+            document.documentElement.classList.remove('dark');
+            document.documentElement.classList.add('light');
+          } else {
+            document.documentElement.classList.add('dark');
+            document.documentElement.classList.remove('light');
+          }
         } catch(e) {}
       })();
     </script>
   </head>
-  <body class="bg-[#F7FAF8] text-[#111827] antialiased selection:bg-emerald-200 selection:text-emerald-950">
+  <body class="bg-[#0b0b0d] text-[#f4f4f2] antialiased selection:bg-white selection:text-black">
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>

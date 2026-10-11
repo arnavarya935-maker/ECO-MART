@@ -86,7 +86,7 @@ export default function CategoryGrid({ onSelectCategory, selectedCategory }) {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {categories.map((cat) => {
             const isSelected = selectedCategory === cat.name;
 
@@ -94,29 +94,29 @@ export default function CategoryGrid({ onSelectCategory, selectedCategory }) {
               <div
                 key={cat.name}
                 onClick={() => onSelectCategory(isSelected ? null : cat.name)}
-                className={`group relative p-6 rounded-3xl bg-gradient-to-br ${cat.gradient} border transition-all duration-300 cursor-pointer shadow-xs hover:shadow-lg ${cat.border} ${
+                className={`group relative p-5 rounded-md bg-[#111116] light:bg-white border transition-all duration-300 cursor-pointer shadow-md hover:border-[#666675] ${
                   isSelected
-                    ? 'border-emerald-600 ring-2 ring-emerald-600/30 dark:ring-emerald-500/40'
-                    : 'border-stone-200/90 dark:border-stone-800'
+                    ? 'border-emerald-400 ring-1 ring-emerald-400/40 bg-[#16161d]'
+                    : 'border-[#33333a] light:border-zinc-200'
                 }`}
               >
                 <div className="flex items-start justify-between">
-                  <span className="text-4xl p-2.5 rounded-2xl bg-white/80 dark:bg-stone-850/80 shadow-xs border border-white/40 dark:border-stone-700 select-none group-hover:scale-110 transition-transform">
+                  <span className="text-3xl p-2 rounded-sm bg-[#07080b] light:bg-zinc-100 border border-[#222228] light:border-zinc-200 select-none group-hover:scale-105 transition-transform">
                     {cat.icon}
                   </span>
-                  <span className="text-xs font-bold px-3 py-1 rounded-full bg-stone-900 text-white dark:bg-stone-100 dark:text-stone-900 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <span className="text-[11px] font-mono px-2 py-0.5 rounded-sm bg-white text-black light:bg-black light:text-white opacity-0 group-hover:opacity-100 transition-opacity">
                     Explore →
                   </span>
                 </div>
 
-                <div className="mt-5">
-                  <h3 className="text-lg font-black text-stone-900 dark:text-stone-100 group-hover:text-emerald-800 dark:group-hover:text-emerald-300 transition-colors">
+                <div className="mt-4">
+                  <h3 className="text-base font-bold text-[#f4f4f2] light:text-zinc-900 group-hover:text-emerald-400 transition-colors">
                     {cat.name}
                   </h3>
-                  <div className="text-xs font-bold text-emerald-800 dark:text-emerald-400 mt-0.5">
+                  <div className="text-[11px] font-mono text-emerald-400 light:text-emerald-700 mt-0.5">
                     {cat.tagline}
                   </div>
-                  <p className="text-xs text-stone-600 dark:text-stone-300 mt-2 leading-relaxed">
+                  <p className="text-xs text-[#aaaab0] light:text-zinc-500 mt-2 leading-relaxed">
                     {cat.desc}
                   </p>
                 </div>

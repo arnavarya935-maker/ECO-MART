@@ -20,119 +20,161 @@
 }
 
 @layer base {
-  :root {
-    --bg-main: #F7FAF8;
-    --bg-card: #FFFFFF;
-    --text-main: #111827;
-    --text-muted: #4B5563;
-    --border-color: #E5E7EB;
-    --forest: #0B3B2C;
-    --emerald: #10B981;
-    --teal: #14B8A6;
-    --amber: #F59E0B;
-  }
-
-  html.dark {
-    --bg-main: #06110D;
-    --bg-card: #0D1F18;
-    --text-main: #F9FAFB;
-    --text-muted: #9CA3AF;
-    --border-color: #1B382D;
-    color-scheme: dark;
-  }
-
   body {
-    font-family: 'Outfit', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    font-family: var(--font-sans);
     margin: 0;
     padding: 0;
-    background-color: var(--bg-main);
-    color: var(--text-main);
+    background-color: var(--bg);
+    color: var(--text);
     transition: background-color 0.25s ease, color 0.25s ease;
   }
 
   h1, h2, h3, h4, .font-heading {
-    font-family: 'Outfit', system-ui, -apple-system, sans-serif;
-    letter-spacing: -0.025em;
-    color: #0B3B2C;
-  }
-
-  html.dark h1, html.dark h2, html.dark h3, html.dark h4, html.dark .font-heading {
-    color: #F3F4F6;
+    font-family: var(--font-heading);
+    letter-spacing: -0.045em;
+    color: var(--text);
   }
 }
 
-/* Crisp Clean Layered Card System */
-.card-clean {
-  background: #FFFFFF;
-  border: 1px solid #E5E7EB;
-  box-shadow: 0 4px 6px -1px rgba(11, 59, 44, 0.04), 0 2px 4px -2px rgba(11, 59, 44, 0.03), 0 12px 24px -4px rgba(11, 59, 44, 0.05);
-}
+/* ----------------------------------------------------
+   Payload Marketing Theme Signature Utilities
+---------------------------------------------------- */
 
-html.dark .card-clean {
-  background: #0D1F18;
-  border: 1px solid #1B382D;
-  box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.35);
-}
-
-/* Animated Gradient Headings */
-.text-gradient-forest {
-  background: linear-gradient(135deg, #0B3B2C 0%, #10B981 50%, #14B8A6 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-html.dark .text-gradient-forest {
-  background: linear-gradient(135deg, #34D399 0%, #6EE7B7 50%, #A7F3D0 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* Badge animations & states */
-@keyframes badgeShine {
-  0% { transform: translateX(-100%) rotate(25deg); }
-  50%, 100% { transform: translateX(200%) rotate(25deg); }
-}
-
-.badge-earned {
-  position: relative;
-  overflow: hidden;
-}
-
-.badge-earned::after {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    to right,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0.45) 50%,
-    rgba(255, 255, 255, 0) 100%
+/* The signature 12-column vertical guide line background */
+.grid-bg {
+  border-bottom: 1px solid var(--line);
+  background-image: repeating-linear-gradient(
+    90deg,
+    #0000 0 calc(8.33333% - 1px),
+    rgba(255, 255, 255, 0.05) calc(8.33333% - 1px) 8.33333%
   );
-  animation: badgeShine 3.5s infinite;
 }
 
-html.dark .glass-panel {
-  background: rgba(19, 30, 25, 0.82);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(31, 51, 42, 0.8);
+html.light .grid-bg {
+  background-image: repeating-linear-gradient(
+    90deg,
+    #0000 0 calc(8.33333% - 1px),
+    rgba(0, 0, 0, 0.04) calc(8.33333% - 1px) 8.33333%
+  );
+}
+
+/* Payload Glassmorphic Sticky Header */
+.payload-header {
+  border-bottom: 1px solid var(--line);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  background: rgba(11, 11, 13, 0.88);
+}
+
+html.light .payload-header {
+  background: rgba(250, 250, 250, 0.88);
+}
+
+/* Payload Card / Panel System */
+.payload-card,
+.card-clean {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  box-shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.5);
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.payload-card:hover,
+.card-clean:hover {
+  border-color: var(--line-strong);
+}
+
+/* Inverted Payload Hover Buttons */
+.payload-btn-primary {
+  background: var(--text);
+  color: var(--bg);
+  font-weight: 600;
+  border: 1px solid var(--text);
+  transition: all 0.2s ease;
+}
+
+.payload-btn-primary:hover {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--line-strong);
+}
+
+.payload-btn-outline {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--line);
+  transition: all 0.2s ease;
+}
+
+.payload-btn-outline:hover {
+  background: var(--text);
+  color: var(--bg) !important;
+  border-color: var(--text);
+}
+
+/* Monospace Command Pill */
+.payload-code {
+  border: 1px solid var(--line);
+  background: #07080b;
+  font-family: var(--font-mono);
+  color: var(--text);
+}
+
+/* Pill Announcement Badges */
+.payload-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.03);
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+/* Glowing Ambient Blobs */
+.payload-ambient-glow {
+  position: absolute;
+  pointer-events: none;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.14) 0%, transparent 70%);
+  filter: blur(60px);
+}
+
+/* Gradient Text Effects */
+.text-gradient-payload {
+  background: linear-gradient(135deg, #ffffff 0%, #d4d4d8 50%, #a1a1aa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-emerald {
+  background: linear-gradient(135deg, #34d399 0%, #10b981 50%, #059669 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Legacy gradient mapper */
+.text-gradient-forest {
+  background: linear-gradient(135deg, #ffffff 0%, #34d399 50%, #10b981 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Glass Panels */
+.glass-panel {
+  background: rgba(17, 17, 22, 0.75);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid var(--line);
 }
 
 .glass-nav {
-  background: rgba(250, 247, 240, 0.88);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(231, 224, 211, 0.8);
-}
-
-html.dark .glass-nav {
-  background: rgba(11, 18, 15, 0.88);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid rgba(31, 51, 42, 0.8);
+  background: rgba(11, 11, 13, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
 }
 
 /* Keyframe animations */
@@ -156,26 +198,6 @@ html.dark .glass-nav {
   }
 }
 
-@keyframes subtleBounce {
-  0%, 100% {
-    transform: translate(-50%, 0);
-  }
-  50% {
-    transform: translate(-50%, -4px);
-  }
-}
-
-@keyframes pulseGlow {
-  0%, 100% {
-    opacity: 0.6;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.04);
-  }
-}
-
 .animate-slide-up {
   animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
@@ -184,51 +206,18 @@ html.dark .glass-nav {
   animation: fadeIn 0.2s ease-out forwards;
 }
 
-.animate-bounce-subtle {
-  animation: subtleBounce 3s ease-in-out infinite;
-}
-
-.animate-pulse-glow {
-  animation: pulseGlow 2.5s ease-in-out infinite;
-}
-
-/* Custom scrollbar */
+/* Custom scrollbar matching dark engineering theme */
 ::-webkit-scrollbar {
-  width: 7px;
-  height: 7px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: transparent;
+  background: var(--bg);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(15, 61, 46, 0.25);
+  background: var(--line);
   border-radius: 9999px;
 }
-html.dark ::-webkit-scrollbar-thumb {
-  background: rgba(16, 185, 129, 0.25);
-}
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(15, 61, 46, 0.45);
+  background: var(--line-strong);
 }
-html.dark ::-webkit-scrollbar-thumb:hover {
-  background: rgba(16, 185, 129, 0.45);
-}
-
-/* Micro-interactions (Feature 38) */
-.btn-micro {
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-.btn-micro:hover {
-  transform: translateY(-1px);
-}
-.btn-micro:active {
-  transform: scale(0.97);
-}
-
-.cart-icon-bounce {
-  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-.cart-icon-bounce:hover {
-  transform: scale(1.12) rotate(-5deg);
-}
-
