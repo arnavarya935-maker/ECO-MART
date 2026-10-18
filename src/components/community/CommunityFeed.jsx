@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Heart, MessageSquare, Sparkles, Send, User, Share2 } from 'lucide-react';
+import { Heart, Send } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
 const INITIAL_POSTS = [

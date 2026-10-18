@@ -1,22 +1,39 @@
 import React, { useState } from 'react';
 import { useTheme } from '../context/ThemeContext';
-import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
-import { Settings, Zap, ZapOff, Volume2, VolumeX, Moon, Sun, Trash2, RotateCcw, CheckCircle2, ShieldCheck, HelpCircle } from 'lucide-react';
+import {
+  Zap,
+  ZapOff,
+  Volume2,
+  VolumeX,
+  Trash2,
+  CheckCircle2,
+  Eye,
+  Type
+} from 'lucide-react';
 import Button from '../components/ui/Button';
 import Card from '../components/ui/Card';
 import Badge from '../components/ui/Badge';
 
-export default function SettingsPage({ setActivePage, onStartTour }) {
-  const { theme, toggleTheme, reduceEffects, toggleReduceEffects } = useTheme();
-  const { currentUser, logout } = useAuth();
+export default function SettingsPage() {
+  const {
+    reduceEffects,
+    toggleReduceEffects,
+    highContrast,
+    setHighContrast,
+    dyslexicFont,
+    setDyslexicFont,
+    textSize,
+    setTextSize
+  } = useTheme();
+
   const { clearCart, setOrders, setWishlist } = useCart();
 
   const [soundEnabled, setSoundEnabled] = useState(() => {
     try {
       const saved = localStorage.getItem('ecomart_sound_enabled');
-      return saved !== null ? JSON.parse(saved) : false; // Muted by default as required
-    } catch (_e) {
+      return saved !== null ? JSON.parse(saved) : false;
+    } catch {
       return false;
     }
   });
@@ -44,39 +61,39 @@ export default function SettingsPage({ setActivePage, onStartTour }) {
       localStorage.removeItem('ecomart_quiz_result');
       localStorage.removeItem('ecomart_challenges');
       localStorage.removeItem('ecomart_pledges');
-      localStorage.removeItem('ecomart_viewed');
-      localStorage.removeItem('ecomart_tour_seen');
+      localStorage.removeItem('ecomart_recent');
+      localStorage.removeItem('ecomart_first_run_goal');
       if (clearCart) clearCart();
       if (setOrders) setOrders([]);
       if (setWishlist) setWishlist([]);
       setResetConfirm(false);
       showFeedback('All local data reset to default successfully.');
-    } catch (_e) {
+    } catch {
       setResetConfirm(false);
     }
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 animate-fadeIn">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 animate-fade-in pb-24">
       {/* Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-stone-200 dark:border-stone-800 gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-stone-200 gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-xs font-black uppercase tracking-wider text-emerald-800 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950 px-2.5 py-0.5 rounded-full">
-              Preferences
+            <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full">
+              Preferences & Accessibility
             </span>
             <span className="text-xs text-stone-500 font-bold">100% Offline Storage</span>
           </div>
-          <h1 className="text-3xl font-black text-[#0B3B2C] dark:text-stone-100 mt-1">
+          <h1 className="text-3xl font-black text-[#0B3B2C] mt-1.5">
             Application Settings
           </h1>
-          <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-400 mt-1">
-            Configure visual effects, battery saving, audio feedback, and local privacy storage.
+          <p className="text-xs sm:text-sm text-stone-600 mt-1">
+            Configure visual ergonomics, accessibility, audio cues, and offline device storage.
           </p>
         </div>
 
         {successMsg && (
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-100 dark:bg-emerald-950 text-emerald-900 dark:text-emerald-300 text-xs font-extrabold border border-emerald-300">
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-100 text-emerald-900 text-xs font-bold border border-emerald-300">
             <CheckCircle2 className="w-4 h-4 text-emerald-600" />
             <span>{successMsg}</span>
           </div>
@@ -84,27 +101,128 @@ export default function SettingsPage({ setActivePage, onStartTour }) {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Performance & School Laptops (Rule 5 & Feature 4) */}
+        {/* Feature 29: Accessibility Text Size */}
+        <Card clean={true} className="space-y-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-emerald-100 flex items-center justify-center text-emerald-700">
+              <Type className="w-5 h-5" />
+            </div>
+            <div>
+              <h3 className="font-black text-sm text-[#0B3B2C]">
+                Text Size Scale
+              </h3>
+              <p className="text-[11px] text-stone-500 font-medium">
+                Adjust typography scaling for optimal reading
+              </p>
+            </div>
+          </div>
+          <div className="grid grid-cols-3 gap-2 pt-2">
+            {[
+              { id: 'normal', label: 'Default' },
+              { id: 'large', label: 'Large (+12%)' },
+              { id: 'xlarge', label: 'XL (+25%)' }
+            ].map((s) => (
+              <button
+                key={s.id}
+                type="button"
+                onClick={() => {
+                  setTextSize(s.id);
+                  showFeedback(`Text scale set to ${s.label}`);
+                }}
+                className={`py-2 px-3 rounded-xl text-xs font-bold border transition ${
+                  textSize === s.id
+                    ? 'bg-emerald-700 text-white border-emerald-700 shadow-2xs'
+                    : 'bg-stone-50 hover:bg-stone-100 text-stone-700 border-stone-200'
+                }`}
+              >
+                {s.label}
+              </button>
+            ))}
+          </div>
+        </Card>
+
+        {/* Feature 29: Dyslexia-Friendly Font & High Contrast */}
         <Card clean={true} className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-amber-100 dark:bg-amber-950/80 flex items-center justify-center text-amber-700">
-                {reduceEffects ? <ZapOff className="w-5 h-5" /> : <Zap className="w-5 h-5" />}
+              <div className="w-10 h-10 rounded-2xl bg-teal-100 flex items-center justify-center text-teal-700">
+                <Eye className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="font-black text-sm text-[#0B3B2C] dark:text-stone-100">
-                  Reduce Effects Mode
+                <h3 className="font-black text-sm text-[#0B3B2C]">
+                  Dyslexia-Friendly Font
                 </h3>
                 <p className="text-[11px] text-stone-500 font-medium">
-                  Optimized for school laptops & low power
+                  High-legibility typeface with weighted baselines
                 </p>
               </div>
             </div>
             <button
               type="button"
-              onClick={toggleReduceEffects}
+              onClick={() => {
+                setDyslexicFont(!dyslexicFont);
+                showFeedback(dyslexicFont ? 'Standard font restored' : 'Dyslexia font activated');
+              }}
               className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors cursor-pointer ${
-                reduceEffects ? 'bg-amber-500' : 'bg-stone-300 dark:bg-stone-700'
+                dyslexicFont ? 'bg-teal-600' : 'bg-stone-300'
+              }`}
+            >
+              <span
+                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                  dyslexicFont ? 'translate-x-6' : 'translate-x-1'
+                }`}
+              />
+            </button>
+          </div>
+
+          <div className="pt-2 border-t border-stone-100 flex items-center justify-between">
+            <div>
+              <span className="font-black text-xs text-stone-900 block">High Contrast Mode</span>
+              <span className="text-[11px] text-stone-500">Enhanced WCAG AAA contrast ratio</span>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                setHighContrast(!highContrast);
+                showFeedback(highContrast ? 'Standard contrast restored' : 'High contrast active');
+              }}
+              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors cursor-pointer ${
+                highContrast ? 'bg-stone-900' : 'bg-stone-300'
+              }`}
+            >
+              <span
+                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                  highContrast ? 'translate-x-6' : 'translate-x-1'
+                }`}
+              />
+            </button>
+          </div>
+        </Card>
+
+        {/* Performance & School Laptops (Rule 5 & Feature 4) */}
+        <Card clean={true} className="space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-2xl bg-amber-100 flex items-center justify-center text-amber-700">
+                {reduceEffects ? <ZapOff className="w-5 h-5" /> : <Zap className="w-5 h-5" />}
+              </div>
+              <div>
+                <h3 className="font-black text-sm text-[#0B3B2C]">
+                  Reduce Effects Mode
+                </h3>
+                <p className="text-[11px] text-stone-500 font-medium">
+                  Optimized for school laptops & battery saver
+                </p>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                toggleReduceEffects();
+                showFeedback(reduceEffects ? 'Effects enabled' : 'Reduce effects active');
+              }}
+              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors cursor-pointer ${
+                reduceEffects ? 'bg-amber-500' : 'bg-stone-300'
               }`}
             >
               <span
@@ -114,8 +232,8 @@ export default function SettingsPage({ setActivePage, onStartTour }) {
               />
             </button>
           </div>
-          <p className="text-xs text-stone-600 dark:text-stone-400 leading-relaxed font-medium">
-            Disables 3D canvases, heavy canvas particle animations, cursor parallax, and heavy transitions. Saves battery and delivers consistent 60fps on low-end hardware.
+          <p className="text-xs text-stone-600 leading-relaxed font-medium">
+            Disables 3D canvases, floating leaf particles, and cursor parallax. Saves GPU cycles and delivers consistent 60fps on modest hardware.
           </p>
           <div className="pt-2">
             <Badge variant={reduceEffects ? 'amber' : 'neutral'} size="sm">
@@ -128,11 +246,11 @@ export default function SettingsPage({ setActivePage, onStartTour }) {
         <Card clean={true} className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-teal-100 dark:bg-teal-950/80 flex items-center justify-center text-teal-700">
+              <div className="w-10 h-10 rounded-2xl bg-teal-100 flex items-center justify-center text-teal-700">
                 {soundEnabled ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5" />}
               </div>
               <div>
-                <h3 className="font-black text-sm text-[#0B3B2C] dark:text-stone-100">
+                <h3 className="font-black text-sm text-[#0B3B2C]">
                   Web Audio Synthesizer
                 </h3>
                 <p className="text-[11px] text-stone-500 font-medium">
@@ -144,7 +262,7 @@ export default function SettingsPage({ setActivePage, onStartTour }) {
               type="button"
               onClick={toggleSound}
               className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors cursor-pointer ${
-                soundEnabled ? 'bg-emerald-600' : 'bg-stone-300 dark:bg-stone-700'
+                soundEnabled ? 'bg-emerald-600' : 'bg-stone-300'
               }`}
             >
               <span
@@ -154,7 +272,7 @@ export default function SettingsPage({ setActivePage, onStartTour }) {
               />
             </button>
           </div>
-          <p className="text-xs text-stone-600 dark:text-stone-400 leading-relaxed font-medium">
+          <p className="text-xs text-stone-600 leading-relaxed font-medium">
             Synthesizes lightweight, pleasant UI sound cues using the local Web Audio API. Zero external audio downloads needed. (Muted by default).
           </p>
           <div className="pt-2">
@@ -163,77 +281,21 @@ export default function SettingsPage({ setActivePage, onStartTour }) {
             </Badge>
           </div>
         </Card>
-
-        {/* Appearance & Color Palette */}
-        <Card clean={true} className="space-y-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-emerald-100 dark:bg-emerald-950/80 flex items-center justify-center text-emerald-700">
-                {theme === 'dark' ? <Moon className="w-5 h-5" /> : <Sun className="w-5 h-5" />}
-              </div>
-              <div>
-                <h3 className="font-black text-sm text-[#0B3B2C] dark:text-stone-100">
-                  Color Theme
-                </h3>
-                <p className="text-[11px] text-stone-500 font-medium">
-                  Strict light theme default with optional dark mode
-                </p>
-              </div>
-            </div>
-            <Button variant="outline" size="sm" onClick={toggleTheme}>
-              {theme === 'dark' ? 'Switch to Light' : 'Switch to Dark'}
-            </Button>
-          </div>
-          <p className="text-xs text-stone-600 dark:text-stone-400 leading-relaxed font-medium">
-            EcoMart's high-contrast light theme is carefully calibrated to WCAG AA guidelines with deep forest greens, emerald accents, and soft off-white backdrops.
-          </p>
-        </Card>
-
-        {/* Guided Tour (Feature 63) */}
-        <Card clean={true} className="space-y-4">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-sky-100 dark:bg-sky-950/80 flex items-center justify-center text-sky-700">
-              <HelpCircle className="w-5 h-5" />
-            </div>
-            <div>
-              <h3 className="font-black text-sm text-[#0B3B2C] dark:text-stone-100">
-                Interactive Onboarding
-              </h3>
-              <p className="text-[11px] text-stone-500 font-medium">
-                Step-by-step tour of the Eco Agent features
-              </p>
-            </div>
-          </div>
-          <p className="text-xs text-stone-600 dark:text-stone-400 leading-relaxed font-medium">
-            Replay the welcome tour to learn about the 0-100 Eco-Score formula, proactive cart swap alerts, and our AI shopping assistant.
-          </p>
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={() => {
-              if (onStartTour) onStartTour();
-              else localStorage.removeItem('ecomart_tour_seen');
-              showFeedback('Onboarding tour reset. Reload or visit Home to view.');
-            }}
-          >
-            Launch Onboarding Tour
-          </Button>
-        </Card>
       </div>
 
       {/* Local Storage & Privacy Management */}
-      <Card clean={true} className="border-rose-200 dark:border-rose-900/40 space-y-4">
+      <Card clean={true} className="border-rose-200 space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-start gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-rose-100 dark:bg-rose-950/80 flex items-center justify-center text-rose-700 shrink-0 mt-0.5">
+            <div className="w-10 h-10 rounded-2xl bg-rose-100 flex items-center justify-center text-rose-700 shrink-0 mt-0.5">
               <Trash2 className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="font-black text-base text-rose-900 dark:text-rose-200">
+              <h3 className="font-black text-base text-rose-900">
                 Reset Local Storage & Data
               </h3>
-              <p className="text-xs text-stone-600 dark:text-stone-400 mt-0.5">
-                Clear locally cached cart items, order history, quiz scores, and reset the demo environment.
+              <p className="text-xs text-stone-600 mt-0.5">
+                Clear locally cached cart items, order history, quiz scores, and restart the first-run experience.
               </p>
             </div>
           </div>

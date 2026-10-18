@@ -1,34 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import {
-  User, Award, ShieldCheck, Leaf, Wind, Droplets, Ban, MapPin,
-  Clock, Package, ArrowRight, Sparkles, Flame, CheckCircle, ExternalLink
+  Award,
+  Wind,
+  Ban,
+  Droplets,
+  Package,
+  ArrowRight,
+  Sparkles,
+  Flame,
+  Download,
+  MapPin
 } from 'lucide-react';
 import {
-  ResponsiveContainer, AreaChart, Area, BarChart, Bar,
-  XAxis, YAxis, Tooltip, CartesianGrid
+  ResponsiveContainer,
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  Tooltip
 } from 'recharts';
+import { toPng } from 'html-to-image';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
-
-// Historical impact data for Recharts area visualization
-const IMPACT_HISTORY_DATA = [
-  { month: 'Nov', co2: 2.1, plastic: 180, water: 45 },
-  { month: 'Dec', co2: 4.8, plastic: 320, water: 90 },
-  { month: 'Jan', co2: 6.5, plastic: 490, water: 160 },
-  { month: 'Feb', co2: 9.2, plastic: 650, water: 220 },
-  { month: 'Mar', co2: 14.6, plastic: 980, water: 340 }
-];
-
-const CATEGORY_IMPACT_DATA = [
-  { category: 'Kitchen', co2Saved: 5.4 },
-  { category: 'Personal', co2Saved: 3.2 },
-  { category: 'Bags', co2Saved: 2.8 },
-  { category: 'Home', co2Saved: 2.1 },
-  { category: 'Stationery', co2Saved: 1.1 }
-];
-
 import Modal from '../components/ui/Modal';
 import Button from '../components/ui/Button';
+import { playSound } from '../lib/audio';
+
+// Weekly timeline impact simulation data (Feature 24)
+const WEEKLY_IMPACT_DATA = [
+  { day: 'Mon', co2: 0.8, plastic: 45 },
+  { day: 'Tue', co2: 1.4, plastic: 90 },
+  { day: 'Wed', co2: 1.1, plastic: 60 },
+  { day: 'Thu', co2: 2.2, plastic: 140 },
+  { day: 'Fri', co2: 2.9, plastic: 180 },
+  { day: 'Sat', co2: 3.8, plastic: 240 },
+  { day: 'Sun', co2: 4.6, plastic: 310 }
+];
 
 const LOCAL_AVATARS = [
   { id: 'av-1', name: 'Bamboo Forester', emoji: '🎋', bg: 'from-emerald-600 to-teal-700' },
@@ -41,20 +49,28 @@ const LOCAL_AVATARS = [
   { id: 'av-8', name: 'Canopy Steward', emoji: '🌲', bg: 'from-emerald-800 to-teal-900' }
 ];
 
-export default function ProfilePage({ setActivePage }) {
-  const { user, isGuest, updateUserAvatar } = useAuth();
-  const { orders } = useCart();
+export default function ProfilePage() {
+  const { currentUser, isGuest, updateUserAvatar } = useAuth();
+  const { orders, showToast } = useCart();
   const [avatarModalOpen, setAvatarModalOpen] = useState(false);
+  const [exportingCard, setExportingCard] = useState(false);
+  const shareCardRef = useRef(null);
 
-  // Tier calculation based on orders / points
-  const points = (orders.length * 80) + 120;
-  let level = { title: '🌱 Conscious Seedling', next: '🌿 Sapling', target: 250, progress: (points / 250) * 100 };
+  // Level & streak calculations (Feature 24)
+  const currentStreakDays = 5; // Active daily streak
+  const points = (orders.length * 80) + 160;
+
+  let level = {
+    title: '🌱 Conscious Seedling',
+    next: '🌿 Thriving Sapling',
+    target: 300,
+    progress: Math.min(100, Math.round((points / 300) * 100))
+  };
+
   if (points >= 500) {
-    level = { title: '🛡️ Forest Guardian', next: 'Max Level', target: 1000, progress: 100 };
+    level = { title: '🛡️ Forest Guardian', next: 'Supreme Planet Champion', target: 1000, progress: 100 };
   } else if (points >= 300) {
-    level = { title: '🌳 Mature Tree', next: '🛡️ Forest Guardian', target: 500, progress: ((points - 300) / 200) * 100 };
-  } else if (points >= 200) {
-    level = { title: '🌿 Thriving Sapling', next: '🌳 Mature Tree', target: 300, progress: ((points - 200) / 100) * 100 };
+    level = { title: '🌳 Mature Tree', next: '🛡️ Forest Guardian', target: 500, progress: Math.min(100, Math.round(((points - 300) / 200) * 100)) };
   }
 
   // Lifetime saved aggregates
@@ -63,220 +79,218 @@ export default function ProfilePage({ setActivePage }) {
   const totalWaterSaved = Math.round(orders.reduce((acc, o) => acc + (o.impact?.waterSaved || 60), 0) + 190);
 
   const badges = [
-    { id: 'b1', name: 'Planetary Steward', icon: '🌍', desc: 'Placed orders with verified carbon savings', unlocked: true },
+    { id: 'b1', name: 'Planetary Steward', icon: '🌍', desc: 'Verified carbon savings receipt logged', unlocked: true },
     { id: 'b2', name: 'Zero Plastic Pioneer', icon: '🎋', desc: 'Opted for 100% plastic-free packaging', unlocked: true },
     { id: 'b3', name: 'Eco Alchemist', icon: '✨', desc: 'Completed a 1-tap cleaner product swap', unlocked: true },
     { id: 'b4', name: 'Local Champion', icon: '📍', desc: 'Supported regional artisans < 150km away', unlocked: points >= 200 },
     { id: 'b5', name: 'Tree Planter', icon: '🌳', desc: 'Avoided over 10kg of lifecycle CO₂', unlocked: points >= 300 },
-    { id: 'b6', name: 'Forest Guardian', icon: '🛡️', desc: 'Reached the highest environmental echelon', unlocked: points >= 500 }
+    { id: 'b6', name: 'Forest Guardian', icon: '🛡️', desc: 'Reached top conscious consumer tier', unlocked: points >= 500 }
   ];
 
-  return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 animate-fadeIn">
-      {/* Profile Header Card */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-emerald-900 to-stone-900 text-white border border-emerald-500/30 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden">
-        {/* Glow */}
-        <div className="absolute -top-12 -right-12 w-48 h-48 bg-emerald-500/20 rounded-full blur-3xl pointer-events-none" />
+  // Export shareable impact card (Feature 24 & Feature 59)
+  const handleExportCard = async () => {
+    if (!shareCardRef.current) return;
+    try {
+      setExportingCard(true);
+      playSound('click');
+      const dataUrl = await toPng(shareCardRef.current, { quality: 0.95 });
+      const link = document.createElement('a');
+      link.download = `ecomart-impact-${currentUser?.name?.replace(/\s+/g, '-').toLowerCase() || 'explorer'}.png`;
+      link.href = dataUrl;
+      link.click();
+      playSound('success');
+      showToast('Impact card downloaded as PNG image!', 'success');
+    } catch {
+      showToast('Could not export image. Please take a screenshot.', 'info');
+    } finally {
+      setExportingCard(false);
+    }
+  };
 
-        <div className="flex items-center gap-4">
+  return (
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 animate-fade-in pb-24">
+      {/* Profile Header Banner */}
+      <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-[#0B3B2C] to-[#047857] text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden">
+        <div className="flex items-center gap-4 z-10">
           <button
             type="button"
             onClick={() => setAvatarModalOpen(true)}
-            className="w-20 h-20 rounded-3xl bg-emerald-500/20 border-2 border-emerald-400/40 flex items-center justify-center text-3xl font-black text-emerald-300 shadow-inner hover:scale-105 transition cursor-pointer relative group shrink-0"
+            className="w-20 h-20 rounded-3xl bg-white/15 border-2 border-white/30 flex items-center justify-center text-3xl font-black text-white shadow-inner hover:scale-105 transition cursor-pointer relative group shrink-0"
             title="Click to choose a local avatar"
           >
-            {user?.avatar?.length > 4 ? (
-              <img src={user.avatar} alt="Avatar" className="w-full h-full object-cover rounded-3xl" />
-            ) : (
-              user?.avatar || (user?.name ? user.name.slice(0, 2).toUpperCase() : 'CE')
-            )}
-            <div className="absolute inset-0 bg-black/50 rounded-3xl opacity-0 group-hover:opacity-100 flex items-center justify-center text-[10px] font-black text-white transition">
+            {currentUser?.avatar || '🌱'}
+            <div className="absolute inset-0 bg-black/60 rounded-3xl opacity-0 group-hover:opacity-100 flex items-center justify-center text-[10px] font-black text-white transition">
               Change
             </div>
           </button>
           <div>
             <div className="flex items-center gap-2">
               <h1 className="text-2xl sm:text-3xl font-black text-white">
-                {user?.name || 'Conscious Explorer'}
+                {currentUser?.name || 'Conscious Explorer'}
               </h1>
               {isGuest && (
                 <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-amber-400 text-stone-950">
-                  Guest Session
+                  Guest
                 </span>
               )}
             </div>
-            <div className="text-xs text-stone-300 mt-1">{user?.email || 'guest@ecomart.local'}</div>
-            <div className="mt-2 inline-flex items-center gap-2">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-emerald-300 text-xs font-bold border border-white/20">
-                {level.title}
+            <p className="text-xs text-emerald-200 mt-0.5">
+              {currentUser?.email || 'Offline Guest Session'}
+            </p>
+            <div className="flex items-center gap-3 mt-2 text-xs font-bold text-emerald-100">
+              <span className="flex items-center gap-1">
+                <Flame className="w-4 h-4 text-amber-400" /> {currentStreakDays} Day Streak
               </span>
-              <button
-                type="button"
-                onClick={() => setAvatarModalOpen(true)}
-                className="text-[11px] text-emerald-300 hover:text-white underline cursor-pointer"
-              >
-                Change Avatar
-              </button>
+              <span>•</span>
+              <span className="flex items-center gap-1">
+                <Sparkles className="w-4 h-4 text-emerald-300" /> {points} Eco Points
+              </span>
             </div>
           </div>
         </div>
 
-        {/* Tier Progress & Points */}
-        <div className="bg-black/30 backdrop-blur-md p-4 rounded-2xl border border-white/10 w-full md:w-72 space-y-2">
+        {/* Level Progression Card */}
+        <div className="p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 min-w-[260px] space-y-2 z-10">
           <div className="flex items-center justify-between text-xs font-bold">
-            <span className="text-stone-300">Level Progression</span>
-            <span className="text-amber-400">{points} Eco-Points</span>
+            <span>{level.title}</span>
+            <span className="text-emerald-300">{level.progress}%</span>
           </div>
-          <div className="w-full h-2 rounded-full bg-white/20 overflow-hidden">
+          <div className="w-full h-2 rounded-full bg-black/20 overflow-hidden">
             <div
               className="h-full bg-gradient-to-r from-emerald-400 to-teal-300 rounded-full transition-all duration-700"
-              style={{ width: `${Math.min(100, Math.max(10, level.progress))}%` }}
+              style={{ width: `${level.progress}%` }}
             />
           </div>
-          <div className="text-[10px] text-stone-400 text-right">
-            Next Tier: {level.next} ({points}/{level.target} pts)
+          <div className="text-[11px] text-emerald-200 flex justify-between">
+            <span>Next: {level.next}</span>
+            <span>{points}/{level.target} pts</span>
           </div>
         </div>
       </div>
 
-      {/* Lifetime Saved Metrics Strip */}
-      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
-        <div className="p-5 rounded-3xl bg-white dark:bg-stone-850 border border-stone-200 dark:border-stone-800 shadow-xs">
-          <div className="flex items-center gap-2 text-xs font-bold text-stone-500 uppercase tracking-wider mb-2">
-            <Wind className="w-4 h-4 text-sky-500" /> Lifecycle CO₂ Avoided
-          </div>
-          <div className="text-3xl font-black text-stone-900 dark:text-stone-100">
-            {totalCo2Saved} <span className="text-base font-normal text-stone-400">kg</span>
-          </div>
-          <div className="text-[11px] text-emerald-600 dark:text-emerald-400 mt-1 font-semibold">
-            ~{(totalCo2Saved * 4.2).toFixed(0)} km car travel offset
-          </div>
-        </div>
-
-        <div className="p-5 rounded-3xl bg-white dark:bg-stone-850 border border-stone-200 dark:border-stone-800 shadow-xs">
-          <div className="flex items-center gap-2 text-xs font-bold text-stone-500 uppercase tracking-wider mb-2">
-            <Ban className="w-4 h-4 text-rose-500" /> Plastic Waste Diverted
-          </div>
-          <div className="text-3xl font-black text-stone-900 dark:text-stone-100">
-            {totalPlasticAvoided} <span className="text-base font-normal text-stone-400">g</span>
-          </div>
-          <div className="text-[11px] text-emerald-600 dark:text-emerald-400 mt-1 font-semibold">
-            ~{Math.round(totalPlasticAvoided / 20)} single-use bottles prevented
-          </div>
-        </div>
-
-        <div className="p-5 rounded-3xl bg-white dark:bg-stone-850 border border-stone-200 dark:border-stone-800 shadow-xs">
-          <div className="flex items-center gap-2 text-xs font-bold text-stone-500 uppercase tracking-wider mb-2">
-            <Droplets className="w-4 h-4 text-blue-500" /> Freshwater Conserved
-          </div>
-          <div className="text-3xl font-black text-stone-900 dark:text-stone-100">
-            {totalWaterSaved} <span className="text-base font-normal text-stone-400">L</span>
-          </div>
-          <div className="text-[11px] text-emerald-600 dark:text-emerald-400 mt-1 font-semibold">
-            Zero toxic textile dye runoff
-          </div>
-        </div>
-
-        <div className="p-5 rounded-3xl bg-white dark:bg-stone-850 border border-stone-200 dark:border-stone-800 shadow-xs">
-          <div className="flex items-center gap-2 text-xs font-bold text-stone-500 uppercase tracking-wider mb-2">
-            <Package className="w-4 h-4 text-emerald-600" /> Conscious Orders
-          </div>
-          <div className="text-3xl font-black text-stone-900 dark:text-stone-100">
-            {orders.length}
-          </div>
-          <div className="text-[11px] text-stone-500 mt-1 font-semibold">
-            100% plastic-free packaging
-          </div>
-        </div>
-      </div>
-
-      {/* Interactive Recharts Impact Visualizations */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Cumulative Savings Chart */}
-        <div className="p-6 rounded-3xl bg-white dark:bg-stone-850 border border-stone-200 dark:border-stone-800 shadow-xs space-y-4">
+      {/* Feature 24: Weekly Timeline Impact Chart & Metrics */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        {/* Weekly Timeline Chart (7 Cols) */}
+        <div className="lg:col-span-7 p-6 rounded-3xl bg-white border border-stone-200/90 shadow-2xs space-y-4">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="font-extrabold text-base text-stone-900 dark:text-stone-100">
-                Monthly Saved Carbon (kg CO₂)
-              </h3>
-              <p className="text-xs text-stone-500">Live progression across your shopping history</p>
+              <h2 className="font-extrabold text-base text-[#0B3B2C]">
+                Weekly Environmental Timeline
+              </h2>
+              <p className="text-xs text-stone-500">Cumulative CO₂ avoided throughout the week</p>
             </div>
-            <span className="text-xs font-bold text-emerald-600 bg-emerald-50 dark:bg-emerald-950 px-2.5 py-1 rounded-full">
-              +58% vs baseline
+            <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
+              7-Day Activity
             </span>
           </div>
 
-          <div className="h-64 w-full">
+          <div className="h-64 w-full pt-4">
             <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={IMPACT_HISTORY_DATA}>
+              <AreaChart data={WEEKLY_IMPACT_DATA}>
                 <defs>
-                  <linearGradient id="colorCo2" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#10B981" stopOpacity={0.8} />
-                    <stop offset="95%" stopColor="#10B981" stopOpacity={0.0} />
+                  <linearGradient id="impactCo2Grad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stop-color="#059669" stopOpacity={0.4} />
+                    <stop offset="95%" stop-color="#059669" stopOpacity={0.0} />
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" opacity={0.15} />
-                <XAxis dataKey="month" stroke="#888888" fontSize={12} />
-                <YAxis stroke="#888888" fontSize={12} />
+                <XAxis dataKey="day" stroke="#9ca3af" fontSize={11} tickLine={false} />
+                <YAxis stroke="#9ca3af" fontSize={11} tickLine={false} unit="kg" />
                 <Tooltip
-                  contentStyle={{
-                    backgroundColor: '#1C1917',
-                    borderRadius: '12px',
-                    border: '1px solid #444',
-                    color: '#fff',
-                    fontSize: '12px'
-                  }}
+                  formatter={(value) => [`${value} kg`, 'CO₂ Avoided']}
+                  contentStyle={{ backgroundColor: '#ffffff', borderRadius: '12px', borderColor: '#e5e7eb', fontSize: '12px' }}
                 />
-                <Area type="monotone" dataKey="co2" stroke="#10B981" strokeWidth={3} fillOpacity={1} fill="url(#colorCo2)" />
+                <Area
+                  type="monotone"
+                  dataKey="co2"
+                  stroke="#059669"
+                  strokeWidth={3}
+                  fillOpacity={1}
+                  fill="url(#impactCo2Grad)"
+                />
               </AreaChart>
             </ResponsiveContainer>
           </div>
         </div>
 
-        {/* Category Savings Breakdown */}
-        <div className="p-6 rounded-3xl bg-white dark:bg-stone-850 border border-stone-200 dark:border-stone-800 shadow-xs space-y-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h3 className="font-extrabold text-base text-stone-900 dark:text-stone-100">
-                CO₂ Avoidance by Category (kg)
-              </h3>
-              <p className="text-xs text-stone-500">Where your eco choices create the highest impact</p>
+        {/* Shareable Impact Card (5 Cols) (Feature 24 & Feature 59) */}
+        <div className="lg:col-span-5 space-y-3">
+          <div
+            ref={shareCardRef}
+            className="p-6 rounded-3xl bg-gradient-to-br from-white via-[#E8F5EE] to-white border border-emerald-300 shadow-md space-y-4 text-stone-900"
+          >
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-black uppercase tracking-wider text-emerald-800">
+                EcoMart Impact Ledger
+              </span>
+              <span className="text-xs font-bold text-stone-400">Verified Local</span>
+            </div>
+
+            <div className="flex items-center gap-3 py-1">
+              <div className="w-12 h-12 rounded-2xl bg-emerald-700 text-white flex items-center justify-center text-2xl shadow-xs">
+                {currentUser?.avatar || '🌱'}
+              </div>
+              <div>
+                <h3 className="font-black text-lg text-[#0B3B2C] leading-snug">
+                  {currentUser?.name || 'Conscious Explorer'}
+                </h3>
+                <span className="text-xs font-bold text-emerald-700">{level.title}</span>
+              </div>
+            </div>
+
+            {/* Impact Metric Numbers */}
+            <div className="grid grid-cols-3 gap-2 text-center py-2 border-y border-emerald-200/60">
+              <div>
+                <div className="flex items-center justify-center text-emerald-700 mb-0.5">
+                  <Wind className="w-4 h-4" />
+                </div>
+                <div className="font-black text-base text-emerald-900">{totalCo2Saved} kg</div>
+                <div className="text-[10px] text-stone-500 font-bold">CO₂ Avoided</div>
+              </div>
+              <div>
+                <div className="flex items-center justify-center text-amber-600 mb-0.5">
+                  <Ban className="w-4 h-4" />
+                </div>
+                <div className="font-black text-base text-amber-900">{totalPlasticAvoided} g</div>
+                <div className="text-[10px] text-stone-500 font-bold">Plastic Diverted</div>
+              </div>
+              <div>
+                <div className="flex items-center justify-center text-sky-600 mb-0.5">
+                  <Droplets className="w-4 h-4" />
+                </div>
+                <div className="font-black text-base text-sky-900">{totalWaterSaved} L</div>
+                <div className="text-[10px] text-stone-500 font-bold">Water Saved</div>
+              </div>
+            </div>
+
+            <div className="text-[10px] text-stone-500 flex justify-between font-medium">
+              <span>{orders.length} conscious orders placed</span>
+              <span>100% Zero-Waste Packing</span>
             </div>
           </div>
 
-          <div className="h-64 w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={CATEGORY_IMPACT_DATA}>
-                <CartesianGrid strokeDasharray="3 3" opacity={0.15} />
-                <XAxis dataKey="category" stroke="#888888" fontSize={12} />
-                <YAxis stroke="#888888" fontSize={12} />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: '#1C1917',
-                    borderRadius: '12px',
-                    border: '1px solid #444',
-                    color: '#fff',
-                    fontSize: '12px'
-                  }}
-                />
-                <Bar dataKey="co2Saved" fill="#059669" radius={[8, 8, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
+          {/* Download / Share Card Button */}
+          <button
+            type="button"
+            onClick={handleExportCard}
+            disabled={exportingCard}
+            className="w-full py-3 px-5 rounded-2xl bg-white hover:bg-stone-50 border border-stone-200 text-[#0B3B2C] font-black text-xs flex items-center justify-center gap-2 shadow-2xs transition active:scale-98 min-h-[44px]"
+          >
+            {exportingCard ? <Sparkles className="w-4 h-4 text-emerald-600 animate-spin" /> : <Download className="w-4 h-4 text-emerald-600" />}
+            <span>{exportingCard ? 'Rendering Card...' : 'Download Shareable Impact Card (PNG)'}</span>
+          </button>
         </div>
       </div>
 
-      {/* Gamification Badges Gallery */}
-      <div className="p-6 rounded-3xl bg-white dark:bg-stone-850 border border-stone-200 dark:border-stone-800 shadow-xs space-y-4">
-        <div className="flex items-center justify-between border-b border-stone-100 dark:border-stone-800 pb-3">
-          <div>
-            <h3 className="text-lg font-black text-stone-900 dark:text-stone-100 flex items-center gap-2">
-              <Award className="w-5 h-5 text-emerald-600" />
-              Sustainability Badges Gallery
-            </h3>
-            <p className="text-xs text-stone-500">Earn badges through conscious swaps and zero-waste orders.</p>
+      {/* Achievements & Badges Grid (Feature 24) */}
+      <div className="p-6 rounded-3xl bg-white border border-stone-200/90 shadow-2xs space-y-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Award className="w-5 h-5 text-emerald-700" />
+            <h2 className="font-black text-base text-[#0B3B2C]">
+              Environmental Milestones & Badges
+            </h2>
           </div>
-          <span className="text-xs font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950 px-3 py-1 rounded-full">
+          <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
             {badges.filter((b) => b.unlocked).length} of {badges.length} Unlocked
           </span>
         </div>
@@ -287,15 +301,15 @@ export default function ProfilePage({ setActivePage }) {
               key={b.id}
               className={`p-3.5 rounded-2xl border text-center transition ${
                 b.unlocked
-                  ? 'bg-emerald-50/50 dark:bg-emerald-950/20 border-emerald-300 dark:border-emerald-800'
-                  : 'bg-stone-50 dark:bg-stone-900 border-stone-200 dark:border-stone-800 opacity-40'
+                  ? 'bg-emerald-50/50 border-emerald-300 shadow-2xs'
+                  : 'bg-stone-50 border-stone-200 opacity-40'
               }`}
             >
               <div className="text-3xl mb-1.5">{b.icon}</div>
-              <div className="font-bold text-xs text-stone-900 dark:text-stone-100">{b.name}</div>
+              <div className="font-bold text-xs text-stone-900">{b.name}</div>
               <div className="text-[10px] text-stone-500 mt-1 leading-snug">{b.desc}</div>
               {b.unlocked && (
-                <span className="inline-block mt-2 text-[10px] font-bold text-emerald-700 dark:text-emerald-400">
+                <span className="inline-block mt-2 text-[10px] font-extrabold text-emerald-700">
                   ✓ Unlocked
                 </span>
               )}
@@ -304,41 +318,40 @@ export default function ProfilePage({ setActivePage }) {
         </div>
       </div>
 
-      {/* Saved Addresses & Orders Link Strip */}
+      {/* Orders & Address Links */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="p-6 rounded-3xl bg-white dark:bg-stone-850 border border-stone-200 dark:border-stone-800 shadow-xs space-y-3">
-          <div className="flex items-center gap-2 text-stone-900 dark:text-stone-100 font-bold text-sm">
+        <div className="p-6 rounded-3xl bg-white border border-stone-200/90 shadow-2xs space-y-3">
+          <div className="flex items-center gap-2 text-stone-900 font-bold text-sm">
             <MapPin className="w-4 h-4 text-emerald-600" />
             <span>Saved Conscious Delivery Address</span>
           </div>
-          <div className="p-3.5 rounded-2xl bg-stone-50 dark:bg-stone-800/60 border border-stone-200 dark:border-stone-700 text-xs text-stone-700 dark:text-stone-300">
-            <div className="font-bold text-stone-900 dark:text-stone-100">{user?.name || 'Ayush Sharma'}</div>
+          <div className="p-3.5 rounded-2xl bg-stone-50 border border-stone-200 text-xs text-stone-700">
+            <div className="font-bold text-stone-900">{currentUser?.name || 'Ayush Sharma'}</div>
             <div className="mt-1">Flat 402, Green Meadows Residency, Bengaluru, Karnataka - 560034</div>
-            <div className="mt-2 text-[11px] text-emerald-700 dark:text-emerald-400 font-semibold">
+            <div className="mt-2 text-[11px] text-emerald-700 font-semibold">
               ⚡ EV Courier Route Verified
             </div>
           </div>
         </div>
 
-        <div className="p-6 rounded-3xl bg-white dark:bg-stone-850 border border-stone-200 dark:border-stone-800 shadow-xs flex flex-col justify-between space-y-3">
+        <div className="p-6 rounded-3xl bg-white border border-stone-200/90 shadow-2xs flex flex-col justify-between space-y-3">
           <div>
-            <div className="flex items-center gap-2 text-stone-900 dark:text-stone-100 font-bold text-sm">
+            <div className="flex items-center gap-2 text-stone-900 font-bold text-sm">
               <Package className="w-4 h-4 text-emerald-600" />
-              <span>Order History & Impact Receipts</span>
+              <span>Order History & Real-Time Tracking</span>
             </div>
             <p className="text-xs text-stone-500 mt-1">
-              You have {orders.length} placed orders with verified lifecycle carbon receipts.
+              You have {orders.length} order{orders.length !== 1 ? 's' : ''} logged with verified lifecycle carbon receipts.
             </p>
           </div>
 
-          <button
-            type="button"
-            onClick={() => setActivePage('orders')}
-            className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs transition shadow-sm cursor-pointer"
+          <Link
+            to="/orders"
+            className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs transition shadow-2xs min-h-[44px]"
           >
-            <span>View All Orders ({orders.length})</span>
+            <span>View All Orders & Tracking ({orders.length})</span>
             <ArrowRight className="w-4 h-4" />
-          </button>
+          </Link>
         </div>
       </div>
 
@@ -349,7 +362,7 @@ export default function ProfilePage({ setActivePage }) {
         title="Choose Your Eco Avatar"
       >
         <div className="space-y-4">
-          <p className="text-xs text-stone-600 dark:text-stone-300 font-medium">
+          <p className="text-xs text-stone-600 font-medium">
             Select an eco persona. Stored 100% locally on your machine with zero external uploads.
           </p>
 
@@ -363,15 +376,15 @@ export default function ProfilePage({ setActivePage }) {
                   setAvatarModalOpen(false);
                 }}
                 className={`p-4 rounded-2xl border text-center transition-all duration-200 hover:scale-105 cursor-pointer flex flex-col items-center gap-2 ${
-                  user?.avatar === av.emoji
-                    ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-950/60 shadow-md ring-2 ring-emerald-500/30'
-                    : 'border-stone-200 dark:border-stone-700 bg-white dark:bg-stone-800 hover:border-emerald-300'
+                  currentUser?.avatar === av.emoji
+                    ? 'border-emerald-500 bg-emerald-50 shadow-md ring-2 ring-emerald-500/30'
+                    : 'border-stone-200 bg-white hover:border-emerald-300'
                 }`}
               >
                 <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${av.bg} flex items-center justify-center text-3xl shadow-sm text-white`}>
                   {av.emoji}
                 </div>
-                <div className="text-xs font-black text-[#0B3B2C] dark:text-stone-100">
+                <div className="text-xs font-black text-[#0B3B2C]">
                   {av.name}
                 </div>
               </button>

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TreePine, Sprout, Sparkles, Droplets, Sun, Box, Image as ImageIcon } from 'lucide-react';
+import { Droplets, Sun, Box, Image as ImageIcon } from 'lucide-react';
 import Safe3D from '../3D/Safe3D';
 import EcoForest3D from '../3D/EcoForest3D';
 

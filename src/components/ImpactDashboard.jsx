@@ -1,9 +1,9 @@
 import React from 'react';
-import { Wind, Ban, Droplets, Car, Coffee, Trees, Award, Sparkles, ArrowRight, ShieldCheck, HelpCircle } from 'lucide-react';
+import { Wind, Ban, Droplets, Car, Coffee, Trees, Sparkles } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import AnimatedCounter from './AnimatedCounter';
 
-export default function ImpactDashboard({ showHeader = true, compact = false }) {
+export default function ImpactDashboard({ showHeader = true }) {
   const { impact, setIsAgentOpen, cartItems } = useCart();
 
   const {

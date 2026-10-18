@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Trophy, Medal, Crown, Sparkles, TrendingUp } from 'lucide-react';
+import React from 'react';
+import { Trophy } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
 

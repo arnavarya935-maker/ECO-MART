@@ -1,7 +1,6 @@
 import React from 'react';
-import { X, Sparkles, ShoppingBag, ArrowRight } from 'lucide-react';
+import { X, Sparkles, ShoppingBag } from 'lucide-react';
 import { useCart } from '../context/CartContext';
-import EcoScoreBadge from './EcoScoreBadge';
 
 export default function ExitIntentModal() {
   const {

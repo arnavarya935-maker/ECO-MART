@@ -89,6 +89,47 @@
   --text-3xl: 1.875rem;  /* 30px */
   --text-4xl: 2.25rem;   /* 36px */
   --text-5xl: 3rem;      /* 48px */
+
+  /* Motion Language */
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 400ms;
+
+  /* Consistent Radii */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+}
+
+/* High Contrast Mode for Accessibility (Feature 29) */
+html.high-contrast {
+  --text: #000000;
+  --text-heading: #000000;
+  --text-forest: #004d30;
+  --muted: #1c2e26;
+  --text-muted: #1c2e26;
+  --line: #000000;
+  --line-strong: #000000;
+  --border-color: #000000;
+  --focus-ring-color: #000000;
+  --focus-ring: 0 0 0 4px #000000;
+}
+
+/* Dyslexia-Friendly Font (Feature 29) */
+html.font-dyslexic {
+  font-family: "OpenDyslexic", "Comic Sans MS", "Comic Sans", "Verdana", sans-serif !important;
+}
+
+/* Text Size Scaler (Feature 29) */
+html.text-size-large {
+  font-size: 112.5%;
+}
+html.text-size-xlarge {
+  font-size: 125%;
 }
 
 /* Optional high-contrast dark adaptation preserving brand tokens */

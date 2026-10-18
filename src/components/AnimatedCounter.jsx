@@ -3,13 +3,10 @@ import { useTheme } from '../context/ThemeContext';
 
 export default function AnimatedCounter({ value = 0, duration = 1.2, decimals = 0, prefix = '', suffix = '' }) {
   const { reducedMotion } = useTheme();
-  const [displayValue, setDisplayValue] = useState(reducedMotion ? value : 0);
+  const [displayValue, setDisplayValue] = useState(0);
 
   useEffect(() => {
-    if (reducedMotion) {
-      setDisplayValue(value);
-      return;
-    }
+    if (reducedMotion) return;
 
     const startValue = 0;
     const endValue = Number(value) || 0;
@@ -35,10 +32,15 @@ export default function AnimatedCounter({ value = 0, duration = 1.2, decimals = 
     return () => cancelAnimationFrame(animId);
   }, [value, duration, reducedMotion]);
 
+  const outputValue = reducedMotion ? (Number(value) || 0) : displayValue;
+
   return (
     <span>
       {prefix}
-      {Number(displayValue).toFixed(decimals)}
+      {outputValue.toLocaleString('en-IN', {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals
+      })}
       {suffix}
     </span>
   );

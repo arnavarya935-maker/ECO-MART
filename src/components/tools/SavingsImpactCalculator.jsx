@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { IndianRupee, Sparkles, RefreshCw, CheckCircle2, TrendingUp } from 'lucide-react';
 
 const COMMON_SWITCHES = [
   {
@@ -74,7 +73,7 @@ export default function SavingsImpactCalculator() {
         <div className="p-4 rounded-2xl bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-300 dark:border-emerald-800 text-center shrink-0">
           <div className="text-[11px] font-bold text-stone-500">Projected Annual Savings</div>
           <div className="text-2xl font-black text-emerald-700 dark:text-emerald-300">₹{totalCostSaved.toLocaleString()}</div>
-          <div className="text-[10px] text-emerald-800 dark:text-emerald-400 font-bold">+{totalCo2Saved.toFixed(1)}kg CO₂ Diverted</div>
+          <div className="text-[10px] text-emerald-800 dark:text-emerald-400 font-bold">+{totalCo2Saved.toFixed(1)}kg CO₂ • {totalPlasticItemsSaved} plastics avoided</div>
         </div>
       </div>
 

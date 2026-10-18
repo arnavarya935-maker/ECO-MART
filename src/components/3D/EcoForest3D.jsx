@@ -1,27 +1,37 @@
-import React, { useRef, useState, useEffect, useMemo, Suspense } from 'react';
+import React, { useRef, useState, useMemo, Suspense } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Float, Sparkles } from '@react-three/drei';
+import { OrbitControls, Sparkles } from '@react-three/drei';
 import * as THREE from 'three';
 import { useTheme } from '../../context/ThemeContext';
-import { Sun, Moon, Sunset, Sparkles as SparklesIcon, Trees } from 'lucide-react';
+import { Sun, Moon, Sunset, Sparkles as Trees } from 'lucide-react';
+
+// Stable seeded pseudo-random generator to guarantee pure render execution
+function createSeededRandom(seed = 42) {
+  let s = seed;
+  return function() {
+    s = (s * 9301 + 49297) % 233280;
+    return s / 233280;
+  };
+}
 
 // Wind-reactive individual grass blade cluster
 function WindGrassCluster({ count = 80, radius = 2.2, windSpeed = 1.6 }) {
   const meshRef = useRef();
   
-  // Generate random blade transforms
+  // Generate stable blade transforms
   const dummy = useMemo(() => new THREE.Object3D(), []);
   const bladeData = useMemo(() => {
+    const rng = createSeededRandom(42 + count);
     const data = [];
     for (let i = 0; i < count; i++) {
-      const angle = Math.random() * Math.PI * 2;
-      const dist = Math.sqrt(Math.random()) * radius;
+      const angle = rng() * Math.PI * 2;
+      const dist = Math.sqrt(rng()) * radius;
       const x = Math.cos(angle) * dist;
       const z = Math.sin(angle) * dist;
       const y = -0.55 + Math.sin(x * 1.5) * 0.08 + Math.cos(z * 1.5) * 0.08;
-      const rotY = Math.random() * Math.PI;
-      const scale = 0.5 + Math.random() * 0.7;
-      data.push({ x, y, z, rotY, scale, phase: Math.random() * Math.PI });
+      const rotY = rng() * Math.PI;
+      const scale = 0.5 + rng() * 0.7;
+      data.push({ x, y, z, rotY, scale, phase: rng() * Math.PI });
     }
     return data;
   }, [count, radius]);
@@ -142,7 +152,7 @@ function UndulatedTerrain() {
 }
 
 // Forest Scene with dynamic growth stages
-function ForestScene({ score = 75, co2Saved = 5, lightingMode = 'day' }) {
+function ForestScene({ score = 75, lightingMode = 'day' }) {
   const groupRef = useRef();
 
   useFrame((_, delta) => {
@@ -206,18 +216,16 @@ function ForestScene({ score = 75, co2Saved = 5, lightingMode = 'day' }) {
 
 export default function EcoForest3D({ score = 75, co2Saved = 5, className = 'h-72 sm:h-80 w-full' }) {
   const { reducedMotion } = useTheme();
-  const [webglSupported, setWebglSupported] = useState(true);
-  const [lightingMode, setLightingMode] = useState('day'); // 'day' | 'sunset' | 'night'
-
-  useEffect(() => {
+  const [webglSupported] = useState(() => {
+    if (typeof window === 'undefined') return false;
     try {
       const canvas = document.createElement('canvas');
-      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-      if (!gl) setWebglSupported(false);
-    } catch (_e) {
-      setWebglSupported(false);
+      return !!(canvas.getContext('webgl') || canvas.getContext('experimental-webgl'));
+    } catch {
+      return false;
     }
-  }, []);
+  });
+  const [lightingMode, setLightingMode] = useState('day'); // 'day' | 'sunset' | 'night'
 
   // Lighting configurations
   const lighting = useMemo(() => {

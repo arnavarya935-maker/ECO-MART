@@ -4,18 +4,11 @@ import { useTheme } from '../context/ThemeContext';
 
 export default function AnimatedImpactCounters() {
   const { reduceEffects } = useTheme();
-  const [counts, setCounts] = useState({
-    co2: reduceEffects ? 14820 : 0,
-    plastic: reduceEffects ? 89400 : 0,
-    trees: reduceEffects ? 3120 : 0,
-    water: reduceEffects ? 450000 : 0
-  });
+  const STATIC_COUNTS = { co2: 14820, plastic: 89400, trees: 3120, water: 450000 };
+  const [counts, setCounts] = useState({ co2: 0, plastic: 0, trees: 0, water: 0 });
 
   useEffect(() => {
-    if (reduceEffects) {
-      setCounts({ co2: 14820, plastic: 89400, trees: 3120, water: 450000 });
-      return;
-    }
+    if (reduceEffects) return;
 
     const duration = 2000;
     const steps = 60;
@@ -41,42 +34,44 @@ export default function AnimatedImpactCounters() {
     return () => clearInterval(timer);
   }, [reduceEffects]);
 
+  const effectiveCounts = reduceEffects ? STATIC_COUNTS : counts;
+
   const metrics = [
     {
       id: 'co2',
       label: 'CO₂ Footprint Diverted',
-      value: `${counts.co2.toLocaleString()} kg`,
+      value: `${effectiveCounts.co2.toLocaleString()} kg`,
       sub: 'Equivalent to 62,000 car km',
       icon: Leaf,
-      color: 'text-emerald-700 dark:text-emerald-300',
-      bg: 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800'
+      color: 'text-emerald-700',
+      bg: 'bg-emerald-50 border-emerald-200'
     },
     {
       id: 'plastic',
       label: 'Single-Use Plastics Avoided',
-      value: `${counts.plastic.toLocaleString()} pcs`,
+      value: `${effectiveCounts.plastic.toLocaleString()} pcs`,
       sub: 'Prevented from landfill & oceans',
       icon: ShieldCheck,
-      color: 'text-teal-700 dark:text-teal-300',
-      bg: 'bg-teal-50 dark:bg-teal-950/40 border-teal-200 dark:border-teal-800'
+      color: 'text-teal-700',
+      bg: 'bg-teal-50 border-teal-200'
     },
     {
       id: 'trees',
       label: 'Mature Trees Preserved',
-      value: `${counts.trees.toLocaleString()} trees`,
+      value: `${effectiveCounts.trees.toLocaleString()} trees`,
       sub: 'Via 100% tree-free paper & bamboo',
       icon: TreePine,
-      color: 'text-green-800 dark:text-green-300',
-      bg: 'bg-green-50 dark:bg-green-950/40 border-green-200 dark:border-green-800'
+      color: 'text-green-800',
+      bg: 'bg-green-50 border-green-200'
     },
     {
       id: 'water',
       label: 'Freshwater Conserved',
-      value: `${(counts.water / 1000).toFixed(0)}k Litres`,
+      value: `${(effectiveCounts.water / 1000).toFixed(0)}k Litres`,
       sub: 'From organic non-toxic processing',
       icon: Droplets,
-      color: 'text-cyan-700 dark:text-cyan-300',
-      bg: 'bg-cyan-50 dark:bg-cyan-950/40 border-cyan-200 dark:border-cyan-800'
+      color: 'text-cyan-700',
+      bg: 'bg-cyan-50 border-cyan-200'
     }
   ];
 

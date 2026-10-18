@@ -54,7 +54,7 @@ createWav('pop.wav', 0.08, 22050, (t, dur) => {
 });
 
 // 2. success.wav - gentle harmonious chime
-createWav('success.wav', 0.35, 22050, (t, dur) => {
+createWav('success.wav', 0.35, 22050, (t) => {
   const env = Math.exp(-t * 8);
   const chord = (
     Math.sin(2 * Math.PI * 523.25 * t) +
@@ -65,7 +65,7 @@ createWav('success.wav', 0.35, 22050, (t, dur) => {
 });
 
 // 3. swap.wav - uplifting eco swap tone
-createWav('swap.wav', 0.28, 22050, (t, dur) => {
+createWav('swap.wav', 0.28, 22050, (t) => {
   const env = Math.exp(-t * 9);
   const chord = (
     Math.sin(2 * Math.PI * 440 * t) +

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Leaf, ChevronUp, ChevronDown, Sparkles, X, ShieldCheck, Droplets } from 'lucide-react';
+import { ChevronUp, ChevronDown, X } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 
 export default function ImpactPulseWidget() {

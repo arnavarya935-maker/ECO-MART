@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Target, CheckCircle2, Plus, Sparkles } from 'lucide-react';
+import { Target } from 'lucide-react';
 
 const INITIAL_GOALS = [
   { id: 'g1', title: 'Eliminate 15kg Single-Use Plastic', current: 11.2, target: 15, unit: 'kg', color: 'text-emerald-600', ringColor: '#10B981' },
@@ -8,7 +8,7 @@ const INITIAL_GOALS = [
 ];
 
 export default function EcoGoalsTracker() {
-  const [goals, setGoals] = useState(INITIAL_GOALS);
+  const [goals] = useState(INITIAL_GOALS);
 
   return (
     <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-stone-850 border border-stone-200 dark:border-stone-800 shadow-md max-w-3xl mx-auto space-y-6">

@@ -160,7 +160,6 @@
     "photographer": "Tania Melnyczuk",
     "image": "/images/products/kit-03.svg",
     "images": [
-      "/images/products/kit-03.svg",
       "/images/products/kit-03.svg"
     ],
     "photoId": "photo-1607344645866-009c320c5ab8"
@@ -291,7 +290,6 @@
     "photographer": "Superkitina",
     "image": "/images/products/care-01.svg",
     "images": [
-      "/images/products/care-01.svg",
       "/images/products/care-01.svg"
     ],
     "photoId": "photo-1607613009820-a29f7ab81c04"
@@ -357,7 +355,6 @@
     "photographer": "Sarah Chai",
     "image": "/images/products/care-02.svg",
     "images": [
-      "/images/products/care-02.svg",
       "/images/products/care-02.svg"
     ],
     "photoId": "photo-1607006314180-a6ddfc02f829"
@@ -386,9 +383,8 @@
     ],
     "imageQuery": "1584308666744-24d5c474f2ae",
     "photographer": "Curology",
-    "image": "/images/products/care-02-conv.jpg",
+    "image": "/images/products/care-02-conv.svg",
     "images": [
-      "/images/products/care-02-conv.jpg",
       "/images/products/care-02-conv.svg"
     ],
     "photoId": "photo-1584308666744-24d5c474f2ae"
@@ -487,7 +483,6 @@
     "photographer": "Brittany Neale",
     "image": "/images/products/care-04.svg",
     "images": [
-      "/images/products/care-04.svg",
       "/images/products/care-04.svg"
     ],
     "photoId": "photo-1608248597359-009772a8c3d2"
@@ -584,7 +579,6 @@
     "photographer": "Nimble Made",
     "image": "/images/products/fash-01-conv.svg",
     "images": [
-      "/images/products/fash-01-conv.svg",
       "/images/products/fash-01-conv.svg"
     ],
     "photoId": "photo-1620012253295-c15c429f6b96"
@@ -779,7 +773,6 @@
     "photographer": "Lucas Hoang",
     "image": "/images/products/fash-04-conv.svg",
     "images": [
-      "/images/products/fash-04-conv.svg",
       "/images/products/fash-04-conv.svg"
     ],
     "photoId": "photo-1582966770380-4822839218d6"
@@ -879,7 +872,6 @@
     "photographer": "Ashkan Forouzani",
     "image": "/images/products/stat-02.svg",
     "images": [
-      "/images/products/stat-02.svg",
       "/images/products/stat-02.svg"
     ],
     "photoId": "photo-1585336261026-41804f877d94"
@@ -1106,7 +1098,6 @@
     "photographer": "Dima Pechurin",
     "image": "/images/products/home-01-conv.svg",
     "images": [
-      "/images/products/home-01-conv.svg",
       "/images/products/home-01-conv.svg"
     ],
     "photoId": "photo-1572726729437-3eb32111b4af"
@@ -1140,7 +1131,6 @@
     "photographer": "Brooke Cagle",
     "image": "/images/products/home-02.svg",
     "images": [
-      "/images/products/home-02.svg",
       "/images/products/home-02.svg"
     ],
     "photoId": "photo-1533090161767-e6ffed986b88"
@@ -1335,9 +1325,8 @@
     ],
     "imageQuery": "1544816155-12df9643f363",
     "photographer": "Kelly Sikkema",
-    "image": "/images/products/bag-01.jpg",
+    "image": "/images/products/bag-01.svg",
     "images": [
-      "/images/products/bag-01.jpg",
       "/images/products/bag-01.svg"
     ],
     "photoId": "photo-1544816155-12df9643f363"
@@ -1368,7 +1357,6 @@
     "photographer": "Brian Yurasits",
     "image": "/images/products/bag-01-conv.svg",
     "images": [
-      "/images/products/bag-01-conv.svg",
       "/images/products/bag-01-conv.svg"
     ],
     "photoId": "photo-1597484662317-c9312b9d29ef"
@@ -1497,9 +1485,8 @@
     ],
     "imageQuery": "1553062407-98eeb64c6a62",
     "photographer": "Taylor Beach",
-    "image": "/images/products/bag-03-conv.jpg",
+    "image": "/images/products/bag-03-conv.svg",
     "images": [
-      "/images/products/bag-03-conv.jpg",
       "/images/products/bag-03-conv.svg"
     ],
     "photoId": "photo-1553062407-98eeb64c6a62"
@@ -1599,7 +1586,6 @@
     "photographer": "Matt Hoffman",
     "image": "/images/products/out-01.svg",
     "images": [
-      "/images/products/out-01.svg",
       "/images/products/out-01.svg"
     ],
     "photoId": "photo-1508873696983-2df5293cb32b"
@@ -1662,9 +1648,8 @@
     ],
     "imageQuery": "1602143407151-7111542de6e8",
     "photographer": "Bluewater Globe",
-    "image": "/images/products/out-02.jpg",
+    "image": "/images/products/out-02.svg",
     "images": [
-      "/images/products/out-02.jpg",
       "/images/products/out-02.svg"
     ],
     "photoId": "photo-1602143407151-7111542de6e8"
@@ -1760,7 +1745,6 @@
     "photographer": "Elena Kloppenburg",
     "image": "/images/products/out-03-conv.svg",
     "images": [
-      "/images/products/out-03-conv.svg",
       "/images/products/out-03-conv.svg"
     ],
     "photoId": "photo-1592417817098-8f3d6ff30950"
@@ -1923,9 +1907,8 @@
     ],
     "imageQuery": "1584308666744-24d5c474f2ae",
     "photographer": "Sarah Chai",
-    "image": "/images/products/clean-02.jpg",
+    "image": "/images/products/clean-02.svg",
     "images": [
-      "/images/products/clean-02.jpg",
       "/images/products/clean-02.svg"
     ],
     "photoId": "photo-1584308666744-24d5c474f2ae"
@@ -1954,9 +1937,8 @@
     ],
     "imageQuery": "1585670210693-e7fdd16b142e",
     "photographer": "Volodymyr Hryshchenko",
-    "image": "/images/products/clean-02-conv.jpg",
+    "image": "/images/products/clean-02-conv.svg",
     "images": [
-      "/images/products/clean-02-conv.jpg",
       "/images/products/clean-02-conv.svg"
     ],
     "photoId": "photo-1585670210693-e7fdd16b142e"
@@ -2019,9 +2001,8 @@
     ],
     "imageQuery": "1585670210693-e7fdd16b142e",
     "photographer": "The Creative Exchange",
-    "image": "/images/products/clean-03-conv.jpg",
+    "image": "/images/products/clean-03-conv.svg",
     "images": [
-      "/images/products/clean-03-conv.jpg",
       "/images/products/clean-03-conv.svg"
     ],
     "photoId": "photo-1585670210693-e7fdd16b142e"
@@ -2053,9 +2034,8 @@
     ],
     "imageQuery": "1584308666744-24d5c474f2ae",
     "photographer": "Sarah Chai",
-    "image": "/images/products/clean-04.jpg",
+    "image": "/images/products/clean-04.svg",
     "images": [
-      "/images/products/clean-04.jpg",
       "/images/products/clean-04.svg"
     ],
     "photoId": "photo-1584308666744-24d5c474f2ae"
@@ -2084,9 +2064,8 @@
     ],
     "imageQuery": "1585670210693-e7fdd16b142e",
     "photographer": "Anton",
-    "image": "/images/products/clean-04-conv.jpg",
+    "image": "/images/products/clean-04-conv.svg",
     "images": [
-      "/images/products/clean-04-conv.jpg",
       "/images/products/clean-04-conv.svg"
     ],
     "photoId": "photo-1585670210693-e7fdd16b142e"

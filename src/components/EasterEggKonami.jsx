@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Sparkles, Leaf, X } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 
 const KONAMI_CODE = [
@@ -9,7 +8,7 @@ const KONAMI_CODE = [
 ];
 
 export default function EasterEggKonami() {
-  const [inputSequence, setInputSequence] = useState([]);
+  const [, setInputSequence] = useState([]);
   const [triggered, setTriggered] = useState(false);
   const { setUnlockedBadge } = useCart();
 

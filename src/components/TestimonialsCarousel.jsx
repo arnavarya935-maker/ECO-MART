@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Star, ChevronLeft, ChevronRight, Quote, CheckCircle2, ShieldCheck } from 'lucide-react';
+import { Star, ChevronLeft, ChevronRight, Quote, CheckCircle2 } from 'lucide-react';
 
 const TESTIMONIALS = [
   {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckCircle2, Wind, Ban, Droplets, Sparkles, Award, ArrowRight, Printer, Share2 } from 'lucide-react';
+import { CheckCircle2, Wind, Ban, Droplets, Sparkles, Share2 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 
 export default function ConfirmationModal() {
@@ -134,7 +134,7 @@ export default function ConfirmationModal() {
                   `I shopped with purpose on EcoMart and avoided ${(impactSaved.co2Saved || impactSaved.savedCo2 || 0).toFixed(1)}kg of lifecycle CO₂! Check your eco-score at EcoMart. 🌿`
                 );
                 alert('Copied shareable impact card to clipboard!');
-              } catch (_e) {}
+              } catch {}
             }}
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition shadow-sm"
           >

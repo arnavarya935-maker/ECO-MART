@@ -56,7 +56,7 @@ export default async function handler(req, res) {
       message: replyText || 'Recommendation generated.',
       source: 'cloud-llm'
     });
-  } catch (_err) {
+  } catch {
     // Graceful offline fallback
     return res.status(200).json({
       fallback: true,

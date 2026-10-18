@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { WifiOff, Wifi, X } from 'lucide-react';
+import { WifiOff, X } from 'lucide-react';
 
 export default function OfflineDetector() {
   const [isOnline, setIsOnline] = useState(() => {

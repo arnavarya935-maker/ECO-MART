@@ -1,29 +1,33 @@
-import React, { useState, Suspense, lazy } from 'react';
+import React, { Suspense, lazy } from 'react';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from './context/ThemeContext';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider, useCart } from './context/CartContext';
 import ErrorBoundary from './components/ErrorBoundary';
+import ScrollToTop from './components/ScrollToTop';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
-import HomePage from './pages/HomePage';
-import ShopPage from './pages/ShopPage';
-import HowItWorksPage from './pages/HowItWorksPage';
-import LoginPage from './pages/LoginPage';
-import SignupPage from './pages/SignupPage';
-import WishlistPage from './pages/WishlistPage';
-import OrdersPage from './pages/OrdersPage';
-import NotFoundPage from './pages/NotFoundPage';
+import MobileBottomTabs from './components/MobileBottomTabs';
+import CommandPalette from './components/CommandPalette';
 
-// Lazy load chart and 3D heavy pages for fast first load
-const ImpactPage = lazy(() => import('./pages/ImpactPage'));
-const ProfilePage = lazy(() => import('./pages/ProfilePage'));
-const SettingsPage = lazy(() => import('./pages/SettingsPage'));
+// Route Pages - Lazy loaded for code-splitting & performance
+const HomePage = lazy(() => import('./pages/HomePage'));
+const ShopPage = lazy(() => import('./pages/ShopPage'));
+const ProductPage = lazy(() => import('./pages/ProductPage'));
 const ToolsPage = lazy(() => import('./pages/ToolsPage'));
 const CommunityPage = lazy(() => import('./pages/CommunityPage'));
+const ImpactPage = lazy(() => import('./pages/ImpactPage'));
+const HowItWorksPage = lazy(() => import('./pages/HowItWorksPage'));
+const WishlistPage = lazy(() => import('./pages/WishlistPage'));
+const ProfilePage = lazy(() => import('./pages/ProfilePage'));
+const OrdersPage = lazy(() => import('./pages/OrdersPage'));
+const SettingsPage = lazy(() => import('./pages/SettingsPage'));
+const LoginPage = lazy(() => import('./pages/LoginPage'));
+const SignupPage = lazy(() => import('./pages/SignupPage'));
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
+// Widgets, Modals and Drawers
 import ImpactPulseWidget from './components/tools/ImpactPulseWidget';
-
-// Modals and Drawers
 import CartDrawer from './components/CartDrawer';
 import ProductDetailModal from './components/ProductDetailModal';
 import CheckoutModal from './components/CheckoutModal';
@@ -42,78 +46,79 @@ import EasterEggKonami from './components/EasterEggKonami';
 import KeyboardShortcutsModal from './components/KeyboardShortcutsModal';
 import { CheckCircle2, Sparkles, Info } from 'lucide-react';
 
-function AppContent() {
-  const [activePage, setActivePage] = useState('home');
-  const [selectedCategory, setSelectedCategory] = useState(null);
+function PageLoadingFallback() {
+  return (
+    <div className="min-h-[60vh] max-w-7xl mx-auto px-4 py-12 animate-pulse space-y-6">
+      <div className="h-10 bg-stone-200/80 rounded-2xl w-1/3" />
+      <div className="h-4 bg-stone-200/60 rounded-lg w-1/2" />
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 pt-6">
+        {[...Array(8)].map((_, i) => (
+          <div key={i} className="aspect-4/5 bg-stone-100 rounded-3xl border border-stone-200/60" />
+        ))}
+      </div>
+    </div>
+  );
+}
 
+function AppContent() {
   const {
     selectedProduct,
     setSelectedProduct,
     toastMessage
   } = useCart();
 
-  const handleCategorySelectFromHome = (category) => {
-    setSelectedCategory(category);
-    setActivePage('shop');
-  };
-
-  const validPages = ['home', 'shop', 'tools', 'community', 'impact', 'how-it-works', 'login', 'signup', 'wishlist', 'profile', 'orders', 'settings'];
-  const is404 = !validPages.includes(activePage);
-
   return (
-    <div className="min-h-screen bg-[#f4f4f5] text-[#0a0a0a] dark:bg-[#030303] dark:text-white flex flex-col selection:bg-[#A8C7FA] selection:text-black font-sans transition-colors relative">
+    <div className="min-h-screen bg-[#faf9f6] text-[#0a0a0a] flex flex-col font-sans transition-colors relative selection:bg-emerald-100 selection:text-emerald-950">
+      {/* Scroll restoration on every route change */}
+      <ScrollToTop />
+
       {/* Offline Status Banner */}
       <OfflineDetector />
 
-      {/* Floating Leaf Particles (Feature 36) */}
+      {/* Floating Leaf Particles (Respects Reduce Effects) */}
       <LeafParticles />
 
-      {/* Cursor Parallax Glow (Feature 33) */}
+      {/* Cursor Parallax Glow (Respects Reduce Effects) */}
       <CursorGlow />
 
       {/* Top Proactive Swap Alert Banner */}
       <SwapSuggestionBanner />
 
       {/* Main Navigation */}
-      <Navbar activePage={activePage} setActivePage={setActivePage} />
+      <Navbar />
 
-      {/* Page Content with Suspense */}
-      <main className="flex-1">
-        <Suspense fallback={
-          <div className="min-h-[50vh] flex items-center justify-center">
-            <div className="w-8 h-8 rounded-full border-2 border-emerald-600 border-t-transparent animate-spin" />
-          </div>
-        }>
-          {activePage === 'home' && (
-            <HomePage
-              setActivePage={setActivePage}
-              onCategorySelect={handleCategorySelectFromHome}
-            />
-          )}
-          {activePage === 'shop' && (
-            <ShopPage
-              initialCategory={selectedCategory}
-              onCategoryChange={setSelectedCategory}
-            />
-          )}
-          {activePage === 'tools' && <ToolsPage />}
-          {activePage === 'community' && <CommunityPage />}
-          {activePage === 'impact' && <ImpactPage setActivePage={setActivePage} />}
-          {activePage === 'how-it-works' && <HowItWorksPage />}
-          {activePage === 'login' && <LoginPage setActivePage={setActivePage} />}
-          {activePage === 'signup' && <SignupPage setActivePage={setActivePage} />}
-          {activePage === 'wishlist' && <WishlistPage setActivePage={setActivePage} />}
-          {activePage === 'profile' && <ProfilePage setActivePage={setActivePage} />}
-          {activePage === 'orders' && <OrdersPage setActivePage={setActivePage} />}
-          {activePage === 'settings' && <SettingsPage setActivePage={setActivePage} />}
-          {is404 && <NotFoundPage setActivePage={setActivePage} />}
+      {/* Page Content with Routes & Suspense */}
+      <main className="flex-1 pb-16 md:pb-0">
+        <Suspense fallback={<PageLoadingFallback />}>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/shop" element={<ShopPage />} />
+            <Route path="/product/:id" element={<ProductPage />} />
+            <Route path="/tools" element={<ToolsPage />} />
+            <Route path="/community" element={<CommunityPage />} />
+            <Route path="/impact" element={<ImpactPage />} />
+            <Route path="/how-it-works" element={<HowItWorksPage />} />
+            <Route path="/wishlist" element={<WishlistPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/orders" element={<OrdersPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
         </Suspense>
       </main>
 
-      {/* Cart Drawer Slide-out */}
+      {/* Mobile Bottom Tab Bar (Home, Shop, Tools, Cart, Profile) */}
+      <MobileBottomTabs />
+
+      {/* Command Palette (Ctrl/Cmd+K) */}
+      <CommandPalette />
+
+      {/* Cart Drawer Slide-out with Swap My Cart */}
       <CartDrawer />
 
-      {/* Detailed Product Specifications Modal */}
+      {/* Detailed Product Specifications Modal (Quick-view) */}
       {selectedProduct && (
         <ProductDetailModal
           product={selectedProduct}
@@ -138,36 +143,36 @@ function AppContent() {
       {/* Achievement Unlocked Pop-up */}
       <AchievementUnlockedModal />
 
-      {/* Konami Code Easter Egg (Feature 64) */}
+      {/* Konami Code Easter Egg */}
       <EasterEggKonami />
 
-      {/* Keyboard Shortcuts Overlay (Feature 65) */}
-      <KeyboardShortcutsModal setActivePage={setActivePage} />
+      {/* Keyboard Shortcuts Overlay */}
+      <KeyboardShortcutsModal />
 
       {/* Floating Eco Agent AI Chat Widget */}
       <EcoAgentChat />
 
       {/* Floating Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 left-6 z-50 animate-slide-up">
-          <div className="flex items-center gap-2.5 px-4 py-3 rounded-2xl bg-stone-900 text-white dark:bg-stone-100 dark:text-stone-900 shadow-2xl border border-stone-700 dark:border-stone-200 text-xs font-semibold">
+        <div className="fixed bottom-20 md:bottom-6 left-6 z-50 animate-slide-up pointer-events-none">
+          <div className="flex items-center gap-2.5 px-4 py-3 rounded-2xl bg-stone-900 text-white shadow-2xl border border-stone-800 text-xs font-semibold">
             {toastMessage.type === 'swap' ? (
-              <Sparkles className="w-4 h-4 text-emerald-400 dark:text-emerald-600 shrink-0" />
+              <Sparkles className="w-4 h-4 text-emerald-400 shrink-0" />
             ) : toastMessage.type === 'success' ? (
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 dark:text-emerald-600 shrink-0" />
+              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
             ) : (
-              <Info className="w-4 h-4 text-sky-400 dark:text-sky-600 shrink-0" />
+              <Info className="w-4 h-4 text-sky-400 shrink-0" />
             )}
             <span>{toastMessage.message}</span>
           </div>
         </div>
       )}
 
-      {/* Sticky Impact Pulse Mini-Widget (Feature 48) */}
+      {/* Sticky Impact Pulse Mini-Widget */}
       <ImpactPulseWidget />
 
       {/* Footer */}
-      <Footer setActivePage={setActivePage} />
+      <Footer />
     </div>
   );
 }
@@ -178,7 +183,9 @@ export default function App() {
       <ThemeProvider>
         <AuthProvider>
           <CartProvider>
-            <AppContent />
+            <HashRouter>
+              <AppContent />
+            </HashRouter>
           </CartProvider>
         </AuthProvider>
       </ThemeProvider>

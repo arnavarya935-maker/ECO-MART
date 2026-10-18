@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Users, Trophy, HeartHandshake, Share2, Mail, Sparkles } from 'lucide-react';
+import { Users, Trophy, HeartHandshake, Share2 } from 'lucide-react';
 import CommunityFeed from '../components/community/CommunityFeed';
 import EcoLeaderboard from '../components/community/EcoLeaderboard';
 import ShareableImpactCard from '../components/community/ShareableImpactCard';

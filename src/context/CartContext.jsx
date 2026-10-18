@@ -1,23 +1,12 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import confetti from 'canvas-confetti';
 import productsData from '../data/products.json';
 import { calculateCartImpact } from '../lib/impactCalculator';
 import { getSwapSuggestion } from '../lib/ecoAgent';
-import { calculateEcoScore } from '../lib/ecoScore';
+import { fireGreenConfetti } from '../lib/confetti';
+
+export { fireGreenConfetti };
 
 const CartContext = createContext();
-
-// Helper to fire green celebratory confetti
-export const fireGreenConfetti = () => {
-  try {
-    confetti({
-      particleCount: 55,
-      spread: 70,
-      origin: { y: 0.65 },
-      colors: ['#10B981', '#059669', '#34D399', '#F59E0B', '#FAF7F0']
-    });
-  } catch (_e) {}
-};
 
 // Initial mock reviews for offline realism
 const INITIAL_REVIEWS = {
@@ -28,10 +17,25 @@ const INITIAL_REVIEWS = {
   'prod-002': [
     { id: 'r3', author: 'Vikram M.', rating: 5, comment: 'Keeps water cold all day, feel great avoiding plastic bottles.', date: '2026-03-18', verifiedEco: true }
   ],
-  'prod-007': [
-    { id: 'r4', author: 'Pooja R.', rating: 5, comment: 'The bristles are soft and the handle feels solid. Excellent!', date: '2026-02-28', verifiedEco: true }
+  'prod-003': [
+    { id: 'r4', author: 'Pooja K.', rating: 5, comment: 'Cleans deeply without microplastic shedding. Highly recommend.', date: '2026-04-02', verifiedEco: true }
   ]
 };
+
+// Pure order creation helper
+function createNewOrder(orderData, cartItems, impact, appliedCoupon) {
+  return {
+    id: 'ECO-' + Math.floor(100000 + Math.random() * 900000),
+    date: new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' }),
+    items: [...cartItems],
+    total: orderData.total,
+    shippingAddress: orderData.address,
+    carbonOffset: orderData.carbonOffset || false,
+    plasticFreePackaging: orderData.plasticFreePackaging || true,
+    impact: impact,
+    couponApplied: appliedCoupon
+  };
+}
 
 export function CartProvider({ children }) {
   // Cart items
@@ -39,7 +43,7 @@ export function CartProvider({ children }) {
     try {
       const saved = localStorage.getItem('ecomart_cart');
       return saved ? JSON.parse(saved) : [];
-    } catch (_e) {
+    } catch {
       return [];
     }
   });
@@ -49,7 +53,7 @@ export function CartProvider({ children }) {
     try {
       const saved = localStorage.getItem('ecomart_wishlist');
       return saved ? JSON.parse(saved) : [];
-    } catch (_e) {
+    } catch {
       return [];
     }
   });
@@ -59,7 +63,7 @@ export function CartProvider({ children }) {
     try {
       const saved = localStorage.getItem('ecomart_compare');
       return saved ? JSON.parse(saved) : [];
-    } catch (_e) {
+    } catch {
       return [];
     }
   });
@@ -69,7 +73,7 @@ export function CartProvider({ children }) {
     try {
       const saved = localStorage.getItem('ecomart_recent');
       return saved ? JSON.parse(saved) : [];
-    } catch (_e) {
+    } catch {
       return [];
     }
   });
@@ -79,7 +83,7 @@ export function CartProvider({ children }) {
     try {
       const saved = localStorage.getItem('ecomart_reviews');
       return saved ? JSON.parse(saved) : INITIAL_REVIEWS;
-    } catch (_e) {
+    } catch {
       return INITIAL_REVIEWS;
     }
   });
@@ -89,7 +93,7 @@ export function CartProvider({ children }) {
     try {
       const saved = localStorage.getItem('ecomart_orders');
       return saved ? JSON.parse(saved) : [];
-    } catch (_e) {
+    } catch {
       return [];
     }
   });
@@ -112,7 +116,7 @@ export function CartProvider({ children }) {
   const [welcomeModalOpen, setWelcomeModalOpen] = useState(() => {
     try {
       return !localStorage.getItem('ecomart_welcome_seen');
-    } catch (_e) {
+    } catch {
       return false;
     }
   });
@@ -125,37 +129,37 @@ export function CartProvider({ children }) {
   useEffect(() => {
     try {
       localStorage.setItem('ecomart_cart', JSON.stringify(cartItems));
-    } catch (_e) {}
+    } catch {}
   }, [cartItems]);
 
   useEffect(() => {
     try {
       localStorage.setItem('ecomart_wishlist', JSON.stringify(wishlist));
-    } catch (_e) {}
+    } catch {}
   }, [wishlist]);
 
   useEffect(() => {
     try {
       localStorage.setItem('ecomart_compare', JSON.stringify(compareList));
-    } catch (_e) {}
+    } catch {}
   }, [compareList]);
 
   useEffect(() => {
     try {
       localStorage.setItem('ecomart_recent', JSON.stringify(recentlyViewed));
-    } catch (_e) {}
+    } catch {}
   }, [recentlyViewed]);
 
   useEffect(() => {
     try {
       localStorage.setItem('ecomart_reviews', JSON.stringify(reviews));
-    } catch (_e) {}
+    } catch {}
   }, [reviews]);
 
   useEffect(() => {
     try {
       localStorage.setItem('ecomart_orders', JSON.stringify(orders));
-    } catch (_e) {}
+    } catch {}
   }, [orders]);
 
   // Exit intent detection (mouse leaving window top)
@@ -174,25 +178,20 @@ export function CartProvider({ children }) {
     setWelcomeModalOpen(false);
     try {
       localStorage.setItem('ecomart_welcome_seen', 'true');
-    } catch (_e) {}
+    } catch {}
   };
 
   const showToast = (message, type = 'info') => {
-    setToastMessage({ message, type, id: Date.now() });
+    setToastMessage({ message, type });
     setTimeout(() => {
       setToastMessage(null);
-    }, 4000);
+    }, 3800);
   };
 
-  // Add to recently viewed
-  const trackRecentlyViewed = useCallback((product) => {
-    if (!product) return;
-    setRecentlyViewed((prev) => {
-      const filtered = prev.filter((p) => p.id !== product.id);
-      return [product, ...filtered].slice(0, 8);
-    });
-  }, []);
+  // Undo removal support
+  const [lastRemovedItem, setLastRemovedItem] = useState(null);
 
+  // Cart Actions
   const addToCart = (product, quantity = 1) => {
     setCartItems((prev) => {
       const existing = prev.find((item) => item.product.id === product.id);
@@ -206,76 +205,79 @@ export function CartProvider({ children }) {
       return [...prev, { product, quantity }];
     });
 
-    // Check eco score for celebratory green confetti
-    const score = calculateEcoScore(product);
-    if (score.grade === 'A') {
-      fireGreenConfetti();
-    }
-
-    // Check if added item has a greener swap suggestion
+    // Check for proactive sustainable swap alert
     const swap = getSwapSuggestion(product, productsData);
     if (swap) {
-      setActiveSwapAlert({
-        conventionalProduct: product,
-        greenerProduct: swap.greenerProduct,
-        impact: swap,
-        quantity
+      setActiveSwapAlert(swap);
+    }
+
+    // Badge triggers
+    if (cartItems.length === 0) {
+      setUnlockedBadge({
+        title: 'Green Pioneer',
+        desc: 'Started your journey by adding your first verified sustainable item!',
+        icon: '🌱',
+        points: 20
       });
-      showToast(
-        `Added to cart! Greener alternative available: ${swap.greenerProduct.name}`,
-        'swap'
-      );
-    } else {
-      showToast(`Added "${product.name}" to cart`, 'success');
+      fireGreenConfetti();
     }
   };
 
   const removeFromCart = (productId) => {
-    setCartItems((prev) => prev.filter((item) => item.product.id !== productId));
-    if (activeSwapAlert && activeSwapAlert.conventionalProduct.id === productId) {
-      setActiveSwapAlert(null);
+    const itemToRemove = cartItems.find((item) => item.product.id === productId);
+    if (itemToRemove) {
+      setLastRemovedItem(itemToRemove);
     }
+    setCartItems((prev) => prev.filter((item) => item.product.id !== productId));
   };
 
-  const updateQuantity = (productId, newQuantity) => {
-    if (newQuantity <= 0) {
-      removeFromCart(productId);
-      return;
-    }
+  const undoLastRemoval = () => {
+    if (!lastRemovedItem) return;
+    setCartItems((prev) => [...prev, lastRemovedItem]);
+    showToast(`Restored ${lastRemovedItem.product.name} to cart.`, 'success');
+    setLastRemovedItem(null);
+  };
+
+  const updateQuantity = (productId, delta) => {
     setCartItems((prev) =>
-      prev.map((item) =>
-        item.product.id === productId ? { ...item, quantity: newQuantity } : item
-      )
+      prev
+        .map((item) => {
+          if (item.product.id === productId) {
+            const newQty = item.quantity + delta;
+            return newQty > 0 ? { ...item, quantity: newQty } : null;
+          }
+          return item;
+        })
+        .filter(Boolean)
     );
   };
 
-  // Perform 1-tap greener swap
-  const swapItemInCart = (oldProductId, newProduct) => {
+  const swapItemInCart = useCallback((targetProductId, newProduct) => {
     setCartItems((prev) => {
-      const existingItem = prev.find((item) => item.product.id === oldProductId);
-      const qty = existingItem ? existingItem.quantity : 1;
-      const filtered = prev.filter((item) => item.product.id !== oldProductId);
-      const existingNewItem = filtered.find((item) => item.product.id === newProduct.id);
-
-      if (existingNewItem) {
+      const existing = prev.find((item) => item.product.id === targetProductId);
+      if (!existing) return prev;
+      const quantity = existing.quantity;
+      const filtered = prev.filter((item) => item.product.id !== targetProductId);
+      const alreadyHasNew = filtered.find((item) => item.product.id === newProduct.id);
+      if (alreadyHasNew) {
         return filtered.map((item) =>
           item.product.id === newProduct.id
-            ? { ...item, quantity: item.quantity + qty }
+            ? { ...item, quantity: item.quantity + quantity }
             : item
         );
       }
-
-      return [...filtered, { product: newProduct, quantity: qty }];
+      return [...filtered, { product: newProduct, quantity }];
     });
+  }, []);
 
-    fireGreenConfetti();
+  const applySwap = (currentProductId, recommendedProduct) => {
+    swapItemInCart(currentProductId, recommendedProduct);
     setActiveSwapAlert(null);
-    showToast(`🌱 Swapped to ${newProduct.name}! Impact improved.`, 'success');
 
-    // Trigger achievement popup if first swap
+    // Gamification milestone
     try {
-      const swappedBefore = localStorage.getItem('ecomart_achievement_first_swap');
-      if (!swappedBefore) {
+      const hasSwappedBefore = localStorage.getItem('ecomart_achievement_first_swap');
+      if (!hasSwappedBefore) {
         localStorage.setItem('ecomart_achievement_first_swap', 'true');
         setUnlockedBadge({
           title: 'Eco Alchemist',
@@ -284,7 +286,7 @@ export function CartProvider({ children }) {
           points: 50
         });
       }
-    } catch (_e) {}
+    } catch {}
   };
 
   const clearCart = () => {
@@ -298,31 +300,44 @@ export function CartProvider({ children }) {
     setWishlist((prev) => {
       const exists = prev.some((p) => p.id === product.id);
       if (exists) {
-        showToast(`Removed "${product.name}" from wishlist`, 'info');
+        showToast(`Removed "${product.name}" from wishlist.`);
         return prev.filter((p) => p.id !== product.id);
       } else {
-        showToast(`Saved "${product.name}" to wishlist`, 'success');
+        showToast(`Saved "${product.name}" to wishlist.`, 'success');
         return [...prev, product];
       }
     });
   };
 
-  const isInWishlist = (productId) => wishlist.some((p) => p.id === productId);
-
-  const moveWishlistToCart = (product) => {
-    addToCart(product);
-    setWishlist((prev) => prev.filter((p) => p.id !== product.id));
+  const isInWishlist = (productId) => {
+    return wishlist.some((p) => p.id === productId);
   };
 
-  // Compare Actions (max 3)
+  const moveWishlistToCart = (product) => {
+    addToCart(product, 1);
+    setWishlist((prev) => prev.filter((p) => p.id !== product.id));
+    showToast(`Moved "${product.name}" to cart!`, 'success');
+  };
+
+  const moveAllWishlistToCart = () => {
+    if (wishlist.length === 0) return;
+    wishlist.forEach((product) => {
+      addToCart(product, 1);
+    });
+    setWishlist([]);
+    showToast(`Moved ${wishlist.length} items from wishlist to cart!`, 'success');
+    fireGreenConfetti();
+  };
+
+  // Compare Actions
   const addToCompare = (product) => {
     setCompareList((prev) => {
       if (prev.some((p) => p.id === product.id)) return prev;
       if (prev.length >= 3) {
-        showToast('You can compare up to 3 products at a time', 'info');
+        showToast('You can compare a maximum of 3 items at a time.', 'info');
         return prev;
       }
-      showToast(`Added "${product.name}" to compare list`, 'success');
+      showToast(`Added "${product.name}" to comparison.`, 'info');
       return [...prev, product];
     });
   };
@@ -331,15 +346,25 @@ export function CartProvider({ children }) {
     setCompareList((prev) => prev.filter((p) => p.id !== productId));
   };
 
-  const clearCompare = () => setCompareList([]);
+  const clearCompare = () => {
+    setCompareList([]);
+  };
 
-  // Reviews Actions
+  // Recently Viewed tracker
+  const trackRecentlyViewed = (product) => {
+    setRecentlyViewed((prev) => {
+      const filtered = prev.filter((p) => p.id !== product.id);
+      return [product, ...filtered].slice(0, 8);
+    });
+  };
+
+  // Reviews
   const addReview = (productId, review) => {
     const newRev = {
-      id: 'rev_' + Date.now(),
-      author: review.author || 'Conscious Shopper',
+      id: 'rev-' + Date.now(),
+      author: review.author || 'Eco Shopper',
       rating: review.rating || 5,
-      comment: review.comment,
+      comment: review.comment || '',
       date: new Date().toISOString().split('T')[0],
       verifiedEco: true
     };
@@ -356,17 +381,7 @@ export function CartProvider({ children }) {
 
   // Order Placement
   const recordOrder = (orderData) => {
-    const newOrder = {
-      id: 'ECO-' + Math.floor(100000 + Math.random() * 900000),
-      date: new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' }),
-      items: [...cartItems],
-      total: orderData.total,
-      shippingAddress: orderData.address,
-      carbonOffset: orderData.carbonOffset || false,
-      plasticFreePackaging: orderData.plasticFreePackaging || true,
-      impact: impact,
-      couponApplied: appliedCoupon
-    };
+    const newOrder = createNewOrder(orderData, cartItems, impact, appliedCoupon);
 
     setOrders((prev) => [newOrder, ...prev]);
     setOrderConfirmation(newOrder);
@@ -384,36 +399,27 @@ export function CartProvider({ children }) {
 
   // Coupon handling
   const applyCouponCode = (code) => {
-    const clean = (code || '').trim().toUpperCase();
-    if (clean === 'GREEN10') {
-      const discount = 10;
-      setAppliedCoupon({ code: clean, percent: discount, label: '10% Green Pioneer Discount' });
-      showToast('Coupon GREEN10 applied! 10% off', 'success');
-      return { success: true, message: '10% discount applied!' };
+    const upper = code.trim().toUpperCase();
+    if (upper === 'EARTH20') {
+      setAppliedCoupon({ code: 'EARTH20', discountPercent: 20, description: '20% Earth Day Savings' });
+      showToast('Coupon EARTH20 applied! 20% discount added.', 'success');
+      return true;
+    } else if (upper === 'ZERO50') {
+      setAppliedCoupon({ code: 'ZERO50', discountFixed: 50, description: '₹50 Plastic-Free Pioneer' });
+      showToast('Coupon ZERO50 applied! ₹50 discount added.', 'success');
+      return true;
+    } else {
+      showToast('Invalid coupon code. Try EARTH20 or ZERO50.', 'info');
+      return false;
     }
-    if (clean === 'EARTHDAY') {
-      const discount = 15;
-      setAppliedCoupon({ code: clean, percent: discount, label: '15% Earth Day Special' });
-      showToast('Coupon EARTHDAY applied! 15% off', 'success');
-      return { success: true, message: '15% discount applied!' };
-    }
-    if (clean === 'ZERO15') {
-      const discount = 15;
-      setAppliedCoupon({ code: clean, percent: discount, label: '15% Plastic-Free Movement' });
-      showToast('Coupon ZERO15 applied! 15% off', 'success');
-      return { success: true, message: '15% discount applied!' };
-    }
-    showToast('Invalid or expired coupon code', 'info');
-    return { success: false, message: 'Invalid coupon code. Try GREEN10 or EARTHDAY.' };
   };
 
   const removeCoupon = () => {
     setAppliedCoupon(null);
-    showToast('Coupon removed', 'info');
   };
 
-  // Calculate live impact
-  const impact = calculateCartImpact(cartItems, productsData);
+  // Aggregated dynamic impact
+  const impact = calculateCartImpact(cartItems);
 
   return (
     <CartContext.Provider
@@ -424,6 +430,7 @@ export function CartProvider({ children }) {
         removeFromCart,
         updateQuantity,
         swapItemInCart,
+        applySwap,
         clearCart,
         impact,
         activeSwapAlert,
@@ -440,11 +447,14 @@ export function CartProvider({ children }) {
         setOrderConfirmation,
         toastMessage,
         showToast,
+        lastRemovedItem,
+        undoLastRemoval,
         // Wishlist
         wishlist,
         toggleWishlist,
         isInWishlist,
         moveWishlistToCart,
+        moveAllWishlistToCart,
         // Compare
         compareList,
         addToCompare,
@@ -455,6 +465,7 @@ export function CartProvider({ children }) {
         // Recently Viewed
         recentlyViewed,
         trackRecentlyViewed,
+        addRecentlyViewed: trackRecentlyViewed,
         // Reviews
         reviews,
         addReview,
@@ -487,4 +498,3 @@ export function useCart() {
   }
   return context;
 }
-

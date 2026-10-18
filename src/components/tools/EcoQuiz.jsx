@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { Sparkles, CheckCircle2, RotateCcw, Share2, Award, ArrowRight } from 'lucide-react';
-import Button from '../ui/Button';
+import { RotateCcw, Share2, ArrowRight } from 'lucide-react';
 
 const QUIZ_QUESTIONS = [
   {

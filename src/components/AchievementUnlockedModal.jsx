@@ -1,5 +1,5 @@
 import React from 'react';
-import { Award, Sparkles, X, Check } from 'lucide-react';
+import { Sparkles, X } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 
 export default function AchievementUnlockedModal() {

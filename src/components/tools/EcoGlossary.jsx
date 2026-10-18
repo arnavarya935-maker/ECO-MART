@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BookOpen, HelpCircle, Info, Sparkles } from 'lucide-react';
+import { HelpCircle } from 'lucide-react';
 import Tooltip from '../ui/Tooltip';
 
 const GLOSSARY_TERMS = [

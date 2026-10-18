@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Maximize2, X, ZoomIn, ChevronLeft, ChevronRight, Box, Image as ImageIcon } from 'lucide-react';
+import { Maximize2, X, ZoomIn, Box, Image as ImageIcon } from 'lucide-react';
 import ProductImage from './ProductImage';
 import Product3DViewer from './3D/Product3DViewer';
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, RotateCw, ShoppingBag, Wind, Droplets, Ban, Sparkles, RefreshCw, CheckCircle2 } from 'lucide-react';
+import { X, RotateCw, ShoppingBag, Wind, Droplets, Ban, Sparkles, RefreshCw } from 'lucide-react';
 import { calculateEcoScore, compareProductImpact } from '../../lib/ecoScore';
 import EcoScoreBadge from '../EcoScoreBadge';
 import ProductImage from '../ProductImage';
@@ -7,7 +7,7 @@ import { useCart } from '../../context/CartContext';
 
 export default function Product3DFlipCard({ product, onClose }) {
   const [isFlipped, setIsFlipped] = useState(false);
-  const { addToCart, allProducts, swapItemInCart } = useCart();
+  const { addToCart, allProducts } = useCart();
 
   if (!product) return null;
 

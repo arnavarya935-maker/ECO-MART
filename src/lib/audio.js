@@ -18,7 +18,7 @@ class SoundManager {
       if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         return true;
       }
-    } catch (_e) {}
+    } catch {}
     return false;
   }
 
@@ -168,3 +168,19 @@ class SoundManager {
 }
 
 export const sound = new SoundManager();
+
+export const playSound = (type = 'click') => {
+  try {
+    if (type === 'swap') {
+      sound.playSwap();
+    } else if (type === 'pop') {
+      sound.playPop();
+    } else if (type === 'success') {
+      sound.playSuccess();
+    } else {
+      sound.playClick();
+    }
+  } catch {}
+};
+
+export default sound;

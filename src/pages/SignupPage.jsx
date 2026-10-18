@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { Eye, EyeOff, Mail, Lock, User, ArrowRight, Sparkles, AlertCircle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { calculatePasswordStrength } from '../lib/crypto';
+import { playSound } from '../lib/audio';
 
-export default function SignupPage({ setActivePage }) {
+export default function SignupPage() {
+  const navigate = useNavigate();
   const { signup, loginAsGuest } = useAuth();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -26,7 +29,8 @@ export default function SignupPage({ setActivePage }) {
     setLoading(true);
     try {
       await signup({ name, email, password });
-      setActivePage('home');
+      playSound('success');
+      navigate('/');
     } catch (err) {
       setError(err.message || 'Signup failed.');
     } finally {
@@ -35,13 +39,13 @@ export default function SignupPage({ setActivePage }) {
   };
 
   return (
-    <div className="max-w-md mx-auto my-12 px-4">
-      <div className="p-8 rounded-3xl bg-white dark:bg-stone-850 border border-stone-200 dark:border-stone-800 shadow-xl space-y-6">
+    <div className="max-w-md mx-auto my-12 px-4 pb-20">
+      <div className="p-8 rounded-3xl bg-white border border-stone-200/90 shadow-xl space-y-6">
         <div className="text-center space-y-2">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 text-xs font-bold">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 text-xs font-bold border border-emerald-200">
             <Sparkles className="w-3.5 h-3.5" /> Start Your Journey
           </span>
-          <h1 className="text-3xl font-black text-stone-900 dark:text-stone-100">
+          <h1 className="text-3xl font-black text-[#0B3B2C]">
             Join EcoMart
           </h1>
           <p className="text-xs text-stone-500">
@@ -50,7 +54,7 @@ export default function SignupPage({ setActivePage }) {
         </div>
 
         {error && (
-          <div className="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/50 border border-rose-200 text-xs text-rose-800 dark:text-rose-300 flex items-center gap-2">
+          <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-800 flex items-center gap-2">
             <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
             <span>{error}</span>
           </div>
@@ -58,7 +62,7 @@ export default function SignupPage({ setActivePage }) {
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-bold text-stone-600 dark:text-stone-300 uppercase mb-1">
+            <label className="block text-xs font-bold text-stone-700 uppercase mb-1">
               Full Name
             </label>
             <div className="relative">
@@ -69,13 +73,13 @@ export default function SignupPage({ setActivePage }) {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="Maya Patel"
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-sm focus:outline-hidden focus:border-emerald-500"
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-stone-50 border border-stone-200 text-sm focus:outline-hidden focus:border-emerald-600 focus:bg-white transition"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-stone-600 dark:text-stone-300 uppercase mb-1">
+            <label className="block text-xs font-bold text-stone-700 uppercase mb-1">
               Email
             </label>
             <div className="relative">
@@ -86,13 +90,13 @@ export default function SignupPage({ setActivePage }) {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="name@example.com"
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-sm focus:outline-hidden focus:border-emerald-500"
+                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-stone-50 border border-stone-200 text-sm focus:outline-hidden focus:border-emerald-600 focus:bg-white transition"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-stone-600 dark:text-stone-300 uppercase mb-1">
+            <label className="block text-xs font-bold text-stone-700 uppercase mb-1">
               Password
             </label>
             <div className="relative">
@@ -103,7 +107,7 @@ export default function SignupPage({ setActivePage }) {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 text-sm focus:outline-hidden focus:border-emerald-500"
+                className="w-full pl-10 pr-10 py-2.5 rounded-xl bg-stone-50 border border-stone-200 text-sm focus:outline-hidden focus:border-emerald-600 focus:bg-white transition"
               />
               <button
                 type="button"
@@ -121,7 +125,7 @@ export default function SignupPage({ setActivePage }) {
                   <span className="text-stone-400">Security:</span>
                   <span className={strength.text}>{strength.label}</span>
                 </div>
-                <div className="w-full h-1.5 bg-stone-200 dark:bg-stone-700 rounded-full overflow-hidden">
+                <div className="w-full h-1.5 bg-stone-200 rounded-full overflow-hidden">
                   <div
                     className={`h-full transition-all duration-300 ${strength.color}`}
                     style={{ width: `${strength.score}%` }}
@@ -134,34 +138,34 @@ export default function SignupPage({ setActivePage }) {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 rounded-2xl bg-emerald-700 hover:bg-emerald-800 disabled:opacity-50 text-white font-bold text-sm shadow-md transition flex items-center justify-center gap-2"
+            className="w-full py-3.5 rounded-2xl bg-emerald-700 hover:bg-emerald-800 disabled:opacity-50 text-white font-extrabold text-sm shadow-xs transition flex items-center justify-center gap-2 min-h-[44px]"
           >
             <span>{loading ? 'Creating...' : 'Create Account (+100 Eco Points)'}</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </form>
 
-        <div className="pt-2 space-y-2 border-t border-stone-100 dark:border-stone-800">
+        <div className="pt-2 space-y-2 border-t border-stone-100">
           <button
             type="button"
             onClick={() => {
               loginAsGuest();
-              setActivePage('home');
+              playSound('success');
+              navigate('/');
             }}
-            className="w-full py-2.5 rounded-xl bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 font-bold text-xs hover:bg-stone-200 transition"
+            className="w-full py-2.5 rounded-xl bg-stone-100 text-stone-800 font-bold text-xs hover:bg-stone-200 transition min-h-[44px]"
           >
             Continue as Guest (100% Offline)
           </button>
 
           <div className="text-center pt-2 text-xs text-stone-500">
             Already have an account?{' '}
-            <button
-              type="button"
-              onClick={() => setActivePage('login')}
-              className="font-bold text-emerald-700 dark:text-emerald-400 hover:underline"
+            <Link
+              to="/login"
+              className="font-bold text-emerald-700 hover:underline"
             >
               Sign In
-            </button>
+            </Link>
           </div>
         </div>
       </div>

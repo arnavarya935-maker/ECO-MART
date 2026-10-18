@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Sun, CloudRain, Snowflake, Leaf, Sparkles } from 'lucide-react';
+import { Sun, CloudRain, Snowflake } from 'lucide-react';
 
 const SEASONS = [
   {

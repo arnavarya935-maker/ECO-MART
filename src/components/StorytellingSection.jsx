@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowRight, Sparkles, RefreshCw, Layers, ShieldCheck, Heart, Leaf } from 'lucide-react';
-import Button from './ui/Button';
+import { Sparkles } from 'lucide-react';
 
 const STORY_STAGES = [
   {

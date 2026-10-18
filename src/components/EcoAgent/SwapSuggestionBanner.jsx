@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sparkles, RefreshCw, X, ArrowRight, ShieldAlert } from 'lucide-react';
+import { Sparkles, RefreshCw, X } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 
 export default function SwapSuggestionBanner() {

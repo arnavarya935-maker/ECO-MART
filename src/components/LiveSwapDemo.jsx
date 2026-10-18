@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { ArrowRight, Sparkles, Check, X, ShieldAlert, Leaf, RefreshCw, ShoppingBag } from 'lucide-react';
+import { Sparkles, Check, ShieldAlert, Leaf, ShoppingBag } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import Button from './ui/Button';
-import Badge from './ui/Badge';
 
 const SWAP_DEMOS = [
   {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, ShoppingBag, Wind, Droplets, Ban, MapPin, Award, CheckCircle, ArrowRight, Sparkles, RefreshCw } from 'lucide-react';
+import { X, ShoppingBag, Wind, Droplets, Ban, MapPin, Award, CheckCircle, Sparkles, RefreshCw } from 'lucide-react';
 import { calculateEcoScore, compareProductImpact } from '../lib/ecoScore';
 import EcoScoreBadge from './EcoScoreBadge';
 import EcoScorePopover from './EcoScorePopover';
@@ -7,7 +7,7 @@ import ProductGallery from './ProductGallery';
 import { useCart } from '../context/CartContext';
 
 export default function ProductDetailModal({ product, onClose }) {
-  const { addToCart, allProducts, swapItemInCart, getProductReviews, addReview } = useCart();
+  const { addToCart, allProducts, getProductReviews, addReview } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [showFormulaPopover, setShowFormulaPopover] = useState(false);
   const [showReviewForm, setShowReviewForm] = useState(false);

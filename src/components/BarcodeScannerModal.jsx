@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Scan, QrCode, ArrowRight, Sparkles, CheckCircle2, RefreshCw, X, Search } from 'lucide-react';
+import { Scan, Sparkles, Search } from 'lucide-react';
 import Modal from './ui/Modal';
 import Button from './ui/Button';
 import Badge from './ui/Badge';

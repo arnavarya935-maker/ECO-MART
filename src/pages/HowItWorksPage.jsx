@@ -1,7 +1,7 @@
 import React from 'react';
 import ArchitectureDiagram from '../components/ArchitectureDiagram';
 import { useCart } from '../context/CartContext';
-import { Sparkles, ShieldCheck, Cpu, Database, RefreshCw, Layers, Award, Terminal } from 'lucide-react';
+import { Sparkles, ShieldCheck, Cpu } from 'lucide-react';
 
 export default function HowItWorksPage() {
   const { setIsAgentOpen } = useCart();

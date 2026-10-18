@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Recycle, Trash2, Sprout, AlertCircle, Sparkles } from 'lucide-react';
+import { Search, Recycle, Trash2, Sprout } from 'lucide-react';
 
 const RECYCLING_ITEMS = [
   { item: 'Bamboo Toothbrush Handle', stream: 'Backyard Compost', bin: 'Wet / Organic Waste', tip: 'Snap off bristles with pliers first; 100% bamboo body breaks down in 180 days.', icon: Sprout, color: 'text-emerald-600 bg-emerald-50 dark:bg-emerald-950/60 border-emerald-300' },

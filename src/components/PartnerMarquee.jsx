@@ -1,5 +1,4 @@
 import React from 'react';
-import { ShieldCheck, Award, Leaf, CheckCircle2 } from 'lucide-react';
 
 const PARTNERS = [
   { name: 'GOTS Organic', code: 'Global Organic Textile Standard', icon: '🌿' },

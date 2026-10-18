@@ -1,11 +1,11 @@
 import React, { useRef, useState } from 'react';
-import { Download, Share2, Sparkles, CheckCircle2, Leaf } from 'lucide-react';
+import { Download } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
 
 export default function ShareableImpactCard() {
   const { user } = useAuth();
-  const { impact, orders } = useCart();
+  const { impact } = useCart();
   const [downloading, setDownloading] = useState(false);
   const canvasRef = useRef(null);
 
@@ -29,13 +29,21 @@ export default function ShareableImpactCard() {
     gradient.addColorStop(0.5, '#06241B');
     gradient.addColorStop(1, '#02130D');
     ctx.fillStyle = gradient;
-    ctx.roundRect ? ctx.roundRect(0, 0, 800, 500, 32) : ctx.rect(0, 0, 800, 500);
+    if (typeof ctx.roundRect === 'function') {
+      ctx.roundRect(0, 0, 800, 500, 32);
+    } else {
+      ctx.rect(0, 0, 800, 500);
+    }
     ctx.fill();
 
     // Decorative Emerald Border
     ctx.strokeStyle = '#10B981';
     ctx.lineWidth = 4;
-    ctx.roundRect ? ctx.roundRect(10, 10, 780, 480, 24) : ctx.strokeRect(10, 10, 780, 480);
+    if (typeof ctx.roundRect === 'function') {
+      ctx.roundRect(10, 10, 780, 480, 24);
+    } else {
+      ctx.strokeRect(10, 10, 780, 480);
+    }
     ctx.stroke();
 
     // Brand Header

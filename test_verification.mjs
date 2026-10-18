@@ -1,7 +1,7 @@
 import products from './src/data/products.json' with { type: 'json' };
 import { calculateEcoScore, compareProductImpact } from './src/lib/ecoScore.js';
 import { calculateCartImpact } from './src/lib/impactCalculator.js';
-import { parseShoppingIntent, queryEcoCatalog, auditCartSustainability, sendAgentQuery } from './src/lib/ecoAgent.js';
+import { parseShoppingIntent, queryEcoCatalog, auditCartSustainability } from './src/lib/ecoAgent.js';
 
 console.log('=== ECOMART COMPREHENSIVE VERIFICATION TEST SUITE ===\n');
 
@@ -28,7 +28,7 @@ const ecoScoreResult = calculateEcoScore(sampleEco);
 console.log(`Sample Eco (${sampleEco.name}):`);
 console.log(`  Score: ${ecoScoreResult.score}/100, Grade: ${ecoScoreResult.grade} (${ecoScoreResult.gradeLabel})`);
 console.log('  5-Pillar Breakdown:');
-Object.entries(ecoScoreResult.breakdown).forEach(([pillar, data]) => {
+Object.entries(ecoScoreResult.breakdown).forEach(([, data]) => {
   console.log(`    - ${data.name} (${data.weight}): ${data.score}/${data.max} pts [${data.explanation}]`);
 });
 

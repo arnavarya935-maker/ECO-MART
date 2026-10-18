@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Sparkles, MoveHorizontal, AlertTriangle, CheckCircle2, ShieldCheck } from 'lucide-react';
+import { MoveHorizontal, AlertTriangle, CheckCircle2 } from 'lucide-react';
 
 export default function BeforeAfterSlider() {
   const [sliderPos, setSliderPos] = useState(50);

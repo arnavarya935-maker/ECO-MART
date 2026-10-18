@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Eye, EyeOff, ShieldCheck, Sparkles, User, Mail, Lock, AlertCircle, ArrowRight } from 'lucide-react';
+import { X, Eye, EyeOff, Sparkles, User, Mail, Lock, AlertCircle, ArrowRight } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { calculatePasswordStrength } from '../lib/crypto';
 

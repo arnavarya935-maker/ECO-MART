@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, CheckCircle2, Sparkles, ShieldCheck } from 'lucide-react';
+import { Mail, CheckCircle2 } from 'lucide-react';
 
 export default function NewsletterSignup() {
   const [email, setEmail] = useState('');

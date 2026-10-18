@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import { X, ShieldCheck, Truck, Leaf, CheckCircle2, Lock, ArrowRight, ArrowLeft, CreditCard, Sparkles, Box } from 'lucide-react';
-import { useCart, fireGreenConfetti } from '../context/CartContext';
+import { X, Truck, Leaf, Lock, ArrowRight, ArrowLeft, Box } from 'lucide-react';
+import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 
 export default function CheckoutModal() {
   const {
     checkoutModalOpen,
     setCheckoutModalOpen,
-    cartItems,
     impact,
     recordOrder,
     appliedCoupon

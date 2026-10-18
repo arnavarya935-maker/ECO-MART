@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { MapPin, Sparkles, CheckCircle2, ArrowRight } from 'lucide-react';
-import { useCart } from '../../context/CartContext';
+import { MapPin } from 'lucide-react';
 
 const ARTISAN_REGIONS = [
   {
@@ -47,7 +46,6 @@ const ARTISAN_REGIONS = [
 
 export default function EcoMap() {
   const [selectedRegion, setSelectedRegion] = useState(ARTISAN_REGIONS[0]);
-  const { setSelectedProduct, allProducts } = useCart();
 
   return (
     <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-stone-850 border border-stone-200 dark:border-stone-800 shadow-md max-w-4xl mx-auto space-y-6">

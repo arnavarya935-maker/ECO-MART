@@ -3,16 +3,18 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 const ThemeContext = createContext();
 
 export function ThemeProvider({ children }) {
+  // Theme state: defaults to light per design system rules
   const [theme, setTheme] = useState(() => {
     try {
       const saved = localStorage.getItem('ecomart_theme');
       if (saved === 'dark') return 'dark';
-      return 'light'; // Default to img2m3 light editorial theme
-    } catch (_e) {
+      return 'light';
+    } catch {
       return 'light';
     }
   });
 
+  // Global "Reduce effects" toggle (Rule 5 & Feature 4)
   const [reduceEffects, setReduceEffects] = useState(() => {
     try {
       const saved = localStorage.getItem('ecomart_reduce_effects');
@@ -23,12 +25,37 @@ export function ThemeProvider({ children }) {
       try {
         const canvas = document.createElement('canvas');
         webglMissing = !(canvas.getContext('webgl') || canvas.getContext('experimental-webgl'));
-      } catch (_e) {
+      } catch {
         webglMissing = true;
       }
       return prefersReduced || webglMissing;
-    } catch (_e) {
+    } catch {
       return false;
+    }
+  });
+
+  // Feature 29: Accessibility options (High Contrast, Dyslexia Font, Text Size)
+  const [highContrast, setHighContrast] = useState(() => {
+    try {
+      return localStorage.getItem('ecomart_high_contrast') === 'true';
+    } catch {
+      return false;
+    }
+  });
+
+  const [dyslexicFont, setDyslexicFont] = useState(() => {
+    try {
+      return localStorage.getItem('ecomart_dyslexic_font') === 'true';
+    } catch {
+      return false;
+    }
+  });
+
+  const [textSize, setTextSize] = useState(() => {
+    try {
+      return localStorage.getItem('ecomart_text_size') || 'normal';
+    } catch {
+      return 'normal';
     }
   });
 
@@ -42,7 +69,7 @@ export function ThemeProvider({ children }) {
         document.documentElement.classList.remove('dark');
         document.documentElement.classList.add('light');
       }
-    } catch (_e) {}
+    } catch {}
   }, [theme]);
 
   useEffect(() => {
@@ -53,8 +80,42 @@ export function ThemeProvider({ children }) {
       } else {
         document.documentElement.classList.remove('reduced-motion');
       }
-    } catch (_e) {}
+    } catch {}
   }, [reduceEffects]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('ecomart_high_contrast', JSON.stringify(highContrast));
+      if (highContrast) {
+        document.documentElement.classList.add('high-contrast');
+      } else {
+        document.documentElement.classList.remove('high-contrast');
+      }
+    } catch {}
+  }, [highContrast]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('ecomart_dyslexic_font', JSON.stringify(dyslexicFont));
+      if (dyslexicFont) {
+        document.documentElement.classList.add('font-dyslexic');
+      } else {
+        document.documentElement.classList.remove('font-dyslexic');
+      }
+    } catch {}
+  }, [dyslexicFont]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('ecomart_text_size', textSize);
+      document.documentElement.classList.remove('text-size-large', 'text-size-xlarge');
+      if (textSize === 'large') {
+        document.documentElement.classList.add('text-size-large');
+      } else if (textSize === 'xlarge') {
+        document.documentElement.classList.add('text-size-xlarge');
+      }
+    } catch {}
+  }, [textSize]);
 
   const toggleTheme = () => {
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
@@ -75,7 +136,13 @@ export function ThemeProvider({ children }) {
         reducedMotion: reduceEffects,
         toggleReduceEffects,
         toggleReducedMotion: toggleReduceEffects,
-        setReduceEffects
+        setReduceEffects,
+        highContrast,
+        setHighContrast,
+        dyslexicFont,
+        setDyslexicFont,
+        textSize,
+        setTextSize
       }}
     >
       {children}

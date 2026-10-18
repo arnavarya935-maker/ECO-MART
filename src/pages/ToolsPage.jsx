@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {
-  Sparkles, Wrench, Calculator, MapPin, Flame, Target, IndianRupee,
-  Recycle, Calendar, BookOpen, Droplets, TreePine
+  Sparkles, Calculator, MapPin, Flame, Target, IndianRupee,
+  Recycle, Calendar, BookOpen, Droplets, TreePine, ShoppingBag
 } from 'lucide-react';
 import EcoQuiz from '../components/tools/EcoQuiz';
 import CarbonFootprintCalculator from '../components/tools/CarbonFootprintCalculator';
@@ -14,8 +14,10 @@ import SeasonalGuide from '../components/tools/SeasonalGuide';
 import EcoGlossary from '../components/tools/EcoGlossary';
 import WaterEnergyEstimator from '../components/tools/WaterEnergyEstimator';
 import PlantATreeGarden from '../components/tools/PlantATreeGarden';
+import BudgetBasketBuilder from '../components/tools/BudgetBasketBuilder';
 
 const TOOL_TABS = [
+  { id: 'basket', label: 'Budget Basket Builder', icon: ShoppingBag, feature: 'Feature 22' },
   { id: 'quiz', label: 'Eco Quiz', icon: Sparkles, feature: 'Feature 43' },
   { id: 'carbon', label: 'Carbon Calculator', icon: Calculator, feature: 'Feature 44' },
   { id: 'map', label: 'Artisan Eco Map', icon: MapPin, feature: 'Feature 45' },
@@ -30,25 +32,25 @@ const TOOL_TABS = [
 ];
 
 export default function ToolsPage() {
-  const [activeTab, setActiveTab] = useState('quiz');
+  const [activeTab, setActiveTab] = useState('basket');
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 animate-fade-in pb-24">
       {/* Top Header */}
       <div className="text-center max-w-2xl mx-auto space-y-3">
-        <span className="text-xs font-black uppercase tracking-wider text-emerald-800 dark:text-emerald-300 bg-emerald-100 dark:bg-emerald-950 px-3 py-1 rounded-full inline-block">
+        <span className="text-xs font-black uppercase tracking-wider text-emerald-800 bg-emerald-100 px-3 py-1 rounded-full inline-block">
           Interactive Sustainable Studio
         </span>
-        <h1 className="text-3xl sm:text-5xl font-black text-stone-900 dark:text-stone-100">
+        <h1 className="text-3xl sm:text-5xl font-black text-[#0B3B2C]">
           Tools, Calculators & Guides
         </h1>
-        <p className="text-sm text-stone-600 dark:text-stone-300 leading-relaxed font-medium">
-          Explore 11 interactive tools designed to audit your habits, calculate your personal carbon delta, and decode circular zero-waste living.
+        <p className="text-xs sm:text-sm text-stone-600 leading-relaxed font-medium">
+          Explore 12 interactive tools designed to audit your habits, optimize budget baskets, calculate your carbon footprint, and decode zero-waste living.
         </p>
       </div>
 
       {/* Tool Selector Tabs Strip */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar border-b border-stone-200 dark:border-stone-800">
+      <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-stone-200">
         {TOOL_TABS.map((t) => {
           const Icon = t.icon;
           const isSelected = activeTab === t.id;
@@ -57,10 +59,10 @@ export default function ToolsPage() {
               key={t.id}
               type="button"
               onClick={() => setActiveTab(t.id)}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer ${
+              className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer min-h-[40px] ${
                 isSelected
-                  ? 'bg-emerald-700 text-white shadow-md'
-                  : 'bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-stone-700'
+                  ? 'bg-emerald-700 text-white shadow-xs'
+                  : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
               }`}
             >
               <Icon className="w-4 h-4" />
@@ -72,6 +74,7 @@ export default function ToolsPage() {
 
       {/* Render Active Tool */}
       <div className="pt-2">
+        {activeTab === 'basket' && <BudgetBasketBuilder />}
         {activeTab === 'quiz' && <EcoQuiz />}
         {activeTab === 'carbon' && <CarbonFootprintCalculator />}
         {activeTab === 'map' && <EcoMap />}

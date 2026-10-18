@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Flame, CheckCircle2, Trophy, Sparkles, RefreshCw } from 'lucide-react';
+import React, { useState } from 'react';
+import { Flame, CheckCircle2, Sparkles } from 'lucide-react';
 
 const CHALLENGES = [
   { id: 'c1', title: 'Zero Single-Use Day', task: 'Carry your own reusable bottle and cotton tote bag everywhere today.', xp: 50, impact: 'Saves 2 plastic bottles and 1 bag' },
@@ -28,9 +28,11 @@ export default function DailyEcoChallenge() {
     }
   });
 
-  // Pick challenge based on day of year
-  const dayIndex = new Date().getDate() % CHALLENGES.length;
-  const todayChallenge = CHALLENGES[dayIndex];
+  // Pick challenge based on day of month with stable state initializer
+  const [todayChallenge] = useState(() => {
+    const dayIndex = new Date().getDate() % CHALLENGES.length;
+    return CHALLENGES[dayIndex];
+  });
 
   const handleComplete = () => {
     if (completedToday) return;

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Offline Mode - EcoMart</title>
+  <style>
+    :root {
+      --bg: #faf9f6;
+      --forest: #0B3B2C;
+      --emerald: #059669;
+      --text: #1c1917;
+      --muted: #78716c;
+      --card-bg: #ffffff;
+      --border: #e7e5e4;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 1.5rem;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 1.5rem;
+      padding: 2.5rem;
+      max-width: 28rem;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.85rem;
+      background: #ecfdf5;
+      color: var(--forest);
+      border: 1px solid #a7f3d0;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1.5rem;
+    }
+    .icon {
+      width: 3.5rem;
+      height: 3.5rem;
+      margin: 0 auto 1.5rem;
+      border-radius: 1rem;
+      background: linear-gradient(135deg, var(--forest), var(--emerald));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+    h1 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--forest);
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.02em;
+    }
+    p {
+      color: var(--muted);
+      font-size: 0.925rem;
+      line-height: 1.5;
+      margin-bottom: 1.75rem;
+    }
+    .actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.85rem 1.25rem;
+      border-radius: 0.75rem;
+      font-size: 0.875rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+    .btn-primary {
+      background: var(--forest);
+      color: white;
+      border: none;
+    }
+    .btn-primary:hover {
+      background: #08291f;
+    }
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover {
+      background: #f5f5f4;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="badge">
+      <span>●</span> 100% Offline-Native Ready
+    </div>
+    <div class="icon">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+      </svg>
+    </div>
+    <h1>You are browsing offline</h1>
+    <p>
+      EcoMart is designed with full offline capability. The catalog, eco scoring logic, cart, and swap recommendations remain completely usable without internet connectivity.
+    </p>
+    <div class="actions">
+      <a href="#/shop" class="btn btn-primary">Return to Catalog</a>
+      <button onclick="window.location.reload()" class="btn btn-secondary">Retry Connection</button>
+    </div>
+  </div>
+</body>
+</html>

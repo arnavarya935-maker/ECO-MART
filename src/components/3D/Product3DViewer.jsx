@@ -1,9 +1,8 @@
 import React, { useRef, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Float, Html } from '@react-three/drei';
-import * as THREE from 'three';
+import { OrbitControls, Float } from '@react-three/drei';
 import Safe3D from './Safe3D';
-import { RotateCw, Box, Eye, Sparkles, ShieldCheck } from 'lucide-react';
+import { RotateCw, Box, Eye, Sparkles } from 'lucide-react';
 
 // Procedural 3D Mesh representing product geometry
 function ProductMesh({ category, material, wireframe, autoRotate }) {

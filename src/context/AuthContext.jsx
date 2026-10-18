@@ -26,7 +26,7 @@ export function AuthProvider({ children }) {
     try {
       const saved = localStorage.getItem('ecomart_session');
       return saved ? JSON.parse(saved) : null;
-    } catch (_e) {
+    } catch {
       return null;
     }
   });
@@ -42,7 +42,7 @@ export function AuthProvider({ children }) {
       } else {
         localStorage.removeItem('ecomart_session');
       }
-    } catch (_e) {}
+    } catch {}
   }, [currentUser]);
 
   // Read local users database
@@ -50,7 +50,7 @@ export function AuthProvider({ children }) {
     try {
       const users = localStorage.getItem('ecomart_users');
       return users ? JSON.parse(users) : [];
-    } catch (_e) {
+    } catch {
       return [];
     }
   };
@@ -58,7 +58,7 @@ export function AuthProvider({ children }) {
   const saveLocalUsers = (users) => {
     try {
       localStorage.setItem('ecomart_users', JSON.stringify(users));
-    } catch (_e) {}
+    } catch {}
   };
 
   // Sign up locally

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Car, Utensils, Zap, ShoppingBag, Sparkles, RefreshCw, Leaf } from 'lucide-react';
+import { Car, Utensils, Zap, ShoppingBag, Leaf } from 'lucide-react';
 import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Cell } from 'recharts';
 
 export default function CarbonFootprintCalculator() {

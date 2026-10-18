@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Droplets, Zap, Sparkles, RefreshCw, AlertCircle } from 'lucide-react';
 
 export default function WaterEnergyEstimator() {
   const [showerMinutes, setShowerMinutes] = useState(8);

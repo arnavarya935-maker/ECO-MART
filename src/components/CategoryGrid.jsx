@@ -1,14 +1,17 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 
-export default function CategoryGrid({ onSelectCategory, selectedCategory }) {
+export default function CategoryGrid({ onSelectCategory }) {
+  const navigate = useNavigate();
+
   const categories = [
     {
       name: 'Kitchen',
       icon: '🎋',
       tagline: 'Compostable & Reusable Dining',
       desc: 'Bamboo cutlery, beeswax wraps, coconut bowls, pure copper vessels.',
-      gradient: 'from-amber-100 to-orange-50 dark:from-amber-950/40 dark:to-stone-900',
+      gradient: 'from-amber-50 to-emerald-50/40',
       border: 'hover:border-amber-400'
     },
     {
@@ -16,7 +19,7 @@ export default function CategoryGrid({ onSelectCategory, selectedCategory }) {
       icon: '🧼',
       tagline: 'Waterless & Zero-Waste Grooming',
       desc: 'Castor bamboo toothbrushes, solid shampoo bars, brass safety razors.',
-      gradient: 'from-emerald-100 to-teal-50 dark:from-emerald-950/40 dark:to-stone-900',
+      gradient: 'from-emerald-50 to-teal-50/40',
       border: 'hover:border-emerald-400'
     },
     {
@@ -24,7 +27,7 @@ export default function CategoryGrid({ onSelectCategory, selectedCategory }) {
       icon: '👔',
       tagline: 'Organic Khadi & Hemp Apparel',
       desc: 'GOTS organic cotton shirts, hemp sneakers, Ahimsa cruelty-free silk.',
-      gradient: 'from-stone-200 to-amber-50 dark:from-stone-800/60 dark:to-stone-900',
+      gradient: 'from-stone-50 to-amber-50/40',
       border: 'hover:border-stone-400'
     },
     {
@@ -32,15 +35,15 @@ export default function CategoryGrid({ onSelectCategory, selectedCategory }) {
       icon: '🌱',
       tagline: 'Plantable Seed Papers & Pens',
       desc: 'Cotton rag journals with live seeds, recycled newsprint pens.',
-      gradient: 'from-lime-100 to-emerald-50 dark:from-lime-950/40 dark:to-stone-900',
+      gradient: 'from-lime-50 to-emerald-50/40',
       border: 'hover:border-lime-400'
     },
     {
       name: 'Home',
       icon: '🕯️',
-      tagline: 'Natural Earthenware & Upcycled Living',
+      tagline: 'Natural Earthenware & Living',
       desc: 'Soy wax terracotta candles, coir door mats, reclaimed teak trays.',
-      gradient: 'from-orange-100 to-yellow-50 dark:from-orange-950/40 dark:to-stone-900',
+      gradient: 'from-orange-50 to-yellow-50/40',
       border: 'hover:border-orange-400'
     },
     {
@@ -48,86 +51,78 @@ export default function CategoryGrid({ onSelectCategory, selectedCategory }) {
       icon: '👜',
       tagline: 'Plastic-Free Daily Carry',
       desc: 'Heavyweight organic cotton totes, Bengal golden jute messengers.',
-      gradient: 'from-teal-100 to-stone-100 dark:from-teal-950/40 dark:to-stone-900',
+      gradient: 'from-teal-50 to-stone-50/40',
       border: 'hover:border-teal-400'
     },
     {
       name: 'Outdoor & Travel',
       icon: '🏕️',
-      tagline: 'Zero-Trace Sustainable Adventures',
-      desc: 'Solar cedar lanterns, insulated stainless flasks, natural cork yoga mats.',
-      gradient: 'from-slate-200 to-stone-100 dark:from-slate-900/40 dark:to-stone-900',
+      tagline: 'Zero-Trace Living',
+      desc: 'Insulated stainless tumblers, solar lanterns, natural cork mats.',
+      gradient: 'from-slate-50 to-emerald-50/40',
       border: 'hover:border-slate-400'
     },
     {
       name: 'Cleaning & Laundry',
-      icon: '✨',
-      tagline: 'Non-Toxic Greywater-Safe Home',
-      desc: 'Himalayan soapberry wash, natural loofah scrubbers, surface tabs.',
-      gradient: 'from-sky-100 to-teal-50 dark:from-sky-950/40 dark:to-stone-900',
+      icon: '🧽',
+      tagline: 'Toxin-Free Bio Detergents',
+      desc: 'Soapnut concentrates, biodegradable laundry sheets, coconut scrubbers.',
+      gradient: 'from-sky-50 to-teal-50/40',
       border: 'hover:border-sky-400'
     }
   ];
 
+  const handleSelect = (categoryName) => {
+    if (onSelectCategory) {
+      onSelectCategory(categoryName);
+    }
+    navigate(`/shop?category=${encodeURIComponent(categoryName)}`);
+  };
+
   return (
-    <section className="py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
-          <div>
-            <div className="text-xs font-bold uppercase tracking-wider text-emerald-800 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950 px-2.5 py-0.5 rounded-full w-fit">
-              Conscious Curations
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-black text-stone-900 dark:text-stone-100 mt-1">
-              Shop by Sustainable Category
-            </h2>
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-6 gap-2">
+        <div>
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full">
+              Explore by Category
+            </span>
           </div>
-          <p className="text-xs sm:text-sm text-stone-500 max-w-sm">
-            Handpicked sustainable alternatives designed to eliminate disposable single-use plastics from your everyday life.
+          <h2 className="text-2xl sm:text-3xl font-black text-[#0B3B2C] mt-1.5">
+            Conscious Department Catalog
+          </h2>
+          <p className="text-xs sm:text-sm text-stone-600 mt-0.5">
+            Curated zero-plastic alternatives across 8 fundamental everyday categories.
           </p>
         </div>
+      </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {categories.map((cat, idx) => {
-            const isSelected = selectedCategory === cat.name;
-
-            return (
-              <div
-                key={cat.name}
-                onClick={() => onSelectCategory(isSelected ? null : cat.name)}
-                className={`group relative p-5 rounded-xs bg-white dark:bg-[#0a0a0a] border transition-all duration-300 cursor-pointer shadow-md hover:border-black/30 dark:hover:border-white/30 ${
-                  isSelected
-                    ? 'border-[#2563eb] ring-1 ring-[#2563eb]/40 bg-neutral-50 dark:bg-[#111]'
-                    : 'border-black/10 dark:border-white/10'
-                }`}
-              >
-                {/* Viewfinder Brackets */}
-                <span className="bracket bracket-tl !w-2.5 !h-2.5 opacity-0 group-hover:opacity-100 transition-opacity !border-[#2563eb] dark:!border-[#A8C7FA]" />
-                <span className="bracket bracket-br !w-2.5 !h-2.5 opacity-0 group-hover:opacity-100 transition-opacity !border-[#2563eb] dark:!border-[#A8C7FA]" />
-
-                <div className="flex items-start justify-between">
-                  <span className="text-3xl p-2 rounded-2xs bg-neutral-100 dark:bg-[#050505] border border-black/10 dark:border-white/10 select-none group-hover:scale-105 transition-transform">
-                    {cat.icon}
-                  </span>
-                  <span className="text-[9px] font-space-mono uppercase px-2 py-0.5 rounded-2xs bg-black text-white dark:bg-white dark:text-black opacity-0 group-hover:opacity-100 transition-opacity font-bold">
-                    0{idx + 1} // Open →
-                  </span>
-                </div>
-
-                <div className="mt-4">
-                  <h3 className="font-newsreader italic text-lg text-[#0a0a0a] dark:text-white group-hover:text-[#2563eb] dark:group-hover:text-[#A8C7FA] transition-colors">
-                    {cat.name}
-                  </h3>
-                  <div className="text-[10px] font-space-mono text-[#b45309] dark:text-[#E2D3B6] mt-0.5 uppercase tracking-wider font-bold">
-                    {cat.tagline}
-                  </div>
-                  <p className="text-xs text-neutral-600 dark:text-neutral-400 mt-2 leading-relaxed font-sans font-normal">
-                    {cat.desc}
-                  </p>
-                </div>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {categories.map((cat) => (
+          <div
+            key={cat.name}
+            onClick={() => handleSelect(cat.name)}
+            className={`group p-4 sm:p-5 rounded-3xl bg-gradient-to-br ${cat.gradient} bg-white border border-stone-200/90 shadow-2xs hover:shadow-md ${cat.border} transition-all duration-300 cursor-pointer flex flex-col justify-between select-none min-h-[140px]`}
+          >
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-3xl p-2 rounded-2xl bg-white shadow-2xs border border-stone-100 group-hover:scale-110 transition-transform">
+                  {cat.icon}
+                </span>
+                <ArrowRight className="w-4 h-4 text-stone-400 group-hover:text-emerald-700 group-hover:translate-x-1 transition-all" />
               </div>
-            );
-          })}
-        </div>
+              <h3 className="font-extrabold text-sm sm:text-base text-stone-900 group-hover:text-emerald-800 transition-colors">
+                {cat.name}
+              </h3>
+              <p className="text-[11px] font-semibold text-emerald-700 line-clamp-1 mt-0.5">
+                {cat.tagline}
+              </p>
+            </div>
+            <p className="text-[10px] text-stone-500 line-clamp-2 mt-2 leading-relaxed">
+              {cat.desc}
+            </p>
+          </div>
+        ))}
       </div>
     </section>
   );

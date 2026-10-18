@@ -352,7 +352,7 @@ export async function sendAgentQuery({ query, cartItems, allProducts }) {
         };
       }
     }
-  } catch (_err) {
+  } catch {
     // Graceful offline fallback - expected behavior for static / offline deployments
   }
 

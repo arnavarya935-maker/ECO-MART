@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Trash2, ShoppingBag, Wind, Droplets, Ban, ShieldCheck, Check } from 'lucide-react';
+import { X, Trash2, ShoppingBag, Wind, Droplets, Ban } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { calculateEcoScore } from '../lib/ecoScore';
 import EcoScoreBadge from './EcoScoreBadge';

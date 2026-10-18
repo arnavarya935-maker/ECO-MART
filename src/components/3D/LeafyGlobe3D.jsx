@@ -1,9 +1,9 @@
 import React, { useRef, useState, useEffect, useMemo, Suspense } from 'react';
 import { Canvas, useFrame, useLoader } from '@react-three/fiber';
-import { OrbitControls, Float, Html } from '@react-three/drei';
+import { OrbitControls, Float } from '@react-three/drei';
 import * as THREE from 'three';
 import { useTheme } from '../../context/ThemeContext';
-import { Sparkles, Globe, MapPin, X, AlertCircle } from 'lucide-react';
+import { Sparkles, MapPin } from 'lucide-react';
 
 // Eco facts pinned to global coordinates (latitude, longitude)
 const REGIONAL_PINS = [
@@ -13,7 +13,7 @@ const REGIONAL_PINS = [
     lat: 21.0,
     lon: 78.9,
     metric: '3.4M Tons Diverted',
-    fact: 'Indigenous bamboo, neem and jute crafts replace 120M single-use plastic items annually.'
+    fact: 'Indigenous bamboo, neem, and jute crafts replace 120M single-use plastic items annually.'
   },
   {
     id: 'amazon',
@@ -49,7 +49,6 @@ const REGIONAL_PINS = [
   }
 ];
 
-// Helper to convert lat/long to 3D Cartesian coords on a sphere of radius R
 function latLonToVector3(lat, lon, radius) {
   const phi = (90 - lat) * (Math.PI / 180);
   const theta = (lon + 180) * (Math.PI / 180);
@@ -59,33 +58,43 @@ function latLonToVector3(lat, lon, radius) {
   return new THREE.Vector3(x, y, z);
 }
 
-// Photorealistic Textured Earth Globe with Atmosphere & Clouds
-function EarthSphere({ onSelectPin, activePinId }) {
+// Photorealistic Textured Earth Globe with Atmosphere & Clouds (Feature 26)
+function EarthSphere({ onSelectPin, activePinId, scrollY = 0, cartCo2Saved = 0 }) {
   const globeRef = useRef();
   const cloudsRef = useRef();
+  const atmosphereRef = useRef();
 
   // Load local PBR textures
-  const [dayMap, normalMap, specMap, cloudsMap, nightMap] = useLoader(THREE.TextureLoader, [
+  const [dayMap, normalMap, specMap, cloudsMap] = useLoader(THREE.TextureLoader, [
     '/textures/earth/earth_day.jpg',
     '/textures/earth/earth_normal.jpg',
     '/textures/earth/earth_specular.jpg',
-    '/textures/earth/earth_clouds.png',
-    '/textures/earth/earth_night.png'
+    '/textures/earth/earth_clouds.png'
   ]);
 
-  // Set texture filtering for maximum fidelity
-  useMemo(() => {
-    [dayMap, normalMap, specMap, cloudsMap, nightMap].forEach((tex) => {
+  useEffect(() => {
+    [dayMap, normalMap, specMap, cloudsMap].forEach((tex) => {
       if (tex) {
         tex.colorSpace = THREE.SRGBColorSpace;
-        tex.anisotropy = 8;
+        tex.anisotropy = 4;
       }
     });
-  }, [dayMap, normalMap, specMap, cloudsMap, nightMap]);
+  }, [dayMap, normalMap, specMap, cloudsMap]);
+
+  // Atmosphere shifts greener as user saves more CO2 in cart (Feature 26)
+  const atmosphereColor = useMemo(() => {
+    const greenFactor = Math.min(1, cartCo2Saved / 10);
+    const color = new THREE.Color('#38BDF8');
+    const greenColor = new THREE.Color('#10B981');
+    return color.lerp(greenColor, greenFactor);
+  }, [cartCo2Saved]);
 
   useFrame((_, delta) => {
     if (globeRef.current) {
       globeRef.current.rotation.y += delta * 0.08;
+      // Scroll-linked tilt response (Feature 26)
+      const targetX = (scrollY * 0.0006) % (Math.PI * 0.2);
+      globeRef.current.rotation.x = THREE.MathUtils.lerp(globeRef.current.rotation.x, targetX, 0.05);
     }
     if (cloudsRef.current) {
       cloudsRef.current.rotation.y += delta * 0.11;
@@ -94,9 +103,9 @@ function EarthSphere({ onSelectPin, activePinId }) {
 
   return (
     <group>
-      {/* 1. Main Earth Sphere (PBR Day + Normal + Specular) */}
+      {/* 1. Main Earth Sphere */}
       <mesh ref={globeRef} scale={2.2}>
-        <sphereGeometry args={[1, 64, 64]} />
+        <sphereGeometry args={[1, 48, 48]} />
         <meshStandardMaterial
           map={dayMap}
           normalMap={normalMap}
@@ -113,23 +122,21 @@ function EarthSphere({ onSelectPin, activePinId }) {
 
           return (
             <group key={pin.id} position={pos}>
-              {/* Outer pulse aura */}
               <mesh>
-                <sphereGeometry args={[0.045, 16, 16]} />
+                <sphereGeometry args={[0.045, 12, 12]} />
                 <meshBasicMaterial
                   color={isSelected ? '#F59E0B' : '#10B981'}
                   transparent
                   opacity={0.8}
                 />
               </mesh>
-              {/* Core glow pin */}
               <mesh
                 onClick={(e) => {
                   e.stopPropagation();
                   onSelectPin(pin);
                 }}
               >
-                <sphereGeometry args={[0.025, 16, 16]} />
+                <sphereGeometry args={[0.025, 12, 12]} />
                 <meshBasicMaterial color="#FFFFFF" />
               </mesh>
             </group>
@@ -139,23 +146,23 @@ function EarthSphere({ onSelectPin, activePinId }) {
 
       {/* 2. Drifting Atmospheric Cloud Layer */}
       <mesh ref={cloudsRef} scale={2.235}>
-        <sphereGeometry args={[1, 64, 64]} />
+        <sphereGeometry args={[1, 48, 48]} />
         <meshStandardMaterial
           map={cloudsMap}
           transparent={true}
-          opacity={0.65}
+          opacity={0.6}
           blending={THREE.NormalBlending}
           depthWrite={false}
         />
       </mesh>
 
-      {/* 3. Fresnel Atmosphere Glow Shield */}
-      <mesh scale={2.42}>
-        <sphereGeometry args={[1, 32, 32]} />
+      {/* 3. Fresnel Atmosphere Glow Shield (Greener with cart savings) */}
+      <mesh ref={atmosphereRef} scale={2.4}>
+        <sphereGeometry args={[1, 24, 24]} />
         <meshBasicMaterial
-          color="#38BDF8"
+          color={atmosphereColor}
           transparent
-          opacity={0.12}
+          opacity={0.15}
           side={THREE.BackSide}
           blending={THREE.AdditiveBlending}
         />
@@ -164,14 +171,14 @@ function EarthSphere({ onSelectPin, activePinId }) {
   );
 }
 
-// Orbiting realistic Eco Items (Bottle, Leaf, Tote Bag, Bulb)
+// Orbiting realistic Eco Items using pure clock time (Fixes impure Date.now)
 function OrbitingEcoItems() {
   const groupRef = useRef();
 
-  useFrame((_, delta) => {
+  useFrame((state, delta) => {
     if (groupRef.current) {
       groupRef.current.rotation.y += delta * 0.12;
-      groupRef.current.rotation.x = Math.sin(Date.now() * 0.0005) * 0.08;
+      groupRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.5) * 0.08;
     }
   });
 
@@ -179,15 +186,13 @@ function OrbitingEcoItems() {
     <group ref={groupRef}>
       {/* 1. Reusable Stainless Steel Bottle */}
       <Float speed={2} rotationIntensity={1.5} floatIntensity={1.2}>
-        <group position={[2.9, 0.8, 0.5]} scale={0.4} rotation={[0.4, 0.5, 0.8]}>
-          {/* Bottle body */}
+        <group position={[2.8, 0.8, 0.5]} scale={0.4} rotation={[0.4, 0.5, 0.8]}>
           <mesh position={[0, 0, 0]}>
-            <cylinderGeometry args={[0.3, 0.3, 1.2, 24]} />
+            <cylinderGeometry args={[0.3, 0.3, 1.2, 16]} />
             <meshStandardMaterial color="#E2E8F0" metalness={0.85} roughness={0.2} />
           </mesh>
-          {/* Bottle cap */}
           <mesh position={[0, 0.7, 0]}>
-            <cylinderGeometry args={[0.18, 0.18, 0.25, 16]} />
+            <cylinderGeometry args={[0.18, 0.18, 0.25, 12]} />
             <meshStandardMaterial color="#0B3B2C" metalness={0.4} roughness={0.5} />
           </mesh>
         </group>
@@ -195,39 +200,10 @@ function OrbitingEcoItems() {
 
       {/* 2. Organic Green Leaf */}
       <Float speed={2.5} rotationIntensity={2} floatIntensity={1.4}>
-        <group position={[-2.8, -0.9, 0.8]} scale={0.45} rotation={[-0.5, 0.8, -0.4]}>
+        <group position={[-2.7, -0.9, 0.8]} scale={0.45} rotation={[-0.5, 0.8, -0.4]}>
           <mesh>
             <coneGeometry args={[0.4, 1.2, 5]} />
             <meshStandardMaterial color="#10B981" roughness={0.3} metalness={0.1} />
-          </mesh>
-        </group>
-      </Float>
-
-      {/* 3. Reusable Cotton Tote Bag */}
-      <Float speed={1.8} rotationIntensity={1.2} floatIntensity={1}>
-        <group position={[1.4, -2.7, -0.6]} scale={0.4} rotation={[0.2, -0.4, 0.6]}>
-          <mesh position={[0, 0, 0]}>
-            <boxGeometry args={[0.7, 0.8, 0.25]} />
-            <meshStandardMaterial color="#F4EFE3" roughness={0.9} metalness={0.05} />
-          </mesh>
-          {/* Handle */}
-          <mesh position={[0, 0.55, 0]}>
-            <torusGeometry args={[0.25, 0.04, 8, 16, Math.PI]} />
-            <meshStandardMaterial color="#0B3B2C" roughness={0.8} />
-          </mesh>
-        </group>
-      </Float>
-
-      {/* 4. Energy-Saving LED Bulb */}
-      <Float speed={2.2} rotationIntensity={1.6} floatIntensity={1.2}>
-        <group position={[-1.7, 2.5, -0.7]} scale={0.35} rotation={[0.6, 0.3, -0.5]}>
-          <mesh position={[0, 0.2, 0]}>
-            <sphereGeometry args={[0.4, 20, 20]} />
-            <meshStandardMaterial color="#F59E0B" emissive="#F59E0B" emissiveIntensity={0.6} roughness={0.2} />
-          </mesh>
-          <mesh position={[0, -0.3, 0]}>
-            <cylinderGeometry args={[0.22, 0.22, 0.35, 16]} />
-            <meshStandardMaterial color="#94A3B8" metalness={0.9} roughness={0.2} />
           </mesh>
         </group>
       </Float>
@@ -235,44 +211,50 @@ function OrbitingEcoItems() {
   );
 }
 
-// Contact Shadow Disc beneath globe to anchor it in light mode
 function GlobeShadow() {
   return (
-    <mesh position={[0, -2.65, 0]} rotation={[-Math.PI / 2, 0, 0]}>
-      <circleGeometry args={[1.8, 32]} />
-      <meshBasicMaterial color="#0B3B2C" transparent opacity={0.08} />
+    <mesh position={[0, -2.6, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+      <circleGeometry args={[1.8, 24]} />
+      <meshBasicMaterial color="#0B3B2C" transparent opacity={0.07} />
     </mesh>
   );
 }
 
-export default function LeafyGlobe3D() {
-  const { reducedMotion } = useTheme();
+export default function LeafyGlobe3D({ cartCo2Saved = 0 }) {
+  const { reduceEffects } = useTheme();
   const [activePin, setActivePin] = useState(REGIONAL_PINS[0]);
-  const [hasWebGL, setHasWebGL] = useState(true);
-
-  // Check WebGL availability
-  useEffect(() => {
+  const [hasWebGL] = useState(() => {
+    if (typeof window === 'undefined') return false;
     try {
       const canvas = document.createElement('canvas');
-      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-      if (!gl) setHasWebGL(false);
-    } catch (_e) {
-      setHasWebGL(false);
+      return !!(canvas.getContext('webgl') || canvas.getContext('experimental-webgl'));
+    } catch {
+      return false;
     }
-  }, []);
+  });
+  const [scrollY, setScrollY] = useState(0);
 
-  // Fallback if reduced motion is on or WebGL is missing
-  if (reducedMotion || !hasWebGL) {
+  // Listen to window scroll (Feature 26)
+  useEffect(() => {
+    if (reduceEffects) return;
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [reduceEffects]);
+
+  if (reduceEffects || !hasWebGL) {
     return (
-      <div className="w-full h-80 rounded-3xl bg-gradient-to-br from-emerald-50 via-teal-50 to-white dark:from-stone-900 dark:to-stone-850 flex flex-col items-center justify-center p-6 border border-emerald-200 dark:border-emerald-800 text-center shadow-inner">
-        <div className="w-28 h-28 rounded-full bg-emerald-100 dark:bg-emerald-950/80 flex items-center justify-center text-5xl shadow-md mb-3">
+      <div className="w-full h-80 rounded-3xl bg-gradient-to-br from-emerald-50 via-teal-50 to-white flex flex-col items-center justify-center p-6 border border-emerald-200 text-center shadow-inner">
+        <div className="w-24 h-24 rounded-full bg-emerald-100 flex items-center justify-center text-4xl shadow-md mb-3">
           🌍
         </div>
-        <h4 className="font-extrabold text-stone-900 dark:text-stone-100 text-sm">
-          Interactive Planetary Biosphere
+        <h4 className="font-extrabold text-[#0B3B2C] text-sm">
+          Interactive Biosphere (Static Mode)
         </h4>
-        <p className="text-xs text-stone-600 dark:text-stone-400 mt-1 max-w-xs">
-          3D visualizer paused (Reduced Motion active). Tap regional pin data below.
+        <p className="text-xs text-stone-600 mt-1 max-w-xs">
+          3D graphics paused to save battery & device resources.
         </p>
       </div>
     );
@@ -280,62 +262,60 @@ export default function LeafyGlobe3D() {
 
   return (
     <div className="relative w-full flex flex-col items-center select-none">
-      {/* 3D Canvas Box */}
-      <div className="relative w-full h-80 sm:h-96 rounded-3xl overflow-hidden bg-gradient-to-b from-[#F0FDF4] via-[#F7FAF8] to-white dark:from-[#06110D] dark:to-[#0D1F18] border border-emerald-500/20 shadow-inner">
+      <div className="relative w-full h-80 sm:h-96 rounded-3xl overflow-hidden bg-gradient-to-b from-[#E8F5EE] via-[#FAF9F6] to-white border border-emerald-200/80 shadow-xs">
         <Canvas
           camera={{ position: [0, 0, 5.8], fov: 45 }}
           gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
         >
-          {/* Studio Lights */}
           <ambientLight intensity={1.2} />
-          <directionalLight position={[6, 4, 5]} intensity={2.2} />
+          <directionalLight position={[6, 4, 5]} intensity={2.0} />
           <directionalLight position={[-6, -2, -4]} intensity={0.4} color="#38BDF8" />
-          <pointLight position={[0, 6, 2]} intensity={0.8} color="#FFFFFF" />
 
           <Suspense fallback={null}>
-            <EarthSphere onSelectPin={setActivePin} activePinId={activePin?.id} />
+            <EarthSphere
+              onSelectPin={setActivePin}
+              activePinId={activePin?.id}
+              scrollY={scrollY}
+              cartCo2Saved={cartCo2Saved}
+            />
             <OrbitingEcoItems />
             <GlobeShadow />
           </Suspense>
 
           <OrbitControls
-            enableZoom={true}
-            minDistance={4.2}
-            maxDistance={8.0}
+            enableZoom={false}
             enablePan={false}
-            rotateSpeed={0.65}
+            rotateSpeed={0.5}
             dampingFactor={0.06}
             enableDamping={true}
           />
         </Canvas>
 
         {/* Top Floating Badge */}
-        <div className="absolute top-3 left-3 pointer-events-none flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/90 dark:bg-stone-900/90 backdrop-blur-md border border-emerald-400/30 text-[11px] font-bold text-[#0B3B2C] dark:text-emerald-300 shadow-sm">
-          <Sparkles className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-          <span>Photorealistic NASA Blue Marble • Drag to Rotate</span>
+        <div className="absolute top-3 left-3 pointer-events-none flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md border border-emerald-400/30 text-[11px] font-bold text-[#0B3B2C] shadow-2xs">
+          <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+          <span>Interactive Earth • Turns Greener With Your Impact</span>
         </div>
       </div>
 
-      {/* Pinned Regional Eco-Fact Card (Responsive, Never Overlapping) */}
+      {/* Active Pin Info Card */}
       {activePin && (
-        <div className="w-full mt-3 p-4 rounded-2xl bg-white dark:bg-[#0D1F18] border border-emerald-200/90 dark:border-emerald-800/80 shadow-md flex items-start justify-between gap-3 animate-slide-up text-left">
-          <div className="flex items-start gap-3">
-            <div className="p-2 rounded-xl bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 shrink-0 mt-0.5">
-              <MapPin className="w-4 h-4 text-emerald-600" />
+        <div className="w-full mt-3 p-3.5 rounded-2xl bg-white border border-emerald-200 shadow-xs flex items-start gap-3 text-left">
+          <div className="p-2 rounded-xl bg-emerald-100 text-emerald-800 shrink-0 mt-0.5">
+            <MapPin className="w-4 h-4 text-emerald-700" />
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="font-extrabold text-xs text-[#0B3B2C]">
+                {activePin.name}
+              </span>
+              <span className="text-[10px] font-extrabold uppercase px-2 py-0.2 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
+                {activePin.metric}
+              </span>
             </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-extrabold text-xs text-[#0B3B2C] dark:text-stone-100">
-                  {activePin.name}
-                </span>
-                <span className="text-[10px] font-extrabold uppercase px-2 py-0.2 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border border-emerald-300/40">
-                  {activePin.metric}
-                </span>
-              </div>
-              <p className="text-xs text-stone-600 dark:text-stone-300 mt-1 leading-relaxed font-medium">
-                {activePin.fact}
-              </p>
-            </div>
+            <p className="text-xs text-stone-600 mt-0.5 leading-relaxed font-medium">
+              {activePin.fact}
+            </p>
           </div>
         </div>
       )}

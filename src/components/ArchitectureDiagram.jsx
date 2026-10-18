@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Cpu, Database, ShoppingBag, Sparkles, RefreshCw, Layers, ShieldCheck, ArrowRight, ArrowDown } from 'lucide-react';
 
 export default function ArchitectureDiagram() {
   const [activeNode, setActiveNode] = useState('agent');
@@ -56,7 +55,7 @@ export default function ArchitectureDiagram() {
 
       {/* Visual Pipeline Flow */}
       <div className="grid grid-cols-1 md:grid-cols-5 gap-3 relative">
-        {nodes.map((node, i) => (
+        {nodes.map((node) => (
           <div
             key={node.id}
             onClick={() => setActiveNode(node.id)}

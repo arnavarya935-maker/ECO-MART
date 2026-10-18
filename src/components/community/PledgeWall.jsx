@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { HeartHandshake, CheckCircle2, Send, Sparkles, ShieldCheck } from 'lucide-react';
+import { HeartHandshake, CheckCircle2, Send } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
 const INITIAL_PLEDGES = [
