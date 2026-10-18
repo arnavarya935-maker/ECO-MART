@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Car, Utensils, Zap, ShoppingBag, Sparkles, RefreshCw, Leaf } from 'lucide-react';
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, Cell } from 'recharts';
 
 export default function CarbonFootprintCalculator() {
   const [transportKm, setTransportKm] = useState(15);
@@ -16,6 +17,13 @@ export default function CarbonFootprintCalculator() {
   const totalMonthlyCo2 = transportCo2 + dietCo2 + energyCo2 + shoppingCo2;
   const annualTons = (totalMonthlyCo2 * 12 / 1000).toFixed(2);
   const nationalAvg = 2.4; // India average tons/yr per capita
+
+  const chartData = [
+    { name: 'Transport', co2: transportCo2, fill: '#0284c7' },
+    { name: 'Diet', co2: dietCo2, fill: '#059669' },
+    { name: 'Energy', co2: energyCo2, fill: '#d97706' },
+    { name: 'Shopping', co2: shoppingCo2, fill: '#0d9488' }
+  ];
 
   return (
     <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-stone-850 border border-stone-200 dark:border-stone-800 shadow-md max-w-4xl mx-auto space-y-8">
@@ -141,9 +149,26 @@ export default function CarbonFootprintCalculator() {
             <h4 className="text-sm font-black text-stone-900 dark:text-stone-100 mb-1">
               Monthly Emissions Breakdown
             </h4>
-            <div className="text-xs text-stone-500 mb-4">Total: {totalMonthlyCo2} kg CO₂ / month</div>
+            <div className="text-xs text-stone-500 mb-3">Total: {totalMonthlyCo2} kg CO₂ / month</div>
 
-            {/* Visual proportional bars */}
+            {/* Recharts Bar Chart */}
+            <div className="w-full h-36 mb-4">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={chartData} margin={{ top: 5, right: 10, left: -20, bottom: 0 }}>
+                  <XAxis dataKey="name" tick={{ fontSize: 10 }} axisLine={false} tickLine={false} />
+                  <YAxis tick={{ fontSize: 10 }} axisLine={false} tickLine={false} />
+                  <Tooltip
+                    formatter={(val) => [`${val} kg CO₂`, 'Emissions']}
+                    contentStyle={{ borderRadius: '12px', fontSize: '11px', fontWeight: 'bold' }}
+                  />
+                  <Bar dataKey="co2" radius={[6, 6, 0, 0]}>
+                    {chartData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={entry.fill} />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
             <div className="space-y-3 text-xs">
               <div>
                 <div className="flex justify-between font-bold text-stone-700 dark:text-stone-300 mb-1">

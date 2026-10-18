@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
-import { Maximize2, X, ZoomIn, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Maximize2, X, ZoomIn, ChevronLeft, ChevronRight, Box, Image as ImageIcon } from 'lucide-react';
 import ProductImage from './ProductImage';
+import Product3DViewer from './3D/Product3DViewer';
 
 export default function ProductGallery({ product }) {
   const images = Array.isArray(product?.images) && product.images.length > 0
     ? product.images
     : [product?.image || `/images/products/${product?.id}.jpg`];
 
+  const [viewMode, setViewMode] = useState('photo'); // 'photo' | '3d'
   const [activeIdx, setActiveIdx] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [zoomStyle, setZoomStyle] = useState({ transformOrigin: 'center center', transform: 'scale(1)' });
@@ -34,13 +36,47 @@ export default function ProductGallery({ product }) {
 
   return (
     <div className="space-y-3 w-full">
-      {/* Main Showcase Image with Zoom */}
-      <div
-        className="relative h-72 sm:h-96 w-full rounded-3xl overflow-hidden bg-stone-100 dark:bg-stone-850 border border-stone-200/80 dark:border-stone-800 cursor-crosshair group shadow-inner"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseMove={handleMouseMove}
-        onMouseLeave={handleMouseLeave}
-      >
+      {/* 2D Photo vs 3D Model View Mode Switcher */}
+      <div className="flex items-center justify-between pb-1">
+        <div className="inline-flex p-1 rounded-2xl bg-stone-100 dark:bg-stone-800 border border-stone-200 dark:border-stone-700">
+          <button
+            type="button"
+            onClick={() => setViewMode('photo')}
+            className={`px-3 py-1 rounded-xl text-xs font-bold flex items-center gap-1.5 transition ${
+              viewMode === 'photo'
+                ? 'bg-white dark:bg-stone-900 text-[#0B3B2C] dark:text-emerald-300 shadow-xs'
+                : 'text-stone-500 hover:text-stone-800 dark:hover:text-stone-200'
+            }`}
+          >
+            <ImageIcon className="w-3.5 h-3.5 text-emerald-600" />
+            <span>Product Photos</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setViewMode('3d')}
+            className={`px-3 py-1 rounded-xl text-xs font-bold flex items-center gap-1.5 transition ${
+              viewMode === '3d'
+                ? 'bg-white dark:bg-stone-900 text-[#0B3B2C] dark:text-emerald-300 shadow-xs'
+                : 'text-stone-500 hover:text-stone-800 dark:hover:text-stone-200'
+            }`}
+          >
+            <Box className="w-3.5 h-3.5 text-emerald-600" />
+            <span>Interactive 3D Viewer</span>
+          </button>
+        </div>
+      </div>
+
+      {viewMode === '3d' ? (
+        <Product3DViewer product={product} />
+      ) : (
+        <>
+          {/* Main Showcase Image with Zoom */}
+          <div
+            className="relative h-72 sm:h-96 w-full rounded-3xl overflow-hidden bg-stone-100 dark:bg-stone-850 border border-stone-200/80 dark:border-stone-800 cursor-crosshair group shadow-inner"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+          >
         <div
           className="w-full h-full transition-transform duration-150 ease-out"
           style={isHovered ? zoomStyle : undefined}
@@ -95,6 +131,8 @@ export default function ProductGallery({ product }) {
             </button>
           ))}
         </div>
+      )}
+      </>
       )}
 
       {/* Fullscreen Lightbox Modal */}

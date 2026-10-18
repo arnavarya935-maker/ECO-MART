@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { TreePine, Sprout, Sparkles, Droplets, HeartHandshake, Sun } from 'lucide-react';
+import { TreePine, Sprout, Sparkles, Droplets, Sun, Box, Image as ImageIcon } from 'lucide-react';
+import Safe3D from '../3D/Safe3D';
+import EcoForest3D from '../3D/EcoForest3D';
 
 const TREE_STAGES = [
   { level: 1, name: 'Sprouting Seedling', emoji: '🌱', minXp: 0, desc: 'A tiny organic neem seedling taking root in fertile vermicompost.' },
@@ -19,6 +21,7 @@ export default function PlantATreeGarden() {
   });
 
   const [waterAnimation, setWaterAnimation] = useState(false);
+  const [viewMode, setViewMode] = useState('3d'); // '3d' | '2d'
 
   const handleWater = () => {
     const updated = gardenXp + 40;
@@ -38,57 +41,103 @@ export default function PlantATreeGarden() {
     ? Math.round(((gardenXp - currentStage.minXp) / (nextStage.minXp - currentStage.minXp)) * 100)
     : 100;
 
+  // Compute calculated eco score for 3D forest density
+  const calculatedScore = Math.min(100, Math.round((gardenXp / 1000) * 100));
+  const co2SavedEstimate = Number((gardenXp * 0.05).toFixed(1));
+
   return (
     <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-stone-850 border border-stone-200 dark:border-stone-800 shadow-md max-w-2xl mx-auto space-y-6 text-center">
-      <div>
-        <span className="text-xs font-black uppercase tracking-wider text-emerald-800 dark:text-emerald-300 bg-emerald-100 dark:bg-emerald-950 px-2.5 py-1 rounded-full">
-          Gamified Biosphere
-        </span>
-        <h3 className="text-2xl font-black text-stone-900 dark:text-stone-100 mt-2">
-          Plant-a-Tree Virtual Grove
-        </h3>
-        <p className="text-xs text-stone-500 dark:text-stone-400 mt-0.5 max-w-md mx-auto">
-          Every sustainable swap, audited checkout, and daily challenge nourishes your tree!
-        </p>
-      </div>
-
-      {/* Virtual Tree Canvas Visual */}
-      <div className="p-8 rounded-3xl bg-gradient-to-b from-sky-50 via-emerald-50/50 to-stone-100 dark:from-stone-900 dark:via-stone-850 dark:to-stone-800 border border-emerald-300 dark:border-emerald-800 relative overflow-hidden">
-        {/* Animated Sun */}
-        <div className="absolute top-4 right-4 text-amber-400 animate-spin-slow">
-          <Sun className="w-8 h-8 fill-amber-300" />
-        </div>
-
-        {/* Tree Stage Emoji Display */}
-        <div className={`text-8xl transition-transform duration-300 my-4 ${waterAnimation ? 'scale-125' : 'scale-100'}`}>
-          {currentStage.emoji}
-        </div>
-
-        <div className="space-y-1">
-          <div className="inline-block px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-white dark:bg-stone-800 text-emerald-800 dark:text-emerald-300 shadow-2xs border border-emerald-200 dark:border-emerald-700">
-            Stage {currentStage.level}: {currentStage.name}
-          </div>
-          <p className="text-xs text-stone-600 dark:text-stone-300 max-w-sm mx-auto font-medium">
-            {currentStage.desc}
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="text-left">
+          <span className="text-xs font-black uppercase tracking-wider text-emerald-800 dark:text-emerald-300 bg-emerald-100 dark:bg-emerald-950 px-2.5 py-1 rounded-full">
+            Gamified Biosphere
+          </span>
+          <h3 className="text-2xl font-black text-stone-900 dark:text-stone-100 mt-2">
+            Plant-a-Tree Virtual Grove
+          </h3>
+          <p className="text-xs text-stone-500 dark:text-stone-400 mt-0.5 max-w-md">
+            Every sustainable swap, audited checkout, and daily challenge nourishes your tree!
           </p>
         </div>
 
-        {/* Progress to Next Growth Stage */}
-        {nextStage && (
-          <div className="max-w-xs mx-auto mt-5 space-y-1">
-            <div className="flex justify-between text-[11px] font-bold text-stone-500">
-              <span>Next Growth: {nextStage.name}</span>
-              <span>{gardenXp} / {nextStage.minXp} XP</span>
-            </div>
-            <div className="w-full h-2.5 bg-stone-200 dark:bg-stone-700 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-emerald-600 rounded-full transition-all duration-300"
-                style={{ width: `${progressToNext}%` }}
-              />
-            </div>
-          </div>
-        )}
+        {/* 3D vs 2D Mode Switcher */}
+        <div className="inline-flex p-1 rounded-2xl bg-stone-100 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 shrink-0">
+          <button
+            type="button"
+            onClick={() => setViewMode('3d')}
+            className={`px-3 py-1 rounded-xl text-xs font-bold flex items-center gap-1.5 transition ${
+              viewMode === '3d'
+                ? 'bg-white dark:bg-stone-900 text-[#0B3B2C] dark:text-emerald-300 shadow-xs'
+                : 'text-stone-500 hover:text-stone-800 dark:hover:text-stone-200'
+            }`}
+          >
+            <Box className="w-3.5 h-3.5 text-emerald-600" />
+            <span>3D Grove</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setViewMode('2d')}
+            className={`px-3 py-1 rounded-xl text-xs font-bold flex items-center gap-1.5 transition ${
+              viewMode === '2d'
+                ? 'bg-white dark:bg-stone-900 text-[#0B3B2C] dark:text-emerald-300 shadow-xs'
+                : 'text-stone-500 hover:text-stone-800 dark:hover:text-stone-200'
+            }`}
+          >
+            <ImageIcon className="w-3.5 h-3.5 text-emerald-600" />
+            <span>2D View</span>
+          </button>
+        </div>
       </div>
+
+      {/* Virtual Tree Canvas Visual */}
+      {viewMode === '3d' ? (
+        <Safe3D
+          fallbackTitle="Virtual Grove (2D Fallback)"
+          fallbackEmoji={currentStage.emoji}
+          fallbackSubtitle="3D virtual grove is paused under Reduce Effects or when WebGL is unavailable. Displaying 2D garden."
+          loadingMessage="Growing 3D Virtual Biosphere Canopy..."
+          className="h-80 w-full rounded-3xl overflow-hidden border border-emerald-300 dark:border-emerald-800"
+        >
+          <EcoForest3D score={calculatedScore} co2Saved={co2SavedEstimate} className="h-80 w-full" />
+        </Safe3D>
+      ) : (
+        <div className="p-8 rounded-3xl bg-gradient-to-b from-sky-50 via-emerald-50/50 to-stone-100 dark:from-stone-900 dark:via-stone-850 dark:to-stone-800 border border-emerald-300 dark:border-emerald-800 relative overflow-hidden">
+          {/* Animated Sun */}
+          <div className="absolute top-4 right-4 text-amber-400 animate-spin-slow">
+            <Sun className="w-8 h-8 fill-amber-300" />
+          </div>
+
+          {/* Tree Stage Emoji Display */}
+          <div className={`text-8xl transition-transform duration-300 my-4 ${waterAnimation ? 'scale-125' : 'scale-100'}`}>
+            {currentStage.emoji}
+          </div>
+
+          <div className="space-y-1">
+            <div className="inline-block px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-white dark:bg-stone-800 text-emerald-800 dark:text-emerald-300 shadow-2xs border border-emerald-200 dark:border-emerald-700">
+              Stage {currentStage.level}: {currentStage.name}
+            </div>
+            <p className="text-xs text-stone-600 dark:text-stone-300 max-w-sm mx-auto font-medium">
+              {currentStage.desc}
+            </p>
+          </div>
+        </div>
+      )}
+
+      {/* Progress to Next Growth Stage */}
+      {nextStage && (
+        <div className="max-w-md mx-auto space-y-1">
+          <div className="flex justify-between text-[11px] font-bold text-stone-500">
+            <span>Next Stage: {nextStage.name}</span>
+            <span>{gardenXp} / {nextStage.minXp} XP</span>
+          </div>
+          <div className="w-full h-2.5 bg-stone-200 dark:bg-stone-700 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-emerald-600 rounded-full transition-all duration-300"
+              style={{ width: `${progressToNext}%` }}
+            />
+          </div>
+        </div>
+      )}
 
       <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
         <button

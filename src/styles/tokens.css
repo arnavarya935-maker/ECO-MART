@@ -1,80 +1,139 @@
-/* img2m3 Futuristic Modern Editorial Theme Tokens (Light Mode Default) */
-:root {
-  /* Core Light Editorial & Archival Paper Surfaces */
-  --bg: #f4f4f5;
-  --bg-secondary: #e4e4e7;
-  --panel: #ffffff;
-  --panel-elevated: #fafafa;
-  --panel-hover: #f0f0f2;
-  
-  /* Hairline & Viewfinder Borders */
-  --line: rgba(0, 0, 0, 0.08);
-  --line-strong: rgba(0, 0, 0, 0.22);
-  --line-subtle: rgba(0, 0, 0, 0.04);
-  --theme-bracket: rgba(0, 0, 0, 0.35);
-  
-  /* High-Contrast Editorial Typography */
-  --text: #0a0a0a;
-  --text-primary: #0a0a0a;
-  --muted: #52525b;
-  --text-muted: #52525b;
-  --text-subtle: #71717a;
-  
-  /* img2m3 Editorial Pastels & Accents */
-  --accent-cyan: #2563eb;
-  --accent-champagne: #b45309;
-  --accent-rose: #e11d48;
-  --accent-emerald: #059669;
-  --accent-mint: #10b981;
-  
-  /* Backward-compatible components mappings */
-  --bg-main: #f4f4f5;
-  --bg-card: #ffffff;
-  --bg-subtle: #fafafa;
-  --bg-muted: #e4e4e7;
-  --text-main: #0a0a0a;
-  --text-forest: #059669;
-  --border-color: rgba(0, 0, 0, 0.08);
-  --border-light: rgba(0, 0, 0, 0.08);
-  --border-emerald: rgba(5, 150, 105, 0.3);
-  --shadow-card: 0 20px 40px rgba(0, 0, 0, 0.06), inset 0 1px rgba(255, 255, 255, 0.8);
+/* ==========================================================================
+   EcoMart Design Tokens & Global Theme
+   Bright LIGHT theme default: Pure white & soft off-white backgrounds,
+   deep forest green headings, emerald and teal primary accents,
+   amber highlights, subtle mint-to-white gradient for hero sections.
+   ========================================================================== */
 
-  /* Typography Stacks */
-  --font-serif: 'Newsreader', 'Georgia', serif;
-  --font-mono: 'Space Mono', 'Menlo', monospace;
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-heading: 'Newsreader', 'Georgia', serif;
+:root {
+  /* Surfaces: Pure white and soft off-white */
+  --bg-pure: #ffffff;
+  --bg-soft: #faf9f6;
+  --bg-subtle: #f4f6f4;
+  --bg-muted: #e9efe9;
+  --bg: var(--bg-soft);
+  --bg-main: var(--bg-soft);
+  --panel: #ffffff;
+  --panel-elevated: #ffffff;
+  --panel-hover: #f7faf8;
+  --bg-card: #ffffff;
+  --bg-secondary: #f0f4f1;
+
+  /* Typography & Headings: Deep forest green headings */
+  --heading-color: #0B3B2C;
+  --text-heading: #0B3B2C;
+  --text-forest: #0B3B2C;
+  --text: #1a2e26;
+  --text-primary: #1a2e26;
+  --text-main: #1a2e26;
+  --muted: #4d665b;
+  --text-muted: #4d665b;
+  --text-subtle: #6b8277;
+
+  /* Primary Accents: Emerald and Teal */
+  --accent-emerald: #059669;
+  --accent-emerald-light: #10b981;
+  --accent-emerald-dark: #047857;
+  --accent-teal: #0d9488;
+  --accent-teal-light: #14b8a6;
+  --accent-teal-dark: #0f766e;
+  --accent-mint: #34d399;
+  --accent-cyan: #0d9488; /* map legacy cyan to teal */
+
+  /* Highlights: Amber */
+  --accent-amber: #d97706;
+  --accent-amber-light: #f59e0b;
+  --accent-amber-subtle: #fef3c7;
+  --accent-champagne: #d97706;
+  --accent-rose: #e11d48;
+
+  /* Hero & Feature Gradients */
+  --hero-gradient: linear-gradient(180deg, #E8F5EE 0%, #FFFFFF 100%);
+  --gradient-mint-white: linear-gradient(180deg, #E8F5EE 0%, #FFFFFF 100%);
+  --gradient-emerald-teal: linear-gradient(135deg, #059669 0%, #0d9488 100%);
+  --gradient-soft-card: linear-gradient(180deg, #ffffff 0%, #fafcfb 100%);
+
+  /* Borders & Dividers */
+  --line: rgba(11, 59, 44, 0.1);
+  --line-strong: rgba(11, 59, 44, 0.22);
+  --line-subtle: rgba(11, 59, 44, 0.05);
+  --theme-bracket: rgba(11, 59, 44, 0.35);
+  --border-color: rgba(11, 59, 44, 0.1);
+  --border-light: rgba(11, 59, 44, 0.08);
+  --border-emerald: rgba(5, 150, 105, 0.3);
+
+  /* Shadows & Elevations */
+  --shadow-xs: 0 1px 2px rgba(11, 59, 44, 0.04);
+  --shadow-sm: 0 2px 4px rgba(11, 59, 44, 0.06);
+  --shadow-md: 0 6px 16px rgba(11, 59, 44, 0.08);
+  --shadow-lg: 0 12px 28px rgba(11, 59, 44, 0.10);
+  --shadow-card: 0 10px 30px rgba(11, 59, 44, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+
+  /* Focus & Accessibility */
+  --focus-ring-color: #059669;
+  --focus-ring: 0 0 0 3px rgba(5, 150, 105, 0.35);
+
+  /* Local Typography Stacks (Zero Network / CDN Dependency) */
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-serif: "Georgia", "Cambria", "Times New Roman", serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+  --font-heading: var(--font-sans);
+
+  /* Type Scale */
+  --text-xs: 0.75rem;    /* 12px */
+  --text-sm: 0.875rem;   /* 14px */
+  --text-base: 1rem;     /* 16px */
+  --text-lg: 1.125rem;   /* 18px */
+  --text-xl: 1.25rem;    /* 20px */
+  --text-2xl: 1.5rem;    /* 24px */
+  --text-3xl: 1.875rem;  /* 30px */
+  --text-4xl: 2.25rem;   /* 36px */
+  --text-5xl: 3rem;      /* 48px */
 }
 
-/* Optional Dark Surfaces */
+/* Optional high-contrast dark adaptation preserving brand tokens */
 html.dark {
-  --bg: #030303;
-  --bg-secondary: #050505;
-  --panel: #0a0a0a;
-  --panel-elevated: #111111;
-  --panel-hover: #161616;
-  --line: rgba(255, 255, 255, 0.08);
-  --line-strong: rgba(255, 255, 255, 0.22);
-  --line-subtle: rgba(255, 255, 255, 0.04);
-  --theme-bracket: rgba(255, 255, 255, 0.4);
-  --text: #ffffff;
-  --text-primary: #ffffff;
-  --muted: #9ca3af;
-  --text-muted: #9ca3af;
-  --text-subtle: #6b7280;
-  --accent-cyan: #A8C7FA;
-  --accent-champagne: #E2D3B6;
-  --accent-rose: #F1C6D4;
-  --accent-emerald: #34d399;
+  --bg-pure: #06110d;
+  --bg-soft: #081611;
+  --bg-subtle: #0d221b;
+  --bg-muted: #132f26;
+  --bg: var(--bg-soft);
+  --bg-main: var(--bg-soft);
+  --panel: #0d221b;
+  --panel-elevated: #112a21;
+  --panel-hover: #15342a;
+  --bg-card: #0d221b;
+  --bg-secondary: #0a1b15;
 
-  --bg-main: #030303;
-  --bg-card: #0a0a0a;
-  --bg-subtle: #111111;
-  --bg-muted: #1a1a1a;
-  --text-main: #ffffff;
-  --text-forest: #A8C7FA;
-  --border-color: rgba(255, 255, 255, 0.08);
+  --heading-color: #e6f4ee;
+  --text-heading: #e6f4ee;
+  --text-forest: #34d399;
+  --text: #f0f7f4;
+  --text-primary: #f0f7f4;
+  --text-main: #f0f7f4;
+  --muted: #a3c2b5;
+  --text-muted: #a3c2b5;
+  --text-subtle: #799d8f;
+
+  --accent-emerald: #34d399;
+  --accent-emerald-light: #6ee7b7;
+  --accent-teal: #2dd4bf;
+  --accent-teal-light: #5eead4;
+  --accent-amber: #fbbf24;
+  --accent-cyan: #2dd4bf;
+
+  --hero-gradient: linear-gradient(180deg, #091f17 0%, #06110d 100%);
+  --gradient-mint-white: linear-gradient(180deg, #0d271e 0%, #081611 100%);
+  --gradient-soft-card: linear-gradient(180deg, #0d221b 0%, #081611 100%);
+
+  --line: rgba(255, 255, 255, 0.1);
+  --line-strong: rgba(255, 255, 255, 0.22);
+  --line-subtle: rgba(255, 255, 255, 0.05);
+  --theme-bracket: rgba(255, 255, 255, 0.35);
+  --border-color: rgba(255, 255, 255, 0.1);
   --border-light: rgba(255, 255, 255, 0.08);
-  --border-emerald: rgba(168, 199, 250, 0.35);
-  --shadow-card: 0 40px 80px rgba(0, 0, 0, 0.9), inset 0 1px rgba(255, 255, 255, 0.05);
+  --border-emerald: rgba(52, 211, 153, 0.35);
+  --shadow-card: 0 20px 40px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  --focus-ring-color: #34d399;
+  --focus-ring: 0 0 0 3px rgba(52, 211, 153, 0.35);
 }

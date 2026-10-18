@@ -1,43 +1,85 @@
-// Web Audio API organic sound synthesizer
-// Fully offline, zero CDN/audio files needed, muted by default
+// Offline Sound Effects Manager (Feature 56)
+// Rules:
+// - Muted by default
+// - Off under Reduce Effects or prefers-reduced-motion
+// - Plays local audio files in /public/sounds/ with Web Audio API fallback
 
 class SoundManager {
   constructor() {
     this.ctx = null;
-    this.enabled = false;
+    this.audioCache = {};
   }
 
-  init() {
+  isReduceEffectsActive() {
+    if (typeof window === 'undefined') return true;
+    try {
+      const saved = localStorage.getItem('ecomart_reduce_effects');
+      if (saved !== null && JSON.parse(saved) === true) return true;
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        return true;
+      }
+    } catch (_e) {}
+    return false;
+  }
+
+  isEnabled() {
+    if (this.isReduceEffectsActive()) return false;
+    try {
+      return localStorage.getItem('eco_sound_effects') === 'true';
+    } catch {
+      return false;
+    }
+  }
+
+  setEnabled(val) {
+    try {
+      localStorage.setItem('eco_sound_effects', String(!!val));
+    } catch (e) {
+      console.warn(e);
+    }
+  }
+
+  initWebAudio() {
     if (!this.ctx && typeof window !== 'undefined') {
       const AudioCtx = window.AudioContext || window.webkitAudioContext;
       if (AudioCtx) {
         this.ctx = new AudioCtx();
       }
     }
+  }
+
+  // Play local audio file with web audio fallback
+  playLocalFile(filename, fallbackFn) {
+    if (!this.isEnabled()) return;
+
     try {
-      this.enabled = localStorage.getItem('eco_sound_effects') === 'true';
+      let audio = this.audioCache[filename];
+      if (!audio) {
+        audio = new Audio(`/sounds/${filename}`);
+        this.audioCache[filename] = audio;
+      }
+      audio.currentTime = 0;
+      audio.volume = 0.4;
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // Fallback to Web Audio synthesis if local audio element is blocked
+          if (fallbackFn) fallbackFn();
+        });
+      }
     } catch {
-      this.enabled = false;
+      if (fallbackFn) fallbackFn();
     }
   }
 
-  setEnabled(val) {
-    this.enabled = !!val;
-    try {
-      localStorage.setItem('eco_sound_effects', String(this.enabled));
-    } catch (e) {
-      console.warn(e);
-    }
-  }
-
-  isEnabled() {
-    return this.enabled;
-  }
-
-  // Play gentle wooden pop
+  // Play gentle pop
   playPop() {
-    if (!this.enabled) return;
-    this.init();
+    if (!this.isEnabled()) return;
+    this.playLocalFile('pop.wav', () => this.synthesizePop());
+  }
+
+  synthesizePop() {
+    this.initWebAudio();
     if (!this.ctx) return;
     try {
       const osc = this.ctx.createOscillator();
@@ -60,8 +102,12 @@ class SoundManager {
 
   // Play harmonious success chime
   playSuccess() {
-    if (!this.enabled) return;
-    this.init();
+    if (!this.isEnabled()) return;
+    this.playLocalFile('success.wav', () => this.synthesizeSuccess());
+  }
+
+  synthesizeSuccess() {
+    this.initWebAudio();
     if (!this.ctx) return;
     try {
       const notes = [523.25, 659.25, 783.99, 1046.5]; // C5, E5, G5, C6
@@ -86,8 +132,12 @@ class SoundManager {
 
   // Play eco swap chime
   playSwap() {
-    if (!this.enabled) return;
-    this.init();
+    if (!this.isEnabled()) return;
+    this.playLocalFile('swap.wav', () => this.synthesizeSwap());
+  }
+
+  synthesizeSwap() {
+    this.initWebAudio();
     if (!this.ctx) return;
     try {
       const notes = [440, 554.37, 659.25]; // A4, C#5, E5
@@ -108,6 +158,12 @@ class SoundManager {
     } catch (err) {
       console.warn('Audio play error:', err);
     }
+  }
+
+  // Play tactile click
+  playClick() {
+    if (!this.isEnabled()) return;
+    this.playLocalFile('click.wav', () => this.synthesizePop());
   }
 }
 

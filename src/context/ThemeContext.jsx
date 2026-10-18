@@ -19,7 +19,14 @@ export function ThemeProvider({ children }) {
       if (saved !== null) return JSON.parse(saved);
 
       const prefersReduced = typeof window !== 'undefined' && window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      return prefersReduced;
+      let webglMissing = false;
+      try {
+        const canvas = document.createElement('canvas');
+        webglMissing = !(canvas.getContext('webgl') || canvas.getContext('experimental-webgl'));
+      } catch (_e) {
+        webglMissing = true;
+      }
+      return prefersReduced || webglMissing;
     } catch (_e) {
       return false;
     }
