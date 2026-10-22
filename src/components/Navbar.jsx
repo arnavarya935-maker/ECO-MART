@@ -29,7 +29,7 @@ export default function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-surface/95 backdrop-blur-md border-b border-line transition-colors shadow-2xs">
+    <header className="sticky top-0 z-40 w-full editorial-header transition-colors shadow-2xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between gap-4">
         {/* Brand Logo */}
         <Link
@@ -151,9 +151,9 @@ export default function Navbar() {
           <button
             type="button"
             onClick={() => setIsCartOpen(true)}
-            className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-heading hover:bg-heading-hover text-surface-raised text-xs font-sans font-medium transition-all shadow-soft-sm active:scale-95 cursor-pointer min-h-[44px]"
+            className="flex items-center gap-2 px-4 py-2 rounded-xl btn-gradient-heading text-surface-raised text-xs font-sans font-medium transition-all shadow-soft-sm cursor-pointer min-h-[44px]"
           >
-            <ShoppingBag className="w-4 h-4 text-primary" />
+            <ShoppingBag className="w-4 h-4 text-emerald-300" />
             <span className="hidden sm:inline">{t('nav.cart', 'Cart')}</span>
             {impact.totalItems > 0 && (
               <span className="px-1.5 py-0.2 bg-primary text-surface-raised text-[10px] rounded-full font-bold animate-bounce-subtle">

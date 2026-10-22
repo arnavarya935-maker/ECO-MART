@@ -319,11 +319,11 @@ export default function ProductPage() {
 
               {/* Greenwashing Flag (Check the claims) */}
               {greenwashing.isGreenwashed && (
-                <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-900 text-xs space-y-1">
-                  <div className="font-bold flex items-center gap-1.5 text-amber-800">
+                <div className="p-3.5 rounded-2xl bg-warning-subtle border border-warning/30 text-heading text-xs space-y-1">
+                  <div className="font-bold flex items-center gap-1.5 text-accent">
                     <span>⚠️ Check the claims</span>
                   </div>
-                  <p className="text-[11px] leading-relaxed text-amber-800/90 font-medium">
+                  <p className="text-[11px] leading-relaxed text-secondary font-medium">
                     {greenwashing.reason}
                   </p>
                 </div>
@@ -421,7 +421,7 @@ export default function ProductPage() {
                   <button
                     type="button"
                     onClick={handleAddToCart}
-                    className="flex-1 py-3.5 px-6 min-h-[44px] rounded-2xl bg-primary hover:bg-primary-hover text-text-inverted font-sans font-medium text-sm flex items-center justify-center gap-2 shadow-soft-sm transition active:scale-98 cursor-pointer"
+                    className="flex-1 py-3.5 px-6 min-h-[44px] rounded-xl btn-gradient-heading text-surface-raised font-sans font-medium text-sm flex items-center justify-center gap-2 shadow-soft-sm transition-all cursor-pointer"
                   >
                     {addedAnimation ? (
                       <>
@@ -476,7 +476,7 @@ export default function ProductPage() {
         <button
           type="button"
           onClick={handleAddToCart}
-          className="flex-1 py-3 px-5 rounded-2xl bg-primary hover:bg-primary-hover text-text-inverted font-sans font-medium text-xs flex items-center justify-center gap-2 transition active:scale-95 min-h-[44px] cursor-pointer"
+          className="flex-1 py-3 px-5 rounded-xl btn-gradient-heading text-surface-raised font-sans font-medium text-xs flex items-center justify-center gap-2 transition-all min-h-[44px] cursor-pointer shadow-soft-sm"
         >
           {addedAnimation ? <Check className="w-4 h-4 text-text-inverted" /> : <ShoppingCart className="w-4 h-4 text-text-inverted" />}
           <span>{addedAnimation ? 'Added!' : 'Add to Cart'}</span>

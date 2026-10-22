@@ -48,7 +48,7 @@ export default function ProductCard({ product, rankingDetails }) {
   return (
     <div
       onClick={handleCardClick}
-      className="group relative flex flex-col justify-between bg-surface-raised rounded-3xl border border-line shadow-card hover:shadow-soft-md hover:border-primary transition-all duration-300 cursor-pointer overflow-hidden select-none"
+      className="group relative flex flex-col justify-between bg-surface-raised rounded-3xl border border-line shadow-card product-card-lift cursor-pointer overflow-hidden select-none"
     >
       {/* Top Graphic Showcase - Image First */}
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-surface border-b border-line">
@@ -149,7 +149,7 @@ export default function ProductCard({ product, rankingDetails }) {
           <button
             type="button"
             onClick={handleAddToCart}
-            className="flex items-center gap-1.5 px-4 py-2 min-h-[44px] rounded-2xl bg-heading hover:bg-heading-hover text-surface-raised font-sans font-medium text-xs shadow-soft-sm transition active:scale-95 cursor-pointer"
+            className="flex items-center gap-1.5 px-4 py-2 min-h-[44px] rounded-xl btn-gradient-heading text-surface-raised font-sans font-medium text-xs shadow-soft-sm transition-all cursor-pointer"
             aria-label="Add to cart"
           >
             {added ? (

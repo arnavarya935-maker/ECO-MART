@@ -13,18 +13,22 @@ export default function Hero() {
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-surface-accent via-surface to-surface pt-12 pb-16 md:pt-16 md:pb-20 border-b border-line">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Static Radial Light Blobs */}
+      <div className="hero-light-blob-left" aria-hidden="true" />
+      <div className="hero-light-blob-right" aria-hidden="true" />
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
           {/* Left Column: Clear Value Proposition (7 Cols) */}
           <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
             {/* Pill Tag */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-raised border border-primary/20 shadow-2xs text-heading text-xs font-sans font-medium mx-auto lg:mx-0">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-raised border border-line shadow-soft-sm text-heading text-xs font-sans font-medium mx-auto lg:mx-0">
               <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
               <span>{t('hero.badge', '100% Offline • Verified Sustainable Commerce')}</span>
             </div>
 
-            {/* Main Headline with Fraunces serif */}
-            <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-heading tracking-tight leading-[1.08]">
+            {/* Main Headline with Fraunces serif and elegant gradient */}
+            <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.08] hero-headline-gradient">
               {t('hero.title', "Don't just shop. Shop with purpose.")}
             </h1>
 
@@ -38,17 +42,17 @@ export default function Hero() {
               {/* Primary CTA */}
               <Link
                 to="/shop"
-                className="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-heading hover:bg-heading-hover text-surface-raised font-sans font-medium text-sm flex items-center justify-center gap-2 shadow-soft-sm transition-transform active:scale-98 min-h-[44px]"
+                className="w-full sm:w-auto px-7 py-3.5 rounded-xl btn-gradient-heading text-surface-raised font-sans font-medium text-sm flex items-center justify-center gap-2 shadow-soft-sm transition-all min-h-[44px]"
               >
                 <span>{t('hero.exploreCta', 'Explore Sustainable Catalog')}</span>
-                <ArrowRight className="w-4 h-4 text-primary" />
+                <ArrowRight className="w-4 h-4 text-emerald-300" />
               </Link>
 
               {/* Secondary CTA */}
               <button
                 type="button"
                 onClick={() => setIsAgentOpen(true)}
-                className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-surface-raised hover:bg-surface-sunken border border-line text-heading font-sans font-medium text-sm flex items-center justify-center gap-2 shadow-2xs transition min-h-[44px] cursor-pointer"
+                className="w-full sm:w-auto px-6 py-3.5 rounded-xl bg-surface-raised hover:bg-surface-sunken border border-line text-heading font-sans font-medium text-sm flex items-center justify-center gap-2 shadow-soft-sm transition min-h-[44px] cursor-pointer"
               >
                 <Sparkles className="w-4 h-4 text-primary" />
                 <span>{t('hero.agentCta', 'Consult Eco Agent Co-Pilot')}</span>

@@ -27,7 +27,7 @@ export default function WhyRankPopover({ rankingDetails }) {
   const criteriaLabels = [
     { key: 'plastic', label: 'Plastic Minimization', color: 'bg-warning' },
     { key: 'price', label: 'Affordability', color: 'bg-primary' },
-    { key: 'carbon', label: 'Carbon Reduction', color: 'bg-emerald-600' },
+    { key: 'carbon', label: 'Carbon Reduction', color: 'bg-primary' },
     { key: 'local', label: 'Local Sourcing', color: 'bg-blue-600' },
     { key: 'water', label: 'Water Conservation', color: 'bg-cyan-600' },
     { key: 'certs', label: 'Certifications', color: 'bg-purple-600' },

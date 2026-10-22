@@ -102,11 +102,11 @@ export default function ProductDetailModal({ product, onClose }) {
 
               {/* Greenwashing Flag */}
               {greenwashing.isGreenwashed && (
-                <div className="mt-3 p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-900 text-xs space-y-0.5">
-                  <div className="font-bold flex items-center gap-1.5 text-amber-800">
+                <div className="mt-3 p-3 rounded-xl bg-warning-subtle border border-warning/30 text-heading text-xs space-y-0.5">
+                  <div className="font-bold flex items-center gap-1.5 text-accent">
                     <span>⚠️ Check the claims</span>
                   </div>
-                  <p className="text-[11px] leading-relaxed text-amber-800/90 font-medium">
+                  <p className="text-[11px] leading-relaxed text-secondary font-medium">
                     {greenwashing.reason}
                   </p>
                 </div>
@@ -447,9 +447,9 @@ export default function ProductDetailModal({ product, onClose }) {
             <button
               type="button"
               onClick={handleAddToCart}
-              className="min-h-[44px] flex items-center gap-2 px-6 py-2.5 rounded-2xl bg-primary hover:bg-primary-hover text-text-inverted font-bold text-sm shadow-soft-sm hover:shadow-soft-md active:scale-[0.99] transition-all focus-visible:outline-2 focus-visible:outline-focus cursor-pointer"
+              className="min-h-[44px] flex items-center gap-2 px-6 py-2.5 rounded-xl btn-gradient-heading text-surface-raised font-bold text-sm shadow-soft-sm transition-all focus-visible:outline-2 focus-visible:outline-focus cursor-pointer"
             >
-              <ShoppingBag className="w-4 h-4 text-text-inverted" />
+              <ShoppingBag className="w-4 h-4 text-emerald-300" />
               <span>Add to Cart (₹{(product.price * quantity).toLocaleString('en-IN')})</span>
             </button>
           </div>

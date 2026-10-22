@@ -17,13 +17,14 @@ export default function EcoScoreBadge({
   const score = rawScore !== undefined ? rawScore : data?.score || 90;
   const grade = rawGrade || data?.grade || 'A';
 
-  // Ring colors based on grade
+  // Ring colors based on grade (A deep green, B light green/teal, C amber, D orange, E/F red)
   const gradeColors = {
     A: { stroke: 'var(--color-primary)', bg: 'var(--color-primary-subtle)', text: 'var(--color-heading)' },
     B: { stroke: 'var(--color-secondary)', bg: 'var(--color-secondary-subtle)', text: 'var(--color-heading)' },
-    C: { stroke: 'var(--color-accent)', bg: 'var(--color-accent-subtle)', text: 'var(--color-accent)' },
-    D: { stroke: 'var(--color-warning)', bg: 'var(--color-warning-subtle)', text: 'var(--color-warning)' },
-    E: { stroke: 'var(--color-danger)', bg: 'var(--color-danger-subtle)', text: 'var(--color-danger)' }
+    C: { stroke: 'var(--color-accent)', bg: 'var(--color-accent-subtle)', text: 'var(--color-heading)' },
+    D: { stroke: 'var(--color-warning)', bg: 'var(--color-warning-subtle)', text: 'var(--color-heading)' },
+    E: { stroke: 'var(--color-danger)', bg: 'var(--color-danger-subtle)', text: 'var(--color-danger)' },
+    F: { stroke: 'var(--color-danger)', bg: 'var(--color-danger-subtle)', text: 'var(--color-danger)' }
   };
 
   const currentTheme = gradeColors[grade] || gradeColors.A;

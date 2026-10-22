@@ -4,8 +4,8 @@
   "description": "Offline-native sustainable shopping platform powered by an intelligent Eco Agent.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#F7FAF8",
-  "theme_color": "#0B3B2C",
+  "background_color": "#F6FAF7",
+  "theme_color": "#F6FAF7",
   "icons": [
     {
       "src": "/favicon.svg",

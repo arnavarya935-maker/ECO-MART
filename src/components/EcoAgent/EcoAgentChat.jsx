@@ -23,6 +23,7 @@ import { FEATURES } from '../../lib/features';
 import { sendAgentQuery } from '../../lib/ecoAgent';
 import { playSound } from '../../lib/audio';
 import PrioritiesPanel from '../decision/PrioritiesPanel';
+import EcoScoreBadge from '../EcoScoreBadge';
 
 const QUICK_CHIPS_EN = [
   { id: 'eco-check', label: '🔍 Eco Check a product', query: 'Eco check a product' },
@@ -494,21 +495,21 @@ export default function EcoAgentChat() {
       role="dialog"
       aria-modal="true"
       aria-label="Eco Agent Chat Assistant"
-      className="fixed bottom-20 sm:bottom-6 right-3 sm:right-6 z-drawers w-full sm:w-[420px] max-w-[calc(100vw-1.5rem)] h-[600px] max-h-[calc(100dvh-6.5rem)] bg-surface border border-line rounded-3xl shadow-soft-xl flex flex-col overflow-hidden text-text animate-slide-up"
+      className="fixed bottom-20 sm:bottom-6 right-3 sm:right-6 z-drawers w-full sm:w-[440px] max-w-[calc(100vw-1.5rem)] h-[620px] max-h-[calc(100dvh-6.5rem)] bg-surface border border-line rounded-3xl shadow-soft-xl flex flex-col overflow-hidden text-text animate-slide-up"
     >
       {/* Top Header Bar */}
-      <div className="p-4 bg-primary text-primary-contrast flex items-center justify-between shadow-soft-xs">
+      <div className="p-4 btn-gradient-heading text-surface-raised flex items-center justify-between shadow-soft-xs border-b border-surface-raised/10">
         <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-2xl bg-primary-hover/80 flex items-center justify-center border border-primary-contrast/20">
-            <Bot className="w-5 h-5 text-primary-contrast" />
+          <div className="w-9 h-9 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center border border-surface-raised/20 shadow-soft-xs">
+            <Sparkles className="w-5 h-5 text-surface-raised" />
           </div>
           <div>
             <div className="font-serif font-bold text-sm flex items-center gap-1.5">
               <span>Eco Agent</span>
-              <span className="w-2 h-2 rounded-full bg-primary-contrast animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
             </div>
-            <div className="text-[10px] text-primary-contrast/80 font-medium flex items-center gap-1">
-              <span>100% Offline Assistant</span>
+            <div className="text-[10px] text-surface-raised/80 font-medium flex items-center gap-1">
+              <span>100% Offline AI Guide</span>
             </div>
           </div>
         </div>
@@ -668,16 +669,16 @@ export default function EcoAgentChat() {
             className={`flex gap-2.5 ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
           >
             {msg.sender === 'agent' && (
-              <div className="w-7 h-7 rounded-xl bg-primary text-primary-contrast flex items-center justify-center text-xs shrink-0 mt-0.5 shadow-soft-xs">
-                <Bot className="w-4 h-4" />
+              <div className="w-7 h-7 rounded-xl bg-gradient-to-br from-primary to-secondary text-surface-raised flex items-center justify-center text-xs shrink-0 mt-0.5 shadow-soft-xs border border-primary/20">
+                <Sparkles className="w-3.5 h-3.5 text-emerald-100" />
               </div>
             )}
 
             <div
-              className={`max-w-[85%] rounded-2xl p-3.5 text-xs space-y-2.5 shadow-soft-xs ${
+              className={`max-w-[85%] rounded-2xl p-4 text-xs space-y-2.5 ${
                 msg.sender === 'user'
-                  ? 'bg-primary text-primary-contrast rounded-tr-xs'
-                  : 'bg-surface text-text border border-line rounded-tl-xs'
+                  ? 'btn-gradient-heading text-surface-raised rounded-tr-xs shadow-soft-sm'
+                  : 'bg-surface-raised text-text border border-line rounded-tl-xs shadow-card'
               }`}
             >
               {msg.source === 'cloud-llm' && (
@@ -707,42 +708,47 @@ export default function EcoAgentChat() {
 
               {/* Recommended Product Cards Inside Chat (Feature 20) */}
               {msg.data && msg.data.length > 0 && (
-                <div className="space-y-2 pt-1 border-t border-line">
+                <div className="space-y-2 pt-2 border-t border-line">
                   <span className="text-[10px] font-bold uppercase tracking-wider text-muted block">
                     Recommended Sustainable Options:
                   </span>
-                  <div className="space-y-1.5">
+                  <div className="space-y-2">
                     {msg.data.slice(0, 3).map((prod) => {
                       const isAdded = addedItemMap[prod.id];
                       return (
                         <div
                           key={prod.id}
-                          className="p-2.5 rounded-xl bg-surface-sunken border border-line flex items-center justify-between gap-2 text-text shadow-soft-xs"
+                          className="p-3 rounded-2xl bg-surface-raised border border-line flex items-center justify-between gap-2.5 text-text shadow-card hover:shadow-lift transition-all"
                         >
-                          <div className="flex items-center gap-2 min-w-0">
-                            <span className="text-xl">{prod.icon}</span>
+                          <div className="flex items-center gap-2.5 min-w-0">
+                            <EcoScoreBadge
+                              score={prod.ecoScore || 90}
+                              grade={prod.grade || 'A'}
+                              size="sm"
+                              variant="ring"
+                            />
                             <div className="min-w-0">
                               <div className="flex items-center gap-1.5 flex-wrap">
                                 <span className="font-bold text-xs truncate block text-heading">{prod.name}</span>
                                 {prod.greenwashing?.isGreenwashed && (
                                   <span
-                                    className="px-1.5 py-0.2 rounded text-[8px] font-bold bg-amber-100 text-amber-900 border border-amber-300 shrink-0"
+                                    className="px-1.5 py-0.5 rounded text-[8px] font-bold bg-warning-subtle text-accent border border-warning/30 shrink-0"
                                     title={prod.greenwashing.reason}
                                   >
                                     ⚠️ Check claims
                                   </span>
                                 )}
                               </div>
-                              <span className="text-[10px] font-serif font-bold text-primary">₹{prod.price}</span>
+                              <span className="text-xs font-serif font-bold text-primary">₹{prod.price}</span>
                             </div>
                           </div>
 
                           <button
                             type="button"
                             onClick={() => handleAddProductFromChat(prod)}
-                            className="px-2.5 py-1.5 rounded-lg bg-primary hover:bg-primary-hover text-primary-contrast font-semibold text-[10px] flex items-center gap-1 shrink-0 transition-colors shadow-soft-xs focus-visible:outline-2 focus-visible:outline-focus cursor-pointer"
+                            className="px-3 py-1.5 rounded-xl btn-gradient-heading text-surface-raised font-sans font-medium text-xs flex items-center gap-1.5 shrink-0 transition-all shadow-soft-sm cursor-pointer min-h-[36px]"
                           >
-                            {isAdded ? <Check className="w-3 h-3" /> : <ShoppingBag className="w-3 h-3" />}
+                            {isAdded ? <Check className="w-3.5 h-3.5 text-emerald-300" /> : <ShoppingBag className="w-3.5 h-3.5 text-emerald-300" />}
                             <span>{isAdded ? 'Added' : 'Add'}</span>
                           </button>
                         </div>
@@ -816,26 +822,37 @@ export default function EcoAgentChat() {
               {/* Visible Reasoning Trace (Feature 7) */}
               {msg.trace && msg.trace.length > 0 && (
                 <details
-                  className="mt-1 text-[11px] bg-surface-sunken/90 rounded-xl border border-line p-2 transition-all group"
+                  className="mt-2 text-xs bg-surface-sunken/80 rounded-2xl border border-line p-3 transition-all group shadow-2xs"
                   open={Boolean(msg.isFirstResponse)}
                 >
-                  <summary className="font-bold text-primary flex items-center justify-between cursor-pointer select-none">
-                    <span className="flex items-center gap-1.5">
-                      <span>🧠 How I decided</span>
-                      <span className="text-[10px] text-muted font-normal">({msg.trace.length} steps)</span>
+                  <summary className="font-bold text-primary flex items-center justify-between cursor-pointer select-none py-0.5">
+                    <span className="flex items-center gap-2">
+                      <span className="w-5 h-5 rounded-lg bg-surface-accent border border-primary/20 text-primary flex items-center justify-center text-[11px]">🧠</span>
+                      <span className="text-xs font-serif font-bold text-heading">How I decided</span>
+                      <span className="text-[10px] text-muted font-normal">({msg.trace.length} verified steps)</span>
                     </span>
-                    <span className="text-[10px] text-muted font-normal underline group-open:no-underline">
-                      details
+                    <span className="text-[10px] text-primary font-semibold underline group-open:no-underline">
+                      view trace
                     </span>
                   </summary>
-                  <div className="mt-2 space-y-1.5 pl-2.5 border-l-2 border-primary/40 text-text">
+                  <div className="mt-3 pt-2 border-t border-line/60 space-y-3">
                     {msg.trace.map((step, sIdx) => (
-                      <div key={sIdx} className="space-y-0.5">
-                        <div className="font-semibold text-[10px] text-heading flex items-center gap-1">
-                          <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-                          <span>{step.step}:</span>
+                      <div key={sIdx} className="relative pl-6">
+                        {/* Thin vertical connector line */}
+                        {sIdx < msg.trace.length - 1 && (
+                          <div className="absolute left-2.5 top-5 bottom-0 w-px bg-primary/25" aria-hidden="true" />
+                        )}
+                        {/* Step number badge */}
+                        <div className="absolute left-0 top-0.5 w-5 h-5 rounded-full bg-surface-raised border border-primary/30 text-primary font-bold text-[10px] flex items-center justify-center shadow-2xs">
+                          {sIdx + 1}
                         </div>
-                        <div className="text-[10px] text-muted leading-tight pl-2.5">{step.detail}</div>
+                        <div className="space-y-0.5">
+                          <div className="font-bold text-[11px] text-heading flex items-center gap-1.5">
+                            <span>{step.step}</span>
+                            <Check className="w-3 h-3 text-primary stroke-[2.5]" />
+                          </div>
+                          <div className="text-[11px] text-secondary leading-relaxed">{step.detail}</div>
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -945,12 +962,16 @@ export default function EcoAgentChat() {
 
         {loading && (
           <div className="flex gap-2.5 items-center text-xs text-muted">
-            <div className="w-7 h-7 rounded-xl bg-primary text-primary-contrast flex items-center justify-center">
-              <Bot className="w-4 h-4 animate-spin" />
+            <div className="w-7 h-7 rounded-xl bg-gradient-to-br from-primary to-secondary text-surface-raised flex items-center justify-center shrink-0 shadow-soft-xs border border-primary/20">
+              <Sparkles className="w-3.5 h-3.5 text-emerald-100" />
             </div>
-            <div className="p-3 bg-surface rounded-2xl border border-line text-xs font-medium flex items-center gap-1.5 shadow-soft-xs">
-              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-ping" />
-              <span>Analyzing local eco-catalog...</span>
+            <div className="p-3 bg-surface-raised rounded-2xl border border-line text-xs font-medium flex items-center gap-2 shadow-card">
+              <div className="flex items-center gap-1 py-1 px-0.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                <span className="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse [animation-delay:150ms]" />
+                <span className="w-1.5 h-1.5 rounded-full bg-primary/70 animate-pulse [animation-delay:300ms]" />
+              </div>
+              <span className="text-secondary font-medium">Analyzing conscious catalog...</span>
             </div>
           </div>
         )}
@@ -959,13 +980,13 @@ export default function EcoAgentChat() {
       </div>
 
       {/* Quick Reply Chips (Feature 20) */}
-      <div className="p-2.5 bg-surface-sunken border-t border-line overflow-x-auto flex items-center gap-1.5 scrollbar-none">
+      <div className="p-2.5 bg-surface-sunken/80 border-t border-line overflow-x-auto flex items-center gap-2 scrollbar-none">
         {(lang === 'hi' ? QUICK_CHIPS_HI : QUICK_CHIPS_EN).map((chip) => (
           <button
             key={chip.id}
             type="button"
             onClick={() => handleSendMessage(chip.query)}
-            className="px-3 py-1.5 rounded-full bg-surface hover:bg-primary/10 hover:text-primary text-secondary text-[11px] font-semibold border border-line transition-colors shrink-0 shadow-soft-xs focus-visible:outline-2 focus-visible:outline-focus min-h-[32px]"
+            className="px-3.5 py-1.5 rounded-full bg-surface-raised hover:bg-surface-accent hover:border-primary/40 hover:text-primary text-secondary text-xs font-sans font-medium border border-line transition-all shrink-0 shadow-soft-xs focus-visible:outline-2 focus-visible:outline-focus min-h-[36px] cursor-pointer"
           >
             {chip.label}
           </button>
@@ -973,12 +994,12 @@ export default function EcoAgentChat() {
       </div>
 
       {/* Message Input Box */}
-      <div className="p-3 bg-surface border-t border-line flex items-center gap-2">
+      <div className="sticky bottom-0 z-10 p-3 bg-surface-raised/95 backdrop-blur-md border-t border-line flex items-center gap-2">
         {speechSupported && (
           <button
             type="button"
             onClick={toggleVoiceInput}
-            className={`w-11 h-11 rounded-xl border flex items-center justify-center transition-colors focus-visible:outline-2 focus-visible:outline-focus ${
+            className={`w-11 h-11 rounded-xl border flex items-center justify-center transition-colors focus-visible:outline-2 focus-visible:outline-focus cursor-pointer ${
               isListening
                 ? 'bg-danger/10 border-danger text-danger animate-pulse'
                 : 'bg-surface-sunken border-line text-muted hover:text-heading'
@@ -1004,10 +1025,10 @@ export default function EcoAgentChat() {
           type="button"
           onClick={() => handleSendMessage()}
           disabled={!input.trim() || loading}
-          className="w-11 h-11 rounded-xl bg-primary hover:bg-primary-hover disabled:opacity-40 text-primary-contrast transition-all active:scale-[0.98] shadow-soft-xs flex items-center justify-center focus-visible:outline-2 focus-visible:outline-focus"
+          className="w-11 h-11 rounded-xl btn-gradient-heading disabled:opacity-40 text-surface-raised transition-all shadow-soft-sm flex items-center justify-center focus-visible:outline-2 focus-visible:outline-focus cursor-pointer shrink-0"
           aria-label="Send message"
         >
-          <Send className="w-4 h-4" />
+          <Send className="w-4 h-4 text-emerald-300" />
         </button>
       </div>
     </div>

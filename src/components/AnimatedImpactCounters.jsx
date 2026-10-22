@@ -93,7 +93,7 @@ export default function AnimatedImpactCounters() {
             return (
               <div
                 key={m.id}
-                className="p-6 rounded-3xl bg-surface-raised border border-line shadow-soft-sm hover:shadow-soft-md transition-all duration-300"
+                className="p-6 rounded-3xl bg-surface-raised border border-line shadow-card hover:shadow-lift transition-all duration-300"
               >
                 <div className="flex items-center justify-between mb-3">
                   <div className={`p-2.5 rounded-2xl bg-surface-sunken border border-line-subtle ${m.iconColor}`}>
@@ -103,7 +103,7 @@ export default function AnimatedImpactCounters() {
                     Audited
                   </span>
                 </div>
-                <div className="font-serif text-3xl sm:text-4xl font-bold tracking-tight text-heading">
+                <div className="font-serif text-3xl sm:text-4xl font-bold tracking-tight text-heading tabular-nums">
                   {m.value}
                 </div>
                 <div className="text-xs font-sans font-semibold text-heading mt-1">

@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "./styles/tokens.css";
+@import "./styles/polish.css";
 
 /* --------------------------------------------------------------------------
    Tailwind v4 @theme Configuration
@@ -116,6 +117,8 @@
   --shadow-soft-md: var(--shadow-soft-md);
   --shadow-soft-lg: var(--shadow-soft-lg);
   --shadow-card: var(--shadow-card);
+  --shadow-lift: var(--shadow-lift);
+  --shadow-glow: var(--shadow-glow);
 
   /* Radii */
   --radius-sm: var(--radius-sm);

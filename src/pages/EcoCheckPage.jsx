@@ -124,9 +124,9 @@ export default function EcoCheckPage() {
 
         {/* Clarifying Prompt if Vague */}
         {analysis && analysis.isVague && (
-          <div className="mt-6 p-5 rounded-3xl bg-amber-500/10 border border-amber-500/30 text-amber-900 animate-fade-in">
+          <div className="mt-6 p-5 rounded-3xl bg-warning-subtle border border-warning/30 text-heading animate-fade-in">
             <div className="flex items-start gap-3">
-              <HelpCircle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
+              <HelpCircle className="w-5 h-5 text-accent shrink-0 mt-0.5" />
               <div>
                 <h3 className="font-serif text-sm font-bold text-heading">
                   More Details Needed
