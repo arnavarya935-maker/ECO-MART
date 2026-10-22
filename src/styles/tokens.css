@@ -230,6 +230,13 @@ html.text-size-xlarge {
   font-size: 125%;
 }
 
+/* Devanagari Typography (Phase 7) */
+html[lang="hi"],
+html.lang-hi {
+  --font-sans: 'Noto Sans Devanagari', 'Inter Variable', 'Inter', -apple-system, sans-serif;
+  --font-display: 'Noto Sans Devanagari', 'Fraunces Variable', Georgia, serif;
+}
+
 /* --------------------------------------------------------------------------
    Reduce Effects & Reduced Motion
    -------------------------------------------------------------------------- */

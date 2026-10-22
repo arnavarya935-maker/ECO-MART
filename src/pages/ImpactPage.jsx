@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import ImpactDashboard from '../components/ImpactDashboard';
+import YearAheadProjection from '../components/impact/YearAheadProjection';
+import PurposeReportModal from '../components/impact/PurposeReportModal';
 import { useCart } from '../context/CartContext';
 import { Droplets, Ban, Wind } from 'lucide-react';
 
 export default function ImpactPage() {
   const { setIsAgentOpen } = useCart();
+  const [purposeReportOpen, setPurposeReportOpen] = useState(false);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12 animate-fade-in pb-24">
@@ -25,6 +28,15 @@ export default function ImpactPage() {
 
       {/* Main Live Cart Impact Dashboard */}
       <ImpactDashboard showHeader={true} />
+
+      {/* 12-Month Year Ahead Planetary Projection (Phase 5) */}
+      <YearAheadProjection onOpenPurposeReport={() => setPurposeReportOpen(true)} />
+
+      {/* Purpose Report Export Modal */}
+      <PurposeReportModal
+        isOpen={purposeReportOpen}
+        onClose={() => setPurposeReportOpen(false)}
+      />
 
       {/* Educational Explainer Grid: How Benchmarks Work */}
       <section className="p-6 sm:p-8 rounded-3xl bg-surface border border-line shadow-soft-sm space-y-6">

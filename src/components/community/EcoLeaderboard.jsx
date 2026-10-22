@@ -22,14 +22,19 @@ export default function EcoLeaderboard() {
     <div className="p-6 sm:p-8 rounded-3xl bg-surface border border-line shadow-soft-sm max-w-2xl mx-auto space-y-6">
       <div className="flex items-center justify-between border-b border-line pb-4">
         <div>
-          <span className="text-xs font-semibold uppercase tracking-wider text-primary bg-primary/10 border border-primary/20 px-2.5 py-1 rounded-full">
-            Planetary Honor Roll
-          </span>
+          <div className="flex items-center gap-2 flex-wrap">
+            <span className="text-xs font-semibold uppercase tracking-wider text-primary bg-primary/10 border border-primary/20 px-2.5 py-1 rounded-full">
+              Planetary Honor Roll
+            </span>
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-muted bg-surface-sunken border border-line px-2 py-0.5 rounded-full">
+              Demo Data
+            </span>
+          </div>
           <h3 className="text-xl sm:text-2xl font-serif font-bold text-heading mt-2">
             Eco Champions Leaderboard
           </h3>
           <p className="text-xs sm:text-sm text-secondary mt-0.5">
-            Recognizing conscious consumers making the largest audited diversion impact this season.
+            Recognizing conscious consumers. Illustrative competition leaderboard based on local orders.
           </p>
         </div>
         <Trophy className="w-8 h-8 text-accent shrink-0" />

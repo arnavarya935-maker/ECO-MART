@@ -6,6 +6,7 @@ import LiveSwapDemo from '../components/LiveSwapDemo';
 import AnimatedImpactCounters from '../components/AnimatedImpactCounters';
 import StorytellingSection from '../components/StorytellingSection';
 import TestimonialsCarousel from '../components/TestimonialsCarousel';
+import ForYouRow from '../components/recommendations/ForYouRow';
 
 export default function HomePage() {
   return (
@@ -13,7 +14,12 @@ export default function HomePage() {
       {/* 1. Hero: What/Why/Next with 1 primary & 1 secondary CTA + scroll-linked globe */}
       <Hero />
 
-      {/* 2. Continue where you left off / Recently viewed (Feature 27) */}
+      {/* 2. Personalized For You Row (Phase 6: On-Device Learning) */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <ForYouRow />
+      </div>
+
+      {/* 3. Continue where you left off / Recently viewed (Feature 27) */}
       <RecentlyViewedStrip />
 
       {/* 3. Categories (Feature 10) */}

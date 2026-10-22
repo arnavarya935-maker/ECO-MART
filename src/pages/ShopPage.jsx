@@ -1,16 +1,25 @@
 import React, { useState, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import productsData from '../data/products.json';
 import { calculateEcoScore } from '../lib/ecoScore';
+import { rankProducts } from '../lib/decisionEngine';
+import { FEATURES } from '../lib/features';
+import { useCart } from '../context/CartContext';
+import { useTheme } from '../context/ThemeContext';
 import ProductCard from '../components/ProductCard';
+import PrioritiesPanel from '../components/decision/PrioritiesPanel';
 import ShopFilterBar from '../components/shop/ShopFilterBar';
 import ShopActiveChips from '../components/shop/ShopActiveChips';
 import ShopFilterDrawer from '../components/shop/ShopFilterDrawer';
 import ShopEmptyState from '../components/shop/ShopEmptyState';
 import StarterKits from '../components/tools/StarterKits';
+import ForYouRow from '../components/recommendations/ForYouRow';
 
 export default function ShopPage() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const { userPriorities } = useCart();
+  const { reduceEffects } = useTheme();
 
   // URL-driven query states
   const categoryParam = searchParams.get('category') || 'All';
@@ -122,11 +131,14 @@ export default function ShopPage() {
         return list.sort((a, b) => b.price - a.price);
       case 'carbon-asc':
         return list.sort((a, b) => a.carbonKg - b.carbonKg);
+      case 'priorities':
       default:
-        // Featured
+        if (FEATURES.DECISION_ENGINE) {
+          return rankProducts(list, userPriorities);
+        }
         return list.sort((a, b) => (b.isEcoFriendly ? 1 : 0) - (a.isEcoFriendly ? 1 : 0));
     }
-  }, [filteredProducts, sortParam]);
+  }, [filteredProducts, sortParam, userPriorities]);
 
   // Active filter count
   const activeFilterCount = useMemo(() => {
@@ -222,6 +234,19 @@ export default function ShopPage() {
 
       {/* Main Catalog Grid */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2">
+        {FEATURES.DECISION_ENGINE && (
+          <div className="mb-6">
+            <PrioritiesPanel />
+          </div>
+        )}
+
+        {/* Personalized For You Row (Phase 6: On-Device Learning) */}
+        {FEATURES.FOR_YOU_LEARNING && (
+          <div className="mb-10">
+            <ForYouRow />
+          </div>
+        )}
+
         {sortedProducts.length === 0 ? (
           <ShopEmptyState
             onReset={handleResetAllFilters}
@@ -230,7 +255,13 @@ export default function ShopPage() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {sortedProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
+              <motion.div
+                key={product.id}
+                layout={!reduceEffects}
+                transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+              >
+                <ProductCard product={product} rankingDetails={product.rank ? product : null} />
+              </motion.div>
             ))}
           </div>
         )}

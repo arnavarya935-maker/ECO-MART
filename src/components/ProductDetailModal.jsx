@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import { ShoppingBag, Wind, Droplets, Ban, MapPin, Award, CheckCircle, Sparkles, RefreshCw } from 'lucide-react';
-import { calculateEcoScore, compareProductImpact } from '../lib/ecoScore';
+import { calculateEcoScore, compareProductImpact, detectGreenwashing } from '../lib/ecoScore';
 import EcoScoreBadge from './EcoScoreBadge';
 import EcoScorePopover from './EcoScorePopover';
 import ProductGallery from './ProductGallery';
+import ProductLifecycleTimeline from './lifecycle/ProductLifecycleTimeline';
 import Modal from './ui/Modal';
 import { useCart } from '../context/CartContext';
 
 export default function ProductDetailModal({ product, onClose }) {
   const { addToCart, allProducts, getProductReviews, addReview } = useCart();
+  const [activeTab, setActiveTab] = useState('overview'); // 'overview' | 'lifecycle' | 'reviews'
   const [quantity, setQuantity] = useState(1);
   const [showFormulaPopover, setShowFormulaPopover] = useState(false);
   const [showReviewForm, setShowReviewForm] = useState(false);
@@ -36,6 +38,7 @@ export default function ProductDetailModal({ product, onClose }) {
   };
 
   const ecoScoreData = calculateEcoScore(product);
+  const greenwashing = detectGreenwashing(product);
 
   // Look up alternative product (either eco alternative or conventional)
   const productMap = new Map((allProducts || []).map((p) => [p.id, p]));
@@ -96,14 +99,66 @@ export default function ProductDetailModal({ product, onClose }) {
               <p className="text-sm text-secondary mt-2 leading-relaxed">
                 {product.description}
               </p>
+
+              {/* Greenwashing Flag */}
+              {greenwashing.isGreenwashed && (
+                <div className="mt-3 p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-900 text-xs space-y-0.5">
+                  <div className="font-bold flex items-center gap-1.5 text-amber-800">
+                    <span>⚠️ Check the claims</span>
+                  </div>
+                  <p className="text-[11px] leading-relaxed text-amber-800/90 font-medium">
+                    {greenwashing.reason}
+                  </p>
+                </div>
+              )}
             </div>
           </div>
 
-          {/* Environmental Impact Metrics Grid */}
-          <div>
-            <h3 className="text-xs font-bold uppercase tracking-wider text-muted mb-3">
-              Lifecycle Environmental Footprint
-            </h3>
+          {/* Modal Tab Switcher */}
+          <div className="flex items-center gap-1 p-1 bg-surface-sunken rounded-2xl border border-line">
+            <button
+              type="button"
+              onClick={() => setActiveTab('overview')}
+              className={`flex-1 py-2 px-3 rounded-xl text-xs font-sans font-bold transition-all min-h-[36px] cursor-pointer ${
+                activeTab === 'overview'
+                  ? 'bg-surface-raised text-heading shadow-soft-xs border border-line'
+                  : 'text-muted hover:text-heading'
+              }`}
+            >
+              Overview & Specs
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveTab('lifecycle')}
+              className={`flex-1 py-2 px-3 rounded-xl text-xs font-sans font-bold transition-all min-h-[36px] cursor-pointer ${
+                activeTab === 'lifecycle'
+                  ? 'bg-surface-raised text-heading shadow-soft-xs border border-line'
+                  : 'text-muted hover:text-heading'
+              }`}
+            >
+              Lifecycle (5 Stages)
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveTab('reviews')}
+              className={`flex-1 py-2 px-3 rounded-xl text-xs font-sans font-bold transition-all min-h-[36px] cursor-pointer ${
+                activeTab === 'reviews'
+                  ? 'bg-surface-raised text-heading shadow-soft-xs border border-line'
+                  : 'text-muted hover:text-heading'
+              }`}
+            >
+              Reviews ({reviews.length})
+            </button>
+          </div>
+
+          {/* Tab 1: Overview */}
+          {activeTab === 'overview' && (
+            <div className="space-y-6">
+              {/* Environmental Impact Metrics Grid */}
+              <div>
+                <h3 className="text-xs font-bold uppercase tracking-wider text-muted mb-3">
+                  Lifecycle Environmental Footprint
+                </h3>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               <div className="p-3.5 rounded-2xl bg-surface-raised border border-line shadow-soft-sm">
                 <div className="flex items-center gap-1.5 text-xs text-muted mb-1">
@@ -237,9 +292,17 @@ export default function ProductDetailModal({ product, onClose }) {
               )}
             </div>
           )}
+          </div>
+        )}
 
-          {/* Customer Reviews & Eco Feedback Section */}
-          <div className="p-5 rounded-2xl bg-surface-sunken border border-line space-y-4">
+          {/* Tab 2: Lifecycle Timeline (5 Stages) */}
+          {activeTab === 'lifecycle' && (
+            <ProductLifecycleTimeline product={product} />
+          )}
+
+          {/* Tab 3: Customer Reviews */}
+          {activeTab === 'reviews' && (
+            <div className="p-5 rounded-2xl bg-surface-sunken border border-line space-y-4">
             <div className="flex items-center justify-between border-b border-line pb-3">
               <div>
                 <h3 className="font-serif font-bold text-sm text-heading flex items-center gap-1.5">
@@ -345,7 +408,8 @@ export default function ProductDetailModal({ product, onClose }) {
               </div>
             )}
           </div>
-        </div>
+        )}
+      </div>
 
         {/* Modal Bottom Sticky Checkout Bar */}
         <div className="p-4 px-6 border-t border-line bg-surface-raised/95 backdrop-blur-xs flex items-center justify-between">

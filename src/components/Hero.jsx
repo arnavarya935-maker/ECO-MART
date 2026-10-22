@@ -2,12 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Sparkles, ShieldCheck, RefreshCw, BarChart2 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import { useT } from '../context/I18nContext';
 import Safe3D from './3D/Safe3D';
 
 const LeafyGlobe3D = React.lazy(() => import('./3D/LeafyGlobe3D'));
 
 export default function Hero() {
   const { setIsAgentOpen, impact } = useCart();
+  const { t } = useT();
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-surface-accent via-surface to-surface pt-12 pb-16 md:pt-16 md:pb-20 border-b border-line">
@@ -18,18 +20,17 @@ export default function Hero() {
             {/* Pill Tag */}
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-raised border border-primary/20 shadow-2xs text-heading text-xs font-sans font-medium mx-auto lg:mx-0">
               <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-              <span>Verified Eco-Friendly Essentials · Zero Plastic Packaging</span>
+              <span>{t('hero.badge', '100% Offline • Verified Sustainable Commerce')}</span>
             </div>
 
             {/* Main Headline with Fraunces serif */}
             <h1 className="font-serif text-4xl sm:text-5xl lg:text-6xl font-bold text-heading tracking-tight leading-[1.08]">
-              Everyday essentials that cut plastic{' '}
-              <span className="text-primary block mt-1 italic font-normal">and save you money.</span>
+              {t('hero.title', "Don't just shop. Shop with purpose.")}
             </h1>
 
             {/* Supporting Paragraph answering why it matters */}
             <p className="text-sm sm:text-base text-secondary max-w-2xl mx-auto lg:mx-0 leading-relaxed font-sans font-normal">
-              Replace recurring disposable waste with durable, certified sustainable goods. We calculate the exact carbon, water, and plastic savings for every product and help you swap to cleaner, zero-waste alternatives in one tap.
+              {t('hero.subtitle', 'Replace recurring disposable waste with durable, certified sustainable goods. We calculate the exact carbon, water, and plastic savings for every product.')}
             </p>
 
             {/* CTAs: 1 Primary, 1 Secondary */}
@@ -39,7 +40,7 @@ export default function Hero() {
                 to="/shop"
                 className="w-full sm:w-auto px-7 py-3.5 rounded-2xl bg-heading hover:bg-heading-hover text-surface-raised font-sans font-medium text-sm flex items-center justify-center gap-2 shadow-soft-sm transition-transform active:scale-98 min-h-[44px]"
               >
-                <span>Explore Sustainable Catalog</span>
+                <span>{t('hero.exploreCta', 'Explore Sustainable Catalog')}</span>
                 <ArrowRight className="w-4 h-4 text-primary" />
               </Link>
 
@@ -50,7 +51,7 @@ export default function Hero() {
                 className="w-full sm:w-auto px-6 py-3.5 rounded-2xl bg-surface-raised hover:bg-surface-sunken border border-line text-heading font-sans font-medium text-sm flex items-center justify-center gap-2 shadow-2xs transition min-h-[44px] cursor-pointer"
               >
                 <Sparkles className="w-4 h-4 text-primary" />
-                <span>Ask AI Eco Agent</span>
+                <span>{t('hero.agentCta', 'Consult Eco Agent Co-Pilot')}</span>
               </button>
             </div>
 

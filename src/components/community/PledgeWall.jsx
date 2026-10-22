@@ -50,14 +50,19 @@ export default function PledgeWall() {
   return (
     <div className="p-6 sm:p-8 rounded-3xl bg-surface border border-line shadow-soft-sm max-w-2xl mx-auto space-y-6">
       <div className="border-b border-line pb-4">
-        <span className="text-xs font-semibold uppercase tracking-wider text-primary bg-primary/10 border border-primary/20 px-2.5 py-1 rounded-full">
-          Collective Commitment
-        </span>
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className="text-xs font-semibold uppercase tracking-wider text-primary bg-primary/10 border border-primary/20 px-2.5 py-1 rounded-full">
+            Collective Commitment
+          </span>
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-muted bg-surface-sunken border border-line px-2 py-0.5 rounded-full">
+            Demo Data
+          </span>
+        </div>
         <h3 className="text-xl sm:text-2xl font-serif font-bold text-heading mt-2">
           The Planetary Pledge Wall
         </h3>
         <p className="text-xs sm:text-sm text-secondary mt-0.5">
-          Sign your commitment to sustainable living and join thousands making daily conscious choices.
+          Sign your commitment to sustainable living. Seeded pledges represent community goals for demonstration.
         </p>
       </div>
 

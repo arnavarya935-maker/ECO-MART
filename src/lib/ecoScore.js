@@ -264,3 +264,43 @@ export function compareProductImpact(greenerProduct, conventionalProduct) {
     summary: `Saves ${co2Saved.toFixed(1)} kg CO2 and ${Math.round(plasticSaved)}g plastic (${priceDiff > 0 ? `costs ₹${priceDiff} more` : 'better value!'})`
   };
 }
+
+/**
+ * Detects potential greenwashing in a product.
+ * Flags products whose name/description use words like eco, green, natural, sustainable,
+ * but have no certifications and have a low EcoScore (< 65).
+ * Does NOT flag products that have verified third-party certifications.
+ */
+export function detectGreenwashing(product) {
+  if (!product) return { isGreenwashed: false, reason: '' };
+
+  const certCount = Array.isArray(product.certifications) ? product.certifications.length : 0;
+  // Well-certified products are verified - never flag
+  if (certCount >= 1) {
+    return { isGreenwashed: false, reason: '' };
+  }
+
+  const scoreData = calculateEcoScore(product);
+  const score = scoreData ? scoreData.score : (product.isEcoFriendly ? 75 : 40);
+
+  const text = `${product.name || ''} ${product.description || ''} ${(product.ecoHighlights || []).join(' ')}`.toLowerCase();
+  const buzzwords = ['eco', 'green', 'natural', 'sustainable', 'pure', 'earth', 'clean', 'bio', 'organic', 'herbal'];
+
+  const foundBuzzwords = buzzwords.filter((bw) => {
+    const rx = new RegExp(`(^|[^a-zA-Z0-9])${bw}([^a-zA-Z0-9]|$)`, 'i');
+    return rx.test(text);
+  });
+
+  if (foundBuzzwords.length > 0 && score < 65) {
+    return {
+      isGreenwashed: true,
+      score,
+      buzzwords: foundBuzzwords,
+      badgeText: 'Check the claims',
+      reason: `Claims "${foundBuzzwords.slice(0, 2).join(' / ')}" with zero verified certifications and low EcoScore (${score}/100).`
+    };
+  }
+
+  return { isGreenwashed: false, reason: '' };
+}
+

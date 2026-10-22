@@ -73,9 +73,10 @@ function pwaManifestPlugin() {
         appShell.unshift('/');
       }
 
+      const buildTimestamp = Date.now();
       const hash = crypto
         .createHash('sha256')
-        .update(allAssets.sort().join('|'))
+        .update(`${buildTimestamp}|${allAssets.sort().join('|')}`)
         .digest('hex')
         .slice(0, 10);
       const cacheName = `ecomart-cache-${hash}`;
@@ -83,6 +84,7 @@ function pwaManifestPlugin() {
       // Write offline manifest for client idle caching
       const offlineManifest = {
         cacheName,
+        buildTimestamp,
         appShell,
         idleAssets
       };
@@ -92,14 +94,15 @@ function pwaManifestPlugin() {
         'utf-8'
       );
 
-      const swContent = `// EcoMart Service Worker - App Shell Precached, Runtime First-Use & Background Idle Caching
+      const swContent = `// EcoMart Service Worker - App Shell Precached, Runtime First-Use & Immediate Activation
 const CACHE_NAME = ${JSON.stringify(cacheName)};
 const OFFLINE_FALLBACK = '/offline.html';
 const APP_SHELL = ${JSON.stringify(appShell, null, 2)};
 const IDLE_ASSETS = ${JSON.stringify(idleAssets, null, 2)};
 
-// 1. Install: Precache ONLY the App Shell (no silent skipWaiting)
+// 1. Install: Precache App Shell and activate immediately (skipWaiting)
 self.addEventListener('install', (event) => {
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return Promise.all(
@@ -113,7 +116,7 @@ self.addEventListener('install', (event) => {
   );
 });
 
-// 2. Activate: Clean stale caches and claim clients
+// 2. Activate: Clean stale caches and claim clients immediately
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((keys) => {

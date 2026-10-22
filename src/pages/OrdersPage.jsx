@@ -13,10 +13,13 @@ import {
   Home,
   Check,
   RefreshCw,
-  Clock
+  Clock,
+  Droplets,
+  Sparkles
 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { playSound } from '../lib/audio';
+import ShareableImpactCard from '../components/community/ShareableImpactCard';
 
 const TRACKING_STAGES = [
   { id: 'placed', title: 'Order Placed', subtitle: 'Plastic-free manifest generated', icon: CheckCircle2 },
@@ -29,6 +32,7 @@ export default function OrdersPage() {
   const { orders, showToast } = useCart();
   // Maintain simulated status map orderId -> stageIndex (0 to 3)
   const [orderStages, setOrderStages] = useState({});
+  const [showCertForOrder, setShowCertForOrder] = useState({});
 
   const getStageIndex = (orderId) => {
     return orderStages[orderId] !== undefined ? orderStages[orderId] : 2; // default: shipped
@@ -189,30 +193,56 @@ export default function OrdersPage() {
                   </div>
                 </div>
 
-                {/* Impact Badge */}
-                <div className="p-4 rounded-2xl bg-surface-sunken border border-line flex flex-wrap items-center justify-between gap-3">
-                  <div className="flex items-center gap-4 text-xs">
-                    <span className="flex items-center gap-1.5 font-semibold text-primary">
-                      <Wind className="w-4 h-4 text-primary" /> {co2Saved} kg CO₂ Avoided
-                    </span>
-                    <span className="flex items-center gap-1.5 font-semibold text-warning">
-                      <Ban className="w-4 h-4 text-warning" /> {plasticDiverted} g Plastic Diverted
-                    </span>
+                {/* Impact Receipt (Feature 15) */}
+                <div className="p-4 rounded-2xl bg-surface-sunken border border-line space-y-3">
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <div className="flex flex-wrap items-center gap-3 text-xs">
+                      <span className="flex items-center gap-1.5 font-semibold text-primary">
+                        <Wind className="w-4 h-4 text-primary" /> {co2Saved} kg CO₂ Saved
+                      </span>
+                      <span className="flex items-center gap-1.5 font-semibold text-accent">
+                        <Ban className="w-4 h-4 text-accent" /> {plasticDiverted} g Plastic Diverted
+                      </span>
+                      <span className="flex items-center gap-1.5 font-semibold text-secondary">
+                        <Droplets className="w-4 h-4 text-secondary" /> {Math.round(order.impact?.waterSaved || 65)} L Water Saved
+                      </span>
+                      <span className="px-2 py-0.5 rounded-full bg-surface text-[10px] font-bold text-heading border border-line">
+                        Avg EcoScore: {order.impact?.averageEcoScore || 88}/100
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setShowCertForOrder((prev) => ({ ...prev, [order.id]: !prev[order.id] }));
+                        }}
+                        className="inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline cursor-pointer min-h-[44px]"
+                      >
+                        <Sparkles className="w-3.5 h-3.5" />
+                        <span>{showCertForOrder[order.id] ? 'Hide Certificate' : 'View Impact Card'}</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          navigator.clipboard?.writeText(
+                            `I avoided ${co2Saved}kg of CO₂ and ${plasticDiverted}g plastic on order ${order.id} with EcoMart! 🌍`
+                          );
+                          playSound('click');
+                          showToast('Copied impact receipt text to clipboard!', 'success');
+                        }}
+                        className="inline-flex items-center gap-1 text-xs font-medium text-muted hover:text-heading cursor-pointer min-h-[44px]"
+                      >
+                        <Share2 className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
                   </div>
 
-                  <button
-                    type="button"
-                    onClick={() => {
-                      navigator.clipboard?.writeText(
-                        `I avoided ${co2Saved}kg of CO₂ on order ${order.id} with EcoMart! 🌍`
-                      );
-                      playSound('click');
-                      showToast('Copied impact receipt text to clipboard!', 'success');
-                    }}
-                    className="inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline cursor-pointer min-h-[44px]"
-                  >
-                    <Share2 className="w-3.5 h-3.5" /> Share Impact Receipt
-                  </button>
+                  {showCertForOrder[order.id] && (
+                    <div className="pt-3 border-t border-line animate-fade-in">
+                      <ShareableImpactCard />
+                    </div>
+                  )}
                 </div>
 
                 {/* Ordered Items List */}

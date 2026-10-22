@@ -100,14 +100,19 @@ export default function CommunityFeed() {
   return (
     <div className="p-6 sm:p-8 rounded-3xl bg-surface border border-line shadow-soft-sm max-w-2xl mx-auto space-y-6">
       <div className="border-b border-line pb-4">
-        <span className="text-xs font-semibold uppercase tracking-wider text-primary bg-primary/10 border border-primary/20 px-2.5 py-1 rounded-full">
-          Shared Collective Wisdom
-        </span>
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className="text-xs font-semibold uppercase tracking-wider text-primary bg-primary/10 border border-primary/20 px-2.5 py-1 rounded-full">
+            Shared Collective Wisdom
+          </span>
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-muted bg-surface-sunken border border-line px-2 py-0.5 rounded-full">
+            Demo Data
+          </span>
+        </div>
         <h3 className="text-xl sm:text-2xl font-serif font-bold text-heading mt-2">
           Community Tips & Zero-Waste Stories
         </h3>
         <p className="text-xs sm:text-sm text-secondary mt-0.5">
-          Share your daily swaps, upcycling hacks, and learn from fellow conscious shoppers. Stored locally offline.
+          Share your daily swaps, upcycling hacks, and learn from fellow conscious shoppers. Seeded sample contributions.
         </p>
       </div>
 

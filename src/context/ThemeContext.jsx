@@ -7,6 +7,13 @@ export function ThemeProvider({ children }) {
   // Global "Reduce effects" toggle (Rule 5 & Feature 4)
   const [reduceEffects, setReduceEffects] = useState(() => {
     try {
+      const isJudge = typeof window !== 'undefined' && (
+        new URLSearchParams(window.location.search).get('judge') === '1' ||
+        (window.location.hash.includes('?') && new URLSearchParams(window.location.hash.split('?')[1]).get('judge') === '1') ||
+        localStorage.getItem('ecomart_judge_mode') === 'true'
+      );
+      if (isJudge) return true;
+
       const saved = localStorage.getItem('ecomart_reduce_effects');
       if (saved !== null) return JSON.parse(saved);
 
@@ -94,8 +101,45 @@ export function ThemeProvider({ children }) {
     } catch {}
   }, [textSize]);
 
+  const [judgeMode, setJudgeMode] = useState(() => {
+    try {
+      if (typeof window !== 'undefined') {
+        const urlParams = new URLSearchParams(window.location.search);
+        const hashQuery = window.location.hash.includes('?') ? window.location.hash.split('?')[1] : '';
+        const hashParams = new URLSearchParams(hashQuery);
+        if (urlParams.get('judge') === '1' || hashParams.get('judge') === '1') {
+          localStorage.setItem('ecomart_judge_mode', 'true');
+          return true;
+        }
+      }
+      return localStorage.getItem('ecomart_judge_mode') === 'true';
+    } catch {
+      return false;
+    }
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('ecomart_judge_mode', JSON.stringify(judgeMode));
+      if (judgeMode) {
+        localStorage.setItem('eco_sound_effects', 'false');
+        localStorage.setItem('ecomart_sound_enabled', 'false');
+      }
+    } catch {}
+  }, [judgeMode]);
+
   const toggleReduceEffects = () => {
     setReduceEffects((prev) => !prev);
+  };
+
+  const toggleJudgeMode = () => {
+    setJudgeMode((prev) => {
+      const next = !prev;
+      if (next) {
+        setReduceEffects(true);
+      }
+      return next;
+    });
   };
 
   return (
@@ -113,7 +157,10 @@ export function ThemeProvider({ children }) {
         dyslexicFont,
         setDyslexicFont,
         textSize,
-        setTextSize
+        setTextSize,
+        judgeMode,
+        setJudgeMode,
+        toggleJudgeMode
       }}
     >
       {children}

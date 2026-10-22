@@ -25,6 +25,7 @@ class SoundManager {
   isEnabled() {
     if (this.isReduceEffectsActive()) return false;
     try {
+      if (localStorage.getItem('ecomart_judge_mode') === 'true') return false;
       return localStorage.getItem('eco_sound_effects') === 'true';
     } catch {
       return false;

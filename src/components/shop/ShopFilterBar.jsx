@@ -1,5 +1,6 @@
 import React from 'react';
 import { Search, SlidersHorizontal, ArrowUpDown, X } from 'lucide-react';
+import { useT } from '../../context/I18nContext';
 
 export default function ShopFilterBar({
   searchQuery,
@@ -12,6 +13,7 @@ export default function ShopFilterBar({
   onOpenMobileFilters,
   activeFilterCount
 }) {
+  const { t } = useT();
   return (
     <div className="sticky top-18 z-30 bg-surface/95 backdrop-blur-md py-3.5 border-b border-line transition-colors">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -46,7 +48,7 @@ export default function ShopFilterBar({
             className="px-3.5 py-2 min-h-[44px] rounded-2xl bg-surface-raised border border-line text-xs font-sans font-medium text-heading focus-visible:outline-2 focus-visible:outline-focus cursor-pointer shadow-soft-sm"
             aria-label="Filter by category"
           >
-            <option value="All">All Categories ({categories.length})</option>
+            <option value="All">{t('shop.allCategories', 'All Categories')} ({categories.length})</option>
             {categories.map((cat) => (
               <option key={cat} value={cat}>
                 {cat}
@@ -63,11 +65,11 @@ export default function ShopFilterBar({
               className="bg-transparent text-xs font-sans font-medium text-heading focus:outline-hidden cursor-pointer"
               aria-label="Sort products"
             >
-              <option value="featured">Featured Picks</option>
-              <option value="impact-rupee">🌱 Impact / Rupee</option>
-              <option value="eco-desc">Eco-Score: Highest</option>
-              <option value="price-asc">Price: Low to High</option>
-              <option value="price-desc">Price: High to Low</option>
+              <option value="featured">{t('shop.sortFeatured', '✨ My Priorities (Decision Engine)')}</option>
+              <option value="impact-rupee">{t('shop.sortImpactRupee', '🌱 Impact / Rupee')}</option>
+              <option value="eco-desc">{t('shop.sortEcoScore', 'Eco-Score: Highest')}</option>
+              <option value="price-asc">{t('shop.sortPriceLow', 'Price: Low to High')}</option>
+              <option value="price-desc">{t('shop.sortPriceHigh', 'Price: High to Low')}</option>
               <option value="carbon-asc">Carbon: Lowest</option>
             </select>
           </div>
@@ -79,7 +81,7 @@ export default function ShopFilterBar({
             className="relative flex items-center gap-1.5 px-4 py-2 min-h-[44px] rounded-2xl bg-surface-raised border border-line hover:bg-surface-sunken text-heading text-xs font-sans font-medium transition shadow-soft-sm shrink-0 cursor-pointer"
           >
             <SlidersHorizontal className="w-3.5 h-3.5 text-primary" />
-            <span>Filters</span>
+            <span>{t('shop.filters', 'Filters')}</span>
             {activeFilterCount > 0 && (
               <span className="w-4 h-4 rounded-full bg-primary text-text-inverted text-[9px] font-sans font-bold flex items-center justify-center">
                 {activeFilterCount}

@@ -1,0 +1,83 @@
+/**
+ * English (en) Translation Dictionary
+ */
+export const en = {
+  // Navigation
+  'nav.shop': 'Shop',
+  'nav.ecoCheck': 'Eco Check',
+  'nav.tools': 'Tools',
+  'nav.impact': 'Impact',
+  'nav.community': 'Community',
+  'nav.howItWorks': 'How It Works',
+  'nav.cart': 'Cart',
+  'nav.agent': 'Eco Agent',
+
+  // Hero
+  'hero.badge': '100% Offline • Verified Sustainable Commerce',
+  'hero.title': "Don't just shop. Shop with purpose.",
+  'hero.subtitle': 'EcoMart is an offline-first conscious marketplace audited by an intelligent AI Agent. Every choice tracks real lifecycle carbon avoidance, plastic diversion, and water savings.',
+  'hero.exploreCta': 'Explore Sustainable Catalog',
+  'hero.agentCta': 'Consult Eco Agent Co-Pilot',
+  'hero.statProducts': '64 Audited Products',
+  'hero.statOffline': '100% Offline-Native',
+  'hero.statCo2': 'CO₂ Lifecycle Delta',
+
+  // Home Page
+  'home.forYou': 'Personalized For You',
+  'home.forYouSubtitle': 'Ranked by multi-criteria priorities and local habits',
+  'home.recentlyViewed': 'Continue Where You Left Off',
+  'home.categories': 'Shop by Conscious Category',
+  'home.featuredSwaps': '1-Tap Greener Swaps',
+  'home.impactProof': 'Live Environmental Ledger',
+  'home.methodology': 'From Waste to Wonder',
+  'home.testimonials': 'Community Verified Feedback',
+
+  // Shop Page & Filters
+  'shop.title': 'Explore Sustainable Goods',
+  'shop.subtitle': 'Filter by certified materials, 0–100 lifecycle eco scores, or sort by impact per rupee.',
+  'shop.allCategories': 'All Categories',
+  'shop.filters': 'Filters',
+  'shop.sortBy': 'Sort by',
+  'shop.sortFeatured': 'Featured Standard',
+  'shop.sortPriceLow': 'Price: Low to High',
+  'shop.sortPriceHigh': 'Price: High to Low',
+  'shop.sortEcoScore': 'Highest Eco-Score',
+  'shop.sortImpactRupee': 'Best Impact per Rupee',
+  'shop.onlyPlasticFree': '100% Plastic Free',
+  'shop.onlyEcoFriendly': 'Eco Verified Only',
+  'shop.myPriorities': 'My Priorities',
+  'shop.resetFilters': 'Reset Filters',
+  'shop.noProducts': 'No products match your active criteria.',
+
+  // Cart & Checkout
+  'cart.title': 'Conscious Cart',
+  'cart.empty': 'Your cart is completely empty',
+  'cart.subtotal': 'Subtotal',
+  'cart.savings': 'Plastic-Free Savings',
+  'cart.taxes': 'Taxes included',
+  'cart.checkout': 'Proceed to Sustainable Checkout',
+  'cart.continue': 'Continue Shopping',
+  'cart.clear': 'Clear Cart',
+  'cart.co2Avoided': 'CO₂ Avoided',
+  'cart.plasticDiverted': 'Plastic Diverted',
+  'cart.waterSaved': 'Water Conserved',
+
+  // Eco Agent Co-Pilot
+  'agent.welcomeTitle': 'Eco Agent AI Co-Pilot',
+  'agent.welcomeSubtitle': 'Real-time multi-criteria reasoning • 100% on-device AI',
+  'agent.inputPlaceholder': 'Ask about products, cheapest options, swaps, or conscious gifts...',
+  'agent.chipGift': '🎁 Eco gifts under ₹500',
+  'agent.chipCheapest': '🏷️ Cheapest green option',
+  'agent.chipBathroom': '🛁 Reduce bathroom plastic',
+  'agent.chipAudit': '🛒 Review my basket impact',
+  'agent.reasoning': 'Reasoning Trace',
+
+  // Settings
+  'settings.title': 'App Preferences & Accessibility',
+  'settings.language': 'Language / भाषा',
+  'settings.languageDesc': 'Toggle bilingual interface with local offline font support',
+  'settings.reduceEffects': 'Reduce Effects Mode',
+  'settings.highContrast': 'High Contrast Mode',
+  'settings.dyslexicFont': 'Dyslexia-Friendly Font',
+  'settings.sound': 'Web Audio Chimes'
+};

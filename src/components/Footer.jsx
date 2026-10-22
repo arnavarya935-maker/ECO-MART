@@ -156,9 +156,12 @@ export default function Footer() {
           <div>
             © 2026 EcoMart. Mindful, transparent, circular lifestyle.
           </div>
-          <div className="flex items-center gap-2 text-heading font-medium">
+          <div className="flex flex-wrap items-center gap-2 text-heading font-medium">
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
             <span>Autonomous EcoAgent Engine v3.0 Active</span>
+            <span className="px-2 py-0.5 rounded-full bg-surface text-[10px] text-muted border border-line font-mono">
+              v1.2.0-offline (Build: 2026.10)
+            </span>
           </div>
         </div>
       </div>

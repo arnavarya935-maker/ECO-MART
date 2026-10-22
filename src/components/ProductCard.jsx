@@ -4,10 +4,11 @@ import { ShoppingBag, Eye, Heart, Check, Wind, Ban, Sparkles } from 'lucide-reac
 import { calculateEcoScore } from '../lib/ecoScore';
 import EcoScoreBadge from './EcoScoreBadge';
 import ProductImage from './ProductImage';
+import WhyRankPopover from './decision/WhyRankPopover';
 import { useCart } from '../context/CartContext';
 import { playSound } from '../lib/audio';
 
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, rankingDetails }) {
   const navigate = useNavigate();
   const {
     addToCart,
@@ -120,14 +121,19 @@ export default function ProductCard({ product }) {
             {product.description}
           </p>
 
-          {/* Environmental metrics */}
-          <div className="flex items-center gap-3 mt-3 text-[11px] font-sans text-secondary font-medium">
-            <span className="flex items-center gap-1" title="Carbon footprint">
-              <Wind className="w-3.5 h-3.5 text-primary" /> {product.carbonKg}kg CO₂
-            </span>
-            <span className="flex items-center gap-1" title="Plastic packaging">
-              <Ban className="w-3.5 h-3.5 text-warning" /> {product.plasticGrams}g plastic
-            </span>
+          {/* Environmental metrics & Decision Engine Ranking */}
+          <div className="flex flex-wrap items-center justify-between gap-2 mt-3">
+            <div className="flex items-center gap-3 text-[11px] font-sans text-secondary font-medium">
+              <span className="flex items-center gap-1" title="Carbon footprint">
+                <Wind className="w-3.5 h-3.5 text-primary" /> {product.carbonKg}kg CO₂
+              </span>
+              <span className="flex items-center gap-1" title="Plastic packaging">
+                <Ban className="w-3.5 h-3.5 text-warning" /> {product.plasticGrams}g plastic
+              </span>
+            </div>
+            {(rankingDetails || product.rank) && (
+              <WhyRankPopover rankingDetails={rankingDetails || (product.rank ? product : null)} />
+            )}
           </div>
         </div>
 

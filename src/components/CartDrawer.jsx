@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { Trash2, ShoppingBag, ArrowRight, RefreshCw, AlertTriangle, Sparkles, Undo2 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import { useT } from '../context/I18nContext';
 import { calculateEcoScore } from '../lib/ecoScore';
 import EcoScoreBadge from './EcoScoreBadge';
 import SwapMyCartModal from './SwapMyCartModal';
@@ -20,6 +21,7 @@ export default function CartDrawer() {
     undoLastRemoval,
     lastRemovedItem
   } = useCart();
+  const { t } = useT();
 
   const [isSwapModalOpen, setIsSwapModalOpen] = useState(false);
 
@@ -43,7 +45,7 @@ export default function CartDrawer() {
         <ShoppingBag className="w-4 h-4" />
       </div>
       <div>
-        <h2 className="font-serif text-lg font-bold text-heading tracking-tight">Your Conscious Cart</h2>
+        <h2 className="font-serif text-lg font-bold text-heading tracking-tight">{t('cart.title', 'Your Conscious Cart')}</h2>
         <div className="text-[11px] font-sans font-medium text-primary">
           {impact.totalItems} item{impact.totalItems !== 1 ? 's' : ''} • Avg Grade {impact.averageGrade}
         </div>
@@ -250,16 +252,16 @@ export default function CartDrawer() {
                 {/* Live Impact Counters */}
                 <div className="grid grid-cols-2 gap-2 text-center text-xs p-3 rounded-2xl bg-primary-subtle border border-primary/20 text-heading font-medium">
                   <div>
-                    🌱 <strong className="font-bold">{impact.co2Saved} kg</strong> CO₂ Saved
+                    🌱 <strong className="font-bold">{impact.co2Saved} kg</strong> {t('cart.co2Avoided', 'CO₂ Saved')}
                   </div>
                   <div>
-                    🌊 <strong className="font-bold">{impact.plasticAvoided} g</strong> Plastic Saved
+                    🌊 <strong className="font-bold">{impact.plasticAvoided} g</strong> {t('cart.plasticDiverted', 'Plastic Saved')}
                   </div>
                 </div>
 
                 {/* Subtotal */}
                 <div className="flex items-center justify-between pt-1">
-                  <span className="text-sm font-medium text-secondary">Total Amount</span>
+                  <span className="text-sm font-medium text-secondary">{t('cart.subtotal', 'Total Amount')}</span>
                   <span className="font-serif text-2xl font-bold text-heading">
                     ₹{impact.totalPrice.toLocaleString('en-IN')}
                   </span>
@@ -274,7 +276,7 @@ export default function CartDrawer() {
                   }}
                   className="w-full py-3.5 px-6 min-h-[44px] rounded-2xl bg-primary hover:bg-primary-hover text-text-inverted font-sans font-medium text-sm flex items-center justify-center gap-2 shadow-soft-sm transition active:scale-98 cursor-pointer"
                 >
-                  <span>Proceed to Simulated Checkout</span>
+                  <span>{t('cart.checkout', 'Proceed to Simulated Checkout')}</span>
                   <ArrowRight className="w-4 h-4 text-text-inverted" />
                 </button>
               </div>

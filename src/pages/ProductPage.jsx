@@ -2,11 +2,12 @@ import React, { useState, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import productsData from '../data/products.json';
 import { useCart } from '../context/CartContext';
-import { calculateEcoScore, compareProductImpact } from '../lib/ecoScore';
+import { calculateEcoScore, compareProductImpact, detectGreenwashing } from '../lib/ecoScore';
 import ProductGallery from '../components/ProductGallery';
 import EcoScoreBadge from '../components/EcoScoreBadge';
 import EcoScorePopover from '../components/EcoScorePopover';
 import ProductCard from '../components/ProductCard';
+import ProductLifecycleTimeline from '../components/lifecycle/ProductLifecycleTimeline';
 import { playSound } from '../lib/audio';
 import {
   ArrowLeft,
@@ -28,6 +29,7 @@ import {
 
 export default function ProductPage() {
   const { id } = useParams();
+  const [activeTab, setActiveTab] = useState('lifecycle');
   const navigate = useNavigate();
   const {
     addToCart,
@@ -79,6 +81,9 @@ export default function ProductPage() {
       .filter((p) => p.category === product.category && p.id !== product.id && p.isEcoFriendly)
       .slice(0, 3);
   }, [product]);
+
+  // Greenwashing check
+  const greenwashing = useMemo(() => detectGreenwashing(product), [product]);
 
   if (!product) {
     return (
@@ -172,8 +177,41 @@ export default function ProductPage() {
               />
             </div>
 
-            {/* Impact vs Conventional Comparison */}
-            {swapComparison && (
+            {/* Left Column Tabs: Lifecycle Timeline vs Impact Delta */}
+            <div className="flex items-center gap-1 p-1 bg-surface-sunken rounded-2xl border border-line">
+              <button
+                type="button"
+                onClick={() => setActiveTab('lifecycle')}
+                className={`flex-1 py-2.5 px-4 rounded-xl text-xs font-sans font-bold transition-all min-h-[40px] cursor-pointer ${
+                  activeTab === 'lifecycle'
+                    ? 'bg-surface-raised text-heading shadow-soft-xs border border-line'
+                    : 'text-muted hover:text-heading'
+                }`}
+              >
+                Lifecycle Explorer (5 Stages)
+              </button>
+              {swapComparison && (
+                <button
+                  type="button"
+                  onClick={() => setActiveTab('comparison')}
+                  className={`flex-1 py-2.5 px-4 rounded-xl text-xs font-sans font-bold transition-all min-h-[40px] cursor-pointer ${
+                    activeTab === 'comparison'
+                      ? 'bg-surface-raised text-heading shadow-soft-xs border border-line'
+                      : 'text-muted hover:text-heading'
+                  }`}
+                >
+                  Conventional Delta & Swap
+                </button>
+              )}
+            </div>
+
+            {/* Tab 1: Lifecycle Explorer */}
+            {activeTab === 'lifecycle' && (
+              <ProductLifecycleTimeline product={product} />
+            )}
+
+            {/* Tab 2: Impact vs Conventional Comparison */}
+            {activeTab === 'comparison' && swapComparison && (
               <div className="bg-surface-raised rounded-3xl p-6 border border-line shadow-soft-sm space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
@@ -278,6 +316,18 @@ export default function ProductPage() {
                   </span>
                 </div>
               </div>
+
+              {/* Greenwashing Flag (Check the claims) */}
+              {greenwashing.isGreenwashed && (
+                <div className="p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-900 text-xs space-y-1">
+                  <div className="font-bold flex items-center gap-1.5 text-amber-800">
+                    <span>⚠️ Check the claims</span>
+                  </div>
+                  <p className="text-[11px] leading-relaxed text-amber-800/90 font-medium">
+                    {greenwashing.reason}
+                  </p>
+                </div>
+              )}
 
               {/* Eco Score Interactive Badge */}
               {ecoScore && (

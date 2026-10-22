@@ -49,10 +49,15 @@ export default function TestimonialsCarousel() {
   return (
     <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
       <div className="text-center mb-10">
-        <span className="text-[11px] font-sans font-semibold uppercase tracking-wider text-primary bg-primary-subtle px-3 py-1 rounded-full border border-primary/20">
-          Stories of Conscious Living
-        </span>
-        <h2 className="font-serif text-2xl sm:text-3xl font-bold text-heading mt-2 tracking-tight">
+        <div className="inline-flex items-center gap-2 mb-2">
+          <span className="text-[11px] font-sans font-semibold uppercase tracking-wider text-primary bg-primary-subtle px-3 py-1 rounded-full border border-primary/20">
+            Stories of Conscious Living
+          </span>
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-muted bg-surface-sunken border border-line px-2 py-0.5 rounded-full">
+            Demo Data
+          </span>
+        </div>
+        <h2 className="font-serif text-2xl sm:text-3xl font-bold text-heading tracking-tight">
           Loved by Mindful Shoppers & Artisans
         </h2>
       </div>

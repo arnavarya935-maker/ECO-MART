@@ -100,7 +100,29 @@ export default function CommandPalette({ isOpen: controlledOpen, onClose: contro
       icon: Sparkles,
       perform: () => {
         setIsAgentOpen(true);
-        setIsOpen(false);
+        handleClose();
+      }
+    },
+    {
+      id: 'action-eco-check',
+      type: 'action',
+      title: 'Eco Check Any Product',
+      subtitle: 'Paste external product claims or materials to analyze greenwashing',
+      icon: Sparkles,
+      perform: () => {
+        navigate('/eco-check');
+        handleClose();
+      }
+    },
+    {
+      id: 'action-pitch-mode',
+      type: 'action',
+      title: 'Launch Pitch Mode (Judge Demo Tour)',
+      subtitle: '2-minute guided presenter walkthrough of new AI features (Press P)',
+      icon: Sparkles,
+      perform: () => {
+        window.dispatchEvent(new CustomEvent('open-pitch-mode'));
+        handleClose();
       }
     },
     {
@@ -111,7 +133,7 @@ export default function CommandPalette({ isOpen: controlledOpen, onClose: contro
       icon: Zap,
       perform: () => {
         toggleReduceEffects();
-        setIsOpen(false);
+        handleClose();
       }
     },
     {
@@ -199,10 +221,10 @@ export default function CommandPalette({ isOpen: controlledOpen, onClose: contro
       icon: HelpCircle,
       perform: () => {
         navigate('/how-it-works');
-        setIsOpen(false);
+        handleClose();
       }
     }
-  ], [navigate, setIsCartOpen, setIsAgentOpen, reduceEffects, toggleReduceEffects]);
+  ], [navigate, setIsCartOpen, setIsAgentOpen, reduceEffects, toggleReduceEffects, handleClose]);
 
   // Filter items based on query
   const filteredItems = useMemo(() => {

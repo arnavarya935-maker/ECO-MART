@@ -1,7 +1,8 @@
 import React from 'react';
-import { CheckCircle2, Wind, Ban, Droplets, Sparkles, Share2 } from 'lucide-react';
+import { CheckCircle2, Wind, Ban, Droplets, Sparkles } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { Modal } from './ui/Modal';
+import ShareableImpactCard from './community/ShareableImpactCard';
 
 export default function ConfirmationModal() {
   const { orderConfirmation, setOrderConfirmation } = useCart();
@@ -120,29 +121,9 @@ export default function ConfirmationModal() {
           </div>
         </div>
 
-        {/* Shareable "I shopped with purpose" Card */}
-        <div className="mb-6 p-4 rounded-2xl bg-surface-sunken border border-line text-center space-y-2.5 shadow-soft-sm">
-          <div className="text-[11px] font-bold text-primary uppercase tracking-wider">
-            Shareable Impact Badge
-          </div>
-          <p className="text-xs text-secondary italic">
-            "I shopped with purpose on EcoMart and avoided {(impactSaved.co2Saved || impactSaved.savedCo2 || 0).toFixed(1)}kg of CO₂! 🌍🌱"
-          </p>
-          <button
-            type="button"
-            onClick={() => {
-              try {
-                navigator.clipboard.writeText(
-                  `I shopped with purpose on EcoMart and avoided ${(impactSaved.co2Saved || impactSaved.savedCo2 || 0).toFixed(1)}kg of lifecycle CO₂! Check your eco-score at EcoMart. 🌿`
-                );
-                alert('Copied shareable impact card to clipboard!');
-              } catch {}
-            }}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-primary hover:bg-primary-hover text-text-inverted text-xs font-semibold transition-colors shadow-soft-sm min-h-[44px] focus-visible:outline-2 focus-visible:outline-focus cursor-pointer"
-          >
-            <Share2 className="w-3.5 h-3.5 text-text-inverted" />
-            <span>Copy Impact Card</span>
-          </button>
+        {/* Shareable Impact Card (Feature 15) */}
+        <div className="mb-6 space-y-3">
+          <ShareableImpactCard />
         </div>
 
         {/* Close Button */}

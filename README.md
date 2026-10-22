@@ -1,8 +1,11 @@
 # EcoMart — Sustainable E-Commerce Platform Powered by Eco Agent
 
-> *"Everyday essentials that cut plastic and save you money."*
+> *"Don't just shop. Shop with purpose."*  
+> **School Competition Edition (31 Oct 2026)** • **100% Offline-Native**
 
-EcoMart is a fast, offline-native sustainable e-commerce web application built with **React 19**, **Vite**, **Tailwind CSS v4 & design tokens**, **React Three Fiber (Three.js)**, **Framer Motion**, and **Recharts**. EcoMart transparently scores products with a verified 0–100 lifecycle formula, suggests cleaner product swaps, and provides interactive calculators and tools—all running 100% locally with zero external network or CDN dependencies.
+EcoMart is a fast, offline-native sustainable e-commerce web application built with **React 19**, **Vite**, **Tailwind CSS v4 & semantic design tokens**, **React Three Fiber (Three.js)**, **Framer Motion**, and **Recharts**. EcoMart transparently scores products with a verified 0–100 lifecycle formula, suggests cleaner product swaps, detects greenwashing, and provides an autonomous, visibly intelligent Eco Agent—all running 100% locally with zero external network or CDN dependencies.
+
+For live competition presentation instructions and judge Q&A, refer to the [Competition Demo Script & Judge Q&A](DEMO_SCRIPT.md).
 
 ---
 
@@ -12,82 +15,110 @@ EcoMart is a fast, offline-native sustainable e-commerce web application built w
 # 1. Install dependencies
 npm install
 
-# 2. Run comprehensive CI verification (runs lint, image audit, tests, build, url purity & bundle budget)
+# 2. Run comprehensive CI verification (lint, image audit, 75 tests, build, url purity & bundle budget)
 npm run verify
 
 # 3. Or run individual validation steps:
-npm run lint          # oxlint with 0 errors & 0 warnings across all files
+npm run lint          # oxlint with 103 rules, 0 errors & 0 warnings across 152 files
 npm run check         # 100% unique product images, zero broken links
-npm test              # 25 Vitest tests (ecoScore, impact, agent, totals, route smoke test)
-npm run check:urls    # confirms 0 external URLs in src/ or public/
-npm run bundle:report # verifies Home route JS is under 200 kB gzipped budget
+npm test              # 75 Vitest tests across 8 test suites (all passing)
+npm run check:urls    # confirms 0 external URLs in src/ or public/ (100% offline)
+npm run bundle:report # verifies Home route JS is 148.5 kB gzipped (budget: 200 kB)
 
-# 4. Start local development server
+# 4. Run acceptance checks script:
+node scripts/run-acceptance-checks.mjs
+
+# 5. Start local development server
 npm run dev
 
-# 5. Preview production build locally
+# 6. Preview production build locally
 npm run preview
 ```
 
 ---
 
-## 📊 Home Route Bundle Performance: Before vs. After
+## 🏆 Key Features & Competition Architecture
 
-| Metric | Before Engineering Pass | After Engineering Pass | Impact |
+### 1. Priority-Weighted Decision Engine (`src/lib/decisionEngine.js`)
+- **Multi-Criteria Mathematical Scoring**: Normalizes candidates across **7 independent dimensions**: Price, Carbon, Plastic, Water, Local transit distance, Certifications, and EcoScore.
+- **Interactive "My Priorities" Sliders**: Live in Shop filter bar, filter drawer, and Eco Agent chat. Adjusting any slider re-ranks products in real-time with smooth Framer Motion card animations.
+- **"Why this rank?" Popover**: Every product card provides an auditable breakdown of exact point contributions from the user's active priorities.
+- **Natural Language Priority Tuning**: In chat, saying *"I care most about price"* or *"plastic matters more"* updates the active weights dynamically.
+
+### 2. "Eco Check Any Product" Paste Analyzer (`src/pages/EcoCheckPage.jsx`, `src/lib/ecoCheck.js`)
+- **Real-World Heuristic Parser**: Users paste or type external product descriptions (e.g. *"Plastic water bottle, eco friendly, BPA free"*).
+- **Greenwashing & Material Detection**: Identifies petrochemical synthetic materials (*plastic, polyester, nylon, PVC*), unverified marketing buzzwords (*"100% eco friendly", "natural", "non-toxic"*), and verifies third-party credentials (*GOTS, FSC, Fair Trade*).
+- **Catalog Alternatives Mapping**: Assigns an estimated EcoScore with a confidence grade and recommends up to 3 catalog alternatives with estimated CO₂ and plastic savings.
+- **Honesty in UI**: Every calculation is stamped **"Estimate"** or **"Qualitative"**; vague inputs trigger a clarifying question with quick-reply chips rather than guessing.
+
+### 3. Proactive Copilot (`src/lib/copilotEngine.js`, `SwapSuggestionBanner.jsx`)
+- **Autonomous Reasoning**: Speaks up without waiting to be prompted when a conventional or low-grade product enters the cart, the cart EcoScore drops by 5+ points, or browsing frequency indicates category interest.
+- **Non-Blocking Ergonomics**: Renders a floating, accessible copilot toast with a 1-tap greener swap and a collapsible **"Why am I seeing this?"** explanation revealing the underlying trigger and environmental delta.
+- **Rate-Limiter**: Enforces a strict cooldown of at least **20 seconds** between nudges and a hard session limit of **at most 5 nudges**. Muted in Judge Mode and configurable in Settings.
+
+### 4. Product Lifecycle Explorer (`ProductLifecycleTimeline.jsx`, `lifecycleEngine.js`)
+- **5-Stage Animated Timeline**: Displays the physical journey: Material Extraction → Making → Transport → Packaging → End of Life.
+- **Comparative Deltas**: Interactive toggle compares each stage against conventional alternatives using quantitative metrics (*water consumed, kg CO₂e, plastic grams*) and qualitative audit notes.
+- **Accessible & Static**: Built with lightweight SVG and CSS (zero Three.js overhead) and respects the "Reduce effects" toggle.
+
+### 5. Year-Ahead Projection & Purpose Report (`YearAheadProjection.jsx`, `PurposeReportModal.jsx`)
+- **12-Month Impact Simulation**: Users configure rebuy cadence (weekly, monthly, quarterly, yearly); projects annual CO₂, water, and plastic diverted vs conventional items with lazy-loaded Recharts curves.
+- **Purpose Report Card Export**: One-page high-resolution shareable card export via `html-to-image` and dedicated `@media print` print styles for clean PDF export.
+- **Documented Conversion Factors (`src/lib/conversionConstants.js`)**: All tree equivalents, passenger car km, and shower equivalents reference documented EPA and EEA conversion constants.
+
+### 6. Personalised "For You" On-Device Learning (`preferenceModel.js`, `ForYouRow.jsx`)
+- **100% Local Privacy**: Lightweight local signals (category views, product opens, wishlist, cart adds, swaps accepted/declined, priority weights) are stored only in `localStorage`.
+- **Explainable Recommendations**: Renders a curated "For You" row on Home and Shop with transparent one-line explanations (*"Because you chose plastic-free swaps"*).
+- **1-Click Reset**: Visible note and button to reset learned preferences immediately.
+
+### 7. Hindi/English Bilingual Support (`src/i18n/`, `I18nContext.jsx`)
+- **Bilingual Interface**: Seamless `EN / हिंदी` language toggle in Navbar and Settings.
+- **100% Offline Devanagari Font**: Local `@fontsource/noto-sans-devanagari` bundled offline and lazy-loaded only when Hindi is selected.
+- **Natural Language Parsing**: Eco Agent understands Hindi and Hinglish queries in Latin or Devanagari script (*"sabse sasta"*, *"kam dam"*, *"thela check karo"*, *"tohfa"*, *"झोला"*, *"रसोई के बर्तन"*).
+
+### 8. Speech Synthesis & Presenter Pitch Mode (`PitchModeModal.jsx`)
+- **Offline Browser Speech**: Optional read-aloud button on Eco Agent messages using the browser's native `speechSynthesis` API (gracefully hidden when unavailable).
+- **Pitch Mode Shortcut (`P`)**: Pressing `P` anywhere opens a 2-minute guided presenter walkthrough stepping through the 5 flagship competition features in a fixed sequence.
+
+---
+
+## 🎛️ Safety Feature Flags (`src/lib/features.js`)
+
+Every new feature sits behind a simple boolean flag in `src/lib/features.js` so it can be disabled in one line if needed before judging:
+
+| Feature Flag | Default | Description |
+|---|:---:|---|
+| `DECISION_ENGINE` | `true` | Priority-Weighted Multi-Criteria Decision Engine |
+| `ECO_CHECK` | `true` | Eco Check Any Product paste analyzer |
+| `PROACTIVE_COPILOT` | `true` | Rate-limited non-blocking copilot reasoning nudges |
+| `LIFECYCLE_EXPLORER` | `true` | 5-stage product lifecycle timeline |
+| `YEAR_AHEAD_REPORT` | `true` | 12-month projection and shareable Purpose Report |
+| `FOR_YOU_LEARNING` | `true` | On-device privacy-first personalization row |
+| `HINDI_LANGUAGE` | `true` | Hindi/English bilingual switcher and offline font |
+| `SPEECH_SYNTHESIS` | `true` | Offline browser read-aloud for agent replies |
+| `PITCH_MODE` | `true` | 2-minute presenter tour overlay (shortcut 'P') |
+
+---
+
+## 📊 Performance Budget & Offline Compliance
+
+| Check | Target / Budget | Result | Status |
 |---|:---:|:---:|:---:|
-| **dist/index.html modulepreloads** | `three`, `recharts`, `firebase` preloaded on all pages | **Zero** heavy libraries preloaded (`index.js` + `jsx-runtime.js` only) | **Eliminated unwanted preloading** |
-| **Three.js Loading** | Eagerly loaded on initial Home page load via 3D viewers | **On-demand only**: loaded only when user triggers "Explore in 3D" | **Defers ~926 kB raw / ~246 kB gzip** |
-| **Recharts Loading** | Hoisted into main preload chunks | **On-demand only**: loaded only on pages drawing charts (`/profile`, `/impact`, `/tools`) | **Defers ~328 kB raw / ~96 kB gzip** |
-| **Firebase Loading** | Eagerly imported at boot in `AuthContext` | **Dynamic only**: imported solely when user clicks "Continue with Google" | **Zero boot footprint** |
-| **Initial JS Payload (Home route)** | ~530 kB gzipped (exceeded warning limits) | **132.36 kB gzipped** (435.11 kB raw) | **~75% reduction; comfortably under 200 kB budget** |
-| **Modals / Drawers / Widgets** | 12 components eagerly mounted in `App.jsx` | All 12 lazy-loaded with `React.lazy()` and mounted on first demand | **Minimal DOM & JS on first visit** |
-| **Reduce Effects Mode** | Ran canvas animations and cursor glow listeners | Completely skips `CursorGlow` and `LeafParticles` rendering | **Instant, lightweight accessibility** |
-| **Product Images** | Missing explicit dimensions on some tags | `aspect-square`, `width="400"`, `height="400"`, `loading="lazy"`, `decoding="async"` | **Zero layout shift (CLS: 0.0)** |
+| **Initial JS (Home route)** | $\le 200\text{ kB}$ gzip | **148.50 kB** gzip | ✅ **PASSED** |
+| **Offline Purity (`check:urls`)** | 0 external URLs in `src/` or `public/` | **0 external URLs** | ✅ **PASSED** |
+| **Oxlint Quality** | 0 errors, 0 warnings | **0 errors, 0 warnings (103 rules)** | ✅ **PASSED** |
+| **Automated Tests (`npm test`)** | 100% pass | **75 / 75 tests passing** | ✅ **PASSED** |
+| **Guest-First Persistence** | No mandatory login | 100% LocalStorage with in-memory fallbacks | ✅ **PASSED** |
 
 ---
 
-## 📋 Done / Partial Checklist
+## 🧪 Verified Acceptance Checks
 
-| Area | Engineering Requirement | Status | Implementation Details |
-|---|---|:---:|---|
-| **1. First-Load Performance** | No `three`, `recharts`, `firebase` in `dist/index.html` modulepreloads | **DONE** | Firebase dynamic import in `src/lib/firebase.js`; `Product3DViewer` and `Safe3D` on-demand rendering; charts lazy-loaded. |
-| **1. First-Load Performance** | Lazy-load modals, drawers and floating widgets mounted in `App.jsx` | **DONE** | Converted Checkout, Confirmation, Auth, Welcome, ExitIntent, Compare, Achievement, Konami, Shortcuts, EcoAgentChat, CommandPalette, CursorGlow, LeafParticles, and CartDrawer to `React.lazy()`. |
-| **1. First-Load Performance** | Skip `CursorGlow` and `LeafParticles` when Reduce effects is on | **DONE** | Conditionally unmounted in `App.jsx` when `reduceEffects` is active. |
-| **1. First-Load Performance** | Remove raised `chunkSizeWarningLimit` and set bundle budget < 200 kB gzip | **DONE** | Removed limit in `vite.config.js`; added `scripts/bundle-report.mjs` verifying Home route JS <= 200 kB gzip (achieved **132.36 kB** gzip). |
-| **1. First-Load Performance** | Explicit dimensions, `loading="lazy"`, `decoding="async"` on all images | **DONE** | Added to `ProductImage.jsx`, `ProductGallery.jsx`, `UserMenu.jsx`, and `Safe3D.jsx` to prevent layout shift. |
-| **2. Service Worker** | Precache only the app shell | **DONE** | `pwaManifestPlugin` in `vite.config.js` precaches only HTML, entry JS/CSS, fonts, icons, `offline.html`, and `manifest.json`. |
-| **2. Service Worker** | Cache route chunks, images, textures, sounds on first use | **DONE** | Implemented Cache-First with dynamic runtime caching in `dist/sw.js` and `public/sw.js`. |
-| **2. Service Worker** | Background idle caching (`requestIdleCallback`) skipping metered/save-data | **DONE** | Implemented in `OfflineDetector.jsx` using `offline-manifest.json` during idle time when `!navigator.connection?.saveData`. |
-| **2. Service Worker** | "Ready for offline" indicator when full cache completes | **DONE** | Shows accessible status badge in `OfflineDetector.jsx` once all idle assets are stored. |
-| **2. Service Worker** | "New version available, refresh" prompt (no silent skipWaiting) | **DONE** | Removed automatic `self.skipWaiting()`; prompts user with refresh button triggering `SKIP_WAITING` and `controllerchange` reload. |
-| **2. Service Worker** | Full offline verification with network disabled | **DONE** | All 14 routes, product images, and textures load completely from CacheStorage. |
-| **3. Overlay System** | Merge toast implementations into single provider with Undo action | **DONE** | Created `src/components/ui/Toast.jsx` (`role="status"`, `aria-live="polite"`, queue cap of 3, Undo button restoring removed cart items). |
-| **3. Overlay System** | Canonical z-index scale in tokens & mapped via `@theme` | **DONE** | Defined `--z-base: 0`, `--z-nav: 40`, `--z-sticky: 45`, `--z-widgets: 50`, `--z-drawers: 60`, `--z-modals: 70`, `--z-command-palette: 80`, `--z-toasts: 90` in `tokens.css` and mapped to Tailwind `@theme`. |
-| **3. Overlay System** | Mobile floating group for chat & pulse above bottom tab bar | **DONE** | Updated `ImpactPulseWidget.jsx` and `EcoAgentChat.jsx` to sit cleanly at `bottom-20` on mobile, preventing overlap with tabs. |
-| **3. Overlay System** | Shared accessible Modal / Drawer primitive migrated to all 12 components | **DONE** | Created `src/components/ui/Modal.jsx` (focus trap, Esc to close, trigger focus return, scroll lock, aria-modal, click-outside) and migrated all modals and drawers. |
-| **4. Theme Cleanup** | Collapse duplicate aliases in `tokens.css` to canonical set + `@theme` mapping | **DONE** | Consolidated `--color-surface`, `--color-heading`, `--color-primary`, `--color-muted`, etc., mapped into `@theme` in `src/index.css`. |
-| **4. Theme Cleanup** | Remove hardcoded body colors and commit strictly to light theme | **DONE** | Updated `index.html` body to `bg-surface text-forest-950`; removed unused dark mode toggles in `ThemeContext.jsx` while keeping accessibility preferences. |
-| **5. Quality** | Bundle real local font for dyslexia-friendly option | **DONE** | Bundled `opendyslexic-regular.woff2` and `opendyslexic-bold.woff2` in `public/fonts/` with `@font-face` rules in `tokens.css`. |
-| **5. Quality** | Wire tests into `npm test` with tests for ecoScore, impact, agent, totals, routes | **DONE** | Converted `test_verification.mjs` into `tests/verification.test.jsx` (25 tests in Vitest covering all core engines and 14 route smoke tests). |
-| **5. Quality** | Plain notice in signup that accounts are stored only on device | **DONE** | Added plain language notice to `SignupPage.jsx` and `AuthModal.jsx`. |
-| **5. Quality** | Plain shopper language for hero badge and headline | **DONE** | Rewritten in `src/components/Hero.jsx`: "Verified Eco-Friendly Essentials · Zero Plastic Packaging" and "Everyday essentials that cut plastic and save you money." |
-| **5. Quality** | CI-style `npm run verify` failing on external URLs in `src` or `public` | **DONE** | Created `scripts/check-offline-urls.mjs` and wired `npm run verify` running lint, check, test, build, URL check, and bundle budget report. |
-
----
-
-## 🧪 Offline & Accessibility Testing Notes
-
-### 1. Offline Operation
-- **App Shell**: On initial load, `/`, `/index.html`, `/offline.html`, `/manifest.json`, `/favicon.svg`, `/icons.svg`, entry JS/CSS, and OpenDyslexic fonts are precached into CacheStorage.
-- **Runtime Caching**: Route chunks, product catalog photos, and 3D textures are cached on first navigation or in the background during idle time.
-- **Network Disabled**: In Chrome DevTools > Network > "Offline", all 14 routes (`#/`, `#/shop`, `#/product/kit-01`, `#/tools`, `#/community`, `#/impact`, `#/how-it-works`, `#/wishlist`, `#/profile`, `#/orders`, `#/settings`, `#/login`, `#/signup`) render instantaneously.
-- **Offline Detector**: Displays an unobtrusive amber banner when `navigator.onLine === false`, confirming catalog calculations and audits remain active.
-
-### 2. "Reduce Effects" Mode
-- **When OFF**: Particle animations (`LeafParticles`), mouse parallax glow (`CursorGlow`), interactive 3D globes, and smooth spring physics are enabled.
-- **When ON** (default if `prefers-reduced-motion` is active or WebGL is missing):
-  - `LeafParticles` and `CursorGlow` components are completely unmounted from the React tree.
-  - 3D Canvases display high-contrast static 2D preview cards with an explicit user trigger ("Explore in 3D").
-  - Framer Motion transitions run with instant durations.
-  - Can be toggled anytime in `#/settings` or via keyboard shortcut `R`.
-
+| Acceptance Check | Result |
+|---|---|
+| **Plastic 100 / Price 0 Re-ranking** | Lowest-plastic (0g) items rank #1 with score 100; reverse puts cheapest (₹80) #1 with score 100 |
+| **Agent Priority Tuning** | *"I care most about price"* updates price weight to 100 and confirms in agent reasoning trace |
+| **Eco Check Analyzer** | *"Plastic water bottle, eco friendly, BPA free"* flags synthetic polymer & vague claims, assigns Grade E, recommends 3 certified catalog alternatives |
+| **Proactive Copilot** | Adding conventional product triggers exactly 1 swap nudge with working *"Why am I seeing this?"* and 20s cooldown |
+| **Product Lifecycle Robustness** | All 64 catalog products + sparse products render 5 lifecycle stages without errors |
+| **Offline Purity** | 100% guest flow verified with zero external CDN requests or console network errors |

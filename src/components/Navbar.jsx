@@ -1,21 +1,25 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ShoppingBag, Sparkles, Leaf, Search, Heart, Scale } from 'lucide-react';
+import { ShoppingBag, Sparkles, Leaf, Search, Heart, Scale, Globe } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import { useT } from '../context/I18nContext';
+import { FEATURES } from '../lib/features';
 import UserMenu from './UserMenu';
 
 export default function Navbar() {
   const location = useLocation();
   const { impact, setIsCartOpen, setIsAgentOpen, wishlist, compareList, setIsCompareOpen } = useCart();
+  const { t, lang, toggleLanguage } = useT();
   const currentPath = location.pathname;
 
   const navLinks = [
-    { path: '/', label: 'Home' },
-    { path: '/shop', label: 'Catalog' },
-    { path: '/tools', label: 'Eco Tools' },
-    { path: '/impact', label: 'Impact Proof' },
-    { path: '/community', label: 'Collective' },
-    { path: '/how-it-works', label: 'Methodology' }
+    { path: '/', label: lang === 'hi' ? 'होम' : 'Home' },
+    { path: '/shop', label: t('nav.shop', 'Catalog') },
+    { path: '/eco-check', label: t('nav.ecoCheck', 'Eco Check') },
+    { path: '/tools', label: t('nav.tools', 'Eco Tools') },
+    { path: '/impact', label: t('nav.impact', 'Impact Proof') },
+    { path: '/community', label: t('nav.community', 'Collective') },
+    { path: '/how-it-works', label: t('nav.howItWorks', 'Methodology') }
   ];
 
   const isLinkActive = (path) => {
@@ -115,6 +119,20 @@ export default function Navbar() {
             </button>
           )}
 
+          {/* Language Switch Button (Phase 7) */}
+          {FEATURES.HINDI_LANGUAGE && (
+            <button
+              type="button"
+              onClick={toggleLanguage}
+              title={lang === 'en' ? 'Switch to Hindi (हिंदी)' : 'Switch to English'}
+              aria-label={`Current language: ${lang === 'en' ? 'English' : 'Hindi'}. Click to switch.`}
+              className="flex items-center gap-1.5 px-3 py-2 rounded-2xl border border-line bg-surface-raised hover:bg-surface-sunken text-heading text-xs font-sans font-semibold transition cursor-pointer min-h-[44px] shadow-soft-sm"
+            >
+              <Globe className="w-3.5 h-3.5 text-primary" />
+              <span>{lang === 'en' ? 'हिंदी' : 'EN'}</span>
+            </button>
+          )}
+
           {/* User Account Menu */}
           <UserMenu />
 
@@ -126,7 +144,7 @@ export default function Navbar() {
             title="Launch Offline Eco Agent Assistant"
           >
             <Sparkles className="w-3.5 h-3.5 text-primary" />
-            <span className="hidden sm:inline">Eco Agent</span>
+            <span className="hidden sm:inline">{t('nav.agent', 'Eco Agent')}</span>
           </button>
 
           {/* Cart Trigger with bounce */}
@@ -136,7 +154,7 @@ export default function Navbar() {
             className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-heading hover:bg-heading-hover text-surface-raised text-xs font-sans font-medium transition-all shadow-soft-sm active:scale-95 cursor-pointer min-h-[44px]"
           >
             <ShoppingBag className="w-4 h-4 text-primary" />
-            <span className="hidden sm:inline">Cart</span>
+            <span className="hidden sm:inline">{t('nav.cart', 'Cart')}</span>
             {impact.totalItems > 0 && (
               <span className="px-1.5 py-0.2 bg-primary text-surface-raised text-[10px] rounded-full font-bold animate-bounce-subtle">
                 {impact.totalItems}

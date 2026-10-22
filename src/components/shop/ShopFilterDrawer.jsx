@@ -1,6 +1,7 @@
 import React from 'react';
 import { RotateCcw, SlidersHorizontal } from 'lucide-react';
 import { Drawer } from '../ui/Modal';
+import PrioritiesPanel from '../decision/PrioritiesPanel';
 
 export default function ShopFilterDrawer({
   isOpen,
@@ -39,6 +40,9 @@ export default function ShopFilterDrawer({
 
         {/* Filters Scrollable Content */}
         <div className="p-6 overflow-y-auto space-y-6 flex-1 text-xs font-sans">
+          {/* Priorities MCDM Panel */}
+          <PrioritiesPanel compact className="mb-2" />
+
           {/* 1. Price Range Slider */}
           <div className="space-y-2.5">
             <div className="flex items-center justify-between font-medium text-heading">

@@ -250,20 +250,25 @@ Every route and dialog is verified across three key widths: **Mobile (390px)**, 
   - [x] 390px: Friendly botanical empty state with primary CTA back to Home.
   - [x] 768px / 1280px: Serene illustration, suggested popular categories, and search bar.
 
-### B. Dialogs, Drawers & Overlays
 - [x] `WelcomeModal`: 3-step onboarding questionnaire with eco goal selection chips.
-- [x] `ProductDetailModal`: Quick-view overlay with gallery, metric badges, and sticky buy bar.
+- [x] `ProductDetailModal`: Quick-view overlay with gallery, metric badges, sticky buy bar, and Lifecycle tab.
 - [x] `ProductCompareModal`: Side-by-side 3-way lifecycle comparison with diff highlighting.
 - [x] `BarcodeScannerModal`: Viewfinder frame, matched eco alternatives, and instant simulation triggers.
 - [x] `AchievementUnlockedModal`: Editorial celebration badge with gold/amber accent glow.
 - [x] `ConfirmationModal`: Environmental impact receipt with order summary and social share actions.
 - [x] `ExitIntentModal`: Eco grade recovery offer with 1-click discount application.
-- [x] `KeyboardShortcutsModal`: Clean `<kbd>` tags detailing all keyboard commands.
+- [x] `KeyboardShortcutsModal`: Clean `<kbd>` tags detailing all keyboard commands (including P for Pitch Mode).
 - [x] `EcoScorePopover`: 5-pillar mathematical breakdown with accessible visual progress rings.
 - [x] `SwapMyCartModal`: Complete before-and-after comparison with bulk swap CTA.
 - [x] `CartDrawer`: Slide-over drawer with item steppers, delivery meter, and undo notifications.
-- [x] `ShopFilterDrawer`: Mobile bottom-sheet with slider controls and category checkboxes.
-- [x] `CommandPalette`: `Cmd/Ctrl+K` searchable index with fuzzy matching and keyboard navigation.
+- [x] `ShopFilterDrawer`: Mobile bottom-sheet with slider controls, Priorities sliders, and category checkboxes.
+- [x] `CommandPalette`: `Cmd/Ctrl+K` searchable index with fuzzy matching, quick actions, and Pitch Mode launcher.
+- [x] `PitchModeModal`: 5-step presenter tour dialog with progress dots and keyboard shortcuts (P, Esc, Arrows).
+- [x] `PurposeReportModal`: High-resolution exportable Purpose Report card with print stylesheet for clean PDF generation.
+- [x] `PrioritiesPanel`: Accessible slider controls (0-100) with 5 presets (Balanced, Save Money, Cut Plastic, Lowest Carbon, Support Local).
+- [x] `WhyRankPopover`: Multi-criteria contribution breakdown bar displaying normalized score factors.
+- [x] `EcoCheckPage` (`#/eco-check`): Real-world product analyzer with material breakdown, greenwash warnings, and 3 catalog alternatives.
+- [x] `ProductLifecycleTimeline`: 5-stage lightweight SVG/CSS horizontal roadmap (Material -> Making -> Transport -> Packaging -> End of Life).
 
 ---
 

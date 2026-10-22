@@ -9,8 +9,16 @@ import {
   Trash2,
   CheckCircle2,
   Eye,
-  Type
+  Type,
+  Award,
+  Play,
+  RotateCcw,
+  ShieldCheck,
+  Sparkles,
+  Globe
 } from 'lucide-react';
+import { useT } from '../context/I18nContext';
+import { FEATURES } from '../lib/features';
 import Button from '../components/ui/Button';
 import Card from '../components/ui/Card';
 import Badge from '../components/ui/Badge';
@@ -24,10 +32,22 @@ export default function SettingsPage() {
     dyslexicFont,
     setDyslexicFont,
     textSize,
-    setTextSize
+    setTextSize,
+    judgeMode,
+    toggleJudgeMode
   } = useTheme();
 
-  const { clearCart, setOrders, setWishlist } = useCart();
+  const {
+    clearCart,
+    setOrders,
+    setWishlist,
+    setIsAgentOpen,
+    copilotMuted,
+    toggleCopilotMuted,
+    triggerCopilotDemo
+  } = useCart();
+
+  const { t, lang, setLang } = useT();
 
   const [soundEnabled, setSoundEnabled] = useState(() => {
     try {
@@ -80,15 +100,17 @@ export default function SettingsPage() {
         <div>
           <div className="flex items-center gap-2">
             <span className="text-xs font-semibold uppercase tracking-wider text-primary bg-primary/10 border border-primary/20 px-2.5 py-0.5 rounded-full">
-              Preferences & Accessibility
+              {t('settings.title', 'Preferences & Accessibility')}
             </span>
             <span className="text-xs text-muted font-medium">100% Offline Storage</span>
           </div>
           <h1 className="text-3xl font-serif font-bold text-heading mt-1.5 tracking-tight">
-            Application Settings
+            {lang === 'hi' ? 'एप्लिकेशन सेटिंग्स' : 'Application Settings'}
           </h1>
           <p className="text-xs sm:text-sm text-secondary mt-1">
-            Configure visual ergonomics, accessibility, audio cues, and offline device storage.
+            {lang === 'hi'
+              ? 'इंटरफ़ेस भाषा, दृश्य एर्गोनॉमिक्स, ऑडियो और ऑफ़लाइन प्राथमिकताओं को कॉन्फ़िगर करें।'
+              : 'Configure visual ergonomics, accessibility, audio cues, and offline device storage.'}
           </p>
         </div>
 
@@ -99,6 +121,57 @@ export default function SettingsPage() {
           </div>
         )}
       </div>
+
+      {/* Phase 7: Bilingual Language Switcher Card */}
+      {FEATURES.HINDI_LANGUAGE && (
+        <Card clean={true} className="space-y-4 bg-surface border border-line shadow-soft-sm rounded-3xl p-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-2xl bg-surface-sunken border border-line flex items-center justify-center text-heading">
+                <Globe className="w-5 h-5 text-primary" />
+              </div>
+              <div>
+                <h3 className="font-serif font-bold text-base text-heading">
+                  {t('settings.language', 'Language / भाषा')}
+                </h3>
+                <p className="text-[11px] text-muted font-normal">
+                  {t('settings.languageDesc', 'Toggle bilingual interface with local offline font support')}
+                </p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setLang('en');
+                  showFeedback('Language switched to English');
+                }}
+                className={`px-4 py-2 rounded-full text-xs font-semibold border transition cursor-pointer min-h-[44px] ${
+                  lang === 'en'
+                    ? 'bg-primary text-primary-contrast border-primary shadow-soft-xs'
+                    : 'bg-surface-sunken hover:bg-surface text-secondary border-line'
+                }`}
+              >
+                English
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setLang('hi');
+                  showFeedback('भाषा हिंदी पर सेट की गई (Hindi Activated)');
+                }}
+                className={`px-4 py-2 rounded-full text-xs font-semibold border transition cursor-pointer min-h-[44px] ${
+                  lang === 'hi'
+                    ? 'bg-primary text-primary-contrast border-primary shadow-soft-xs'
+                    : 'bg-surface-sunken hover:bg-surface text-secondary border-line'
+                }`}
+              >
+                हिंदी (Hindi)
+              </button>
+            </div>
+          </div>
+        </Card>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Feature 29: Accessibility Text Size */}
@@ -285,7 +358,172 @@ export default function SettingsPage() {
             </Badge>
           </div>
         </Card>
+        
+        {/* Proactive Copilot (Phase 3) */}
+        <Card clean={true} className="space-y-4 bg-surface border border-line shadow-soft-sm rounded-3xl p-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-2xl bg-surface-sunken border border-line flex items-center justify-center text-heading">
+                <Sparkles className="w-5 h-5 text-primary" />
+              </div>
+              <div>
+                <h3 className="font-serif font-bold text-base text-heading">
+                  Proactive Eco Copilot
+                </h3>
+                <p className="text-[11px] text-muted font-normal">
+                  Rate-limited intelligent nudges, swap alerts & budget tracking
+                </p>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                toggleCopilotMuted();
+                showFeedback(copilotMuted ? 'Eco Copilot nudges unmuted' : 'Eco Copilot nudges muted');
+              }}
+              className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors cursor-pointer min-h-[44px] ${
+                !copilotMuted ? 'bg-primary' : 'bg-surface-sunken border border-line'
+              }`}
+              aria-label="Toggle Copilot Muted"
+            >
+              <span
+                className={`inline-block h-5 w-5 transform rounded-full bg-surface shadow-soft-xs transition-transform ${
+                  !copilotMuted ? 'translate-x-6' : 'translate-x-1'
+                }`}
+              />
+            </button>
+          </div>
+          <p className="text-xs text-secondary leading-relaxed font-normal">
+            Provides contextual recommendations with "Why am I seeing this?" reasoning when conventional items are added. Rate-limited to at most 1 per 20 seconds and 5 per session.
+          </p>
+          <div className="pt-2 flex items-center gap-3">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                triggerCopilotDemo();
+                showFeedback('Triggered sample Copilot nudge');
+              }}
+              className="text-xs"
+            >
+              <Play className="w-3.5 h-3.5 mr-1 text-primary" />
+              Test Copilot Nudge (Demo)
+            </Button>
+            <Badge variant={copilotMuted ? 'warning' : 'primary'} size="sm">
+              {copilotMuted ? 'Muted' : 'Active'}
+            </Badge>
+          </div>
+        </Card>
       </div>
+
+      {/* Competition & Judge Presentation Toolkit (Features 13, 14, 17) */}
+      <Card clean={true} className="border-2 border-primary/30 bg-primary/5 shadow-soft-md rounded-3xl p-6 sm:p-8 space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-line pb-4">
+          <div className="flex items-start gap-3">
+            <div className="w-11 h-11 rounded-2xl bg-primary text-primary-contrast flex items-center justify-center shrink-0 shadow-soft-xs">
+              <Award className="w-6 h-6" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-primary bg-primary/10 border border-primary/20 px-2.5 py-0.5 rounded-full">
+                  School Competition Mode
+                </span>
+                <span className="text-[10px] text-muted font-mono">
+                  Build: v1.2.0-offline
+                </span>
+              </div>
+              <h2 className="text-xl sm:text-2xl font-serif font-bold text-heading mt-1">
+                Judge & Presentation Toolkit
+              </h2>
+              <p className="text-xs sm:text-sm text-secondary mt-0.5">
+                Optimized for the 31 Oct 2026 offline school competition demo. Toggle distraction-free evaluation and auto-play scripted scenarios.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <Badge variant={judgeMode ? 'primary' : 'neutral'} size="md">
+              {judgeMode ? '🏆 Judge Mode Active' : 'Standard Mode'}
+            </Badge>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Judge Mode Switch */}
+          <div className="p-4 rounded-2xl bg-surface border border-line space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="font-serif font-bold text-sm text-heading flex items-center gap-1.5">
+                <ShieldCheck className="w-4 h-4 text-primary" />
+                Judge Presentation Mode
+              </span>
+              <button
+                type="button"
+                onClick={() => {
+                  toggleJudgeMode();
+                  showFeedback(judgeMode ? 'Standard mode restored' : 'Judge mode activated (popups & audio disabled, reduced motion on)');
+                }}
+                className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors cursor-pointer min-h-[44px] ${
+                  judgeMode ? 'bg-primary' : 'bg-surface-sunken border border-line'
+                }`}
+                aria-label="Toggle Judge Mode"
+              >
+                <span
+                  className={`inline-block h-5 w-5 transform rounded-full bg-surface shadow-soft-xs transition-transform ${
+                    judgeMode ? 'translate-x-6' : 'translate-x-1'
+                  }`}
+                />
+              </button>
+            </div>
+            <p className="text-xs text-secondary leading-relaxed font-normal">
+              Disables welcome modals, exit-intent prompts, audio sound effects, and Easter eggs. Turns on reduced visual effects. (Also activated via URL <code className="px-1 py-0.5 rounded bg-surface-sunken text-[10px] font-mono font-bold">?judge=1</code>).
+            </p>
+          </div>
+
+          {/* Scripted Demo Scenario Trigger */}
+          <div className="p-4 rounded-2xl bg-surface border border-line space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="font-serif font-bold text-sm text-heading flex items-center gap-1.5">
+                <Play className="w-4 h-4 text-primary" />
+                Scripted Demo Scenario
+              </span>
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="primary"
+                  size="sm"
+                  onClick={() => {
+                    if (setIsAgentOpen) setIsAgentOpen(true);
+                    window.dispatchEvent(new CustomEvent('start-demo-scenario'));
+                    showFeedback('Scripted 60s demo scenario launched in Eco Agent!');
+                  }}
+                >
+                  <Play className="w-3.5 h-3.5 fill-current mr-1" />
+                  Run Demo
+                </Button>
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => {
+                    window.dispatchEvent(new CustomEvent('reset-demo'));
+                    showFeedback('Demo scenario, cart, and chat reset to clean slate.');
+                  }}
+                  title="Reset demo, cart, and chat"
+                >
+                  <RotateCcw className="w-3.5 h-3.5" />
+                </Button>
+              </div>
+            </div>
+            <p className="text-xs text-secondary leading-relaxed font-normal">
+              Pre-seeds cart with 3 conventional single-use products, opens the Eco Agent, and auto-plays a 60s flow: goal query → reasoning trace → swap recommendation → swaps applied → impact receipt.
+            </p>
+          </div>
+        </div>
+
+        {/* Offline Verification String */}
+        <div className="p-3.5 rounded-2xl bg-surface-sunken border border-line flex flex-wrap items-center justify-between gap-2 text-xs text-muted">
+          <span>PWA Cache Version: <strong className="text-heading font-mono">ecomart-offline-2026.10</strong></span>
+          <span className="text-primary font-semibold">100% Offline Purity Certified (Zero CDNs / External APIs)</span>
+        </div>
+      </Card>
 
       {/* Local Storage & Privacy Management */}
       <Card clean={true} className="border border-line bg-surface shadow-soft-sm rounded-3xl p-6 space-y-4">

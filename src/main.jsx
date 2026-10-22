@@ -14,8 +14,6 @@ if (typeof window !== 'undefined' && 'serviceWorker' in navigator && (import.met
     navigator.serviceWorker
       .register('/sw.js')
       .then((registration) => {
-        console.log('[SW] Registered successfully with scope:', registration.scope);
-
         // Check if an update is already waiting
         if (registration.waiting && navigator.serviceWorker.controller) {
           window.dispatchEvent(new CustomEvent('sw-update-waiting', { detail: { registration } }));
