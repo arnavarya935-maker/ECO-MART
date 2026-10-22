@@ -246,14 +246,14 @@ export default function LeafyGlobe3D({ cartCo2Saved = 0 }) {
 
   if (reduceEffects || !hasWebGL) {
     return (
-      <div className="w-full h-80 rounded-3xl bg-gradient-to-br from-emerald-50 via-teal-50 to-white flex flex-col items-center justify-center p-6 border border-emerald-200 text-center shadow-inner">
-        <div className="w-24 h-24 rounded-full bg-emerald-100 flex items-center justify-center text-4xl shadow-md mb-3">
+      <div className="w-full h-80 rounded-3xl bg-surface-sunken flex flex-col items-center justify-center p-6 border border-line text-center shadow-inner">
+        <div className="w-20 h-20 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-4xl shadow-soft-xs mb-3">
           🌍
         </div>
-        <h4 className="font-extrabold text-[#0B3B2C] text-sm">
+        <h4 className="font-serif font-bold text-heading text-sm">
           Interactive Biosphere (Static Mode)
         </h4>
-        <p className="text-xs text-stone-600 mt-1 max-w-xs">
+        <p className="text-xs text-secondary mt-1 max-w-xs font-normal">
           3D graphics paused to save battery & device resources.
         </p>
       </div>
@@ -262,7 +262,7 @@ export default function LeafyGlobe3D({ cartCo2Saved = 0 }) {
 
   return (
     <div className="relative w-full flex flex-col items-center select-none">
-      <div className="relative w-full h-80 sm:h-96 rounded-3xl overflow-hidden bg-gradient-to-b from-[#E8F5EE] via-[#FAF9F6] to-white border border-emerald-200/80 shadow-xs">
+      <div className="relative w-full h-80 sm:h-96 rounded-3xl overflow-hidden bg-gradient-to-b from-primary/10 via-surface-sunken to-surface border border-line shadow-soft-sm">
         <Canvas
           camera={{ position: [0, 0, 5.8], fov: 45 }}
           gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
@@ -292,28 +292,28 @@ export default function LeafyGlobe3D({ cartCo2Saved = 0 }) {
         </Canvas>
 
         {/* Top Floating Badge */}
-        <div className="absolute top-3 left-3 pointer-events-none flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/90 backdrop-blur-md border border-emerald-400/30 text-[11px] font-bold text-[#0B3B2C] shadow-2xs">
-          <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+        <div className="absolute top-3 left-3 pointer-events-none flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface/90 backdrop-blur-md border border-line text-[11px] font-semibold text-heading shadow-soft-sm">
+          <Sparkles className="w-3.5 h-3.5 text-primary" />
           <span>Interactive Earth • Turns Greener With Your Impact</span>
         </div>
       </div>
 
       {/* Active Pin Info Card */}
       {activePin && (
-        <div className="w-full mt-3 p-3.5 rounded-2xl bg-white border border-emerald-200 shadow-xs flex items-start gap-3 text-left">
-          <div className="p-2 rounded-xl bg-emerald-100 text-emerald-800 shrink-0 mt-0.5">
-            <MapPin className="w-4 h-4 text-emerald-700" />
+        <div className="w-full mt-3 p-3.5 rounded-2xl bg-surface border border-line shadow-soft-sm flex items-start gap-3 text-left">
+          <div className="p-2 rounded-xl bg-primary/10 text-primary border border-primary/20 shrink-0 mt-0.5">
+            <MapPin className="w-4 h-4 text-primary" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-extrabold text-xs text-[#0B3B2C]">
+              <span className="font-serif font-bold text-xs text-heading">
                 {activePin.name}
               </span>
-              <span className="text-[10px] font-extrabold uppercase px-2 py-0.2 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
+              <span className="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">
                 {activePin.metric}
               </span>
             </div>
-            <p className="text-xs text-stone-600 mt-0.5 leading-relaxed font-medium">
+            <p className="text-xs text-secondary mt-0.5 leading-relaxed font-normal">
               {activePin.fact}
             </p>
           </div>

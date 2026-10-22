@@ -37,18 +37,18 @@ export default function ArchitectureDiagram() {
   ];
 
   return (
-    <div className="p-6 md:p-8 rounded-3xl bg-white dark:bg-stone-850 border border-stone-200 dark:border-stone-800 shadow-sm space-y-8">
+    <div className="p-6 md:p-8 rounded-3xl bg-surface border border-line shadow-soft-sm space-y-8">
       <div>
         <div className="flex items-center gap-2">
-          <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950 px-2.5 py-0.5 rounded-full">
+          <span className="text-xs font-semibold uppercase tracking-wider text-primary bg-primary/10 border border-primary/20 px-2.5 py-0.5 rounded-full">
             System Architecture
           </span>
-          <span className="text-xs text-stone-500">Presentation Ready</span>
+          <span className="text-xs text-muted font-medium">Presentation Ready</span>
         </div>
-        <h3 className="text-2xl font-black text-stone-900 dark:text-stone-100 mt-1">
+        <h3 className="text-2xl font-serif font-bold text-heading mt-1">
           How EcoMart Agent Works
         </h3>
-        <p className="text-sm text-stone-500 max-w-xl">
+        <p className="text-sm text-secondary max-w-xl">
           An offline-first, mathematically transparent system combining multi-attribute lifecycle assessment with proactive swapping logic.
         </p>
       </div>
@@ -61,17 +61,17 @@ export default function ArchitectureDiagram() {
             onClick={() => setActiveNode(node.id)}
             className={`p-4 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between ${
               activeNode === node.id
-                ? 'bg-emerald-50 dark:bg-emerald-950/60 border-emerald-500 shadow-md ring-2 ring-emerald-500/20'
-                : 'bg-stone-50 dark:bg-stone-800/60 border-stone-200 dark:border-stone-700 hover:border-emerald-300'
+                ? 'bg-primary/10 border-primary shadow-soft-xs ring-2 ring-primary/20'
+                : 'bg-surface-sunken border-line hover:border-primary/40'
             }`}
           >
             <div>
               <div className="text-3xl mb-2">{node.icon}</div>
-              <h4 className="font-bold text-xs text-stone-900 dark:text-stone-100">
+              <h4 className="font-semibold text-xs text-heading">
                 {node.title}
               </h4>
             </div>
-            <p className="text-[11px] text-stone-500 dark:text-stone-400 mt-2 leading-relaxed">
+            <p className="text-[11px] text-secondary mt-2 leading-relaxed font-normal">
               {node.desc}
             </p>
           </div>
@@ -79,21 +79,21 @@ export default function ArchitectureDiagram() {
       </div>
 
       {/* Interactive Detail Box */}
-      <div className="p-5 rounded-2xl bg-stone-50 dark:bg-stone-900/80 border border-stone-200 dark:border-stone-800 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div className="p-5 rounded-2xl bg-surface-sunken border border-line flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="space-y-1 text-center md:text-left">
-          <div className="text-xs font-extrabold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
+          <div className="text-xs font-semibold uppercase tracking-wider text-primary">
             Offline Integrity & Optional AI Layer
           </div>
-          <div className="text-sm text-stone-700 dark:text-stone-300">
+          <div className="text-xs sm:text-sm text-secondary leading-relaxed font-normal">
             EcoMart requires <strong>zero internet connectivity</strong> for core scoring, NLP parsing, and swap logic.
             If a connection exists, it asynchronously calls <code>/api/agent</code> behind a protected <code>try/catch</code> block without ever blocking the UI.
           </div>
         </div>
         <div className="flex items-center gap-2 shrink-0">
-          <span className="px-3 py-1.5 rounded-xl bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 text-xs font-bold border border-emerald-300 dark:border-emerald-800">
+          <span className="px-3 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-medium border border-primary/20">
             100% Offline Capable
           </span>
-          <span className="px-3 py-1.5 rounded-xl bg-teal-100 dark:bg-teal-950 text-teal-800 dark:text-teal-300 text-xs font-bold border border-teal-300 dark:border-teal-800">
+          <span className="px-3 py-1.5 rounded-full bg-secondary/10 text-secondary text-xs font-medium border border-secondary/20">
             0ms Search Latency
           </span>
         </div>

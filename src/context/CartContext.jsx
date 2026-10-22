@@ -109,7 +109,7 @@ export function CartProvider({ children }) {
   const [checkoutModalOpen, setCheckoutModalOpen] = useState(false);
   const [orderConfirmation, setOrderConfirmation] = useState(null);
   const [isCompareOpen, setIsCompareOpen] = useState(false);
-  const [toastMessage, setToastMessage] = useState(null);
+  const [toasts, setToasts] = useState([]);
   const [unlockedBadge, setUnlockedBadge] = useState(null);
 
   // First-time welcome modal
@@ -124,6 +124,33 @@ export function CartProvider({ children }) {
   // Exit intent modal
   const [exitIntentOpen, setExitIntentOpen] = useState(false);
   const [hasTriggeredExitIntent, setHasTriggeredExitIntent] = useState(false);
+
+  // Dismiss a specific toast
+  const dismissToast = useCallback((id) => {
+    setToasts((prev) => prev.filter((t) => t.id !== id));
+  }, []);
+
+  // Show toast with queue capped at 3
+  const showToast = useCallback((message, type = 'info', action = null, duration = 4000) => {
+    const id = `toast-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
+    const newToast = { id, message, type, action, duration };
+    setToasts((prev) => {
+      const updated = [...prev, newToast];
+      if (updated.length > 3) {
+        return updated.slice(updated.length - 3);
+      }
+      return updated;
+    });
+
+    if (duration > 0) {
+      setTimeout(() => {
+        dismissToast(id);
+      }, duration);
+    }
+    return id;
+  }, [dismissToast]);
+
+  const toastMessage = toasts.length > 0 ? toasts[toasts.length - 1] : null;
 
   // Sync to localStorage
   useEffect(() => {
@@ -181,13 +208,6 @@ export function CartProvider({ children }) {
     } catch {}
   };
 
-  const showToast = (message, type = 'info') => {
-    setToastMessage({ message, type });
-    setTimeout(() => {
-      setToastMessage(null);
-    }, 3800);
-  };
-
   // Undo removal support
   const [lastRemovedItem, setLastRemovedItem] = useState(null);
 
@@ -227,8 +247,21 @@ export function CartProvider({ children }) {
     const itemToRemove = cartItems.find((item) => item.product.id === productId);
     if (itemToRemove) {
       setLastRemovedItem(itemToRemove);
+      setCartItems((prev) => prev.filter((item) => item.product.id !== productId));
+      showToast(
+        `Removed "${itemToRemove.product.name}" from cart.`,
+        'info',
+        {
+          label: 'Undo',
+          onClick: () => {
+            setCartItems((prev) => [...prev, itemToRemove]);
+            playSound('success');
+          }
+        }
+      );
+    } else {
+      setCartItems((prev) => prev.filter((item) => item.product.id !== productId));
     }
-    setCartItems((prev) => prev.filter((item) => item.product.id !== productId));
   };
 
   const undoLastRemoval = () => {
@@ -446,6 +479,8 @@ export function CartProvider({ children }) {
         orderConfirmation,
         setOrderConfirmation,
         toastMessage,
+        toasts,
+        dismissToast,
         showToast,
         lastRemovedItem,
         undoLastRemoval,

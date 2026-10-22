@@ -16,29 +16,29 @@ export default function RecentlyViewedStrip() {
 
   return (
     <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-      <div className="p-6 rounded-3xl bg-white border border-stone-200/90 shadow-2xs space-y-5">
+      <div className="p-6 sm:p-8 rounded-3xl bg-surface-raised border border-line shadow-soft-sm space-y-6">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-2xl bg-surface-sunken text-primary border border-line-subtle flex items-center justify-center">
               <History className="w-4 h-4" />
             </div>
             <div>
-              <h2 className="font-extrabold text-base text-[#0B3B2C]">
+              <h2 className="font-serif text-lg font-bold text-heading tracking-tight">
                 Continue Where You Left Off
               </h2>
-              <p className="text-xs text-stone-500">Recently inspected sustainable essentials</p>
+              <p className="font-sans text-xs text-muted">Recently inspected sustainable essentials</p>
             </div>
           </div>
           <Link
             to="/shop"
-            className="text-xs font-bold text-emerald-700 hover:text-emerald-800 flex items-center gap-1 transition"
+            className="text-xs font-sans font-medium text-primary hover:text-primary-hover flex items-center gap-1 transition"
           >
             <span>Browse Full Catalog</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {items.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
@@ -47,3 +47,4 @@ export default function RecentlyViewedStrip() {
     </section>
   );
 }
+

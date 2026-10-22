@@ -17,22 +17,22 @@ export default function CommunityPage() {
   const [activeTab, setActiveTab] = useState('feed');
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10 animate-fade-in pb-24">
       {/* Header */}
       <div className="text-center max-w-2xl mx-auto space-y-3">
-        <span className="text-xs font-black uppercase tracking-wider text-emerald-800 dark:text-emerald-300 bg-emerald-100 dark:bg-emerald-950 px-3 py-1 rounded-full inline-block">
+        <span className="text-xs font-semibold uppercase tracking-wider text-primary bg-primary/10 border border-primary/20 px-3.5 py-1 rounded-full inline-block">
           Conscious Collective
         </span>
-        <h1 className="text-3xl sm:text-5xl font-black text-stone-900 dark:text-stone-100">
+        <h1 className="text-3xl sm:text-5xl font-serif font-bold text-heading tracking-tight">
           Community & Gamification
         </h1>
-        <p className="text-sm text-stone-600 dark:text-stone-300 leading-relaxed font-medium">
+        <p className="text-sm sm:text-base text-secondary leading-relaxed max-w-xl mx-auto">
           Connect with local shoppers, celebrate seasonal eco champions, pin your pledge, and download your verified impact certificate.
         </p>
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center justify-center gap-2 overflow-x-auto pb-1">
+      <div className="flex items-center justify-center gap-2 overflow-x-auto pb-1 scrollbar-none">
         {TABS.map((t) => {
           const Icon = t.icon;
           const isSelected = activeTab === t.id;
@@ -41,13 +41,13 @@ export default function CommunityPage() {
               key={t.id}
               type="button"
               onClick={() => setActiveTab(t.id)}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-2xl text-xs font-bold transition-all cursor-pointer ${
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-medium transition-all cursor-pointer min-h-[44px] focus-visible:outline-2 focus-visible:outline-focus ${
                 isSelected
-                  ? 'bg-emerald-700 text-white shadow-md'
-                  : 'bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-stone-700'
+                  ? 'bg-primary text-primary-contrast shadow-soft-sm'
+                  : 'bg-surface-sunken text-secondary hover:bg-surface-sunken/80 border border-line'
               }`}
             >
-              <Icon className="w-4 h-4" />
+              <Icon className={`w-4 h-4 ${isSelected ? 'text-primary-contrast' : 'text-primary'}`} />
               <span>{t.label}</span>
             </button>
           );

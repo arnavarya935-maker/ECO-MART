@@ -5,18 +5,18 @@ import { Home, Store } from 'lucide-react';
 export default function NotFoundPage() {
   return (
     <div className="max-w-2xl mx-auto px-4 py-24 text-center space-y-6 animate-fade-in pb-28">
-      <div className="w-24 h-24 rounded-3xl bg-emerald-50 text-emerald-700 flex items-center justify-center mx-auto text-5xl border border-emerald-200/80 shadow-xs">
+      <div className="w-20 h-20 rounded-3xl bg-surface-sunken text-heading flex items-center justify-center mx-auto text-4xl border border-line shadow-soft-xs">
         🌱
       </div>
 
-      <div className="space-y-2">
-        <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100 px-3 py-1 rounded-full">
+      <div className="space-y-2.5">
+        <span className="text-xs font-semibold uppercase tracking-wider text-primary bg-primary/10 border border-primary/20 px-3.5 py-1 rounded-full inline-block">
           Error 404 • Page Not Found
         </span>
-        <h1 className="text-3xl sm:text-4xl font-black text-[#0B3B2C]">
+        <h1 className="text-3xl sm:text-5xl font-serif font-bold text-heading tracking-tight">
           Lost in the Canopy?
         </h1>
-        <p className="text-xs sm:text-sm text-stone-600 max-w-md mx-auto leading-relaxed">
+        <p className="text-sm sm:text-base text-secondary max-w-md mx-auto leading-relaxed font-normal">
           The page or product you're looking for doesn't exist or has been relocated to another branch of our ecosystem.
         </p>
       </div>
@@ -24,16 +24,16 @@ export default function NotFoundPage() {
       <div className="flex justify-center gap-3 pt-2">
         <Link
           to="/"
-          className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold text-xs shadow-xs transition min-h-[44px]"
+          className="flex items-center gap-2 px-6 py-3 rounded-full bg-primary hover:bg-primary-hover text-primary-contrast font-medium text-xs shadow-soft-xs transition min-h-[44px]"
         >
-          <Home className="w-4 h-4" />
+          <Home className="w-4 h-4 text-accent" />
           <span>Return to Home</span>
         </Link>
         <Link
           to="/shop"
-          className="flex items-center gap-2 px-5 py-3 rounded-2xl border border-stone-200 bg-white hover:bg-stone-50 text-stone-700 font-extrabold text-xs shadow-2xs transition min-h-[44px]"
+          className="flex items-center gap-2 px-6 py-3 rounded-full border border-line bg-surface hover:bg-surface-sunken text-heading font-medium text-xs shadow-soft-xs transition min-h-[44px]"
         >
-          <Store className="w-4 h-4 text-emerald-700" />
+          <Store className="w-4 h-4 text-primary" />
           <span>Explore Catalog</span>
         </Link>
       </div>

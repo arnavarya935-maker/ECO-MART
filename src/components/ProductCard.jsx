@@ -21,8 +21,7 @@ export default function ProductCard({ product }) {
   const ecoScoreData = calculateEcoScore(product);
   const isFavorited = isInWishlist ? isInWishlist(product.id) : false;
 
-  // Feature 23: Impact per rupee calculation
-  // (CO2 in grams avoided + plastic grams) / price in rupees
+  // Impact per rupee calculation
   const impactScore = (product.carbonKg * 1000 + (product.plasticGrams || 0)) / product.price;
   const isHighImpactPerRupee = product.isEcoFriendly && impactScore >= 3.5;
 
@@ -48,10 +47,10 @@ export default function ProductCard({ product }) {
   return (
     <div
       onClick={handleCardClick}
-      className="group relative flex flex-col justify-between bg-white rounded-3xl border border-stone-200/90 shadow-2xs hover:shadow-md hover:border-emerald-300 transition-all duration-300 cursor-pointer overflow-hidden select-none"
+      className="group relative flex flex-col justify-between bg-surface-raised rounded-3xl border border-line shadow-card hover:shadow-soft-md hover:border-primary transition-all duration-300 cursor-pointer overflow-hidden select-none"
     >
-      {/* Top Graphic Showcase - Image First (Feature 12) */}
-      <div className="relative aspect-[4/3] w-full overflow-hidden bg-stone-50 border-b border-stone-100">
+      {/* Top Graphic Showcase - Image First */}
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-surface border-b border-line">
         <ProductImage
           src={product.image}
           alt={product.name}
@@ -62,17 +61,17 @@ export default function ProductCard({ product }) {
 
         {/* Top Left Badges */}
         <div className="absolute top-3 left-3 flex flex-col gap-1 items-start z-10 pointer-events-none">
-          <span className="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-white/95 text-stone-850 border border-stone-200/80 backdrop-blur-xs shadow-2xs">
+          <span className="text-[10px] font-sans font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full bg-surface-raised/95 text-heading border border-line backdrop-blur-xs shadow-2xs">
             {product.category}
           </span>
           {isHighImpactPerRupee && (
-            <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-300 backdrop-blur-xs shadow-2xs flex items-center gap-1">
-              <Sparkles className="w-2.5 h-2.5 text-emerald-600" /> High Impact / ₹
+            <span className="text-[10px] font-sans font-semibold px-2 py-0.5 rounded-full bg-surface-accent text-primary border border-primary/20 backdrop-blur-xs shadow-2xs flex items-center gap-1">
+              <Sparkles className="w-2.5 h-2.5 text-primary" /> High Impact / ₹
             </span>
           )}
         </div>
 
-        {/* Top Right Eco-Score Ring & Wishlist Heart (Feature 12) */}
+        {/* Top Right Eco-Score Ring & Wishlist Heart */}
         <div className="absolute top-3 right-3 flex items-center gap-1.5 z-10">
           <button
             type="button"
@@ -81,18 +80,18 @@ export default function ProductCard({ product }) {
               toggleWishlist(product);
             }}
             title={isFavorited ? 'Remove from wishlist' : 'Save to wishlist'}
-            className="p-2 rounded-full bg-white/95 border border-stone-200 shadow-2xs hover:scale-110 active:scale-95 transition-all text-stone-600 min-h-[36px] min-w-[36px] flex items-center justify-center"
+            className="p-2.5 rounded-full bg-surface-raised/95 border border-line shadow-soft-sm hover:scale-105 active:scale-95 transition-all text-secondary min-h-[44px] min-w-[44px] flex items-center justify-center cursor-pointer"
             aria-label="Wishlist"
           >
             <Heart
               className={`w-4 h-4 transition-colors ${
-                isFavorited ? 'fill-rose-500 text-rose-500' : 'hover:text-stone-900'
+                isFavorited ? 'fill-danger text-danger' : 'hover:text-heading'
               }`}
             />
           </button>
 
           {/* Colored Eco Score Ring */}
-          <div className="bg-white/95 rounded-full p-0.5 shadow-2xs border border-stone-200/60 backdrop-blur-xs">
+          <div className="bg-surface-raised/95 rounded-full p-0.5 shadow-2xs border border-line backdrop-blur-xs">
             <EcoScoreBadge scoreData={ecoScoreData} size="sm" variant="ring" />
           </div>
         </div>
@@ -102,9 +101,9 @@ export default function ProductCard({ product }) {
           <button
             type="button"
             onClick={handleQuickView}
-            className="inline-flex items-center gap-1.5 text-xs font-bold px-3.5 py-1.5 rounded-xl bg-white/95 text-stone-800 border border-stone-200 hover:bg-stone-50 shadow-sm transition-all active:scale-95 min-h-[36px]"
+            className="inline-flex items-center gap-1.5 text-xs font-sans font-medium px-4 py-2 rounded-xl bg-surface-raised/95 text-heading border border-line hover:bg-surface-sunken shadow-soft-sm transition-all active:scale-95 min-h-[44px] cursor-pointer"
           >
-            <Eye className="w-3.5 h-3.5 text-emerald-700" />
+            <Eye className="w-3.5 h-3.5 text-primary" />
             <span>Quick View</span>
           </button>
         </div>
@@ -113,30 +112,30 @@ export default function ProductCard({ product }) {
       {/* Product Information Body */}
       <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-3">
         <div>
-          <h3 className="font-extrabold text-sm sm:text-base leading-snug line-clamp-2 text-stone-900 group-hover:text-emerald-800 transition-colors">
+          <h3 className="font-serif font-bold text-base leading-snug line-clamp-2 text-heading group-hover:text-primary transition-colors">
             {product.name}
           </h3>
 
-          <p className="text-xs text-stone-500 mt-1 line-clamp-2 leading-relaxed">
+          <p className="text-xs font-sans text-muted mt-1 line-clamp-2 leading-relaxed">
             {product.description}
           </p>
 
           {/* Environmental metrics */}
-          <div className="flex items-center gap-3 mt-3 text-[11px] text-stone-600 font-semibold">
+          <div className="flex items-center gap-3 mt-3 text-[11px] font-sans text-secondary font-medium">
             <span className="flex items-center gap-1" title="Carbon footprint">
-              <Wind className="w-3.5 h-3.5 text-emerald-600" /> {product.carbonKg}kg CO₂
+              <Wind className="w-3.5 h-3.5 text-primary" /> {product.carbonKg}kg CO₂
             </span>
             <span className="flex items-center gap-1" title="Plastic packaging">
-              <Ban className="w-3.5 h-3.5 text-amber-600" /> {product.plasticGrams}g plastic
+              <Ban className="w-3.5 h-3.5 text-warning" /> {product.plasticGrams}g plastic
             </span>
           </div>
         </div>
 
-        {/* Bottom Price & One-Tap Add to Cart (Feature 12) */}
-        <div className="pt-3 border-t border-stone-100 flex items-center justify-between gap-2">
+        {/* Bottom Price & One-Tap Add to Cart */}
+        <div className="pt-3 border-t border-line flex items-center justify-between gap-2">
           <div>
-            <div className="text-[10px] uppercase font-bold text-stone-400 tracking-wider">Price</div>
-            <div className="text-base sm:text-lg font-black text-[#0B3B2C]">
+            <div className="text-[10px] font-sans uppercase font-medium text-muted tracking-wider">Price</div>
+            <div className="text-base sm:text-lg font-sans font-bold text-heading">
               ₹{product.price.toLocaleString('en-IN')}
             </div>
           </div>
@@ -144,17 +143,17 @@ export default function ProductCard({ product }) {
           <button
             type="button"
             onClick={handleAddToCart}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold text-xs shadow-2xs transition active:scale-95 min-h-[40px]"
+            className="flex items-center gap-1.5 px-4 py-2 min-h-[44px] rounded-2xl bg-heading hover:bg-heading-hover text-surface-raised font-sans font-medium text-xs shadow-soft-sm transition active:scale-95 cursor-pointer"
             aria-label="Add to cart"
           >
             {added ? (
               <>
-                <Check className="w-3.5 h-3.5 stroke-[3] text-emerald-200 animate-bounce" />
+                <Check className="w-3.5 h-3.5 stroke-[3] text-primary" />
                 <span>Added</span>
               </>
             ) : (
               <>
-                <ShoppingBag className="w-3.5 h-3.5" />
+                <ShoppingBag className="w-3.5 h-3.5 text-primary" />
                 <span>Add</span>
               </>
             )}
@@ -164,3 +163,4 @@ export default function ProductCard({ product }) {
     </div>
   );
 }
+

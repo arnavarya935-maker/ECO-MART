@@ -10,7 +10,7 @@ const STORY_STAGES = [
     stat: '91% of plastic ever made has never been recycled.',
     badge: 'Linear Waste Problem',
     icon: '🛢️',
-    color: 'border-rose-300 dark:border-rose-900 bg-rose-50/60 dark:bg-rose-950/20'
+    cardBorder: 'border-danger/30 bg-danger-subtle'
   },
   {
     step: '02',
@@ -20,7 +20,7 @@ const STORY_STAGES = [
     stat: 'Bamboo absorbs 35% more CO₂ than equivalent timber forest stands.',
     badge: 'Raw Material Revolution',
     icon: '🎋',
-    color: 'border-emerald-300 dark:border-emerald-900 bg-emerald-50/60 dark:bg-emerald-950/20'
+    cardBorder: 'border-primary/30 bg-primary-subtle'
   },
   {
     step: '03',
@@ -30,7 +30,7 @@ const STORY_STAGES = [
     stat: 'Average transport distance reduced from 8,500km to under 650km.',
     badge: 'Fair Trade & Local',
     icon: '👐',
-    color: 'border-teal-300 dark:border-teal-900 bg-teal-50/60 dark:bg-teal-950/20'
+    cardBorder: 'border-secondary/30 bg-secondary-subtle'
   },
   {
     step: '04',
@@ -40,7 +40,7 @@ const STORY_STAGES = [
     stat: '100% biodegradable packaging breakdown within 180 days.',
     badge: 'Circular Biosphere',
     icon: '🌱',
-    color: 'border-emerald-400 dark:border-emerald-800 bg-emerald-100/60 dark:bg-emerald-950/40'
+    cardBorder: 'border-primary/40 bg-surface-accent'
   }
 ];
 
@@ -50,14 +50,14 @@ export default function StorytellingSection() {
   return (
     <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       <div className="text-center max-w-2xl mx-auto mb-12">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 text-xs font-bold uppercase tracking-wider mb-3">
-          <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-subtle text-primary border border-primary/20 text-xs font-sans font-semibold uppercase tracking-wider mb-3">
+          <Sparkles className="w-3.5 h-3.5 text-primary" />
           <span>Interactive Storytelling</span>
         </div>
-        <h2 className="text-3xl sm:text-4xl font-black text-stone-900 dark:text-stone-100 tracking-tight">
+        <h2 className="font-serif text-3xl sm:text-4xl font-bold text-heading tracking-tight">
           From Waste to Wonder
         </h2>
-        <p className="text-sm text-stone-600 dark:text-stone-400 mt-2">
+        <p className="font-sans text-xs sm:text-sm text-secondary mt-2">
           Discover how everyday items are reimagined from extractive fossil fuels into circular biological harmony.
         </p>
 
@@ -68,13 +68,13 @@ export default function StorytellingSection() {
               key={st.step}
               type="button"
               onClick={() => setActiveStage(idx)}
-              className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all flex items-center gap-2 ${
+              className={`px-4 py-2.5 min-h-[44px] rounded-2xl text-xs font-sans font-medium transition-all flex items-center gap-2 cursor-pointer ${
                 activeStage === idx
-                  ? 'bg-emerald-700 text-white shadow-md scale-105'
-                  : 'bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 hover:bg-stone-200'
+                  ? 'bg-primary text-text-inverted shadow-soft-sm font-semibold'
+                  : 'bg-surface-sunken text-secondary hover:text-heading hover:bg-surface-accent border border-line'
               }`}
             >
-              <span>{st.step}</span>
+              <span className="font-mono text-[11px] opacity-80">{st.step}</span>
               <span className="hidden sm:inline">{st.title}</span>
             </button>
           ))}
@@ -82,47 +82,47 @@ export default function StorytellingSection() {
       </div>
 
       {/* Main Active Stage Showcase Card */}
-      <div className={`p-8 sm:p-12 rounded-3xl border-2 transition-all duration-300 shadow-xl ${STORY_STAGES[activeStage].color}`}>
+      <div className={`p-8 sm:p-12 rounded-3xl border transition-all duration-300 shadow-soft-md ${STORY_STAGES[activeStage].cardBorder}`}>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           <div className="lg:col-span-8 space-y-4">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-black uppercase tracking-wider px-3 py-1 rounded-full bg-white dark:bg-stone-900 text-stone-900 dark:text-stone-100 shadow-2xs">
+              <span className="text-[11px] font-sans font-semibold uppercase tracking-wider px-3 py-1 rounded-full bg-surface-raised text-heading border border-line shadow-soft-sm">
                 STAGE {STORY_STAGES[activeStage].step}: {STORY_STAGES[activeStage].badge}
               </span>
             </div>
 
-            <h3 className="text-2xl sm:text-3xl font-black text-stone-900 dark:text-stone-100">
+            <h3 className="font-serif text-2xl sm:text-3xl font-bold text-heading tracking-tight">
               {STORY_STAGES[activeStage].title}
             </h3>
-            <div className="text-sm font-bold text-emerald-800 dark:text-emerald-300">
+            <div className="text-sm font-sans font-semibold text-primary">
               {STORY_STAGES[activeStage].subtitle}
             </div>
 
-            <p className="text-sm sm:text-base text-stone-700 dark:text-stone-300 leading-relaxed max-w-2xl font-medium">
+            <p className="text-sm sm:text-base font-sans text-text leading-relaxed max-w-2xl">
               {STORY_STAGES[activeStage].description}
             </p>
 
-            <div className="p-4 rounded-2xl bg-white/80 dark:bg-stone-900/80 border border-stone-200/80 dark:border-stone-800 text-xs sm:text-sm font-bold text-stone-900 dark:text-stone-100 inline-block shadow-xs">
-              📊 <strong>Audited Impact:</strong> {STORY_STAGES[activeStage].stat}
+            <div className="p-4 rounded-2xl bg-surface-raised border border-line text-xs sm:text-sm font-sans text-heading inline-block shadow-soft-sm">
+              📊 <strong className="font-semibold">Audited Impact:</strong> {STORY_STAGES[activeStage].stat}
             </div>
           </div>
 
           <div className="lg:col-span-4 flex flex-col items-center justify-center">
-            <div className="w-36 h-36 sm:w-44 sm:h-44 rounded-full bg-white dark:bg-stone-900 flex items-center justify-center text-7xl shadow-xl border-4 border-white/60 dark:border-stone-800">
+            <div className="w-36 h-36 sm:w-44 sm:h-44 rounded-full bg-surface-raised flex items-center justify-center text-7xl shadow-soft-md border-4 border-surface-raised">
               {STORY_STAGES[activeStage].icon}
             </div>
             <div className="flex items-center gap-2 mt-6">
               <button
                 type="button"
                 onClick={() => setActiveStage((prev) => (prev > 0 ? prev - 1 : STORY_STAGES.length - 1))}
-                className="px-3 py-1.5 rounded-xl bg-white dark:bg-stone-900 text-xs font-bold border border-stone-200 dark:border-stone-700 hover:bg-stone-50"
+                className="px-4 py-2 min-h-[44px] rounded-xl bg-surface-raised text-heading text-xs font-sans font-medium border border-line hover:bg-surface-sunken cursor-pointer shadow-soft-sm"
               >
                 ← Previous
               </button>
               <button
                 type="button"
                 onClick={() => setActiveStage((prev) => (prev + 1) % STORY_STAGES.length)}
-                className="px-3 py-1.5 rounded-xl bg-emerald-700 text-white text-xs font-bold hover:bg-emerald-800 shadow-xs"
+                className="px-4 py-2 min-h-[44px] rounded-xl bg-primary text-text-inverted text-xs font-sans font-medium hover:bg-primary-hover shadow-soft-sm cursor-pointer"
               >
                 Next Stage →
               </button>
@@ -133,3 +133,4 @@ export default function StorytellingSection() {
     </section>
   );
 }
+

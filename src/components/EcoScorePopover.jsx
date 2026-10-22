@@ -16,51 +16,55 @@ export default function EcoScorePopover({ product, scoreData, onClose }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fadeIn"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="ecoscore-popover-title"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-fade-in"
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-lg bg-[#FAF8F5] dark:bg-stone-900 border border-stone-200 dark:border-stone-800 rounded-3xl p-6 shadow-2xl text-stone-800 dark:text-stone-100 max-h-[90vh] overflow-y-auto"
+        className="relative w-full max-w-lg bg-surface border border-line rounded-3xl p-6 sm:p-7 shadow-soft-xl text-text max-h-[90vh] overflow-y-auto animate-slide-up"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-start justify-between pb-4 border-b border-stone-200 dark:border-stone-800">
+        <div className="flex items-start justify-between pb-4 border-b border-line">
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-xs uppercase tracking-wider font-semibold text-emerald-800 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950/80 px-2 py-0.5 rounded-full">
+              <span className="text-xs uppercase tracking-wider font-semibold text-primary bg-primary/10 border border-primary/20 px-2.5 py-0.5 rounded-full">
                 Transparent Formula
               </span>
-              <span className="text-xs text-stone-500">Zero Greenwashing</span>
+              <span className="text-xs text-muted">Zero Greenwashing</span>
             </div>
-            <h3 className="text-xl font-bold mt-1 text-stone-900 dark:text-stone-100">
+            <h3 id="ecoscore-popover-title" className="text-xl font-serif font-bold mt-1 text-heading">
               How is this Eco-Score Calculated?
             </h3>
             {product && (
-              <p className="text-sm text-stone-600 dark:text-stone-400 mt-0.5 line-clamp-1">
-                Product: <span className="font-medium text-stone-800 dark:text-stone-200">{product.name}</span>
+              <p className="text-sm text-secondary mt-0.5 line-clamp-1">
+                Product: <span className="font-medium text-heading">{product.name}</span>
               </p>
             )}
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 text-stone-400 hover:text-stone-700 dark:hover:text-stone-200 rounded-full hover:bg-stone-200/60 dark:hover:bg-stone-800 transition"
+            aria-label="Close Eco-Score breakdown"
+            className="w-9 h-9 rounded-full flex items-center justify-center text-muted hover:text-heading hover:bg-surface-sunken transition-colors focus-visible:outline-2 focus-visible:outline-focus"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Big Score Summary Banner */}
-        <div className="my-5 p-4 rounded-2xl bg-white dark:bg-stone-800/80 border border-stone-200/80 dark:border-stone-700 flex items-center justify-between shadow-sm">
+        <div className="my-5 p-4 rounded-2xl bg-surface-sunken border border-line flex items-center justify-between shadow-soft-xs">
           <div className="flex items-center gap-3">
             <div
-              className={`w-14 h-14 rounded-2xl flex items-center justify-center text-2xl font-black border shadow-inner ${colorTheme.badge}`}
+              className={`w-14 h-14 rounded-2xl flex items-center justify-center text-2xl font-serif font-bold border shadow-soft-xs ${colorTheme.badge}`}
             >
               {grade}
             </div>
             <div>
-              <div className="text-sm font-semibold text-stone-500 dark:text-stone-400">Composite Score</div>
-              <div className="text-2xl font-extrabold text-stone-900 dark:text-stone-100">
-                {score} <span className="text-sm font-normal text-stone-400">/ 100</span>
+              <div className="text-xs font-semibold uppercase tracking-wider text-muted">Composite Score</div>
+              <div className="text-2xl font-serif font-bold text-heading">
+                {score} <span className="text-sm font-normal text-muted">/ 100</span>
               </div>
             </div>
           </div>
@@ -68,13 +72,13 @@ export default function EcoScorePopover({ product, scoreData, onClose }) {
             <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${colorTheme.badge}`}>
               {gradeLabel}
             </span>
-            <div className="text-xs text-stone-500 mt-1">Multi-factor Lifecycle Assessment</div>
+            <div className="text-xs text-muted mt-1">Multi-factor Lifecycle Assessment</div>
           </div>
         </div>
 
         {/* 5-Factor Weighted Breakdown List */}
-        <div className="space-y-4">
-          <h4 className="text-xs font-bold uppercase tracking-wider text-stone-500 dark:text-stone-400">
+        <div className="space-y-3.5">
+          <h4 className="text-xs font-bold uppercase tracking-wider text-muted">
             Lifecycle Pillars & Score Weights
           </h4>
 
@@ -85,41 +89,41 @@ export default function EcoScorePopover({ product, scoreData, onClose }) {
             return (
               <div
                 key={key}
-                className="p-3.5 rounded-xl bg-white dark:bg-stone-800/60 border border-stone-200/70 dark:border-stone-700/60 hover:border-emerald-300 dark:hover:border-emerald-700/60 transition"
+                className="p-3.5 rounded-xl bg-surface border border-line hover:border-primary/40 transition-colors shadow-soft-xs"
               >
                 <div className="flex items-center justify-between mb-1.5">
                   <div className="flex items-center gap-2">
-                    <div className="p-1.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400">
+                    <div className="p-1.5 rounded-lg bg-primary/10 text-primary border border-primary/20">
                       <Icon className="w-4 h-4" />
                     </div>
                     <div>
-                      <span className="text-sm font-bold text-stone-900 dark:text-stone-100">
+                      <span className="text-sm font-bold text-heading">
                         {item.name}
                       </span>
-                      <span className="ml-2 text-xs font-medium text-stone-400">
+                      <span className="ml-2 text-xs font-medium text-muted">
                         (Weight: {item.weight})
                       </span>
                     </div>
                   </div>
                   <div className="text-right">
-                    <span className="text-sm font-bold text-stone-900 dark:text-stone-100">
+                    <span className="text-sm font-serif font-bold text-heading">
                       {item.score}
                     </span>
-                    <span className="text-xs text-stone-400">/{item.max} pts</span>
+                    <span className="text-xs text-muted">/{item.max} pts</span>
                   </div>
                 </div>
 
                 {/* Progress bar */}
-                <div className="w-full h-2 bg-stone-100 dark:bg-stone-700 rounded-full overflow-hidden my-2">
+                <div className="w-full h-2 bg-line rounded-full overflow-hidden my-2">
                   <div
                     className={`h-full rounded-full transition-all duration-500 ${
-                      percentage >= 80 ? 'bg-emerald-500' : percentage >= 50 ? 'bg-teal-500' : 'bg-amber-500'
+                      percentage >= 80 ? 'bg-primary' : percentage >= 50 ? 'bg-secondary' : 'bg-warning'
                     }`}
                     style={{ width: `${percentage}%` }}
                   />
                 </div>
 
-                <p className="text-xs text-stone-600 dark:text-stone-300 mt-1">
+                <p className="text-xs text-secondary mt-1 leading-relaxed">
                   {item.explanation}
                 </p>
               </div>
@@ -128,18 +132,18 @@ export default function EcoScorePopover({ product, scoreData, onClose }) {
         </div>
 
         {/* Open Standard Callout */}
-        <div className="mt-5 p-3.5 rounded-xl bg-emerald-50/70 dark:bg-emerald-950/40 border border-emerald-200/70 dark:border-emerald-900/50 flex items-start gap-2.5">
-          <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
-          <p className="text-xs text-emerald-900 dark:text-emerald-200 leading-relaxed">
+        <div className="mt-5 p-3.5 rounded-xl bg-primary/10 border border-primary/20 flex items-start gap-2.5">
+          <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+          <p className="text-xs text-text leading-relaxed">
             <strong>Open & Verifiable:</strong> EcoMart scores are mathematically calculated from manufacturer material sheets, certified carbon audits, and local transport coordinates to empower intentional shopping.
           </p>
         </div>
 
         {/* Close Button */}
-        <div className="mt-5 text-right">
+        <div className="mt-5">
           <button
             onClick={onClose}
-            className="w-full py-2.5 px-4 rounded-xl bg-stone-900 text-stone-50 hover:bg-stone-800 dark:bg-emerald-700 dark:hover:bg-emerald-600 font-medium text-sm transition shadow-sm"
+            className="w-full min-h-[44px] py-2.5 px-4 rounded-2xl bg-primary text-primary-contrast hover:bg-primary-hover font-bold text-sm shadow-soft-sm hover:shadow-soft-md transition-all focus-visible:outline-2 focus-visible:outline-focus"
           >
             Got it
           </button>

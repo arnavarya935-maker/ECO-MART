@@ -1,6 +1,7 @@
 import React from 'react';
 import { CheckCircle2, Wind, Ban, Droplets, Sparkles, Share2 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
+import { Modal } from './ui/Modal';
 
 export default function ConfirmationModal() {
   const { orderConfirmation, setOrderConfirmation } = useCart();
@@ -14,76 +15,77 @@ export default function ConfirmationModal() {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-md animate-fadeIn">
-      <div
-        className="relative w-full max-w-xl bg-[#FAF8F5] dark:bg-stone-900 border border-emerald-400/40 rounded-3xl shadow-2xl p-6 sm:p-8 max-h-[92vh] overflow-y-auto text-stone-800 dark:text-stone-100"
-        onClick={(e) => e.stopPropagation()}
-      >
+    <Modal
+      isOpen={!!orderConfirmation}
+      onClose={handleClose}
+      maxWidth="max-w-xl"
+      ariaLabel="Order Confirmation"
+    >
         {/* Top Celebration Icon */}
         <div className="text-center space-y-2">
-          <div className="w-16 h-16 rounded-full bg-emerald-100 dark:bg-emerald-950/80 text-emerald-600 dark:text-emerald-400 mx-auto flex items-center justify-center shadow-inner">
-            <CheckCircle2 className="w-9 h-9" />
+          <div className="w-14 h-14 rounded-2xl bg-surface-sunken text-primary mx-auto flex items-center justify-center border border-line shadow-soft-sm">
+            <CheckCircle2 className="w-8 h-8 text-primary" />
           </div>
-          <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950 px-3 py-1 rounded-full inline-block">
+          <span className="text-xs font-semibold uppercase tracking-wider text-primary bg-primary-subtle border border-primary/20 px-3 py-1 rounded-full inline-block">
             Order Confirmed • {orderId}
           </span>
-          <h2 className="text-2xl font-black text-stone-900 dark:text-stone-100">
-            Thank You for Shopping with Purpose!
+          <h2 id="confirmation-modal-title" className="text-2xl font-serif font-bold text-heading">
+            Thank You for Shopping with Purpose
           </h2>
-          <p className="text-xs text-stone-500">
+          <p className="text-xs text-secondary">
             Placed on {date} by {customer.name} • Dispatched via Electric Courier
           </p>
         </div>
 
         {/* Environmental Impact Receipt Card */}
-        <div className="my-6 p-5 rounded-2xl bg-gradient-to-br from-emerald-50 to-teal-50/40 dark:from-emerald-950/40 dark:to-stone-850 border border-emerald-200 dark:border-emerald-800/80 shadow-xs space-y-4">
-          <div className="flex items-center justify-between border-b border-emerald-200/60 dark:border-emerald-800/60 pb-2.5">
-            <div className="flex items-center gap-1.5 font-bold text-xs uppercase tracking-wider text-emerald-900 dark:text-emerald-300">
-              <Sparkles className="w-4 h-4 text-emerald-600" />
+        <div className="my-6 p-5 rounded-2xl bg-gradient-to-br from-surface-accent via-surface to-surface-raised border border-primary/20 shadow-soft-sm space-y-4">
+          <div className="flex items-center justify-between border-b border-line pb-2.5">
+            <div className="flex items-center gap-1.5 font-bold text-xs uppercase tracking-wider text-heading">
+              <Sparkles className="w-4 h-4 text-primary" />
               <span>Official Environmental Impact Receipt</span>
             </div>
-            <span className="text-xs font-bold text-emerald-700 dark:text-emerald-400">
+            <span className="text-xs font-serif font-bold text-primary">
               Score: {impactSaved.averageEcoScore}/100
             </span>
           </div>
 
           {/* Impact Stats Grid */}
           <div className="grid grid-cols-3 gap-3 text-center">
-            <div className="p-3 rounded-xl bg-white/80 dark:bg-stone-800/80 border border-emerald-100 dark:border-emerald-900/40">
-              <Wind className="w-5 h-5 text-sky-500 mx-auto mb-1" />
-              <div className="text-lg font-black text-stone-900 dark:text-stone-100">
+            <div className="p-3 rounded-xl bg-surface-raised border border-line shadow-soft-sm">
+              <Wind className="w-5 h-5 text-primary mx-auto mb-1" />
+              <div className="text-lg font-serif font-bold text-heading">
                 {impactSaved.co2Saved} kg
               </div>
-              <div className="text-[10px] text-stone-500 uppercase font-bold">CO₂ Saved</div>
+              <div className="text-[10px] text-muted uppercase font-bold tracking-wider">CO₂ Saved</div>
             </div>
 
-            <div className="p-3 rounded-xl bg-white/80 dark:bg-stone-800/80 border border-emerald-100 dark:border-emerald-900/40">
-              <Ban className="w-5 h-5 text-rose-500 mx-auto mb-1" />
-              <div className="text-lg font-black text-stone-900 dark:text-stone-100">
+            <div className="p-3 rounded-xl bg-surface-raised border border-line shadow-soft-sm">
+              <Ban className="w-5 h-5 text-accent mx-auto mb-1" />
+              <div className="text-lg font-serif font-bold text-heading">
                 {impactSaved.plasticAvoided} g
               </div>
-              <div className="text-[10px] text-stone-500 uppercase font-bold">Plastic Diverted</div>
+              <div className="text-[10px] text-muted uppercase font-bold tracking-wider">Plastic Diverted</div>
             </div>
 
-            <div className="p-3 rounded-xl bg-white/80 dark:bg-stone-800/80 border border-emerald-100 dark:border-emerald-900/40">
-              <Droplets className="w-5 h-5 text-teal-500 mx-auto mb-1" />
-              <div className="text-lg font-black text-stone-900 dark:text-stone-100">
+            <div className="p-3 rounded-xl bg-surface-raised border border-line shadow-soft-sm">
+              <Droplets className="w-5 h-5 text-secondary mx-auto mb-1" />
+              <div className="text-lg font-serif font-bold text-heading">
                 {impactSaved.waterSaved} L
               </div>
-              <div className="text-[10px] text-stone-500 uppercase font-bold">Water Conserved</div>
+              <div className="text-[10px] text-muted uppercase font-bold tracking-wider">Water Conserved</div>
             </div>
           </div>
 
           {/* Human-understandable impact summary */}
-          <div className="p-3 rounded-xl bg-white/70 dark:bg-stone-900/70 border border-emerald-200/60 dark:border-emerald-800/60 text-xs text-emerald-950 dark:text-emerald-200 leading-relaxed font-medium">
+          <div className="p-3.5 rounded-xl bg-surface-raised/90 border border-line text-xs text-heading leading-relaxed font-normal">
             🌳 By choosing these conscious alternatives over conventional retail goods, you prevented{' '}
-            <strong>{impactSaved.equivalents.plasticBottles} single-use plastic bottles</strong> from entering
-            landfills and offset the equivalent of <strong>{impactSaved.equivalents.carKm} km</strong> of car travel!
+            <strong className="font-semibold text-primary">{impactSaved.equivalents.plasticBottles} single-use plastic bottles</strong> from entering
+            landfills and offset the equivalent of <strong className="font-semibold text-primary">{impactSaved.equivalents.carKm} km</strong> of car travel!
           </div>
 
-          <div className="flex items-center justify-between text-xs font-semibold text-emerald-800 dark:text-emerald-300 pt-1">
+          <div className="flex items-center justify-between text-xs font-medium text-heading pt-1">
             <span>Eco Points Credited:</span>
-            <span className="font-extrabold text-amber-600 dark:text-amber-400">
+            <span className="font-serif font-bold text-accent">
               +{impactSaved.ecoPoints} points
             </span>
           </div>
@@ -91,39 +93,39 @@ export default function ConfirmationModal() {
 
         {/* Purchased Items List */}
         <div className="space-y-2 mb-6">
-          <div className="text-xs font-bold uppercase tracking-wider text-stone-500">
+          <div className="text-xs font-bold uppercase tracking-wider text-muted">
             Order Summary ({items.length} items)
           </div>
-          <div className="divide-y divide-stone-200 dark:divide-stone-800 max-h-40 overflow-y-auto pr-1">
+          <div className="divide-y divide-line max-h-40 overflow-y-auto pr-1">
             {items.map((i, idx) => (
-              <div key={idx} className="py-2 flex items-center justify-between text-xs">
+              <div key={idx} className="py-2.5 flex items-center justify-between text-xs">
                 <div className="flex items-center gap-2">
                   <span>{i.product.icon}</span>
-                  <span className="font-medium text-stone-800 dark:text-stone-200 line-clamp-1">
+                  <span className="font-medium text-heading line-clamp-1">
                     {i.product.name} (x{i.quantity})
                   </span>
                 </div>
-                <span className="font-bold text-stone-900 dark:text-stone-100 shrink-0">
+                <span className="font-serif font-bold text-heading shrink-0">
                   ₹{(i.product.price * i.quantity).toLocaleString('en-IN')}
                 </span>
               </div>
             ))}
           </div>
 
-          <div className="pt-2 border-t border-stone-200 dark:border-stone-800 flex items-center justify-between font-bold text-sm">
-            <span>Total Paid</span>
-            <span className="text-emerald-700 dark:text-emerald-400 font-black">
+          <div className="pt-3 border-t border-line flex items-center justify-between font-bold text-sm">
+            <span className="text-secondary">Total Paid</span>
+            <span className="text-heading font-serif font-bold text-base">
               ₹{totalPrice.toLocaleString('en-IN')}
             </span>
           </div>
         </div>
 
         {/* Shareable "I shopped with purpose" Card */}
-        <div className="mb-6 p-4 rounded-2xl bg-stone-900 text-white border border-emerald-500/30 text-center space-y-2">
-          <div className="text-[11px] font-bold text-emerald-400 uppercase tracking-wider">
+        <div className="mb-6 p-4 rounded-2xl bg-surface-sunken border border-line text-center space-y-2.5 shadow-soft-sm">
+          <div className="text-[11px] font-bold text-primary uppercase tracking-wider">
             Shareable Impact Badge
           </div>
-          <p className="text-xs text-stone-300 italic">
+          <p className="text-xs text-secondary italic">
             "I shopped with purpose on EcoMart and avoided {(impactSaved.co2Saved || impactSaved.savedCo2 || 0).toFixed(1)}kg of CO₂! 🌍🌱"
           </p>
           <button
@@ -136,9 +138,9 @@ export default function ConfirmationModal() {
                 alert('Copied shareable impact card to clipboard!');
               } catch {}
             }}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition shadow-sm"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-primary hover:bg-primary-hover text-text-inverted text-xs font-semibold transition-colors shadow-soft-sm min-h-[44px] focus-visible:outline-2 focus-visible:outline-focus cursor-pointer"
           >
-            <Share2 className="w-3.5 h-3.5" />
+            <Share2 className="w-3.5 h-3.5 text-text-inverted" />
             <span>Copy Impact Card</span>
           </button>
         </div>
@@ -148,12 +150,11 @@ export default function ConfirmationModal() {
           <button
             type="button"
             onClick={handleClose}
-            className="w-full py-3 rounded-2xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-sm shadow-md transition-all active:scale-95"
+            className="w-full min-h-[44px] py-3 rounded-2xl bg-primary hover:bg-primary-hover text-text-inverted font-bold text-sm shadow-soft-sm hover:shadow-soft-md transition-all active:scale-[0.99] focus-visible:outline-2 focus-visible:outline-focus cursor-pointer"
           >
             Continue Conscious Shopping
           </button>
         </div>
-      </div>
-    </div>
+    </Modal>
   );
 }

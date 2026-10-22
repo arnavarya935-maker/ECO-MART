@@ -1,82 +1,170 @@
 import React, { useState } from 'react';
-import { ChevronUp, ChevronDown, X } from 'lucide-react';
+import { ChevronUp, ChevronDown, X, Bot, Sparkles } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 
 export default function ImpactPulseWidget() {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isDismissed, setIsDismissed] = useState(false);
-  const { impact } = useCart();
+  const { impact, isAgentOpen, setIsAgentOpen } = useCart();
 
   if (isDismissed) return null;
 
   return (
-    <aside
-      aria-label="Impact Pulse Widget"
-      className="fixed bottom-6 left-6 z-40 animate-slide-up select-none"
-    >
-      <div className="bg-white/95 dark:bg-stone-900/95 backdrop-blur-md border border-emerald-400/50 rounded-2xl shadow-xl overflow-hidden transition-all duration-200">
-        {/* Collapsed Header Pill */}
-        <div
-          onClick={() => setIsExpanded(!isExpanded)}
-          className="flex items-center gap-2.5 px-3.5 py-2 cursor-pointer hover:bg-emerald-50/50 dark:hover:bg-emerald-950/40 transition"
+    <>
+      {/* -------------------------------------------------------------
+          Desktop Layout: Impact Pulse on bottom-left, Chat on bottom-right
+          ------------------------------------------------------------- */}
+      <aside
+        aria-label="Impact Pulse Widget"
+        className="hidden md:block fixed bottom-6 left-6 z-widgets animate-slide-up select-none"
+      >
+        <div className="bg-surface/95 backdrop-blur-md border border-line shadow-soft-lg rounded-2xl overflow-hidden transition-all duration-200">
+          {/* Collapsed Header Pill */}
+          <div
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="flex items-center gap-2.5 px-3.5 py-2 cursor-pointer hover:bg-surface-sunken transition min-h-[44px]"
+          >
+            <div className="relative">
+              <span className="w-2.5 h-2.5 rounded-full bg-primary block animate-ping absolute inset-0 opacity-75" />
+              <span className="w-2.5 h-2.5 rounded-full bg-primary block relative" />
+            </div>
+
+            <div className="text-xs font-medium text-heading flex items-center gap-1.5">
+              <span>Impact Pulse:</span>
+              <span className="text-primary font-bold">
+                {impact.totalPlasticSavedGrams}g Plastic Diverted
+              </span>
+            </div>
+
+            <button
+              type="button"
+              className="text-muted hover:text-text ml-1 cursor-pointer"
+              aria-label={isExpanded ? 'Collapse impact pulse' : 'Expand impact pulse'}
+            >
+              {isExpanded ? <ChevronDown className="w-3.5 h-3.5" /> : <ChevronUp className="w-3.5 h-3.5" />}
+            </button>
+          </div>
+
+          {/* Expanded Details Flyout */}
+          {isExpanded && (
+            <div className="p-4 pt-2 border-t border-line space-y-3 w-72 text-xs">
+              <div className="flex items-center justify-between text-muted font-semibold uppercase text-[10px]">
+                <span>Cart Planetary Delta</span>
+                <button
+                  type="button"
+                  onClick={() => setIsDismissed(true)}
+                  className="hover:text-danger cursor-pointer p-1"
+                  aria-label="Close widget"
+                >
+                  <X className="w-3 h-3" />
+                </button>
+              </div>
+
+              <div className="grid grid-cols-2 gap-2 text-center">
+                <div className="p-2 rounded-xl bg-surface-sunken border border-line">
+                  <div className="font-bold text-primary">
+                    {impact.totalCo2SavedKg.toFixed(2)} kg
+                  </div>
+                  <div className="text-[10px] text-muted font-medium">CO₂ Prevented</div>
+                </div>
+                <div className="p-2 rounded-xl bg-surface-sunken border border-line">
+                  <div className="font-bold text-accent">
+                    {impact.totalWaterSavedLitres} L
+                  </div>
+                  <div className="text-[10px] text-muted font-medium">Water Saved</div>
+                </div>
+              </div>
+
+              <div className="text-[11px] text-secondary leading-snug">
+                🌱 Your cart averages <strong className="text-heading">Grade {impact.averageGrade}</strong> across {impact.totalItems} audited items.
+              </div>
+            </div>
+          )}
+        </div>
+      </aside>
+
+      {/* Desktop Floating Eco Agent Chat Trigger */}
+      {!isAgentOpen && (
+        <button
+          type="button"
+          onClick={() => setIsAgentOpen(true)}
+          className="hidden md:flex fixed bottom-6 right-6 z-widgets items-center gap-2 px-4 py-2.5 rounded-full bg-primary hover:bg-primary-hover text-primary-contrast shadow-soft-lg cursor-pointer transition-transform active:scale-95 text-xs font-medium focus-visible:outline-2 focus-visible:outline-focus min-h-[44px]"
+          title="Ask Eco Agent AI"
         >
-          <div className="relative">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 block animate-ping absolute inset-0 opacity-75" />
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-600 block relative" />
-          </div>
+          <Bot className="w-4 h-4 text-accent" />
+          <span>Ask Eco Agent</span>
+          <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+        </button>
+      )}
 
-          <div className="text-xs font-bold text-stone-900 dark:text-stone-100 flex items-center gap-1.5">
-            <span>Impact Pulse:</span>
-            <span className="text-emerald-700 dark:text-emerald-400 font-extrabold">
-              {impact.totalPlasticSavedGrams}g Plastic Diverted
-            </span>
-          </div>
-
+      {/* -------------------------------------------------------------
+          Mobile Layout: Single compact floating group above bottom tabs
+          ------------------------------------------------------------- */}
+      <aside
+        aria-label="Mobile Impact & Chat Floating Controls"
+        className="md:hidden fixed bottom-16 inset-x-3 z-widgets flex items-center justify-between gap-2 pointer-events-none select-none animate-slide-up"
+      >
+        {/* Compact Impact Pill */}
+        <div className="relative pointer-events-auto">
           <button
             type="button"
-            className="text-stone-400 hover:text-stone-600 ml-1"
-            aria-label={isExpanded ? "Collapse impact pulse" : "Expand impact pulse"}
+            onClick={() => setIsExpanded(!isExpanded)}
+            className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface/95 backdrop-blur-md border border-line shadow-soft-sm text-xs font-semibold text-heading active:scale-98 transition min-h-[44px]"
+            aria-label="Toggle Impact Details"
           >
-            {isExpanded ? <ChevronDown className="w-3.5 h-3.5" /> : <ChevronUp className="w-3.5 h-3.5" />}
+            <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+            <span className="text-[11px] text-primary font-bold">
+              {impact.totalPlasticSavedGrams}g Diverted
+            </span>
+            {isExpanded ? <ChevronDown className="w-3 h-3 text-muted" /> : <ChevronUp className="w-3 h-3 text-muted" />}
           </button>
+
+          {/* Mobile Details Popover */}
+          {isExpanded && (
+            <div className="absolute bottom-12 left-0 p-3.5 bg-surface rounded-2xl border border-line shadow-soft-xl w-64 text-xs space-y-2 animate-slide-up">
+              <div className="flex items-center justify-between text-muted font-semibold uppercase text-[9px]">
+                <span>Planetary Delta</span>
+                <button
+                  type="button"
+                  onClick={() => setIsExpanded(false)}
+                  className="hover:text-danger p-1"
+                >
+                  <X className="w-3 h-3" />
+                </button>
+              </div>
+
+              <div className="grid grid-cols-2 gap-1.5 text-center">
+                <div className="p-1.5 rounded-xl bg-surface-sunken border border-line">
+                  <div className="font-bold text-primary text-[11px]">
+                    {impact.totalCo2SavedKg.toFixed(2)} kg
+                  </div>
+                  <div className="text-[9px] text-muted">CO₂ Prevented</div>
+                </div>
+                <div className="p-1.5 rounded-xl bg-surface-sunken border border-line">
+                  <div className="font-bold text-accent text-[11px]">
+                    {impact.totalWaterSavedLitres} L
+                  </div>
+                  <div className="text-[9px] text-muted">Water Saved</div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
-        {/* Expanded Details Flyout */}
-        {isExpanded && (
-          <div className="p-4 pt-2 border-t border-stone-100 dark:border-stone-800 space-y-3 w-72 text-xs">
-            <div className="flex items-center justify-between text-stone-500 font-bold uppercase text-[10px]">
-              <span>Cart Planetary Delta</span>
-              <button
-                type="button"
-                onClick={() => setIsDismissed(true)}
-                className="hover:text-rose-500"
-                aria-label="Close widget"
-              >
-                <X className="w-3 h-3" />
-              </button>
-            </div>
-
-            <div className="grid grid-cols-2 gap-2 text-center">
-              <div className="p-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800">
-                <div className="font-black text-emerald-800 dark:text-emerald-300">
-                  {impact.totalCo2SavedKg.toFixed(2)} kg
-                </div>
-                <div className="text-[10px] text-stone-500 font-medium">CO₂ Prevented</div>
-              </div>
-              <div className="p-2 rounded-xl bg-teal-50 dark:bg-teal-950/60 border border-teal-200 dark:border-teal-800">
-                <div className="font-black text-teal-800 dark:text-teal-300">
-                  {impact.totalWaterSavedLitres} L
-                </div>
-                <div className="text-[10px] text-stone-500 font-medium">Water Saved</div>
-              </div>
-            </div>
-
-            <div className="text-[11px] text-stone-600 dark:text-stone-400 leading-snug">
-              🌱 Your cart averages <strong>Grade {impact.averageGrade}</strong> across {impact.totalItems} audited items.
-            </div>
-          </div>
+        {/* Compact Chat Button */}
+        {!isAgentOpen && (
+          <button
+            type="button"
+            onClick={() => setIsAgentOpen(true)}
+            className="pointer-events-auto flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-primary text-primary-contrast shadow-soft-sm text-xs font-medium active:scale-95 transition min-h-[44px]"
+            aria-label="Ask Eco Agent"
+          >
+            <Bot className="w-3.5 h-3.5 text-accent" />
+            <span className="text-[11px]">Chat</span>
+            <Sparkles className="w-3 h-3 text-accent" />
+          </button>
         )}
-      </div>
-    </aside>
+      </aside>
+    </>
   );
 }

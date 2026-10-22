@@ -1,287 +1,224 @@
 @import "tailwindcss";
 @import "./styles/tokens.css";
 
-@custom-variant dark (&:where(.dark, .dark *));
+/* --------------------------------------------------------------------------
+   Tailwind v4 @theme Configuration
+   Maps our semantic tokens & scales into utility classes
+   -------------------------------------------------------------------------- */
+@theme {
+  /* Font families */
+  --font-display: var(--font-display);
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-display);
+  --font-mono: var(--font-mono);
 
+  /* Colors: Surfaces & Semantics */
+  --color-surface: var(--color-surface);
+  --color-surface-raised: var(--color-surface-raised);
+  --color-surface-sunken: var(--color-surface-sunken);
+  --color-surface-accent: var(--color-surface-accent);
+  --color-line: var(--color-line);
+  --color-line-subtle: var(--color-line-subtle);
+  --color-border: var(--color-border);
+  --color-border-subtle: var(--color-border-subtle);
+  --color-heading: var(--color-heading);
+  --color-heading-hover: var(--color-heading-hover);
+  --color-heading-active: var(--color-heading-active);
+  --color-text: var(--color-text-primary);
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-muted: var(--color-text-muted);
+  --color-text-inverted: var(--color-text-inverted);
+  --color-primary: var(--color-primary);
+  --color-primary-hover: var(--color-primary-hover);
+  --color-primary-active: var(--color-primary-active);
+  --color-primary-subtle: var(--color-primary-subtle);
+  --color-secondary: var(--color-secondary);
+  --color-secondary-hover: var(--color-secondary-hover);
+  --color-secondary-subtle: var(--color-secondary-subtle);
+  --color-accent: var(--color-accent);
+  --color-accent-hover: var(--color-accent-hover);
+  --color-accent-subtle: var(--color-accent-subtle);
+  --color-muted: var(--color-text-muted);
+  --color-focus: var(--color-focus);
+  --color-success: var(--color-success);
+  --color-success-subtle: var(--color-success-subtle);
+  --color-warning: var(--color-warning);
+  --color-warning-subtle: var(--color-warning-subtle);
+  --color-danger: var(--color-danger);
+  --color-danger-subtle: var(--color-danger-subtle);
+  --color-info: var(--color-info);
+  --color-info-subtle: var(--color-info-subtle);
+
+  /* Colors: Forest scale */
+  --color-forest-50: var(--color-forest-50);
+  --color-forest-100: var(--color-forest-100);
+  --color-forest-200: var(--color-forest-200);
+  --color-forest-300: var(--color-forest-300);
+  --color-forest-400: var(--color-forest-400);
+  --color-forest-500: var(--color-forest-500);
+  --color-forest-600: var(--color-forest-600);
+  --color-forest-700: var(--color-forest-700);
+  --color-forest-800: var(--color-forest-800);
+  --color-forest-900: var(--color-forest-900);
+  --color-forest-950: var(--color-forest-950);
+
+  /* Colors: Emerald scale */
+  --color-emerald-50: var(--color-emerald-50);
+  --color-emerald-100: var(--color-emerald-100);
+  --color-emerald-200: var(--color-emerald-200);
+  --color-emerald-300: var(--color-emerald-300);
+  --color-emerald-400: var(--color-emerald-400);
+  --color-emerald-500: var(--color-emerald-500);
+  --color-emerald-600: var(--color-emerald-600);
+  --color-emerald-700: var(--color-emerald-700);
+  --color-emerald-800: var(--color-emerald-800);
+  --color-emerald-900: var(--color-emerald-900);
+
+  /* Colors: Teal scale */
+  --color-teal-50: var(--color-teal-50);
+  --color-teal-100: var(--color-teal-100);
+  --color-teal-200: var(--color-teal-200);
+  --color-teal-300: var(--color-teal-300);
+  --color-teal-400: var(--color-teal-400);
+  --color-teal-500: var(--color-teal-500);
+  --color-teal-600: var(--color-teal-600);
+  --color-teal-700: var(--color-teal-700);
+  --color-teal-800: var(--color-teal-800);
+  --color-teal-900: var(--color-teal-900);
+
+  /* Colors: Amber scale */
+  --color-amber-50: var(--color-amber-50);
+  --color-amber-100: var(--color-amber-100);
+  --color-amber-200: var(--color-amber-200);
+  --color-amber-300: var(--color-amber-300);
+  --color-amber-400: var(--color-amber-400);
+  --color-amber-500: var(--color-amber-500);
+  --color-amber-600: var(--color-amber-600);
+  --color-amber-700: var(--color-amber-700);
+  --color-amber-800: var(--color-amber-800);
+  --color-amber-900: var(--color-amber-900);
+
+  /* Colors: Warm Sand scale */
+  --color-sand-50: var(--color-sand-50);
+  --color-sand-100: var(--color-sand-100);
+  --color-sand-200: var(--color-sand-200);
+  --color-sand-300: var(--color-sand-300);
+  --color-sand-400: var(--color-sand-400);
+  --color-sand-500: var(--color-sand-500);
+  --color-sand-600: var(--color-sand-600);
+  --color-sand-700: var(--color-sand-700);
+  --color-sand-800: var(--color-sand-800);
+  --color-sand-900: var(--color-sand-900);
+
+  /* Shadows */
+  --shadow-soft-sm: var(--shadow-soft-sm);
+  --shadow-soft-md: var(--shadow-soft-md);
+  --shadow-soft-lg: var(--shadow-soft-lg);
+  --shadow-card: var(--shadow-card);
+
+  /* Radii */
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --radius-pill: var(--radius-pill);
+
+  /* Canonical Z-Index Scale */
+  --z-base: var(--z-base);
+  --z-nav: var(--z-nav);
+  --z-sticky: var(--z-sticky);
+  --z-widgets: var(--z-widgets);
+  --z-drawers: var(--z-drawers);
+  --z-modals: var(--z-modals);
+  --z-command-palette: var(--z-command-palette);
+  --z-toasts: var(--z-toasts);
+}
+
+/* --------------------------------------------------------------------------
+   Base Styles
+   -------------------------------------------------------------------------- */
 @layer base {
-  body {
-    font-family: var(--font-sans);
-    margin: 0;
-    padding: 0;
-    background-color: var(--bg);
-    color: var(--text);
-    overflow-x: hidden;
-    transition: background-color 0.25s ease, color 0.25s ease;
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
-  h1, h2, h3, h4, .font-heading {
-    color: var(--heading-color);
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--color-surface);
+    color: var(--color-text-primary);
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: var(--font-display);
+    color: var(--color-heading);
     letter-spacing: -0.025em;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
 
   *:focus-visible {
-    outline: 2px solid var(--focus-ring-color, #059669);
+    outline: 2px solid var(--color-focus);
     outline-offset: 2px;
   }
-}
 
-/* ----------------------------------------------------
-   EcoMart Design System & Micro-Interactions
-   Bright LIGHT theme default:
-   - Pure white & soft off-white backgrounds
-   - Deep forest green headings
-   - Emerald & teal primary accents
-   - Amber highlights
-   - Mint-to-white gradient for hero
----------------------------------------------------- */
-
-.font-newsreader {
-  font-family: var(--font-serif);
-}
-
-.font-space-mono {
-  font-family: var(--font-mono);
-}
-
-/* Reduced motion support */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
+  ::selection {
+    background-color: var(--color-emerald-100);
+    color: var(--color-forest-950);
   }
 }
 
-.reduced-motion *, .reduced-motion *::before, .reduced-motion *::after {
-  animation-duration: 0.01ms !important;
-  animation-iteration-count: 1 !important;
-  transition-duration: 0.01ms !important;
-  scroll-behavior: auto !important;
+/* --------------------------------------------------------------------------
+   Tactile Micro-Interactions & Textures
+   -------------------------------------------------------------------------- */
+/* Subtle Organic Paper / Linen Texture Overlay */
+.bg-subtle-grain {
+  background-image: radial-gradient(circle at 1px 1px, rgba(11, 59, 44, 0.035) 1px, transparent 0);
+  background-size: 24px 24px;
 }
 
-/* 16px Subtle Dot Matrix Overlay */
-.bg-graph {
-  background-size: 16px 16px;
-  background-image: radial-gradient(circle, rgba(11, 59, 44, 0.06) 1px, transparent 1px);
+/* 44px Minimum Touch Target */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
 }
 
-html.dark .bg-graph {
-  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+/* Cart Icon Bouncy Animation */
+@keyframes cartBounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.18); }
 }
 
-/* Glassmorphic Header */
+.animate-cart-bounce {
+  animation: cartBounce 0.35s var(--ease-spring);
+}
+
+/* Smooth Slide Animations */
+@keyframes slideUpFade {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slideUpFade 0.28s var(--ease-enter) forwards;
+}
+
+/* Glassmorphism Header */
 .editorial-header {
-  border-bottom: 1px solid var(--line);
-  -webkit-backdrop-filter: blur(16px);
-  backdrop-filter: blur(16px);
-  background: rgba(255, 255, 255, 0.92);
-}
-
-html.dark .editorial-header {
-  background: rgba(8, 22, 17, 0.92);
-}
-
-/* Architectural Brackets */
-.bracket {
-  position: absolute;
-  width: 14px;
-  height: 14px;
-  border: 1px solid var(--theme-bracket, rgba(11, 59, 44, 0.35));
-  pointer-events: none;
-}
-
-html.dark .bracket {
-  border-color: rgba(255, 255, 255, 0.4);
-}
-
-.bracket-tl {
-  top: -1px;
-  left: -1px;
-  border-right: none;
-  border-bottom: none;
-}
-
-.bracket-tr {
-  top: -1px;
-  right: -1px;
-  border-left: none;
-  border-bottom: none;
-}
-
-.bracket-bl {
-  bottom: -1px;
-  left: -1px;
-  border-right: none;
-  border-top: none;
-}
-
-.bracket-br {
-  bottom: -1px;
-  right: -1px;
-  border-left: none;
-  border-top: none;
-}
-
-/* Crosshair Markers */
-.cross-dot {
-  position: absolute;
-  width: 3px;
-  height: 3px;
-  background: var(--heading-color, #0B3B2C);
-  transform: translate(-50%, -50%);
-  opacity: 0.25;
-  pointer-events: none;
-}
-
-html.dark .cross-dot {
-  background: #ffffff;
-  opacity: 0.35;
-}
-
-/* Lens Corner Crosshairs */
-.lens-crosshair {
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: rgba(11, 59, 44, 0.35);
-  font-family: var(--font-mono);
-  font-size: 10px;
-  pointer-events: none;
-}
-
-html.dark .lens-crosshair {
-  color: rgba(255, 255, 255, 0.4);
-}
-
-.lc-tl { top: -6px; left: -6px; }
-.lc-tr { top: -6px; right: -6px; }
-.lc-bl { bottom: -6px; left: -6px; }
-.lc-br { bottom: -6px; right: -6px; }
-
-/* Interactive Eco Button */
-.cyber-button {
-  position: relative;
-  cursor: pointer;
-  border: 1px solid rgba(11, 59, 44, 0.15);
-  padding: 12px 28px;
-  background: var(--heading-color, #0B3B2C);
-  color: #ffffff;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  overflow: hidden;
-  border-radius: 8px;
-  transition: all 0.25s ease;
-}
-
-.cyber-button:hover {
-  background: #06261c;
-  border-color: var(--accent-emerald, #059669);
-  box-shadow: 0 8px 24px rgba(11, 59, 44, 0.18);
-  transform: translateY(-2px);
-}
-
-.cyber-button:active {
-  transform: scale(0.98);
-}
-
-/* Architectural Wireframe Crosshair Frames */
-.f-top {
-  position: absolute;
-  top: 0;
-  left: -2rem;
-  right: -2rem;
-  height: 1px;
-  background: rgba(11, 59, 44, 0.08);
-  pointer-events: none;
-}
-.f-bottom {
-  position: absolute;
-  bottom: 0;
-  left: -2rem;
-  right: -2rem;
-  height: 1px;
-  background: rgba(11, 59, 44, 0.08);
-  pointer-events: none;
-}
-.f-left {
-  position: absolute;
-  top: -2rem;
-  bottom: -2rem;
-  left: 0;
-  width: 1px;
-  background: rgba(11, 59, 44, 0.08);
-  pointer-events: none;
-}
-.f-right {
-  position: absolute;
-  top: -2rem;
-  bottom: -2rem;
-  right: 0;
-  width: 1px;
-  background: rgba(11, 59, 44, 0.08);
-  pointer-events: none;
-}
-
-html.dark .f-top, html.dark .f-bottom, html.dark .f-left, html.dark .f-right {
-  background: rgba(255, 255, 255, 0.12);
-}
-
-/* Floating Color Nodes */
-.color-node {
-  box-shadow: 0 10px 30px rgba(11, 59, 44, 0.06), inset 0 1px rgba(255, 255, 255, 0.6);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(12px);
-  will-change: transform, opacity;
-  border-radius: 12px;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
-}
-
-.color-node:hover {
-  transform: translateY(-4px) scale(1.02);
-  box-shadow: 0 20px 40px rgba(11, 59, 44, 0.12), inset 0 1px rgba(255, 255, 255, 0.8);
-}
-
-/* Editorial Card & Panel */
-.editorial-card {
-  position: relative;
-  background-color: #ffffff;
-  border: 1px solid var(--border-light, rgba(11, 59, 44, 0.08));
-  box-shadow: var(--shadow-card);
-  transition: all 0.3s ease;
-}
-
-.editorial-card:hover {
-  border-color: rgba(5, 150, 105, 0.3);
-  box-shadow: var(--shadow-lg);
-}
-
-html.dark .editorial-card {
-  background-color: #0d221b;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.9), inset 0 1px rgba(255, 255, 255, 0.05);
-}
-
-/* Scrollbar matching light theme */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: var(--bg-soft, #faf9f6);
-}
-::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-border);
 }

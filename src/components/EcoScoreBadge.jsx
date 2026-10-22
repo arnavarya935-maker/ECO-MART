@@ -19,11 +19,11 @@ export default function EcoScoreBadge({
 
   // Ring colors based on grade
   const gradeColors = {
-    A: { stroke: '#059669', bg: '#E8F5EE', text: '#065F46' }, // Emerald
-    B: { stroke: '#0D9488', bg: '#CCFBF1', text: '#115E59' }, // Teal
-    C: { stroke: '#D97706', bg: '#FEF3C7', text: '#92400E' }, // Amber
-    D: { stroke: '#EA580C', bg: '#FFEDD5', text: '#9A3412' }, // Orange
-    E: { stroke: '#DC2626', bg: '#FEE2E2', text: '#991B1B' }  // Red
+    A: { stroke: 'var(--color-primary)', bg: 'var(--color-primary-subtle)', text: 'var(--color-heading)' },
+    B: { stroke: 'var(--color-secondary)', bg: 'var(--color-secondary-subtle)', text: 'var(--color-heading)' },
+    C: { stroke: 'var(--color-accent)', bg: 'var(--color-accent-subtle)', text: 'var(--color-accent)' },
+    D: { stroke: 'var(--color-warning)', bg: 'var(--color-warning-subtle)', text: 'var(--color-warning)' },
+    E: { stroke: 'var(--color-danger)', bg: 'var(--color-danger-subtle)', text: 'var(--color-danger)' }
   };
 
   const currentTheme = gradeColors[grade] || gradeColors.A;
@@ -56,15 +56,15 @@ export default function EcoScoreBadge({
           onClick={handleClick}
           role="status"
           aria-label={`Eco-Score ${score} out of 100, Grade ${grade}`}
-          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-stone-200/80 bg-white shadow-2xs text-xs font-bold cursor-pointer"
+          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-line bg-surface-raised shadow-soft-sm text-xs font-bold cursor-pointer"
         >
           <span
             className="w-2 h-2 rounded-full"
             style={{ backgroundColor: currentTheme.stroke }}
           />
           <span style={{ color: currentTheme.text }}>Grade {grade}</span>
-          <span className="text-stone-300">•</span>
-          <span className="text-stone-700">{score}/100</span>
+          <span className="text-muted">•</span>
+          <span className="text-text">{score}/100</span>
         </div>
       </div>
     );
@@ -92,7 +92,7 @@ export default function EcoScoreBadge({
             cy={dim.size / 2}
             r={dim.radius}
             fill={currentTheme.bg}
-            stroke="#E5E7EB"
+            stroke="var(--color-line)"
             strokeWidth={dim.stroke}
           />
           {/* Colored progress ring */}

@@ -3,17 +3,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 const ThemeContext = createContext();
 
 export function ThemeProvider({ children }) {
-  // Theme state: defaults to light per design system rules
-  const [theme, setTheme] = useState(() => {
-    try {
-      const saved = localStorage.getItem('ecomart_theme');
-      if (saved === 'dark') return 'dark';
-      return 'light';
-    } catch {
-      return 'light';
-    }
-  });
-
+  // Strictly Light Theme per design tokens rules ("Aesop meets Apple" editorial system)
   // Global "Reduce effects" toggle (Rule 5 & Feature 4)
   const [reduceEffects, setReduceEffects] = useState(() => {
     try {
@@ -61,19 +51,6 @@ export function ThemeProvider({ children }) {
 
   useEffect(() => {
     try {
-      localStorage.setItem('ecomart_theme', theme);
-      if (theme === 'dark') {
-        document.documentElement.classList.add('dark');
-        document.documentElement.classList.remove('light');
-      } else {
-        document.documentElement.classList.remove('dark');
-        document.documentElement.classList.add('light');
-      }
-    } catch {}
-  }, [theme]);
-
-  useEffect(() => {
-    try {
       localStorage.setItem('ecomart_reduce_effects', JSON.stringify(reduceEffects));
       if (reduceEffects) {
         document.documentElement.classList.add('reduced-motion');
@@ -117,10 +94,6 @@ export function ThemeProvider({ children }) {
     } catch {}
   }, [textSize]);
 
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
-  };
-
   const toggleReduceEffects = () => {
     setReduceEffects((prev) => !prev);
   };
@@ -128,10 +101,8 @@ export function ThemeProvider({ children }) {
   return (
     <ThemeContext.Provider
       value={{
-        theme,
-        isDark: theme === 'dark',
-        toggleTheme,
-        setTheme,
+        theme: 'light',
+        isDark: false,
         reduceEffects,
         reducedMotion: reduceEffects,
         toggleReduceEffects,

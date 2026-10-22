@@ -15,9 +15,30 @@ if (typeof window !== 'undefined' && 'serviceWorker' in navigator && (import.met
       .register('/sw.js')
       .then((registration) => {
         console.log('[SW] Registered successfully with scope:', registration.scope);
+
+        // Check if an update is already waiting
+        if (registration.waiting && navigator.serviceWorker.controller) {
+          window.dispatchEvent(new CustomEvent('sw-update-waiting', { detail: { registration } }));
+        }
+
+        // Listen for new updates found
+        registration.addEventListener('updatefound', () => {
+          const newWorker = registration.installing;
+          if (!newWorker) return;
+          newWorker.addEventListener('statechange', () => {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              window.dispatchEvent(new CustomEvent('sw-update-waiting', { detail: { registration } }));
+            }
+          });
+        });
       })
       .catch((err) => {
         console.warn('[SW] Registration failed:', err);
       });
+
+    // Reload window when new service worker takes control
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      window.location.reload();
+    });
   });
 }

@@ -49,18 +49,18 @@ export default function WishlistPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 animate-fade-in pb-24">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-stone-200">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-line">
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-rose-800 bg-rose-100 px-2.5 py-0.5 rounded-full">
+            <span className="text-xs font-semibold uppercase tracking-wider text-danger bg-danger/10 border border-danger/20 px-2.5 py-0.5 rounded-full">
               Saved Eco Items
             </span>
-            <span className="text-xs text-stone-500 font-bold">{wishlist.length} item{wishlist.length !== 1 ? 's' : ''}</span>
+            <span className="text-xs text-muted font-medium">{wishlist.length} item{wishlist.length !== 1 ? 's' : ''}</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-black text-[#0B3B2C] mt-1.5">
+          <h1 className="text-3xl sm:text-4xl font-serif font-bold text-heading mt-1.5 tracking-tight">
             My Saved Wishlist
           </h1>
-          <p className="text-xs sm:text-sm text-stone-600 mt-1">
+          <p className="text-xs sm:text-sm text-secondary mt-1">
             Curated conscious essentials saved for future zero-waste shopping.
           </p>
         </div>
@@ -71,18 +71,18 @@ export default function WishlistPage() {
             <button
               type="button"
               onClick={handleCopyLink}
-              className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-2xl bg-white border border-stone-200 hover:bg-stone-50 text-stone-700 text-xs font-bold transition shadow-2xs min-h-[44px]"
+              className="flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-surface border border-line hover:bg-surface-sunken text-secondary text-xs font-medium transition shadow-soft-xs min-h-[44px] cursor-pointer"
             >
-              {copiedType === 'link' ? <Check className="w-4 h-4 text-emerald-600" /> : <Share2 className="w-4 h-4" />}
+              {copiedType === 'link' ? <Check className="w-4 h-4 text-primary" /> : <Share2 className="w-4 h-4" />}
               <span>{copiedType === 'link' ? 'Link Copied!' : 'Copy Share Link'}</span>
             </button>
 
             <button
               type="button"
               onClick={handleCopyTextList}
-              className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-2xl bg-white border border-stone-200 hover:bg-stone-50 text-stone-700 text-xs font-bold transition shadow-2xs min-h-[44px]"
+              className="flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-surface border border-line hover:bg-surface-sunken text-secondary text-xs font-medium transition shadow-soft-xs min-h-[44px] cursor-pointer"
             >
-              {copiedType === 'text' ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
+              {copiedType === 'text' ? <Check className="w-4 h-4 text-primary" /> : <Copy className="w-4 h-4" />}
               <span>{copiedType === 'text' ? 'List Copied!' : 'Copy Text List'}</span>
             </button>
 
@@ -90,9 +90,9 @@ export default function WishlistPage() {
             <button
               type="button"
               onClick={moveAllWishlistToCart}
-              className="flex items-center gap-1.5 px-4 py-2.5 rounded-2xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-black transition shadow-xs min-h-[44px]"
+              className="flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-primary hover:bg-primary-hover text-primary-contrast text-xs font-medium transition shadow-soft-xs min-h-[44px] cursor-pointer"
             >
-              <ShoppingBag className="w-4 h-4" />
+              <ShoppingBag className="w-4 h-4 text-accent" />
               <span>Move All to Cart</span>
             </button>
           </div>
@@ -100,19 +100,19 @@ export default function WishlistPage() {
       </div>
 
       {wishlist.length === 0 ? (
-        <div className="text-center py-20 bg-white rounded-3xl border border-stone-200/80 shadow-xs space-y-4">
-          <div className="w-16 h-16 rounded-full bg-rose-50 text-rose-500 flex items-center justify-center mx-auto text-2xl">
-            <Heart className="w-8 h-8" />
+        <div className="text-center py-20 bg-surface rounded-3xl border border-line shadow-soft-sm space-y-4">
+          <div className="w-16 h-16 rounded-full bg-surface-sunken text-muted flex items-center justify-center mx-auto text-2xl">
+            <Heart className="w-7 h-7" />
           </div>
-          <h3 className="font-black text-lg text-stone-900">
+          <h3 className="font-serif font-bold text-lg text-heading">
             Your wishlist is empty
           </h3>
-          <p className="text-xs text-stone-500 max-w-sm mx-auto leading-relaxed">
+          <p className="text-xs sm:text-sm text-secondary max-w-sm mx-auto leading-relaxed font-normal">
             Click the heart icon on any product in the shop catalog to save sustainable favorites here and generate shareable links.
           </p>
           <Link
             to="/shop"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold shadow-xs transition"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary hover:bg-primary-hover text-primary-contrast text-xs font-medium shadow-soft-xs transition min-h-[44px]"
           >
             <span>Explore Eco Catalog</span>
             <ArrowRight className="w-4 h-4" />

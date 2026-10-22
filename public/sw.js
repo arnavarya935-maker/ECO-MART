@@ -1,36 +1,30 @@
 // Offline-Native Service Worker for EcoMart
-const CACHE_NAME = 'ecomart-offline-v2';
+const CACHE_NAME = 'ecomart-offline-v3';
 const OFFLINE_FALLBACK = '/offline.html';
 
-const STATIC_ASSETS = [
+// Precache ONLY the App Shell
+const APP_SHELL = [
   '/',
   '/index.html',
   '/offline.html',
   '/manifest.json',
   '/favicon.svg',
   '/icons.svg',
-  '/sounds/click.wav',
-  '/sounds/pop.wav',
-  '/sounds/success.wav',
-  '/sounds/swap.wav',
-  '/textures/earth/earth_clouds.png',
-  '/textures/earth/earth_day.jpg',
-  '/textures/earth/earth_night.png',
-  '/textures/earth/earth_normal.jpg',
-  '/textures/earth/earth_specular.jpg'
+  '/fonts/opendyslexic-regular.woff2',
+  '/fonts/opendyslexic-bold.woff2'
 ];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return Promise.all(
-        STATIC_ASSETS.map((asset) =>
+        APP_SHELL.map((asset) =>
           cache.add(asset).catch((err) => {
             console.warn('[SW] Precache failed for:', asset, err);
           })
         )
       );
-    }).then(() => self.skipWaiting())
+    })
   );
 });
 
@@ -47,6 +41,12 @@ self.addEventListener('activate', (event) => {
       );
     }).then(() => self.clients.claim())
   );
+});
+
+self.addEventListener('message', (event) => {
+  if (event.data?.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
 });
 
 self.addEventListener('fetch', (event) => {

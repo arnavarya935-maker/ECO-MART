@@ -116,47 +116,47 @@ export default function ShareableImpactCard() {
   };
 
   return (
-    <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-stone-850 border border-stone-200 dark:border-stone-800 shadow-md max-w-2xl mx-auto space-y-6">
-      <div className="border-b border-stone-100 dark:border-stone-800 pb-4">
-        <span className="text-xs font-black uppercase tracking-wider text-emerald-800 dark:text-emerald-300 bg-emerald-100 dark:bg-emerald-950 px-2.5 py-1 rounded-full">
+    <div className="p-6 sm:p-8 rounded-3xl bg-surface border border-line shadow-soft-sm max-w-2xl mx-auto space-y-6">
+      <div className="border-b border-line pb-4">
+        <span className="text-xs font-semibold uppercase tracking-wider text-primary bg-primary/10 border border-primary/20 px-2.5 py-1 rounded-full">
           Offline Export
         </span>
-        <h3 className="text-xl font-black text-stone-900 dark:text-stone-100 mt-2">
+        <h3 className="text-xl sm:text-2xl font-serif font-bold text-heading mt-2">
           Shareable Impact Certificate
         </h3>
-        <p className="text-xs text-stone-500 dark:text-stone-400 mt-0.5">
+        <p className="text-xs sm:text-sm text-secondary mt-0.5">
           Generate and download a high-resolution PNG impact certificate locally in your browser.
         </p>
       </div>
 
       {/* Visual Preview Card */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-[#0B3B2C] via-[#06241B] to-[#02130D] text-white border-2 border-emerald-500/50 shadow-xl space-y-6 relative overflow-hidden">
-        <div className="flex items-center justify-between border-b border-emerald-600/30 pb-4">
+      <div className="p-6 sm:p-8 rounded-3xl bg-primary text-primary-contrast border border-primary shadow-soft-md space-y-6 relative overflow-hidden">
+        <div className="flex items-center justify-between border-b border-primary-contrast/20 pb-4">
           <div>
-            <div className="text-xs font-extrabold text-emerald-400">EcoMart Certified</div>
-            <div className="text-lg font-black text-white">{userName}</div>
+            <div className="text-xs font-semibold uppercase tracking-wider text-primary-contrast/80">EcoMart Certified</div>
+            <div className="text-lg font-serif font-bold text-primary-contrast mt-0.5">{userName}</div>
           </div>
-          <span className="text-xs px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-400/30">
+          <span className="text-xs px-3 py-1 rounded-full bg-primary-contrast/15 text-primary-contrast font-medium border border-primary-contrast/30">
             Circular Citizen
           </span>
         </div>
 
         <div className="grid grid-cols-3 gap-3 text-center">
-          <div className="p-3 rounded-2xl bg-white/5 border border-emerald-500/20">
-            <div className="text-base sm:text-xl font-black text-emerald-400">{plasticSaved}</div>
-            <div className="text-[10px] text-stone-300 font-medium">Plastic Avoided</div>
+          <div className="p-3.5 rounded-2xl bg-primary-contrast/10 border border-primary-contrast/20">
+            <div className="text-base sm:text-xl font-serif font-bold text-primary-contrast">{plasticSaved}</div>
+            <div className="text-[10px] text-primary-contrast/70 font-medium mt-0.5">Plastic Avoided</div>
           </div>
-          <div className="p-3 rounded-2xl bg-white/5 border border-teal-500/20">
-            <div className="text-base sm:text-xl font-black text-teal-400">{co2Saved}</div>
-            <div className="text-[10px] text-stone-300 font-medium">CO₂ Diverted</div>
+          <div className="p-3.5 rounded-2xl bg-primary-contrast/10 border border-primary-contrast/20">
+            <div className="text-base sm:text-xl font-serif font-bold text-primary-contrast">{co2Saved}</div>
+            <div className="text-[10px] text-primary-contrast/70 font-medium mt-0.5">CO₂ Diverted</div>
           </div>
-          <div className="p-3 rounded-2xl bg-white/5 border border-cyan-500/20">
-            <div className="text-base sm:text-xl font-black text-cyan-400">{waterSaved}</div>
-            <div className="text-[10px] text-stone-300 font-medium">Water Saved</div>
+          <div className="p-3.5 rounded-2xl bg-primary-contrast/10 border border-primary-contrast/20">
+            <div className="text-base sm:text-xl font-serif font-bold text-primary-contrast">{waterSaved}</div>
+            <div className="text-[10px] text-primary-contrast/70 font-medium mt-0.5">Water Saved</div>
           </div>
         </div>
 
-        <div className="text-[11px] text-emerald-200/80 italic text-center">
+        <div className="text-xs text-primary-contrast/80 italic text-center font-serif">
           "Don't just shop. Shop with purpose."
         </div>
       </div>
@@ -168,7 +168,7 @@ export default function ShareableImpactCard() {
         type="button"
         onClick={handleExportPng}
         disabled={downloading}
-        className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold text-xs shadow-md transition active:scale-95 cursor-pointer"
+        className="w-full flex items-center justify-center gap-2 py-3 rounded-full bg-primary hover:bg-primary-hover text-primary-contrast font-medium text-xs shadow-soft-xs transition active:scale-95 cursor-pointer min-h-[44px] focus-visible:outline-2 focus-visible:outline-focus"
       >
         <Download className="w-4 h-4" />
         <span>{downloading ? 'Rendering Image...' : 'Download Impact Card as PNG'}</span>

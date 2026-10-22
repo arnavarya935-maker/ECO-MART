@@ -1,68 +1,84 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Leaf, ShieldCheck, Zap } from 'lucide-react';
+import { Leaf, ShieldCheck, Zap, Mail, CheckCircle2, Award } from 'lucide-react';
 
 export default function Footer() {
+  const [newsletterEmail, setNewsletterEmail] = useState('');
+  const [newsletterSubscribed, setNewsletterSubscribed] = useState(false);
+
+  const handleSubscribe = (e) => {
+    e.preventDefault();
+    if (newsletterEmail.trim()) {
+      setNewsletterSubscribed(true);
+      setNewsletterEmail('');
+    }
+  };
+
   return (
-    <footer className="mt-20 border-t border-stone-200 bg-[#fbfbf9] text-stone-600 transition-colors">
+    <footer className="mt-24 border-t border-line bg-surface-sunken text-secondary transition-colors">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
-          {/* Brand & Manifesto */}
-          <div className="md:col-span-2 space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
+          {/* Brand & Manifesto (2 cols on lg) */}
+          <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-600 to-teal-800 text-white flex items-center justify-center font-bold shadow-xs">
-                <Leaf className="w-5 h-5 text-white" />
+              <div className="w-10 h-10 rounded-2xl bg-heading text-surface-raised flex items-center justify-center font-bold shadow-soft-sm">
+                <Leaf className="w-5 h-5 text-primary" />
               </div>
-              <span className="text-2xl font-black tracking-tight text-[#0B3B2C]">
-                Eco<span className="text-emerald-600">Mart</span>
+              <span className="font-serif text-2xl font-bold tracking-tight text-heading">
+                Eco<span className="text-primary italic">Mart</span>
               </span>
             </div>
 
-            <p className="text-sm text-stone-600 max-w-md leading-relaxed">
-              Every purchase on EcoMart is audited for verified ecological impact, zero single-use plastic, and ethical local production. Making sustainable choices effortless, transparent, and rewarding.
+            <p className="text-sm font-sans text-secondary max-w-md leading-relaxed">
+              Every item in our collection is rigorously vetted for life cycle sustainability, zero single-use plastics, and verified ethical sourcing. Making thoughtful, restorative consumption effortless.
             </p>
 
-            <div className="pt-2 flex flex-wrap gap-2 text-[11px] font-semibold">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200/60 shadow-2xs">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-                100% Zero-Plastic Packaging
+            {/* Trust Marks */}
+            <div className="pt-2 flex flex-wrap gap-2 text-xs font-sans font-medium">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-surface-raised text-heading border border-line shadow-2xs">
+                <ShieldCheck className="w-4 h-4 text-primary" />
+                Zero Plastic Packaging
               </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-amber-50 text-amber-800 border border-amber-200/60 shadow-2xs">
-                <Zap className="w-3.5 h-3.5 text-amber-600" />
-                Offline-First Architecture
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-surface-raised text-heading border border-line shadow-2xs">
+                <Award className="w-4 h-4 text-secondary" />
+                Verified Impact Scores
+              </span>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-surface-raised text-heading border border-line shadow-2xs">
+                <Zap className="w-4 h-4 text-warning" />
+                100% Offline Capable
               </span>
             </div>
           </div>
 
           {/* Quick Navigation */}
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-emerald-900 mb-4">
-              Explore
+            <h4 className="font-serif text-sm font-bold text-heading mb-4 tracking-tight">
+              Curated Catalog
             </h4>
-            <ul className="space-y-2.5 text-xs font-medium text-stone-600">
+            <ul className="space-y-2.5 text-xs font-sans font-medium text-secondary">
               <li>
-                <Link to="/shop" className="hover:text-emerald-700 transition">
+                <Link to="/shop" className="hover:text-heading transition">
                   Sustainable Catalog
                 </Link>
               </li>
               <li>
-                <Link to="/tools" className="hover:text-emerald-700 transition">
-                  Starter Kits & Budget Builder
+                <Link to="/tools" className="hover:text-heading transition">
+                  Starter Kits & Bundles
                 </Link>
               </li>
               <li>
-                <Link to="/impact" className="hover:text-emerald-700 transition">
-                  Impact Proof & Metrics
+                <Link to="/impact" className="hover:text-heading transition">
+                  Verified Impact Metrics
                 </Link>
               </li>
               <li>
-                <Link to="/community" className="hover:text-emerald-700 transition">
-                  Eco Collective
+                <Link to="/community" className="hover:text-heading transition">
+                  Community Collective
                 </Link>
               </li>
               <li>
-                <Link to="/how-it-works" className="hover:text-emerald-700 transition">
-                  Life Cycle Methodology
+                <Link to="/how-it-works" className="hover:text-heading transition">
+                  Methodology & Science
                 </Link>
               </li>
             </ul>
@@ -70,26 +86,78 @@ export default function Footer() {
 
           {/* Scoring Methodology */}
           <div>
-            <h4 className="text-xs font-bold uppercase tracking-wider text-emerald-900 mb-4">
+            <h4 className="font-serif text-sm font-bold text-heading mb-4 tracking-tight">
               Eco Score Formula
             </h4>
-            <ul className="space-y-2 text-xs font-medium text-stone-600">
-              <li>• Renewable Materials (30%)</li>
-              <li>• Plastic-Free Packaging (20%)</li>
-              <li>• Carbon Savings (25%)</li>
-              <li>• Verified Certifications (15%)</li>
-              <li>• Transport & Local Origin (10%)</li>
+            <ul className="space-y-2 text-xs font-sans font-medium text-secondary">
+              <li className="flex items-center justify-between">
+                <span>Renewable Materials</span>
+                <span className="font-semibold text-heading">30%</span>
+              </li>
+              <li className="flex items-center justify-between">
+                <span>Plastic-Free Pack</span>
+                <span className="font-semibold text-heading">20%</span>
+              </li>
+              <li className="flex items-center justify-between">
+                <span>Carbon Savings</span>
+                <span className="font-semibold text-heading">25%</span>
+              </li>
+              <li className="flex items-center justify-between">
+                <span>Certifications</span>
+                <span className="font-semibold text-heading">15%</span>
+              </li>
+              <li className="flex items-center justify-between">
+                <span>Regional Sourcing</span>
+                <span className="font-semibold text-heading">10%</span>
+              </li>
             </ul>
+          </div>
+
+          {/* Newsletter Field */}
+          <div>
+            <h4 className="font-serif text-sm font-bold text-heading mb-4 tracking-tight">
+              Stay Conscious
+            </h4>
+            <p className="text-xs font-sans text-secondary mb-3 leading-relaxed">
+              Curated seasonal guides, circular living tips, and new ethical artisan additions.
+            </p>
+
+            {newsletterSubscribed ? (
+              <div className="flex items-center gap-2 p-3 rounded-2xl bg-surface-accent border border-primary/20 text-heading text-xs font-sans font-medium">
+                <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
+                <span>You're subscribed! Thank you.</span>
+              </div>
+            ) : (
+              <form onSubmit={handleSubscribe} className="space-y-2">
+                <div className="relative">
+                  <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted" />
+                  <input
+                    type="email"
+                    required
+                    placeholder="Enter your email"
+                    value={newsletterEmail}
+                    onChange={(e) => setNewsletterEmail(e.target.value)}
+                    className="w-full pl-10 pr-3 py-2.5 min-h-[44px] text-xs font-sans bg-surface-raised rounded-2xl border border-line focus:outline-2 focus:outline-focus text-text placeholder:text-muted"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="w-full py-2.5 min-h-[44px] px-4 rounded-2xl bg-heading hover:bg-heading-hover text-surface-raised text-xs font-sans font-medium transition cursor-pointer shadow-soft-sm"
+                >
+                  Join Newsletter
+                </button>
+              </form>
+            )}
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-14 pt-6 border-t border-stone-200 flex flex-col sm:flex-row items-center justify-between text-xs text-stone-500 gap-4">
+        <div className="mt-14 pt-6 border-t border-line flex flex-col sm:flex-row items-center justify-between text-xs font-sans text-muted gap-4">
           <div>
-            © 2026 EcoMart. Fast, verified, and transparent sustainable shopping.
+            © 2026 EcoMart. Mindful, transparent, circular lifestyle.
           </div>
-          <div className="flex items-center gap-2 text-emerald-800 font-medium">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+          <div className="flex items-center gap-2 text-heading font-medium">
+            <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
             <span>Autonomous EcoAgent Engine v3.0 Active</span>
           </div>
         </div>
@@ -97,3 +165,4 @@ export default function Footer() {
     </footer>
   );
 }
+

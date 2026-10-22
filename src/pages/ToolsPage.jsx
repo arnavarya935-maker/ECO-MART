@@ -38,19 +38,19 @@ export default function ToolsPage() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 animate-fade-in pb-24">
       {/* Top Header */}
       <div className="text-center max-w-2xl mx-auto space-y-3">
-        <span className="text-xs font-black uppercase tracking-wider text-emerald-800 bg-emerald-100 px-3 py-1 rounded-full inline-block">
+        <span className="text-xs font-semibold tracking-widest uppercase text-primary bg-primary/10 border border-primary/20 px-3.5 py-1 rounded-full inline-block">
           Interactive Sustainable Studio
         </span>
-        <h1 className="text-3xl sm:text-5xl font-black text-[#0B3B2C]">
+        <h1 className="text-3xl sm:text-5xl font-serif font-bold text-heading tracking-tight">
           Tools, Calculators & Guides
         </h1>
-        <p className="text-xs sm:text-sm text-stone-600 leading-relaxed font-medium">
+        <p className="text-sm sm:text-base text-secondary leading-relaxed max-w-xl mx-auto">
           Explore 12 interactive tools designed to audit your habits, optimize budget baskets, calculate your carbon footprint, and decode zero-waste living.
         </p>
       </div>
 
       {/* Tool Selector Tabs Strip */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b border-stone-200">
+      <div className="flex items-center gap-2 overflow-x-auto pb-3 border-b border-line scrollbar-none">
         {TOOL_TABS.map((t) => {
           const Icon = t.icon;
           const isSelected = activeTab === t.id;
@@ -59,13 +59,13 @@ export default function ToolsPage() {
               key={t.id}
               type="button"
               onClick={() => setActiveTab(t.id)}
-              className={`flex items-center gap-2 px-4 py-2.5 rounded-2xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer min-h-[40px] ${
+              className={`flex items-center gap-2.5 px-4 py-2.5 rounded-full text-xs font-medium whitespace-nowrap transition-all cursor-pointer min-h-[44px] focus-visible:outline-2 focus-visible:outline-focus ${
                 isSelected
-                  ? 'bg-emerald-700 text-white shadow-xs'
-                  : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
+                  ? 'bg-primary text-primary-contrast shadow-soft-sm'
+                  : 'bg-surface-sunken text-secondary hover:bg-surface hover:text-heading border border-line'
               }`}
             >
-              <Icon className="w-4 h-4" />
+              <Icon className="w-4 h-4 text-accent" />
               <span>{t.label}</span>
             </button>
           );

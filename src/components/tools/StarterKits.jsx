@@ -67,15 +67,15 @@ export default function StarterKits() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full">
+            <span className="text-xs font-semibold uppercase tracking-wider text-primary bg-primary/10 border border-primary/20 px-2.5 py-0.5 rounded-full">
               Curated Bundles
             </span>
-            <span className="text-xs text-stone-500 font-semibold">1-Click Sustainable Kits</span>
+            <span className="text-xs text-muted font-medium">1-Click Sustainable Kits</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-black text-[#0B3B2C] mt-1">
+          <h2 className="text-2xl sm:text-3xl font-serif font-bold text-heading mt-1">
             Zero-Waste Starter Kits
           </h2>
-          <p className="text-xs sm:text-sm text-stone-600 mt-0.5">
+          <p className="text-xs sm:text-sm text-secondary mt-0.5">
             Pre-assembled conscious bundles designed to switch entire rooms from virgin plastic to regenerative materials.
           </p>
         </div>
@@ -88,54 +88,54 @@ export default function StarterKits() {
           return (
             <div
               key={kit.id}
-              className="p-6 rounded-3xl bg-white border border-stone-200/90 shadow-2xs hover:shadow-md transition-shadow flex flex-col justify-between space-y-5"
+              className="p-6 rounded-3xl bg-surface border border-line shadow-soft-sm hover:shadow-soft-md transition-shadow flex flex-col justify-between space-y-5"
             >
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
+                  <span className="text-xs font-semibold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">
                     {kit.badge}
                   </span>
                   <div className="text-right">
-                    <span className="text-xs text-stone-400 line-through mr-1.5 font-semibold">₹{kit.originalPrice}</span>
-                    <span className="text-lg font-black text-stone-900">₹{kit.bundlePrice}</span>
+                    <span className="text-xs text-muted line-through mr-1.5 font-medium">₹{kit.originalPrice}</span>
+                    <span className="text-lg font-bold text-heading">₹{kit.bundlePrice}</span>
                   </div>
                 </div>
 
                 <div>
-                  <h3 className="text-lg font-black text-[#0B3B2C] leading-snug">
+                  <h3 className="text-lg font-serif font-bold text-heading leading-snug">
                     {kit.name}
                   </h3>
-                  <p className="text-xs text-stone-600 mt-1 leading-relaxed">
+                  <p className="text-xs text-secondary mt-1 leading-relaxed">
                     {kit.tagline}
                   </p>
                 </div>
 
                 {/* Combined Impact Pill */}
-                <div className="p-3 rounded-2xl bg-[#E8F5EE] border border-emerald-200/80 grid grid-cols-3 gap-2 text-center text-xs">
+                <div className="p-3 rounded-2xl bg-surface-sunken border border-line grid grid-cols-3 gap-2 text-center text-xs">
                   <div>
-                    <div className="text-[10px] font-bold text-emerald-700">CO₂ Avoided</div>
-                    <div className="font-black text-emerald-900">{kit.co2Saved}</div>
+                    <div className="text-[10px] font-semibold text-primary">CO₂ Avoided</div>
+                    <div className="font-bold text-heading">{kit.co2Saved}</div>
                   </div>
                   <div>
-                    <div className="text-[10px] font-bold text-amber-700">Plastic Saved</div>
-                    <div className="font-black text-amber-900">{kit.plasticAvoided}</div>
+                    <div className="text-[10px] font-semibold text-warning">Plastic Saved</div>
+                    <div className="font-bold text-heading">{kit.plasticAvoided}</div>
                   </div>
                   <div>
-                    <div className="text-[10px] font-bold text-sky-700">Water Saved</div>
-                    <div className="font-black text-sky-900">{kit.waterSaved}</div>
+                    <div className="text-[10px] font-semibold text-accent">Water Saved</div>
+                    <div className="font-bold text-heading">{kit.waterSaved}</div>
                   </div>
                 </div>
 
                 {/* Items in this bundle */}
-                <div className="space-y-2 pt-2 border-t border-stone-100">
-                  <span className="text-[11px] font-extrabold uppercase tracking-wider text-stone-400 block">
+                <div className="space-y-2 pt-2 border-t border-line">
+                  <span className="text-[11px] font-semibold uppercase tracking-wider text-muted block">
                     Included Items:
                   </span>
                   <div className="space-y-1.5">
                     {items.map((item) => (
-                      <div key={item.id} className="flex items-center gap-2 text-xs text-stone-700">
+                      <div key={item.id} className="flex items-center gap-2 text-xs text-secondary">
                         <span className="text-base">{item.icon}</span>
-                        <span className="font-semibold truncate">{item.name}</span>
+                        <span className="font-medium truncate">{item.name}</span>
                       </div>
                     ))}
                   </div>
@@ -146,7 +146,7 @@ export default function StarterKits() {
               <button
                 type="button"
                 onClick={() => handleAddBundle(kit)}
-                className="w-full py-3 px-4 rounded-2xl bg-emerald-700 hover:bg-emerald-800 text-white font-black text-xs flex items-center justify-center gap-2 transition active:scale-98 shadow-2xs min-h-[44px]"
+                className="w-full py-3 px-4 rounded-full bg-primary hover:bg-primary-hover text-primary-contrast font-medium text-xs flex items-center justify-center gap-2 transition active:scale-98 shadow-soft-sm min-h-[44px] cursor-pointer"
               >
                 <ShoppingBag className="w-4 h-4" />
                 <span>Add Entire Kit to Cart • ₹{kit.bundlePrice}</span>

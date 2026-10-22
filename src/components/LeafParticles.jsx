@@ -46,7 +46,7 @@ export default function LeafParticles() {
             height={p.size}
             viewBox="0 0 24 24"
             fill="currentColor"
-            className="text-emerald-500 transform rotate-45"
+            className="text-primary/40 transform rotate-45"
           >
             <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10c1.85 0 3.58-.5 5.06-1.38L21 21l-.62-3.94C21.39 15.58 22 13.85 22 12c0-5.52-4.48-10-10-10zm-1 15v-4H8l5-7v4h3l-5 7z" />
           </svg>

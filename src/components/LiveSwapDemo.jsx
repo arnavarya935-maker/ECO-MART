@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Sparkles, Check, ShieldAlert, Leaf, ShoppingBag } from 'lucide-react';
 import { useCart } from '../context/CartContext';
-import Button from './ui/Button';
 
 const SWAP_DEMOS = [
   {
@@ -116,16 +115,16 @@ export default function LiveSwapDemo() {
   };
 
   return (
-    <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <section className="py-14 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
       <div className="text-center max-w-2xl mx-auto mb-10">
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 text-xs font-bold uppercase tracking-wider mb-3">
-          <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-subtle text-primary border border-primary/20 text-xs font-sans font-semibold uppercase tracking-wider mb-3">
+          <Sparkles className="w-3.5 h-3.5 text-primary" />
           <span>Interactive Swap Studio</span>
         </div>
-        <h2 className="text-3xl font-black text-stone-900 dark:text-stone-100">
+        <h2 className="font-serif text-3xl sm:text-4xl font-bold text-heading tracking-tight">
           Compare the Swap in Real-Time
         </h2>
-        <p className="text-sm text-stone-600 dark:text-stone-400 mt-2">
+        <p className="font-sans text-xs sm:text-sm text-secondary mt-2">
           See the tangible lifecycle difference when replacing everyday petrochemical items with audited sustainable alternatives.
         </p>
 
@@ -139,10 +138,10 @@ export default function LiveSwapDemo() {
                 setSelectedDemoIndex(idx);
                 setSwappedSuccess(false);
               }}
-              className={`px-4 py-2 rounded-2xl text-xs font-bold transition-all ${
+              className={`px-4 py-2.5 min-h-[44px] rounded-2xl text-xs font-sans font-medium transition-all cursor-pointer ${
                 selectedDemoIndex === idx
-                  ? 'bg-emerald-700 text-white shadow-md'
-                  : 'bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-stone-700'
+                  ? 'bg-primary text-text-inverted shadow-soft-sm font-semibold'
+                  : 'bg-surface-sunken text-secondary hover:text-heading hover:bg-surface-accent border border-line'
               }`}
             >
               {item.conventional.name.split(' (')[0]} → {item.eco.name.split(' (')[0]}
@@ -153,107 +152,107 @@ export default function LiveSwapDemo() {
 
       {/* Side by Side Comparison Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
-        {/* Conventional Card (Red/Gray Alert) */}
-        <div className="rounded-3xl p-6 sm:p-8 bg-rose-50/50 dark:bg-rose-950/20 border-2 border-rose-200 dark:border-rose-900/50 flex flex-col justify-between">
+        {/* Conventional Card */}
+        <div className="rounded-3xl p-6 sm:p-8 bg-surface-sunken border border-line flex flex-col justify-between shadow-soft-sm">
           <div>
             <div className="flex items-center justify-between mb-4">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-100 dark:bg-rose-900/50 text-rose-800 dark:text-rose-300 text-xs font-black">
-                <ShieldAlert className="w-3.5 h-3.5" />
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-danger-subtle text-danger text-xs font-sans font-semibold border border-danger/20">
+                <ShieldAlert className="w-3.5 h-3.5 text-danger" />
                 CONVENTIONAL CHOICE
               </span>
-              <span className="text-xs text-rose-600 dark:text-rose-400 font-bold">Grade E</span>
+              <span className="text-xs font-sans font-semibold text-danger bg-danger-subtle px-2 py-0.5 rounded-md border border-danger/20">
+                Grade E
+              </span>
             </div>
 
-            <h3 className="text-xl font-black text-stone-900 dark:text-stone-100 mb-2">
+            <h3 className="font-serif text-xl font-bold text-heading mb-2">
               {demo.conventional.name}
             </h3>
 
-            <div className="space-y-4 my-6 text-xs text-stone-700 dark:text-stone-300">
-              <div className="flex items-center justify-between p-3 rounded-xl bg-white/80 dark:bg-stone-850/80 border border-rose-100 dark:border-rose-900/30">
-                <span className="font-semibold text-stone-500">Material</span>
-                <span className="font-bold text-rose-600 dark:text-rose-400">{demo.conventional.material}</span>
+            <div className="space-y-3.5 my-6 text-xs font-sans text-text">
+              <div className="flex items-center justify-between p-3.5 rounded-2xl bg-surface-raised border border-line shadow-soft-sm">
+                <span className="font-medium text-muted">Material</span>
+                <span className="font-semibold text-danger">{demo.conventional.material}</span>
               </div>
-              <div className="flex items-center justify-between p-3 rounded-xl bg-white/80 dark:bg-stone-850/80 border border-rose-100 dark:border-rose-900/30">
-                <span className="font-semibold text-stone-500">Packaging</span>
-                <span className="font-bold text-rose-600 dark:text-rose-400">{demo.conventional.packaging}</span>
+              <div className="flex items-center justify-between p-3.5 rounded-2xl bg-surface-raised border border-line shadow-soft-sm">
+                <span className="font-medium text-muted">Packaging</span>
+                <span className="font-semibold text-danger">{demo.conventional.packaging}</span>
               </div>
-              <div className="flex items-center justify-between p-3 rounded-xl bg-white/80 dark:bg-stone-850/80 border border-rose-100 dark:border-rose-900/30">
-                <span className="font-semibold text-stone-500">Plastic Waste</span>
-                <span className="font-black text-rose-600 dark:text-rose-400">{demo.conventional.plasticGrams}g plastic per unit</span>
+              <div className="flex items-center justify-between p-3.5 rounded-2xl bg-surface-raised border border-line shadow-soft-sm">
+                <span className="font-medium text-muted">Plastic Waste</span>
+                <span className="font-bold text-danger">{demo.conventional.plasticGrams}g plastic / unit</span>
               </div>
-              <div className="flex items-center justify-between p-3 rounded-xl bg-white/80 dark:bg-stone-850/80 border border-rose-100 dark:border-rose-900/30">
-                <span className="font-semibold text-stone-500">Landfill Lifespan</span>
-                <span className="font-bold text-stone-600 dark:text-stone-400">{demo.conventional.decomposeYears}</span>
+              <div className="flex items-center justify-between p-3.5 rounded-2xl bg-surface-raised border border-line shadow-soft-sm">
+                <span className="font-medium text-muted">Landfill Lifespan</span>
+                <span className="font-semibold text-secondary">{demo.conventional.decomposeYears}</span>
               </div>
-              <div className="flex items-center justify-between p-3 rounded-xl bg-white/80 dark:bg-stone-850/80 border border-rose-100 dark:border-rose-900/30">
-                <span className="font-semibold text-stone-500">Carbon Footprint</span>
-                <span className="font-bold text-stone-800 dark:text-stone-200">{demo.conventional.carbonKg} kg CO₂</span>
+              <div className="flex items-center justify-between p-3.5 rounded-2xl bg-surface-raised border border-line shadow-soft-sm">
+                <span className="font-medium text-muted">Carbon Footprint</span>
+                <span className="font-semibold text-heading">{demo.conventional.carbonKg} kg CO₂</span>
               </div>
             </div>
           </div>
 
-          <div className="p-4 rounded-2xl bg-white/60 dark:bg-stone-850/60 border border-rose-200 dark:border-rose-900/30 text-xs text-rose-700 dark:text-rose-300">
-            ⚠️ <strong>Environmental Consequence:</strong> Trapped in waterways and landfills for centuries, releasing petrochemical microplastics.
+          <div className="p-4 rounded-2xl bg-surface-raised border border-danger/30 text-xs font-sans text-danger">
+            ⚠️ <strong className="font-semibold">Environmental Consequence:</strong> Trapped in landfills and waterways for centuries, releasing petrochemical microplastics.
           </div>
         </div>
 
-        {/* Eco Alternative Card (Emerald/Teal Glow) */}
-        <div className="rounded-3xl p-6 sm:p-8 bg-emerald-50/60 dark:bg-emerald-950/20 border-2 border-emerald-500 dark:border-emerald-700 shadow-xl flex flex-col justify-between relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-400/10 rounded-full blur-2xl pointer-events-none" />
-
+        {/* Eco Alternative Card */}
+        <div className="rounded-3xl p-6 sm:p-8 bg-surface-raised border-2 border-primary shadow-soft-lg flex flex-col justify-between relative overflow-hidden">
           <div>
             <div className="flex items-center justify-between mb-4">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-600 text-white text-xs font-black shadow-xs">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary text-text-inverted text-xs font-sans font-semibold shadow-soft-sm">
                 <Leaf className="w-3.5 h-3.5" />
                 ECO ALTERNATIVE
               </span>
-              <span className="text-xs font-black text-emerald-800 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950 px-2.5 py-1 rounded-full">
+              <span className="text-xs font-sans font-semibold text-primary bg-primary-subtle px-2.5 py-1 rounded-full border border-primary/30">
                 EcoScore: {demo.eco.ecoScore} (Grade A)
               </span>
             </div>
 
-            <h3 className="text-xl font-black text-stone-900 dark:text-stone-100 mb-2">
+            <h3 className="font-serif text-xl font-bold text-heading mb-2">
               {demo.eco.name}
             </h3>
 
-            <div className="space-y-4 my-6 text-xs text-stone-700 dark:text-stone-300">
-              <div className="flex items-center justify-between p-3 rounded-xl bg-white dark:bg-stone-850 border border-emerald-200 dark:border-emerald-800 shadow-2xs">
-                <span className="font-semibold text-stone-500">Material</span>
-                <span className="font-bold text-emerald-700 dark:text-emerald-300">{demo.eco.material}</span>
+            <div className="space-y-3.5 my-6 text-xs font-sans text-text">
+              <div className="flex items-center justify-between p-3.5 rounded-2xl bg-surface-sunken border border-line shadow-soft-sm">
+                <span className="font-medium text-muted">Material</span>
+                <span className="font-semibold text-primary">{demo.eco.material}</span>
               </div>
-              <div className="flex items-center justify-between p-3 rounded-xl bg-white dark:bg-stone-850 border border-emerald-200 dark:border-emerald-800 shadow-2xs">
-                <span className="font-semibold text-stone-500">Packaging</span>
-                <span className="font-bold text-emerald-700 dark:text-emerald-300">{demo.eco.packaging}</span>
+              <div className="flex items-center justify-between p-3.5 rounded-2xl bg-surface-sunken border border-line shadow-soft-sm">
+                <span className="font-medium text-muted">Packaging</span>
+                <span className="font-semibold text-primary">{demo.eco.packaging}</span>
               </div>
-              <div className="flex items-center justify-between p-3 rounded-xl bg-white dark:bg-stone-850 border border-emerald-200 dark:border-emerald-800 shadow-2xs">
-                <span className="font-semibold text-stone-500">Plastic Waste</span>
-                <span className="font-black text-emerald-700 dark:text-emerald-300">0g (100% Plastic-Free)</span>
+              <div className="flex items-center justify-between p-3.5 rounded-2xl bg-surface-sunken border border-line shadow-soft-sm">
+                <span className="font-medium text-muted">Plastic Waste</span>
+                <span className="font-bold text-primary">0g (100% Plastic-Free)</span>
               </div>
-              <div className="flex items-center justify-between p-3 rounded-xl bg-white dark:bg-stone-850 border border-emerald-200 dark:border-emerald-800 shadow-2xs">
-                <span className="font-semibold text-stone-500">Biodegradability</span>
-                <span className="font-bold text-emerald-700 dark:text-emerald-300">{demo.eco.decomposeYears}</span>
+              <div className="flex items-center justify-between p-3.5 rounded-2xl bg-surface-sunken border border-line shadow-soft-sm">
+                <span className="font-medium text-muted">Biodegradability</span>
+                <span className="font-semibold text-primary">{demo.eco.decomposeYears}</span>
               </div>
-              <div className="flex items-center justify-between p-3 rounded-xl bg-white dark:bg-stone-850 border border-emerald-200 dark:border-emerald-800 shadow-2xs">
-                <span className="font-semibold text-stone-500">Carbon Footprint</span>
-                <span className="font-bold text-emerald-800 dark:text-emerald-200">{demo.eco.carbonKg} kg CO₂ ({demo.impactSaved.carbon})</span>
+              <div className="flex items-center justify-between p-3.5 rounded-2xl bg-surface-sunken border border-line shadow-soft-sm">
+                <span className="font-medium text-muted">Carbon Footprint</span>
+                <span className="font-semibold text-heading">{demo.eco.carbonKg} kg CO₂ ({demo.impactSaved.carbon})</span>
               </div>
             </div>
           </div>
 
           <div className="space-y-4">
-            <div className="p-4 rounded-2xl bg-emerald-100/70 dark:bg-emerald-950/60 border border-emerald-300 dark:border-emerald-800 text-xs text-emerald-900 dark:text-emerald-200">
-              🌱 <strong>Net Savings:</strong> {demo.impactSaved.plastic}. {demo.impactSaved.microplastics}.
+            <div className="p-4 rounded-2xl bg-surface-accent border border-primary/20 text-xs font-sans text-heading">
+              🌱 <strong className="font-semibold">Net Savings:</strong> {demo.impactSaved.plastic}. {demo.impactSaved.microplastics}.
             </div>
 
             <div className="flex items-center gap-3">
-              <Button
-                variant="primary"
+              <button
+                type="button"
                 onClick={handleAddEco}
-                className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl font-black text-xs shadow-md"
+                className="w-full flex items-center justify-center gap-2 py-3 px-4 min-h-[44px] rounded-2xl bg-primary hover:bg-primary-hover text-text-inverted font-sans font-medium text-xs shadow-soft-sm transition-transform active:scale-98 cursor-pointer"
               >
                 {swappedSuccess ? (
                   <>
-                    <Check className="w-4 h-4 text-emerald-300" />
+                    <Check className="w-4 h-4 text-text-inverted" />
                     <span>Added Eco Swap to Cart!</span>
                   </>
                 ) : (
@@ -262,15 +261,15 @@ export default function LiveSwapDemo() {
                     <span>Adopt this Swap</span>
                   </>
                 )}
-              </Button>
+              </button>
               {targetProduct && (
-                <Button
-                  variant="outline"
+                <button
+                  type="button"
                   onClick={() => setSelectedProduct(targetProduct)}
-                  className="px-4 py-3 rounded-2xl text-xs font-bold shrink-0"
+                  className="px-4 py-3 min-h-[44px] rounded-2xl text-xs font-sans font-medium border border-line bg-surface-raised hover:bg-surface-sunken text-heading shrink-0 cursor-pointer shadow-soft-sm"
                 >
                   View Details
-                </Button>
+                </button>
               )}
             </div>
           </div>
@@ -279,3 +278,4 @@ export default function LiveSwapDemo() {
     </section>
   );
 }
+

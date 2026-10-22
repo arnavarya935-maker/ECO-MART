@@ -80,24 +80,24 @@ export default function ShopActiveChips({
   if (chips.length === 0) return null;
 
   return (
-    <div className="flex items-center gap-2 flex-wrap py-2 text-xs animate-fade-in">
-      <span className="text-stone-400 font-bold text-[11px] uppercase tracking-wider mr-1">
+    <div className="flex items-center gap-2 flex-wrap py-2 text-xs font-sans animate-fade-in">
+      <span className="text-muted font-medium text-[11px] uppercase tracking-wider mr-1">
         Active Filters:
       </span>
 
       {chips.map((chip) => (
         <span
           key={chip.id}
-          className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200/80 font-bold shadow-2xs"
+          className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary-subtle text-primary border border-primary/20 font-medium text-xs shadow-soft-sm"
         >
           <span>{chip.label}</span>
           <button
             type="button"
             onClick={chip.onClear}
-            className="p-0.5 rounded-full hover:bg-emerald-200/60 transition text-emerald-700"
+            className="p-1 rounded-full hover:bg-primary/20 transition text-primary cursor-pointer min-w-[24px] min-h-[24px] flex items-center justify-center"
             aria-label={`Clear filter ${chip.label}`}
           >
-            <X className="w-3 h-3" />
+            <X className="w-3.5 h-3.5" />
           </button>
         </span>
       ))}
@@ -105,11 +105,12 @@ export default function ShopActiveChips({
       <button
         type="button"
         onClick={onClearAll}
-        className="inline-flex items-center gap-1 text-[11px] font-bold text-stone-500 hover:text-rose-600 transition ml-1"
+        className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-sans font-medium text-muted hover:text-danger transition cursor-pointer min-h-[32px]"
       >
-        <RotateCcw className="w-3 h-3" />
+        <RotateCcw className="w-3.5 h-3.5" />
         <span>Reset All</span>
       </button>
     </div>
   );
 }
+

@@ -25,23 +25,23 @@ export default function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-md border-b border-stone-200/80 transition-colors">
+    <header className="sticky top-0 z-40 w-full bg-surface/95 backdrop-blur-md border-b border-line transition-colors shadow-2xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between gap-4">
         {/* Brand Logo */}
         <Link
           to="/"
-          className="flex items-center gap-3 group select-none py-1 focus-visible:ring-2 focus-visible:ring-emerald-600 rounded-xl"
+          className="flex items-center gap-3 group select-none py-1 focus-visible:outline-2 focus-visible:outline-focus rounded-xl"
         >
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-600 to-teal-800 text-white flex items-center justify-center font-bold shadow-xs group-hover:scale-105 transition-transform">
-            <Leaf className="w-5 h-5 text-white" />
+          <div className="w-10 h-10 rounded-2xl bg-heading text-surface-raised flex items-center justify-center font-bold shadow-soft-sm group-hover:scale-105 transition-transform duration-200">
+            <Leaf className="w-5 h-5 text-primary" />
           </div>
 
           <div>
             <div className="flex items-baseline gap-2">
-              <span className="text-2xl font-black tracking-tight text-[#0B3B2C]">
-                Eco<span className="text-emerald-600">Mart</span>
+              <span className="font-serif text-2xl font-bold tracking-tight text-heading">
+                Eco<span className="text-primary italic">Mart</span>
               </span>
-              <span className="text-[10px] font-extrabold uppercase tracking-widest px-2 py-0.5 rounded-full bg-emerald-50 border border-emerald-200/60 text-emerald-800 hidden sm:inline-block">
+              <span className="text-[10px] font-sans font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-surface-accent border border-primary/20 text-primary hidden sm:inline-block">
                 Sustainable Living
               </span>
             </div>
@@ -49,20 +49,20 @@ export default function Navbar() {
         </Link>
 
         {/* Navigation Links - Desktop */}
-        <nav className="hidden lg:flex items-center gap-7 text-xs font-bold tracking-tight">
+        <nav className="hidden lg:flex items-center gap-7 text-xs font-sans font-medium tracking-normal" aria-label="Main Navigation">
           {navLinks.map((link) => (
             <Link
               key={link.path}
               to={link.path}
-              className={`transition-colors py-1 relative ${
+              className={`transition-colors py-2 relative min-h-[44px] flex items-center ${
                 isLinkActive(link.path)
-                  ? 'text-emerald-700 font-extrabold'
-                  : 'text-stone-600 hover:text-emerald-800'
+                  ? 'text-heading font-semibold'
+                  : 'text-secondary hover:text-heading'
               }`}
             >
               {link.label}
               {isLinkActive(link.path) && (
-                <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-emerald-600 rounded-full" />
+                <span className="absolute bottom-1 left-0 right-0 h-0.5 bg-primary rounded-full" />
               )}
             </Link>
           ))}
@@ -70,18 +70,18 @@ export default function Navbar() {
 
         {/* Action Controls */}
         <div className="flex items-center gap-2 sm:gap-2.5">
-          {/* Command Palette Trigger (Feature 18) */}
+          {/* Command Palette Trigger */}
           <button
             type="button"
             onClick={() => {
               window.dispatchEvent(new CustomEvent('toggle-command-palette'));
             }}
             title="Search & Quick Actions (Ctrl+K)"
-            className="flex items-center gap-2 px-3 py-2 rounded-2xl border border-stone-200 bg-stone-50 hover:bg-stone-100 text-stone-600 text-xs font-medium transition cursor-pointer shadow-2xs min-h-[44px]"
+            className="flex items-center gap-2 px-3.5 py-2 rounded-2xl border border-line bg-surface-sunken hover:bg-surface-sunken text-secondary text-xs font-sans font-medium transition cursor-pointer min-h-[44px]"
           >
-            <Search className="w-3.5 h-3.5 text-stone-500" />
-            <span className="hidden sm:inline text-stone-500">Search products...</span>
-            <kbd className="hidden sm:inline px-1.5 py-0.5 text-[10px] font-mono bg-white border border-stone-200 rounded text-stone-400 font-bold">
+            <Search className="w-3.5 h-3.5 text-muted" />
+            <span className="hidden sm:inline text-muted">Search products...</span>
+            <kbd className="hidden sm:inline px-1.5 py-0.5 text-[10px] font-mono bg-surface-raised border border-line rounded text-muted font-semibold">
               ⌘K
             </kbd>
           </button>
@@ -90,11 +90,11 @@ export default function Navbar() {
           <Link
             to="/wishlist"
             title="Saved Items"
-            className="relative p-2.5 rounded-2xl border border-stone-200 bg-white hover:bg-stone-50 text-stone-700 hover:text-rose-600 transition shadow-2xs min-h-[44px] min-w-[44px] flex items-center justify-center"
+            className="relative p-2.5 rounded-2xl border border-line bg-surface-raised hover:bg-surface-sunken text-secondary hover:text-danger transition min-h-[44px] min-w-[44px] flex items-center justify-center cursor-pointer"
           >
             <Heart className="w-4 h-4" />
             {wishlist && wishlist.length > 0 && (
-              <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-rose-500 text-white text-[9px] font-extrabold flex items-center justify-center shadow-xs">
+              <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-danger text-surface-raised text-[9px] font-sans font-bold flex items-center justify-center shadow-xs">
                 {wishlist.length}
               </span>
             )}
@@ -106,10 +106,10 @@ export default function Navbar() {
               type="button"
               onClick={() => setIsCompareOpen(true)}
               title="Compare Diagnostics"
-              className="relative p-2.5 rounded-2xl border border-stone-200 bg-white hover:bg-stone-50 text-stone-700 hover:text-teal-700 transition shadow-2xs min-h-[44px] min-w-[44px] flex items-center justify-center"
+              className="relative p-2.5 rounded-2xl border border-line bg-surface-raised hover:bg-surface-sunken text-secondary hover:text-secondary transition min-h-[44px] min-w-[44px] flex items-center justify-center cursor-pointer"
             >
               <Scale className="w-4 h-4" />
-              <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-teal-600 text-white text-[9px] font-extrabold flex items-center justify-center shadow-xs">
+              <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-secondary text-surface-raised text-[9px] font-sans font-bold flex items-center justify-center shadow-xs">
                 {compareList.length}
               </span>
             </button>
@@ -122,23 +122,23 @@ export default function Navbar() {
           <button
             type="button"
             onClick={() => setIsAgentOpen(true)}
-            className="flex items-center gap-1.5 px-3.5 py-2 rounded-2xl border border-emerald-200 bg-[#E8F5EE] hover:bg-emerald-100/80 text-emerald-800 text-xs font-bold transition shadow-2xs cursor-pointer min-h-[44px]"
+            className="flex items-center gap-1.5 px-3.5 py-2 rounded-2xl border border-primary/20 bg-surface-accent hover:bg-surface-accent text-heading text-xs font-sans font-medium transition cursor-pointer min-h-[44px]"
             title="Launch Offline Eco Agent Assistant"
           >
-            <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+            <Sparkles className="w-3.5 h-3.5 text-primary" />
             <span className="hidden sm:inline">Eco Agent</span>
           </button>
 
-          {/* Cart Trigger */}
+          {/* Cart Trigger with bounce */}
           <button
             type="button"
             onClick={() => setIsCartOpen(true)}
-            className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-extrabold transition shadow-xs cursor-pointer min-h-[44px]"
+            className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-heading hover:bg-heading-hover text-surface-raised text-xs font-sans font-medium transition-all shadow-soft-sm active:scale-95 cursor-pointer min-h-[44px]"
           >
-            <ShoppingBag className="w-4 h-4" />
+            <ShoppingBag className="w-4 h-4 text-primary" />
             <span className="hidden sm:inline">Cart</span>
             {impact.totalItems > 0 && (
-              <span className="px-1.5 py-0.2 bg-white text-emerald-800 text-[10px] rounded-full font-black">
+              <span className="px-1.5 py-0.2 bg-primary text-surface-raised text-[10px] rounded-full font-bold animate-bounce-subtle">
                 {impact.totalItems}
               </span>
             )}
@@ -148,3 +148,4 @@ export default function Navbar() {
     </header>
   );
 }
+

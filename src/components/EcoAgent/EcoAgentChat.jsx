@@ -170,20 +170,20 @@ export default function EcoAgentChat() {
       role="dialog"
       aria-modal="true"
       aria-label="Eco Agent Chat Assistant"
-      className="fixed bottom-6 right-6 z-50 w-full sm:w-[420px] max-w-[calc(100vw-2rem)] h-[600px] max-h-[85vh] bg-white border border-emerald-300 rounded-3xl shadow-2xl flex flex-col overflow-hidden text-stone-900 animate-slide-up"
+      className="fixed bottom-20 sm:bottom-6 right-3 sm:right-6 z-drawers w-full sm:w-[420px] max-w-[calc(100vw-1.5rem)] h-[600px] max-h-[calc(100dvh-6.5rem)] bg-surface border border-line rounded-3xl shadow-soft-xl flex flex-col overflow-hidden text-text animate-slide-up"
     >
       {/* Top Header Bar */}
-      <div className="p-4 bg-gradient-to-r from-[#0B3B2C] to-[#047857] text-white flex items-center justify-between shadow-xs">
+      <div className="p-4 bg-primary text-primary-contrast flex items-center justify-between shadow-soft-xs">
         <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-2xl bg-white/15 backdrop-blur-md flex items-center justify-center border border-white/20">
-            <Bot className="w-5 h-5 text-emerald-200" />
+          <div className="w-9 h-9 rounded-2xl bg-primary-hover/80 flex items-center justify-center border border-primary-contrast/20">
+            <Bot className="w-5 h-5 text-primary-contrast" />
           </div>
           <div>
-            <div className="font-black text-sm flex items-center gap-1.5">
+            <div className="font-serif font-bold text-sm flex items-center gap-1.5">
               <span>Eco Agent</span>
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-primary-contrast animate-pulse" />
             </div>
-            <div className="text-[10px] text-emerald-100 font-bold flex items-center gap-1">
+            <div className="text-[10px] text-primary-contrast/80 font-medium flex items-center gap-1">
               <span>100% Offline Assistant</span>
             </div>
           </div>
@@ -204,7 +204,7 @@ export default function EcoAgentChat() {
                 }
               ])
             }
-            className="p-1.5 text-emerald-200 hover:text-white rounded-xl hover:bg-white/10 transition"
+            className="w-9 h-9 text-primary-contrast/80 hover:text-primary-contrast rounded-xl hover:bg-primary-hover flex items-center justify-center transition-colors focus-visible:outline-2 focus-visible:outline-focus"
             title="Clear Chat"
           >
             <Trash2 className="w-4 h-4" />
@@ -213,7 +213,7 @@ export default function EcoAgentChat() {
           <button
             type="button"
             onClick={() => setIsAgentOpen(false)}
-            className="p-1.5 text-emerald-200 hover:text-white rounded-xl hover:bg-white/10 transition"
+            className="w-9 h-9 text-primary-contrast/80 hover:text-primary-contrast rounded-xl hover:bg-primary-hover flex items-center justify-center transition-colors focus-visible:outline-2 focus-visible:outline-focus"
             aria-label="Close Agent"
           >
             <X className="w-5 h-5" />
@@ -222,31 +222,31 @@ export default function EcoAgentChat() {
       </div>
 
       {/* Messages Scroll Area */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-[#FAF9F6]">
+      <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-surface-sunken/50">
         {messages.map((msg) => (
           <div
             key={msg.id}
             className={`flex gap-2.5 ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
           >
             {msg.sender === 'agent' && (
-              <div className="w-7 h-7 rounded-xl bg-emerald-700 text-white flex items-center justify-center text-xs shrink-0 mt-0.5 shadow-2xs">
+              <div className="w-7 h-7 rounded-xl bg-primary text-primary-contrast flex items-center justify-center text-xs shrink-0 mt-0.5 shadow-soft-xs">
                 <Bot className="w-4 h-4" />
               </div>
             )}
 
             <div
-              className={`max-w-[85%] rounded-2xl p-3.5 text-xs space-y-2.5 shadow-2xs ${
+              className={`max-w-[85%] rounded-2xl p-3.5 text-xs space-y-2.5 shadow-soft-xs ${
                 msg.sender === 'user'
-                  ? 'bg-emerald-700 text-white rounded-tr-xs'
-                  : 'bg-white text-stone-850 border border-stone-200/90 rounded-tl-xs'
+                  ? 'bg-primary text-primary-contrast rounded-tr-xs'
+                  : 'bg-surface text-text border border-line rounded-tl-xs'
               }`}
             >
-              <div className="leading-relaxed font-medium whitespace-pre-wrap">{msg.text}</div>
+              <div className="leading-relaxed font-normal whitespace-pre-wrap">{msg.text}</div>
 
               {/* Recommended Product Cards Inside Chat (Feature 20) */}
               {msg.data && msg.data.length > 0 && (
-                <div className="space-y-2 pt-1 border-t border-stone-100">
-                  <span className="text-[10px] font-extrabold uppercase text-stone-400 block">
+                <div className="space-y-2 pt-1 border-t border-line">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-muted block">
                     Recommended Sustainable Options:
                   </span>
                   <div className="space-y-1.5">
@@ -255,22 +255,22 @@ export default function EcoAgentChat() {
                       return (
                         <div
                           key={prod.id}
-                          className="p-2.5 rounded-xl bg-stone-50 border border-stone-200 flex items-center justify-between gap-2 text-stone-900"
+                          className="p-2.5 rounded-xl bg-surface-sunken border border-line flex items-center justify-between gap-2 text-text shadow-soft-xs"
                         >
                           <div className="flex items-center gap-2 min-w-0">
                             <span className="text-xl">{prod.icon}</span>
                             <div className="min-w-0">
-                              <span className="font-bold text-xs truncate block">{prod.name}</span>
-                              <span className="text-[10px] text-emerald-800 font-black">₹{prod.price}</span>
+                              <span className="font-bold text-xs truncate block text-heading">{prod.name}</span>
+                              <span className="text-[10px] font-serif font-bold text-primary">₹{prod.price}</span>
                             </div>
                           </div>
 
                           <button
                             type="button"
                             onClick={() => handleAddProductFromChat(prod)}
-                            className="px-2.5 py-1.5 rounded-lg bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-[10px] flex items-center gap-1 shrink-0 transition"
+                            className="px-2.5 py-1.5 rounded-lg bg-primary hover:bg-primary-hover text-primary-contrast font-semibold text-[10px] flex items-center gap-1 shrink-0 transition-colors shadow-soft-xs focus-visible:outline-2 focus-visible:outline-focus"
                           >
-                            {isAdded ? <Check className="w-3 h-3 text-emerald-200" /> : <ShoppingBag className="w-3 h-3" />}
+                            {isAdded ? <Check className="w-3 h-3" /> : <ShoppingBag className="w-3 h-3" />}
                             <span>{isAdded ? 'Added' : 'Add'}</span>
                           </button>
                         </div>
@@ -282,18 +282,18 @@ export default function EcoAgentChat() {
 
               {/* Cart Review Swaps Inside Chat */}
               {msg.cartReview && msg.cartReview.suggestions && msg.cartReview.suggestions.length > 0 && (
-                <div className="space-y-2 pt-1 border-t border-stone-100">
-                  <span className="text-[10px] font-extrabold uppercase text-amber-700 block">
+                <div className="space-y-2 pt-1 border-t border-line">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-accent block">
                     Proposed Swaps:
                   </span>
                   {msg.cartReview.suggestions.map((swap, sIdx) => (
                     <div
                       key={sIdx}
-                      className="p-2.5 rounded-xl bg-amber-50/70 border border-amber-200 text-stone-900 flex items-center justify-between gap-2"
+                      className="p-2.5 rounded-xl bg-accent/10 border border-accent/30 text-text flex items-center justify-between gap-2 shadow-soft-xs"
                     >
                       <div className="text-[11px] min-w-0">
-                        <span className="line-through text-stone-400 block truncate">{swap.from.name}</span>
-                        <span className="font-bold text-emerald-800 block truncate">➔ {swap.to.name}</span>
+                        <span className="line-through text-muted block truncate">{swap.from.name}</span>
+                        <span className="font-bold text-heading block truncate">➔ {swap.to.name}</span>
                       </div>
                       <button
                         type="button"
@@ -302,7 +302,7 @@ export default function EcoAgentChat() {
                           playSound('swap');
                           showToast(`Swapped to ${swap.to.name}!`, 'swap');
                         }}
-                        className="px-2.5 py-1 rounded-lg bg-emerald-700 text-white font-bold text-[10px] shrink-0"
+                        className="px-2.5 py-1 rounded-lg bg-primary hover:bg-primary-hover text-primary-contrast font-bold text-[10px] shrink-0 transition-colors focus-visible:outline-2 focus-visible:outline-focus"
                       >
                         Swap
                       </button>
@@ -314,7 +314,7 @@ export default function EcoAgentChat() {
               {/* Message Timestamp */}
               <div
                 className={`text-[9px] ${
-                  msg.sender === 'user' ? 'text-emerald-100/70' : 'text-stone-400'
+                  msg.sender === 'user' ? 'text-primary-contrast/80' : 'text-muted'
                 } text-right`}
               >
                 {msg.timestamp}
@@ -322,7 +322,7 @@ export default function EcoAgentChat() {
             </div>
 
             {msg.sender === 'user' && (
-              <div className="w-7 h-7 rounded-xl bg-stone-200 text-stone-700 flex items-center justify-center text-xs shrink-0 mt-0.5">
+              <div className="w-7 h-7 rounded-xl bg-surface-sunken text-secondary flex items-center justify-center text-xs shrink-0 mt-0.5 border border-line">
                 <User className="w-4 h-4" />
               </div>
             )}
@@ -330,12 +330,12 @@ export default function EcoAgentChat() {
         ))}
 
         {loading && (
-          <div className="flex gap-2.5 items-center text-xs text-stone-500">
-            <div className="w-7 h-7 rounded-xl bg-emerald-700 text-white flex items-center justify-center">
+          <div className="flex gap-2.5 items-center text-xs text-muted">
+            <div className="w-7 h-7 rounded-xl bg-primary text-primary-contrast flex items-center justify-center">
               <Bot className="w-4 h-4 animate-spin" />
             </div>
-            <div className="p-3 bg-white rounded-2xl border border-stone-200 text-xs font-semibold flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-ping" />
+            <div className="p-3 bg-surface rounded-2xl border border-line text-xs font-medium flex items-center gap-1.5 shadow-soft-xs">
+              <span className="w-1.5 h-1.5 rounded-full bg-primary animate-ping" />
               <span>Analyzing local eco-catalog...</span>
             </div>
           </div>
@@ -345,13 +345,13 @@ export default function EcoAgentChat() {
       </div>
 
       {/* Quick Reply Chips (Feature 20) */}
-      <div className="p-2 bg-stone-50 border-t border-stone-200 overflow-x-auto flex items-center gap-1.5 scrollbar-none">
+      <div className="p-2.5 bg-surface-sunken border-t border-line overflow-x-auto flex items-center gap-1.5 scrollbar-none">
         {QUICK_CHIPS.map((chip) => (
           <button
             key={chip.id}
             type="button"
             onClick={() => handleSendMessage(chip.query)}
-            className="px-2.5 py-1 rounded-full bg-white hover:bg-emerald-50 hover:text-emerald-800 text-stone-700 text-[11px] font-bold border border-stone-200 transition shrink-0 shadow-2xs"
+            className="px-3 py-1.5 rounded-full bg-surface hover:bg-primary/10 hover:text-primary text-secondary text-[11px] font-semibold border border-line transition-colors shrink-0 shadow-soft-xs focus-visible:outline-2 focus-visible:outline-focus min-h-[32px]"
           >
             {chip.label}
           </button>
@@ -359,15 +359,15 @@ export default function EcoAgentChat() {
       </div>
 
       {/* Message Input Box */}
-      <div className="p-3 bg-white border-t border-stone-200 flex items-center gap-2">
+      <div className="p-3 bg-surface border-t border-line flex items-center gap-2">
         {speechSupported && (
           <button
             type="button"
             onClick={toggleVoiceInput}
-            className={`p-2.5 rounded-xl border transition ${
+            className={`w-11 h-11 rounded-xl border flex items-center justify-center transition-colors focus-visible:outline-2 focus-visible:outline-focus ${
               isListening
-                ? 'bg-rose-50 border-rose-300 text-rose-600 animate-pulse'
-                : 'bg-stone-50 border-stone-200 text-stone-500 hover:text-stone-800'
+                ? 'bg-danger/10 border-danger text-danger animate-pulse'
+                : 'bg-surface-sunken border-line text-muted hover:text-heading'
             }`}
             title={isListening ? 'Listening...' : 'Voice Input'}
           >
@@ -383,14 +383,14 @@ export default function EcoAgentChat() {
             if (e.key === 'Enter') handleSendMessage();
           }}
           placeholder="Ask about swaps, budget gifts, scoring..."
-          className="flex-1 bg-stone-50 border border-stone-200 rounded-xl px-3.5 py-2 text-xs font-medium outline-hidden focus:border-emerald-600 focus:bg-white transition"
+          className="flex-1 bg-surface-sunken border border-line rounded-xl px-3.5 py-2.5 text-xs font-medium outline-hidden focus:border-primary focus:bg-surface transition-colors min-h-[44px] text-heading placeholder:text-muted focus:outline-2 focus:outline-focus"
         />
 
         <button
           type="button"
           onClick={() => handleSendMessage()}
           disabled={!input.trim() || loading}
-          className="p-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 disabled:opacity-40 text-white transition active:scale-95 shadow-xs"
+          className="w-11 h-11 rounded-xl bg-primary hover:bg-primary-hover disabled:opacity-40 text-primary-contrast transition-all active:scale-[0.98] shadow-soft-xs flex items-center justify-center focus-visible:outline-2 focus-visible:outline-focus"
           aria-label="Send message"
         >
           <Send className="w-4 h-4" />

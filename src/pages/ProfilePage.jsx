@@ -39,14 +39,14 @@ const WEEKLY_IMPACT_DATA = [
 ];
 
 const LOCAL_AVATARS = [
-  { id: 'av-1', name: 'Bamboo Forester', emoji: '🎋', bg: 'from-emerald-600 to-teal-700' },
-  { id: 'av-2', name: 'Ocean Rescuer', emoji: '🌊', bg: 'from-sky-600 to-blue-700' },
-  { id: 'av-3', name: 'Solar Pioneer', emoji: '☀️', bg: 'from-amber-500 to-orange-600' },
-  { id: 'av-4', name: 'Wildlife Guardian', emoji: '🐘', bg: 'from-emerald-700 to-stone-800' },
-  { id: 'av-5', name: 'Pollinator Keeper', emoji: '🐝', bg: 'from-yellow-500 to-amber-600' },
-  { id: 'av-6', name: 'Zero Waste Guide', emoji: '🥗', bg: 'from-teal-600 to-emerald-800' },
-  { id: 'av-7', name: 'Seed Planter', emoji: '🌱', bg: 'from-green-600 to-emerald-700' },
-  { id: 'av-8', name: 'Canopy Steward', emoji: '🌲', bg: 'from-emerald-800 to-teal-900' }
+  { id: 'av-1', name: 'Bamboo Forester', emoji: '🎋' },
+  { id: 'av-2', name: 'Ocean Rescuer', emoji: '🌊' },
+  { id: 'av-3', name: 'Solar Pioneer', emoji: '☀️' },
+  { id: 'av-4', name: 'Wildlife Guardian', emoji: '🐘' },
+  { id: 'av-5', name: 'Pollinator Keeper', emoji: '🐝' },
+  { id: 'av-6', name: 'Zero Waste Guide', emoji: '🥗' },
+  { id: 'av-7', name: 'Seed Planter', emoji: '🌱' },
+  { id: 'av-8', name: 'Canopy Steward', emoji: '🌲' }
 ];
 
 export default function ProfilePage() {
@@ -110,58 +110,58 @@ export default function ProfilePage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 animate-fade-in pb-24">
       {/* Profile Header Banner */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-[#0B3B2C] to-[#047857] text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden">
+      <div className="p-6 sm:p-8 rounded-3xl bg-primary text-primary-contrast shadow-soft-md border border-primary/20 flex flex-col md:flex-row md:items-center justify-between gap-6 relative overflow-hidden">
         <div className="flex items-center gap-4 z-10">
           <button
             type="button"
             onClick={() => setAvatarModalOpen(true)}
-            className="w-20 h-20 rounded-3xl bg-white/15 border-2 border-white/30 flex items-center justify-center text-3xl font-black text-white shadow-inner hover:scale-105 transition cursor-pointer relative group shrink-0"
+            className="w-20 h-20 rounded-2xl bg-surface/15 border border-primary-contrast/20 flex items-center justify-center text-3xl font-bold text-primary-contrast shadow-soft-xs hover:scale-105 transition cursor-pointer relative group shrink-0 min-h-[44px]"
             title="Click to choose a local avatar"
           >
             {currentUser?.avatar || '🌱'}
-            <div className="absolute inset-0 bg-black/60 rounded-3xl opacity-0 group-hover:opacity-100 flex items-center justify-center text-[10px] font-black text-white transition">
+            <div className="absolute inset-0 bg-primary-hover/90 rounded-2xl opacity-0 group-hover:opacity-100 flex items-center justify-center text-[10px] font-semibold text-primary-contrast transition">
               Change
             </div>
           </button>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="text-2xl sm:text-3xl font-black text-white">
+              <h1 className="text-2xl sm:text-3xl font-serif font-bold text-primary-contrast tracking-tight">
                 {currentUser?.name || 'Conscious Explorer'}
               </h1>
               {isGuest && (
-                <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-amber-400 text-stone-950">
+                <span className="text-[10px] uppercase font-semibold tracking-wider px-2.5 py-0.5 rounded-full bg-warning text-primary-contrast">
                   Guest
                 </span>
               )}
             </div>
-            <p className="text-xs text-emerald-200 mt-0.5">
+            <p className="text-xs text-primary-contrast/80 mt-0.5 font-normal">
               {currentUser?.email || 'Offline Guest Session'}
             </p>
-            <div className="flex items-center gap-3 mt-2 text-xs font-bold text-emerald-100">
+            <div className="flex items-center gap-3 mt-2 text-xs font-medium text-primary-contrast/90">
               <span className="flex items-center gap-1">
-                <Flame className="w-4 h-4 text-amber-400" /> {currentStreakDays} Day Streak
+                <Flame className="w-4 h-4 text-warning" /> {currentStreakDays} Day Streak
               </span>
               <span>•</span>
               <span className="flex items-center gap-1">
-                <Sparkles className="w-4 h-4 text-emerald-300" /> {points} Eco Points
+                <Sparkles className="w-4 h-4 text-accent" /> {points} Eco Points
               </span>
             </div>
           </div>
         </div>
 
         {/* Level Progression Card */}
-        <div className="p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 min-w-[260px] space-y-2 z-10">
-          <div className="flex items-center justify-between text-xs font-bold">
+        <div className="p-4 rounded-2xl bg-surface/15 border border-primary-contrast/15 min-w-[260px] space-y-2 z-10">
+          <div className="flex items-center justify-between text-xs font-medium">
             <span>{level.title}</span>
-            <span className="text-emerald-300">{level.progress}%</span>
+            <span className="text-accent font-semibold">{level.progress}%</span>
           </div>
           <div className="w-full h-2 rounded-full bg-black/20 overflow-hidden">
             <div
-              className="h-full bg-gradient-to-r from-emerald-400 to-teal-300 rounded-full transition-all duration-700"
+              className="h-full bg-accent rounded-full transition-all duration-700"
               style={{ width: `${level.progress}%` }}
             />
           </div>
-          <div className="text-[11px] text-emerald-200 flex justify-between">
+          <div className="text-[11px] text-primary-contrast/80 flex justify-between font-normal">
             <span>Next: {level.next}</span>
             <span>{points}/{level.target} pts</span>
           </div>
@@ -171,15 +171,15 @@ export default function ProfilePage() {
       {/* Feature 24: Weekly Timeline Impact Chart & Metrics */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Weekly Timeline Chart (7 Cols) */}
-        <div className="lg:col-span-7 p-6 rounded-3xl bg-white border border-stone-200/90 shadow-2xs space-y-4">
+        <div className="lg:col-span-7 p-6 rounded-3xl bg-surface border border-line shadow-soft-sm space-y-4">
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="font-extrabold text-base text-[#0B3B2C]">
+              <h2 className="font-serif font-bold text-base sm:text-lg text-heading">
                 Weekly Environmental Timeline
               </h2>
-              <p className="text-xs text-stone-500">Cumulative CO₂ avoided throughout the week</p>
+              <p className="text-xs text-secondary font-normal">Cumulative CO₂ avoided throughout the week</p>
             </div>
-            <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
+            <span className="text-xs font-medium px-2.5 py-1 rounded-full bg-primary/10 text-primary border border-primary/20">
               7-Day Activity
             </span>
           </div>
@@ -189,26 +189,56 @@ export default function ProfilePage() {
               <AreaChart data={WEEKLY_IMPACT_DATA}>
                 <defs>
                   <linearGradient id="impactCo2Grad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stop-color="#059669" stopOpacity={0.4} />
-                    <stop offset="95%" stop-color="#059669" stopOpacity={0.0} />
+                    <stop offset="5%" stopColor="var(--color-primary)" stopOpacity={0.3} />
+                    <stop offset="95%" stopColor="var(--color-primary)" stopOpacity={0.0} />
                   </linearGradient>
                 </defs>
-                <XAxis dataKey="day" stroke="#9ca3af" fontSize={11} tickLine={false} />
-                <YAxis stroke="#9ca3af" fontSize={11} tickLine={false} unit="kg" />
+                <XAxis dataKey="day" stroke="var(--color-muted)" fontSize={11} tickLine={false} />
+                <YAxis stroke="var(--color-muted)" fontSize={11} tickLine={false} unit="kg" />
                 <Tooltip
                   formatter={(value) => [`${value} kg`, 'CO₂ Avoided']}
-                  contentStyle={{ backgroundColor: '#ffffff', borderRadius: '12px', borderColor: '#e5e7eb', fontSize: '12px' }}
+                  contentStyle={{
+                    backgroundColor: 'var(--color-surface)',
+                    borderRadius: '12px',
+                    borderColor: 'var(--color-line)',
+                    color: 'var(--color-text)',
+                    fontSize: '12px',
+                    boxShadow: 'var(--shadow-soft-md)'
+                  }}
                 />
                 <Area
                   type="monotone"
                   dataKey="co2"
-                  stroke="#059669"
-                  strokeWidth={3}
+                  stroke="var(--color-primary)"
+                  strokeWidth={2.5}
                   fillOpacity={1}
                   fill="url(#impactCo2Grad)"
                 />
               </AreaChart>
             </ResponsiveContainer>
+          </div>
+
+          {/* Accessible Table for Screen Readers */}
+          <div className="sr-only">
+            <h3>Weekly CO₂ Avoided Ledger</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Day</th>
+                  <th scope="col">CO₂ Avoided (kg)</th>
+                  <th scope="col">Plastic Diverted (g)</th>
+                </tr>
+              </thead>
+              <tbody>
+                {WEEKLY_IMPACT_DATA.map((row) => (
+                  <tr key={row.day}>
+                    <td>{row.day}</td>
+                    <td>{row.co2} kg</td>
+                    <td>{row.plastic} g</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
 
@@ -216,53 +246,53 @@ export default function ProfilePage() {
         <div className="lg:col-span-5 space-y-3">
           <div
             ref={shareCardRef}
-            className="p-6 rounded-3xl bg-gradient-to-br from-white via-[#E8F5EE] to-white border border-emerald-300 shadow-md space-y-4 text-stone-900"
+            className="p-6 rounded-3xl bg-surface-sunken border border-line shadow-soft-sm space-y-4 text-text"
           >
             <div className="flex items-center justify-between">
-              <span className="text-xs font-black uppercase tracking-wider text-emerald-800">
+              <span className="text-xs font-semibold uppercase tracking-wider text-primary">
                 EcoMart Impact Ledger
               </span>
-              <span className="text-xs font-bold text-stone-400">Verified Local</span>
+              <span className="text-xs font-medium text-muted">Verified Local</span>
             </div>
 
             <div className="flex items-center gap-3 py-1">
-              <div className="w-12 h-12 rounded-2xl bg-emerald-700 text-white flex items-center justify-center text-2xl shadow-xs">
+              <div className="w-12 h-12 rounded-2xl bg-primary text-primary-contrast flex items-center justify-center text-2xl shadow-soft-xs">
                 {currentUser?.avatar || '🌱'}
               </div>
               <div>
-                <h3 className="font-black text-lg text-[#0B3B2C] leading-snug">
+                <h3 className="font-serif font-bold text-lg text-heading leading-snug">
                   {currentUser?.name || 'Conscious Explorer'}
                 </h3>
-                <span className="text-xs font-bold text-emerald-700">{level.title}</span>
+                <span className="text-xs font-medium text-primary">{level.title}</span>
               </div>
             </div>
 
             {/* Impact Metric Numbers */}
-            <div className="grid grid-cols-3 gap-2 text-center py-2 border-y border-emerald-200/60">
+            <div className="grid grid-cols-3 gap-2 text-center py-2 border-y border-line">
               <div>
-                <div className="flex items-center justify-center text-emerald-700 mb-0.5">
+                <div className="flex items-center justify-center text-primary mb-0.5">
                   <Wind className="w-4 h-4" />
                 </div>
-                <div className="font-black text-base text-emerald-900">{totalCo2Saved} kg</div>
-                <div className="text-[10px] text-stone-500 font-bold">CO₂ Avoided</div>
+                <div className="font-serif font-bold text-base text-heading">{totalCo2Saved} kg</div>
+                <div className="text-[10px] text-muted font-medium">CO₂ Avoided</div>
               </div>
               <div>
-                <div className="flex items-center justify-center text-amber-600 mb-0.5">
+                <div className="flex items-center justify-center text-warning mb-0.5">
                   <Ban className="w-4 h-4" />
                 </div>
-                <div className="font-black text-base text-amber-900">{totalPlasticAvoided} g</div>
-                <div className="text-[10px] text-stone-500 font-bold">Plastic Diverted</div>
+                <div className="font-serif font-bold text-base text-heading">{totalPlasticAvoided} g</div>
+                <div className="text-[10px] text-muted font-medium">Plastic Diverted</div>
               </div>
               <div>
-                <div className="flex items-center justify-center text-sky-600 mb-0.5">
+                <div className="flex items-center justify-center text-accent mb-0.5">
                   <Droplets className="w-4 h-4" />
                 </div>
-                <div className="font-black text-base text-sky-900">{totalWaterSaved} L</div>
-                <div className="text-[10px] text-stone-500 font-bold">Water Saved</div>
+                <div className="font-serif font-bold text-base text-heading">{totalWaterSaved} L</div>
+                <div className="text-[10px] text-muted font-medium">Water Saved</div>
               </div>
             </div>
 
-            <div className="text-[10px] text-stone-500 flex justify-between font-medium">
+            <div className="text-[10px] text-muted flex justify-between font-normal">
               <span>{orders.length} conscious orders placed</span>
               <span>100% Zero-Waste Packing</span>
             </div>
@@ -273,24 +303,24 @@ export default function ProfilePage() {
             type="button"
             onClick={handleExportCard}
             disabled={exportingCard}
-            className="w-full py-3 px-5 rounded-2xl bg-white hover:bg-stone-50 border border-stone-200 text-[#0B3B2C] font-black text-xs flex items-center justify-center gap-2 shadow-2xs transition active:scale-98 min-h-[44px]"
+            className="w-full py-3 px-5 rounded-full bg-surface hover:bg-surface-sunken border border-line text-heading font-medium text-xs flex items-center justify-center gap-2 shadow-soft-xs transition active:scale-98 min-h-[44px] cursor-pointer"
           >
-            {exportingCard ? <Sparkles className="w-4 h-4 text-emerald-600 animate-spin" /> : <Download className="w-4 h-4 text-emerald-600" />}
+            {exportingCard ? <Sparkles className="w-4 h-4 text-primary animate-spin" /> : <Download className="w-4 h-4 text-primary" />}
             <span>{exportingCard ? 'Rendering Card...' : 'Download Shareable Impact Card (PNG)'}</span>
           </button>
         </div>
       </div>
 
       {/* Achievements & Badges Grid (Feature 24) */}
-      <div className="p-6 rounded-3xl bg-white border border-stone-200/90 shadow-2xs space-y-4">
+      <div className="p-6 sm:p-8 rounded-3xl bg-surface border border-line shadow-soft-sm space-y-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Award className="w-5 h-5 text-emerald-700" />
-            <h2 className="font-black text-base text-[#0B3B2C]">
+            <Award className="w-5 h-5 text-primary" />
+            <h2 className="font-serif font-bold text-base sm:text-lg text-heading">
               Environmental Milestones & Badges
             </h2>
           </div>
-          <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
+          <span className="text-xs font-medium text-primary bg-primary/10 px-2.5 py-1 rounded-full border border-primary/20">
             {badges.filter((b) => b.unlocked).length} of {badges.length} Unlocked
           </span>
         </div>
@@ -299,17 +329,17 @@ export default function ProfilePage() {
           {badges.map((b) => (
             <div
               key={b.id}
-              className={`p-3.5 rounded-2xl border text-center transition ${
+              className={`p-4 rounded-2xl border text-center transition ${
                 b.unlocked
-                  ? 'bg-emerald-50/50 border-emerald-300 shadow-2xs'
-                  : 'bg-stone-50 border-stone-200 opacity-40'
+                  ? 'bg-surface-sunken border-primary/30 shadow-soft-xs'
+                  : 'bg-surface-sunken/40 border-line opacity-40'
               }`}
             >
               <div className="text-3xl mb-1.5">{b.icon}</div>
-              <div className="font-bold text-xs text-stone-900">{b.name}</div>
-              <div className="text-[10px] text-stone-500 mt-1 leading-snug">{b.desc}</div>
+              <div className="font-semibold text-xs text-heading">{b.name}</div>
+              <div className="text-[10px] text-muted mt-1 leading-snug">{b.desc}</div>
               {b.unlocked && (
-                <span className="inline-block mt-2 text-[10px] font-extrabold text-emerald-700">
+                <span className="inline-block mt-2 text-[10px] font-semibold text-primary">
                   ✓ Unlocked
                 </span>
               )}
@@ -320,34 +350,34 @@ export default function ProfilePage() {
 
       {/* Orders & Address Links */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="p-6 rounded-3xl bg-white border border-stone-200/90 shadow-2xs space-y-3">
-          <div className="flex items-center gap-2 text-stone-900 font-bold text-sm">
-            <MapPin className="w-4 h-4 text-emerald-600" />
+        <div className="p-6 rounded-3xl bg-surface border border-line shadow-soft-sm space-y-3">
+          <div className="flex items-center gap-2 text-heading font-semibold text-sm">
+            <MapPin className="w-4 h-4 text-primary" />
             <span>Saved Conscious Delivery Address</span>
           </div>
-          <div className="p-3.5 rounded-2xl bg-stone-50 border border-stone-200 text-xs text-stone-700">
-            <div className="font-bold text-stone-900">{currentUser?.name || 'Ayush Sharma'}</div>
-            <div className="mt-1">Flat 402, Green Meadows Residency, Bengaluru, Karnataka - 560034</div>
-            <div className="mt-2 text-[11px] text-emerald-700 font-semibold">
+          <div className="p-4 rounded-2xl bg-surface-sunken border border-line text-xs text-secondary">
+            <div className="font-semibold text-heading">{currentUser?.name || 'Ayush Sharma'}</div>
+            <div className="mt-1 leading-relaxed">Flat 402, Green Meadows Residency, Bengaluru, Karnataka - 560034</div>
+            <div className="mt-2 text-[11px] text-primary font-medium">
               ⚡ EV Courier Route Verified
             </div>
           </div>
         </div>
 
-        <div className="p-6 rounded-3xl bg-white border border-stone-200/90 shadow-2xs flex flex-col justify-between space-y-3">
+        <div className="p-6 rounded-3xl bg-surface border border-line shadow-soft-sm flex flex-col justify-between space-y-3">
           <div>
-            <div className="flex items-center gap-2 text-stone-900 font-bold text-sm">
-              <Package className="w-4 h-4 text-emerald-600" />
+            <div className="flex items-center gap-2 text-heading font-semibold text-sm">
+              <Package className="w-4 h-4 text-primary" />
               <span>Order History & Real-Time Tracking</span>
             </div>
-            <p className="text-xs text-stone-500 mt-1">
+            <p className="text-xs text-muted mt-1">
               You have {orders.length} order{orders.length !== 1 ? 's' : ''} logged with verified lifecycle carbon receipts.
             </p>
           </div>
 
           <Link
             to="/orders"
-            className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs transition shadow-2xs min-h-[44px]"
+            className="w-full flex items-center justify-center gap-2 py-3 rounded-full bg-primary hover:bg-primary-hover text-primary-contrast font-medium text-xs transition shadow-soft-xs min-h-[44px]"
           >
             <span>View All Orders & Tracking ({orders.length})</span>
             <ArrowRight className="w-4 h-4" />
@@ -362,7 +392,7 @@ export default function ProfilePage() {
         title="Choose Your Eco Avatar"
       >
         <div className="space-y-4">
-          <p className="text-xs text-stone-600 font-medium">
+          <p className="text-xs text-secondary font-normal">
             Select an eco persona. Stored 100% locally on your machine with zero external uploads.
           </p>
 
@@ -375,16 +405,16 @@ export default function ProfilePage() {
                   updateUserAvatar(av.emoji);
                   setAvatarModalOpen(false);
                 }}
-                className={`p-4 rounded-2xl border text-center transition-all duration-200 hover:scale-105 cursor-pointer flex flex-col items-center gap-2 ${
+                className={`p-4 rounded-2xl border text-center transition-all duration-200 hover:scale-105 cursor-pointer flex flex-col items-center gap-2 min-h-[44px] ${
                   currentUser?.avatar === av.emoji
-                    ? 'border-emerald-500 bg-emerald-50 shadow-md ring-2 ring-emerald-500/30'
-                    : 'border-stone-200 bg-white hover:border-emerald-300'
+                    ? 'border-primary bg-primary/10 shadow-soft-xs ring-2 ring-primary/20'
+                    : 'border-line bg-surface hover:border-primary/40'
                 }`}
               >
-                <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${av.bg} flex items-center justify-center text-3xl shadow-sm text-white`}>
+                <div className="w-14 h-14 rounded-2xl bg-surface-sunken border border-line flex items-center justify-center text-3xl shadow-soft-xs">
                   {av.emoji}
                 </div>
-                <div className="text-xs font-black text-[#0B3B2C]">
+                <div className="text-xs font-semibold text-heading">
                   {av.name}
                 </div>
               </button>

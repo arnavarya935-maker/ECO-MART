@@ -61,19 +61,19 @@ export default function EasterEggKonami() {
         </div>
       ))}
 
-      <div className="pointer-events-auto p-6 rounded-3xl bg-stone-900 text-white border-2 border-emerald-400 shadow-2xl text-center space-y-3 max-w-sm animate-scale-in">
+      <div className="pointer-events-auto p-6 sm:p-7 rounded-3xl bg-surface text-heading border border-line shadow-soft-xl text-center space-y-3.5 max-w-sm animate-slide-up">
         <div className="text-5xl">🎊🍃🍄</div>
-        <h3 className="text-xl font-black text-emerald-300">
+        <h3 className="text-xl font-serif font-bold text-heading">
           Secret Biosphere Unlocked!
         </h3>
-        <p className="text-xs text-stone-300 leading-relaxed font-medium">
+        <p className="text-xs text-muted leading-relaxed font-normal">
           You entered the classic Konami code: <br />
-          <span className="font-mono text-emerald-400 text-[11px]">↑ ↑ ↓ ↓ ← → ← → B A</span>.
+          <span className="font-mono text-primary text-[11px] font-bold">↑ ↑ ↓ ↓ ← → ← → B A</span>
         </p>
         <button
           type="button"
           onClick={() => setTriggered(false)}
-          className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition"
+          className="w-full min-h-[44px] px-5 py-2.5 rounded-2xl bg-primary hover:bg-primary-hover text-primary-contrast font-bold text-xs shadow-soft-sm hover:shadow-soft-md transition-all focus-visible:outline-2 focus-visible:outline-focus"
         >
           Close Celebration
         </button>

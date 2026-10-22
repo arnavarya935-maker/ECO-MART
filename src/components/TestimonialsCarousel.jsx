@@ -47,76 +47,76 @@ export default function TestimonialsCarousel() {
   const t = TESTIMONIALS[current];
 
   return (
-    <section className="py-14 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+    <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
       <div className="text-center mb-10">
-        <span className="text-xs font-black uppercase tracking-wider text-emerald-800 dark:text-emerald-300 bg-emerald-100 dark:bg-emerald-950 px-3 py-1 rounded-full">
+        <span className="text-[11px] font-sans font-semibold uppercase tracking-wider text-primary bg-primary-subtle px-3 py-1 rounded-full border border-primary/20">
           Stories of Conscious Living
         </span>
-        <h2 className="text-2xl sm:text-3xl font-black text-stone-900 dark:text-stone-100 mt-2">
-          Loved by Shoppers & Artisans Alike
+        <h2 className="font-serif text-2xl sm:text-3xl font-bold text-heading mt-2 tracking-tight">
+          Loved by Mindful Shoppers & Artisans
         </h2>
       </div>
 
-      <div className="relative p-8 sm:p-12 rounded-3xl bg-white dark:bg-stone-850 border border-stone-200 dark:border-stone-800 shadow-xl transition-all">
-        <Quote className="w-12 h-12 text-emerald-500/20 absolute top-6 left-6" />
+      <div className="relative p-8 sm:p-12 rounded-3xl bg-surface-raised border border-line shadow-soft-lg transition-all">
+        <Quote className="w-12 h-12 text-primary/10 absolute top-6 left-6" />
 
         <div className="relative z-10 flex flex-col items-center text-center space-y-5">
           <div className="flex items-center gap-1">
             {Array.from({ length: t.rating }).map((_, i) => (
-              <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
+              <Star key={i} className="w-4 h-4 fill-accent text-accent" />
             ))}
           </div>
 
-          <p className="text-base sm:text-lg text-stone-800 dark:text-stone-200 italic max-w-2xl font-medium leading-relaxed">
+          <p className="font-serif italic text-lg sm:text-xl text-heading max-w-2xl font-normal leading-relaxed">
             "{t.quote}"
           </p>
 
           <div className="flex flex-col items-center space-y-1 pt-2">
-            <div className="w-14 h-14 rounded-full bg-emerald-100 dark:bg-emerald-950 flex items-center justify-center text-2xl shadow-xs">
+            <div className="w-14 h-14 rounded-full bg-surface-sunken border border-line flex items-center justify-center text-2xl shadow-soft-sm">
               {t.avatar}
             </div>
-            <div className="font-black text-sm text-stone-900 dark:text-stone-100 mt-2">
+            <div className="font-sans font-bold text-sm text-heading mt-2">
               {t.name}
             </div>
-            <div className="text-xs text-stone-500 dark:text-stone-400">
+            <div className="text-xs font-sans text-muted">
               {t.role}
             </div>
-            <div className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 px-2.5 py-0.5 rounded-full mt-1 border border-emerald-200 dark:border-emerald-800">
-              <CheckCircle2 className="w-3 h-3" />
+            <div className="inline-flex items-center gap-1.5 text-[11px] font-sans font-medium text-primary bg-primary-subtle px-3 py-1 rounded-full mt-1 border border-primary/20">
+              <CheckCircle2 className="w-3.5 h-3.5 text-primary" />
               <span>{t.impact} • {t.verified}</span>
             </div>
           </div>
         </div>
 
-        {/* Navigation Arrows */}
+        {/* Navigation Arrows with min 44px targets */}
         <div className="flex items-center justify-between absolute inset-x-4 top-1/2 -translate-y-1/2 pointer-events-none">
           <button
             type="button"
             onClick={() => setCurrent((prev) => (prev > 0 ? prev - 1 : TESTIMONIALS.length - 1))}
-            className="pointer-events-auto p-2 rounded-full bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 shadow-md text-stone-700 dark:text-stone-300 hover:bg-stone-50"
+            className="pointer-events-auto min-w-[44px] min-h-[44px] rounded-full bg-surface-raised border border-line shadow-soft-sm text-secondary hover:text-heading hover:bg-surface-sunken flex items-center justify-center cursor-pointer transition"
             aria-label="Previous testimonial"
           >
-            <ChevronLeft className="w-4 h-4" />
+            <ChevronLeft className="w-5 h-5" />
           </button>
           <button
             type="button"
             onClick={() => setCurrent((prev) => (prev + 1) % TESTIMONIALS.length)}
-            className="pointer-events-auto p-2 rounded-full bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 shadow-md text-stone-700 dark:text-stone-300 hover:bg-stone-50"
+            className="pointer-events-auto min-w-[44px] min-h-[44px] rounded-full bg-surface-raised border border-line shadow-soft-sm text-secondary hover:text-heading hover:bg-surface-sunken flex items-center justify-center cursor-pointer transition"
             aria-label="Next testimonial"
           >
-            <ChevronRight className="w-4 h-4" />
+            <ChevronRight className="w-5 h-5" />
           </button>
         </div>
 
         {/* Indicators */}
-        <div className="flex items-center justify-center gap-2 mt-6">
+        <div className="flex items-center justify-center gap-2 mt-8">
           {TESTIMONIALS.map((_, i) => (
             <button
               key={i}
               type="button"
               onClick={() => setCurrent(i)}
-              className={`h-2 rounded-full transition-all ${
-                current === i ? 'w-6 bg-emerald-600' : 'w-2 bg-stone-300 dark:bg-stone-700'
+              className={`h-2 rounded-full transition-all cursor-pointer ${
+                current === i ? 'w-6 bg-primary' : 'w-2 bg-line hover:bg-muted'
               }`}
               aria-label={`Go to slide ${i + 1}`}
             />
@@ -126,3 +126,4 @@ export default function TestimonialsCarousel() {
     </section>
   );
 }
+

@@ -48,23 +48,23 @@ export default function PledgeWall() {
   };
 
   return (
-    <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-stone-850 border border-stone-200 dark:border-stone-800 shadow-md max-w-2xl mx-auto space-y-6">
-      <div className="border-b border-stone-100 dark:border-stone-800 pb-4">
-        <span className="text-xs font-black uppercase tracking-wider text-emerald-800 dark:text-emerald-300 bg-emerald-100 dark:bg-emerald-950 px-2.5 py-1 rounded-full">
+    <div className="p-6 sm:p-8 rounded-3xl bg-surface border border-line shadow-soft-sm max-w-2xl mx-auto space-y-6">
+      <div className="border-b border-line pb-4">
+        <span className="text-xs font-semibold uppercase tracking-wider text-primary bg-primary/10 border border-primary/20 px-2.5 py-1 rounded-full">
           Collective Commitment
         </span>
-        <h3 className="text-xl font-black text-stone-900 dark:text-stone-100 mt-2">
+        <h3 className="text-xl sm:text-2xl font-serif font-bold text-heading mt-2">
           The Planetary Pledge Wall
         </h3>
-        <p className="text-xs text-stone-500 dark:text-stone-400 mt-0.5">
+        <p className="text-xs sm:text-sm text-secondary mt-0.5">
           Sign your commitment to sustainable living and join thousands making daily conscious choices.
         </p>
       </div>
 
-      <form onSubmit={handleSubmitPledge} className="p-4 rounded-2xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 space-y-3">
+      <form onSubmit={handleSubmitPledge} className="p-5 rounded-2xl bg-surface-sunken border border-line space-y-3">
         <div className="flex items-center gap-2">
-          <HeartHandshake className="w-4 h-4 text-emerald-600" />
-          <span className="text-xs font-bold text-stone-700 dark:text-stone-300">
+          <HeartHandshake className="w-4 h-4 text-primary" />
+          <span className="text-xs font-semibold text-heading">
             Write your personal eco pledge:
           </span>
         </div>
@@ -74,16 +74,16 @@ export default function PledgeWall() {
           value={pledgeInput}
           onChange={(e) => setPledgeInput(e.target.value)}
           placeholder="I pledge to never buy single-use plastic water bottles..."
-          className="w-full px-3.5 py-2.5 rounded-xl bg-white dark:bg-stone-900 border border-stone-200 dark:border-stone-700 text-xs text-stone-900 dark:text-stone-100 placeholder-stone-400 focus:outline-hidden focus:border-emerald-500"
+          className="w-full px-4 py-3 rounded-full bg-surface border border-line text-xs text-heading placeholder:text-muted focus:outline-2 focus:outline-focus focus:border-primary shadow-soft-xs min-h-[44px]"
         />
 
         <button
           type="submit"
-          className="w-full py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs shadow-sm transition active:scale-98 flex items-center justify-center gap-1.5 cursor-pointer"
+          className="w-full py-3 rounded-full bg-primary hover:bg-primary-hover text-primary-contrast font-medium text-xs shadow-soft-xs transition active:scale-98 flex items-center justify-center gap-2 cursor-pointer min-h-[44px] focus-visible:outline-2 focus-visible:outline-focus"
         >
           {pledgedSuccess ? (
             <>
-              <CheckCircle2 className="w-4 h-4 text-emerald-300" />
+              <CheckCircle2 className="w-4 h-4" />
               <span>Pledge Signed & Recorded! 🎉</span>
             </>
           ) : (
@@ -99,13 +99,13 @@ export default function PledgeWall() {
         {pledges.map((p) => (
           <div
             key={p.id}
-            className="p-4 rounded-2xl bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-200/80 dark:border-emerald-800/80 space-y-1"
+            className="p-4 rounded-2xl bg-surface-sunken border border-line space-y-1.5 transition hover:bg-surface-sunken/80"
           >
-            <div className="flex items-center justify-between text-xs font-black text-emerald-900 dark:text-emerald-200">
+            <div className="flex items-center justify-between text-xs font-semibold text-heading">
               <span>{p.name}</span>
-              <span className="text-[10px] font-normal text-stone-400">{p.date}</span>
+              <span className="text-[10px] font-normal text-muted">{p.date}</span>
             </div>
-            <p className="text-xs text-stone-700 dark:text-stone-300 italic font-medium">
+            <p className="text-xs text-secondary italic font-normal">
               "{p.pledge}"
             </p>
           </div>

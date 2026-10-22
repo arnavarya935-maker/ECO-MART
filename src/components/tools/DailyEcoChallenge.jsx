@@ -49,40 +49,40 @@ export default function DailyEcoChallenge() {
   };
 
   return (
-    <div className="p-6 rounded-3xl bg-white dark:bg-stone-850 border border-stone-200 dark:border-stone-800 shadow-md max-w-xl mx-auto space-y-4">
+    <div className="p-6 rounded-3xl bg-surface border border-line shadow-soft-sm max-w-xl mx-auto space-y-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="p-2 rounded-xl bg-amber-100 dark:bg-amber-950/80 text-amber-600 dark:text-amber-400">
-            <Flame className="w-5 h-5 fill-amber-500 text-amber-500" />
+          <div className="p-2 rounded-xl bg-accent/10 text-accent">
+            <Flame className="w-5 h-5 fill-accent text-accent" />
           </div>
           <div>
-            <h4 className="font-black text-sm text-stone-900 dark:text-stone-100">Daily Eco Challenge</h4>
-            <div className="text-[11px] text-stone-500">Keep your sustainable streak alive!</div>
+            <h4 className="font-serif font-bold text-sm text-heading">Daily Eco Challenge</h4>
+            <div className="text-[11px] text-muted">Keep your sustainable streak alive!</div>
           </div>
         </div>
 
-        <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-800 text-amber-800 dark:text-amber-300 font-black text-xs">
-          <Flame className="w-3.5 h-3.5 fill-amber-500" />
+        <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent/10 border border-accent/30 text-accent font-bold text-xs">
+          <Flame className="w-3.5 h-3.5 fill-accent" />
           <span>{streak} Day Streak</span>
         </div>
       </div>
 
-      <div className="p-4 rounded-2xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 space-y-2">
+      <div className="p-4 rounded-2xl bg-surface-sunken border border-line space-y-2">
         <div className="flex items-center justify-between">
-          <span className="text-xs font-black text-emerald-700 dark:text-emerald-400">
+          <span className="text-xs font-bold text-primary">
             {todayChallenge.title}
           </span>
-          <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300">
+          <span className="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full bg-primary/20 text-primary">
             +{todayChallenge.xp} XP
           </span>
         </div>
 
-        <p className="text-xs text-stone-700 dark:text-stone-300 font-medium">
+        <p className="text-xs text-secondary font-medium">
           {todayChallenge.task}
         </p>
 
-        <div className="text-[11px] text-stone-500 flex items-center gap-1 pt-1">
-          <Sparkles className="w-3 h-3 text-emerald-600" />
+        <div className="text-[11px] text-muted flex items-center gap-1 pt-1">
+          <Sparkles className="w-3 h-3 text-primary" />
           <span>Impact: {todayChallenge.impact}</span>
         </div>
       </div>
@@ -91,15 +91,15 @@ export default function DailyEcoChallenge() {
         type="button"
         onClick={handleComplete}
         disabled={completedToday}
-        className={`w-full py-2.5 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition cursor-pointer ${
+        className={`w-full py-2.5 rounded-xl font-bold text-xs flex items-center justify-center gap-2 transition cursor-pointer min-h-[44px] focus-visible:outline-2 focus-visible:outline-focus ${
           completedToday
-            ? 'bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800 cursor-default'
-            : 'bg-emerald-700 hover:bg-emerald-800 text-white shadow-sm active:scale-98'
+            ? 'bg-primary/10 text-primary border border-primary/20 cursor-default'
+            : 'bg-primary hover:bg-primary-hover text-primary-contrast shadow-soft-xs active:scale-98'
         }`}
       >
         {completedToday ? (
           <>
-            <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+            <CheckCircle2 className="w-4 h-4 text-primary" />
             <span>Challenge Completed for Today! 🎉</span>
           </>
         ) : (

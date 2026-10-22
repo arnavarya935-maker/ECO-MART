@@ -83,11 +83,11 @@ export default function ProductPage() {
   if (!product) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-20 text-center">
-        <h2 className="text-2xl font-black text-stone-900 mb-3">Product Not Found</h2>
-        <p className="text-stone-600 mb-6">The sustainable item you are looking for may have moved or doesn't exist.</p>
+        <h2 className="font-serif text-2xl font-bold text-heading mb-3">Product Not Found</h2>
+        <p className="text-secondary mb-6 font-sans">The sustainable item you are looking for may have moved or doesn't exist.</p>
         <Link
           to="/shop"
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-emerald-700 text-white font-bold hover:bg-emerald-800 transition"
+          className="inline-flex items-center gap-2 px-6 py-3 min-h-[44px] rounded-full bg-primary text-primary-contrast font-sans font-medium hover:bg-primary-hover transition shadow-soft-sm"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Shop Catalog
@@ -113,19 +113,19 @@ export default function ProductPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#faf9f6] text-stone-900 pb-28 sm:pb-20">
+    <div className="min-h-screen bg-surface text-text pb-28 sm:pb-20">
       {/* Breadcrumb & Navigation */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-        <nav className="flex items-center gap-2 text-xs text-stone-500 font-medium overflow-x-auto whitespace-nowrap py-1">
-          <Link to="/" className="hover:text-emerald-700 transition">Home</Link>
+        <nav className="flex items-center gap-2 text-xs font-sans text-muted font-medium overflow-x-auto whitespace-nowrap py-1">
+          <Link to="/" className="hover:text-heading transition">Home</Link>
           <span>/</span>
-          <Link to="/shop" className="hover:text-emerald-700 transition">Shop</Link>
+          <Link to="/shop" className="hover:text-heading transition">Shop</Link>
           <span>/</span>
-          <Link to={`/shop?category=${encodeURIComponent(product.category)}`} className="hover:text-emerald-700 transition">
+          <Link to={`/shop?category=${encodeURIComponent(product.category)}`} className="hover:text-heading transition">
             {product.category}
           </Link>
           <span>/</span>
-          <span className="text-stone-850 font-bold truncate max-w-[200px] sm:max-w-none">{product.name}</span>
+          <span className="text-heading font-semibold truncate max-w-[200px] sm:max-w-none">{product.name}</span>
         </nav>
       </div>
 
@@ -134,11 +134,11 @@ export default function ProductPage() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
           {/* Left Column: Gallery (7 Cols) */}
           <div className="lg:col-span-7 space-y-6">
-            <div className="bg-white rounded-3xl p-4 sm:p-6 border border-stone-200/80 shadow-xs relative">
+            <div className="bg-surface-raised rounded-3xl p-4 sm:p-6 border border-line shadow-soft-sm relative">
               <button
                 type="button"
                 onClick={() => navigate(-1)}
-                className="absolute top-4 left-4 z-10 p-2.5 rounded-full bg-white/90 hover:bg-stone-100 text-stone-700 shadow-sm border border-stone-200 transition"
+                className="absolute top-4 left-4 z-10 p-2.5 rounded-full bg-surface-raised/90 hover:bg-surface-sunken text-heading shadow-soft-sm border border-line transition min-w-[44px] min-h-[44px] flex items-center justify-center cursor-pointer"
                 aria-label="Go back"
               >
                 <ArrowLeft className="w-4 h-4" />
@@ -148,17 +148,17 @@ export default function ProductPage() {
                 <button
                   type="button"
                   onClick={handleShare}
-                  className="p-2.5 rounded-full bg-white/90 hover:bg-stone-100 text-stone-700 shadow-sm border border-stone-200 transition"
+                  className="p-2.5 rounded-full bg-surface-raised/90 hover:bg-surface-sunken text-heading shadow-soft-sm border border-line transition min-w-[44px] min-h-[44px] flex items-center justify-center cursor-pointer"
                   title="Share product link"
                   aria-label="Share product"
                 >
-                  {copiedLink ? <Check className="w-4 h-4 text-emerald-600" /> : <Share2 className="w-4 h-4" />}
+                  {copiedLink ? <Check className="w-4 h-4 text-primary" /> : <Share2 className="w-4 h-4" />}
                 </button>
                 <button
                   type="button"
                   onClick={() => toggleWishlist(product)}
-                  className={`p-2.5 rounded-full bg-white/90 hover:bg-stone-100 shadow-sm border border-stone-200 transition ${
-                    isFavorited ? 'text-rose-500 fill-rose-500' : 'text-stone-700'
+                  className={`p-2.5 rounded-full bg-surface-raised/90 hover:bg-surface-sunken shadow-soft-sm border border-line transition min-w-[44px] min-h-[44px] flex items-center justify-center cursor-pointer ${
+                    isFavorited ? 'text-danger fill-danger border-danger/30' : 'text-heading'
                   }`}
                   aria-label="Add to wishlist"
                 >
@@ -168,82 +168,79 @@ export default function ProductPage() {
 
               {/* Gallery Component */}
               <ProductGallery
-                images={product.images || [product.image]}
-                name={product.name}
-                category={product.category}
-                fallbackIcon={product.icon}
+                product={product}
               />
             </div>
 
-            {/* Impact vs Conventional Comparison (Feature 13) */}
+            {/* Impact vs Conventional Comparison */}
             {swapComparison && (
-              <div className="bg-white rounded-3xl p-6 border border-stone-200/80 shadow-xs space-y-4">
+              <div className="bg-surface-raised rounded-3xl p-6 border border-line shadow-soft-sm space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <Sparkles className="w-5 h-5 text-emerald-600" />
-                    <h3 className="font-extrabold text-base text-stone-900">
+                    <Sparkles className="w-5 h-5 text-primary" />
+                    <h3 className="font-serif text-lg font-bold text-heading tracking-tight">
                       Lifecycle Impact vs Conventional Choice
                     </h3>
                   </div>
-                  <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
+                  <span className="text-[11px] font-sans font-semibold px-2.5 py-1 rounded-full bg-primary-subtle text-primary border border-primary/20">
                     Transparent Lifecycle
                   </span>
                 </div>
 
-                <p className="text-xs text-stone-600 leading-relaxed">
-                  Compared to traditional alternative <strong>{swapComparison.alternative.name}</strong>, choosing this conscious item avoids:
+                <p className="text-xs font-sans text-secondary leading-relaxed">
+                  Compared to traditional alternative <strong className="font-semibold text-heading">{swapComparison.alternative.name}</strong>, choosing this conscious item avoids:
                 </p>
 
                 <div className="grid grid-cols-3 gap-3">
-                  <div className="p-3.5 rounded-2xl bg-[#E8F5EE] border border-emerald-200/60 text-center">
-                    <div className="flex items-center justify-center text-emerald-700 mb-1">
+                  <div className="p-3.5 rounded-2xl bg-primary-subtle border border-primary/20 text-center">
+                    <div className="flex items-center justify-center text-primary mb-1">
                       <Wind className="w-4 h-4" />
                     </div>
-                    <div className="font-black text-lg text-emerald-800">
+                    <div className="font-serif text-lg font-bold text-heading">
                       {swapComparison.comparison.co2Saved > 0 ? `-${swapComparison.comparison.co2Saved} kg` : '0 kg'}
                     </div>
-                    <div className="text-[11px] font-bold text-emerald-700">CO₂ Avoided</div>
+                    <div className="text-[11px] font-sans font-medium text-primary">CO₂ Avoided</div>
                   </div>
 
-                  <div className="p-3.5 rounded-2xl bg-amber-50 border border-amber-200/60 text-center">
-                    <div className="flex items-center justify-center text-amber-700 mb-1">
+                  <div className="p-3.5 rounded-2xl bg-accent-subtle border border-accent/20 text-center">
+                    <div className="flex items-center justify-center text-accent mb-1">
                       <Ban className="w-4 h-4" />
                     </div>
-                    <div className="font-black text-lg text-amber-800">
+                    <div className="font-serif text-lg font-bold text-accent">
                       {swapComparison.comparison.plasticSaved > 0 ? `-${swapComparison.comparison.plasticSaved} g` : '0 g'}
                     </div>
-                    <div className="text-[11px] font-bold text-amber-700">Plastic Diverted</div>
+                    <div className="text-[11px] font-sans font-medium text-accent">Plastic Diverted</div>
                   </div>
 
-                  <div className="p-3.5 rounded-2xl bg-sky-50 border border-sky-200/60 text-center">
-                    <div className="flex items-center justify-center text-sky-700 mb-1">
+                  <div className="p-3.5 rounded-2xl bg-secondary-subtle border border-secondary/20 text-center">
+                    <div className="flex items-center justify-center text-secondary mb-1">
                       <Droplets className="w-4 h-4" />
                     </div>
-                    <div className="font-black text-lg text-sky-800">
+                    <div className="font-serif text-lg font-bold text-secondary">
                       {swapComparison.comparison.waterSaved > 0 ? `-${swapComparison.comparison.waterSaved} L` : '0 L'}
                     </div>
-                    <div className="text-[11px] font-bold text-sky-700">Water Saved</div>
+                    <div className="text-[11px] font-sans font-medium text-secondary">Water Saved</div>
                   </div>
                 </div>
 
                 {/* Swap and Save strip */}
-                <div className="p-4 rounded-2xl bg-stone-50 border border-stone-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                <div className="p-4 rounded-2xl bg-surface-sunken border border-line flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                   <div>
-                    <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-700 block">
+                    <span className="text-[11px] font-sans font-semibold uppercase tracking-wider text-primary block">
                       🌱 Smart Swap Recommendation
                     </span>
-                    <span className="text-xs text-stone-700 font-medium">
+                    <span className="text-xs font-sans text-secondary">
                       {swapComparison.comparison.summary}
                     </span>
                   </div>
                   {product.isEcoFriendly ? (
-                    <span className="px-3 py-1.5 rounded-xl bg-emerald-100 text-emerald-800 text-xs font-bold shrink-0 flex items-center gap-1.5">
+                    <span className="px-3.5 py-1.5 rounded-xl bg-primary-subtle text-primary border border-primary/20 text-xs font-sans font-semibold shrink-0 flex items-center gap-1.5">
                       <Check className="w-3.5 h-3.5" /> Best Eco Option
                     </span>
                   ) : (
                     <Link
                       to={`/product/${swapComparison.alternative.id}`}
-                      className="px-4 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold shrink-0 flex items-center gap-1.5 transition"
+                      className="px-4 py-2 rounded-xl bg-primary hover:bg-primary-hover text-text-inverted text-xs font-sans font-medium shrink-0 flex items-center gap-1.5 transition cursor-pointer"
                     >
                       <RefreshCw className="w-3.5 h-3.5" /> Upgrade to Eco Version
                     </Link>
@@ -255,14 +252,14 @@ export default function ProductPage() {
 
           {/* Right Column: Sticky Buy Panel (5 Cols) */}
           <div className="lg:col-span-5 space-y-6">
-            <div className="bg-white rounded-3xl p-6 sm:p-8 border border-stone-200/80 shadow-xs lg:sticky lg:top-24 space-y-6">
+            <div className="bg-surface-raised rounded-3xl p-6 sm:p-8 border border-line shadow-soft-md lg:sticky lg:top-24 space-y-6">
               {/* Category & Badge */}
               <div className="flex items-center justify-between gap-2">
-                <span className="text-xs font-bold uppercase tracking-wider text-emerald-700 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200/50">
+                <span className="text-xs font-sans font-semibold uppercase tracking-wider text-heading px-3 py-1 rounded-full bg-surface-sunken border border-line">
                   {product.category}
                 </span>
                 {product.badge && (
-                  <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-amber-50 text-amber-800 border border-amber-200/50">
+                  <span className="text-xs font-sans font-semibold px-3 py-1 rounded-full bg-accent-subtle text-accent border border-accent/20">
                     {product.badge}
                   </span>
                 )}
@@ -270,13 +267,13 @@ export default function ProductPage() {
 
               {/* Title & Price */}
               <div>
-                <h1 className="text-2xl sm:text-3xl font-black text-stone-900 tracking-tight leading-snug">
+                <h1 className="font-serif text-2xl sm:text-3xl font-bold text-heading tracking-tight leading-snug">
                   {product.name}
                 </h1>
                 <div className="mt-3 flex items-baseline gap-3">
-                  <span className="text-3xl font-black text-stone-900">₹{product.price}</span>
-                  <span className="text-xs text-stone-500 font-semibold">Taxes included</span>
-                  <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200/40">
+                  <span className="text-3xl font-serif font-bold text-heading">₹{product.price}</span>
+                  <span className="text-xs font-sans text-muted">Taxes included</span>
+                  <span className="text-xs font-sans font-semibold text-primary bg-primary-subtle px-2.5 py-0.5 rounded-md border border-primary/20">
                     In Stock (Offline Ready)
                   </span>
                 </div>
@@ -284,7 +281,7 @@ export default function ProductPage() {
 
               {/* Eco Score Interactive Badge */}
               {ecoScore && (
-                <div className="p-4 rounded-2xl bg-gradient-to-br from-[#E8F5EE] to-white border border-emerald-200/80 flex items-center justify-between">
+                <div className="p-4 rounded-2xl bg-surface-sunken border border-line flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <EcoScoreBadge
                       score={ecoScore.score}
@@ -293,10 +290,10 @@ export default function ProductPage() {
                       onClick={() => setShowScorePopover(true)}
                     />
                     <div>
-                      <div className="text-xs font-extrabold text-[#0B3B2C]">
+                      <div className="text-xs font-sans font-bold text-heading">
                         Eco-Score: {ecoScore.score}/100 ({ecoScore.gradeLabel})
                       </div>
-                      <div className="text-[11px] text-emerald-700 font-medium">
+                      <div className="text-[11px] font-sans text-primary font-medium">
                         Click for 5-pillar lifecycle audit
                       </div>
                     </div>
@@ -304,7 +301,7 @@ export default function ProductPage() {
                   <button
                     type="button"
                     onClick={() => setShowScorePopover(true)}
-                    className="text-xs font-bold text-emerald-700 hover:text-emerald-900 underline underline-offset-2"
+                    className="text-xs font-sans font-semibold text-primary hover:text-primary-hover underline underline-offset-2 cursor-pointer"
                   >
                     View Breakdown
                   </button>
@@ -312,57 +309,57 @@ export default function ProductPage() {
               )}
 
               {/* Description */}
-              <p className="text-sm text-stone-600 leading-relaxed">
+              <p className="text-sm font-sans text-secondary leading-relaxed">
                 {product.description}
               </p>
 
               {/* Material & Certifications */}
-              <div className="space-y-3 pt-2 border-t border-stone-100">
+              <div className="space-y-3 pt-3 border-t border-line font-sans">
                 <div className="flex items-start gap-2.5 text-xs">
-                  <Leaf className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                  <Leaf className="w-4 h-4 text-primary shrink-0 mt-0.5" />
                   <div>
-                    <span className="font-bold text-stone-850">Material: </span>
-                    <span className="text-stone-600">{product.material}</span>
+                    <span className="font-semibold text-heading">Material: </span>
+                    <span className="text-secondary">{product.material}</span>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-2.5 text-xs">
-                  <MapPin className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                  <MapPin className="w-4 h-4 text-primary shrink-0 mt-0.5" />
                   <div>
-                    <span className="font-bold text-stone-850">Origin: </span>
-                    <span className="text-stone-600">Local Artisan Cluster (~{product.madeInKm} km away)</span>
+                    <span className="font-semibold text-heading">Origin: </span>
+                    <span className="text-secondary">Local Artisan Cluster (~{product.madeInKm} km away)</span>
                   </div>
                 </div>
 
                 {product.certifications && product.certifications.length > 0 && (
                   <div className="flex items-start gap-2.5 text-xs">
-                    <ShieldCheck className="w-4 h-4 text-teal-600 shrink-0 mt-0.5" />
+                    <ShieldCheck className="w-4 h-4 text-secondary shrink-0 mt-0.5" />
                     <div>
-                      <span className="font-bold text-stone-850">Verified: </span>
-                      <span className="text-stone-600">{product.certifications.join(', ')}</span>
+                      <span className="font-semibold text-heading">Verified: </span>
+                      <span className="text-secondary">{product.certifications.join(', ')}</span>
                     </div>
                   </div>
                 )}
               </div>
 
               {/* Quantity & Buy Panel Actions */}
-              <div className="space-y-3 pt-4 border-t border-stone-100">
+              <div className="space-y-4 pt-4 border-t border-line">
                 <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-stone-700">Quantity</span>
-                  <div className="flex items-center gap-2 border border-stone-200 rounded-xl p-1 bg-stone-50">
+                  <span className="text-xs font-sans font-semibold text-heading">Quantity</span>
+                  <div className="flex items-center gap-2 border border-line rounded-2xl p-1 bg-surface-sunken">
                     <button
                       type="button"
                       onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                      className="p-1.5 rounded-lg hover:bg-white text-stone-700 transition"
+                      className="p-2 min-h-[36px] min-w-[36px] rounded-xl hover:bg-surface-raised text-heading transition flex items-center justify-center cursor-pointer"
                       aria-label="Decrease quantity"
                     >
                       <Minus className="w-3.5 h-3.5" />
                     </button>
-                    <span className="w-8 text-center text-xs font-extrabold text-stone-900">{quantity}</span>
+                    <span className="w-8 text-center text-xs font-sans font-bold text-heading">{quantity}</span>
                     <button
                       type="button"
                       onClick={() => setQuantity(quantity + 1)}
-                      className="p-1.5 rounded-lg hover:bg-white text-stone-700 transition"
+                      className="p-2 min-h-[36px] min-w-[36px] rounded-xl hover:bg-surface-raised text-heading transition flex items-center justify-center cursor-pointer"
                       aria-label="Increase quantity"
                     >
                       <Plus className="w-3.5 h-3.5" />
@@ -374,16 +371,16 @@ export default function ProductPage() {
                   <button
                     type="button"
                     onClick={handleAddToCart}
-                    className="flex-1 py-3.5 px-6 rounded-2xl bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold text-sm flex items-center justify-center gap-2 shadow-sm transition active:scale-98 min-h-[44px]"
+                    className="flex-1 py-3.5 px-6 min-h-[44px] rounded-2xl bg-primary hover:bg-primary-hover text-text-inverted font-sans font-medium text-sm flex items-center justify-center gap-2 shadow-soft-sm transition active:scale-98 cursor-pointer"
                   >
                     {addedAnimation ? (
                       <>
-                        <Check className="w-4 h-4 text-emerald-200 animate-bounce" />
+                        <Check className="w-4 h-4 text-text-inverted animate-bounce" />
                         <span>Added to Cart!</span>
                       </>
                     ) : (
                       <>
-                        <ShoppingCart className="w-4 h-4" />
+                        <ShoppingCart className="w-4 h-4 text-text-inverted" />
                         <span>Add to Cart • ₹{product.price * quantity}</span>
                       </>
                     )}
@@ -392,8 +389,8 @@ export default function ProductPage() {
                   <button
                     type="button"
                     onClick={() => toggleWishlist(product)}
-                    className={`p-3.5 rounded-2xl border border-stone-200 hover:bg-stone-50 transition min-h-[44px] min-w-[44px] flex items-center justify-center ${
-                      isFavorited ? 'text-rose-500 fill-rose-500 border-rose-200' : 'text-stone-700'
+                    className={`p-3.5 rounded-2xl border border-line hover:bg-surface-sunken transition min-h-[44px] min-w-[44px] flex items-center justify-center cursor-pointer ${
+                      isFavorited ? 'text-danger fill-danger border-danger/30' : 'text-heading'
                     }`}
                     aria-label="Toggle wishlist"
                   >
@@ -407,8 +404,8 @@ export default function ProductPage() {
 
         {/* Related Products Grid */}
         {relatedProducts.length > 0 && (
-          <div className="mt-16 pt-12 border-t border-stone-200">
-            <h2 className="text-xl font-extrabold text-[#0B3B2C] mb-6">
+          <div className="mt-16 pt-12 border-t border-line">
+            <h2 className="font-serif text-2xl font-bold text-heading mb-6 tracking-tight">
               More Sustainable Alternatives in {product.category}
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -420,18 +417,18 @@ export default function ProductPage() {
         )}
       </div>
 
-      {/* Mobile Sticky Add-to-Cart Bar (Feature 13) */}
-      <div className="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-md border-t border-stone-200 p-3 sm:hidden z-40 flex items-center justify-between gap-3 shadow-lg">
+      {/* Mobile Sticky Add-to-Cart Bar */}
+      <div className="fixed bottom-0 inset-x-0 bg-surface-raised/95 backdrop-blur-md border-t border-line p-3 sm:hidden z-40 flex items-center justify-between gap-3 shadow-soft-lg">
         <div>
-          <div className="text-base font-black text-stone-900 leading-none">₹{product.price}</div>
-          <div className="text-[10px] text-emerald-700 font-bold mt-0.5">Grade {ecoScore?.grade || 'A'} Eco Standard</div>
+          <div className="text-base font-serif font-bold text-heading leading-none">₹{product.price}</div>
+          <div className="text-[10px] font-sans text-primary font-semibold mt-0.5">Grade {ecoScore?.grade || 'A'} Eco Standard</div>
         </div>
         <button
           type="button"
           onClick={handleAddToCart}
-          className="flex-1 py-3 px-5 rounded-2xl bg-emerald-700 text-white font-extrabold text-xs flex items-center justify-center gap-2 transition active:scale-95 min-h-[44px]"
+          className="flex-1 py-3 px-5 rounded-2xl bg-primary hover:bg-primary-hover text-text-inverted font-sans font-medium text-xs flex items-center justify-center gap-2 transition active:scale-95 min-h-[44px] cursor-pointer"
         >
-          {addedAnimation ? <Check className="w-4 h-4" /> : <ShoppingCart className="w-4 h-4" />}
+          {addedAnimation ? <Check className="w-4 h-4 text-text-inverted" /> : <ShoppingCart className="w-4 h-4 text-text-inverted" />}
           <span>{addedAnimation ? 'Added!' : 'Add to Cart'}</span>
         </button>
       </div>
@@ -447,3 +444,4 @@ export default function ProductPage() {
     </div>
   );
 }
+

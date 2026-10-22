@@ -237,7 +237,7 @@ export default function EcoForest3D({ score = 75, co2Saved = 5, className = 'h-7
           sunColor: '#F59E0B',
           sunIntensity: 2.8,
           sunPos: [6, 3, 5],
-          skyBg: 'bg-gradient-to-b from-[#FEF3C7] via-[#FED7AA] to-[#FDE68A] text-[#78350F]'
+          skyBg: 'bg-gradient-to-b from-warning/15 via-warning/25 to-surface-sunken text-heading'
         };
       case 'night':
         return {
@@ -246,7 +246,7 @@ export default function EcoForest3D({ score = 75, co2Saved = 5, className = 'h-7
           sunColor: '#38BDF8',
           sunIntensity: 1.2,
           sunPos: [-5, 6, -3],
-          skyBg: 'bg-gradient-to-b from-[#061A14] via-[#0D281E] to-[#12382B] text-emerald-200'
+          skyBg: 'bg-gradient-to-b from-primary-dark via-primary to-primary text-primary-contrast'
         };
       case 'day':
       default:
@@ -256,7 +256,7 @@ export default function EcoForest3D({ score = 75, co2Saved = 5, className = 'h-7
           sunColor: '#FFFBEB',
           sunIntensity: 2.5,
           sunPos: [5, 8, 5],
-          skyBg: 'bg-gradient-to-b from-[#E0F2FE] via-[#ECFDF5] to-[#D1FAE5] text-[#0B3B2C]'
+          skyBg: 'bg-gradient-to-b from-primary/10 via-surface-sunken to-surface text-heading'
         };
     }
   }, [lightingMode]);
@@ -272,14 +272,14 @@ export default function EcoForest3D({ score = 75, co2Saved = 5, className = 'h-7
 
   if (reducedMotion || !webglSupported) {
     return (
-      <div className={`flex flex-col items-center justify-center p-6 text-center ${className} bg-emerald-50 rounded-2xl`}>
+      <div className={`flex flex-col items-center justify-center p-6 text-center ${className} bg-surface-sunken border border-line rounded-3xl`}>
         <div className="text-6xl mb-2">
           {score >= 85 ? '🌲🌳🌲' : score >= 70 ? '🌳🌲' : '🌱'}
         </div>
-        <div className="text-sm font-extrabold text-[#0B3B2C]">
+        <div className="text-sm font-serif font-bold text-heading">
           {growthTitle}
         </div>
-        <p className="text-xs text-stone-600 mt-1 font-medium">
+        <p className="text-xs text-secondary mt-1 font-normal">
           Cart offset: {co2Saved.toFixed(2)} kg CO₂ avoided.
         </p>
       </div>
@@ -287,16 +287,16 @@ export default function EcoForest3D({ score = 75, co2Saved = 5, className = 'h-7
   }
 
   return (
-    <div className={`relative ${className} rounded-2xl overflow-hidden transition-colors duration-700 ${lighting.skyBg} border border-emerald-400/30 shadow-inner`}>
+    <div className={`relative ${className} rounded-3xl overflow-hidden transition-colors duration-700 ${lighting.skyBg} border border-line shadow-inner`}>
       {/* Top Controls Strip: Lighting Preset Selector */}
-      <div className="absolute top-3 right-3 z-10 flex items-center gap-1.5 p-1 rounded-xl bg-white/90 dark:bg-stone-900/90 backdrop-blur-md border border-stone-300/80 dark:border-stone-700 shadow-xs">
+      <div className="absolute top-3 right-3 z-10 flex items-center gap-1.5 p-1 rounded-full bg-surface/90 backdrop-blur-md border border-line shadow-soft-xs">
         <button
           type="button"
           onClick={() => setLightingMode('day')}
-          className={`p-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 ${
+          className={`px-2.5 py-1 rounded-full text-xs font-medium transition flex items-center gap-1 min-h-[32px] cursor-pointer ${
             lightingMode === 'day'
-              ? 'bg-amber-400 text-stone-950 shadow-xs'
-              : 'text-stone-600 dark:text-stone-300 hover:text-stone-900'
+              ? 'bg-primary text-primary-contrast shadow-soft-xs'
+              : 'text-secondary hover:text-heading'
           }`}
           title="Daylight: Morning Mist"
         >
@@ -307,10 +307,10 @@ export default function EcoForest3D({ score = 75, co2Saved = 5, className = 'h-7
         <button
           type="button"
           onClick={() => setLightingMode('sunset')}
-          className={`p-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 ${
+          className={`px-2.5 py-1 rounded-full text-xs font-medium transition flex items-center gap-1 min-h-[32px] cursor-pointer ${
             lightingMode === 'sunset'
-              ? 'bg-orange-500 text-white shadow-xs'
-              : 'text-stone-600 dark:text-stone-300 hover:text-stone-900'
+              ? 'bg-warning text-primary-contrast shadow-soft-xs'
+              : 'text-secondary hover:text-heading'
           }`}
           title="Golden Hour: Sunset Glow"
         >
@@ -321,10 +321,10 @@ export default function EcoForest3D({ score = 75, co2Saved = 5, className = 'h-7
         <button
           type="button"
           onClick={() => setLightingMode('night')}
-          className={`p-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 ${
+          className={`px-2.5 py-1 rounded-full text-xs font-medium transition flex items-center gap-1 min-h-[32px] cursor-pointer ${
             lightingMode === 'night'
-              ? 'bg-emerald-800 text-emerald-100 shadow-xs'
-              : 'text-stone-600 dark:text-stone-300 hover:text-stone-900'
+              ? 'bg-primary-dark text-primary-contrast shadow-soft-xs'
+              : 'text-secondary hover:text-heading'
           }`}
           title="Starry Night: Fireflies"
         >
@@ -366,10 +366,10 @@ export default function EcoForest3D({ score = 75, co2Saved = 5, className = 'h-7
 
       {/* Bottom Floating Info Pill */}
       <div className="absolute bottom-2.5 inset-x-0 flex items-center justify-center pointer-events-none">
-        <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-white/90 dark:bg-stone-900/90 text-[#0B3B2C] dark:text-emerald-300 backdrop-blur-md border border-emerald-400/40 text-[11px] font-extrabold shadow-sm">
-          <Trees className="w-3.5 h-3.5 text-emerald-600" />
+        <div className="flex items-center gap-2 px-3.5 py-1 rounded-full bg-surface/90 text-heading backdrop-blur-md border border-line text-[11px] font-semibold shadow-soft-xs">
+          <Trees className="w-3.5 h-3.5 text-primary" />
           <span>{growthTitle}</span>
-          <span className="text-[10px] text-stone-500">• Drag to Orbit</span>
+          <span className="text-[10px] text-muted">• Drag to Orbit</span>
         </div>
       </div>
     </div>

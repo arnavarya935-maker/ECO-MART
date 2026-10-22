@@ -15,17 +15,17 @@ export default function ProductImage({
   const [error, setError] = useState(false);
 
   const categoryBgs = {
-    Kitchen: 'from-amber-100 to-orange-50',
-    'Personal Care': 'from-emerald-100 to-teal-50',
-    Fashion: 'from-stone-200 to-amber-50',
-    Stationery: 'from-lime-100 to-emerald-50',
-    Home: 'from-orange-100 to-yellow-50',
-    Bags: 'from-teal-100 to-stone-100',
-    'Outdoor & Travel': 'from-slate-200 to-stone-100',
-    'Cleaning & Laundry': 'from-sky-100 to-teal-50'
+    Kitchen: 'from-accent-subtle to-surface-sunken',
+    'Personal Care': 'from-surface-accent to-surface-sunken',
+    Fashion: 'from-surface-sunken to-surface-accent',
+    Stationery: 'from-surface-accent to-surface-sunken',
+    Home: 'from-accent-subtle to-surface-sunken',
+    Bags: 'from-secondary-subtle to-surface-sunken',
+    'Outdoor & Travel': 'from-surface-sunken to-surface',
+    'Cleaning & Laundry': 'from-secondary-subtle to-surface-accent'
   };
 
-  const bgGrad = categoryBgs[category] || 'from-stone-100 to-white';
+  const bgGrad = categoryBgs[category] || 'from-surface-sunken to-surface-raised';
 
   return (
     <div
@@ -36,7 +36,7 @@ export default function ProductImage({
     >
       {/* Blur-up placeholder pulse while loading */}
       {!loaded && !error && (
-        <div className="absolute inset-0 bg-stone-200/60 backdrop-blur-md animate-pulse flex items-center justify-center">
+        <div className="absolute inset-0 bg-line/60 backdrop-blur-md animate-pulse flex items-center justify-center">
           <span className="text-4xl filter blur-xs opacity-60">{fallbackIcon}</span>
         </div>
       )}
@@ -64,7 +64,7 @@ export default function ProductImage({
           <span className="text-5xl transform transition-transform group-hover:scale-115">
             {fallbackIcon}
           </span>
-          <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 mt-2">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-muted mt-2">
             {category}
           </span>
         </div>
@@ -73,7 +73,7 @@ export default function ProductImage({
       {/* Hover zoom indicator overlay if enabled */}
       {onImageClick && (
         <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-          <span className="p-2 rounded-full bg-white/90 text-stone-800 shadow-md transform scale-90 group-hover:scale-100 transition-transform">
+          <span className="p-2 rounded-full bg-surface-raised/90 text-heading shadow-md transform scale-90 group-hover:scale-100 transition-transform">
             <Eye className="w-4 h-4" />
           </span>
         </div>

@@ -38,7 +38,7 @@ export async function hashPassword(password, salt) {
  * Password Strength Meter (0 - 100)
  */
 export function calculatePasswordStrength(password) {
-  if (!password) return { score: 0, label: 'Empty', color: 'bg-stone-300' };
+  if (!password) return { score: 0, label: 'Empty', color: 'bg-surface-sunken' };
 
   let score = 0;
   if (password.length >= 8) score += 30;
@@ -49,7 +49,7 @@ export function calculatePasswordStrength(password) {
 
   score = Math.min(100, score);
 
-  if (score < 40) return { score, label: 'Weak', color: 'bg-rose-500', text: 'text-rose-600' };
-  if (score < 70) return { score, label: 'Medium', color: 'bg-amber-500', text: 'text-amber-600' };
-  return { score, label: 'Strong', color: 'bg-emerald-500', text: 'text-emerald-600' };
+  if (score < 40) return { score, label: 'Weak', color: 'bg-danger', text: 'text-danger' };
+  if (score < 70) return { score, label: 'Medium', color: 'bg-warning', text: 'text-warning' };
+  return { score, label: 'Strong', color: 'bg-primary', text: 'text-primary' };
 }

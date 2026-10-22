@@ -47,45 +47,45 @@ export default function OrdersPage() {
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 animate-fade-in pb-24">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-stone-200">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-line">
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full">
+            <span className="text-xs font-semibold uppercase tracking-wider text-primary bg-primary/10 border border-primary/20 px-2.5 py-0.5 rounded-full">
               Fulfillment Log
             </span>
-            <span className="text-xs text-stone-500 font-bold">{orders.length} Order{orders.length !== 1 ? 's' : ''}</span>
+            <span className="text-xs text-muted font-medium">{orders.length} Order{orders.length !== 1 ? 's' : ''}</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl font-black text-[#0B3B2C] mt-1.5">
+          <h1 className="text-3xl sm:text-4xl font-serif font-bold text-heading mt-1.5 tracking-tight">
             Order History & Tracking
           </h1>
-          <p className="text-xs sm:text-sm text-stone-600 mt-1">
+          <p className="text-xs sm:text-sm text-secondary mt-1">
             Every conscious purchase logged with verified lifecycle carbon avoidance and real-time status simulation.
           </p>
         </div>
 
         <Link
           to="/shop"
-          className="flex items-center gap-2 px-5 py-2.5 rounded-2xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs transition shadow-xs w-fit min-h-[44px]"
+          className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary hover:bg-primary-hover text-primary-contrast font-medium text-xs transition shadow-soft-xs w-fit min-h-[44px]"
         >
           <span>Explore Catalog</span>
-          <ArrowRight className="w-4 h-4" />
+          <ArrowRight className="w-4 h-4 text-accent" />
         </Link>
       </div>
 
       {orders.length === 0 ? (
-        <div className="text-center py-20 bg-white rounded-3xl border border-stone-200/80 shadow-xs space-y-4">
-          <div className="w-16 h-16 rounded-full bg-emerald-50 text-emerald-700 flex items-center justify-center mx-auto text-2xl">
-            <Package className="w-8 h-8" />
+        <div className="text-center py-20 bg-surface rounded-3xl border border-line shadow-soft-sm space-y-4">
+          <div className="w-16 h-16 rounded-full bg-surface-sunken text-muted flex items-center justify-center mx-auto text-2xl">
+            <Package className="w-7 h-7" />
           </div>
-          <h3 className="font-black text-lg text-stone-900">
+          <h3 className="font-serif font-bold text-lg text-heading">
             No orders placed yet
           </h3>
-          <p className="text-xs text-stone-500 max-w-sm mx-auto leading-relaxed">
+          <p className="text-xs sm:text-sm text-secondary max-w-sm mx-auto leading-relaxed font-normal">
             Once you complete a simulated conscious checkout, your environmental impact receipt and live tracking simulation will appear here.
           </p>
           <Link
             to="/shop"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold shadow-xs transition"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary hover:bg-primary-hover text-primary-contrast text-xs font-medium shadow-soft-xs transition min-h-[44px]"
           >
             Start Shopping
           </Link>
@@ -100,36 +100,36 @@ export default function OrdersPage() {
             return (
               <div
                 key={order.id}
-                className="p-6 rounded-3xl bg-white border border-stone-200/90 shadow-xs space-y-6"
+                className="p-6 sm:p-8 rounded-3xl bg-surface border border-line shadow-soft-sm space-y-6"
               >
                 {/* Order Top Bar */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-stone-100 pb-4">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-line pb-4">
                   <div>
                     <div className="flex items-center gap-2">
-                      <span className="font-black text-stone-900 text-base">
+                      <span className="font-serif font-bold text-heading text-base sm:text-lg">
                         Order #{order.id}
                       </span>
-                      <span className="text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
+                      <span className="text-[10px] font-semibold uppercase px-2.5 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">
                         {TRACKING_STAGES[activeStageIdx].title}
                       </span>
                     </div>
-                    <div className="text-xs text-stone-400 mt-1">Placed on {order.date}</div>
+                    <div className="text-xs text-muted mt-1">Placed on {order.date}</div>
                   </div>
 
                   <div className="flex items-center gap-4">
                     <button
                       type="button"
                       onClick={() => advanceStage(order.id)}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-700 text-xs font-bold transition min-h-[36px]"
+                      className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-surface-sunken hover:bg-surface border border-line text-heading text-xs font-medium transition min-h-[44px] cursor-pointer"
                       title="Click to simulate advancing the tracking stepper"
                     >
-                      <RefreshCw className="w-3.5 h-3.5 text-emerald-700" />
+                      <RefreshCw className="w-3.5 h-3.5 text-primary" />
                       <span>Simulate Next Step</span>
                     </button>
 
                     <div className="text-right">
-                      <div className="text-[11px] text-stone-400 font-semibold">Total Paid</div>
-                      <div className="text-lg font-black text-stone-900">
+                      <div className="text-[11px] text-muted font-normal">Total Paid</div>
+                      <div className="text-lg font-serif font-bold text-heading">
                         ₹{order.total.toLocaleString('en-IN')}
                       </div>
                     </div>
@@ -137,13 +137,13 @@ export default function OrdersPage() {
                 </div>
 
                 {/* Tracking Stepper Simulation (Feature 25) */}
-                <div className="p-4 sm:p-5 rounded-2xl bg-stone-50 border border-stone-200/80">
+                <div className="p-4 sm:p-5 rounded-2xl bg-surface-sunken border border-line">
                   <div className="flex items-center justify-between mb-4">
-                    <span className="text-xs font-bold text-stone-700 flex items-center gap-1.5">
-                      <Clock className="w-4 h-4 text-emerald-700" />
+                    <span className="text-xs font-semibold text-heading flex items-center gap-1.5">
+                      <Clock className="w-4 h-4 text-primary" />
                       Live Delivery Timeline
                     </span>
-                    <span className="text-[11px] text-emerald-700 font-bold">
+                    <span className="text-[11px] text-primary font-semibold">
                       Stage {activeStageIdx + 1} of {TRACKING_STAGES.length}
                     </span>
                   </div>
@@ -161,25 +161,25 @@ export default function OrdersPage() {
                             <div
                               className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs transition-all ${
                                 isCompleted
-                                  ? 'bg-emerald-700 text-white shadow-xs'
+                                  ? 'bg-primary text-primary-contrast shadow-soft-xs'
                                   : isCurrent
-                                  ? 'bg-emerald-100 text-emerald-800 ring-4 ring-emerald-50'
-                                  : 'bg-stone-200 text-stone-400'
+                                  ? 'bg-primary/15 text-primary ring-4 ring-primary/10'
+                                  : 'bg-surface border border-line text-muted'
                               }`}
                             >
                               {isCompleted ? <Check className="w-4 h-4 stroke-[3]" /> : <Icon className="w-4 h-4" />}
                             </div>
                             <div
                               className={`hidden md:block flex-1 h-1 rounded-full ${
-                                isCompleted ? 'bg-emerald-600' : 'bg-stone-200'
+                                isCompleted ? 'bg-primary' : 'bg-line'
                               }`}
                             />
                           </div>
                           <div>
-                            <div className={`text-xs font-bold ${isCurrent ? 'text-emerald-900' : 'text-stone-800'}`}>
+                            <div className={`text-xs font-semibold ${isCurrent ? 'text-heading' : 'text-secondary'}`}>
                               {stage.title}
                             </div>
-                            <div className="text-[10px] text-stone-500 leading-tight mt-0.5">
+                            <div className="text-[10px] text-muted leading-tight mt-0.5">
                               {stage.subtitle}
                             </div>
                           </div>
@@ -190,13 +190,13 @@ export default function OrdersPage() {
                 </div>
 
                 {/* Impact Badge */}
-                <div className="p-3.5 rounded-2xl bg-[#E8F5EE] border border-emerald-200/80 flex flex-wrap items-center justify-between gap-3">
+                <div className="p-4 rounded-2xl bg-surface-sunken border border-line flex flex-wrap items-center justify-between gap-3">
                   <div className="flex items-center gap-4 text-xs">
-                    <span className="flex items-center gap-1 font-bold text-emerald-900">
-                      <Wind className="w-4 h-4 text-emerald-700" /> {co2Saved} kg CO₂ Avoided
+                    <span className="flex items-center gap-1.5 font-semibold text-primary">
+                      <Wind className="w-4 h-4 text-primary" /> {co2Saved} kg CO₂ Avoided
                     </span>
-                    <span className="flex items-center gap-1 font-bold text-emerald-900">
-                      <Ban className="w-4 h-4 text-amber-700" /> {plasticDiverted} g Plastic Diverted
+                    <span className="flex items-center gap-1.5 font-semibold text-warning">
+                      <Ban className="w-4 h-4 text-warning" /> {plasticDiverted} g Plastic Diverted
                     </span>
                   </div>
 
@@ -209,26 +209,26 @@ export default function OrdersPage() {
                       playSound('click');
                       showToast('Copied impact receipt text to clipboard!', 'success');
                     }}
-                    className="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 hover:text-emerald-900 underline"
+                    className="inline-flex items-center gap-1 text-xs font-medium text-primary hover:underline cursor-pointer min-h-[44px]"
                   >
                     <Share2 className="w-3.5 h-3.5" /> Share Impact Receipt
                   </button>
                 </div>
 
                 {/* Ordered Items List */}
-                <div className="divide-y divide-stone-100">
+                <div className="divide-y divide-line">
                   {order.items.map((item, idx) => (
                     <div key={idx} className="py-2.5 flex items-center justify-between text-xs">
                       <div className="flex items-center gap-2.5">
-                        <span className="text-xl">{item.product.icon}</span>
+                        <span className="text-xl p-1.5 rounded-lg bg-surface-sunken border border-line">{item.product.icon}</span>
                         <div>
-                          <span className="font-bold text-stone-900">
+                          <span className="font-semibold text-heading">
                             {item.product.name}
                           </span>
-                          <span className="text-stone-400 ml-1.5">(x{item.quantity})</span>
+                          <span className="text-muted ml-1.5">(x{item.quantity})</span>
                         </div>
                       </div>
-                      <span className="font-bold text-stone-850">
+                      <span className="font-semibold text-heading">
                         ₹{(item.product.price * item.quantity).toLocaleString('en-IN')}
                       </span>
                     </div>
@@ -236,12 +236,12 @@ export default function OrdersPage() {
                 </div>
 
                 {/* Shipping address & packaging notes */}
-                <div className="pt-2 text-xs text-stone-500 flex flex-wrap items-center justify-between gap-2 border-t border-stone-100">
+                <div className="pt-2 text-xs text-muted flex flex-wrap items-center justify-between gap-2 border-t border-line">
                   <div className="flex items-center gap-1.5">
-                    <MapPin className="w-3.5 h-3.5 text-stone-400" />
+                    <MapPin className="w-3.5 h-3.5 text-muted" />
                     <span>Delivering to: {order.shippingAddress || 'Indiranagar, Bengaluru, Karnataka (560038)'}</span>
                   </div>
-                  <span className="text-emerald-700 font-semibold">
+                  <span className="text-primary font-medium">
                     100% Recycled Kraft Box • Zero Plastic Sealed
                   </span>
                 </div>

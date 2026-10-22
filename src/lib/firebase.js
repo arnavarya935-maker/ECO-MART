@@ -1,6 +1,3 @@
-import { initializeApp, getApps } from 'firebase/app';
-import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
   authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
@@ -20,22 +17,25 @@ let app = null;
 let auth = null;
 let googleProvider = null;
 
-if (isFirebaseConfigured) {
-  try {
-    app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
-    auth = getAuth(app);
-    googleProvider = new GoogleAuthProvider();
-  } catch (err) {
-    console.warn('Firebase initialization failed (operating in offline fallback mode):', err.message);
-  }
-}
-
 export { auth, googleProvider };
 
 export async function loginWithFirebaseGoogle() {
-  if (!isFirebaseConfigured || !auth || !googleProvider) {
+  if (!isFirebaseConfigured) {
     throw new Error('Firebase is not configured or offline. Please continue as Guest or use local email login.');
   }
+  if (!app) {
+    try {
+      const { initializeApp, getApps } = await import('firebase/app');
+      const { getAuth, GoogleAuthProvider } = await import('firebase/auth');
+      app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+      auth = getAuth(app);
+      googleProvider = new GoogleAuthProvider();
+    } catch (err) {
+      console.warn('Firebase initialization failed (operating in offline fallback mode):', err.message);
+      throw new Error('Firebase is offline or could not be loaded. Please continue as Guest or use local email login.');
+    }
+  }
+  const { signInWithPopup } = await import('firebase/auth');
   const result = await signInWithPopup(auth, googleProvider);
   return result.user;
 }

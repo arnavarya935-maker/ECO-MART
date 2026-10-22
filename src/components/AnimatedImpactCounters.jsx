@@ -43,8 +43,7 @@ export default function AnimatedImpactCounters() {
       value: `${effectiveCounts.co2.toLocaleString()} kg`,
       sub: 'Equivalent to 62,000 car km',
       icon: Leaf,
-      color: 'text-emerald-700',
-      bg: 'bg-emerald-50 border-emerald-200'
+      iconColor: 'text-primary'
     },
     {
       id: 'plastic',
@@ -52,8 +51,7 @@ export default function AnimatedImpactCounters() {
       value: `${effectiveCounts.plastic.toLocaleString()} pcs`,
       sub: 'Prevented from landfill & oceans',
       icon: ShieldCheck,
-      color: 'text-teal-700',
-      bg: 'bg-teal-50 border-teal-200'
+      iconColor: 'text-secondary'
     },
     {
       id: 'trees',
@@ -61,8 +59,7 @@ export default function AnimatedImpactCounters() {
       value: `${effectiveCounts.trees.toLocaleString()} trees`,
       sub: 'Via 100% tree-free paper & bamboo',
       icon: TreePine,
-      color: 'text-green-800',
-      bg: 'bg-green-50 border-green-200'
+      iconColor: 'text-primary'
     },
     {
       id: 'water',
@@ -70,53 +67,57 @@ export default function AnimatedImpactCounters() {
       value: `${(effectiveCounts.water / 1000).toFixed(0)}k Litres`,
       sub: 'From organic non-toxic processing',
       icon: Droplets,
-      color: 'text-cyan-700',
-      bg: 'bg-cyan-50 border-cyan-200'
+      iconColor: 'text-secondary'
     }
   ];
 
   return (
-    <section className="py-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="text-center max-w-2xl mx-auto mb-8">
-        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 text-xs font-black uppercase tracking-wider mb-2">
-          <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
-          <span>Verified Collective Milestones</span>
-        </span>
-        <h2 className="text-2xl sm:text-3xl font-black text-stone-900 dark:text-stone-100">
-          Tangible Impact You Can Verify
-        </h2>
-        <p className="text-xs sm:text-sm text-stone-600 dark:text-stone-400 mt-1">
-          Every audited purchase and swap adds up to measurable ecological restoration.
-        </p>
-      </div>
+    <section className="py-14 bg-surface border-y border-line">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center max-w-2xl mx-auto mb-10">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-subtle text-primary border border-primary/20 text-xs font-sans font-semibold uppercase tracking-wider mb-2">
+            <Sparkles className="w-3.5 h-3.5 text-primary" />
+            <span>Verified Collective Milestones</span>
+          </span>
+          <h2 className="font-serif text-2xl sm:text-3xl font-bold text-heading tracking-tight">
+            Tangible Impact You Can Verify
+          </h2>
+          <p className="font-sans text-xs sm:text-sm text-secondary mt-1">
+            Every audited purchase and swap adds up to measurable ecological restoration.
+          </p>
+        </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        {metrics.map((m) => {
-          const Icon = m.icon;
-          return (
-            <div
-              key={m.id}
-              className={`p-6 rounded-3xl border ${m.bg} shadow-xs transition-all hover:-translate-y-1`}
-            >
-              <div className="flex items-center justify-between mb-3">
-                <div className={`p-2.5 rounded-2xl bg-white dark:bg-stone-900 shadow-2xs ${m.color}`}>
-                  <Icon className="w-5 h-5" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          {metrics.map((m) => {
+            const Icon = m.icon;
+            return (
+              <div
+                key={m.id}
+                className="p-6 rounded-3xl bg-surface-raised border border-line shadow-soft-sm hover:shadow-soft-md transition-all duration-300"
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <div className={`p-2.5 rounded-2xl bg-surface-sunken border border-line-subtle ${m.iconColor}`}>
+                    <Icon className="w-5 h-5" />
+                  </div>
+                  <span className="text-[10px] font-sans font-semibold uppercase tracking-wider text-muted bg-surface-sunken px-2 py-0.5 rounded-full border border-line-subtle">
+                    Audited
+                  </span>
                 </div>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400">Audited</span>
+                <div className="font-serif text-3xl sm:text-4xl font-bold tracking-tight text-heading">
+                  {m.value}
+                </div>
+                <div className="text-xs font-sans font-semibold text-heading mt-1">
+                  {m.label}
+                </div>
+                <div className="text-[11px] font-sans text-muted mt-0.5">
+                  {m.sub}
+                </div>
               </div>
-              <div className={`text-2xl sm:text-3xl font-black tracking-tight ${m.color}`}>
-                {m.value}
-              </div>
-              <div className="text-xs font-bold text-stone-800 dark:text-stone-200 mt-1">
-                {m.label}
-              </div>
-              <div className="text-[11px] text-stone-500 dark:text-stone-400 mt-0.5">
-                {m.sub}
-              </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </section>
   );
 }
+

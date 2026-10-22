@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Keyboard } from 'lucide-react';
-import Modal from './ui/Modal';
+import { Modal } from './ui/Modal';
 import { useCart } from '../context/CartContext';
 import { useTheme } from '../context/ThemeContext';
 
@@ -17,8 +17,14 @@ const SHORTCUTS = [
   { key: 'Esc', label: 'Close any open modal or drawer' }
 ];
 
-export default function KeyboardShortcutsModal() {
-  const [isOpen, setIsOpen] = useState(false);
+export default function KeyboardShortcutsModal({ isOpen: controlledOpen, onClose: controlledClose }) {
+  const [internalOpen, setInternalOpen] = useState(true);
+  const isOpen = controlledOpen !== undefined ? controlledOpen : internalOpen;
+  const handleClose = useCallback(() => {
+    if (controlledClose) controlledClose();
+    else setInternalOpen(false);
+  }, [controlledClose]);
+
   const navigate = useNavigate();
   const { setIsCartOpen, setIsAgentOpen } = useCart();
   const { toggleReduceEffects } = useTheme();
@@ -30,7 +36,14 @@ export default function KeyboardShortcutsModal() {
 
       if (e.key === '?' || (e.key === '/' && e.shiftKey)) {
         e.preventDefault();
-        setIsOpen((prev) => !prev);
+        if (isOpen) {
+          handleClose();
+        } else {
+          if (controlledClose) controlledClose(true);
+          else setInternalOpen(true);
+        }
+      } else if (e.key === 'Escape' && isOpen) {
+        handleClose();
       } else if (e.key === 'h' || e.key === 'H') {
         navigate('/');
       } else if (e.key === 's' || e.key === 'S') {
@@ -48,33 +61,33 @@ export default function KeyboardShortcutsModal() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [navigate, setIsCartOpen, setIsAgentOpen, toggleReduceEffects]);
+  }, [isOpen, controlledClose, handleClose, navigate, setIsCartOpen, setIsAgentOpen, toggleReduceEffects]);
 
   return (
     <Modal
       isOpen={isOpen}
-      onClose={() => setIsOpen(false)}
+      onClose={handleClose}
       title="Keyboard Shortcuts"
       maxWidth="max-w-md"
     >
       <div className="space-y-4">
-        <p className="text-xs text-stone-500 font-medium">
-          Navigate EcoMart rapidly without touching your mouse. Press <kbd className="px-1.5 py-0.5 rounded bg-stone-100 border border-stone-200 font-mono font-bold">?</kbd> anytime to open this guide, or <kbd className="px-1.5 py-0.5 rounded bg-stone-100 border border-stone-200 font-mono font-bold">Ctrl/Cmd + K</kbd> for the Command Palette.
+        <p className="text-xs text-muted leading-relaxed font-normal">
+          Navigate EcoMart rapidly without touching your mouse. Press <kbd className="px-1.5 py-0.5 rounded-md bg-surface-sunken border border-line text-heading font-mono font-semibold text-[11px]">?</kbd> anytime to open this guide, or <kbd className="px-1.5 py-0.5 rounded-md bg-surface-sunken border border-line text-heading font-mono font-semibold text-[11px]">Ctrl/Cmd + K</kbd> for the Command Palette.
         </p>
 
-        <div className="divide-y divide-stone-100 border border-stone-200 rounded-xl overflow-hidden bg-white shadow-2xs">
+        <div className="divide-y divide-line border border-line rounded-2xl overflow-hidden bg-surface shadow-soft-xs">
           {SHORTCUTS.map((item, idx) => (
             <div key={idx} className="flex items-center justify-between px-3.5 py-2.5 text-xs">
-              <span className="text-stone-700 font-medium">{item.label}</span>
-              <kbd className="px-2 py-1 rounded-md bg-stone-100 border border-stone-200 text-stone-800 font-mono font-bold text-[11px] shadow-2xs">
+              <span className="text-text font-medium">{item.label}</span>
+              <kbd className="px-2 py-1 rounded-md bg-surface-sunken border border-line text-heading font-mono font-semibold text-[11px] shadow-soft-xs">
                 {item.key}
               </kbd>
             </div>
           ))}
         </div>
 
-        <div className="flex items-center gap-2 pt-2 text-[11px] text-stone-400">
-          <Keyboard className="w-3.5 h-3.5" />
+        <div className="flex items-center gap-2 pt-1 text-[11px] text-muted font-medium">
+          <Keyboard className="w-3.5 h-3.5 text-muted" />
           <span>Full keyboard accessibility supported across the entire site</span>
         </div>
       </div>

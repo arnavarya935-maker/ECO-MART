@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import productsData from '../data/products.json';
 import { useCart } from '../context/CartContext';
@@ -20,8 +20,14 @@ import {
   X
 } from 'lucide-react';
 
-export default function CommandPalette() {
-  const [isOpen, setIsOpen] = useState(false);
+export default function CommandPalette({ isOpen: controlledOpen, onClose: controlledClose }) {
+  const [internalOpen, setInternalOpen] = useState(true);
+  const isOpen = controlledOpen !== undefined ? controlledOpen : internalOpen;
+  const handleClose = useCallback(() => {
+    if (controlledClose) controlledClose();
+    else setInternalOpen(false);
+  }, [controlledClose]);
+
   const [query, setQuery] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
   const inputRef = useRef(null);
@@ -35,13 +41,25 @@ export default function CommandPalette() {
     const handleKeyDown = (e) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
         e.preventDefault();
-        setIsOpen((prev) => !prev);
+        if (isOpen) {
+          handleClose();
+        } else {
+          if (controlledClose) controlledClose(true);
+          else setInternalOpen(true);
+        }
       } else if (e.key === 'Escape' && isOpen) {
-        setIsOpen(false);
+        handleClose();
       }
     };
 
-    const handleCustomToggle = () => setIsOpen((prev) => !prev);
+    const handleCustomToggle = () => {
+      if (isOpen) {
+        handleClose();
+      } else {
+        if (controlledClose) controlledClose(true);
+        else setInternalOpen(true);
+      }
+    };
 
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('toggle-command-palette', handleCustomToggle);
@@ -49,7 +67,7 @@ export default function CommandPalette() {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('toggle-command-palette', handleCustomToggle);
     };
-  }, [isOpen]);
+  }, [isOpen, controlledClose, handleClose]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -249,16 +267,16 @@ export default function CommandPalette() {
       role="dialog"
       aria-modal="true"
       aria-label="Command palette"
-      className="fixed inset-0 z-50 flex items-start justify-center pt-16 sm:pt-24 px-4 bg-black/40 backdrop-blur-xs animate-fade-in"
-      onClick={() => setIsOpen(false)}
+      className="fixed inset-0 z-command-palette flex items-start justify-center pt-16 sm:pt-24 px-4 bg-heading/50 backdrop-blur-xs animate-fade-in"
+      onClick={handleClose}
     >
       <div
-        className="w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-stone-200/90 overflow-hidden text-stone-900 animate-slide-up"
+        className="w-full max-w-2xl bg-surface-raised rounded-3xl shadow-soft-xl border border-line overflow-hidden text-text animate-slide-up"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Search Input Bar */}
-        <div className="flex items-center gap-3 px-5 py-4 border-b border-stone-200">
-          <Search className="w-5 h-5 text-emerald-600 shrink-0" />
+        <div className="flex items-center gap-3 px-5 py-4 border-b border-line bg-surface-raised">
+          <Search className="w-5 h-5 text-primary shrink-0" />
           <input
             ref={inputRef}
             type="text"
@@ -269,7 +287,7 @@ export default function CommandPalette() {
             }}
             onKeyDown={handleKeyDown}
             placeholder="Type a command, product, or action..."
-            className="flex-1 bg-transparent text-sm sm:text-base font-medium outline-hidden placeholder:text-stone-400"
+            className="flex-1 bg-transparent text-sm sm:text-base font-medium outline-hidden placeholder:text-muted text-heading"
           />
           {query && (
             <button
@@ -279,22 +297,23 @@ export default function CommandPalette() {
                 setSelectedIndex(0);
                 inputRef.current?.focus();
               }}
-              className="p-1 rounded-lg hover:bg-stone-100 text-stone-400 hover:text-stone-600"
+              aria-label="Clear search query"
+              className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-surface-sunken text-muted hover:text-text transition-colors focus-visible:outline-2 focus-visible:outline-focus"
             >
               <X className="w-4 h-4" />
             </button>
           )}
-          <kbd className="hidden sm:inline px-2 py-0.5 text-[10px] font-mono font-bold bg-stone-100 border border-stone-200 rounded text-stone-500">
+          <kbd className="hidden sm:inline px-2 py-0.5 text-[10px] font-mono font-bold bg-surface-sunken border border-line rounded-md text-muted shadow-soft-xs">
             ESC
           </kbd>
         </div>
 
         {/* Results List */}
-        <div className="max-h-[60vh] overflow-y-auto p-2 space-y-1">
+        <div className="max-h-[60vh] overflow-y-auto p-2.5 space-y-1">
           {filteredItems.length === 0 ? (
-            <div className="py-12 text-center text-stone-500">
-              <p className="text-sm font-semibold">No matching commands or products found</p>
-              <p className="text-xs mt-1 text-stone-400">Try searching for "bamboo", "cart", or "calculator"</p>
+            <div className="py-12 text-center text-muted">
+              <p className="text-sm font-serif font-bold text-heading">No matching commands or products found</p>
+              <p className="text-xs mt-1 text-muted">Try searching for "bamboo", "cart", or "calculator"</p>
             </div>
           ) : (
             filteredItems.map((item, idx) => {
@@ -306,27 +325,27 @@ export default function CommandPalette() {
                   type="button"
                   onClick={item.perform}
                   onMouseEnter={() => setSelectedIndex(idx)}
-                  className={`w-full flex items-center justify-between px-3.5 py-3 rounded-2xl text-left transition ${
+                  className={`w-full flex items-center justify-between px-3.5 py-3 rounded-2xl text-left transition-colors min-h-[44px] focus-visible:outline-2 focus-visible:outline-focus ${
                     isSelected
-                      ? 'bg-[#E8F5EE] text-[#0B3B2C] shadow-2xs'
-                      : 'hover:bg-stone-50 text-stone-700'
+                      ? 'bg-surface-accent text-heading border border-primary/20 shadow-soft-xs'
+                      : 'hover:bg-surface-sunken text-text border border-transparent'
                   }`}
                 >
-                  <div className="flex items-center gap-3 min-w-0">
+                  <div className="flex items-center gap-3.5 min-w-0">
                     <div
-                      className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${
+                      className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition-colors ${
                         isSelected
-                          ? 'bg-emerald-600 text-white'
-                          : 'bg-stone-100 text-stone-600'
+                          ? 'bg-heading text-primary'
+                          : 'bg-surface-sunken text-secondary border border-line'
                       }`}
                     >
                       <Icon className="w-4 h-4" />
                     </div>
                     <div className="min-w-0">
-                      <div className="text-xs sm:text-sm font-bold truncate">
+                      <div className="text-xs sm:text-sm font-bold truncate text-heading">
                         {item.title}
                       </div>
-                      <div className="text-[11px] text-stone-500 truncate">
+                      <div className="text-[11px] text-muted truncate mt-0.5">
                         {item.subtitle}
                       </div>
                     </div>
@@ -334,18 +353,18 @@ export default function CommandPalette() {
 
                   <div className="flex items-center gap-2 pl-2 shrink-0">
                     {item.type === 'product' && (
-                      <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-800 border border-emerald-200">
+                      <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-md bg-surface-accent text-primary border border-primary/20">
                         Product
                       </span>
                     )}
                     {item.type === 'action' && (
-                      <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-amber-50 text-amber-800 border border-amber-200">
+                      <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-md bg-warning-subtle text-warning border border-warning/20">
                         Action
                       </span>
                     )}
                     <ArrowRight
-                      className={`w-4 h-4 transition ${
-                        isSelected ? 'text-emerald-700 translate-x-0.5' : 'text-stone-300'
+                      className={`w-4 h-4 transition-transform ${
+                        isSelected ? 'text-heading translate-x-0.5' : 'text-muted'
                       }`}
                     />
                   </div>
@@ -356,18 +375,18 @@ export default function CommandPalette() {
         </div>
 
         {/* Footer shortcuts hint */}
-        <div className="px-5 py-2.5 bg-stone-50 border-t border-stone-200/80 flex items-center justify-between text-[11px] text-stone-500">
+        <div className="px-5 py-2.5 bg-surface-sunken border-t border-line flex items-center justify-between text-[11px] text-muted">
           <div className="flex items-center gap-3">
             <span>
-              <kbd className="px-1.5 py-0.5 font-mono text-[10px] bg-white border border-stone-200 rounded mr-1">↑↓</kbd>
+              <kbd className="px-1.5 py-0.5 font-mono text-[10px] bg-surface-raised border border-line rounded-md mr-1 shadow-soft-xs">↑↓</kbd>
               Navigate
             </span>
             <span>
-              <kbd className="px-1.5 py-0.5 font-mono text-[10px] bg-white border border-stone-200 rounded mr-1">↵</kbd>
+              <kbd className="px-1.5 py-0.5 font-mono text-[10px] bg-surface-raised border border-line rounded-md mr-1 shadow-soft-xs">↵</kbd>
               Select
             </span>
           </div>
-          <span>Offline search</span>
+          <span className="font-medium text-primary">100% Offline Index</span>
         </div>
       </div>
     </div>

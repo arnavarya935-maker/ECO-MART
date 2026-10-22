@@ -13,39 +13,40 @@ export default function ShopFilterBar({
   activeFilterCount
 }) {
   return (
-    <div className="sticky top-18 z-30 bg-[#faf9f6]/95 backdrop-blur-md py-3.5 border-b border-stone-200/80 transition-colors">
+    <div className="sticky top-18 z-30 bg-surface/95 backdrop-blur-md py-3.5 border-b border-line transition-colors">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         {/* Search input bar */}
         <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-stone-400" />
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => onSearchChange(e.target.value)}
             placeholder="Search by product, material, or keyword..."
-            className="w-full pl-10 pr-9 py-2.5 rounded-2xl bg-white border border-stone-200 text-xs sm:text-sm font-medium outline-hidden placeholder:text-stone-400 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-600/20 shadow-2xs transition"
+            className="w-full pl-10 pr-9 py-2.5 min-h-[44px] rounded-2xl bg-surface-raised border border-line text-xs sm:text-sm font-sans font-medium text-heading placeholder:text-muted focus-visible:outline-2 focus-visible:outline-focus shadow-soft-sm transition"
           />
           {searchQuery && (
             <button
               type="button"
               onClick={() => onSearchChange('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-stone-400 hover:text-stone-700"
+              className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 text-muted hover:text-heading cursor-pointer min-h-[32px] min-w-[32px] flex items-center justify-center"
+              aria-label="Clear search query"
             >
               <X className="w-3.5 h-3.5" />
             </button>
           )}
         </div>
 
-        {/* Right controls: Category scroll, Sort & Filter Drawer Button */}
+        {/* Right controls: Category, Sort & Filter Drawer Button */}
         <div className="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0">
           {/* Category Dropdown */}
           <select
             value={category}
             onChange={(e) => onCategoryChange(e.target.value)}
-            className="px-3 py-2 rounded-xl bg-white border border-stone-200 text-xs font-bold text-stone-700 focus:outline-hidden cursor-pointer shadow-2xs"
+            className="px-3.5 py-2 min-h-[44px] rounded-2xl bg-surface-raised border border-line text-xs font-sans font-medium text-heading focus-visible:outline-2 focus-visible:outline-focus cursor-pointer shadow-soft-sm"
             aria-label="Filter by category"
           >
-            <option value="All">All Categories (8)</option>
+            <option value="All">All Categories ({categories.length})</option>
             {categories.map((cat) => (
               <option key={cat} value={cat}>
                 {cat}
@@ -53,13 +54,13 @@ export default function ShopFilterBar({
             ))}
           </select>
 
-          {/* Sort Selector (Including Feature 23: Impact per Rupee) */}
-          <div className="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-white border border-stone-200 shadow-2xs">
-            <ArrowUpDown className="w-3.5 h-3.5 text-stone-400 shrink-0" />
+          {/* Sort Selector */}
+          <div className="flex items-center gap-1.5 px-3.5 py-2 min-h-[44px] rounded-2xl bg-surface-raised border border-line shadow-soft-sm">
+            <ArrowUpDown className="w-3.5 h-3.5 text-muted shrink-0" />
             <select
               value={sortBy}
               onChange={(e) => onSortChange(e.target.value)}
-              className="bg-transparent text-xs font-bold text-stone-700 focus:outline-hidden cursor-pointer"
+              className="bg-transparent text-xs font-sans font-medium text-heading focus:outline-hidden cursor-pointer"
               aria-label="Sort products"
             >
               <option value="featured">Featured Picks</option>
@@ -75,12 +76,12 @@ export default function ShopFilterBar({
           <button
             type="button"
             onClick={onOpenMobileFilters}
-            className="relative flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white border border-stone-200 hover:bg-stone-50 text-stone-700 text-xs font-bold transition shadow-2xs min-h-[38px] shrink-0"
+            className="relative flex items-center gap-1.5 px-4 py-2 min-h-[44px] rounded-2xl bg-surface-raised border border-line hover:bg-surface-sunken text-heading text-xs font-sans font-medium transition shadow-soft-sm shrink-0 cursor-pointer"
           >
-            <SlidersHorizontal className="w-3.5 h-3.5 text-emerald-700" />
+            <SlidersHorizontal className="w-3.5 h-3.5 text-primary" />
             <span>Filters</span>
             {activeFilterCount > 0 && (
-              <span className="w-4 h-4 rounded-full bg-emerald-700 text-white text-[9px] font-black flex items-center justify-center">
+              <span className="w-4 h-4 rounded-full bg-primary text-text-inverted text-[9px] font-sans font-bold flex items-center justify-center">
                 {activeFilterCount}
               </span>
             )}
@@ -90,3 +91,4 @@ export default function ShopFilterBar({
     </div>
   );
 }
+

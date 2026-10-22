@@ -65,19 +65,19 @@ export default function BudgetBasketBuilder() {
   };
 
   return (
-    <div className="p-6 sm:p-8 rounded-3xl bg-white border border-stone-200/90 shadow-2xs space-y-6">
+    <div className="p-6 sm:p-8 rounded-3xl bg-surface border border-line shadow-soft-sm space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full">
+            <span className="text-xs font-semibold uppercase tracking-wider text-primary bg-primary/10 border border-primary/20 px-2.5 py-0.5 rounded-full">
               Automated Basket Optimizer
             </span>
-            <span className="text-xs text-stone-500 font-bold">Feature 22</span>
+            <span className="text-xs text-muted font-medium">Feature 22</span>
           </div>
-          <h3 className="text-xl sm:text-2xl font-black text-[#0B3B2C] mt-1">
+          <h3 className="text-xl sm:text-2xl font-serif font-bold text-heading mt-1">
             Budget Basket Builder
           </h3>
-          <p className="text-xs sm:text-sm text-stone-600 mt-0.5">
+          <p className="text-xs sm:text-sm text-secondary mt-0.5">
             Set your budget and target area; our algorithm selects the items delivering maximum environmental impact per rupee.
           </p>
         </div>
@@ -86,7 +86,7 @@ export default function BudgetBasketBuilder() {
           type="button"
           onClick={handleAddAll}
           disabled={optimizedBasket.items.length === 0}
-          className="px-5 py-3 rounded-2xl bg-emerald-700 hover:bg-emerald-800 disabled:opacity-40 text-white text-xs font-black flex items-center justify-center gap-2 shadow-sm transition shrink-0 min-h-[44px]"
+          className="px-5 py-3 rounded-full bg-primary hover:bg-primary-hover disabled:opacity-40 text-primary-contrast text-xs font-medium flex items-center justify-center gap-2 shadow-soft-sm transition shrink-0 min-h-[44px] cursor-pointer focus-visible:outline-2 focus-visible:outline-focus"
         >
           <ShoppingBag className="w-4 h-4" />
           <span>Add Basket to Cart • ₹{optimizedBasket.totalCost}</span>
@@ -94,11 +94,11 @@ export default function BudgetBasketBuilder() {
       </div>
 
       {/* Controls: Budget Slider and Goal Selection */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 p-5 rounded-2xl bg-stone-50 border border-stone-200/80">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 p-5 rounded-2xl bg-surface-sunken border border-line">
         <div className="space-y-2">
-          <div className="flex items-center justify-between text-xs font-extrabold text-stone-800">
+          <div className="flex items-center justify-between text-xs font-semibold text-heading">
             <span>Your Target Budget</span>
-            <span className="text-emerald-700 text-sm font-black">₹{budget}</span>
+            <span className="text-primary text-sm font-bold">₹{budget}</span>
           </div>
           <input
             type="range"
@@ -107,9 +107,9 @@ export default function BudgetBasketBuilder() {
             step="50"
             value={budget}
             onChange={(e) => setBudget(Number(e.target.value))}
-            className="w-full accent-emerald-700 cursor-pointer"
+            className="w-full accent-primary cursor-pointer min-h-[44px]"
           />
-          <div className="flex justify-between text-[10px] text-stone-400 font-bold">
+          <div className="flex justify-between text-[10px] text-muted font-medium">
             <span>₹300</span>
             <span>₹1,500</span>
             <span>₹3,000</span>
@@ -117,17 +117,17 @@ export default function BudgetBasketBuilder() {
         </div>
 
         <div className="space-y-2">
-          <span className="text-xs font-extrabold text-stone-800 block">Focus Category</span>
+          <span className="text-xs font-semibold text-heading block">Focus Category</span>
           <div className="grid grid-cols-4 gap-1.5">
             {['All', 'Kitchen', 'Personal Care', 'Stationery'].map((cat) => (
               <button
                 key={cat}
                 type="button"
                 onClick={() => setTargetCategory(cat)}
-                className={`py-2 px-2 text-[11px] font-bold rounded-xl border transition ${
+                className={`py-2 px-2 text-[11px] font-medium rounded-full border transition cursor-pointer min-h-[44px] focus-visible:outline-2 focus-visible:outline-focus ${
                   targetCategory === cat
-                    ? 'bg-emerald-700 text-white border-emerald-700 shadow-2xs'
-                    : 'bg-white hover:bg-stone-100 text-stone-700 border-stone-200'
+                    ? 'bg-primary text-primary-contrast border-primary shadow-soft-xs'
+                    : 'bg-surface hover:bg-surface-sunken text-secondary border-line'
                 }`}
               >
                 {cat}
@@ -139,39 +139,39 @@ export default function BudgetBasketBuilder() {
 
       {/* Optimized Basket Summary */}
       <div className="space-y-4">
-        <div className="p-4 rounded-2xl bg-[#E8F5EE] border border-emerald-200/80 grid grid-cols-2 sm:grid-cols-4 gap-3 text-center text-xs">
+        <div className="p-4 rounded-2xl bg-surface-sunken border border-line grid grid-cols-2 sm:grid-cols-4 gap-3 text-center text-xs">
           <div>
-            <div className="text-[10px] font-bold uppercase text-stone-500">Items Selected</div>
-            <div className="text-base font-black text-[#0B3B2C] mt-0.5">{optimizedBasket.items.length} items</div>
+            <div className="text-[10px] font-semibold uppercase tracking-wider text-muted">Items Selected</div>
+            <div className="text-base font-bold text-heading mt-0.5">{optimizedBasket.items.length} items</div>
           </div>
           <div>
-            <div className="text-[10px] font-bold uppercase text-stone-500">Total Spent</div>
-            <div className="text-base font-black text-emerald-800 mt-0.5">₹{optimizedBasket.totalCost}</div>
+            <div className="text-[10px] font-semibold uppercase tracking-wider text-muted">Total Spent</div>
+            <div className="text-base font-bold text-primary mt-0.5">₹{optimizedBasket.totalCost}</div>
           </div>
           <div>
-            <div className="text-[10px] font-bold uppercase text-stone-500">CO₂ Avoidance</div>
-            <div className="text-base font-black text-emerald-800 mt-0.5">{optimizedBasket.totalCo2} kg</div>
+            <div className="text-[10px] font-semibold uppercase tracking-wider text-muted">CO₂ Avoidance</div>
+            <div className="text-base font-bold text-primary mt-0.5">{optimizedBasket.totalCo2} kg</div>
           </div>
           <div>
-            <div className="text-[10px] font-bold uppercase text-stone-500">Plastic Diverted</div>
-            <div className="text-base font-black text-amber-800 mt-0.5">{optimizedBasket.totalPlastic} g</div>
+            <div className="text-[10px] font-semibold uppercase tracking-wider text-muted">Plastic Diverted</div>
+            <div className="text-base font-bold text-accent mt-0.5">{optimizedBasket.totalPlastic} g</div>
           </div>
         </div>
 
         {/* Selected Items List */}
-        <div className="divide-y divide-stone-100 border border-stone-200 rounded-2xl overflow-hidden bg-white">
+        <div className="divide-y divide-line border border-line rounded-2xl overflow-hidden bg-surface shadow-soft-xs">
           {optimizedBasket.items.map((item) => (
-            <div key={item.id} className="p-3.5 flex items-center justify-between text-xs hover:bg-stone-50 transition">
+            <div key={item.id} className="p-3.5 flex items-center justify-between text-xs hover:bg-surface-sunken transition">
               <div className="flex items-center gap-3">
-                <span className="text-xl p-1.5 rounded-lg bg-stone-50 border border-stone-100">{item.icon}</span>
+                <span className="text-xl p-2 rounded-xl bg-surface-sunken border border-line">{item.icon}</span>
                 <div>
-                  <span className="font-extrabold text-stone-900 block">{item.name}</span>
-                  <span className="text-[11px] text-stone-500 font-semibold">{item.category} • {item.material}</span>
+                  <span className="font-semibold text-heading block">{item.name}</span>
+                  <span className="text-[11px] text-muted">{item.category} • {item.material}</span>
                 </div>
               </div>
               <div className="text-right">
-                <span className="font-black text-stone-900 text-sm">₹{item.price}</span>
-                <span className="text-[10px] text-emerald-700 block font-bold">Grade A</span>
+                <span className="font-bold text-heading text-sm">₹{item.price}</span>
+                <span className="text-[10px] text-primary block font-semibold">Grade A</span>
               </div>
             </div>
           ))}

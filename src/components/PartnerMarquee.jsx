@@ -12,9 +12,9 @@ const PARTNERS = [
 
 export default function PartnerMarquee() {
   return (
-    <div className="py-8 bg-stone-50/80 dark:bg-stone-900/60 border-y border-stone-200/80 dark:border-stone-800 overflow-hidden">
+    <div className="py-8 bg-surface border-y border-line overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 mb-3 text-center">
-        <span className="text-[11px] font-black uppercase tracking-widest text-stone-600 dark:text-stone-400">
+        <span className="text-[11px] font-bold uppercase tracking-widest text-muted">
           Independently Audited Certifications & Ethical Standards
         </span>
       </div>
@@ -24,12 +24,12 @@ export default function PartnerMarquee() {
           {PARTNERS.map((p, idx) => (
             <div
               key={idx}
-              className="flex items-center gap-2.5 px-4 py-2 rounded-2xl bg-white dark:bg-stone-850 border border-stone-200 dark:border-stone-700/80 shadow-2xs hover:border-emerald-400 transition"
+              className="flex items-center gap-2.5 px-4 py-2.5 rounded-2xl bg-surface-raised border border-line shadow-soft-sm hover:border-primary transition-colors"
             >
               <span className="text-xl">{p.icon}</span>
               <div>
-                <div className="text-xs font-black text-stone-900 dark:text-stone-100">{p.name}</div>
-                <div className="text-[10px] text-stone-500 dark:text-stone-400">{p.code}</div>
+                <div className="text-xs font-serif font-bold text-heading">{p.name}</div>
+                <div className="text-[10px] text-muted">{p.code}</div>
               </div>
             </div>
           ))}

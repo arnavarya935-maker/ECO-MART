@@ -18,38 +18,38 @@ export default function WaterEnergyEstimator() {
   const totalEnergyKwh = showerEnergyKwh + laundryEnergyKwh;
 
   return (
-    <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-stone-850 border border-stone-200 dark:border-stone-800 shadow-md max-w-3xl mx-auto space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-stone-100 dark:border-stone-800 pb-5">
+    <div className="p-6 sm:p-8 rounded-3xl bg-surface border border-line shadow-soft-sm max-w-3xl mx-auto space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-line pb-5">
         <div>
-          <span className="text-xs font-black uppercase tracking-wider text-emerald-800 dark:text-emerald-300 bg-emerald-100 dark:bg-emerald-950 px-2.5 py-1 rounded-full">
+          <span className="text-xs font-semibold uppercase tracking-wider text-primary bg-primary/10 border border-primary/20 px-2.5 py-1 rounded-full">
             Resource Auditor
           </span>
-          <h3 className="text-xl font-black text-stone-900 dark:text-stone-100 mt-2">
+          <h3 className="text-xl font-serif font-bold text-heading mt-2">
             Water & Energy Usage Estimator
           </h3>
-          <p className="text-xs text-stone-500 dark:text-stone-400 mt-0.5">
+          <p className="text-xs sm:text-sm text-secondary mt-0.5">
             Discover monthly household resource consumption from bathroom, laundry, and kitchen tasks.
           </p>
         </div>
 
         <div className="flex gap-2 shrink-0">
-          <div className="p-3 rounded-2xl bg-cyan-50 dark:bg-cyan-950/60 border border-cyan-300 dark:border-cyan-800 text-center">
-            <div className="text-[10px] font-bold text-stone-500">Monthly Water</div>
-            <div className="text-lg font-black text-cyan-700 dark:text-cyan-300">{totalWaterLitres.toLocaleString()} L</div>
+          <div className="p-3 rounded-2xl bg-accent/10 border border-accent/20 text-center">
+            <div className="text-[10px] font-semibold text-muted">Monthly Water</div>
+            <div className="text-lg font-bold text-accent">{totalWaterLitres.toLocaleString()} L</div>
           </div>
-          <div className="p-3 rounded-2xl bg-amber-50 dark:bg-amber-950/60 border border-amber-300 dark:border-amber-800 text-center">
-            <div className="text-[10px] font-bold text-stone-500">Water Heating</div>
-            <div className="text-lg font-black text-amber-700 dark:text-amber-300">{totalEnergyKwh} kWh</div>
+          <div className="p-3 rounded-2xl bg-warning/10 border border-warning/20 text-center">
+            <div className="text-[10px] font-semibold text-muted">Water Heating</div>
+            <div className="text-lg font-bold text-warning">{totalEnergyKwh} kWh</div>
           </div>
         </div>
       </div>
 
       <div className="space-y-4">
         {/* Shower */}
-        <div className="p-4 rounded-2xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 space-y-2">
-          <div className="flex justify-between text-xs font-bold">
-            <span className="text-stone-700 dark:text-stone-300">🚿 Shower Duration per Person:</span>
-            <span className="text-cyan-700 dark:text-cyan-300">{showerMinutes} minutes/day</span>
+        <div className="p-4 rounded-2xl bg-surface-sunken border border-line space-y-2">
+          <div className="flex justify-between text-xs font-semibold">
+            <span className="text-heading">🚿 Shower Duration per Person:</span>
+            <span className="text-accent">{showerMinutes} minutes/day</span>
           </div>
           <input
             type="range"
@@ -57,19 +57,19 @@ export default function WaterEnergyEstimator() {
             max="20"
             value={showerMinutes}
             onChange={(e) => setShowerMinutes(Number(e.target.value))}
-            className="w-full accent-cyan-600"
+            className="w-full accent-primary cursor-pointer min-h-[44px]"
           />
-          <div className="text-[11px] text-stone-500 flex justify-between">
+          <div className="text-[11px] text-muted flex justify-between">
             <span>Monthly consumption: ~{showerWaterLitres}L</span>
             <span>Geyser heating: ~{showerEnergyKwh} kWh</span>
           </div>
         </div>
 
         {/* Laundry */}
-        <div className="p-4 rounded-2xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 space-y-2">
-          <div className="flex justify-between text-xs font-bold">
-            <span className="text-stone-700 dark:text-stone-300">🧺 Washing Machine Loads:</span>
-            <span className="text-cyan-700 dark:text-cyan-300">{laundryLoads} loads/week</span>
+        <div className="p-4 rounded-2xl bg-surface-sunken border border-line space-y-2">
+          <div className="flex justify-between text-xs font-semibold">
+            <span className="text-heading">🧺 Washing Machine Loads:</span>
+            <span className="text-accent">{laundryLoads} loads/week</span>
           </div>
           <input
             type="range"
@@ -77,28 +77,28 @@ export default function WaterEnergyEstimator() {
             max="8"
             value={laundryLoads}
             onChange={(e) => setLaundryLoads(Number(e.target.value))}
-            className="w-full accent-cyan-600"
+            className="w-full accent-primary cursor-pointer min-h-[44px]"
           />
-          <div className="text-[11px] text-stone-500 flex justify-between">
+          <div className="text-[11px] text-muted flex justify-between">
             <span>Monthly consumption: ~{laundryWaterLitres}L</span>
             <span>Motor & cycle power: ~{laundryEnergyKwh} kWh</span>
           </div>
         </div>
 
         {/* Kitchen Dishes */}
-        <div className="p-4 rounded-2xl bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 space-y-2">
-          <div className="flex justify-between text-xs font-bold">
-            <span className="text-stone-700 dark:text-stone-300">🍽️ Dishwashing Method:</span>
-            <span className="text-cyan-700 dark:text-cyan-300 capitalize">{handwashVsDishwasher === 'tap' ? 'Running Tap' : 'Basin Soak'}</span>
+        <div className="p-4 rounded-2xl bg-surface-sunken border border-line space-y-2">
+          <div className="flex justify-between text-xs font-semibold">
+            <span className="text-heading">🍽️ Dishwashing Method:</span>
+            <span className="text-accent capitalize">{handwashVsDishwasher === 'tap' ? 'Running Tap' : 'Basin Soak'}</span>
           </div>
           <div className="grid grid-cols-2 gap-2">
             <button
               type="button"
               onClick={() => setHandwashVsDishwasher('tap')}
-              className={`py-1.5 rounded-xl text-xs font-bold transition ${
+              className={`py-2 px-3 rounded-full text-xs font-semibold transition cursor-pointer min-h-[44px] ${
                 handwashVsDishwasher === 'tap'
-                  ? 'bg-cyan-700 text-white shadow-xs'
-                  : 'bg-white dark:bg-stone-700 text-stone-700 dark:text-stone-300 border border-stone-200 dark:border-stone-600'
+                  ? 'bg-primary text-primary-contrast shadow-soft-xs'
+                  : 'bg-surface text-secondary border border-line hover:text-heading'
               }`}
             >
               Running Tap (~40L/day)
@@ -106,10 +106,10 @@ export default function WaterEnergyEstimator() {
             <button
               type="button"
               onClick={() => setHandwashVsDishwasher('basin')}
-              className={`py-1.5 rounded-xl text-xs font-bold transition ${
+              className={`py-2 px-3 rounded-full text-xs font-semibold transition cursor-pointer min-h-[44px] ${
                 handwashVsDishwasher === 'basin'
-                  ? 'bg-cyan-700 text-white shadow-xs'
-                  : 'bg-white dark:bg-stone-700 text-stone-700 dark:text-stone-300 border border-stone-200 dark:border-stone-600'
+                  ? 'bg-primary text-primary-contrast shadow-soft-xs'
+                  : 'bg-surface text-secondary border border-line hover:text-heading'
               }`}
             >
               Basin Soak (~15L/day)

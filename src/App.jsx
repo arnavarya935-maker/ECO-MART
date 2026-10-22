@@ -1,14 +1,17 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useState, useEffect } from 'react';
 import { HashRouter, Routes, Route } from 'react-router-dom';
-import { ThemeProvider } from './context/ThemeContext';
-import { AuthProvider } from './context/AuthContext';
+import { ThemeProvider, useTheme } from './context/ThemeContext';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import { CartProvider, useCart } from './context/CartContext';
 import ErrorBoundary from './components/ErrorBoundary';
 import ScrollToTop from './components/ScrollToTop';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import MobileBottomTabs from './components/MobileBottomTabs';
-import CommandPalette from './components/CommandPalette';
+import OfflineDetector from './components/OfflineDetector';
+import SwapSuggestionBanner from './components/EcoAgent/SwapSuggestionBanner';
+import ImpactPulseWidget from './components/tools/ImpactPulseWidget';
+import Toast from './components/ui/Toast';
 
 // Route Pages - Lazy loaded for code-splitting & performance
 const HomePage = lazy(() => import('./pages/HomePage'));
@@ -26,34 +29,31 @@ const LoginPage = lazy(() => import('./pages/LoginPage'));
 const SignupPage = lazy(() => import('./pages/SignupPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
-// Widgets, Modals and Drawers
-import ImpactPulseWidget from './components/tools/ImpactPulseWidget';
-import CartDrawer from './components/CartDrawer';
-import ProductDetailModal from './components/ProductDetailModal';
-import CheckoutModal from './components/CheckoutModal';
-import ConfirmationModal from './components/ConfirmationModal';
-import AuthModal from './components/AuthModal';
-import WelcomeModal from './components/WelcomeModal';
-import ExitIntentModal from './components/ExitIntentModal';
-import AchievementUnlockedModal from './components/AchievementUnlockedModal';
-import ProductCompareModal from './components/ProductCompareModal';
-import SwapSuggestionBanner from './components/EcoAgent/SwapSuggestionBanner';
-import EcoAgentChat from './components/EcoAgent/EcoAgentChat';
-import OfflineDetector from './components/OfflineDetector';
-import CursorGlow from './components/CursorGlow';
-import LeafParticles from './components/LeafParticles';
-import EasterEggKonami from './components/EasterEggKonami';
-import KeyboardShortcutsModal from './components/KeyboardShortcutsModal';
-import { CheckCircle2, Sparkles, Info } from 'lucide-react';
+// Widgets, Modals and Drawers - Lazy loaded on demand
+const CartDrawer = lazy(() => import('./components/CartDrawer'));
+const ProductDetailModal = lazy(() => import('./components/ProductDetailModal'));
+const CheckoutModal = lazy(() => import('./components/CheckoutModal'));
+const ConfirmationModal = lazy(() => import('./components/ConfirmationModal'));
+const AuthModal = lazy(() => import('./components/AuthModal'));
+const WelcomeModal = lazy(() => import('./components/WelcomeModal'));
+const ExitIntentModal = lazy(() => import('./components/ExitIntentModal'));
+const AchievementUnlockedModal = lazy(() => import('./components/AchievementUnlockedModal'));
+const ProductCompareModal = lazy(() => import('./components/ProductCompareModal'));
+const EcoAgentChat = lazy(() => import('./components/EcoAgent/EcoAgentChat'));
+const CommandPalette = lazy(() => import('./components/CommandPalette'));
+const KeyboardShortcutsModal = lazy(() => import('./components/KeyboardShortcutsModal'));
+const EasterEggKonami = lazy(() => import('./components/EasterEggKonami'));
+const CursorGlow = lazy(() => import('./components/CursorGlow'));
+const LeafParticles = lazy(() => import('./components/LeafParticles'));
 
 function PageLoadingFallback() {
   return (
     <div className="min-h-[60vh] max-w-7xl mx-auto px-4 py-12 animate-pulse space-y-6">
-      <div className="h-10 bg-stone-200/80 rounded-2xl w-1/3" />
-      <div className="h-4 bg-stone-200/60 rounded-lg w-1/2" />
+      <div className="h-10 bg-surface-sunken rounded-2xl w-1/3" />
+      <div className="h-4 bg-surface-sunken/60 rounded-lg w-1/2" />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 pt-6">
         {[...Array(8)].map((_, i) => (
-          <div key={i} className="aspect-4/5 bg-stone-100 rounded-3xl border border-stone-200/60" />
+          <div key={i} className="aspect-4/5 bg-surface-sunken rounded-3xl border border-line" />
         ))}
       </div>
     </div>
@@ -61,25 +61,74 @@ function PageLoadingFallback() {
 }
 
 function AppContent() {
+  const { reduceEffects } = useTheme();
+  const { authModalOpen } = useAuth();
   const {
+    isCartOpen,
     selectedProduct,
     setSelectedProduct,
-    toastMessage
+    checkoutModalOpen,
+    orderConfirmation,
+    welcomeModalOpen,
+    exitIntentOpen,
+    unlockedBadge,
+    isCompareOpen,
+    isAgentOpen,
+    toasts,
+    dismissToast
   } = useCart();
 
+  const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
+  const [shortcutsOpen, setShortcutsOpen] = useState(false);
+  const [konamiActive, setKonamiActive] = useState(false);
+
+  // Global listeners for Command Palette, Shortcuts, and Konami
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setCommandPaletteOpen((prev) => !prev);
+      } else if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) {
+        return;
+      } else if (e.key === '?' || (e.key === '/' && e.shiftKey)) {
+        e.preventDefault();
+        setShortcutsOpen((prev) => !prev);
+      } else if (e.key === 'ArrowUp') {
+        setKonamiActive(true);
+      }
+    };
+
+    const handleCustomToggle = () => setCommandPaletteOpen((prev) => !prev);
+
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('toggle-command-palette', handleCustomToggle);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('toggle-command-palette', handleCustomToggle);
+    };
+  }, []);
+
   return (
-    <div className="min-h-screen bg-[#faf9f6] text-[#0a0a0a] flex flex-col font-sans transition-colors relative selection:bg-emerald-100 selection:text-emerald-950">
+    <div className="min-h-screen bg-surface text-text flex flex-col font-sans transition-colors relative selection:bg-primary/20 selection:text-heading">
       {/* Scroll restoration on every route change */}
       <ScrollToTop />
 
       {/* Offline Status Banner */}
       <OfflineDetector />
 
-      {/* Floating Leaf Particles (Respects Reduce Effects) */}
-      <LeafParticles />
+      {/* Floating Leaf Particles (Skipped entirely when Reduce effects is on) */}
+      {!reduceEffects && (
+        <Suspense fallback={null}>
+          <LeafParticles />
+        </Suspense>
+      )}
 
-      {/* Cursor Parallax Glow (Respects Reduce Effects) */}
-      <CursorGlow />
+      {/* Cursor Parallax Glow (Skipped entirely when Reduce effects is on) */}
+      {!reduceEffects && (
+        <Suspense fallback={null}>
+          <CursorGlow />
+        </Suspense>
+      )}
 
       {/* Top Proactive Swap Alert Banner */}
       <SwapSuggestionBanner />
@@ -113,60 +162,97 @@ function AppContent() {
       <MobileBottomTabs />
 
       {/* Command Palette (Ctrl/Cmd+K) */}
-      <CommandPalette />
+      {commandPaletteOpen && (
+        <Suspense fallback={null}>
+          <CommandPalette isOpen={commandPaletteOpen} onClose={() => setCommandPaletteOpen(false)} />
+        </Suspense>
+      )}
 
       {/* Cart Drawer Slide-out with Swap My Cart */}
-      <CartDrawer />
+      {isCartOpen && (
+        <Suspense fallback={null}>
+          <CartDrawer />
+        </Suspense>
+      )}
 
       {/* Detailed Product Specifications Modal (Quick-view) */}
       {selectedProduct && (
-        <ProductDetailModal
-          product={selectedProduct}
-          onClose={() => setSelectedProduct(null)}
-        />
+        <Suspense fallback={null}>
+          <ProductDetailModal
+            product={selectedProduct}
+            onClose={() => setSelectedProduct(null)}
+          />
+        </Suspense>
       )}
 
       {/* Checkout and Confirmation Modals */}
-      <CheckoutModal />
-      <ConfirmationModal />
+      {checkoutModalOpen && (
+        <Suspense fallback={null}>
+          <CheckoutModal />
+        </Suspense>
+      )}
+      {orderConfirmation && (
+        <Suspense fallback={null}>
+          <ConfirmationModal />
+        </Suspense>
+      )}
 
       {/* Authentication Modal */}
-      <AuthModal />
+      {authModalOpen && (
+        <Suspense fallback={null}>
+          <AuthModal />
+        </Suspense>
+      )}
 
       {/* Product Compare Modal */}
-      <ProductCompareModal />
+      {isCompareOpen && (
+        <Suspense fallback={null}>
+          <ProductCompareModal />
+        </Suspense>
+      )}
 
       {/* Welcome & Exit Intent Modals */}
-      <WelcomeModal />
-      <ExitIntentModal />
+      {welcomeModalOpen && (
+        <Suspense fallback={null}>
+          <WelcomeModal />
+        </Suspense>
+      )}
+      {exitIntentOpen && (
+        <Suspense fallback={null}>
+          <ExitIntentModal />
+        </Suspense>
+      )}
 
       {/* Achievement Unlocked Pop-up */}
-      <AchievementUnlockedModal />
+      {Boolean(unlockedBadge) && (
+        <Suspense fallback={null}>
+          <AchievementUnlockedModal />
+        </Suspense>
+      )}
 
       {/* Konami Code Easter Egg */}
-      <EasterEggKonami />
+      {konamiActive && (
+        <Suspense fallback={null}>
+          <EasterEggKonami />
+        </Suspense>
+      )}
 
       {/* Keyboard Shortcuts Overlay */}
-      <KeyboardShortcutsModal />
+      {shortcutsOpen && (
+        <Suspense fallback={null}>
+          <KeyboardShortcutsModal isOpen={shortcutsOpen} onClose={() => setShortcutsOpen(false)} />
+        </Suspense>
+      )}
 
       {/* Floating Eco Agent AI Chat Widget */}
-      <EcoAgentChat />
-
-      {/* Floating Toast Notification */}
-      {toastMessage && (
-        <div className="fixed bottom-20 md:bottom-6 left-6 z-50 animate-slide-up pointer-events-none">
-          <div className="flex items-center gap-2.5 px-4 py-3 rounded-2xl bg-stone-900 text-white shadow-2xl border border-stone-800 text-xs font-semibold">
-            {toastMessage.type === 'swap' ? (
-              <Sparkles className="w-4 h-4 text-emerald-400 shrink-0" />
-            ) : toastMessage.type === 'success' ? (
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-            ) : (
-              <Info className="w-4 h-4 text-sky-400 shrink-0" />
-            )}
-            <span>{toastMessage.message}</span>
-          </div>
-        </div>
+      {isAgentOpen && (
+        <Suspense fallback={null}>
+          <EcoAgentChat />
+        </Suspense>
       )}
+
+      {/* Unified Accessible Toast Provider */}
+      <Toast toasts={toasts} onDismiss={dismissToast} />
 
       {/* Sticky Impact Pulse Mini-Widget */}
       <ImpactPulseWidget />

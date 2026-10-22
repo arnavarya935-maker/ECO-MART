@@ -76,25 +76,25 @@ export default function SettingsPage() {
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 animate-fade-in pb-24">
       {/* Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-stone-200 gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-line gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full">
+            <span className="text-xs font-semibold uppercase tracking-wider text-primary bg-primary/10 border border-primary/20 px-2.5 py-0.5 rounded-full">
               Preferences & Accessibility
             </span>
-            <span className="text-xs text-stone-500 font-bold">100% Offline Storage</span>
+            <span className="text-xs text-muted font-medium">100% Offline Storage</span>
           </div>
-          <h1 className="text-3xl font-black text-[#0B3B2C] mt-1.5">
+          <h1 className="text-3xl font-serif font-bold text-heading mt-1.5 tracking-tight">
             Application Settings
           </h1>
-          <p className="text-xs sm:text-sm text-stone-600 mt-1">
+          <p className="text-xs sm:text-sm text-secondary mt-1">
             Configure visual ergonomics, accessibility, audio cues, and offline device storage.
           </p>
         </div>
 
         {successMsg && (
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-emerald-100 text-emerald-900 text-xs font-bold border border-emerald-300">
-            <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+          <div className="flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-medium border border-primary/20 shadow-soft-xs">
+            <CheckCircle2 className="w-4 h-4 text-primary" />
             <span>{successMsg}</span>
           </div>
         )}
@@ -102,16 +102,16 @@ export default function SettingsPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Feature 29: Accessibility Text Size */}
-        <Card clean={true} className="space-y-4">
+        <Card clean={true} className="space-y-4 bg-surface border border-line shadow-soft-sm rounded-3xl p-6">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-emerald-100 flex items-center justify-center text-emerald-700">
-              <Type className="w-5 h-5" />
+            <div className="w-10 h-10 rounded-2xl bg-surface-sunken border border-line flex items-center justify-center text-heading">
+              <Type className="w-5 h-5 text-primary" />
             </div>
             <div>
-              <h3 className="font-black text-sm text-[#0B3B2C]">
+              <h3 className="font-serif font-bold text-base text-heading">
                 Text Size Scale
               </h3>
-              <p className="text-[11px] text-stone-500 font-medium">
+              <p className="text-[11px] text-muted font-normal">
                 Adjust typography scaling for optimal reading
               </p>
             </div>
@@ -129,10 +129,10 @@ export default function SettingsPage() {
                   setTextSize(s.id);
                   showFeedback(`Text scale set to ${s.label}`);
                 }}
-                className={`py-2 px-3 rounded-xl text-xs font-bold border transition ${
+                className={`py-2 px-3 rounded-full text-xs font-medium border transition cursor-pointer min-h-[44px] ${
                   textSize === s.id
-                    ? 'bg-emerald-700 text-white border-emerald-700 shadow-2xs'
-                    : 'bg-stone-50 hover:bg-stone-100 text-stone-700 border-stone-200'
+                    ? 'bg-primary text-primary-contrast border-primary shadow-soft-xs'
+                    : 'bg-surface-sunken hover:bg-surface text-secondary border-line'
                 }`}
               >
                 {s.label}
@@ -142,17 +142,17 @@ export default function SettingsPage() {
         </Card>
 
         {/* Feature 29: Dyslexia-Friendly Font & High Contrast */}
-        <Card clean={true} className="space-y-4">
+        <Card clean={true} className="space-y-4 bg-surface border border-line shadow-soft-sm rounded-3xl p-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-teal-100 flex items-center justify-center text-teal-700">
-                <Eye className="w-5 h-5" />
+              <div className="w-10 h-10 rounded-2xl bg-surface-sunken border border-line flex items-center justify-center text-heading">
+                <Eye className="w-5 h-5 text-accent" />
               </div>
               <div>
-                <h3 className="font-black text-sm text-[#0B3B2C]">
+                <h3 className="font-serif font-bold text-base text-heading">
                   Dyslexia-Friendly Font
                 </h3>
-                <p className="text-[11px] text-stone-500 font-medium">
+                <p className="text-[11px] text-muted font-normal">
                   High-legibility typeface with weighted baselines
                 </p>
               </div>
@@ -163,22 +163,23 @@ export default function SettingsPage() {
                 setDyslexicFont(!dyslexicFont);
                 showFeedback(dyslexicFont ? 'Standard font restored' : 'Dyslexia font activated');
               }}
-              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors cursor-pointer ${
-                dyslexicFont ? 'bg-teal-600' : 'bg-stone-300'
+              className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors cursor-pointer min-h-[44px] ${
+                dyslexicFont ? 'bg-primary' : 'bg-surface-sunken border border-line'
               }`}
+              aria-label="Toggle Dyslexia font"
             >
               <span
-                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                className={`inline-block h-5 w-5 transform rounded-full bg-surface shadow-soft-xs transition-transform ${
                   dyslexicFont ? 'translate-x-6' : 'translate-x-1'
                 }`}
               />
             </button>
           </div>
 
-          <div className="pt-2 border-t border-stone-100 flex items-center justify-between">
+          <div className="pt-2 border-t border-line flex items-center justify-between">
             <div>
-              <span className="font-black text-xs text-stone-900 block">High Contrast Mode</span>
-              <span className="text-[11px] text-stone-500">Enhanced WCAG AAA contrast ratio</span>
+              <span className="font-semibold text-xs text-heading block">High Contrast Mode</span>
+              <span className="text-[11px] text-muted">Enhanced WCAG AAA contrast ratio</span>
             </div>
             <button
               type="button"
@@ -186,12 +187,13 @@ export default function SettingsPage() {
                 setHighContrast(!highContrast);
                 showFeedback(highContrast ? 'Standard contrast restored' : 'High contrast active');
               }}
-              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors cursor-pointer ${
-                highContrast ? 'bg-stone-900' : 'bg-stone-300'
+              className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors cursor-pointer min-h-[44px] ${
+                highContrast ? 'bg-primary' : 'bg-surface-sunken border border-line'
               }`}
+              aria-label="Toggle High contrast"
             >
               <span
-                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                className={`inline-block h-5 w-5 transform rounded-full bg-surface shadow-soft-xs transition-transform ${
                   highContrast ? 'translate-x-6' : 'translate-x-1'
                 }`}
               />
@@ -200,17 +202,17 @@ export default function SettingsPage() {
         </Card>
 
         {/* Performance & School Laptops (Rule 5 & Feature 4) */}
-        <Card clean={true} className="space-y-4">
+        <Card clean={true} className="space-y-4 bg-surface border border-line shadow-soft-sm rounded-3xl p-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-amber-100 flex items-center justify-center text-amber-700">
+              <div className="w-10 h-10 rounded-2xl bg-warning/10 border border-warning/20 flex items-center justify-center text-warning">
                 {reduceEffects ? <ZapOff className="w-5 h-5" /> : <Zap className="w-5 h-5" />}
               </div>
               <div>
-                <h3 className="font-black text-sm text-[#0B3B2C]">
+                <h3 className="font-serif font-bold text-base text-heading">
                   Reduce Effects Mode
                 </h3>
-                <p className="text-[11px] text-stone-500 font-medium">
+                <p className="text-[11px] text-muted font-normal">
                   Optimized for school laptops & battery saver
                 </p>
               </div>
@@ -221,39 +223,40 @@ export default function SettingsPage() {
                 toggleReduceEffects();
                 showFeedback(reduceEffects ? 'Effects enabled' : 'Reduce effects active');
               }}
-              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors cursor-pointer ${
-                reduceEffects ? 'bg-amber-500' : 'bg-stone-300'
+              className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors cursor-pointer min-h-[44px] ${
+                reduceEffects ? 'bg-warning' : 'bg-surface-sunken border border-line'
               }`}
+              aria-label="Toggle Reduce effects"
             >
               <span
-                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                className={`inline-block h-5 w-5 transform rounded-full bg-surface shadow-soft-xs transition-transform ${
                   reduceEffects ? 'translate-x-6' : 'translate-x-1'
                 }`}
               />
             </button>
           </div>
-          <p className="text-xs text-stone-600 leading-relaxed font-medium">
+          <p className="text-xs text-secondary leading-relaxed font-normal">
             Disables 3D canvases, floating leaf particles, and cursor parallax. Saves GPU cycles and delivers consistent 60fps on modest hardware.
           </p>
           <div className="pt-2">
-            <Badge variant={reduceEffects ? 'amber' : 'neutral'} size="sm">
+            <Badge variant={reduceEffects ? 'warning' : 'neutral'} size="sm">
               Status: {reduceEffects ? 'Effects Reduced (High Performance)' : 'Full Visual Effects Enabled'}
             </Badge>
           </div>
         </Card>
 
         {/* Audio Feedback (Feature 62) */}
-        <Card clean={true} className="space-y-4">
+        <Card clean={true} className="space-y-4 bg-surface border border-line shadow-soft-sm rounded-3xl p-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-teal-100 flex items-center justify-center text-teal-700">
-                {soundEnabled ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5" />}
+              <div className="w-10 h-10 rounded-2xl bg-surface-sunken border border-line flex items-center justify-center text-heading">
+                {soundEnabled ? <Volume2 className="w-5 h-5 text-primary" /> : <VolumeX className="w-5 h-5 text-muted" />}
               </div>
               <div>
-                <h3 className="font-black text-sm text-[#0B3B2C]">
+                <h3 className="font-serif font-bold text-base text-heading">
                   Web Audio Synthesizer
                 </h3>
-                <p className="text-[11px] text-stone-500 font-medium">
+                <p className="text-[11px] text-muted font-normal">
                   100% offline audio chimes & clicks
                 </p>
               </div>
@@ -261,22 +264,23 @@ export default function SettingsPage() {
             <button
               type="button"
               onClick={toggleSound}
-              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors cursor-pointer ${
-                soundEnabled ? 'bg-emerald-600' : 'bg-stone-300'
+              className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors cursor-pointer min-h-[44px] ${
+                soundEnabled ? 'bg-primary' : 'bg-surface-sunken border border-line'
               }`}
+              aria-label="Toggle sound"
             >
               <span
-                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                className={`inline-block h-5 w-5 transform rounded-full bg-surface shadow-soft-xs transition-transform ${
                   soundEnabled ? 'translate-x-6' : 'translate-x-1'
                 }`}
               />
             </button>
           </div>
-          <p className="text-xs text-stone-600 leading-relaxed font-medium">
+          <p className="text-xs text-secondary leading-relaxed font-normal">
             Synthesizes lightweight, pleasant UI sound cues using the local Web Audio API. Zero external audio downloads needed. (Muted by default).
           </p>
           <div className="pt-2">
-            <Badge variant={soundEnabled ? 'emerald' : 'neutral'} size="sm">
+            <Badge variant={soundEnabled ? 'primary' : 'neutral'} size="sm">
               Status: {soundEnabled ? 'Sound Effects Enabled' : 'Muted (Default)'}
             </Badge>
           </div>
@@ -284,17 +288,17 @@ export default function SettingsPage() {
       </div>
 
       {/* Local Storage & Privacy Management */}
-      <Card clean={true} className="border-rose-200 space-y-4">
+      <Card clean={true} className="border border-line bg-surface shadow-soft-sm rounded-3xl p-6 space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex items-start gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-rose-100 flex items-center justify-center text-rose-700 shrink-0 mt-0.5">
+            <div className="w-10 h-10 rounded-2xl bg-danger/10 border border-danger/20 flex items-center justify-center text-danger shrink-0 mt-0.5">
               <Trash2 className="w-5 h-5" />
             </div>
             <div>
-              <h3 className="font-black text-base text-rose-900">
+              <h3 className="font-serif font-bold text-base text-heading">
                 Reset Local Storage & Data
               </h3>
-              <p className="text-xs text-stone-600 mt-0.5">
+              <p className="text-xs text-secondary mt-0.5 leading-relaxed">
                 Clear locally cached cart items, order history, quiz scores, and restart the first-run experience.
               </p>
             </div>

@@ -138,56 +138,56 @@ export function calculateEcoScore(product) {
     Math.max(0, Math.round(materialScore + packagingScore + carbonScore + certScore + shippingScore))
   );
 
-  // Grade mapping
+  // Grade mapping with semantic theme tokens
   let grade = 'E';
   let gradeLabel = 'Conventional';
   let colorTheme = {
-    badge: 'bg-rose-100 text-rose-800 border-rose-300 dark:bg-rose-950/60 dark:text-rose-300 dark:border-rose-800',
-    dot: 'bg-rose-500',
-    bar: 'bg-rose-500',
-    text: 'text-rose-600 dark:text-rose-400',
-    border: 'border-rose-400'
+    badge: 'bg-danger/10 text-danger border-danger/30',
+    dot: 'bg-danger',
+    bar: 'bg-danger',
+    text: 'text-danger',
+    border: 'border-danger/50'
   };
 
   if (totalScore >= 85) {
     grade = 'A';
     gradeLabel = 'Exceptional Eco-Standard';
     colorTheme = {
-      badge: 'bg-emerald-100 text-emerald-900 border-emerald-300 dark:bg-emerald-950/60 dark:text-emerald-200 dark:border-emerald-800',
-      dot: 'bg-emerald-600',
-      bar: 'bg-emerald-600',
-      text: 'text-emerald-700 dark:text-emerald-400',
-      border: 'border-emerald-500'
+      badge: 'bg-primary/10 text-primary border-primary/30',
+      dot: 'bg-primary',
+      bar: 'bg-primary',
+      text: 'text-primary',
+      border: 'border-primary/50'
     };
   } else if (totalScore >= 70) {
     grade = 'B';
     gradeLabel = 'Very Good Sustainable Pick';
     colorTheme = {
-      badge: 'bg-teal-100 text-teal-900 border-teal-300 dark:bg-teal-950/60 dark:text-teal-200 dark:border-teal-800',
-      dot: 'bg-teal-600',
-      bar: 'bg-teal-600',
-      text: 'text-teal-700 dark:text-teal-400',
-      border: 'border-teal-500'
+      badge: 'bg-accent/10 text-accent border-accent/30',
+      dot: 'bg-accent',
+      bar: 'bg-accent',
+      text: 'text-accent',
+      border: 'border-accent/50'
     };
   } else if (totalScore >= 55) {
     grade = 'C';
     gradeLabel = 'Moderate Environmental Impact';
     colorTheme = {
-      badge: 'bg-amber-100 text-amber-900 border-amber-300 dark:bg-amber-950/60 dark:text-amber-200 dark:border-amber-800',
-      dot: 'bg-amber-500',
-      bar: 'bg-amber-500',
-      text: 'text-amber-700 dark:text-amber-400',
-      border: 'border-amber-500'
+      badge: 'bg-warning/10 text-warning border-warning/30',
+      dot: 'bg-warning',
+      bar: 'bg-warning',
+      text: 'text-warning',
+      border: 'border-warning/50'
     };
   } else if (totalScore >= 40) {
     grade = 'D';
     gradeLabel = 'High Resource Intensity';
     colorTheme = {
-      badge: 'bg-orange-100 text-orange-900 border-orange-300 dark:bg-orange-950/60 dark:text-orange-200 dark:border-orange-800',
-      dot: 'bg-orange-500',
-      bar: 'bg-orange-500',
-      text: 'text-orange-700 dark:text-orange-400',
-      border: 'border-orange-500'
+      badge: 'bg-warning/10 text-warning border-warning/30',
+      dot: 'bg-warning',
+      bar: 'bg-warning',
+      text: 'text-warning',
+      border: 'border-warning/50'
     };
   }
 

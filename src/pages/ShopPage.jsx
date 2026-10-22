@@ -109,7 +109,6 @@ export default function ShopPage() {
 
     switch (sortParam) {
       case 'impact-rupee':
-        // Feature 23: Impact per Rupee sort
         return list.sort((a, b) => {
           const ratioA = (a.carbonKg * 1000 + (a.plasticGrams || 0)) / a.price;
           const ratioB = (b.carbonKg * 1000 + (b.plasticGrams || 0)) / b.price;
@@ -153,30 +152,30 @@ export default function ShopPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#faf9f6] text-stone-900 pb-28 sm:pb-20">
+    <div className="min-h-screen bg-surface text-text pb-28 sm:pb-20">
       {/* Page Header Banner */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-4">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full">
+              <span className="text-[11px] font-sans font-semibold uppercase tracking-wider text-primary bg-primary-subtle px-2.5 py-0.5 rounded-full border border-primary/20">
                 EcoMart Catalog
               </span>
-              <span className="text-xs text-stone-500 font-bold">
+              <span className="text-xs font-sans text-muted font-medium">
                 {productsData.length} Products Indexed
               </span>
             </div>
-            <h1 className="text-3xl sm:text-4xl font-black text-[#0B3B2C] mt-1.5">
+            <h1 className="font-serif text-3xl sm:text-4xl font-bold text-heading mt-2 tracking-tight">
               Sustainable Living Catalog
             </h1>
-            <p className="text-xs sm:text-sm text-stone-600 mt-1">
+            <p className="font-sans text-xs sm:text-sm text-secondary mt-1">
               Filter by certified materials, 0–100 lifecycle eco scores, or sort by impact per rupee.
             </p>
           </div>
         </div>
       </div>
 
-      {/* Sticky Filter Bar (Feature 11) */}
+      {/* Sticky Filter Bar */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <ShopFilterBar
           searchQuery={queryParam}
@@ -190,7 +189,7 @@ export default function ShopPage() {
           activeFilterCount={activeFilterCount}
         />
 
-        {/* Filter Chips with 1-Click Clear (Feature 11) */}
+        {/* Filter Chips with 1-Click Clear */}
         <ShopActiveChips
           category={categoryParam}
           onClearCategory={() => updateQueryParam('category', 'All')}
@@ -211,12 +210,12 @@ export default function ShopPage() {
         />
 
         {/* Result Count Status Strip */}
-        <div className="flex items-center justify-between py-2 text-xs text-stone-500 font-bold">
+        <div className="flex items-center justify-between py-2.5 text-xs font-sans text-muted font-medium">
           <span>
-            Showing <strong className="text-emerald-800">{sortedProducts.length}</strong> sustainable product{sortedProducts.length !== 1 ? 's' : ''}
+            Showing <strong className="font-semibold text-heading">{sortedProducts.length}</strong> sustainable product{sortedProducts.length !== 1 ? 's' : ''}
           </span>
           {categoryParam !== 'All' && (
-            <span className="text-stone-400">Department: {categoryParam}</span>
+            <span className="text-muted">Department: {categoryParam}</span>
           )}
         </div>
       </div>
@@ -236,13 +235,13 @@ export default function ShopPage() {
           </div>
         )}
 
-        {/* Curated Starter Kits Section (Feature 21) */}
-        <div className="mt-16 pt-12 border-t border-stone-200">
+        {/* Curated Starter Kits Section */}
+        <div className="mt-16 pt-12 border-t border-line">
           <StarterKits />
         </div>
       </div>
 
-      {/* Mobile Bottom-Sheet Filter Drawer (Feature 11) */}
+      {/* Mobile Bottom-Sheet Filter Drawer */}
       <ShopFilterDrawer
         isOpen={isFilterDrawerOpen}
         onClose={() => setIsFilterDrawerOpen(false)}
@@ -264,3 +263,4 @@ export default function ShopPage() {
     </div>
   );
 }
+

@@ -17,15 +17,15 @@ export default function EcoGlossary() {
   const [selectedTerm, setSelectedTerm] = useState(GLOSSARY_TERMS[0]);
 
   return (
-    <div className="p-6 sm:p-8 rounded-3xl bg-white dark:bg-stone-850 border border-stone-200 dark:border-stone-800 shadow-md max-w-3xl mx-auto space-y-6">
-      <div className="border-b border-stone-100 dark:border-stone-800 pb-4">
-        <span className="text-xs font-black uppercase tracking-wider text-emerald-800 dark:text-emerald-300 bg-emerald-100 dark:bg-emerald-950 px-2.5 py-1 rounded-full">
+    <div className="p-6 sm:p-8 rounded-3xl bg-surface border border-line shadow-soft-sm max-w-3xl mx-auto space-y-6">
+      <div className="border-b border-line pb-4">
+        <span className="text-xs font-semibold uppercase tracking-wider text-primary bg-primary/10 border border-primary/20 px-2.5 py-1 rounded-full">
           Knowledge Base
         </span>
-        <h3 className="text-xl font-black text-stone-900 dark:text-stone-100 mt-2">
+        <h3 className="text-xl sm:text-2xl font-serif font-bold text-heading mt-2">
           Eco Glossary & Jargon Decoder
         </h3>
-        <p className="text-xs text-stone-500 dark:text-stone-400 mt-0.5">
+        <p className="text-xs sm:text-sm text-secondary mt-0.5">
           Hover over or click any term to demystify environmental science and certification acronyms.
         </p>
       </div>
@@ -38,14 +38,14 @@ export default function EcoGlossary() {
               <button
                 type="button"
                 onClick={() => setSelectedTerm(item)}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
+                className={`px-3.5 py-1.5 rounded-xl text-xs font-medium transition flex items-center gap-1.5 cursor-pointer min-h-[44px] focus-visible:outline-2 focus-visible:outline-focus ${
                   isSelected
-                    ? 'bg-emerald-700 text-white shadow-xs'
-                    : 'bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 hover:bg-stone-200'
+                    ? 'bg-primary text-primary-contrast shadow-soft-xs'
+                    : 'bg-surface-sunken text-secondary border border-line hover:bg-surface-sunken/80'
                 }`}
               >
                 <span>{item.term}</span>
-                <HelpCircle className="w-3 h-3 opacity-60" />
+                <HelpCircle className="w-3.5 h-3.5 opacity-60" />
               </button>
             </Tooltip>
           );
@@ -53,16 +53,16 @@ export default function EcoGlossary() {
       </div>
 
       {selectedTerm && (
-        <div className="p-5 rounded-2xl bg-emerald-50/70 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 space-y-2">
+        <div className="p-5 rounded-2xl bg-surface-sunken border border-line space-y-2">
           <div className="flex items-center justify-between">
-            <h4 className="text-base font-black text-emerald-950 dark:text-emerald-200">
+            <h4 className="text-base font-serif font-bold text-heading">
               {selectedTerm.term}
             </h4>
-            <span className="text-[10px] font-black uppercase px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-900 text-emerald-800 dark:text-emerald-300">
+            <span className="text-[10px] font-semibold uppercase px-2.5 py-0.5 rounded-full bg-primary/20 text-primary">
               {selectedTerm.category}
             </span>
           </div>
-          <p className="text-xs sm:text-sm text-stone-700 dark:text-stone-300 leading-relaxed font-medium">
+          <p className="text-xs sm:text-sm text-secondary leading-relaxed font-normal">
             {selectedTerm.definition}
           </p>
         </div>

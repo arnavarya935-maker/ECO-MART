@@ -122,11 +122,11 @@ export default function Product3DViewer({ product }) {
   const productImage = product.image || (Array.isArray(product.images) && product.images[0]) || `/images/products/${product.id}.jpg`;
 
   return (
-    <div className="relative w-full h-72 sm:h-84 rounded-3xl overflow-hidden bg-gradient-to-b from-stone-100 to-emerald-50/40 dark:from-stone-900 dark:to-[#0D1F18] border border-stone-200 dark:border-stone-800 shadow-inner">
+    <div className="relative w-full h-72 sm:h-84 rounded-3xl overflow-hidden bg-surface-sunken border border-line shadow-inner">
       {/* 3D Scene Controls Overlay */}
       <div className="absolute top-3 left-3 right-3 z-10 flex items-center justify-between pointer-events-auto">
-        <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/85 dark:bg-stone-900/85 backdrop-blur-md border border-stone-200 dark:border-stone-700 text-[11px] font-bold text-[#0B3B2C] dark:text-emerald-300 shadow-xs">
-          <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+        <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface/90 backdrop-blur-md border border-line text-[11px] font-semibold text-heading shadow-soft-xs">
+          <Sparkles className="w-3.5 h-3.5 text-primary" />
           <span>Interactive 3D Inspector</span>
         </div>
 
@@ -134,10 +134,10 @@ export default function Product3DViewer({ product }) {
           <button
             type="button"
             onClick={() => setAutoRotate(!autoRotate)}
-            className={`px-2.5 py-1 rounded-xl text-[11px] font-bold backdrop-blur-md border transition cursor-pointer flex items-center gap-1 ${
+            className={`px-3 py-1.5 rounded-full text-[11px] font-medium backdrop-blur-md border transition cursor-pointer flex items-center gap-1 min-h-[36px] ${
               autoRotate
-                ? 'bg-emerald-600 text-white border-emerald-500'
-                : 'bg-white/80 dark:bg-stone-900/80 text-stone-700 dark:text-stone-300 border-stone-200 dark:border-stone-700'
+                ? 'bg-primary text-primary-contrast border-primary'
+                : 'bg-surface/85 text-secondary border-line hover:text-heading'
             }`}
             title="Toggle 360° Auto Rotation"
           >
@@ -148,10 +148,10 @@ export default function Product3DViewer({ product }) {
           <button
             type="button"
             onClick={() => setWireframe(!wireframe)}
-            className={`px-2.5 py-1 rounded-xl text-[11px] font-bold backdrop-blur-md border transition cursor-pointer flex items-center gap-1 ${
+            className={`px-3 py-1.5 rounded-full text-[11px] font-medium backdrop-blur-md border transition cursor-pointer flex items-center gap-1 min-h-[36px] ${
               wireframe
-                ? 'bg-amber-600 text-white border-amber-500'
-                : 'bg-white/80 dark:bg-stone-900/80 text-stone-700 dark:text-stone-300 border-stone-200 dark:border-stone-700'
+                ? 'bg-primary text-primary-contrast border-primary'
+                : 'bg-surface/85 text-secondary border-line hover:text-heading'
             }`}
             title="Toggle Wireframe Mesh Inspection"
           >
@@ -163,6 +163,7 @@ export default function Product3DViewer({ product }) {
 
       {/* Safe3D Wrapper with fallback image and progress bar */}
       <Safe3D
+        autoLoad={true}
         fallbackTitle={product.name}
         fallbackSubtitle="Interactive 3D inspection paused under Reduce Effects or when WebGL is unavailable. Showing photo fallback."
         fallbackImage={productImage}
@@ -198,8 +199,8 @@ export default function Product3DViewer({ product }) {
       </Safe3D>
 
       {/* Drag Hint Footer */}
-      <div className="absolute bottom-2.5 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-stone-900/60 text-white backdrop-blur-sm text-[10px] font-semibold flex items-center gap-1 pointer-events-none">
-        <Eye className="w-3 h-3 text-emerald-400" /> Drag to spin 360° • Scroll to zoom
+      <div className="absolute bottom-2.5 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-surface/90 text-heading backdrop-blur-md text-[10px] font-medium border border-line flex items-center gap-1 pointer-events-none shadow-soft-xs">
+        <Eye className="w-3 h-3 text-primary" /> Drag to spin 360° • Scroll to zoom
       </div>
     </div>
   );

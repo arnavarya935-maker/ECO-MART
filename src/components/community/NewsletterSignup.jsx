@@ -24,48 +24,46 @@ export default function NewsletterSignup() {
   };
 
   return (
-    <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-r from-emerald-900 via-teal-950 to-stone-900 text-white shadow-xl relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-400/10 rounded-full blur-3xl pointer-events-none" />
-
+    <div className="p-8 sm:p-10 rounded-3xl bg-primary text-primary-contrast shadow-soft-md border border-primary relative overflow-hidden">
       <div className="max-w-2xl mx-auto text-center space-y-4 relative z-10">
-        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-black uppercase tracking-wider border border-emerald-400/30">
-          <Mail className="w-3.5 h-3.5 text-emerald-400" />
+        <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-primary-contrast/10 text-primary-contrast text-xs font-semibold uppercase tracking-wider border border-primary-contrast/20">
+          <Mail className="w-3.5 h-3.5" />
           <span>The Conscious Dispatch</span>
         </span>
 
-        <h3 className="text-2xl sm:text-3xl font-black text-white">
+        <h3 className="text-2xl sm:text-3xl font-serif font-bold text-primary-contrast tracking-tight">
           Weekly Zero-Waste Swaps & Artisan Stories
         </h3>
 
-        <p className="text-xs sm:text-sm text-emerald-100/80 max-w-lg mx-auto font-medium">
+        <p className="text-xs sm:text-sm text-primary-contrast/80 max-w-lg mx-auto font-normal leading-relaxed">
           Receive curated seasonal produce guides, craft cluster highlights, and new product lifecycle audits. 100% offline-safe subscription.
         </p>
 
         {subscribed ? (
-          <div className="p-4 rounded-2xl bg-emerald-500/20 border border-emerald-400/40 text-xs font-bold text-emerald-300 flex items-center justify-center gap-2 animate-fadeIn">
-            <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+          <div className="p-4 rounded-2xl bg-primary-contrast/10 border border-primary-contrast/30 text-xs font-medium text-primary-contrast flex items-center justify-center gap-2 animate-fade-in">
+            <CheckCircle2 className="w-4 h-4" />
             <span>You're subscribed! Your offline subscription token is saved safely in local storage.</span>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row items-center gap-2 max-w-md mx-auto pt-2">
+          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row items-center gap-2.5 max-w-md mx-auto pt-2">
             <input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email address..."
-              className="w-full px-4 py-3 rounded-2xl bg-white/10 border border-white/20 text-white placeholder-stone-400 text-xs focus:outline-hidden focus:border-emerald-400 focus:bg-white/15"
+              className="w-full px-5 py-3 rounded-full bg-primary-contrast/10 border border-primary-contrast/20 text-primary-contrast placeholder:text-primary-contrast/50 text-xs focus:outline-2 focus:outline-focus focus:border-primary-contrast focus:bg-primary-contrast/15 min-h-[44px]"
             />
             <button
               type="submit"
-              className="w-full sm:w-auto px-6 py-3 rounded-2xl bg-emerald-500 hover:bg-emerald-400 text-stone-950 font-black text-xs shadow-md transition active:scale-95 shrink-0 cursor-pointer"
+              className="w-full sm:w-auto px-6 py-3 rounded-full bg-surface hover:bg-surface-raised text-primary font-bold text-xs shadow-soft-xs transition active:scale-95 shrink-0 cursor-pointer min-h-[44px] focus-visible:outline-2 focus-visible:outline-focus"
             >
               Subscribe
             </button>
           </form>
         )}
 
-        <div className="flex items-center justify-center gap-4 text-[11px] text-stone-400 pt-2">
+        <div className="flex items-center justify-center gap-3 text-[11px] text-primary-contrast/60 pt-2 font-normal">
           <span>🔒 Zero spam</span>
           <span>•</span>
           <span>🌱 100% Offline-safe</span>
