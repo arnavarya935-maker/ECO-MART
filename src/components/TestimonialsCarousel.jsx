@@ -53,7 +53,11 @@ export default function TestimonialsCarousel() {
           <span className="text-[11px] font-sans font-semibold uppercase tracking-wider text-primary bg-primary-subtle px-3 py-1 rounded-full border border-primary/20">
             Stories of Conscious Living
           </span>
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-muted bg-surface-sunken border border-line px-2 py-0.5 rounded-full">
+          <span
+            className="text-[10px] font-semibold uppercase tracking-wider text-muted bg-surface-sunken border border-line px-2 py-0.5 rounded-full cursor-help"
+            title="Sample content for demonstration"
+            aria-label="Sample content for demonstration"
+          >
             Demo Data
           </span>
         </div>

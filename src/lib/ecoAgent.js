@@ -1,4 +1,4 @@
-import { calculateEcoScore, compareProductImpact } from './ecoScore.js';
+import { calculateEcoScore, compareProductImpact, detectGreenwashing } from './ecoScore.js';
 import {
   rankProducts,
   parsePriorityIntent,
@@ -9,7 +9,7 @@ import {
 /**
  * Eco Agent Local Intelligence Engine
  * Provides offline natural-language parsing, swap suggestions, cart analysis,
- * and transparent reasoning with optional LLM augmentation.
+ * goal-based basket planning, and transparent multi-criteria reasoning.
  */
 
 // Preset quick query chips for the user interface
@@ -22,50 +22,51 @@ export const AGENT_QUICK_ACTIONS = [
   { id: 'how-scoring-works', label: '🔬 How EcoScore works', prompt: 'Explain how the eco score is calculated' }
 ];
 
-/**
- * Parses freeform natural language text to extract intent, budget, category, and requirements.
- */
 // Category Keyword Dictionary - strictly matched using word boundaries (\b)
 export const CATEGORY_KEYWORDS = {
   'Kitchen': [
     'kitchen', 'cutlery', 'bowl', 'bowls', 'cook', 'cooking', 'food', 'utensil', 'utensils',
     'cookware', 'straw', 'straws', 'mug', 'mugs', 'cups', 'cup', 'plate', 'plates',
     'container', 'containers', 'pantry', 'rasoi', 'dining', 'chopsticks', 'fork', 'forks',
-    'spoon', 'spoons', 'knife', 'knives', 'pan', 'dish', 'dishes', 'रसोई', 'बर्तन', 'chamach'
+    'spoon', 'spoons', 'knife', 'knives', 'pan', 'pans', 'dish', 'dishes', 'wrap', 'wraps',
+    'beeswax', 'copper bottle', 'रसोई', 'बर्तन', 'chamach'
   ],
   'Personal Care': [
-    'personal care', 'shampoo', 'soap', 'soaps', 'toothbrush', 'toothbrushes', 'razor',
-    'razors', 'toothpaste', 'floss', 'skincare', 'bath', 'bathroom', 'hygiene', 'shave',
-    'shaving', 'deodorant', 'comb', 'lotion', 'brush', 'brushes', 'lip balm', 'salve',
-    'neem', 'body wash', 'साबुन', 'टूथब्रश', 'sabun'
+    'personal care', 'shampoo', 'shampoos', 'soap', 'soaps', 'toothbrush', 'toothbrushes',
+    'razor', 'razors', 'toothpaste', 'floss', 'skincare', 'bath', 'bathroom', 'hygiene',
+    'shave', 'shaving', 'deodorant', 'comb', 'combs', 'lotion', 'brush', 'brushes',
+    'lip balm', 'balm', 'balms', 'salve', 'neem', 'body wash', 'साबुन', 'टूथब्रश', 'sabun'
   ],
   'Fashion': [
     'fashion', 'shirt', 'shirts', 'sneaker', 'sneakers', 'shoe', 'shoes', 'sock', 'socks',
-    'wear', 'clothing', 'apparel', 'tee', 't-shirt', 'tshirt', 'scarf', 'kapde', 'fabric',
-    'textile', 'slippers', 'kurta', 'dress', 'कपड़े', 'जूते', 'kapda'
+    'wear', 'clothing', 'apparel', 'tee', 't-shirt', 'tshirt', 'scarf', 'scarves', 'stole',
+    'stoles', 'kapde', 'fabric', 'textile', 'slippers', 'kurta', 'dress', 'कपड़े', 'जूते', 'kapda'
   ],
   'Stationery': [
     'stationery', 'notebook', 'notebooks', 'pen', 'pens', 'paper', 'papers', 'desk',
     'diary', 'diaries', 'pencil', 'pencils', 'journal', 'journals', 'notepad', 'notepads',
-    'किताब', 'डायरी', 'कलम', 'kitab'
+    'tidy', 'stand', 'organizer', 'bullet journal', 'किताब', 'डायरी', 'कलम', 'kitab'
   ],
   'Home': [
-    'home', 'candle', 'candles', 'tray', 'trays', 'mat', 'mats', 'decor', 'planter',
-    'planters', 'cushion', 'cushions', 'bed', 'linen', 'room', 'dorm', 'hostel',
-    'blanket', 'coaster', 'coasters', 'ghar', 'kamra', 'घर', 'mombatti'
+    'home', 'candle', 'candles', 'tray', 'trays', 'mat', 'mats', 'doormat', 'doormats',
+    'decor', 'planter', 'planters', 'pot', 'pots', 'cushion', 'cushions', 'bed', 'linen',
+    'room', 'dorm', 'hostel', 'coaster', 'coasters', 'ghar', 'kamra',
+    'घर', 'mombatti'
   ],
   'Bags': [
     'bag', 'bags', 'tote', 'totes', 'backpack', 'backpacks', 'sack', 'sacks', 'pouch',
-    'pouches', 'messenger', 'jhola', 'thaila', 'thaili', 'handbag', 'handbags', 'झोला', 'थैला', 'thela'
+    'pouches', 'duffel', 'duffels', 'messenger', 'jhola', 'thaila', 'thaili', 'handbag',
+    'handbags', 'झोला', 'थैला', 'thela'
   ],
   'Outdoor & Travel': [
     'outdoor', 'outdoors', 'travel', 'traveling', 'travelling', 'camp', 'camping',
-    'solar', 'lantern', 'lanterns', 'thermos', 'bottle', 'bottles', 'flask', 'yoga',
-    'trek', 'hiking', 'commute', 'बोतल'
+    'solar', 'lantern', 'lanterns', 'thermos', 'thermoses', 'bottle', 'bottles', 'flask',
+    'flasks', 'yoga', 'trek', 'hiking', 'commute', 'blanket', 'blankets', 'picnic', 'picnic blanket', 'yoga mat', 'बोतल'
   ],
   'Cleaning & Laundry': [
     'cleaning', 'cleaner', 'cleaners', 'laundry', 'soapnut', 'soapnuts', 'detergent',
-    'detergents', 'loofah', 'scrub', 'scrubber', 'sponge', 'sponges', 'wash', 'safai', 'सफाई'
+    'detergents', 'loofah', 'loofahs', 'scrub', 'scrubber', 'scrubbers', 'sponge',
+    'sponges', 'wash', 'safai', 'सफाई', 'toilet brush', 'brush', 'brushes'
   ]
 };
 
@@ -76,7 +77,10 @@ export const RECIPIENT_KEYWORDS = [
   'partner', 'wife', 'husband', 'bhai', 'behen', 'mata', 'pita', 'dost'
 ];
 
-export const GIFT_KEYWORDS = ['gift', 'gifts', 'gifting', 'present', 'presents', 'surprise', 'tohfa', 'tofa', 'uphaar', 'उपहार', 'तोहफ़ा', 'तोहफा'];
+export const GIFT_KEYWORDS = [
+  'gift', 'gifts', 'gifting', 'present', 'presents', 'surprise',
+  'tohfa', 'tofa', 'uphaar', 'उपहार', 'तोहफ़ा', 'तोहफा'
+];
 
 // Price sorting intent keywords (English + Hinglish + Hindi)
 export const CHEAP_KEYWORDS = [
@@ -85,26 +89,154 @@ export const CHEAP_KEYWORDS = [
   'least expensive', 'कम दाम', 'सस्ता', 'सस्ती', 'सबसे सस्ता', 'कम कीमत'
 ];
 
-// Dictionary of known domain words for typo fuzzy matching (Levenshtein <= 2 on words >= 5)
+// Catalogue domain dictionary for typo checking (real domain words only)
 export const KNOWN_DICTIONARY = [
-  'toothbrush', 'shampoo', 'cutlery', 'notebook', 'detergent', 'cleaner',
-  'toothpaste', 'soapnut', 'backpack', 'planter', 'candle', 'loofah',
-  'bottle', 'straw', 'razor', 'lip balm', 'journal', 'cushion',
-  'kitchen', 'personal care', 'stationery', 'fashion', 'cleaning',
-  'outdoor', 'travel', 'bamboo', 'organic', 'copper', 'terracotta',
-  'wallet', 'coasters', 'sneakers', 'blanket'
+  'toothbrush', 'toothbrushes', 'shampoo', 'shampoos', 'cutlery', 'notebook', 'notebooks',
+  'journal', 'journals', 'diary', 'diaries', 'candle', 'candles', 'bottle', 'bottles',
+  'thermos', 'straw', 'straws', 'razor', 'razors', 'lip balm', 'balm', 'sneakers', 'sneaker',
+  'shoe', 'shoes', 'sock', 'socks', 'shirt', 'shirts', 'tote', 'totes', 'pouch', 'pouches',
+  'bag', 'bags', 'backpack', 'backpacks', 'duffel', 'duffels', 'tray', 'trays', 'mat', 'mats',
+  'doormat', 'planter', 'planters', 'cushion', 'cushions', 'blanket', 'blankets', 'soapnut',
+  'soapnuts', 'detergent', 'detergents', 'cleaner', 'cleaners', 'loofah', 'loofahs',
+  'scrubber', 'scrubbers', 'soap', 'soaps', 'pen', 'pens', 'pencil', 'pencils', 'bowl',
+  'bowls', 'plate', 'plates', 'cup', 'cups', 'mug', 'mugs', 'spoon', 'spoons', 'fork', 'forks',
+  'knife', 'knives', 'lantern', 'lanterns', 'wrap', 'wraps', 'stole', 'stoles', 'scarf',
+  'bamboo', 'copper', 'terracotta', 'cotton', 'jute', 'coir', 'teak', 'neem', 'khadi', 'hemp',
+  'kitchen', 'personal care', 'stationery', 'fashion', 'cleaning', 'outdoor', 'home'
 ];
 
-const STOP_WORDS = new Set([
+// Stop words to ignore during search term extraction & typo correction
+export const STOP_WORDS = new Set([
   'a', 'an', 'the', 'for', 'in', 'on', 'at', 'to', 'of', 'and', 'or', 'my', 'me',
   'with', 'under', 'below', 'less', 'than', 'rs', 'inr', 'rupees', 'option', 'options',
   'show', 'find', 'get', 'give', 'item', 'items', 'product', 'products', 'chahiye',
-  'dikhao', 'green', 'eco', 'friendly', 'good', 'best', 'some', 'any', 'please'
+  'dikhao', 'green', 'eco', 'friendly', 'good', 'best', 'nice', 'some', 'any', 'please',
+  'now', 'instead', 'want', 'need', 'i', 'thing', 'things', 'something', 'one', 'ones',
+  'like', 'looking', 'look', 'search', 'buy', 'shop', 'explore', 'about', 'most',
+  'take', 'bring', 'suggest', 'recommend', 'could', 'would', 'can', 'tell', 'make',
+  'already', 'more', 'also', 'just', 'all'
 ]);
+
+// Protected words that must NEVER be treated as typos or corrected to unrelated words
+const PROTECTED_TYPO_WORDS = new Set([
+  'basket', 'kit', 'bundle', 'starter', 'combo', 'essentials', 'setup', 'set',
+  'cheaper', 'cheapest', 'greener', 'greenest', 'instead', 'now', 'second',
+  'first', 'third', 'dorm', 'room', 'cleaner', 'cleaners',
+  ...STOP_WORDS,
+  ...RECIPIENT_KEYWORDS,
+  ...GIFT_KEYWORDS,
+  ...CHEAP_KEYWORDS
+]);
+
+// Common domain synonyms mapping terms to catalogue words
+export const SYNONYM_MAP = {
+  shoe: ['sneaker', 'sneakers', 'shoes', 'footwear'],
+  shoes: ['sneaker', 'sneakers', 'shoe', 'footwear'],
+  sneaker: ['shoe', 'shoes', 'footwear'],
+  sneakers: ['shoe', 'shoes', 'footwear'],
+  notebook: ['journal', 'diary', 'notepad'],
+  notebooks: ['journal', 'journals', 'diary', 'diaries', 'notepad'],
+  journal: ['notebook', 'diary'],
+  journals: ['notebooks', 'diaries'],
+  diary: ['journal', 'notebook'],
+  diaries: ['journals', 'notebooks'],
+  candle: ['candles', 'mombatti', 'decor'],
+  candles: ['candle', 'mombatti', 'decor'],
+  bottle: ['thermos', 'flask', 'bottles'],
+  bottles: ['bottle', 'thermos', 'flasks'],
+  pen: ['pencil', 'pens', 'pencils'],
+  pens: ['pen', 'pencil', 'pencils'],
+  tote: ['bag', 'bags', 'totes'],
+  totes: ['tote', 'bag', 'bags'],
+  bag: ['tote', 'backpack', 'duffel', 'sack', 'pouch'],
+  bags: ['tote', 'totes', 'backpack', 'backpacks', 'duffel', 'pouch', 'pouches'],
+  loofah: ['scrubber', 'scrub', 'sponge'],
+  loofahs: ['scrubber', 'scrubbers', 'sponges'],
+  scrubber: ['loofah', 'sponge'],
+  scrubbers: ['loofah', 'loofahs', 'sponges'],
+  cleaner: ['detergent', 'soapnut', 'tabs'],
+  cleaners: ['detergent', 'detergents', 'soapnuts', 'tabs']
+};
+
+/**
+ * Normalises plural/singular forms, irregular nouns, and word variations
+ */
+export function normalizeWord(word) {
+  if (!word || typeof word !== 'string') return '';
+  const w = word.toLowerCase().trim();
+  if (w.length <= 2) return w;
+
+  const irregulars = {
+    knives: 'knife',
+    teeth: 'tooth',
+    feet: 'foot',
+    children: 'child',
+    people: 'person',
+    leaves: 'leaf',
+    shelves: 'shelf',
+    shoes: 'shoe',
+    sneakers: 'sneaker',
+    socks: 'sock',
+    candles: 'candle',
+    notebooks: 'notebook',
+    diaries: 'diary',
+    journals: 'journal',
+    toothbrushes: 'toothbrush',
+    brushes: 'brush',
+    bottles: 'bottle',
+    straws: 'straw',
+    totes: 'tote',
+    pouches: 'pouch',
+    glasses: 'glass',
+    dishes: 'dish',
+    boxes: 'box',
+    cups: 'cup',
+    plates: 'plate',
+    bowls: 'bowl',
+    spoons: 'spoon',
+    forks: 'fork',
+    razors: 'razor',
+    soaps: 'soap',
+    cleaners: 'cleaner',
+    detergents: 'detergent',
+    loofahs: 'loofah',
+    scrubbers: 'scrubber',
+    bags: 'bag',
+    mats: 'mat',
+    planters: 'planter',
+    blankets: 'blanket',
+    towels: 'towel',
+    shirts: 'shirt',
+    pens: 'pen',
+    pencils: 'pencil',
+    lanterns: 'lantern',
+    wraps: 'wrap',
+    soapnuts: 'soapnut'
+  };
+
+  if (irregulars[w]) return irregulars[w];
+
+  // -ies -> -y (diaries -> diary)
+  if (w.endsWith('ies') && w.length > 4) {
+    return w.slice(0, -3) + 'y';
+  }
+  // -ves -> -f / -fe (scarves -> scarf)
+  if (w.endsWith('ves') && w.length > 4) {
+    return w.slice(0, -3) + 'f';
+  }
+  // -shes, -ches, -sses, -xes, -zes -> strip -es (toothbrushes -> toothbrush)
+  if (/(?:sh|ch|ss|x|z)es$/i.test(w) && w.length > 4) {
+    return w.slice(0, -2);
+  }
+  // General trailing -s (except words ending in ss like glass, floss)
+  if (w.endsWith('s') && !w.endsWith('ss') && w.length > 3) {
+    return w.slice(0, -1);
+  }
+  return w;
+}
 
 /**
  * Robust whole-word / word-boundary tester.
- * Prevents "open" matching "pen", "everywhere" matching "wear", "material" matching "mat", etc.
  */
 export function testWordBoundary(text, keyword) {
   if (!text || !keyword) return false;
@@ -144,7 +276,6 @@ export function levenshtein(a, b) {
 
 /**
  * Parses freeform natural language text to extract intent, budget, category, and requirements.
- * Accepts optional conversation context from previous turns for multi-turn continuity.
  */
 export function parseShoppingIntent(query, context = null) {
   const text = (query || '').toLowerCase().trim();
@@ -157,6 +288,8 @@ export function parseShoppingIntent(query, context = null) {
     isWhyNot: false,
     whyNotTarget: null,
     selectIndex: null,
+    isCheaperFollowUp: false,
+    isGreenerFollowUp: false,
     maxBudget: null,
     minBudget: null,
     category: null,
@@ -164,7 +297,7 @@ export function parseShoppingIntent(query, context = null) {
     targetGrade: null,
     recipient: null,
     isGift: false,
-    sortBy: null, // 'price-asc' | null
+    sortBy: null, // 'price-asc' | 'ecoscore-desc' | null
     wantsConventional: false,
     didYouMean: null,
     typoOriginal: null,
@@ -173,18 +306,28 @@ export function parseShoppingIntent(query, context = null) {
     explanation: ''
   };
 
-  // 1. Goal-based planning detection: "dorm room", "starter kit", "student", "zero waste kit", "setup under"
-  const isGoal =
-    /dorm|student|starter\s+kit|setup|set\s+up|basket\s+builder|assemble\s+a\s+basket|zero\s+waste\s+(dorm|room|kit|setup)/i.test(text);
-  if (isGoal) {
-    intent.isGoalPlanning = true;
+  // 1. Budget detection
+  // Supports: under 1000, under ₹300, below 800, max 500, less than 500, budget 1000, 1000 budget, 300 se kam, 1000 tak
+  const budgetMatch =
+    text.match(/(?:under|below|less than|within|max|budget of)\s*(?:rs\.?|inr|₹)?\s*(\d+)/i) ||
+    text.match(/(?:rs\.?|inr|₹)?\s*(\d+)\s*(?:rs|rupees|inr)?\s*(?:budget|or less|max|se kam|ke andar|tak)/i) ||
+    text.match(/budget\s+(?:is\s+)?(?:rs\.?|inr|₹)?\s*(\d+)/i);
+  if (budgetMatch && budgetMatch[1]) {
+    intent.maxBudget = parseInt(budgetMatch[1], 10);
   }
 
-  // 2. "Why not <product>?" follow-up detection
-  const whyNotMatch = text.match(/why\s+not\s+(?:the\s+)?([a-z0-9\s-]+)/i);
-  if (whyNotMatch && whyNotMatch[1]) {
-    intent.isWhyNot = true;
-    intent.whyNotTarget = whyNotMatch[1].trim();
+  // 2. Goal-based planning & Budget basket detection
+  // Any query containing basket/kit/bundle/starter/set up/setup/combo/essentials + budget (or "budget basket")
+  const hasBasketTerm = /\b(?:basket|kit|bundle|starter|set\s*up|setup|combo|essentials)\b/i.test(text);
+  const hasBudgetBasket = /\bbudget\s+basket\b/i.test(text);
+  const hasGoalWord = /dorm|student|zero\s+waste\s+(dorm|room|kit|setup)/i.test(text);
+  const isAssembleBasket = /assemble\s+(?:a\s+)?(?:budget\s+)?basket/i.test(text);
+
+  if (hasBudgetBasket || hasGoalWord || isAssembleBasket || (hasBasketTerm && intent.maxBudget !== null)) {
+    intent.isGoalPlanning = true;
+    if (!intent.maxBudget) {
+      intent.maxBudget = 1000;
+    }
   }
 
   // 3. Selection follow-up: "show me the second one", "second option", "first one"
@@ -196,6 +339,14 @@ export function parseShoppingIntent(query, context = null) {
     intent.selectIndex = 2;
   }
 
+  // 4. "Why not <product>?" follow-up detection
+  const whyNotMatch = text.match(/why\s+not\s+(?:the\s+)?([a-z0-9\s-]+)/i);
+  if (whyNotMatch && whyNotMatch[1]) {
+    intent.isWhyNot = true;
+    intent.whyNotTarget = whyNotMatch[1].trim();
+  }
+
+  // 5. Cart Review detection
   if (
     testWordBoundary(text, 'review my cart') ||
     testWordBoundary(text, 'cart review') ||
@@ -215,26 +366,23 @@ export function parseShoppingIntent(query, context = null) {
     return intent;
   }
 
-  if (
-    text.includes('how is score') ||
-    text.includes('how does eco score') ||
-    text.includes('how scoring works') ||
-    text.includes('how agent works') ||
-    text.includes('explain score')
-  ) {
+  // 6. Educational detection (Score calculation explanation in EN, HI, Hinglish)
+  const isEducationalScore =
+    /(?:eco[\s-]?score|ecoscore|sustainability\s+score|rating|scoring|स्कोर|\bscore\b)/i.test(text) &&
+    /\b(?:how|explain|calculate|calculated|calculating|formula|meaning|what\s+is|kaise|kya\s+hai|samjhao|batao|नियम|works?|working)\b/i.test(text);
+
+  const isEducationalDirect =
+    /\b(?:what\s+is\s+eco[\s-]?score|how\s+is\s+(?:the\s+)?score\s+calculated|explain\s+scoring|how\s+scoring\s+works|score\s+kya\s+hai|eco\s+score\s+kaise\s+bana|how\s+does\s+eco[\s-]?score)\b/i.test(text) ||
+    text.includes('how agent works');
+
+  if (isEducationalScore || isEducationalDirect) {
     intent.isEducational = true;
     intent.explanation = 'Explaining the 5-pillar Eco-Score calculation formula';
     return intent;
   }
 
-  // Budget detection (e.g., "under 1000", "below 500", "under rs 600", "under ₹1500", "under 300", "under 2000")
-  const budgetMatch = text.match(/(?:under|below|less than|within|max)\s*(?:rs\.?|inr|₹)?\s*(\d+)/i) ||
-                      text.match(/(\d+)\s*(?:rs|rupees|inr)?\s*budget/i);
-  if (budgetMatch && budgetMatch[1]) {
-    intent.maxBudget = parseInt(budgetMatch[1], 10);
-  }
-
-  // Sort by price ascending (cheapest / sasta / affordable / cheaper)
+  // 7. Sort detection
+  // Price ascending
   for (const cheapKw of CHEAP_KEYWORDS) {
     if (testWordBoundary(text, cheapKw)) {
       intent.sortBy = 'price-asc';
@@ -242,10 +390,17 @@ export function parseShoppingIntent(query, context = null) {
     }
   }
 
-  // Category detection using strict word boundaries to avoid false positives like "open" -> "pen"
+  // EcoScore descending
+  if (
+    /highest\s+(?:eco[\s-]?score|ecoscore|score|rated|products?)|greenest|top\s+(?:rated|eco|picks)|best\s+eco[\s-]?score/i.test(text)
+  ) {
+    intent.sortBy = 'ecoscore-desc';
+  }
+
+  // 8. Category detection
   for (const [catName, keywords] of Object.entries(CATEGORY_KEYWORDS)) {
     for (const kw of keywords) {
-      if (testWordBoundary(text, kw)) {
+      if (testWordBoundary(text, kw) || testWordBoundary(text, normalizeWord(kw))) {
         intent.category = catName;
         break;
       }
@@ -253,30 +408,52 @@ export function parseShoppingIntent(query, context = null) {
     if (intent.category) break;
   }
 
-  // Multi-turn context reuse
+  // 9. Multi-turn conversation context continuity
   if (context) {
-    // Follow-up: "something cheaper" or "cheaper"
-    if ((text.includes('cheaper') || text.includes('sasta') || text.includes('less expensive')) && !intent.category) {
-      if (context.lastCategory) intent.category = context.lastCategory;
-      if (context.lastResults && context.lastResults[0]?.price) {
-        const topPrice = context.lastResults[0].price;
+    // "something cheaper" or "cheaper"
+    const isCheaperRequest =
+      /\b(?:cheaper|sasta|less\s+expensive|more\s+affordable|lower\s+price)\b/i.test(text) ||
+      text.includes('something cheaper');
+    if (isCheaperRequest) {
+      intent.isCheaperFollowUp = true;
+      intent.sortBy = 'price-asc';
+      if (!intent.category && context.lastCategory) {
+        intent.category = context.lastCategory;
+      }
+      if (context.lastResults && context.lastResults.length > 0) {
+        const topPrice = context.lastResults[0]?.price || context.lastBudget || 1000;
         const cheaper = context.lastResults.filter((p) => p.price < topPrice);
         if (cheaper.length > 0) {
           intent.maxBudget = Math.max(...cheaper.map((p) => p.price));
+        } else if (context.lastBudget && topPrice < context.lastBudget) {
+          intent.maxBudget = topPrice;
         } else {
-          intent.maxBudget = context.lastBudget || topPrice;
+          intent.maxBudget = Math.max(topPrice - 1, 50);
         }
+      } else if (context.lastBudget) {
+        intent.maxBudget = Math.max(context.lastBudget - 50, 50);
       }
     }
 
-    // Follow-up: "now for bags" or "now for kitchen"
-    if (intent.category && !intent.maxBudget && context.lastBudget) {
-      intent.maxBudget = context.lastBudget;
+    // "something greener" or "more eco friendly"
+    const isGreenerRequest =
+      /\b(?:greener|more\s+eco|more\s+eco[\s-]friendly|better\s+eco[\s-]?score|higher\s+eco[\s-]?score)\b/i.test(text);
+    if (isGreenerRequest) {
+      intent.isGreenerFollowUp = true;
+      intent.sortBy = 'ecoscore-desc';
+      if (!intent.category && context.lastCategory) {
+        intent.category = context.lastCategory;
+      }
     }
 
-    // Follow-up: "under 500 instead"
+    // "under 300 instead" / budget override without category
     if (intent.maxBudget && !intent.category && context.lastCategory) {
       intent.category = context.lastCategory;
+    }
+
+    // "now for bags" / category change keeping previous budget
+    if (intent.category && !intent.maxBudget && context.lastBudget) {
+      intent.maxBudget = context.lastBudget;
     }
 
     // Carry over recipient if not overridden
@@ -286,7 +463,7 @@ export function parseShoppingIntent(query, context = null) {
     }
   }
 
-  // Recipient / Gift intent
+  // 10. Recipient / Gift intent
   for (const giftKw of GIFT_KEYWORDS) {
     if (testWordBoundary(text, giftKw)) {
       intent.isGift = true;
@@ -302,7 +479,7 @@ export function parseShoppingIntent(query, context = null) {
     }
   }
 
-  // Packaging requirement: "reduce plastic", "no plastic", "plastic free", "zero plastic"
+  // 11. Packaging requirement
   if (
     testWordBoundary(text, 'plastic-free') ||
     testWordBoundary(text, 'plastic free') ||
@@ -314,7 +491,7 @@ export function parseShoppingIntent(query, context = null) {
     intent.packaging = 'plastic-free';
   }
 
-  // Conventional product intent: ONLY when user explicitly asks for conventional/disposable
+  // 12. Conventional product intent
   const wantsConventional =
     testWordBoundary(text, 'conventional') ||
     testWordBoundary(text, 'disposable') ||
@@ -323,19 +500,22 @@ export function parseShoppingIntent(query, context = null) {
     /plastic\s+vs/i.test(text);
   intent.wantsConventional = wantsConventional;
 
-  // Grade requirement
+  // 13. Grade requirement
   if (text.includes('grade a') || testWordBoundary(text, 'best') || text.includes('top eco') || text.includes('greenest')) {
     intent.targetGrade = 'A';
   }
 
-  // Clarifying questions: if query is overly vague (e.g. just "gift", "recommend something")
+  // 14. Clarifying questions for overly vague queries
   const words = text.split(/\s+/).filter(Boolean);
   if (
     words.length <= 2 &&
     !intent.category &&
     !intent.maxBudget &&
     !intent.isGoalPlanning &&
-    !intent.isCartReview
+    !intent.isCartReview &&
+    !intent.selectIndex &&
+    !intent.isCheaperFollowUp &&
+    !intent.isGreenerFollowUp
   ) {
     if (text === 'gift' || text === 'gifts' || text === 'present' || text === 'gifting') {
       const giftChips = [
@@ -353,7 +533,7 @@ export function parseShoppingIntent(query, context = null) {
       const recChips = [
         { label: "🎋 Zero-Plastic Kitchen", prompt: "Plastic-free kitchen essentials" },
         { label: "🧼 Bathroom Swaps", prompt: "Plastic-free personal care items" },
-        { label: "🧺 Dorm Starter Kit", prompt: "Set up a zero-plastic dorm room under 2000" },
+        { label: "🧺 Dorm Starter Kit", prompt: "Assemble a budget basket under 1000" },
         { label: "💰 Under ₹300", prompt: "Cheapest green option under 300" }
       ];
       intent.clarification = {
@@ -364,11 +544,20 @@ export function parseShoppingIntent(query, context = null) {
     }
   }
 
-  // Typo detection using Levenshtein distance on words of length >= 5
+  // 15. Typo detection using Levenshtein distance on domain words (Bug 10: distance <= 2, real terms only)
   for (const w of words) {
-    if (w.length >= 5 && !STOP_WORDS.has(w) && isNaN(Number(w))) {
-      const isKnown = KNOWN_DICTIONARY.includes(w) ||
-        Object.values(CATEGORY_KEYWORDS).some((list) => list.includes(w));
+    const normW = normalizeWord(w);
+    if (
+      w.length >= 4 &&
+      !PROTECTED_TYPO_WORDS.has(w) &&
+      !PROTECTED_TYPO_WORDS.has(normW) &&
+      isNaN(Number(w))
+    ) {
+      const isKnown =
+        KNOWN_DICTIONARY.includes(w) ||
+        KNOWN_DICTIONARY.includes(normW) ||
+        Object.values(CATEGORY_KEYWORDS).some((list) => list.includes(w) || list.includes(normW));
+
       if (!isKnown) {
         let bestCandidate = null;
         let minDistance = 3;
@@ -391,11 +580,8 @@ export function parseShoppingIntent(query, context = null) {
   return intent;
 }
 
-import { detectGreenwashing } from './ecoScore.js';
-
 /**
  * Compares winner vs runner-up across price, lifecycle CO2, packaging, and certifications
- * to explain trade-offs transparently.
  */
 export function generateTradeoffs(winner, runnerUp) {
   if (!winner || !runnerUp) return null;
@@ -437,12 +623,11 @@ export function generateTradeoffs(winner, runnerUp) {
 
 /**
  * Goal-Based Planning Engine:
- * Selects an optimal multi-category basket maximizing EcoScore within a strict budget,
- * avoiding duplicate product types and calculating lifecycle savings vs conventional items.
+ * Selects an optimal multi-category basket maximizing EcoScore within a strict budget.
  */
-export function planBasket(goal, budget = 2000, allProducts = []) {
+export function planBasket(goal, budget = 1000, allProducts = []) {
   const goalLower = (goal || '').toLowerCase();
-  const targetBudget = Number(budget) || 2000;
+  const targetBudget = Number(budget) || 1000;
 
   // Filter eco-friendly items
   const ecoProducts = (allProducts || []).filter((p) => p.isEcoFriendly);
@@ -497,7 +682,7 @@ export function planBasket(goal, budget = 2000, allProducts = []) {
     return item.category;
   }
 
-  // Pass 1: Ensure category diversity (pick best item per target category within budget)
+  // Pass 1: Ensure category diversity within budget
   for (const cat of targetCategories) {
     const catCandidate = scoredItems.find(
       (p) => p.category === cat &&
@@ -576,12 +761,12 @@ export function planBasket(goal, budget = 2000, allProducts = []) {
       { step: 'Impact audited', detail: `Lifecycle savings: ${totalCo2Saved.toFixed(1)}kg CO2, ${Math.round(totalPlasticAvoided)}g plastic, ${Math.round(totalWaterSaved)}L water` },
       { step: 'Decision', detail: `Assembled balanced basket leaving ₹${targetBudget - currentCost} cushion with ${averageEcoScore}/100 average EcoScore` }
     ],
-    explanation: `I crafted a conscious starter kit of ${selectedItems.length} items across ${selectedCategories.size} categories for ₹${currentCost} (under your ₹${targetBudget} budget), saving ${totalCo2Saved.toFixed(1)}kg CO2e and ${Math.round(totalPlasticAvoided)}g virgin plastic!`
+    explanation: `I crafted a conscious basket of ${selectedItems.length} items across ${selectedCategories.size} categories for ₹${currentCost} (under your ₹${targetBudget} budget), saving ${totalCo2Saved.toFixed(1)}kg CO2e and ${Math.round(totalPlasticAvoided)}g virgin plastic!`
   };
 }
 
 /**
- * Searches and ranks products based on parsed intent, attaching transparent "Why I picked this" reasoning,
+ * Searches and ranks products based on parsed intent, attaching transparent reasoning,
  * reasoning trace, trade-offs, and greenwashing check.
  */
 export function queryEcoCatalog(allProducts, userQuery, context = null, weights = null) {
@@ -605,12 +790,29 @@ export function queryEcoCatalog(allProducts, userQuery, context = null, weights 
     };
   }
 
-  // 2. Goal-based planning
+  // 2. Goal-based planning & Budget basket
   if (intent.isGoalPlanning) {
-    return planBasket(userQuery, intent.maxBudget || 2000, allProducts);
+    return planBasket(userQuery, intent.maxBudget || 1000, allProducts);
   }
 
-  // 3. "Why not <product>?" follow-up
+  // 3. Selection follow-up: "show me the second one"
+  if (intent.selectIndex !== null && context?.lastResults && context.lastResults.length > intent.selectIndex) {
+    const selectedItem = context.lastResults[intent.selectIndex];
+    return {
+      type: 'select-item',
+      intent,
+      results: [selectedItem],
+      count: 1,
+      explanation: `Here is option #${intent.selectIndex + 1} from your previous search: ${selectedItem.name} (₹${selectedItem.price})`,
+      trace: [
+        { step: 'Understood goal', detail: `User selected option #${intent.selectIndex + 1} from previous context` },
+        { step: 'Information retrieved', detail: `Retrieved "${selectedItem.name}" (₹${selectedItem.price}) from lastResults` },
+        { step: 'Decision', detail: `Displayed selected item #${intent.selectIndex + 1}` }
+      ]
+    };
+  }
+
+  // 4. "Why not <product>?" follow-up
   if (intent.isWhyNot && intent.whyNotTarget) {
     const targetLower = intent.whyNotTarget.toLowerCase();
     const candidate = (allProducts || []).find(
@@ -654,7 +856,7 @@ export function queryEcoCatalog(allProducts, userQuery, context = null, weights 
     }
   }
 
-  // 4. Educational query
+  // 5. Educational query
   if (intent.isEducational) {
     return {
       type: 'educational',
@@ -674,7 +876,7 @@ export function queryEcoCatalog(allProducts, userQuery, context = null, weights 
     };
   }
 
-  // 5. Standard Catalog Search & Scoring
+  // 6. Standard Catalog Search & Scoring
   const productsWithScore = (allProducts || []).map((p) => ({
     ...p,
     ecoScoreData: calculateEcoScore(p),
@@ -686,13 +888,61 @@ export function queryEcoCatalog(allProducts, userQuery, context = null, weights 
     ? productsWithScore
     : productsWithScore.filter((p) => p.isEcoFriendly);
 
-  // Apply Category Filter if detected
+  // Apply Category Filter if detected (allows cross-category domain nouns like bottle, mat, brush)
   if (intent.category) {
-    candidates = candidates.filter((p) => p.category === intent.category);
+    const isGenericNoun = /^(?:bottle|bottles|brush|brushes|mat|mats)$/i.test((intent.rawQuery || '').trim());
+    if (!isGenericNoun) {
+      candidates = candidates.filter((p) => p.category === intent.category);
+    }
   }
 
-  // Apply Budget Filter if specified
-  if (intent.maxBudget) {
+  // Follow-up: "something cheaper"
+  if (intent.isCheaperFollowUp) {
+    const prevTopPrice = context?.lastResults?.[0]?.price;
+    const cat = intent.category || context?.lastResults?.[0]?.category;
+    const catPool = (allProducts || []).filter((p) => p.isEcoFriendly && (!cat || p.category === cat));
+
+    if (typeof prevTopPrice === 'number') {
+      const cheaperItems = catPool
+        .filter((p) => p.price < prevTopPrice)
+        .map((p) => ({ ...p, ecoScoreData: calculateEcoScore(p), greenwashing: detectGreenwashing(p) }))
+        .sort((a, b) => a.price - b.price);
+
+      if (cheaperItems.length > 0) {
+        candidates = cheaperItems;
+        intent.sortBy = 'price-asc';
+      } else {
+        // Nothing cheaper in this category
+        const sortedPool = [...catPool]
+          .map((p) => ({ ...p, ecoScoreData: calculateEcoScore(p), greenwashing: detectGreenwashing(p) }))
+          .sort((a, b) => a.price - b.price);
+        const cheapestInCat = sortedPool[0];
+
+        if (cheapestInCat) {
+          const catName = cat || 'this category';
+          return {
+            type: 'search-results',
+            intent,
+            isCheapestInCat: true,
+            explanation: `That's already the cheapest in ${catName} (₹${cheapestInCat.price})`,
+            didYouMean: null,
+            tradeoffs: null,
+            results: [cheapestInCat],
+            count: 1,
+            prioritiesSummary,
+            trace: [
+              { step: 'Understood goal', detail: `User requested cheaper option in ${catName}` },
+              { step: 'Price audit', detail: `Audited ${catPool.length} eco items in ${catName}` },
+              { step: 'Decision', detail: `Identified ${cheapestInCat.name} (₹${cheapestInCat.price}) as already the cheapest available item` }
+            ]
+          };
+        }
+      }
+    }
+  }
+
+  // Apply Budget Filter if specified (STRICT maxBudget)
+  if (intent.maxBudget !== null && typeof intent.maxBudget === 'number') {
     candidates = candidates.filter((p) => p.price <= intent.maxBudget);
   }
 
@@ -706,13 +956,31 @@ export function queryEcoCatalog(allProducts, userQuery, context = null, weights 
     candidates = candidates.filter((p) => p.ecoScoreData.grade === intent.targetGrade);
   }
 
-  // Extract non-stop search terms, ignoring generic descriptors, actions, and broad category locations
+  // If category was specified with a budget, but no eco items in that category are <= maxBudget:
+  // e.g. Kitchen items start at 349, Bags start at 379. Provide the closest affordable alternatives
+  // so follow-up interactions (e.g. "show me the second one") never hit dead ends.
+  let isCategoryBudgetClosest = false;
+  if (candidates.length === 0 && intent.category && intent.maxBudget !== null) {
+    const catEcoItems = (allProducts || [])
+      .filter((p) => p.isEcoFriendly && p.category === intent.category)
+      .map((p) => ({ ...p, ecoScoreData: calculateEcoScore(p), greenwashing: detectGreenwashing(p) }))
+      .sort((a, b) => a.price - b.price);
+
+    if (catEcoItems.length > 0) {
+      candidates = catEcoItems;
+      isCategoryBudgetClosest = true;
+    }
+  }
+
+  // Extract search terms
   const DESCRIPTOR_WORDS = new Set([
     ...CHEAP_KEYWORDS,
     ...GIFT_KEYWORDS,
     'option', 'options', 'item', 'items', 'product', 'products', 'green', 'eco',
     'sustainable', 'plastic', 'alternative', 'alternatives', 'thing', 'things',
-    'sasta', 'sasti', 'chahiye', 'dikhao'
+    'sasta', 'sasti', 'chahiye', 'dikhao', 'choice', 'choices',
+    'highest', 'greenest', 'top', 'rated', 'score', 'scores', 'ecoscore', 'scoring',
+    'picks', 'grade', 'rank', 'rankings', 'rating'
   ]);
 
   const ACTION_WORDS = new Set([
@@ -727,20 +995,26 @@ export function queryEcoCatalog(allProducts, userQuery, context = null, weights 
     'house', 'office', 'desk', 'travel', 'outdoor', 'laundry', 'pantry', 'wardrobe'
   ]);
 
+  const RECIPIENT_WORD_SET = new Set(RECIPIENT_KEYWORDS);
+
   const queryWords = (intent.rawQuery || '').toLowerCase().match(/[a-z0-9\u0900-\u097F]+/g) || [];
   const searchTerms = queryWords.filter(
-    (w) => w.length > 2 &&
+    (w) => w.length >= 3 &&
       !STOP_WORDS.has(w) &&
       !DESCRIPTOR_WORDS.has(w) &&
       !ACTION_WORDS.has(w) &&
       !BROAD_CATEGORY_WORDS.has(w) &&
+      !RECIPIENT_WORD_SET.has(w) &&
       isNaN(Number(w))
   );
 
-  // Identify if user searched for a specific product noun (e.g. "shampoo", "toothbrush", "cutlery")
-  const isBroadQuery = searchTerms.length === 0 || (intent.category && searchTerms.every((term) =>
-    term === intent.category.toLowerCase()
-  ));
+  // Broad query if no specific product noun was searched, or query is a gift query, or EcoScore desc sort
+  const isBroadQuery =
+    intent.isGift ||
+    intent.sortBy === 'ecoscore-desc' ||
+    isCategoryBudgetClosest ||
+    searchTerms.length === 0 ||
+    (intent.category && searchTerms.every((term) => term === intent.category.toLowerCase() || normalizeWord(term) === intent.category.toLowerCase()));
 
   const scoredCandidates = candidates.map((p) => {
     let termMatchCount = 0;
@@ -750,21 +1024,31 @@ export function queryEcoCatalog(allProducts, userQuery, context = null, weights 
     const matLower = (p.material || '').toLowerCase();
     const highLower = (p.ecoHighlights || []).join(' ').toLowerCase();
 
+    let nameMatched = false;
     searchTerms.forEach((term) => {
       let matched = false;
-      if (nameLower.includes(term)) {
-        termMatchScore += 50;
+      const normTerm = normalizeWord(term);
+      const synonyms = SYNONYM_MAP[term] || SYNONYM_MAP[normTerm] || [];
+
+      const matchesWord = (target) =>
+        target.includes(term) ||
+        target.includes(normTerm) ||
+        synonyms.some((syn) => target.includes(syn));
+
+      if (matchesWord(nameLower)) {
+        termMatchScore += 100;
+        nameMatched = true;
         matched = true;
       }
-      if (descLower.includes(term)) {
+      if (matchesWord(descLower)) {
         termMatchScore += 20;
         matched = true;
       }
-      if (matLower.includes(term)) {
+      if (matchesWord(matLower)) {
         termMatchScore += 25;
         matched = true;
       }
-      if (highLower.includes(term)) {
+      if (matchesWord(highLower)) {
         termMatchScore += 15;
         matched = true;
       }
@@ -773,14 +1057,46 @@ export function queryEcoCatalog(allProducts, userQuery, context = null, weights 
 
     let relevance = p.ecoScoreData.score + termMatchScore;
 
-    // Recipient-specific relevance boost for gifts
-    if (intent.recipient === 'teacher') {
-      if (p.category === 'Stationery' || nameLower.includes('journal') || nameLower.includes('candle')) {
-        relevance += 40;
-      }
-    } else if (intent.isGift) {
-      if (p.category === 'Stationery' || p.category === 'Home' || nameLower.includes('set') || nameLower.includes('kit')) {
-        relevance += 25;
+    // Recipient-specific relevance bonuses for gift queries
+    if (intent.isGift) {
+      const rec = intent.recipient;
+      if (rec === 'teacher') {
+        if (p.category === 'Stationery' || nameLower.includes('journal') || nameLower.includes('candle') || nameLower.includes('pen') || nameLower.includes('desk')) {
+          relevance += 40;
+        }
+      } else if (['mom', 'mother', 'mata'].includes(rec)) {
+        if (p.category === 'Home' || p.category === 'Personal Care' || nameLower.includes('candle') || nameLower.includes('planter') || nameLower.includes('wrap') || nameLower.includes('balm')) {
+          relevance += 35;
+        }
+      } else if (['sister', 'behen'].includes(rec)) {
+        if (p.category === 'Personal Care' || p.category === 'Fashion' || p.category === 'Home' || nameLower.includes('candle') || nameLower.includes('tote') || nameLower.includes('balm') || nameLower.includes('journal')) {
+          relevance += 35;
+        }
+      } else if (['brother', 'bhai'].includes(rec)) {
+        if (p.category === 'Fashion' || p.category === 'Outdoor & Travel' || nameLower.includes('bottle') || nameLower.includes('thermos') || nameLower.includes('bag') || nameLower.includes('backpack')) {
+          relevance += 35;
+        }
+      } else if (['dad', 'father', 'pita'].includes(rec)) {
+        if (p.category === 'Outdoor & Travel' || p.category === 'Home' || p.category === 'Stationery' || nameLower.includes('copper') || nameLower.includes('thermos') || nameLower.includes('desk') || nameLower.includes('razor')) {
+          relevance += 35;
+        }
+      } else if (['friend', 'friends', 'dost'].includes(rec)) {
+        if (p.category === 'Personal Care' || p.category === 'Stationery' || p.category === 'Home' || nameLower.includes('bottle') || nameLower.includes('candle') || nameLower.includes('tote')) {
+          relevance += 30;
+        }
+      } else if (['colleague', 'colleagues', 'boss'].includes(rec)) {
+        if (p.category === 'Stationery' || nameLower.includes('journal') || nameLower.includes('pen') || nameLower.includes('desk') || nameLower.includes('candle')) {
+          relevance += 35;
+        }
+      } else if (['kid', 'kids'].includes(rec)) {
+        if (p.category === 'Stationery' || nameLower.includes('pen') || nameLower.includes('notebook') || nameLower.includes('bamboo')) {
+          relevance += 35;
+        }
+      } else {
+        // Generic gift
+        if (p.category === 'Stationery' || p.category === 'Home' || p.category === 'Personal Care' || nameLower.includes('set') || nameLower.includes('kit') || nameLower.includes('candle')) {
+          relevance += 25;
+        }
       }
     }
 
@@ -798,23 +1114,30 @@ export function queryEcoCatalog(allProducts, userQuery, context = null, weights 
       relevanceScore: relevance,
       termMatchScore,
       termMatchCount,
+      nameMatched,
       reasoning: reasons.join(' • ')
     };
   });
 
-  // Relevance threshold filtering:
-  // If specific search terms were provided and it's not a broad query,
-  // do NOT include candidates that had 0 term matches (e.g. shampoo should not return razor or toothbrush)!
+  // Relevance filtering:
+  // If specific product search terms were provided and it's not a broad/gift query,
+  // filter by strictly matching terms, prioritizing direct product name matches
   let filteredResults = scoredCandidates;
   if (searchTerms.length > 0 && !isBroadQuery) {
     const strictlyMatching = scoredCandidates.filter((p) => p.termMatchScore > 0);
-    if (strictlyMatching.length > 0) {
+    const nameMatching = strictlyMatching.filter((p) => p.nameMatched);
+    if (nameMatching.length > 0) {
+      filteredResults = nameMatching;
+    } else if (strictlyMatching.length > 0) {
       filteredResults = strictlyMatching;
-    } else if (intent.didYouMean) {
-      filteredResults = [];
     } else {
       filteredResults = [];
     }
+  }
+
+  // Strictly enforce maxBudget on all results (unless category budget was relaxed to show closest options)
+  if (!isCategoryBudgetClosest && intent.maxBudget !== null && typeof intent.maxBudget === 'number') {
+    filteredResults = filteredResults.filter((p) => p.price <= intent.maxBudget);
   }
 
   // Sort results:
@@ -825,14 +1148,23 @@ export function queryEcoCatalog(allProducts, userQuery, context = null, weights 
       }
       return b.relevanceScore - a.relevanceScore;
     });
+  } else if (intent.sortBy === 'ecoscore-desc') {
+    filteredResults.sort((a, b) => {
+      const scoreA = a.ecoScoreData?.score || 0;
+      const scoreB = b.ecoScoreData?.score || 0;
+      if (scoreB !== scoreA) {
+        return scoreB - scoreA;
+      }
+      return (a.carbonKg || 0) - (b.carbonKg || 0);
+    });
   } else if (filteredResults.length > 0) {
     filteredResults = rankProducts(filteredResults, activeWeights);
   }
 
-  // If follow-up asked for specific index (e.g. "show me the second one")
+  // Top results slice (strictly enforcing budget unless category budget was relaxed)
   let topResults = filteredResults.slice(0, 4);
-  if (intent.selectIndex !== null && filteredResults[intent.selectIndex]) {
-    topResults = [filteredResults[intent.selectIndex], ...filteredResults.filter((_, i) => i !== intent.selectIndex).slice(0, 3)];
+  if (!isCategoryBudgetClosest && intent.maxBudget !== null && typeof intent.maxBudget === 'number') {
+    topResults = topResults.filter((p) => p.price <= intent.maxBudget);
   }
 
   // Trade-offs calculation between winner and runner-up
@@ -855,7 +1187,7 @@ export function queryEcoCatalog(allProducts, userQuery, context = null, weights 
         intent.category ? `Category: ${intent.category}` : 'All categories',
         intent.maxBudget ? `Budget <= ₹${intent.maxBudget}` : null,
         intent.packaging ? 'Packaging: 100% plastic-free' : null,
-        intent.sortBy === 'price-asc' ? 'Sort: Lowest price first' : 'Sort: Priority-weighted MCDM'
+        intent.sortBy === 'price-asc' ? 'Sort: Lowest price first' : intent.sortBy === 'ecoscore-desc' ? 'Sort: Highest EcoScore first' : 'Sort: Priority-weighted MCDM'
       ].filter(Boolean).join(' • ')
     },
     {
@@ -870,7 +1202,9 @@ export function queryEcoCatalog(allProducts, userQuery, context = null, weights 
       step: 'Scored & Ranked',
       detail: intent.sortBy === 'price-asc'
         ? 'Ranked strictly by price ascending with verified eco-score guarantee'
-        : 'Ranked by 5-pillar EcoScore + query keyword relevance'
+        : intent.sortBy === 'ecoscore-desc'
+          ? 'Ranked strictly by EcoScore descending'
+          : 'Ranked by 5-pillar EcoScore + query keyword relevance'
     }
   ];
 
@@ -901,6 +1235,10 @@ export function queryEcoCatalog(allProducts, userQuery, context = null, weights 
   return {
     type: 'search-results',
     intent,
+    isCategoryBudgetClosest,
+    explanation: isCategoryBudgetClosest
+      ? `${intent.category} items start at ₹${topResults[0]?.price || 349} (${topResults[0]?.name || ''}). Here are the most affordable conscious options closest to your ₹${intent.maxBudget} budget:`
+      : '',
     didYouMean: intent.didYouMean,
     tradeoffs,
     trace,
@@ -949,7 +1287,10 @@ export function getSwapSuggestion(itemOrProduct, allProducts) {
 export function auditCartSustainability(cartItems, allProducts) {
   if (!cartItems || cartItems.length === 0) {
     return {
-      summary: 'Your cart is currently empty! Add conscious goods to see your impact calculation.',
+      itemCount: 0,
+      averageScore: 0,
+      lowGradeCount: 0,
+      summary: "Your cart is empty. Add a few items and I'll audit them, or try 'Assemble a budget basket under 1000'.",
       worstItems: [],
       suggestions: []
     };
@@ -970,7 +1311,7 @@ export function auditCartSustainability(cartItems, allProducts) {
   // Sort worst first
   itemsScored.sort((a, b) => a.score - b.score);
 
-  // Worst offenders (Grade C, D, or E)
+  // Low grade items (Grade C, D, or E)
   const lowGradeItems = itemsScored.filter((item) => item.score < 70);
 
   // Top suggestions for swaps
@@ -987,23 +1328,26 @@ export function auditCartSustainability(cartItems, allProducts) {
     }
   });
 
-  const avgScore = Math.round(
-    itemsScored.reduce((sum, i) => sum + i.score * (i.cartItem.quantity || 1), 0) /
-    itemsScored.reduce((sum, i) => sum + (i.cartItem.quantity || 1), 0)
-  );
+  const totalQuantity = itemsScored.reduce((sum, i) => sum + (i.cartItem.quantity || 1), 0);
+  const avgScore = totalQuantity > 0
+    ? Math.round(itemsScored.reduce((sum, i) => sum + i.score * (i.cartItem.quantity || 1), 0) / totalQuantity)
+    : 0;
 
   return {
     itemCount: cartItems.length,
     averageScore: avgScore,
     lowGradeCount: lowGradeItems.length,
     suggestions,
-    worstItems: lowGradeItems.map((i) => i.product)
+    worstItems: lowGradeItems.map((i) => i.product),
+    summary: lowGradeItems.length === 0
+      ? `🌟 Fantastic job! All ${cartItems.length} items in your cart are sustainably rated (Average Eco-Score: ${avgScore}/100). No swaps needed!`
+      : `I reviewed your cart (Avg Eco-Score: ${avgScore}/100). Found ${lowGradeItems.length} conventional item(s) with high plastic or carbon impact. Here are greener alternatives to boost your score:`
   };
 }
 
 /**
  * Dispatch agent message with optional remote LLM fallback.
- * Will try fetch('/api/agent', ...) with 1.8s timeout, falling back cleanly to local intelligence.
+ * Signature supports both { query, cartItems, allProducts, context } and (query, allProducts, cartItems, context)
  */
 export async function sendAgentQuery(arg1, arg2, arg3, arg4) {
   let query;
@@ -1023,9 +1367,42 @@ export async function sendAgentQuery(arg1, arg2, arg3, arg4) {
     context = arg4 || null;
   }
 
-  // Check if user is requesting a priority adjustment (e.g. "I care most about price", "plastic matters more", "lowest carbon")
+  // 1. Priority adjustment check
   const priorityAdjustment = parsePriorityIntent(query, context?.userPriorities);
-  if (priorityAdjustment) {
+
+  // 2. Parse natural language intent with multi-turn continuity
+  const intent = parseShoppingIntent(query, context);
+
+  // Check if the query has active shopping constraints (budget, category, packaging, recipient, basket plan, cart review, educational)
+  const hasShoppingConstraints = Boolean(
+    intent.maxBudget !== null ||
+    intent.category !== null ||
+    intent.packaging !== null ||
+    intent.recipient !== null ||
+    intent.isGift ||
+    intent.isGoalPlanning ||
+    intent.isCartReview ||
+    intent.isEducational ||
+    intent.selectIndex !== null ||
+    intent.isCheaperFollowUp ||
+    intent.isGreenerFollowUp ||
+    intent.whyNotTarget !== null
+  );
+
+  // Check if query has product-bearing search nouns
+  const hasProductKeywords = !hasShoppingConstraints && (() => {
+    const qWords = (query || '').toLowerCase().match(/[a-z0-9\u0900-\u097F]+/g) || [];
+    return qWords.some((w) =>
+      !STOP_WORDS.has(w) &&
+      !CHEAP_KEYWORDS.includes(w) &&
+      !GIFT_KEYWORDS.includes(w) &&
+      !['priority', 'priorities', 'care', 'most', 'matters', 'matter', 'more', 'about', 'focus', 'lowest', 'carbon', 'plastic', 'price', 'local', 'water', 'certs'].includes(w) &&
+      (KNOWN_DICTIONARY.includes(w) || KNOWN_DICTIONARY.includes(normalizeWord(w)))
+    );
+  })();
+
+  // Treat as PURE priority change ONLY when there are no shopping constraints and no product nouns
+  if (priorityAdjustment && !hasShoppingConstraints && !hasProductKeywords) {
     const summary = formatPrioritiesSummary(priorityAdjustment);
     const ecoCandidates = (allProducts || []).filter((p) => p.isEcoFriendly);
     const ranked = rankProducts(ecoCandidates, priorityAdjustment);
@@ -1040,7 +1417,8 @@ export async function sendAgentQuery(arg1, arg2, arg3, arg4) {
       analysis: {
         results: topPicks,
         count: topPicks.length,
-        prioritiesSummary: summary
+        prioritiesSummary: summary,
+        intent
       },
       tradeoffs,
       trace: [
@@ -1075,8 +1453,9 @@ export async function sendAgentQuery(arg1, arg2, arg3, arg4) {
     };
   }
 
-  const intent = parseShoppingIntent(query, context);
-  const localResponse = queryEcoCatalog(allProducts, query, context);
+  // Use updated priorities if available, else context priorities, else DEFAULT_PRIORITIES
+  const activeWeights = priorityAdjustment || context?.userPriorities || DEFAULT_PRIORITIES;
+  const localResponse = queryEcoCatalog(allProducts, query, context, activeWeights);
 
   let cartReviewData = null;
   if (intent.isCartReview) {
@@ -1113,13 +1492,17 @@ export async function sendAgentQuery(arg1, arg2, arg3, arg4) {
           source: 'cloud-llm',
           message: data.reply,
           data: localResponse.results || [],
-          analysis: localResponse,
+          analysis: {
+            ...localResponse,
+            intent: localResponse.intent || intent
+          },
           tradeoffs: localResponse.tradeoffs,
           trace: localResponse.trace || [],
           basketPlan: localResponse.type === 'basket-plan' ? localResponse : null,
           clarification: localResponse.clarification || null,
           didYouMean: localResponse.didYouMean,
-          cartReview: cartReviewData
+          cartReview: cartReviewData,
+          newPriorities: priorityAdjustment || null
         };
       }
     }
@@ -1136,11 +1519,17 @@ export async function sendAgentQuery(arg1, arg2, arg3, arg4) {
     friendlyMessage = localResponse.clarification.question;
   } else if (localResponse.type === 'basket-plan') {
     friendlyMessage = localResponse.explanation;
+  } else if (localResponse.type === 'select-item') {
+    friendlyMessage = localResponse.explanation;
+  } else if (localResponse.isCheapestInCat) {
+    friendlyMessage = localResponse.explanation;
+  } else if (localResponse.isCategoryBudgetClosest) {
+    friendlyMessage = localResponse.explanation;
   } else if (localResponse.type === 'why-not-comparison') {
     friendlyMessage = `Here is why "${localResponse.candidate.name}" wasn't chosen as #1 compared to "${localResponse.topPrevious.name}":\n• ${localResponse.reasons.join('\n• ')}`;
   } else if (intent.isCartReview) {
-    if (!cartReviewData || cartReviewData.itemCount === 0) {
-      friendlyMessage = "Your cart is empty! Pick items from the shop, and I'll analyze their lifecycle impact.";
+    if (!cartItems || cartItems.length === 0 || !cartReviewData || cartReviewData.itemCount === 0) {
+      friendlyMessage = "Your cart is empty. Add a few items and I'll audit them, or try 'Assemble a budget basket under 1000'.";
     } else if (cartReviewData.lowGradeCount === 0) {
       friendlyMessage = `🌟 Fantastic job! All ${cartReviewData.itemCount} items in your cart are sustainably rated (Average Eco-Score: ${cartReviewData.averageScore}/100). No swaps needed!`;
     } else {
@@ -1154,23 +1543,45 @@ export async function sendAgentQuery(arg1, arg2, arg3, arg4) {
     if (intent.maxBudget) filters.push(`under ₹${intent.maxBudget}`);
     if (intent.packaging) filters.push('100% plastic-free');
     if (intent.sortBy === 'price-asc') filters.push('lowest price first');
+    if (intent.sortBy === 'ecoscore-desc') filters.push('highest EcoScore first');
     const filterDesc = filters.length > 0 ? ` (${filters.join(', ')})` : '';
-    const priorityLead = localResponse.prioritiesSummary ? `${localResponse.prioritiesSummary}.\n\n` : '';
+    const priorityLead = priorityAdjustment ? `${formatPrioritiesSummary(priorityAdjustment)}.\n\n` : (localResponse.prioritiesSummary ? `${localResponse.prioritiesSummary}.\n\n` : '');
     friendlyMessage = `${priorityLead}Here are ${localResponse.results.length} top-rated sustainable recommendations matching "${query}"${filterDesc}:`;
   } else {
-    friendlyMessage = `I couldn't find an exact match for "${query}". Try searching for categories like "Kitchen", "Personal Care", "Bags" or terms like "plastic-free under 500".`;
+    if (intent.category && intent.maxBudget) {
+      friendlyMessage = `I couldn't find items in ${intent.category} under ₹${intent.maxBudget}. Try exploring other categories like "Personal Care", "Home", or "Bags".`;
+    } else {
+      friendlyMessage = `I couldn't find an exact match for "${query}". Try searching for categories like "Kitchen", "Personal Care", "Bags" or terms like "plastic-free under 500".`;
+    }
   }
+
+  // Prevent any "undefined" or "NaN" in user-facing message strings
+  if (friendlyMessage.includes('undefined') || friendlyMessage.includes('NaN')) {
+    friendlyMessage = friendlyMessage
+      .replace(/\bundefined\b/g, '')
+      .replace(/\bNaN\b/g, '0')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  const returnData = (intent.isCartReview && (!cartItems || cartItems.length === 0))
+    ? []
+    : (localResponse.results || []);
 
   return {
     source: 'local-rule-engine',
     message: friendlyMessage,
-    data: localResponse.results || [],
-    analysis: localResponse,
+    data: returnData,
+    analysis: {
+      ...localResponse,
+      intent: localResponse.intent || intent
+    },
     tradeoffs: localResponse.tradeoffs,
     trace: localResponse.trace || [],
     basketPlan: localResponse.type === 'basket-plan' ? localResponse : null,
     clarification: localResponse.clarification || null,
-    didYouMean: localResponse.didYouMean,
-    cartReview: cartReviewData
+    didYouMean: localResponse.didYouMean || null,
+    cartReview: cartReviewData,
+    newPriorities: priorityAdjustment || null
   };
 }

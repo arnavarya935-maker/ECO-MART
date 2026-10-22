@@ -906,8 +906,8 @@ export default function EcoAgentChat() {
                 </div>
               )}
 
-              {/* Empty state category suggestions when nothing matched */}
-              {msg.sender === 'agent' && (!msg.data || msg.data.length === 0) && !msg.didYouMean && !msg.cartReview && !msg.quickChips && !msg.clarification && !msg.basketPlan && (
+              {/* Empty state category suggestions when nothing matched (Bug 10: show category chips on all no-result replies) */}
+              {msg.sender === 'agent' && (!msg.data || msg.data.length === 0) && !msg.cartReview && !msg.quickChips && !msg.clarification && !msg.basketPlan && (
                 <div className="pt-1.5 border-t border-line space-y-1.5">
                   <span className="text-[10px] text-muted block font-medium">Or explore conscious categories:</span>
                   <div className="flex flex-wrap gap-1.5">

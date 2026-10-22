@@ -54,7 +54,11 @@ export default function PledgeWall() {
           <span className="text-xs font-semibold uppercase tracking-wider text-primary bg-primary/10 border border-primary/20 px-2.5 py-1 rounded-full">
             Collective Commitment
           </span>
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-muted bg-surface-sunken border border-line px-2 py-0.5 rounded-full">
+          <span
+            className="text-[10px] font-semibold uppercase tracking-wider text-muted bg-surface-sunken border border-line px-2 py-0.5 rounded-full cursor-help"
+            title="Sample content for demonstration"
+            aria-label="Sample content for demonstration"
+          >
             Demo Data
           </span>
         </div>
