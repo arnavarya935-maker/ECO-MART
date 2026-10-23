@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
 import fs from 'node:fs';
@@ -268,13 +268,19 @@ function apiProxyPlugin() {
   };
 }
 
-export default defineConfig({
-  plugins: [
-    react(),
-    tailwindcss(),
-    pwaManifestPlugin(),
-    apiProxyPlugin(),
-  ],
-  build: {
-  }
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), '');
+  if (env.GEMINI_API_KEY) process.env.GEMINI_API_KEY = env.GEMINI_API_KEY;
+  if (env.ECO_AGENT_API_KEY) process.env.ECO_AGENT_API_KEY = env.ECO_AGENT_API_KEY;
+
+  return {
+    plugins: [
+      react(),
+      tailwindcss(),
+      pwaManifestPlugin(),
+      apiProxyPlugin(),
+    ],
+    build: {
+    }
+  };
 });

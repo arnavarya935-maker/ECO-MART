@@ -22,7 +22,7 @@ export default async function handler(req, res) {
     });
   }
 
-  const model = process.env.GEMINI_MODEL || 'gemini-1.5-flash';
+  const model = process.env.GEMINI_MODEL || 'gemini-3-flash-preview';
 
   try {
     const controller = new AbortController();

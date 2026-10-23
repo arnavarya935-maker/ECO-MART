@@ -1,3 +1,30 @@
+import fs from 'node:fs';
+import path from 'node:path';
+
+function getGeminiApiKey() {
+  if (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY !== 'your_gemini_api_key_here') {
+    return process.env.GEMINI_API_KEY;
+  }
+  if (process.env.ECO_AGENT_API_KEY && process.env.ECO_AGENT_API_KEY !== 'your_gemini_api_key_here') {
+    return process.env.ECO_AGENT_API_KEY;
+  }
+  try {
+    for (const envFileName of ['.env', '.env.local']) {
+      const envPath = path.resolve(process.cwd(), envFileName);
+      if (fs.existsSync(envPath)) {
+        const text = fs.readFileSync(envPath, 'utf-8');
+        const match = text.match(/^\s*(?:GEMINI_API_KEY|ECO_AGENT_API_KEY)\s*=\s*["']?([^"'\r\n]+)["']?/m);
+        if (match && match[1] && match[1] !== 'your_gemini_api_key_here') {
+          return match[1].trim();
+        }
+      }
+    }
+  } catch {
+    // Ignore fs errors in edge environments
+  }
+  return null;
+}
+
 // Simple in-memory sliding window rate limiter
 // IP -> Array of timestamps (ms)
 const rateLimitMap = new Map();
@@ -51,7 +78,7 @@ export async function handleAgentRequest(body, res) {
     return;
   }
 
-  const apiKey = process.env.GEMINI_API_KEY;
+  const apiKey = getGeminiApiKey();
 
   if (!apiKey || apiKey === 'your_gemini_api_key_here') {
     // Return friendly status indicating no API key provided so frontend triggers verified fallback
@@ -93,9 +120,10 @@ User preferred language: ${language}`;
 
   try {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 8500);
+    const timeout = setTimeout(() => controller.abort(), 12000);
 
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+    const model = process.env.GEMINI_MODEL || 'gemini-3-flash-preview';
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
 
     const apiResponse = await fetch(apiUrl, {
       method: 'POST',
@@ -114,7 +142,7 @@ User preferred language: ${language}`;
         generationConfig: {
           response_mime_type: 'application/json',
           temperature: 0.3,
-          max_output_tokens: 800
+          max_output_tokens: 2500
         }
       })
     });
@@ -197,7 +225,7 @@ export async function handleGreenwashRequest(body, res) {
     return;
   }
 
-  const apiKey = process.env.GEMINI_API_KEY;
+  const apiKey = getGeminiApiKey();
 
   if (!apiKey || apiKey === 'your_gemini_api_key_here') {
     res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -244,9 +272,10 @@ Respond with valid JSON:
 
   try {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 8500);
+    const timeout = setTimeout(() => controller.abort(), 12000);
 
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+    const model = process.env.GEMINI_MODEL || 'gemini-3-flash-preview';
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
 
     const apiResponse = await fetch(apiUrl, {
       method: 'POST',
@@ -265,7 +294,7 @@ Respond with valid JSON:
         generationConfig: {
           response_mime_type: 'application/json',
           temperature: 0.2,
-          max_output_tokens: 800
+          max_output_tokens: 2500
         }
       })
     });
