@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { ShoppingBag, Wind, Droplets, Ban, MapPin, Award, CheckCircle, Sparkles, RefreshCw } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { ShoppingBag, Wind, Droplets, Ban, MapPin, Award, CheckCircle, Sparkles, RefreshCw, QrCode } from 'lucide-react';
 import { calculateEcoScore, compareProductImpact, detectGreenwashing } from '../lib/ecoScore';
 import EcoScoreBadge from './EcoScoreBadge';
 import EcoScorePopover from './EcoScorePopover';
@@ -482,6 +483,16 @@ export default function ProductDetailModal({ product, onClose }) {
           </div>
 
           <div className="flex items-center gap-2">
+            <Link
+              to={`/passport/${product.id}`}
+              onClick={onClose}
+              className="min-h-[44px] flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl border border-line hover:border-primary/50 text-secondary hover:text-primary font-medium text-xs transition cursor-pointer"
+              title="View Trust Passport and QR Certificate"
+              id={`modal-passport-link-${product.id}`}
+            >
+              <QrCode className="w-4 h-4 text-primary" />
+              <span className="hidden sm:inline">Trust Passport</span>
+            </Link>
             <button
               type="button"
               onClick={handleAddToCart}

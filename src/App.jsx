@@ -32,6 +32,10 @@ const OrdersPage = lazy(() => import('./pages/OrdersPage'));
 const SettingsPage = lazy(() => import('./pages/SettingsPage'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
 const SignupPage = lazy(() => import('./pages/SignupPage'));
+const BlackBoxPage = lazy(() => import('./pages/BlackBoxPage'));
+const DuelPage = lazy(() => import('./pages/DuelPage'));
+const TrustPassportPage = lazy(() => import('./pages/TrustPassportPage'));
+const CounterfactualPage = lazy(() => import('./pages/CounterfactualPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
 // Widgets, Modals and Drawers - Lazy loaded on demand
@@ -53,6 +57,7 @@ const LeafParticles = lazy(() => import('./components/LeafParticles'));
 const PitchModeModal = lazy(() => import('./components/PitchModeModal'));
 const GreenwashingDetectiveModal = lazy(() => import('./components/detective/GreenwashingDetectiveModal'));
 const JudgeDemoWalkthroughModal = lazy(() => import('./components/judge/JudgeDemoWalkthroughModal'));
+const EthicsInboxModal = lazy(() => import('./components/decision/EthicsInboxModal'));
 
 function PageLoadingFallback() {
   return (
@@ -92,6 +97,7 @@ function AppContent() {
   const [pitchModeOpen, setPitchModeOpen] = useState(false);
   const [greenwashingModalOpen, setGreenwashingModalOpen] = useState(false);
   const [judgeWalkthroughOpen, setJudgeWalkthroughOpen] = useState(false);
+  const [ethicsInboxOpen, setEthicsInboxOpen] = useState(false);
 
   // Global listeners for Command Palette, Shortcuts, Pitch Mode, and Konami
   useEffect(() => {
@@ -116,18 +122,21 @@ function AppContent() {
     const handlePitchToggle = () => setPitchModeOpen((prev) => !prev);
     const handleGreenwashingToggle = () => setGreenwashingModalOpen(true);
     const handleJudgeWalkthroughToggle = () => setJudgeWalkthroughOpen(true);
+    const handleEthicsInboxToggle = () => setEthicsInboxOpen(true);
 
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('toggle-command-palette', handleCustomToggle);
     window.addEventListener('open-pitch-mode', handlePitchToggle);
     window.addEventListener('open-greenwashing-detective', handleGreenwashingToggle);
     window.addEventListener('open-judge-walkthrough', handleJudgeWalkthroughToggle);
+    window.addEventListener('open-ethics-inbox', handleEthicsInboxToggle);
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('toggle-command-palette', handleCustomToggle);
       window.removeEventListener('open-pitch-mode', handlePitchToggle);
       window.removeEventListener('open-greenwashing-detective', handleGreenwashingToggle);
       window.removeEventListener('open-judge-walkthrough', handleJudgeWalkthroughToggle);
+      window.removeEventListener('open-ethics-inbox', handleEthicsInboxToggle);
     };
   }, []);
 
@@ -173,6 +182,10 @@ function AppContent() {
             <Route path="/impact" element={<ImpactPage />} />
             <Route path="/fairness" element={<FairnessPage />} />
             <Route path="/playground" element={<PlaygroundPage />} />
+            <Route path="/blackbox" element={<BlackBoxPage />} />
+            <Route path="/duel" element={<DuelPage />} />
+            <Route path="/passport/:id" element={<TrustPassportPage />} />
+            <Route path="/counterfactual" element={<CounterfactualPage />} />
             <Route path="/how-it-works" element={<HowItWorksPage />} />
             <Route path="/wishlist" element={<WishlistPage />} />
             <Route path="/profile" element={<ProfilePage />} />
@@ -289,6 +302,13 @@ function AppContent() {
       {judgeWalkthroughOpen && (
         <Suspense fallback={null}>
           <JudgeDemoWalkthroughModal isOpen={judgeWalkthroughOpen} onClose={() => setJudgeWalkthroughOpen(false)} />
+        </Suspense>
+      )}
+
+      {/* Responsible AI: Ethics Inbox Human-in-the-Loop Oversight Modal */}
+      {ethicsInboxOpen && (
+        <Suspense fallback={null}>
+          <EthicsInboxModal isOpen={ethicsInboxOpen} onClose={() => setEthicsInboxOpen(false)} />
         </Suspense>
       )}
 

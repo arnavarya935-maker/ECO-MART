@@ -1,10 +1,55 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Leaf, ShieldCheck, Zap, Mail, CheckCircle2, Award, ArrowUp } from 'lucide-react';
 
 export default function Footer() {
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [newsletterSubscribed, setNewsletterSubscribed] = useState(false);
+  const [healthInfo, setHealthInfo] = useState({
+    operational: true,
+    gemini: false,
+    label: 'All AI systems operational (Deterministic Offline Sandbox)'
+  });
+
+  useEffect(() => {
+    let isMounted = true;
+    const checkHealth = async () => {
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 2000);
+        const res = await fetch('/api/health', { signal: controller.signal });
+        clearTimeout(timeoutId);
+        if (res.ok) {
+          const data = await res.json();
+          if (isMounted) {
+            if (data.gemini) {
+              setHealthInfo({
+                operational: true,
+                gemini: true,
+                label: 'All AI systems operational (Gemini 1.5 Flash Connected)'
+              });
+            } else {
+              setHealthInfo({
+                operational: true,
+                gemini: false,
+                label: 'AI systems in Offline Sandbox (Local Fallback Operational)'
+              });
+            }
+          }
+        }
+      } catch {
+        if (isMounted) {
+          setHealthInfo({
+            operational: true,
+            gemini: false,
+            label: 'AI systems in Offline Mode (Deterministic Local Fallback)'
+          });
+        }
+      }
+    };
+    checkHealth();
+    return () => { isMounted = false; };
+  }, []);
 
   const handleSubscribe = (e) => {
     e.preventDefault();
@@ -173,8 +218,8 @@ export default function Footer() {
             © 2026 EcoMart. Mindful, transparent, circular lifestyle.
           </div>
           <div className="flex flex-wrap items-center gap-2 text-heading font-medium">
-            <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-            <span className="font-mono text-[11px]">Autonomous EcoAgent Engine v3.0 Active</span>
+            <span className={`w-2 h-2 rounded-full ${healthInfo.gemini ? 'bg-primary animate-pulse' : 'bg-amber-400'}`} />
+            <span className="font-mono text-[11px]">{healthInfo.label}</span>
             <span className="px-2 py-0.5 rounded-full bg-surface-raised text-[10px] text-text-muted border border-line font-mono">
               100% Offline Native
             </span>

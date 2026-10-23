@@ -37,21 +37,22 @@ export default function EditorialFinalCTA() {
         </p>
 
         <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-          <Link
-            to="/transform"
+          <button
+            type="button"
+            onClick={() => window.dispatchEvent(new CustomEvent('open-judge-walkthrough'))}
             className="liquid-pill liquid-pill-emerald group cursor-pointer"
           >
             <Sparkles className="w-4 h-4 mr-2" />
-            <span>Transform My Shopping List</span>
+            <span>Run Judge Demo Showcase</span>
             <ArrowUpRight className="w-4 h-4 ml-2 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </Link>
+          </button>
 
           <Link
             to="/shop"
             className="liquid-pill liquid-pill-dark group cursor-pointer"
           >
             <ShoppingBag className="w-4 h-4 mr-2 text-primary" />
-            <span>Explore Catalog</span>
+            <span>Explore Sustainable Catalog</span>
           </Link>
         </div>
 

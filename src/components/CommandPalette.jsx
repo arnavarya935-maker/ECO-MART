@@ -17,7 +17,12 @@ import {
   Heart,
   User,
   Settings,
-  X
+  X,
+  Terminal,
+  Swords,
+  Sliders,
+  ShieldCheck,
+  Inbox
 } from 'lucide-react';
 
 export default function CommandPalette({ isOpen: controlledOpen, onClose: controlledClose }) {
@@ -166,6 +171,61 @@ export default function CommandPalette({ isOpen: controlledOpen, onClose: contro
       icon: Sparkles,
       perform: () => {
         window.dispatchEvent(new CustomEvent('open-pitch-mode'));
+        handleClose();
+      }
+    },
+    {
+      id: 'action-judge-demo-10',
+      type: 'action',
+      title: 'Run 10-Step Judge Demo Walkthrough',
+      subtitle: 'Comprehensive 10-step scripted evaluation tour for CBSE judges (100% Offline)',
+      icon: ShieldCheck,
+      perform: () => {
+        window.dispatchEvent(new CustomEvent('open-judge-demo'));
+        handleClose();
+      }
+    },
+    {
+      id: 'action-blackbox',
+      type: 'action',
+      title: 'AI Black Box Telemetry Log',
+      subtitle: 'Inspect append-only interaction audit trail, confidence, energy estimates, and JSON export',
+      icon: Terminal,
+      perform: () => {
+        navigate('/blackbox');
+        handleClose();
+      }
+    },
+    {
+      id: 'action-duel',
+      type: 'action',
+      title: 'Human vs AI Duel',
+      subtitle: 'Test your greenwashing detection instincts against the calibrated AI benchmark',
+      icon: Swords,
+      perform: () => {
+        navigate('/duel');
+        handleClose();
+      }
+    },
+    {
+      id: 'action-counterfactual',
+      type: 'action',
+      title: 'Counterfactual Decision Slider',
+      subtitle: 'Simulate decision flip boundaries as budget and urgency thresholds shift',
+      icon: Sliders,
+      perform: () => {
+        navigate('/counterfactual');
+        handleClose();
+      }
+    },
+    {
+      id: 'action-ethics-inbox',
+      type: 'action',
+      title: 'Open AI Ethics Inbox',
+      subtitle: 'Review and approve/dismiss flagged greenwash claims and low-confidence decisions',
+      icon: Inbox,
+      perform: () => {
+        window.dispatchEvent(new CustomEvent('open-ethics-inbox'));
         handleClose();
       }
     },

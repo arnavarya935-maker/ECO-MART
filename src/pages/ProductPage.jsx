@@ -27,7 +27,8 @@ import {
   MapPin,
   RefreshCw,
   Plus,
-  Minus
+  Minus,
+  QrCode
 } from 'lucide-react';
 
 export default function ProductPage() {
@@ -485,6 +486,15 @@ export default function ProductPage() {
                     <Heart className={`w-5 h-5 ${isFavorited ? 'fill-current' : ''}`} />
                   </button>
                 </div>
+
+                <Link
+                  to={`/passport/${product.id}`}
+                  className="w-full py-2.5 px-4 rounded-xl border border-primary/30 bg-primary-subtle hover:bg-primary/20 text-primary font-sans font-semibold text-xs flex items-center justify-center gap-2 transition cursor-pointer"
+                  id={`trust-passport-btn-${product.id}`}
+                >
+                  <QrCode className="w-4 h-4 text-primary" />
+                  <span>View Trust Passport &amp; QR Certificate</span>
+                </Link>
               </div>
             </div>
           </div>

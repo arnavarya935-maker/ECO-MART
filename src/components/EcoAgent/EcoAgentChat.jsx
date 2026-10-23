@@ -28,6 +28,7 @@ import EcoScoreBadge from '../EcoScoreBadge';
 import ReasoningExplanationCard from './ReasoningExplanationCard';
 import AIEnergyMeter from './AIEnergyMeter';
 import HonestyMeter from './HonestyMeter';
+import { appendBlackBoxLog } from '../../lib/ai/blackboxStore';
 
 const QUICK_CHIPS_EN = [
   { id: 'cart-transformer', label: '🪄 Transform shopping list', query: 'Transform my shopping list' },
@@ -484,6 +485,17 @@ export default function EcoAgentChat() {
       }));
 
       setMessages((prev) => [...prev, agentMsg]);
+      appendBlackBoxLog({
+        query: q,
+        answerSummary: replyText,
+        confidence: agentMsg.confidence,
+        guardrailTriggered: agentMsg.confidence === 'low' ? 'Admitted Uncertainty Flag' : 'Standard Metric Integrity',
+        guardrailStatus: 'held',
+        energyEstimateWh: energy,
+        model: agentMsg.model,
+        sources: agentMsg.sources_or_assumptions,
+        isFallback: agentMsg.isFallback
+      });
       playSound('pop');
     } catch {
       // Silent graceful offline fallback

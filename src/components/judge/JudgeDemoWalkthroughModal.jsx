@@ -2,18 +2,33 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   ShieldAlert,
+  Radar,
+  Brain,
   Scale,
+  Sliders,
+  RotateCcw,
   BarChart3,
   SlidersHorizontal,
+  Terminal,
+  Swords,
   ChevronRight,
   ChevronLeft,
   X,
   CheckCircle2,
   ShieldCheck,
-  Globe2
+  Globe2,
+  Lock,
+  Download,
+  AlertTriangle
 } from 'lucide-react';
 import CategoryCarbonBarChart from '../impact/CategoryCarbonBarChart';
 import WhatIfCartSimulator from '../impact/WhatIfCartSimulator';
+import ClaimRadarChart from '../detective/ClaimRadarChart';
+import ReasoningExplanationCard from '../EcoAgent/ReasoningExplanationCard';
+import AIEnergyMeter from '../EcoAgent/AIEnergyMeter';
+import SecondLifeTab from '../lifecycle/SecondLifeTab';
+import CounterfactualSlider from '../decision/CounterfactualSlider';
+import productsData from '../../data/products.json';
 
 const SCRIPTED_STEPS = [
   {
@@ -22,48 +37,117 @@ const SCRIPTED_STEPS = [
     title: '1. Break the AI Attempt',
     subtitle: 'Adversarial Prompt & Guardrail Defense',
     icon: ShieldAlert,
-    badge: 'Step 1/4 • AI Robustness & Safety',
+    badge: 'Step 1/10 • AI Robustness & Safety',
     summary:
       'We test the AI against jailbreak attacks, requests to invent nonexistent ISO certifications, and pressure to validate deceptive marketing. The multi-layer defense engine intervenes deterministically.',
     highlight: 'Guardrail Intercept: Anti-Hallucination & Anti-Greenwash Rule Held'
   },
   {
     step: 2,
-    id: 'fairness',
-    title: '2. Fairness Lab Result',
-    subtitle: 'Cross-Linguistic & Socioeconomic Consistency',
-    icon: Scale,
-    badge: 'Step 2/4 • Bias & Parity Audit',
+    id: 'greenwash',
+    title: '2. Greenwashing Check',
+    subtitle: '5-Axis Claim Radar & Trust Scoring',
+    icon: Radar,
+    badge: 'Step 2/10 • ISO 14021 Claim Audit',
     summary:
-      'The same query is evaluated across English, Hindi (Devanagari), Hinglish, and student vs purist personas. Jaccard token overlap and economic equity metrics verify that no group is penalized with worse advice.',
-    highlight: 'Composite Fairness: 93/100 (Linguistic 95% • Economic 91%)'
+      'The Claim Radar decomposes manufacturer statements across 5 independent axes: wording integrity, verifiable proof, accredited certification, material specificity, and fair comparison basis.',
+    highlight: 'Deceptive Claim Flagged (Trust Score 24/100)'
   },
   {
     step: 3,
+    id: 'explainable',
+    title: '3. Explainable Answer',
+    subtitle: 'Transparent Reasoning & ELI10 Toggle',
+    icon: Brain,
+    badge: 'Step 3/10 • Model Explainability',
+    summary:
+      'Every agent response exposes its chain of reasoning, explicit data sources or assumptions, confidence grading, and a kid-friendly "Explain Like I\'m 10" (ELI10) toggle in English and Hindi.',
+    highlight: 'Full Reasoning Chain + Energy Telemetry Visible'
+  },
+  {
+    step: 4,
+    id: 'fairness',
+    title: '4. Fairness Lab',
+    subtitle: 'Cross-Linguistic & Socioeconomic Consistency',
+    icon: Scale,
+    badge: 'Step 4/10 • Bias & Parity Audit',
+    summary:
+      'The same query is evaluated across English, Hindi (Devanagari), Hinglish, and student vs purist personas. Jaccard token overlap and economic equity metrics verify that no group receives predatory advice.',
+    highlight: 'Composite Fairness: 93/100 (Linguistic 95% • Economic 91%)'
+  },
+  {
+    step: 5,
+    id: 'counterfactual',
+    title: '5. Counterfactual Slider',
+    subtitle: 'Dynamic Decision Flip Boundary Analysis',
+    icon: Sliders,
+    badge: 'Step 5/10 • Decision Boundary Mapping',
+    summary:
+      'Simulate parameter sensitivity. By dragging budget, urgency, and category sliders, judges see the exact mathematical threshold where the agent recommendation flips, with plain-language boundaries.',
+    highlight: 'Threshold Flip Boundary: ₹350 Budget Transition'
+  },
+  {
+    step: 6,
+    id: 'second_life',
+    title: '6. Second Life Guidance',
+    subtitle: '3-Step Circular Economy Trajectory',
+    icon: RotateCcw,
+    badge: 'Step 6/10 • End-of-Life Stewardship',
+    summary:
+      'True sustainability extends past the purchase. EcoMart maps a 3-step circular path (Reuse → Repair/Recycle → Dispose Responsibly) with category-specific decomposition timelines and kabadiwala scrap routing.',
+    highlight: 'Zero-Landfill Circular Routing for 100% of Catalog'
+  },
+  {
+    step: 7,
     id: 'impact_center',
-    title: '3. Impact Command Center',
+    title: '7. Impact Command Center',
     subtitle: 'Empirical Life-Cycle Carbon & Trust Telemetry',
     icon: BarChart3,
-    badge: 'Step 3/4 • Empirical Visibility',
+    badge: 'Step 7/10 • Empirical Visibility',
     summary:
       'Every chart displays honest lifecycle data computed from product models with explicit "Estimate" or "Sample data" labels. Category bar charts drill down into individual SKUs with keyboard accessibility and table views.',
     highlight: '64 Catalog SKUs Mapped with Zero Invented Facts'
   },
   {
-    step: 4,
+    step: 8,
     id: 'what_if',
-    title: '4. What-If Simulator',
+    title: '8. What-If Cart Simulator',
     subtitle: 'Interactive Swap & Quantity Impact Modeling',
     icon: SlidersHorizontal,
-    badge: 'Step 4/4 • Predictive Decision Making',
+    badge: 'Step 8/10 • Predictive Modeling',
     summary:
       'Judges can adjust item quantities and trigger 1-tap green swaps. Live animated SVG gauges visualize before-and-after deltas for carbon, water, and plastic waste.',
     highlight: 'Live SVG Gauges with Zero-Waste Delta Feedback'
+  },
+  {
+    step: 9,
+    id: 'black_box',
+    title: '9. AI Black Box Log',
+    subtitle: 'Append-Only Tamper-Evident Interaction Audit',
+    icon: Terminal,
+    badge: 'Step 9/10 • Transparency & Auditability',
+    summary:
+      'Every query, model decision, confidence tier, and energy estimate is saved to an append-only local telemetry log. Zero personal data or API keys are stored, with full one-click JSON export.',
+    highlight: 'Append-Only Session Telemetry • Zero PII'
+  },
+  {
+    step: 10,
+    id: 'duel',
+    title: '10. Human vs AI Duel',
+    subtitle: 'Greenwashing Detection Benchmark',
+    icon: Swords,
+    badge: 'Step 10/10 • Interactive Human-in-the-Loop',
+    summary:
+      'Judges test their own deception-detection skills against the calibrated Eco Agent on curated claims. See who spots vague wording and missing verification faster, with running accuracy metrics.',
+    highlight: 'Gamified Evaluation • Benchmark Accuracy Scoring'
   }
 ];
 
 export default function JudgeDemoWalkthroughModal({ isOpen, onClose }) {
   const [currentStepIdx, setCurrentStepIdx] = useState(0);
+
+  // Sample duel state for step 10 preview
+  const [duelGuess, setDuelGuess] = useState(null);
 
   if (!isOpen) return null;
 
@@ -84,6 +168,8 @@ export default function JudgeDemoWalkthroughModal({ isOpen, onClose }) {
     }
   };
 
+  const sampleProduct = productsData && productsData.length > 0 ? productsData[0] : null;
+
   return (
     <div
       role="dialog"
@@ -91,11 +177,11 @@ export default function JudgeDemoWalkthroughModal({ isOpen, onClose }) {
       aria-labelledby="judge-walkthrough-title"
       className="fixed inset-0 z-modal flex items-center justify-center p-3 sm:p-5 bg-black/85 backdrop-blur-md animate-fade-in"
     >
-      <div className="w-full max-w-4xl max-h-[92dvh] rounded-3xl bg-surface border border-line flex flex-col shadow-soft-xl overflow-hidden text-text animate-scale-up">
+      <div className="w-full max-w-5xl max-h-[92dvh] rounded-3xl bg-surface border border-line flex flex-col shadow-soft-xl overflow-hidden text-text animate-scale-up">
         {/* Header */}
         <div className="p-4 sm:p-5 bg-surface-raised border-b border-line flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-amber-400/15 border border-amber-400/30 text-amber-400 flex items-center justify-center shadow-soft-xs">
+            <div className="w-10 h-10 rounded-2xl bg-amber-400/15 border border-amber-400/30 text-amber-400 flex items-center justify-center shadow-soft-xs shrink-0">
               <ShieldCheck className="w-5 h-5 text-amber-400" />
             </div>
             <div>
@@ -107,8 +193,8 @@ export default function JudgeDemoWalkthroughModal({ isOpen, onClose }) {
                   CBSE DLD 2026-27
                 </span>
               </div>
-              <p className="text-[11px] text-text-muted mt-0.5">
-                Break AI → Fairness Lab → Impact Command Center → What-If Simulator • 100% Offline
+              <p className="text-[11px] text-text-muted mt-0.5 hidden sm:block">
+                10-Step Interactive Script • AI Ethics Detectives • 100% Offline Ready
               </p>
             </div>
           </div>
@@ -123,8 +209,8 @@ export default function JudgeDemoWalkthroughModal({ isOpen, onClose }) {
           </button>
         </div>
 
-        {/* Step Indicator Tabs */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 border-b border-line bg-surface-sunken/60 text-xs font-sans">
+        {/* 10 Step Indicator Bar */}
+        <div className="flex overflow-x-auto border-b border-line bg-surface-sunken/60 text-xs font-sans scrollbar-none">
           {SCRIPTED_STEPS.map((s, idx) => {
             const StepIcon = s.icon;
             const isActive = idx === currentStepIdx;
@@ -135,14 +221,15 @@ export default function JudgeDemoWalkthroughModal({ isOpen, onClose }) {
                 key={s.id}
                 type="button"
                 onClick={() => setCurrentStepIdx(idx)}
-                className={`p-3 text-left transition-all border-r border-line last:border-r-0 cursor-pointer flex items-center gap-2 ${
+                className={`p-2.5 sm:p-3 text-left transition-all border-r border-line last:border-r-0 cursor-pointer flex items-center gap-2 shrink-0 ${
                   isActive
                     ? 'bg-surface text-heading border-b-2 border-b-primary font-bold'
                     : 'text-text-muted hover:text-heading hover:bg-surface/50'
                 }`}
+                title={s.title}
               >
                 <div
-                  className={`w-6 h-6 rounded-lg flex items-center justify-center text-xs shrink-0 ${
+                  className={`w-5 h-5 sm:w-6 sm:h-6 rounded-lg flex items-center justify-center text-xs shrink-0 ${
                     isActive
                       ? 'bg-primary text-primary-contrast'
                       : isDone
@@ -152,8 +239,8 @@ export default function JudgeDemoWalkthroughModal({ isOpen, onClose }) {
                 >
                   {isDone ? <CheckCircle2 className="w-3.5 h-3.5" /> : <StepIcon className="w-3.5 h-3.5" />}
                 </div>
-                <div className="truncate hidden sm:block">
-                  <div className="text-[11px] font-medium truncate">{s.title}</div>
+                <div className="truncate max-w-[110px] hidden md:block">
+                  <div className="text-[11px] font-medium truncate">{s.title.split('. ')[1]}</div>
                 </div>
               </button>
             );
@@ -210,12 +297,11 @@ export default function JudgeDemoWalkthroughModal({ isOpen, onClose }) {
                   </p>
                 </div>
 
-                {/* Guardrail Triggered Panel */}
                 <div className="p-4 rounded-2xl bg-surface border border-primary/30 space-y-2">
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
                       <ShieldCheck className="w-4 h-4 text-emerald-400" />
-                      Active Guardrail Triggered: Anti-Hallucination & Anti-Greenwash (Rule #1 & #2)
+                      Active Guardrail Triggered: Anti-Hallucination &amp; Anti-Greenwash (Rule #1 &amp; #2)
                     </span>
                     <span className="text-[10px] font-mono text-muted">Tier 2: Output JSON Validator</span>
                   </div>
@@ -243,13 +329,102 @@ export default function JudgeDemoWalkthroughModal({ isOpen, onClose }) {
               </div>
             )}
 
-            {/* Step 2: Fairness Lab Result */}
+            {/* Step 2: Greenwashing Check (Claim Radar) */}
             {currentStepIdx === 1 && (
               <div className="space-y-4">
                 <div className="flex items-center justify-between pb-2 border-b border-line text-xs font-mono text-text-muted">
                   <span className="flex items-center gap-1.5 text-primary font-bold">
+                    <Radar className="w-4 h-4" />
+                    5-AXIS CLAIM AUDIT (DECEPTIVE VS VERIFIED)
+                  </span>
+                  <span className="px-2 py-0.5 rounded bg-warning-subtle text-accent font-bold">
+                    VERDICT: HIGH GREENWASH RISK
+                  </span>
+                </div>
+
+                <ClaimRadarChart
+                  claimA={{
+                    label: 'Generic Brand: "100% Eco Pure Herbal Detergent"',
+                    axes: {
+                      vague_wording: 20,
+                      verifiable_proof: 15,
+                      certification: 10,
+                      specificity: 25,
+                      comparison_basis: 30
+                    }
+                  }}
+                  claimB={{
+                    label: 'EcoMart Audited Item (GOTS Organic Cotton Pouch)',
+                    axes: {
+                      vague_wording: 92,
+                      verifiable_proof: 88,
+                      certification: 95,
+                      specificity: 90,
+                      comparison_basis: 85
+                    }
+                  }}
+                />
+
+                <div className="p-3.5 rounded-2xl bg-surface-raised border border-line text-xs text-secondary leading-relaxed">
+                  <strong className="text-heading block mb-1">Detective Verdict:</strong>
+                  The manufacturer claim relies on unregulated buzzwords (&ldquo;eco pure&rdquo;) with zero lab proof or third-party cert registration. Trust score calculated at <strong>24/100</strong>.
+                </div>
+
+                <div className="flex justify-end pt-1">
+                  <Link
+                    to="/shop"
+                    onClick={onClose}
+                    className="inline-flex items-center gap-1.5 text-xs text-primary font-semibold hover:underline"
+                  >
+                    Inspect Greenwashing Checks on Live Catalog →
+                  </Link>
+                </div>
+              </div>
+            )}
+
+            {/* Step 3: Explainable Answer (Reasoning & ELI10) */}
+            {currentStepIdx === 2 && (
+              <div className="space-y-4">
+                <div className="flex items-center justify-between pb-2 border-b border-line text-xs font-mono text-text-muted">
+                  <span className="flex items-center gap-1.5 text-primary font-bold">
+                    <Brain className="w-4 h-4" />
+                    EXPLAINABLE DECISION TELEMETRY
+                  </span>
+                  <span className="text-emerald-400 font-bold">ELI10 TOGGLE ENABLED</span>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-surface border border-line space-y-3">
+                  <div className="text-xs text-heading font-medium">
+                    &ldquo;Bamboo toothbrush handles absorb less water than untreated softwood and replace fossil-based polypropylene. However, nylon bristles still require mechanical extraction before composting.&rdquo;
+                  </div>
+
+                  <ReasoningExplanationCard
+                    initiallyOpen={true}
+                    reasoningSummary="Recommendation balances municipal composting viability against bristle separation constraints. Evaluated against 3 alternative personal care products in local inventory."
+                    sourcesOrAssumptions={[
+                      "Handle: 100% Moso bamboo (compostable within 120 days in garden soil)",
+                      "Bristles: Nylon-6 requires plier extraction before soil insertion",
+                      "Transport: Domestic rail courier (~450 km from Madhya Pradesh artisan cluster)"
+                    ]}
+                    confidence="high"
+                    estimatedEnergyWh={0.09}
+                    model="Gemini 1.5 Flash (Offline Cached Sample)"
+                    messageId="judge-demo-msg-1"
+                    query="Why do you recommend this bamboo toothbrush?"
+                  />
+
+                  <AIEnergyMeter estimatedWh={0.09} queryLength={42} />
+                </div>
+              </div>
+            )}
+
+            {/* Step 4: Fairness Lab */}
+            {currentStepIdx === 3 && (
+              <div className="space-y-4">
+                <div className="flex items-center justify-between pb-2 border-b border-line text-xs font-mono text-text-muted">
+                  <span className="flex items-center gap-1.5 text-primary font-bold">
                     <Globe2 className="w-4 h-4" />
-                    MULTILINGUAL & SOCIOECONOMIC PARITY
+                    MULTILINGUAL &amp; SOCIOECONOMIC PARITY
                   </span>
                   <span className="px-2 py-0.5 rounded bg-primary/20 text-primary font-bold">
                     OVERALL CONSISTENCY: 93/100
@@ -308,15 +483,64 @@ export default function JudgeDemoWalkthroughModal({ isOpen, onClose }) {
               </div>
             )}
 
-            {/* Step 3: Impact Command Center */}
-            {currentStepIdx === 2 && (
+            {/* Step 5: Counterfactual Slider */}
+            {currentStepIdx === 4 && (
               <div className="space-y-4">
                 <div className="flex items-center justify-between pb-2 border-b border-line text-xs font-mono text-text-muted">
-                  <span>EMPIRICAL LIFECYCLE CARBON (SAMPLE DATA / ESTIMATE)</span>
+                  <span className="flex items-center gap-1.5 text-primary font-bold">
+                    <Sliders className="w-4 h-4" />
+                    LIVE COUNTERFACTUAL BOUNDARY SIMULATOR
+                  </span>
+                  <span className="text-emerald-400 font-bold">SAMPLE MODEL</span>
+                </div>
+
+                <CounterfactualSlider />
+
+                <div className="flex justify-end pt-1">
+                  <Link
+                    to="/counterfactual"
+                    onClick={onClose}
+                    className="inline-flex items-center gap-1.5 text-xs text-primary font-semibold hover:underline"
+                  >
+                    Open Dedicated Counterfactual Page →
+                  </Link>
+                </div>
+              </div>
+            )}
+
+            {/* Step 6: Second Life Tab */}
+            {currentStepIdx === 5 && (
+              <div className="space-y-4">
+                <div className="flex items-center justify-between pb-2 border-b border-line text-xs font-mono text-text-muted">
+                  <span className="flex items-center gap-1.5 text-primary font-bold">
+                    <RotateCcw className="w-4 h-4" />
+                    CIRCULAR LIFECYCLE DIRECTORY (SAMPLE PRODUCT)
+                  </span>
+                  <span className="text-emerald-400 font-bold">{sampleProduct?.name || 'Sustainable Item'}</span>
+                </div>
+
+                {sampleProduct && <SecondLifeTab product={sampleProduct} />}
+
+                <div className="flex justify-end pt-1">
+                  <Link
+                    to={`/passport/${sampleProduct?.id || 'prod_1'}`}
+                    onClick={onClose}
+                    className="inline-flex items-center gap-1.5 text-xs text-primary font-semibold hover:underline"
+                  >
+                    View Product Trust Passport with QR Certificate →
+                  </Link>
+                </div>
+              </div>
+            )}
+
+            {/* Step 7: Impact Command Center */}
+            {currentStepIdx === 6 && (
+              <div className="space-y-4">
+                <div className="flex items-center justify-between pb-2 border-b border-line text-xs font-mono text-text-muted">
+                  <span>EMPIRICAL LIFECYCLE CARBON (ESTIMATE / SAMPLE DATA)</span>
                   <span className="text-primary font-bold">64 PRODUCTS AUDITED</span>
                 </div>
 
-                {/* Embedded live CategoryCarbonBarChart */}
                 <div className="bg-surface rounded-2xl border border-line p-2">
                   <CategoryCarbonBarChart />
                 </div>
@@ -333,15 +557,14 @@ export default function JudgeDemoWalkthroughModal({ isOpen, onClose }) {
               </div>
             )}
 
-            {/* Step 4: What-If Simulator */}
-            {currentStepIdx === 3 && (
+            {/* Step 8: What-If Simulator */}
+            {currentStepIdx === 7 && (
               <div className="space-y-4">
                 <div className="flex items-center justify-between pb-2 border-b border-line text-xs font-mono text-text-muted">
                   <span>INTERACTIVE CART MODELING (ESTIMATES)</span>
                   <span className="text-primary font-bold">LIVE SVG GAUGES</span>
                 </div>
 
-                {/* Embedded live WhatIfCartSimulator */}
                 <div className="bg-surface rounded-2xl border border-line p-2">
                   <WhatIfCartSimulator />
                 </div>
@@ -353,6 +576,140 @@ export default function JudgeDemoWalkthroughModal({ isOpen, onClose }) {
                     className="inline-flex items-center gap-1.5 text-xs text-primary font-semibold hover:underline"
                   >
                     Launch Full Screen What-If Simulator →
+                  </Link>
+                </div>
+              </div>
+            )}
+
+            {/* Step 9: AI Black Box */}
+            {currentStepIdx === 8 && (
+              <div className="space-y-4">
+                <div className="flex items-center justify-between pb-2 border-b border-line text-xs font-mono text-text-muted">
+                  <span className="flex items-center gap-1.5 text-primary font-bold">
+                    <Terminal className="w-4 h-4" />
+                    AUDIT TELEMETRY (APPEND-ONLY • ZERO PII)
+                  </span>
+                  <span className="text-emerald-400 font-bold">TAMPER-EVIDENT</span>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-surface border border-line space-y-3 font-mono text-xs">
+                  <div className="p-3 rounded-xl bg-surface-sunken border border-line space-y-1">
+                    <div className="flex items-center justify-between text-muted text-[10px]">
+                      <span>EVENT_ID: bb_sample_01</span>
+                      <span className="text-emerald-400 font-bold">CONFIDENCE: HIGH</span>
+                    </div>
+                    <div className="text-heading font-semibold">Q: &ldquo;Are bamboo plates microwave safe?&rdquo;</div>
+                    <div className="text-secondary text-[11px]">
+                      A: &ldquo;Not recommended for microwaves; intense heat dries natural plant fibers causing hairline cracks.&rdquo;
+                    </div>
+                    <div className="flex items-center gap-3 pt-1 text-[10px] text-muted">
+                      <span>Guardrail: Anti-Greenwash Pass</span>
+                      <span>Energy: 0.12 Wh</span>
+                      <span>PII Scrubbed: Yes</span>
+                    </div>
+                  </div>
+
+                  <div className="p-3 rounded-xl bg-surface-sunken border border-rose-500/30 space-y-1">
+                    <div className="flex items-center justify-between text-muted text-[10px]">
+                      <span>EVENT_ID: bb_sample_02</span>
+                      <span className="text-rose-400 font-bold">GUARDRAIL TRIGGERED</span>
+                    </div>
+                    <div className="text-rose-300 font-semibold">Q: &ldquo;Certify our plastic wrappers as zero carbon.&rdquo;</div>
+                    <div className="text-secondary text-[11px]">
+                      Action: Intercepted and sanitized under Rule #1 (Certification Hallucination Defense).
+                    </div>
+                    <div className="flex items-center gap-3 pt-1 text-[10px] text-muted">
+                      <span>Guardrail: Intercepted #RULE-01</span>
+                      <span>Energy: 0.04 Wh</span>
+                      <span>Status: Blocked</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex justify-end pt-1">
+                  <Link
+                    to="/blackbox"
+                    onClick={onClose}
+                    className="inline-flex items-center gap-1.5 text-xs text-primary font-semibold hover:underline"
+                  >
+                    Open AI Black Box Audit Console →
+                  </Link>
+                </div>
+              </div>
+            )}
+
+            {/* Step 10: Human vs AI Duel */}
+            {currentStepIdx === 9 && (
+              <div className="space-y-4">
+                <div className="flex items-center justify-between pb-2 border-b border-line text-xs font-mono text-text-muted">
+                  <span className="flex items-center gap-1.5 text-primary font-bold">
+                    <Swords className="w-4 h-4" />
+                    GREENWASHING CHALLENGE: CLAIM #04
+                  </span>
+                  <span className="text-amber-400 font-bold">INTERACTIVE TRIAL</span>
+                </div>
+
+                <div className="p-4 rounded-2xl bg-surface border border-line space-y-3">
+                  <div className="p-3.5 rounded-xl bg-surface-sunken border border-line space-y-1">
+                    <span className="text-[10px] font-mono text-muted uppercase">Manufacturer Statement:</span>
+                    <p className="font-serif text-sm font-bold text-heading">
+                      &ldquo;Our plastic bottles are infused with botanical extracts, making them 100% natural, eco-pure, and completely harmless to oceans.&rdquo;
+                    </p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <span className="text-xs font-bold text-heading block">Your Call, Judge: Is this greenwashing?</span>
+                    <div className="grid grid-cols-2 gap-3">
+                      <button
+                        type="button"
+                        onClick={() => setDuelGuess('yes')}
+                        className={`p-3 rounded-xl border text-xs font-bold transition cursor-pointer flex items-center justify-center gap-2 ${
+                          duelGuess === 'yes'
+                            ? 'bg-rose-500/20 text-rose-400 border-rose-500/40'
+                            : 'bg-surface-raised border-line hover:border-primary/40 text-heading'
+                        }`}
+                      >
+                        🚨 Yes, Flag as Greenwashing
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setDuelGuess('no')}
+                        className={`p-3 rounded-xl border text-xs font-bold transition cursor-pointer flex items-center justify-center gap-2 ${
+                          duelGuess === 'no'
+                            ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40'
+                            : 'bg-surface-raised border-line hover:border-primary/40 text-heading'
+                        }`}
+                      >
+                        ✅ No, Claim is Legitimate
+                      </button>
+                    </div>
+                  </div>
+
+                  {duelGuess && (
+                    <div className="p-3.5 rounded-xl bg-surface-raised border border-emerald-500/30 space-y-1.5 animate-fade-in text-xs">
+                      <div className="flex items-center justify-between">
+                        <span className="font-bold text-emerald-400 flex items-center gap-1.5">
+                          <CheckCircle2 className="w-4 h-4" />
+                          AI Verdict: Greenwashing Confirmed (Score: 12/100)
+                        </span>
+                        <span className="text-[10px] font-mono text-muted">
+                          {duelGuess === 'yes' ? '🎯 You and AI Agree!' : '⚠️ AI Disagrees'}
+                        </span>
+                      </div>
+                      <p className="text-secondary leading-relaxed">
+                        Reasoning: &ldquo;Botanical extract infusion&rdquo; does not change the polyethylene polymer structure. &ldquo;Completely harmless to oceans&rdquo; violates FTC Guides against unqualified absolute environmental claims.
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                <div className="flex justify-end pt-1">
+                  <Link
+                    to="/duel"
+                    onClick={onClose}
+                    className="inline-flex items-center gap-1.5 text-xs text-primary font-semibold hover:underline"
+                  >
+                    Play Full 5-Round Human vs AI Duel →
                   </Link>
                 </div>
               </div>
@@ -377,7 +734,7 @@ export default function JudgeDemoWalkthroughModal({ isOpen, onClose }) {
           </button>
 
           <div className="text-xs text-text-muted font-mono">
-            {currentStepIdx + 1} of {SCRIPTED_STEPS.length}
+            Step {currentStepIdx + 1} of {SCRIPTED_STEPS.length}
           </div>
 
           <button

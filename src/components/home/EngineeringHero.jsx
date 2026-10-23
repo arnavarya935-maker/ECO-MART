@@ -38,38 +38,46 @@ export default function EngineeringHero() {
           {/* Headline & Subhead (7 Cols) */}
           <div className="lg:col-span-7 space-y-6 text-left">
             <h1 className="font-sans text-[clamp(2.5rem,6.8vw,5.2rem)] font-bold tracking-[-0.038em] leading-[1.03] text-heading text-balance">
-              Shopping that leaves the planet{' '}
+              Shopping that <br className="hidden sm:inline" />
               <span className="font-serif italic font-normal text-emerald-400">
-                better
+                proves its claims
               </span>
               <span className="inline-block w-2.5 h-2.5 bg-primary ml-2 translate-y-[-2px] rounded-xs shadow-[0_0_10px_rgba(16,185,129,0.9)]" aria-hidden="true" />
             </h1>
 
-            <p className="max-w-[44ch] font-sans text-sm sm:text-base leading-[1.65] text-text-secondary text-pretty">
-              {t(
-                'hero.subtitle',
-                'Replace disposable consumer waste with verified sustainable goods. Our offline AI audits lifecycle carbon, water, and plastic waste for every single item.'
-              )}
+            <p className="max-w-[48ch] font-sans text-sm sm:text-base leading-[1.65] text-text-secondary text-pretty">
+              An AI shopping assistant that exposes its reasoning, verifies certifications, detects greenwashing, and measures lifecycle impact—engineered with verifiable ethical guardrails, running 100% offline.
             </p>
 
             {/* CTAs: Liquid Pill Buttons */}
             <div className="pt-2 flex flex-wrap items-center gap-3.5">
-              <Link
-                to="/shop"
-                className="liquid-pill liquid-pill-emerald group"
-              >
-                <span>{lang === 'hi' ? 'कैटलॉग देखें' : 'Explore Sustainable Catalog'}</span>
-                <ArrowUpRight className="w-3.5 h-3.5 ml-2 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-              </Link>
-
               <button
                 type="button"
                 onClick={() => setIsAgentOpen(true)}
-                className="liquid-pill liquid-pill-dark group"
+                className="liquid-pill liquid-pill-emerald group cursor-pointer"
+                id="hero-try-eco-agent-btn"
               >
-                <Sparkles className="w-3.5 h-3.5 mr-2 text-primary" />
-                <span>{lang === 'hi' ? 'इको एजेंट शुरू करें' : 'Consult Eco Agent'}</span>
+                <Sparkles className="w-3.5 h-3.5 mr-2 text-surface" />
+                <span>Try Eco Agent</span>
               </button>
+
+              <button
+                type="button"
+                onClick={() => window.dispatchEvent(new CustomEvent('open-judge-walkthrough'))}
+                className="liquid-pill liquid-pill-dark group border border-amber-400/40 text-amber-300 hover:border-amber-400 cursor-pointer"
+                id="hero-run-judge-demo-btn"
+              >
+                <ShieldCheck className="w-3.5 h-3.5 mr-2 text-amber-400" />
+                <span>Run Judge Demo</span>
+              </button>
+
+              <Link
+                to="/shop"
+                className="px-4 py-2 text-xs font-mono text-text-muted hover:text-heading flex items-center gap-1 transition"
+              >
+                <span>Browse Catalog</span>
+                <ArrowUpRight className="w-3 h-3" />
+              </Link>
             </div>
 
             {/* Editorial Mini-Specs Strip */}
