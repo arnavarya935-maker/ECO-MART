@@ -11,7 +11,8 @@ import {
   X,
   ArrowRight,
   Award,
-  CheckCircle2
+  CheckCircle2,
+  Wand2
 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { FEATURES } from '../lib/features.js';
@@ -30,6 +31,17 @@ const PITCH_STEPS = [
   },
   {
     step: 2,
+    title: 'Cart Transformer',
+    subtitle: 'Ordinary List to Sustainable Cart',
+    icon: Wand2,
+    badge: 'Competition Star • AI Knapsack',
+    description:
+      'The star moment of the live demo: paste or speak any ordinary shopping list. The Eco Agent parses items, matches them to catalogue alternatives, executes an exact multi-choice knapsack optimization within the user\'s budget, and displays an auditable Before vs After impact comparison with 1-tap cart checkout.',
+    actionLabel: 'Launch Cart Transformer Demo',
+    actionRoute: '/transform'
+  },
+  {
+    step: 3,
     title: 'Eco Check Any Product',
     subtitle: 'Paste-a-Product Greenwash Detector',
     icon: Search,
@@ -40,7 +52,7 @@ const PITCH_STEPS = [
     actionRoute: '/eco-check'
   },
   {
-    step: 3,
+    step: 4,
     title: 'Proactive Copilot',
     subtitle: 'Autonomous Reasoning Without Prompting',
     icon: Sparkles,
@@ -52,7 +64,7 @@ const PITCH_STEPS = [
     isCopilotDemo: true
   },
   {
-    step: 4,
+    step: 5,
     title: 'Product Lifecycle Explorer',
     subtitle: '5-Stage Cradle-to-Grave Analysis',
     icon: Layers,
@@ -63,7 +75,7 @@ const PITCH_STEPS = [
     actionRoute: '/product/care-01'
   },
   {
-    step: 5,
+    step: 6,
     title: 'Year-Ahead Projection & Purpose Report',
     subtitle: '12-Month Impact & Shareable Card',
     icon: FileText,
@@ -191,10 +203,10 @@ export default function PitchModeModal({ isOpen, onClose }) {
             <button
               type="button"
               onClick={handleAction}
-              className="px-5 py-2.5 rounded-xl bg-heading hover:bg-heading-hover text-surface-raised font-sans font-medium text-xs flex items-center gap-2 shadow-soft-sm transition active:scale-98 cursor-pointer"
+              className="px-5 py-2.5 rounded-xl bg-primary hover:bg-primary-hover text-primary-contrast font-sans font-semibold text-xs flex items-center gap-2 shadow-soft-sm transition active:scale-98 cursor-pointer"
             >
               <span>{currentStep.actionLabel}</span>
-              <ArrowRight className="w-4 h-4 text-primary" />
+              <ArrowRight className="w-4 h-4 text-primary-contrast" />
             </button>
           </div>
         </div>

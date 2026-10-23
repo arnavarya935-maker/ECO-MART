@@ -39,14 +39,14 @@ export default function ExitIntentModal() {
           <div>
             <div className="text-[10px] uppercase font-bold tracking-wider text-muted">Cart Sustainability Grade</div>
             <div className="text-lg font-serif font-bold text-primary mt-0.5">
-              Score: {impact.averageScore}/100
+              Score: {impact?.averageScore ?? impact?.averageEcoScore ?? 0}/100
             </div>
             <div className="text-xs text-muted mt-0.5">
-              Avoiding ~{impact.savedCo2.toFixed(1)}kg CO₂
+              Avoiding ~{Number(impact?.savedCo2 ?? impact?.co2Saved ?? 0).toFixed(1)}kg CO₂
             </div>
           </div>
           <div className="flex items-center justify-center w-12 h-12 rounded-2xl bg-primary/10 text-primary font-serif font-bold text-xl border border-primary/20 shadow-soft-xs">
-            {impact.grade}
+            {impact?.grade ?? impact?.averageGrade ?? 'A'}
           </div>
         </div>
 

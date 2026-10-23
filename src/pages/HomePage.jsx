@@ -1,41 +1,47 @@
 import React from 'react';
-import Hero from '../components/Hero';
-import RecentlyViewedStrip from '../components/RecentlyViewedStrip';
-import CategoryGrid from '../components/CategoryGrid';
-import LiveSwapDemo from '../components/LiveSwapDemo';
+import EngineeringHero from '../components/home/EngineeringHero';
+import EditorialValueStatement from '../components/home/EditorialValueStatement';
+import FeatureGridDisciplines from '../components/home/FeatureGridDisciplines';
+import SignatureShowcase from '../components/home/SignatureShowcase';
+import AgentJourneySticky from '../components/home/AgentJourneySticky';
 import AnimatedImpactCounters from '../components/AnimatedImpactCounters';
-import StorytellingSection from '../components/StorytellingSection';
-import TestimonialsCarousel from '../components/TestimonialsCarousel';
+import FillInTheBlanksForm from '../components/home/FillInTheBlanksForm';
+import EditorialFinalCTA from '../components/home/EditorialFinalCTA';
+import RecentlyViewedStrip from '../components/RecentlyViewedStrip';
 import ForYouRow from '../components/recommendations/ForYouRow';
 
 export default function HomePage() {
   return (
-    <div className="space-y-12 pb-16">
-      {/* 1. Hero: What/Why/Next with 1 primary & 1 secondary CTA + scroll-linked globe */}
-      <Hero />
+    <div className="w-full bg-surface">
+      {/* 1. Hero: Editorial headline, Italian serif italic emphasis, Safe3D biosphere visualizer */}
+      <EngineeringHero />
 
-      {/* 2. Personalized For You Row (Phase 6: On-Device Learning) */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* 2. Short Value Statement: Philosophy & manifesto against greenwashing */}
+      <EditorialValueStatement />
+
+      {/* 3. Numbered Feature Grid: Four disciplines with live animated SVG/CSS mini-visuals */}
+      <FeatureGridDisciplines />
+
+      {/* 4. Featured Products Showcase: Signature Innovations with packshot panels and metadata chips */}
+      <SignatureShowcase />
+
+      {/* Recommended For You & Recently Viewed (Preserved features) */}
+      <div className="max-w-6xl mx-auto px-6 md:px-10 py-8 space-y-6">
         <ForYouRow />
+        <RecentlyViewedStrip />
       </div>
 
-      {/* 3. Continue where you left off / Recently viewed (Feature 27) */}
-      <RecentlyViewedStrip />
+      {/* 5. "How the Eco Agent works" Sticky Journey: Understand -> Match -> Optimise -> Explain */}
+      <AgentJourneySticky />
 
-      {/* 3. Categories (Feature 10) */}
-      <CategoryGrid />
-
-      {/* 4. Featured Swaps (Live Swap Demo, Feature 10 & 24) */}
-      <LiveSwapDemo />
-
-      {/* 5. Impact Proof (Animated Impact Counters, Feature 10 & 35) */}
+      {/* 6. Impact Counters: Audited collective milestones (CO2, plastics, trees, water) */}
       <AnimatedImpactCounters />
 
-      {/* 6. How It Works / Methodology ("From waste to wonder", Feature 10 & 34) */}
-      <StorytellingSection />
+      {/* 7. Fill-in-the-blanks sentence-style agent entry */}
+      <FillInTheBlanksForm />
 
-      {/* 7. Testimonials (Customer review endorsements, Feature 10 & 41) */}
-      <TestimonialsCarousel />
+      {/* 8. Final Call-to-Action: Confident closing banner */}
+      <EditorialFinalCTA />
     </div>
   );
 }

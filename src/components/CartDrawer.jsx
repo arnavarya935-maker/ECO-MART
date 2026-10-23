@@ -98,7 +98,7 @@ export default function CartDrawer() {
                 <button
                   type="button"
                   onClick={() => setIsSwapModalOpen(true)}
-                  className="px-3.5 py-1.5 min-h-[36px] rounded-xl btn-gradient-primary text-surface-raised text-xs font-sans font-medium shrink-0 transition-all shadow-soft-sm cursor-pointer"
+                  className="px-3.5 py-1.5 min-h-[36px] rounded-xl bg-primary hover:bg-primary-hover text-primary-contrast text-xs font-sans font-semibold shrink-0 transition-all shadow-soft-sm cursor-pointer active:scale-95"
                 >
                   Swap My Cart
                 </button>
@@ -274,10 +274,10 @@ export default function CartDrawer() {
                     setIsCartOpen(false);
                     setCheckoutModalOpen(true);
                   }}
-                  className="w-full py-3.5 px-6 min-h-[44px] rounded-xl btn-gradient-heading text-surface-raised font-sans font-medium text-sm flex items-center justify-center gap-2 shadow-soft-sm transition-all cursor-pointer"
+                  className="w-full py-3.5 px-6 min-h-[44px] rounded-xl bg-primary hover:bg-primary-hover text-primary-contrast font-sans font-semibold text-sm flex items-center justify-center gap-2 shadow-soft-sm transition-all cursor-pointer active:scale-98"
                 >
                   <span>{t('cart.checkout', 'Proceed to Simulated Checkout')}</span>
-                  <ArrowRight className="w-4 h-4 text-emerald-300" />
+                  <ArrowRight className="w-4 h-4 text-primary-contrast" />
                 </button>
               </div>
             )}

@@ -31,7 +31,7 @@ export default function Checkbox({
         <div
           className={`w-5 h-5 rounded-md border transition-all duration-150 flex items-center justify-center ${
             checked
-              ? 'bg-primary border-primary text-surface-raised shadow-xs'
+              ? 'bg-primary border-primary text-primary-contrast shadow-xs'
               : 'bg-surface-raised border-line hover:border-primary'
           } peer-focus-visible:ring-2 peer-focus-visible:ring-focus peer-focus-visible:ring-offset-2`}
         >

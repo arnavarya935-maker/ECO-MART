@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   X,
   Send,
-  Bot,
   User,
   ShoppingBag,
   Trash2,
@@ -26,6 +26,7 @@ import PrioritiesPanel from '../decision/PrioritiesPanel';
 import EcoScoreBadge from '../EcoScoreBadge';
 
 const QUICK_CHIPS_EN = [
+  { id: 'cart-transformer', label: '🪄 Transform shopping list', query: 'Transform my shopping list' },
   { id: 'eco-check', label: '🔍 Eco Check a product', query: 'Eco check a product' },
   { id: 'price-priority', label: '💰 I care most about price', query: 'I care most about price' },
   { id: 'plastic-priority', label: '🌊 Plastic matters more', query: 'plastic matters more' },
@@ -37,6 +38,7 @@ const QUICK_CHIPS_EN = [
 ];
 
 const QUICK_CHIPS_HI = [
+  { id: 'cart-transformer', label: '🪄 खरीदारी सूची को बदलें', query: 'Transform my shopping list' },
   { id: 'eco-check', label: '🔍 किसी उत्पाद का इको चेक', query: 'Eco check a product' },
   { id: 'price-priority', label: '💰 मुझे सबसे सस्ती कीमत चाहिए', query: 'I care most about price' },
   { id: 'plastic-priority', label: '🌊 प्लास्टिक हटाना प्राथमिकता है', query: 'plastic matters more' },
@@ -48,6 +50,7 @@ const QUICK_CHIPS_HI = [
 ];
 
 export default function EcoAgentChat() {
+  const navigate = useNavigate();
   const { judgeMode } = useTheme();
   const {
     isAgentOpen,
@@ -369,6 +372,33 @@ export default function EcoAgentChat() {
     setLoading(true);
     playSound('click');
 
+    // Cart Transformer list detection (Requirement 6)
+    const lowerQ = q.toLowerCase();
+    const tokenCount = q.split(/[\r\n,]/).filter((s) => s.trim().length > 1).length;
+    const isListOrTransformer =
+      lowerQ.includes('transform') ||
+      lowerQ.includes('swap my list') ||
+      tokenCount >= 3;
+
+    if (isListOrTransformer) {
+      setLoading(false);
+      const listText = lowerQ.includes('transform my shopping list') ? '' : q;
+      const agentMsg = {
+        id: `agent-${Date.now()}`,
+        sender: 'agent',
+        text: "I can transform your shopping list into a sustainable, budget-respecting cart! Click below to review your items, greener swaps, and real environmental savings.",
+        source: 'local-rules',
+        data: [],
+        transformerCta: {
+          text: listText
+        },
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      };
+      setMessages((prev) => [...prev, agentMsg]);
+      playSound('pop');
+      return;
+    }
+
     try {
       const response = await sendAgentQuery({
         query: q,
@@ -498,17 +528,17 @@ export default function EcoAgentChat() {
       className="fixed bottom-20 sm:bottom-6 right-3 sm:right-6 z-drawers w-full sm:w-[440px] max-w-[calc(100vw-1.5rem)] h-[620px] max-h-[calc(100dvh-6.5rem)] bg-surface border border-line rounded-3xl shadow-soft-xl flex flex-col overflow-hidden text-text animate-slide-up"
     >
       {/* Top Header Bar */}
-      <div className="p-4 btn-gradient-heading text-surface-raised flex items-center justify-between shadow-soft-xs border-b border-surface-raised/10">
+      <div className="p-4 bg-surface-raised border-b border-line text-heading flex items-center justify-between shadow-soft-xs">
         <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center border border-surface-raised/20 shadow-soft-xs">
-            <Sparkles className="w-5 h-5 text-surface-raised" />
+          <div className="w-9 h-9 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 flex items-center justify-center shadow-soft-xs">
+            <Sparkles className="w-4 h-4 text-emerald-400" />
           </div>
           <div>
-            <div className="font-serif font-bold text-sm flex items-center gap-1.5">
+            <div className="font-sans font-bold text-sm flex items-center gap-1.5 text-heading">
               <span>Eco Agent</span>
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
             </div>
-            <div className="text-[10px] text-surface-raised/80 font-medium flex items-center gap-1">
+            <div className="text-[10px] text-text-muted font-medium flex items-center gap-1 font-mono uppercase tracking-wider">
               <span>100% Offline AI Guide</span>
             </div>
           </div>
@@ -526,8 +556,8 @@ export default function EcoAgentChat() {
             onClick={() => setShowPriorities(!showPriorities)}
             className={`px-2 py-1 rounded-lg text-[10px] font-semibold transition-colors border cursor-pointer flex items-center gap-1 ${
               showPriorities
-                ? 'bg-amber-300 text-stone-900 border-amber-400 font-bold'
-                : 'bg-surface text-primary border-primary-contrast/20 hover:bg-surface-raised'
+                ? 'bg-amber-400 text-stone-950 border-amber-400 font-bold'
+                : 'bg-surface-sunken text-text-secondary border-line hover:text-heading hover:bg-surface'
             }`}
             title="Adjust multi-criteria decision weights"
           >
@@ -538,7 +568,7 @@ export default function EcoAgentChat() {
             type="button"
             onClick={handleRunDemoScenario}
             disabled={demoRunning}
-            className="px-2 py-1 rounded-lg bg-surface text-primary text-[10px] font-bold hover:bg-surface-raised transition-colors border border-primary-contrast/20 cursor-pointer flex items-center gap-1 shadow-soft-xs"
+            className="px-2 py-1 rounded-lg bg-surface-sunken text-primary text-[10px] font-bold hover:bg-surface transition-colors border border-line cursor-pointer flex items-center gap-1 shadow-soft-xs"
             title="Auto-play 60s scripted competition demo flow"
           >
             <Play className="w-2.5 h-2.5 fill-current" />
@@ -549,7 +579,7 @@ export default function EcoAgentChat() {
             <button
               type="button"
               onClick={handleResetDemo}
-              className="px-2 py-1 rounded-lg bg-primary-hover/80 text-primary-contrast text-[10px] font-semibold hover:bg-primary-hover transition-colors border border-primary-contrast/20 cursor-pointer flex items-center gap-1"
+              className="px-2 py-1 rounded-lg bg-surface-sunken text-text-secondary text-[10px] font-semibold hover:bg-surface transition-colors border border-line cursor-pointer flex items-center gap-1"
               title="Reset demo, cart, and chat"
             >
               <RotateCcw className="w-2.5 h-2.5" />
@@ -571,7 +601,7 @@ export default function EcoAgentChat() {
                 });
                 showToast('Agent memory cleared', 'info');
               }}
-              className="px-2 py-1 rounded-lg bg-primary-hover/80 text-primary-contrast text-[10px] font-semibold hover:bg-primary-hover transition-colors border border-primary-contrast/20 cursor-pointer"
+              className="px-2 py-1 rounded-lg bg-surface-sunken text-text-secondary text-[10px] font-semibold hover:bg-surface transition-colors border border-line cursor-pointer"
               title="Clear multi-turn context memory"
             >
               Clear context
@@ -600,7 +630,7 @@ export default function EcoAgentChat() {
                 lastQuery: null
               });
             }}
-            className="w-9 h-9 text-primary-contrast/80 hover:text-primary-contrast rounded-xl hover:bg-primary-hover flex items-center justify-center transition-colors focus-visible:outline-2 focus-visible:outline-focus cursor-pointer"
+            className="w-8 h-8 text-text-muted hover:text-heading rounded-lg hover:bg-surface-sunken flex items-center justify-center transition-colors focus-visible:outline-2 focus-visible:outline-focus cursor-pointer"
             title="Clear Chat"
           >
             <Trash2 className="w-4 h-4" />
@@ -609,10 +639,10 @@ export default function EcoAgentChat() {
           <button
             type="button"
             onClick={() => setIsAgentOpen(false)}
-            className="w-9 h-9 text-primary-contrast/80 hover:text-primary-contrast rounded-xl hover:bg-primary-hover flex items-center justify-center transition-colors focus-visible:outline-2 focus-visible:outline-focus cursor-pointer"
+            className="w-8 h-8 text-text-muted hover:text-heading rounded-lg hover:bg-surface-sunken flex items-center justify-center transition-colors focus-visible:outline-2 focus-visible:outline-focus cursor-pointer"
             aria-label="Close Agent"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
       </div>
@@ -669,16 +699,16 @@ export default function EcoAgentChat() {
             className={`flex gap-2.5 ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
           >
             {msg.sender === 'agent' && (
-              <div className="w-7 h-7 rounded-xl bg-gradient-to-br from-primary to-secondary text-surface-raised flex items-center justify-center text-xs shrink-0 mt-0.5 shadow-soft-xs border border-primary/20">
-                <Sparkles className="w-3.5 h-3.5 text-emerald-100" />
+              <div className="w-7 h-7 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 flex items-center justify-center text-xs shrink-0 mt-0.5 shadow-soft-xs">
+                <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
               </div>
             )}
 
             <div
               className={`max-w-[85%] rounded-2xl p-4 text-xs space-y-2.5 ${
                 msg.sender === 'user'
-                  ? 'btn-gradient-heading text-surface-raised rounded-tr-xs shadow-soft-sm'
-                  : 'bg-surface-raised text-text border border-line rounded-tl-xs shadow-card'
+                  ? 'bg-primary text-primary-contrast font-medium rounded-tr-xs shadow-soft-sm'
+                  : 'bg-surface-raised text-heading border border-line rounded-tl-xs shadow-card'
               }`}
             >
               {msg.source === 'cloud-llm' && (
@@ -705,6 +735,23 @@ export default function EcoAgentChat() {
                   </button>
                 )}
               </div>
+
+              {/* Cart Transformer Action Button */}
+              {msg.transformerCta && (
+                <div className="pt-2 border-t border-line">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      navigate('/transform', { state: { prefilledList: msg.transformerCta.text } });
+                      setIsAgentOpen(false);
+                    }}
+                    className="w-full px-4 py-2.5 rounded-xl bg-primary hover:bg-primary-hover text-primary-contrast font-medium text-xs flex items-center justify-center gap-2 shadow-soft-xs transition cursor-pointer min-h-[44px] active:scale-98 focus-visible:outline-2 focus-visible:outline-focus"
+                  >
+                    <Sparkles className="w-4 h-4" />
+                    <span>Open in Cart Transformer</span>
+                  </button>
+                </div>
+              )}
 
               {/* Recommended Product Cards Inside Chat (Feature 20) */}
               {msg.data && msg.data.length > 0 && (
@@ -746,9 +793,9 @@ export default function EcoAgentChat() {
                           <button
                             type="button"
                             onClick={() => handleAddProductFromChat(prod)}
-                            className="px-3 py-1.5 rounded-xl btn-gradient-heading text-surface-raised font-sans font-medium text-xs flex items-center gap-1.5 shrink-0 transition-all shadow-soft-sm cursor-pointer min-h-[36px]"
+                            className="px-3 py-1.5 rounded-xl bg-primary hover:bg-primary-hover text-primary-contrast font-sans font-semibold text-xs flex items-center gap-1.5 shrink-0 transition-all shadow-soft-sm cursor-pointer min-h-[36px]"
                           >
-                            {isAdded ? <Check className="w-3.5 h-3.5 text-emerald-300" /> : <ShoppingBag className="w-3.5 h-3.5 text-emerald-300" />}
+                            {isAdded ? <Check className="w-3.5 h-3.5" /> : <ShoppingBag className="w-3.5 h-3.5" />}
                             <span>{isAdded ? 'Added' : 'Add'}</span>
                           </button>
                         </div>
@@ -962,16 +1009,16 @@ export default function EcoAgentChat() {
 
         {loading && (
           <div className="flex gap-2.5 items-center text-xs text-muted">
-            <div className="w-7 h-7 rounded-xl bg-gradient-to-br from-primary to-secondary text-surface-raised flex items-center justify-center shrink-0 shadow-soft-xs border border-primary/20">
-              <Sparkles className="w-3.5 h-3.5 text-emerald-100" />
+            <div className="w-7 h-7 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 flex items-center justify-center shrink-0 shadow-soft-xs">
+              <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
             </div>
-            <div className="p-3 bg-surface-raised rounded-2xl border border-line text-xs font-medium flex items-center gap-2 shadow-card">
+            <div className="p-3 bg-surface-raised rounded-2xl border border-line text-xs font-medium flex items-center gap-2 shadow-card text-text-secondary">
               <div className="flex items-center gap-1 py-1 px-0.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
                 <span className="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse [animation-delay:150ms]" />
                 <span className="w-1.5 h-1.5 rounded-full bg-primary/70 animate-pulse [animation-delay:300ms]" />
               </div>
-              <span className="text-secondary font-medium">Analyzing conscious catalog...</span>
+              <span className="text-text-secondary font-medium">Analyzing conscious catalog...</span>
             </div>
           </div>
         )}
@@ -1025,10 +1072,10 @@ export default function EcoAgentChat() {
           type="button"
           onClick={() => handleSendMessage()}
           disabled={!input.trim() || loading}
-          className="w-11 h-11 rounded-xl btn-gradient-heading disabled:opacity-40 text-surface-raised transition-all shadow-soft-sm flex items-center justify-center focus-visible:outline-2 focus-visible:outline-focus cursor-pointer shrink-0"
+          className="w-11 h-11 rounded-xl bg-primary hover:bg-primary-hover disabled:opacity-40 text-primary-contrast transition-all shadow-soft-sm flex items-center justify-center focus-visible:outline-2 focus-visible:outline-focus cursor-pointer shrink-0"
           aria-label="Send message"
         >
-          <Send className="w-4 h-4 text-emerald-300" />
+          <Send className="w-4 h-4 text-primary-contrast" />
         </button>
       </div>
     </div>

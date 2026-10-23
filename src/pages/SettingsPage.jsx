@@ -15,7 +15,9 @@ import {
   RotateCcw,
   ShieldCheck,
   Sparkles,
-  Globe
+  Globe,
+  Sun,
+  Moon
 } from 'lucide-react';
 import { useT } from '../context/I18nContext';
 import { FEATURES } from '../lib/features';
@@ -25,6 +27,8 @@ import Badge from '../components/ui/Badge';
 
 export default function SettingsPage() {
   const {
+    theme,
+    setTheme,
     reduceEffects,
     toggleReduceEffects,
     highContrast,
@@ -172,6 +176,57 @@ export default function SettingsPage() {
           </div>
         </Card>
       )}
+
+      {/* Theme Appearance: Dark / Light Mode */}
+      <Card clean={true} className="space-y-4 bg-surface border border-line shadow-soft-sm rounded-3xl p-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-surface-sunken border border-line flex items-center justify-center text-heading">
+              {theme === 'dark' ? <Moon className="w-5 h-5 text-emerald-400" /> : <Sun className="w-5 h-5 text-amber-500" />}
+            </div>
+            <div>
+              <h3 className="font-serif font-bold text-base text-heading">
+                Theme & Canvas
+              </h3>
+              <p className="text-[11px] text-muted font-normal">
+                Forest-black engineering canvas is the competition default; warm sand light theme preserved
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                setTheme('dark');
+                showFeedback('Dark editorial theme activated (Forest Black)');
+              }}
+              className={`px-4 py-2 rounded-full text-xs font-semibold border transition cursor-pointer min-h-[44px] flex items-center gap-1.5 ${
+                theme === 'dark'
+                  ? 'bg-primary text-primary-contrast border-primary shadow-soft-xs'
+                  : 'bg-surface-sunken hover:bg-surface text-secondary border-line'
+              }`}
+            >
+              <Moon className="w-3.5 h-3.5" />
+              <span>Dark (Default)</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setTheme('light');
+                showFeedback('Light theme activated (Warm Sand)');
+              }}
+              className={`px-4 py-2 rounded-full text-xs font-semibold border transition cursor-pointer min-h-[44px] flex items-center gap-1.5 ${
+                theme === 'light'
+                  ? 'bg-primary text-primary-contrast border-primary shadow-soft-xs'
+                  : 'bg-surface-sunken hover:bg-surface text-secondary border-line'
+              }`}
+            >
+              <Sun className="w-3.5 h-3.5" />
+              <span>Light (Sand)</span>
+            </button>
+          </div>
+        </div>
+      </Card>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Feature 29: Accessibility Text Size */}

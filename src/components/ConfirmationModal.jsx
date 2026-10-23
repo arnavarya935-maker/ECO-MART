@@ -131,7 +131,7 @@ export default function ConfirmationModal() {
           <button
             type="button"
             onClick={handleClose}
-            className="w-full min-h-[44px] py-3 rounded-xl btn-gradient-heading text-surface-raised font-bold text-sm shadow-soft-sm hover:shadow-lift transition-all focus-visible:outline-2 focus-visible:outline-focus cursor-pointer"
+            className="w-full min-h-[44px] py-3 rounded-xl bg-primary hover:bg-primary-hover text-primary-contrast font-bold text-sm shadow-soft-sm hover:shadow-lift transition-all focus-visible:outline-2 focus-visible:outline-focus cursor-pointer active:scale-98"
           >
             Continue Conscious Shopping
           </button>

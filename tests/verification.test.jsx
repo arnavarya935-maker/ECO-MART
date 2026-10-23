@@ -137,6 +137,26 @@ describe('Impact Calculator (calculateCartImpact)', () => {
     // Eco points & gamification
     expect(impact.ecoPoints).toBeGreaterThan(0);
     expect(Array.isArray(impact.badges)).toBe(true);
+
+    // Aliases for component safety & no TypeError crashes
+    expect(typeof impact.totalCo2SavedKg).toBe('number');
+    expect(typeof impact.totalPlasticSavedGrams).toBe('number');
+    expect(typeof impact.totalWaterSavedLitres).toBe('number');
+    expect(typeof impact.savedCo2).toBe('number');
+    expect(typeof impact.averageScore).toBe('number');
+    expect(typeof impact.grade).toBe('string');
+    expect(impact.totalCo2SavedKg.toFixed(2)).toBeDefined();
+    expect(impact.savedCo2.toFixed(1)).toBeDefined();
+  });
+
+  it('provides safe numerical defaults on empty cart to prevent toFixed crashes', () => {
+    const emptyImpact = calculateCartImpact([], productsData);
+    expect(emptyImpact.totalCo2SavedKg.toFixed(2)).toBe('0.00');
+    expect(emptyImpact.savedCo2.toFixed(1)).toBe('0.0');
+    expect(emptyImpact.totalPlasticSavedGrams).toBe(0);
+    expect(emptyImpact.totalWaterSavedLitres).toBe(0);
+    expect(emptyImpact.averageScore).toBe(0);
+    expect(emptyImpact.grade).toBe('N/A');
   });
 });
 

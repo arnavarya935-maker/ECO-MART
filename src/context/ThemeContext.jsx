@@ -3,7 +3,34 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 const ThemeContext = createContext();
 
 export function ThemeProvider({ children }) {
-  // Strictly Light Theme per design tokens rules ("Aesop meets Apple" editorial system)
+  // Global Dark / Light Theme (Dark Forest-Black by default, Light preserved)
+  const [theme, setTheme] = useState(() => {
+    try {
+      const saved = localStorage.getItem('ecomart_theme');
+      if (saved === 'light' || saved === 'dark') return saved;
+      return 'dark';
+    } catch {
+      return 'dark';
+    }
+  });
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('ecomart_theme', theme);
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.documentElement.classList.remove('light');
+      } else {
+        document.documentElement.classList.add('light');
+        document.documentElement.classList.remove('dark');
+      }
+    } catch {}
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+  };
+
   // Global "Reduce effects" toggle (Rule 5 & Feature 4)
   const [reduceEffects, setReduceEffects] = useState(() => {
     try {
@@ -145,8 +172,10 @@ export function ThemeProvider({ children }) {
   return (
     <ThemeContext.Provider
       value={{
-        theme: 'light',
-        isDark: false,
+        theme,
+        isDark: theme === 'dark',
+        setTheme,
+        toggleTheme,
         reduceEffects,
         reducedMotion: reduceEffects,
         toggleReduceEffects,

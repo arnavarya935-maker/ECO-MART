@@ -3,16 +3,22 @@ import { Download } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
 
-export default function ShareableImpactCard() {
+export default function ShareableImpactCard({
+  customPlastic,
+  customCo2,
+  customWater,
+  purposeScoreBefore,
+  purposeScoreAfter
+} = {}) {
   const { user } = useAuth();
   const { impact } = useCart();
   const [downloading, setDownloading] = useState(false);
   const canvasRef = useRef(null);
 
   const userName = user?.name || 'Conscious Explorer';
-  const plasticSaved = `${impact.totalPlasticSavedGrams}g`;
-  const co2Saved = `${impact.totalCo2SavedKg.toFixed(2)}kg`;
-  const waterSaved = `${impact.totalWaterSavedLitres}L`;
+  const plasticSaved = customPlastic !== undefined ? `${customPlastic}g` : `${impact?.plasticAvoided ?? impact?.totalPlasticSavedGrams ?? 0}g`;
+  const co2Saved = customCo2 !== undefined ? `${Number(customCo2).toFixed(2)}kg` : `${Number(impact?.co2Saved ?? impact?.totalCo2SavedKg ?? impact?.savedCo2 ?? 0).toFixed(2)}kg`;
+  const waterSaved = customWater !== undefined ? `${customWater}L` : `${impact?.waterSaved ?? impact?.totalWaterSavedLitres ?? 0}L`;
 
   const handleExportPng = () => {
     setDownloading(true);
@@ -95,10 +101,17 @@ export default function ShareableImpactCard() {
     ctx.font = '14px sans-serif';
     ctx.fillText('Freshwater Conserved', 530, 325);
 
+    // Purpose Score Note
+    if (purposeScoreAfter !== undefined) {
+      ctx.fillStyle = '#34D399';
+      ctx.font = 'bold 18px sans-serif';
+      ctx.fillText(`Purpose Score: ${purposeScoreAfter}/100 (Usual Baseline: ${purposeScoreBefore || 0}/100)`, 50, 380);
+    }
+
     // Footer note
     ctx.fillStyle = '#6EE7B7';
     ctx.font = 'italic 16px sans-serif';
-    ctx.fillText('🌱 Certified zero-waste metrics calculated via EcoMart transparent lifecycle formulas.', 50, 410);
+    ctx.fillText('🌱 Certified zero-waste metrics calculated via EcoMart transparent lifecycle formulas.', 50, 415);
 
     ctx.fillStyle = '#9CA3AF';
     ctx.font = '12px sans-serif';
@@ -155,6 +168,18 @@ export default function ShareableImpactCard() {
             <div className="text-[10px] text-primary-contrast/70 font-medium mt-0.5">Water Saved</div>
           </div>
         </div>
+
+        {purposeScoreAfter !== undefined && (
+          <div className="p-3 rounded-2xl bg-primary-contrast/15 border border-primary-contrast/20 text-center">
+            <span className="text-[10px] uppercase tracking-wider text-primary-contrast/80 font-semibold block">Purpose Score</span>
+            <span className="text-lg font-serif font-bold text-primary-contrast">
+              {purposeScoreAfter}/100
+              {purposeScoreBefore !== undefined && (
+                <span className="text-xs font-normal text-primary-contrast/70 ml-2">(Baseline: {purposeScoreBefore}/100)</span>
+              )}
+            </span>
+          </div>
+        )}
 
         <div className="text-xs text-primary-contrast/80 italic text-center font-serif">
           "Don't just shop. Shop with purpose."

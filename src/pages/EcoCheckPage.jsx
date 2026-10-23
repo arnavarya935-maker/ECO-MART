@@ -99,9 +99,9 @@ export default function EcoCheckPage() {
             <button
               type="button"
               onClick={() => handleRunAnalysis()}
-              className="px-6 py-3 min-h-[44px] rounded-2xl bg-heading hover:bg-heading-hover text-surface-raised font-sans font-semibold text-xs transition shadow-soft-sm cursor-pointer flex items-center justify-center gap-2"
+              className="px-6 py-3 min-h-[44px] rounded-2xl bg-primary hover:bg-primary-hover text-primary-contrast font-sans font-semibold text-xs transition shadow-soft-sm cursor-pointer flex items-center justify-center gap-2 active:scale-98"
             >
-              <Sparkles className="w-3.5 h-3.5 text-primary" />
+              <Sparkles className="w-3.5 h-3.5 text-primary-contrast" />
               <span>Analyze Product</span>
             </button>
           </div>
@@ -305,9 +305,9 @@ export default function EcoCheckPage() {
                         <button
                           type="button"
                           onClick={() => addToCart(alt, 1)}
-                          className="flex-1 py-2 px-3 rounded-xl bg-heading hover:bg-heading-hover text-surface-raised text-xs font-medium transition cursor-pointer flex items-center justify-center gap-1.5"
+                          className="flex-1 py-2 px-3 rounded-xl bg-primary hover:bg-primary-hover text-primary-contrast text-xs font-semibold transition cursor-pointer flex items-center justify-center gap-1.5 active:scale-98"
                         >
-                          <ShoppingBag className="w-3 h-3 text-primary" />
+                          <ShoppingBag className="w-3 h-3 text-primary-contrast" />
                           <span>Add to Cart</span>
                         </button>
                         <button

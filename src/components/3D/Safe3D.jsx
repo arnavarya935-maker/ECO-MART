@@ -90,9 +90,9 @@ export default function Safe3D({
             e.stopPropagation();
             setActivated(true);
           }}
-          className="mt-4 px-5 py-2.5 rounded-2xl bg-heading hover:bg-heading-hover text-surface-raised text-xs font-medium flex items-center gap-2 shadow-soft-xs transition-all active:scale-98 cursor-pointer"
+          className="mt-4 px-5 py-2.5 rounded-2xl bg-primary hover:bg-primary-hover text-primary-contrast text-xs font-semibold flex items-center gap-2 shadow-soft-xs transition-all active:scale-98 cursor-pointer"
         >
-          <Sparkles className="w-3.5 h-3.5 text-primary" />
+          <Sparkles className="w-3.5 h-3.5 text-primary-contrast" />
           <span>Explore in 3D</span>
         </button>
       </div>

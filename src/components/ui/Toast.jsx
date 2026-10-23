@@ -58,7 +58,7 @@ export default function Toast({ toasts = [], onDismiss }) {
                     toast.action.onClick?.();
                     onDismiss?.(toast.id);
                   }}
-                  className="px-2.5 py-1 rounded-xl bg-heading hover:bg-heading-hover text-surface-raised text-[11px] font-sans font-bold transition-all active:scale-95 shadow-soft-xs cursor-pointer min-h-[28px]"
+                  className="px-2.5 py-1 rounded-xl bg-primary hover:bg-primary-hover text-primary-contrast text-[11px] font-sans font-bold transition-all active:scale-95 shadow-soft-xs cursor-pointer min-h-[28px]"
                 >
                   {toast.action.label || 'Undo'}
                 </button>

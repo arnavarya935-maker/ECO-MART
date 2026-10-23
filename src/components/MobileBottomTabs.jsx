@@ -57,7 +57,7 @@ export default function MobileBottomTabs() {
         <div className="relative">
           <ShoppingBag className="w-5 h-5 stroke-[1.8]" />
           {impact.totalItems > 0 && (
-            <span className="absolute -top-1.5 -right-2 px-1.5 py-0.2 bg-primary text-surface-raised text-[9px] font-sans font-bold rounded-full shadow-xs">
+            <span className="absolute -top-1.5 -right-2 px-1.5 py-0.2 bg-primary text-primary-contrast text-[9px] font-sans font-bold rounded-full shadow-xs">
               {impact.totalItems}
             </span>
           )}

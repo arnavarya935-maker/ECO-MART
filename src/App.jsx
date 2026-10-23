@@ -19,6 +19,7 @@ const HomePage = lazy(() => import('./pages/HomePage'));
 const ShopPage = lazy(() => import('./pages/ShopPage'));
 const ProductPage = lazy(() => import('./pages/ProductPage'));
 const ToolsPage = lazy(() => import('./pages/ToolsPage'));
+const TransformPage = lazy(() => import('./pages/TransformPage'));
 const EcoCheckPage = lazy(() => import('./pages/EcoCheckPage'));
 const CommunityPage = lazy(() => import('./pages/CommunityPage'));
 const ImpactPage = lazy(() => import('./pages/ImpactPage'));
@@ -152,6 +153,7 @@ function AppContent() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/shop" element={<ShopPage />} />
+            <Route path="/transform" element={<TransformPage />} />
             <Route path="/eco-check" element={<EcoCheckPage />} />
             <Route path="/product/:id" element={<ProductPage />} />
             <Route path="/tools" element={<ToolsPage />} />

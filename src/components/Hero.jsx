@@ -42,10 +42,10 @@ export default function Hero() {
               {/* Primary CTA */}
               <Link
                 to="/shop"
-                className="w-full sm:w-auto px-7 py-3.5 rounded-xl btn-gradient-heading text-surface-raised font-sans font-medium text-sm flex items-center justify-center gap-2 shadow-soft-sm transition-all min-h-[44px]"
+                className="w-full sm:w-auto px-7 py-3.5 rounded-xl bg-primary hover:bg-primary-hover text-primary-contrast font-sans font-semibold text-sm flex items-center justify-center gap-2 shadow-soft-sm transition-all min-h-[44px]"
               >
                 <span>{t('hero.exploreCta', 'Explore Sustainable Catalog')}</span>
-                <ArrowRight className="w-4 h-4 text-emerald-300" />
+                <ArrowRight className="w-4 h-4 text-primary-contrast" />
               </Link>
 
               {/* Secondary CTA */}

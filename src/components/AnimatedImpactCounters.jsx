@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Leaf, Droplets, ShieldCheck, TreePine, Sparkles } from 'lucide-react';
+import { Leaf, Droplets, ShieldCheck, TreePine } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 
 export default function AnimatedImpactCounters() {
@@ -10,7 +10,7 @@ export default function AnimatedImpactCounters() {
   useEffect(() => {
     if (reduceEffects) return;
 
-    const duration = 2000;
+    const duration = 1800;
     const steps = 60;
     const intervalTime = duration / steps;
     let step = 0;
@@ -18,14 +18,13 @@ export default function AnimatedImpactCounters() {
     const timer = setInterval(() => {
       step += 1;
       const progress = Math.min(step / steps, 1);
-      // easeOutExpo
       const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
 
       setCounts({
         co2: Math.floor(14820 * ease),
         plastic: Math.floor(89400 * ease),
         trees: Math.floor(3120 * ease),
-        water: Math.floor(450000 * ease)
+        water: Math.floor(450000 * ease),
       });
 
       if (step >= steps) clearInterval(timer);
@@ -39,77 +38,88 @@ export default function AnimatedImpactCounters() {
   const metrics = [
     {
       id: 'co2',
-      label: 'CO₂ Footprint Diverted',
+      label: 'CO₂ Diverted',
       value: `${effectiveCounts.co2.toLocaleString()} kg`,
-      sub: 'Equivalent to 62,000 car km',
+      sub: 'Lifecycle fossil fuel emissions eliminated',
       icon: Leaf,
-      iconColor: 'text-primary'
     },
     {
       id: 'plastic',
-      label: 'Single-Use Plastics Avoided',
+      label: 'Plastic Units Prevented',
       value: `${effectiveCounts.plastic.toLocaleString()} pcs`,
-      sub: 'Prevented from landfill & oceans',
+      sub: 'Diverted from municipal landfills and oceans',
       icon: ShieldCheck,
-      iconColor: 'text-secondary'
     },
     {
       id: 'trees',
-      label: 'Mature Trees Preserved',
+      label: 'Native Trees Preserved',
       value: `${effectiveCounts.trees.toLocaleString()} trees`,
-      sub: 'Via 100% tree-free paper & bamboo',
+      sub: 'Through 100% bamboo & seed paper swaps',
       icon: TreePine,
-      iconColor: 'text-primary'
     },
     {
       id: 'water',
       label: 'Freshwater Conserved',
       value: `${(effectiveCounts.water / 1000).toFixed(0)}k Litres`,
-      sub: 'From organic non-toxic processing',
+      sub: 'Saved via zero-toxic textile processing',
       icon: Droplets,
-      iconColor: 'text-secondary'
-    }
+    },
   ];
 
   return (
-    <section className="py-14 bg-surface border-y border-line">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-2xl mx-auto mb-10">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary-subtle text-primary border border-primary/20 text-xs font-sans font-semibold uppercase tracking-wider mb-2">
-            <Sparkles className="w-3.5 h-3.5 text-primary" />
-            <span>Verified Collective Milestones</span>
-          </span>
-          <h2 className="font-serif text-2xl sm:text-3xl font-bold text-heading tracking-tight">
-            Tangible Impact You Can Verify
-          </h2>
-          <p className="font-sans text-xs sm:text-sm text-secondary mt-1">
-            Every audited purchase and swap adds up to measurable ecological restoration.
+    <section
+      id="impact-milestones"
+      aria-labelledby="impact-heading"
+      className="relative bg-surface py-20 md:py-28 border-b border-line"
+    >
+      <div className="mx-auto max-w-6xl px-6 md:px-10">
+        {/* Eyebrow */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-line pb-8">
+          <div>
+            <div className="font-mono text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.22em] text-primary flex items-center gap-2">
+              <span>05</span>
+              <span className="w-4 h-px bg-primary/40" />
+              <span>COLLECTIVE AUDIT</span>
+            </div>
+            <h2
+              id="impact-heading"
+              className="mt-3 font-sans text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-heading text-balance"
+            >
+              Tangible impact. Verified down to grams.
+            </h2>
+          </div>
+          <p className="max-w-[34ch] text-xs sm:text-sm text-text-secondary leading-relaxed font-sans">
+            Every swap is recorded against independent cradle-to-grave benchmarks.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        {/* 4 Cards Grid */}
+        <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {metrics.map((m) => {
             const Icon = m.icon;
             return (
               <div
                 key={m.id}
-                className="p-6 rounded-3xl bg-surface-raised border border-line shadow-card hover:shadow-lift transition-all duration-300"
+                className="group relative rounded-2xl border border-line bg-surface-raised/40 hover:bg-surface-raised/70 p-6 sm:p-7 transition-all duration-300"
               >
-                <div className="flex items-center justify-between mb-3">
-                  <div className={`p-2.5 rounded-2xl bg-surface-sunken border border-line-subtle ${m.iconColor}`}>
-                    <Icon className="w-5 h-5" />
+                <div className="flex items-center justify-between mb-4">
+                  <div className="w-9 h-9 rounded-lg bg-surface-sunken border border-line flex items-center justify-center text-primary">
+                    <Icon className="w-4 h-4" />
                   </div>
-                  <span className="text-[10px] font-sans font-semibold uppercase tracking-wider text-muted bg-surface-sunken px-2 py-0.5 rounded-full border border-line-subtle">
-                    Audited
+                  <span className="font-mono text-[9px] uppercase tracking-wider text-text-muted bg-surface px-2 py-0.5 rounded border border-line">
+                    AUDITED
                   </span>
                 </div>
-                <div className="font-serif text-3xl sm:text-4xl font-bold tracking-tight text-heading tabular-nums">
+
+                <div className="font-mono text-3xl sm:text-4xl font-bold tracking-tight text-heading tabular-nums">
                   {m.value}
                 </div>
-                <div className="text-xs font-sans font-semibold text-heading mt-1">
+
+                <div className="font-mono text-xs font-semibold text-primary mt-2">
                   {m.label}
                 </div>
-                <div className="text-[11px] font-sans text-muted mt-0.5">
+
+                <div className="font-sans text-xs text-text-muted mt-1 leading-snug">
                   {m.sub}
                 </div>
               </div>
@@ -120,4 +130,3 @@ export default function AnimatedImpactCounters() {
     </section>
   );
 }
-

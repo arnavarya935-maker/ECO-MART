@@ -50,30 +50,57 @@ export default function ToolsPage() {
         </p>
       </div>
 
-      {/* Featured AI Tool: Eco Check Any Product */}
-      <div className="p-5 rounded-3xl bg-surface-raised border border-primary/30 shadow-card flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="flex items-center gap-3.5">
-          <div className="w-12 h-12 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary shrink-0">
-            <Sparkles className="w-6 h-6" />
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <h2 className="font-serif text-lg font-bold text-heading">Eco Check Any Product</h2>
-              <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-primary-subtle text-primary border border-primary/20">
-                AI Innovation
-              </span>
+      {/* Featured Flagship AI Tools: Cart Transformer & Eco Check */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="p-5 rounded-3xl bg-primary/5 border border-primary/30 shadow-card flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-3.5">
+            <div className="w-12 h-12 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary shrink-0">
+              <Sparkles className="w-6 h-6" />
             </div>
-            <p className="text-xs text-secondary mt-0.5 max-w-xl">
-              Paste external products or green claims to detect greenwashing, estimate scores, and find catalogue alternatives.
-            </p>
+            <div>
+              <div className="flex items-center gap-2">
+                <h2 className="font-serif text-lg font-bold text-heading">Cart Transformer</h2>
+                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-primary/20 text-primary border border-primary/30">
+                  Competition Star
+                </span>
+              </div>
+              <p className="text-xs text-secondary mt-0.5">
+                Type, speak or paste ordinary shopping lists to get a sustainable, budget-respecting cart.
+              </p>
+            </div>
           </div>
+          <Link
+            to="/transform"
+            className="px-5 py-2.5 rounded-xl bg-primary hover:bg-primary-hover text-primary-contrast text-xs font-semibold transition shrink-0 shadow-soft-sm cursor-pointer whitespace-nowrap"
+          >
+            Launch Transformer →
+          </Link>
         </div>
-        <Link
-          to="/eco-check"
-          className="px-5 py-2.5 rounded-xl bg-heading hover:bg-heading-hover text-surface-raised text-xs font-semibold transition shrink-0 shadow-soft-sm cursor-pointer"
-        >
-          Open Eco Check →
-        </Link>
+
+        <div className="p-5 rounded-3xl bg-surface-raised border border-line shadow-card flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-3.5">
+            <div className="w-12 h-12 rounded-2xl bg-surface-sunken border border-line flex items-center justify-center text-primary shrink-0">
+              <Sparkles className="w-6 h-6" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h2 className="font-serif text-lg font-bold text-heading">Eco Check Any Product</h2>
+                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-primary-subtle text-primary border border-primary/20">
+                  AI Heuristic
+                </span>
+              </div>
+              <p className="text-xs text-secondary mt-0.5">
+                Paste external product text to detect greenwashing red flags and estimate lifecycle grade.
+              </p>
+            </div>
+          </div>
+          <Link
+            to="/eco-check"
+            className="px-5 py-2.5 rounded-xl bg-primary hover:bg-primary-hover text-primary-contrast text-xs font-semibold transition shrink-0 shadow-soft-sm cursor-pointer whitespace-nowrap active:scale-98"
+          >
+            Open Eco Check →
+          </Link>
+        </div>
       </div>
 
       {/* Tool Selector Tabs Strip */}

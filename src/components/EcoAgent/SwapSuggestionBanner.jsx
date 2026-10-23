@@ -31,7 +31,7 @@ export default function SwapSuggestionBanner() {
     actionType: 'swap'
   } : null);
 
-  if (!activeNudge) return null;
+  if (!activeNudge || isCartOpen) return null;
 
   const handleDismiss = () => {
     if (dismissCopilotNudge) dismissCopilotNudge();

@@ -1,6 +1,7 @@
 # EcoMart Asset Credits & Attribution
 
 All assets used in EcoMart are strictly local (zero runtime external CDN dependencies), licensed for open use or custom created.
+Visual direction inspired by a dark editorial engineering-studio website; all code and assets are original.
 
 ## 1. Product Photography
 High-resolution photography bundled offline in `/public/images/products/` sourced under the Unsplash Open License:

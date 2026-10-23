@@ -189,9 +189,9 @@ export default function YearAheadProjection({ onOpenPurposeReport }) {
           <button
             type="button"
             onClick={onOpenPurposeReport}
-            className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-heading hover:bg-heading-hover text-surface-raised font-sans font-bold text-xs shadow-soft-sm transition active:scale-95 shrink-0 cursor-pointer min-h-[44px]"
+            className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-primary hover:bg-primary-hover text-primary-contrast font-sans font-bold text-xs shadow-soft-sm transition active:scale-95 shrink-0 cursor-pointer min-h-[44px]"
           >
-            <FileText className="w-4 h-4 text-primary" />
+            <FileText className="w-4 h-4 text-primary-contrast" />
             <span>Generate Purpose Report</span>
           </button>
         )}
@@ -341,23 +341,23 @@ export default function YearAheadProjection({ onOpenPurposeReport }) {
               <AreaChart data={projectionSeries} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
                 <defs>
                   <linearGradient id="ecoGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#059669" stopOpacity={0.4} />
-                    <stop offset="95%" stopColor="#059669" stopOpacity={0.0} />
+                    <stop offset="5%" stopColor="var(--color-primary)" stopOpacity={0.4} />
+                    <stop offset="95%" stopColor="var(--color-primary)" stopOpacity={0.0} />
                   </linearGradient>
                   <linearGradient id="convGrad" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor="#D97706" stopOpacity={0.25} />
                     <stop offset="95%" stopColor="#D97706" stopOpacity={0.0} />
                   </linearGradient>
                 </defs>
-                <XAxis dataKey="month" stroke="#7E7462" fontSize={11} tickLine={false} />
-                <YAxis stroke="#7E7462" fontSize={11} tickLine={false} />
+                <XAxis dataKey="month" stroke="var(--color-muted)" fontSize={11} tickLine={false} />
+                <YAxis stroke="var(--color-muted)" fontSize={11} tickLine={false} />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: '#FFFFFF',
-                    border: '1px solid #E6E2DA',
+                    backgroundColor: 'var(--color-surface)',
+                    border: '1px solid var(--color-line)',
                     borderRadius: '12px',
                     fontSize: '12px',
-                    color: '#0B3B2C'
+                    color: 'var(--color-text)'
                   }}
                 />
                 <Area
@@ -379,7 +379,7 @@ export default function YearAheadProjection({ onOpenPurposeReport }) {
                     metricView === 'plastic' ? 'ecoMartPlastic' : 'ecoMartCost'
                   }
                   name="EcoMart Path"
-                  stroke="#059669"
+                  stroke="var(--color-primary)"
                   strokeWidth={2}
                   fillOpacity={1}
                   fill="url(#ecoGrad)"

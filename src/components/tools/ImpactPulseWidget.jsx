@@ -7,6 +7,12 @@ export default function ImpactPulseWidget() {
   const [isDismissed, setIsDismissed] = useState(false);
   const { impact, isAgentOpen, setIsAgentOpen } = useCart();
 
+  const plasticGrams = impact?.plasticAvoided ?? impact?.totalPlasticSavedGrams ?? 0;
+  const co2Kg = Number(impact?.co2Saved ?? impact?.totalCo2SavedKg ?? impact?.savedCo2 ?? 0);
+  const waterLitres = impact?.waterSaved ?? impact?.totalWaterSavedLitres ?? 0;
+  const averageGrade = impact?.averageGrade ?? impact?.grade ?? 'N/A';
+  const totalItems = impact?.totalItems ?? 0;
+
   if (isDismissed) return null;
 
   return (
@@ -32,7 +38,7 @@ export default function ImpactPulseWidget() {
             <div className="text-xs font-medium text-heading flex items-center gap-1.5">
               <span>Impact Pulse:</span>
               <span className="text-primary font-bold">
-                {impact.totalPlasticSavedGrams}g Plastic Diverted
+                {plasticGrams}g Plastic Diverted
               </span>
             </div>
 
@@ -63,20 +69,20 @@ export default function ImpactPulseWidget() {
               <div className="grid grid-cols-2 gap-2 text-center">
                 <div className="p-2 rounded-xl bg-surface-sunken border border-line">
                   <div className="font-bold text-primary">
-                    {impact.totalCo2SavedKg.toFixed(2)} kg
+                    {co2Kg.toFixed(2)} kg
                   </div>
                   <div className="text-[10px] text-muted font-medium">CO₂ Prevented</div>
                 </div>
                 <div className="p-2 rounded-xl bg-surface-sunken border border-line">
                   <div className="font-bold text-accent">
-                    {impact.totalWaterSavedLitres} L
+                    {waterLitres} L
                   </div>
                   <div className="text-[10px] text-muted font-medium">Water Saved</div>
                 </div>
               </div>
 
               <div className="text-[11px] text-secondary leading-snug">
-                🌱 Your cart averages <strong className="text-heading">Grade {impact.averageGrade}</strong> across {impact.totalItems} audited items.
+                🌱 Your cart averages <strong className="text-heading">Grade {averageGrade}</strong> across {totalItems} audited items.
               </div>
             </div>
           )}
@@ -114,7 +120,7 @@ export default function ImpactPulseWidget() {
           >
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
             <span className="text-[11px] text-primary font-bold">
-              {impact.totalPlasticSavedGrams}g Diverted
+              {plasticGrams}g Diverted
             </span>
             {isExpanded ? <ChevronDown className="w-3 h-3 text-muted" /> : <ChevronUp className="w-3 h-3 text-muted" />}
           </button>
@@ -136,13 +142,13 @@ export default function ImpactPulseWidget() {
               <div className="grid grid-cols-2 gap-1.5 text-center">
                 <div className="p-1.5 rounded-xl bg-surface-sunken border border-line">
                   <div className="font-bold text-primary text-[11px]">
-                    {impact.totalCo2SavedKg.toFixed(2)} kg
+                    {co2Kg.toFixed(2)} kg
                   </div>
                   <div className="text-[9px] text-muted">CO₂ Prevented</div>
                 </div>
                 <div className="p-1.5 rounded-xl bg-surface-sunken border border-line">
                   <div className="font-bold text-accent text-[11px]">
-                    {impact.totalWaterSavedLitres} L
+                    {waterLitres} L
                   </div>
                   <div className="text-[9px] text-muted">Water Saved</div>
                 </div>

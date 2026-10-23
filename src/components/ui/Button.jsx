@@ -16,12 +16,12 @@ export default function Button({
   const baseStyles = 'inline-flex items-center justify-center font-bold tracking-tight rounded-xl transition-all duration-200 active:scale-[0.98] focus:outline-none focus-visible:ring-2 focus-visible:ring-focus focus-visible:ring-offset-2 cursor-pointer disabled:opacity-50 disabled:pointer-events-none disabled:active:scale-100 select-none min-h-[44px]';
 
   const variants = {
-    primary: 'btn-gradient-heading text-surface-raised shadow-soft-sm hover:shadow-lift transition-all',
+    primary: 'bg-primary hover:bg-primary-hover text-primary-contrast shadow-soft-sm hover:shadow-lift transition-all',
     secondary: 'bg-surface-raised hover:bg-surface text-heading border border-line shadow-soft-sm hover:shadow-card hover:-translate-y-px transition-all active:bg-surface-sunken',
-    emerald: 'btn-gradient-primary text-surface-raised shadow-soft-sm hover:shadow-lift transition-all',
+    emerald: 'bg-emerald-500 hover:bg-emerald-600 text-primary-contrast shadow-soft-sm hover:shadow-lift transition-all',
     outline: 'bg-transparent hover:bg-surface-accent text-primary border border-line hover:border-primary active:bg-surface-sunken hover:-translate-y-px transition-all',
     ghost: 'bg-transparent hover:bg-surface-accent text-heading active:bg-surface-sunken',
-    danger: 'bg-danger hover:bg-danger/90 text-surface-raised shadow-soft-sm active:bg-danger/80'
+    danger: 'bg-danger hover:bg-danger/90 text-white shadow-soft-sm active:bg-danger/80'
   };
 
   const sizes = {

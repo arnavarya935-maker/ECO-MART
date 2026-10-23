@@ -104,6 +104,17 @@ export default function CommandPalette({ isOpen: controlledOpen, onClose: contro
       }
     },
     {
+      id: 'action-cart-transformer',
+      type: 'action',
+      title: 'Cart Transformer: Paste Shopping List',
+      subtitle: 'Transform handwritten/typed lists into a budget-respecting sustainable cart',
+      icon: Sparkles,
+      perform: () => {
+        navigate('/transform');
+        handleClose();
+      }
+    },
+    {
       id: 'action-eco-check',
       type: 'action',
       title: 'Eco Check Any Product',

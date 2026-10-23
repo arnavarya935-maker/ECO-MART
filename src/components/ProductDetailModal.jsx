@@ -447,9 +447,9 @@ export default function ProductDetailModal({ product, onClose }) {
             <button
               type="button"
               onClick={handleAddToCart}
-              className="min-h-[44px] flex items-center gap-2 px-6 py-2.5 rounded-xl btn-gradient-heading text-surface-raised font-bold text-sm shadow-soft-sm transition-all focus-visible:outline-2 focus-visible:outline-focus cursor-pointer"
+              className="min-h-[44px] flex items-center gap-2 px-6 py-2.5 rounded-xl bg-primary hover:bg-primary-hover text-primary-contrast font-bold text-sm shadow-soft-sm transition-all focus-visible:outline-2 focus-visible:outline-focus cursor-pointer active:scale-98"
             >
-              <ShoppingBag className="w-4 h-4 text-emerald-300" />
+              <ShoppingBag className="w-4 h-4 text-primary-contrast" />
               <span>Add to Cart (₹{(product.price * quantity).toLocaleString('en-IN')})</span>
             </button>
           </div>

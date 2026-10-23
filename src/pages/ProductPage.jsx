@@ -421,16 +421,16 @@ export default function ProductPage() {
                   <button
                     type="button"
                     onClick={handleAddToCart}
-                    className="flex-1 py-3.5 px-6 min-h-[44px] rounded-xl btn-gradient-heading text-surface-raised font-sans font-medium text-sm flex items-center justify-center gap-2 shadow-soft-sm transition-all cursor-pointer"
+                    className="flex-1 py-3.5 px-6 min-h-[44px] rounded-xl bg-primary hover:bg-primary-hover text-primary-contrast font-sans font-semibold text-sm flex items-center justify-center gap-2 shadow-soft-sm transition-all cursor-pointer active:scale-98"
                   >
                     {addedAnimation ? (
                       <>
-                        <Check className="w-4 h-4 text-text-inverted animate-bounce" />
+                        <Check className="w-4 h-4 text-primary-contrast animate-bounce" />
                         <span>Added to Cart!</span>
                       </>
                     ) : (
                       <>
-                        <ShoppingCart className="w-4 h-4 text-text-inverted" />
+                        <ShoppingCart className="w-4 h-4 text-primary-contrast" />
                         <span>Add to Cart • ₹{product.price * quantity}</span>
                       </>
                     )}
@@ -476,9 +476,9 @@ export default function ProductPage() {
         <button
           type="button"
           onClick={handleAddToCart}
-          className="flex-1 py-3 px-5 rounded-xl btn-gradient-heading text-surface-raised font-sans font-medium text-xs flex items-center justify-center gap-2 transition-all min-h-[44px] cursor-pointer shadow-soft-sm"
+          className="flex-1 py-3 px-5 rounded-xl bg-primary hover:bg-primary-hover text-primary-contrast font-sans font-semibold text-xs flex items-center justify-center gap-2 transition-all min-h-[44px] cursor-pointer shadow-soft-sm active:scale-98"
         >
-          {addedAnimation ? <Check className="w-4 h-4 text-text-inverted" /> : <ShoppingCart className="w-4 h-4 text-text-inverted" />}
+          {addedAnimation ? <Check className="w-4 h-4 text-primary-contrast" /> : <ShoppingCart className="w-4 h-4 text-primary-contrast" />}
           <span>{addedAnimation ? 'Added!' : 'Add to Cart'}</span>
         </button>
       </div>

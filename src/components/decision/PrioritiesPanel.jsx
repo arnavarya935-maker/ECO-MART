@@ -93,12 +93,12 @@ export default function PrioritiesPanel({ compact = false, className = '' }) {
                     onClick={() => applyPriorityPreset(preset.id)}
                     className={`px-2.5 py-1 rounded-xl text-xs font-sans font-medium transition-all flex items-center gap-1.5 cursor-pointer border ${
                       isSelected
-                        ? 'bg-heading text-surface-raised border-heading shadow-soft-xs'
+                        ? 'bg-primary text-primary-contrast border-primary shadow-soft-xs'
                         : 'bg-surface text-secondary hover:text-heading hover:bg-surface-sunken border-line'
                     }`}
                     title={preset.description}
                   >
-                    {isSelected && <Check className="w-3 h-3 text-primary" />}
+                    {isSelected && <Check className="w-3 h-3 text-primary-contrast" />}
                     <span>{preset.label}</span>
                   </button>
                 );

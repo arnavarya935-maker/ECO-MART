@@ -99,7 +99,7 @@ export default function LoginPage() {
             className="w-full py-3.5 rounded-full bg-primary hover:bg-primary-hover disabled:opacity-50 text-primary-contrast font-medium text-xs shadow-soft-xs transition flex items-center justify-center gap-2 min-h-[44px] cursor-pointer"
           >
             <span>{loading ? 'Signing in...' : 'Sign In'}</span>
-            <ArrowRight className="w-4 h-4 text-accent" />
+            <ArrowRight className="w-4 h-4 text-primary-contrast" />
           </button>
         </form>
 

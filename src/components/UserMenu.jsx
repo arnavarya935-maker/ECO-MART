@@ -71,7 +71,7 @@ export default function UserMenu() {
             className="w-7 h-7 rounded-xl object-cover"
           />
         ) : (
-          <div className="w-7 h-7 rounded-xl bg-heading text-surface-raised font-sans font-bold text-xs flex items-center justify-center">
+          <div className="w-7 h-7 rounded-xl bg-primary text-primary-contrast font-sans font-bold text-xs flex items-center justify-center">
             {initials}
           </div>
         )}

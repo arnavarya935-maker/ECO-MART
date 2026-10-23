@@ -28,14 +28,22 @@ export const FEATURES = {
   SPEECH_SYNTHESIS: true,
 
   // Phase 8: Pitch Mode presenter tour (shortcut 'P')
-  PITCH_MODE: true
+  PITCH_MODE: true,
+
+  // Flagship Feature: Cart Transformer (Offline Shopping List to Sustainable Basket)
+  CART_TRANSFORMER: true,
+  cartTransformer: true
 };
 
 /**
  * Helper to check if a feature is enabled
- * @param {keyof typeof FEATURES} featureKey
+ * @param {keyof typeof FEATURES | string} featureKey
  * @returns {boolean}
  */
 export function isFeatureEnabled(featureKey) {
-  return Boolean(FEATURES[featureKey]);
+  if (!featureKey) return false;
+  if (FEATURES[featureKey] !== undefined) return Boolean(FEATURES[featureKey]);
+  const upper = String(featureKey).toUpperCase();
+  if (FEATURES[upper] !== undefined) return Boolean(FEATURES[upper]);
+  return false;
 }

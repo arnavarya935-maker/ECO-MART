@@ -48,7 +48,7 @@ export default function ProductCard({ product, rankingDetails }) {
   return (
     <div
       onClick={handleCardClick}
-      className="group relative flex flex-col justify-between bg-surface-raised rounded-3xl border border-line shadow-card product-card-lift cursor-pointer overflow-hidden select-none"
+      className="group relative flex flex-col justify-between bg-surface-raised rounded-3xl border border-line shadow-card product-card-lift cursor-pointer overflow-hidden select-none isolate"
     >
       {/* Top Graphic Showcase - Image First */}
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-surface border-b border-line">
@@ -61,7 +61,7 @@ export default function ProductCard({ product, rankingDetails }) {
         />
 
         {/* Top Left Badges */}
-        <div className="absolute top-3 left-3 flex flex-col gap-1 items-start z-10 pointer-events-none">
+        <div className="absolute top-3 left-3 flex flex-col gap-1 items-start z-2 pointer-events-none">
           <span className="text-[10px] font-sans font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full bg-surface-raised/95 text-heading border border-line backdrop-blur-xs shadow-2xs">
             {product.category}
           </span>
@@ -73,7 +73,7 @@ export default function ProductCard({ product, rankingDetails }) {
         </div>
 
         {/* Top Right Eco-Score Ring & Wishlist Heart */}
-        <div className="absolute top-3 right-3 flex items-center gap-1.5 z-10">
+        <div className="absolute top-3 right-3 flex items-center gap-1.5 z-2">
           <button
             type="button"
             onClick={(e) => {
@@ -98,7 +98,7 @@ export default function ProductCard({ product, rankingDetails }) {
         </div>
 
         {/* Quick View Button on Hover */}
-        <div className="absolute bottom-3 inset-x-3 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-10">
+        <div className="absolute bottom-3 inset-x-3 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-2">
           <button
             type="button"
             onClick={handleQuickView}
@@ -149,17 +149,17 @@ export default function ProductCard({ product, rankingDetails }) {
           <button
             type="button"
             onClick={handleAddToCart}
-            className="flex items-center gap-1.5 px-4 py-2 min-h-[44px] rounded-xl btn-gradient-heading text-surface-raised font-sans font-medium text-xs shadow-soft-sm transition-all cursor-pointer"
+            className="flex items-center gap-1.5 px-4 py-2 min-h-[44px] rounded-xl bg-primary hover:bg-primary-hover text-primary-contrast font-sans font-semibold text-xs shadow-soft-sm transition-all cursor-pointer active:scale-95"
             aria-label="Add to cart"
           >
             {added ? (
               <>
-                <Check className="w-3.5 h-3.5 stroke-[3] text-primary" />
+                <Check className="w-3.5 h-3.5 stroke-[3] text-primary-contrast" />
                 <span>Added</span>
               </>
             ) : (
               <>
-                <ShoppingBag className="w-3.5 h-3.5 text-primary" />
+                <ShoppingBag className="w-3.5 h-3.5 text-primary-contrast" />
                 <span>Add</span>
               </>
             )}

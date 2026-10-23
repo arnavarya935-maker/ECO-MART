@@ -12,8 +12,14 @@ export function calculateCartImpact(cartItems, allProducts) {
       co2Saved: 0,
       plasticAvoided: 0,
       waterSaved: 0,
+      savedCo2: 0,
+      totalCo2SavedKg: 0,
+      totalPlasticSavedGrams: 0,
+      totalWaterSavedLitres: 0,
       averageEcoScore: 0,
+      averageScore: 0,
       averageGrade: 'N/A',
+      grade: 'N/A',
       ecoPoints: 0,
       equivalents: {
         plasticBottles: 0,
@@ -142,14 +148,24 @@ export function calculateCartImpact(cartItems, allProducts) {
 
   const ecoPoints = Math.round(avgScore * totalCount * 12);
 
+  const co2SavedNum = Number(co2SavedSum.toFixed(2));
+  const plasticAvoidedNum = Math.round(plasticAvoidedSum);
+  const waterSavedNum = Math.round(waterSavedSum);
+
   return {
     totalItems: totalCount,
     totalPrice,
-    co2Saved: Number(co2SavedSum.toFixed(2)),
-    plasticAvoided: Math.round(plasticAvoidedSum),
-    waterSaved: Math.round(waterSavedSum),
+    co2Saved: co2SavedNum,
+    plasticAvoided: plasticAvoidedNum,
+    waterSaved: waterSavedNum,
+    savedCo2: co2SavedNum,
+    totalCo2SavedKg: co2SavedNum,
+    totalPlasticSavedGrams: plasticAvoidedNum,
+    totalWaterSavedLitres: waterSavedNum,
     averageEcoScore: avgScore,
+    averageScore: avgScore,
     averageGrade,
+    grade: averageGrade,
     ecoPoints,
     equivalents: {
       plasticBottles,

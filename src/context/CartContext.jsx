@@ -287,14 +287,20 @@ export function CartProvider({ children }) {
   // Exit intent detection (mouse leaving window top)
   useEffect(() => {
     const handleMouseLeave = (e) => {
-      if (e.clientY <= 10 && !hasTriggeredExitIntent && cartItems.length > 0) {
+      if (
+        e.clientY <= 0 &&
+        !hasTriggeredExitIntent &&
+        cartItems.length > 0 &&
+        !isCartOpen &&
+        !checkoutModalOpen
+      ) {
         setExitIntentOpen(true);
         setHasTriggeredExitIntent(true);
       }
     };
     document.addEventListener('mouseleave', handleMouseLeave);
     return () => document.removeEventListener('mouseleave', handleMouseLeave);
-  }, [hasTriggeredExitIntent, cartItems.length]);
+  }, [hasTriggeredExitIntent, cartItems.length, isCartOpen, checkoutModalOpen]);
 
   const dismissWelcomeModal = () => {
     setWelcomeModalOpen(false);
@@ -550,7 +556,7 @@ export function CartProvider({ children }) {
     // Trigger celebration badge
     setUnlockedBadge({
       title: 'Planetary Steward',
-      desc: `Order placed with ${impact.savedCo2.toFixed(1)}kg CO₂ avoided!`,
+      desc: `Order placed with ${Number(impact?.savedCo2 ?? impact?.co2Saved ?? 0).toFixed(1)}kg CO₂ avoided!`,
       icon: '🌍',
       points: Math.round(orderData.total / 10)
     });
