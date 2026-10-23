@@ -168,14 +168,15 @@ export async function askEcoAgent({ query, language = 'en', context = {} }) {
 
     if (res.ok) {
       const data = await res.json();
-      if (data && data.source === 'gemini' && data.answer) {
+      if (data && (data.source === 'gemini' || data.source === 'cloud-llm') && (data.answer || data.reply)) {
+        const text = data.answer || data.reply;
         // Enriched with catalog items if relevant
         const catRes = queryEcoCatalog(productsData, query);
         const matched = (Array.isArray(catRes) ? catRes : (catRes?.results || [])).slice(0, 3);
 
         return {
-          answer: data.answer,
-          reasoning_summary: data.reasoning_summary || 'Evaluated via Gemini 1.5 Flash against environmental impact factors.',
+          answer: text,
+          reasoning_summary: data.reasoning_summary || 'Evaluated via Gemini against environmental impact factors.',
           sources_or_assumptions: Array.isArray(data.sources_or_assumptions)
             ? data.sources_or_assumptions
             : ['Independent lifecycle analysis', 'Verifiable packaging benchmarks'],
@@ -184,7 +185,7 @@ export async function askEcoAgent({ query, language = 'en', context = {} }) {
           recommended_products: matched,
           isFallback: false,
           source: 'gemini',
-          model: 'Gemini 1.5 Flash'
+          model: data.model || 'Gemini 3 Flash'
         };
       }
     }
