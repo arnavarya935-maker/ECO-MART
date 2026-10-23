@@ -191,7 +191,7 @@ User preferred language: ${language}`;
     res.end(
       JSON.stringify({
         source: 'gemini',
-        model: 'gemini-1.5-flash',
+        model: model,
         ...parsed
       })
     );
@@ -319,7 +319,7 @@ Respond with valid JSON:
     res.end(
       JSON.stringify({
         source: 'gemini',
-        model: 'gemini-1.5-flash',
+        model: model,
         ...parsed
       })
     );
