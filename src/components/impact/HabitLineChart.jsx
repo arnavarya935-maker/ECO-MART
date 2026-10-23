@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from 'react';
-import { Table, LineChart as ChartIcon, Info, Sparkles, TrendingDown } from 'lucide-react';
+import React, { useState, useMemo, useCallback } from 'react';
+import { Table, TrendingDown } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 
 export default function HabitLineChart() {
@@ -52,7 +52,10 @@ export default function HabitLineChart() {
     return points;
   }, [weeks, baseWeeklySavings]);
 
-  const getMetricVal = (pt) => (metric === 'co2' ? pt.co2 : metric === 'plastic' ? pt.plastic : pt.water);
+  const getMetricVal = useCallback(
+    (pt) => (metric === 'co2' ? pt.co2 : metric === 'plastic' ? pt.plastic : pt.water),
+    [metric]
+  );
   const metricUnit = metric === 'co2' ? 'kg' : metric === 'plastic' ? 'g' : 'L';
   const metricTitle = metric === 'co2' ? 'Cumulative CO₂ Avoided' : metric === 'plastic' ? 'Cumulative Plastic Diverted' : 'Freshwater Conserved';
 
@@ -72,7 +75,7 @@ export default function HabitLineChart() {
       const y = height - paddingY - (val / maxVal) * (height - 2 * paddingY);
       return { x, y, pt, val };
     });
-  }, [timelineData, metric, maxVal]);
+  }, [timelineData, getMetricVal, maxVal]);
 
   const pathD = useMemo(() => {
     if (svgPoints.length === 0) return '';

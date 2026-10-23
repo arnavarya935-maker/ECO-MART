@@ -1,19 +1,12 @@
 import React, { useState, useMemo } from 'react';
 import {
   Sliders,
-  RotateCcw,
-  Sparkles,
-  ArrowRight,
-  TrendingDown,
   Info,
   Droplets,
   Wind,
   Ban,
-  CheckCircle2,
   RefreshCw
 } from 'lucide-react';
-import productsData from '../../data/products.json';
-import { useCart } from '../../context/CartContext';
 
 const SIMULATION_ITEMS = [
   {
@@ -103,7 +96,6 @@ const SIMULATION_ITEMS = [
 ];
 
 export default function WhatIfCartSimulator() {
-  const { addToCart } = useCart();
   const [quantities, setQuantities] = useState(() => {
     const init = {};
     SIMULATION_ITEMS.forEach((item) => {

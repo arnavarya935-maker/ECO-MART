@@ -5,14 +5,10 @@ import {
   Languages,
   ShieldCheck,
   AlertCircle,
-  HelpCircle,
   ArrowRight,
   RefreshCw,
-  Sliders,
   DollarSign,
-  UserCheck,
   Table,
-  CheckCircle2,
   Info
 } from 'lucide-react';
 import {
@@ -20,21 +16,13 @@ import {
   runFairnessAudit
 } from '../lib/ai/fairnessEngine.js';
 import { askEcoAgent } from '../lib/ai/geminiAdapter.js';
-import { useT } from '../context/I18nContext';
 
 export default function FairnessPage() {
-  const { lang } = useT();
   const [selectedPreset, setSelectedPreset] = useState(FAIRNESS_PRESETS[0]);
   const [customQuery, setCustomQuery] = useState('');
   const [isAuditing, setIsAuditing] = useState(false);
   const [auditData, setAuditData] = useState(null);
   const [viewMode, setViewMode] = useState('cards'); // 'cards' | 'table'
-  const [activeVariantTab, setActiveVariantTab] = useState(0);
-
-  // Run initial audit on mount
-  useEffect(() => {
-    executeAudit(selectedPreset);
-  }, [selectedPreset]);
 
   const executeAudit = async (presetOrText) => {
     setIsAuditing(true);
@@ -52,6 +40,11 @@ export default function FairnessPage() {
       setIsAuditing(false);
     }
   };
+
+  // Run initial audit on mount
+  useEffect(() => {
+    executeAudit(selectedPreset);
+  }, [selectedPreset]);
 
   const handleCustomSubmit = (e) => {
     e.preventDefault();

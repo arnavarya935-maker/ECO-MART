@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import productsData from '../../data/products.json';
-import { Table, BarChart3, ArrowLeft, Info, CheckCircle2 } from 'lucide-react';
+import { Table, ArrowLeft, Info } from 'lucide-react';
 
 export default function CategoryCarbonBarChart() {
   const [selectedCategory, setSelectedCategory] = useState(null);

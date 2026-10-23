@@ -16,10 +16,12 @@ import SeasonalGuide from '../components/tools/SeasonalGuide';
 import EcoGlossary from '../components/tools/EcoGlossary';
 import WaterEnergyEstimator from '../components/tools/WaterEnergyEstimator';
 import PlantATreeGarden from '../components/tools/PlantATreeGarden';
+import ClassImpactGarden from '../components/tools/ClassImpactGarden';
 import BudgetBasketBuilder from '../components/tools/BudgetBasketBuilder';
 
 const TOOL_TABS = [
   { id: 'basket', label: 'Budget Basket Builder', icon: ShoppingBag, feature: 'Feature 22' },
+  { id: 'class-garden', label: 'Class Impact Garden', icon: TreePine, feature: 'Feature 9' },
   { id: 'quiz', label: 'Eco Quiz', icon: Sparkles, feature: 'Feature 43' },
   { id: 'carbon', label: 'Carbon Calculator', icon: Calculator, feature: 'Feature 44' },
   { id: 'map', label: 'Artisan Eco Map', icon: MapPin, feature: 'Feature 45' },
@@ -206,6 +208,7 @@ export default function ToolsPage() {
       {/* Render Active Tool */}
       <div className="pt-2">
         {activeTab === 'basket' && <BudgetBasketBuilder />}
+        {activeTab === 'class-garden' && <ClassImpactGarden />}
         {activeTab === 'quiz' && <EcoQuiz />}
         {activeTab === 'carbon' && <CarbonFootprintCalculator />}
         {activeTab === 'map' && <EcoMap />}

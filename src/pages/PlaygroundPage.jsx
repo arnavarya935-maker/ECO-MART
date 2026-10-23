@@ -1,20 +1,14 @@
 import React, { useState } from 'react';
 import {
-  ShieldAlert,
   Flame,
   ShieldCheck,
+  CheckCircle2,
   Lock,
   Terminal,
-  AlertTriangle,
-  CheckCircle2,
-  Sparkles,
   ArrowRight,
   RefreshCw,
   Bug,
-  HelpCircle,
-  FileCode,
-  Zap,
-  Info
+  FileCode
 } from 'lucide-react';
 import {
   PRESET_ATTACKS,

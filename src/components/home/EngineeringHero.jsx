@@ -4,6 +4,7 @@ import { ArrowUpRight, Sparkles, ShieldCheck } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { useT } from '../../context/I18nContext';
 import Safe3D from '../3D/Safe3D';
+import ContourCanvas from './ContourCanvas';
 
 const LeafyGlobe3D = React.lazy(() => import('../3D/LeafyGlobe3D'));
 
@@ -13,6 +14,9 @@ export default function EngineeringHero() {
 
   return (
     <header id="hero" className="relative w-full overflow-hidden bg-surface antialiased pt-8 pb-16 md:pt-12 md:pb-24 border-b border-line">
+      {/* Contour Canvas Animation (Emerald/Teal Contour Lines & Particles) */}
+      <ContourCanvas />
+
       {/* Ambient Radial Glow behind Hero */}
       <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
         <div className="absolute -top-[20%] left-1/2 -translate-x-1/2 w-[120vw] max-w-[1300px] h-[550px] bg-gradient-to-b from-primary/15 via-secondary/8 to-transparent rounded-full blur-3xl opacity-80" />

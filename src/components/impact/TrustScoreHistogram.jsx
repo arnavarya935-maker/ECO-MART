@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Table, ShieldAlert, CheckCircle2, AlertTriangle, FileSearch, Info } from 'lucide-react';
+import { Table, Info } from 'lucide-react';
 
 const CALIBRATED_AUDIT_BASELINE = [
   { claim: '100% natural pure ocean bottle', score: 18, bucket: '0-20' },

@@ -89,17 +89,39 @@ export default function CommandPalette({ isOpen: controlledOpen, onClose: contro
       icon: ShoppingBag,
       perform: () => {
         setIsCartOpen(true);
-        setIsOpen(false);
+        handleClose();
       }
     },
     {
       id: 'action-agent',
       type: 'action',
       title: 'Launch Eco Agent AI Co-Pilot',
-      subtitle: 'Ask about conscious swaps or eco score breakdowns',
+      subtitle: 'Ask about conscious swaps, honesty logs, or eco scores',
       icon: Sparkles,
       perform: () => {
         setIsAgentOpen(true);
+        handleClose();
+      }
+    },
+    {
+      id: 'action-what-if',
+      type: 'action',
+      title: 'What-If Cart Simulator',
+      subtitle: 'Simulate live CO2, water, and plastic deltas with quantity & swap controls',
+      icon: Sparkles,
+      perform: () => {
+        navigate('/impact?tab=what_if');
+        handleClose();
+      }
+    },
+    {
+      id: 'action-claim-radar',
+      type: 'action',
+      title: 'Greenwashing Claim Radar (5-Axis Audit)',
+      subtitle: 'Inspect vague wording, proof, certifications, specificity, and comparison baseline',
+      icon: Sparkles,
+      perform: () => {
+        window.dispatchEvent(new CustomEvent('open-greenwashing-detective'));
         handleClose();
       }
     },
@@ -115,20 +137,9 @@ export default function CommandPalette({ isOpen: controlledOpen, onClose: contro
       }
     },
     {
-      id: 'action-eco-check',
-      type: 'action',
-      title: 'Eco Check Any Product',
-      subtitle: 'Paste external product claims or materials to analyze greenwashing',
-      icon: Sparkles,
-      perform: () => {
-        navigate('/eco-check');
-        handleClose();
-      }
-    },
-    {
       id: 'action-fairness-lab',
       type: 'action',
-      title: 'Fairness Lab: Evaluate Parity & Bias',
+      title: 'Fairness Lab: Linguistic & Socioeconomic Parity',
       subtitle: 'Audit consistency across English, Hindi, Hinglish and budget personas',
       icon: Sparkles,
       perform: () => {
@@ -177,7 +188,7 @@ export default function CommandPalette({ isOpen: controlledOpen, onClose: contro
       icon: Store,
       perform: () => {
         navigate('/shop');
-        setIsOpen(false);
+        handleClose();
       }
     },
     {
@@ -188,18 +199,18 @@ export default function CommandPalette({ isOpen: controlledOpen, onClose: contro
       icon: Wrench,
       perform: () => {
         navigate('/tools');
-        setIsOpen(false);
+        handleClose();
       }
     },
     {
       id: 'nav-impact',
       type: 'navigation',
-      title: 'Go to Impact Proof Dashboard',
-      subtitle: 'Cumulative community savings & transparent ledger',
+      title: 'Impact Command Center',
+      subtitle: 'Category carbon drilldown, habit line curve, trust score histogram',
       icon: LineChart,
       perform: () => {
         navigate('/impact');
-        setIsOpen(false);
+        handleClose();
       }
     },
     {
@@ -210,7 +221,7 @@ export default function CommandPalette({ isOpen: controlledOpen, onClose: contro
       icon: Users,
       perform: () => {
         navigate('/community');
-        setIsOpen(false);
+        handleClose();
       }
     },
     {
@@ -221,7 +232,7 @@ export default function CommandPalette({ isOpen: controlledOpen, onClose: contro
       icon: Heart,
       perform: () => {
         navigate('/wishlist');
-        setIsOpen(false);
+        handleClose();
       }
     },
     {
@@ -232,7 +243,7 @@ export default function CommandPalette({ isOpen: controlledOpen, onClose: contro
       icon: User,
       perform: () => {
         navigate('/profile');
-        setIsOpen(false);
+        handleClose();
       }
     },
     {
@@ -243,7 +254,7 @@ export default function CommandPalette({ isOpen: controlledOpen, onClose: contro
       icon: Settings,
       perform: () => {
         navigate('/settings');
-        setIsOpen(false);
+        handleClose();
       }
     },
     {
@@ -284,7 +295,7 @@ export default function CommandPalette({ isOpen: controlledOpen, onClose: contro
         icon: Store,
         perform: () => {
           navigate(`/product/${p.id}`);
-          setIsOpen(false);
+          handleClose();
         }
       }));
 
@@ -297,7 +308,7 @@ export default function CommandPalette({ isOpen: controlledOpen, onClose: contro
     });
 
     return [...matchingProducts, ...matchingActions];
-  }, [query, actions, navigate]);
+  }, [query, actions, navigate, handleClose]);
 
   // Keyboard navigation
   const handleKeyDown = (e) => {

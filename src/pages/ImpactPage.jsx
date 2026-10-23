@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import ImpactDashboard from '../components/ImpactDashboard';
 import YearAheadProjection from '../components/impact/YearAheadProjection';
 import PurposeReportModal from '../components/impact/PurposeReportModal';
@@ -8,7 +7,7 @@ import HabitLineChart from '../components/impact/HabitLineChart';
 import TrustScoreHistogram from '../components/impact/TrustScoreHistogram';
 import WhatIfCartSimulator from '../components/impact/WhatIfCartSimulator';
 import { useCart } from '../context/CartContext';
-import { Droplets, Ban, Wind, Activity, Sliders, LineChart, BarChart3, ShieldCheck } from 'lucide-react';
+import { Droplets, Ban, Wind, Activity, Sliders, BarChart3 } from 'lucide-react';
 
 export default function ImpactPage() {
   const { setIsAgentOpen } = useCart();
