@@ -126,6 +126,28 @@ export default function CommandPalette({ isOpen: controlledOpen, onClose: contro
       }
     },
     {
+      id: 'action-fairness-lab',
+      type: 'action',
+      title: 'Fairness Lab: Evaluate Parity & Bias',
+      subtitle: 'Audit consistency across English, Hindi, Hinglish and budget personas',
+      icon: Sparkles,
+      perform: () => {
+        navigate('/fairness');
+        handleClose();
+      }
+    },
+    {
+      id: 'action-playground',
+      type: 'action',
+      title: 'Break the AI Playground: Adversarial Testing',
+      subtitle: 'Test 5 ethical guardrails against jailbreaks and fake ISO inventions',
+      icon: Sparkles,
+      perform: () => {
+        navigate('/playground');
+        handleClose();
+      }
+    },
+    {
       id: 'action-pitch-mode',
       type: 'action',
       title: 'Launch Pitch Mode (Judge Demo Tour)',

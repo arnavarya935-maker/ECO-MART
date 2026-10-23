@@ -30,8 +30,9 @@ export default function Navbar() {
     ...(FEATURES.CART_TRANSFORMER ? [{ path: '/transform', label: t('nav.transform', 'Transformer') }] : []),
     { path: '/eco-check', label: t('nav.ecoCheck', 'Eco Check') },
     { path: '/tools', label: t('nav.tools', 'Eco Tools') },
-    { path: '/impact', label: t('nav.impact', 'Impact Proof') },
-    { path: '/community', label: t('nav.community', 'Collective') },
+    { path: '/impact', label: t('nav.impact', 'Impact') },
+    { path: '/fairness', label: 'Fairness' },
+    { path: '/playground', label: 'AI Sandbox' },
     { path: '/how-it-works', label: t('nav.howItWorks', 'Methodology') }
   ];
 

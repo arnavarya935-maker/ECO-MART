@@ -23,6 +23,8 @@ const TransformPage = lazy(() => import('./pages/TransformPage'));
 const EcoCheckPage = lazy(() => import('./pages/EcoCheckPage'));
 const CommunityPage = lazy(() => import('./pages/CommunityPage'));
 const ImpactPage = lazy(() => import('./pages/ImpactPage'));
+const FairnessPage = lazy(() => import('./pages/FairnessPage'));
+const PlaygroundPage = lazy(() => import('./pages/PlaygroundPage'));
 const HowItWorksPage = lazy(() => import('./pages/HowItWorksPage'));
 const WishlistPage = lazy(() => import('./pages/WishlistPage'));
 const ProfilePage = lazy(() => import('./pages/ProfilePage'));
@@ -169,6 +171,8 @@ function AppContent() {
             <Route path="/tools" element={<ToolsPage />} />
             <Route path="/community" element={<CommunityPage />} />
             <Route path="/impact" element={<ImpactPage />} />
+            <Route path="/fairness" element={<FairnessPage />} />
+            <Route path="/playground" element={<PlaygroundPage />} />
             <Route path="/how-it-works" element={<HowItWorksPage />} />
             <Route path="/wishlist" element={<WishlistPage />} />
             <Route path="/profile" element={<ProfilePage />} />
