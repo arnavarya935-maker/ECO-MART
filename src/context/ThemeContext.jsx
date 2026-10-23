@@ -3,16 +3,36 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 const ThemeContext = createContext();
 
 export function ThemeProvider({ children }) {
-  // Global Dark / Light Theme (Dark Forest-Black by default, Light preserved)
+  // Global Dark / Light Theme (respects prefers-color-scheme if unset, dark forest-black by default)
   const [theme, setTheme] = useState(() => {
     try {
       const saved = localStorage.getItem('ecomart_theme');
       if (saved === 'light' || saved === 'dark') return saved;
+      if (typeof window !== 'undefined' && window.matchMedia) {
+        if (window.matchMedia('(prefers-color-scheme: light)').matches) return 'light';
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) return 'dark';
+      }
       return 'dark';
     } catch {
       return 'dark';
     }
   });
+
+  // Listen to system theme changes if no manual preference stored
+  useEffect(() => {
+    if (typeof window === 'undefined' || !window.matchMedia) return;
+    const media = window.matchMedia('(prefers-color-scheme: dark)');
+    const handleChange = (e) => {
+      try {
+        const saved = localStorage.getItem('ecomart_theme');
+        if (!saved) {
+          setTheme(e.matches ? 'dark' : 'light');
+        }
+      } catch {}
+    };
+    media.addEventListener?.('change', handleChange);
+    return () => media.removeEventListener?.('change', handleChange);
+  }, []);
 
   useEffect(() => {
     try {

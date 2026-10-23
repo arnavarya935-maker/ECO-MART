@@ -217,11 +217,63 @@ self.addEventListener('fetch', (event) => {
   };
 }
 
+function apiProxyPlugin() {
+  return {
+    name: 'api-proxy-plugin',
+    configureServer(server) {
+      server.middlewares.use(async (req, res, next) => {
+        const url = req.url?.split('?')[0];
+        if (url !== '/api/agent' && url !== '/api/detect-greenwash') {
+          return next();
+        }
+
+        const { isRateLimited, handleAgentRequest, handleGreenwashRequest } = await import('./server/proxyServer.js');
+        const ip = req.headers['x-forwarded-for'] || req.socket?.remoteAddress || '127.0.0.1';
+
+        if (isRateLimited(ip)) {
+          res.writeHead(429, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Rate limit exceeded. Please wait a minute.' }));
+          return;
+        }
+
+        if (req.method !== 'POST') {
+          res.writeHead(405, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Method not allowed' }));
+          return;
+        }
+
+        let raw = '';
+        req.on('data', (chunk) => {
+          raw += chunk;
+          if (raw.length > 50000) {
+            req.destroy();
+          }
+        });
+
+        req.on('end', async () => {
+          try {
+            const body = JSON.parse(raw || '{}');
+            if (url === '/api/agent') {
+              await handleAgentRequest(body, res);
+            } else if (url === '/api/detect-greenwash') {
+              await handleGreenwashRequest(body, res);
+            }
+          } catch {
+            res.writeHead(400, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'Malformed JSON payload' }));
+          }
+        });
+      });
+    }
+  };
+}
+
 export default defineConfig({
   plugins: [
     react(),
     tailwindcss(),
     pwaManifestPlugin(),
+    apiProxyPlugin(),
   ],
   build: {
   }
