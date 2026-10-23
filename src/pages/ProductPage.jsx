@@ -8,6 +8,8 @@ import EcoScoreBadge from '../components/EcoScoreBadge';
 import EcoScorePopover from '../components/EcoScorePopover';
 import ProductCard from '../components/ProductCard';
 import ProductLifecycleTimeline from '../components/lifecycle/ProductLifecycleTimeline';
+import SecondLifeTab from '../components/lifecycle/SecondLifeTab';
+import AIEthicsCard from '../components/decision/AIEthicsCard';
 import { playSound } from '../lib/audio';
 import {
   ArrowLeft,
@@ -177,30 +179,52 @@ export default function ProductPage() {
               />
             </div>
 
-            {/* Left Column Tabs: Lifecycle Timeline vs Impact Delta */}
-            <div className="flex items-center gap-1 p-1 bg-surface-sunken rounded-2xl border border-line">
+            {/* Left Column Tabs: Lifecycle vs Second Life vs AI Ethics vs Impact Delta */}
+            <div className="flex items-center gap-1 p-1 bg-surface-sunken rounded-2xl border border-line flex-wrap">
               <button
                 type="button"
                 onClick={() => setActiveTab('lifecycle')}
-                className={`flex-1 py-2.5 px-4 rounded-xl text-xs font-sans font-bold transition-all min-h-[40px] cursor-pointer ${
+                className={`flex-1 py-2 px-3 rounded-xl text-xs font-sans font-bold transition-all min-h-[36px] cursor-pointer ${
                   activeTab === 'lifecycle'
                     ? 'bg-surface-raised text-heading shadow-soft-xs border border-line'
                     : 'text-muted hover:text-heading'
                 }`}
               >
-                Lifecycle Explorer (5 Stages)
+                5 Stages
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('secondlife')}
+                className={`flex-1 py-2 px-3 rounded-xl text-xs font-sans font-bold transition-all min-h-[36px] cursor-pointer ${
+                  activeTab === 'secondlife'
+                    ? 'bg-surface-raised text-emerald-400 shadow-soft-xs border border-emerald-500/30 font-bold'
+                    : 'text-muted hover:text-heading'
+                }`}
+              >
+                Second Life
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('ethics')}
+                className={`flex-1 py-2 px-3 rounded-xl text-xs font-sans font-bold transition-all min-h-[36px] cursor-pointer ${
+                  activeTab === 'ethics'
+                    ? 'bg-surface-raised text-amber-400 shadow-soft-xs border border-amber-400/30 font-bold'
+                    : 'text-muted hover:text-heading'
+                }`}
+              >
+                AI Ethics Card
               </button>
               {swapComparison && (
                 <button
                   type="button"
                   onClick={() => setActiveTab('comparison')}
-                  className={`flex-1 py-2.5 px-4 rounded-xl text-xs font-sans font-bold transition-all min-h-[40px] cursor-pointer ${
+                  className={`flex-1 py-2 px-3 rounded-xl text-xs font-sans font-bold transition-all min-h-[36px] cursor-pointer ${
                     activeTab === 'comparison'
                       ? 'bg-surface-raised text-heading shadow-soft-xs border border-line'
                       : 'text-muted hover:text-heading'
                   }`}
                 >
-                  Conventional Delta & Swap
+                  Conventional Delta
                 </button>
               )}
             </div>
@@ -208,6 +232,16 @@ export default function ProductPage() {
             {/* Tab 1: Lifecycle Explorer */}
             {activeTab === 'lifecycle' && (
               <ProductLifecycleTimeline product={product} />
+            )}
+
+            {/* Tab 2: Second Life Circular Path */}
+            {activeTab === 'secondlife' && (
+              <SecondLifeTab product={product} />
+            )}
+
+            {/* Tab 3: AI Recommendation Ethics & Transparency Card */}
+            {activeTab === 'ethics' && (
+              <AIEthicsCard product={product} />
             )}
 
             {/* Tab 2: Impact vs Conventional Comparison */}

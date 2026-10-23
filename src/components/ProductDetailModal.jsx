@@ -5,6 +5,8 @@ import EcoScoreBadge from './EcoScoreBadge';
 import EcoScorePopover from './EcoScorePopover';
 import ProductGallery from './ProductGallery';
 import ProductLifecycleTimeline from './lifecycle/ProductLifecycleTimeline';
+import SecondLifeTab from './lifecycle/SecondLifeTab';
+import AIEthicsCard from './decision/AIEthicsCard';
 import Modal from './ui/Modal';
 import { useCart } from '../context/CartContext';
 
@@ -119,29 +121,51 @@ export default function ProductDetailModal({ product, onClose }) {
             <button
               type="button"
               onClick={() => setActiveTab('overview')}
-              className={`flex-1 py-2 px-3 rounded-xl text-xs font-sans font-bold transition-all min-h-[36px] cursor-pointer ${
+              className={`flex-1 py-2 px-2.5 rounded-xl text-xs font-sans font-bold transition-all min-h-[36px] cursor-pointer ${
                 activeTab === 'overview'
                   ? 'bg-surface-raised text-heading shadow-soft-xs border border-line'
                   : 'text-muted hover:text-heading'
               }`}
             >
-              Overview & Specs
+              Overview
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveTab('secondlife')}
+              className={`flex-1 py-2 px-2.5 rounded-xl text-xs font-sans font-bold transition-all min-h-[36px] cursor-pointer ${
+                activeTab === 'secondlife'
+                  ? 'bg-surface-raised text-emerald-400 shadow-soft-xs border border-emerald-500/30 font-bold'
+                  : 'text-muted hover:text-heading'
+              }`}
+            >
+              Second Life
             </button>
             <button
               type="button"
               onClick={() => setActiveTab('lifecycle')}
-              className={`flex-1 py-2 px-3 rounded-xl text-xs font-sans font-bold transition-all min-h-[36px] cursor-pointer ${
+              className={`flex-1 py-2 px-2.5 rounded-xl text-xs font-sans font-bold transition-all min-h-[36px] cursor-pointer ${
                 activeTab === 'lifecycle'
                   ? 'bg-surface-raised text-heading shadow-soft-xs border border-line'
                   : 'text-muted hover:text-heading'
               }`}
             >
-              Lifecycle (5 Stages)
+              5 Stages
+            </button>
+            <button
+              type="button"
+              onClick={() => setActiveTab('ethics')}
+              className={`flex-1 py-2 px-2.5 rounded-xl text-xs font-sans font-bold transition-all min-h-[36px] cursor-pointer ${
+                activeTab === 'ethics'
+                  ? 'bg-surface-raised text-amber-400 shadow-soft-xs border border-amber-400/30 font-bold'
+                  : 'text-muted hover:text-heading'
+              }`}
+            >
+              AI Ethics
             </button>
             <button
               type="button"
               onClick={() => setActiveTab('reviews')}
-              className={`flex-1 py-2 px-3 rounded-xl text-xs font-sans font-bold transition-all min-h-[36px] cursor-pointer ${
+              className={`flex-1 py-2 px-2.5 rounded-xl text-xs font-sans font-bold transition-all min-h-[36px] cursor-pointer ${
                 activeTab === 'reviews'
                   ? 'bg-surface-raised text-heading shadow-soft-xs border border-line'
                   : 'text-muted hover:text-heading'
@@ -295,9 +319,19 @@ export default function ProductDetailModal({ product, onClose }) {
           </div>
         )}
 
-          {/* Tab 2: Lifecycle Timeline (5 Stages) */}
+          {/* Tab 2: Second Life Circular Path */}
+          {activeTab === 'secondlife' && (
+            <SecondLifeTab product={product} />
+          )}
+
+          {/* Tab 3: Lifecycle Timeline (5 Stages) */}
           {activeTab === 'lifecycle' && (
             <ProductLifecycleTimeline product={product} />
+          )}
+
+          {/* Tab 4: AI Recommendation Ethics & Transparency Card */}
+          {activeTab === 'ethics' && (
+            <AIEthicsCard product={product} />
           )}
 
           {/* Tab 3: Customer Reviews */}

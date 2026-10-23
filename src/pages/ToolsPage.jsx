@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Sparkles, Calculator, MapPin, Flame, Target, IndianRupee,
-  Recycle, Calendar, BookOpen, Droplets, TreePine, ShoppingBag
+  Recycle, Calendar, BookOpen, Droplets, TreePine, ShoppingBag,
+  FileSearch
 } from 'lucide-react';
 import EcoQuiz from '../components/tools/EcoQuiz';
 import CarbonFootprintCalculator from '../components/tools/CarbonFootprintCalculator';
@@ -50,53 +51,79 @@ export default function ToolsPage() {
         </p>
       </div>
 
-      {/* Featured Flagship AI Tools: Cart Transformer & Eco Check */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div className="p-5 rounded-3xl bg-primary/5 border border-primary/30 shadow-card flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-3.5">
-            <div className="w-12 h-12 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary shrink-0">
-              <Sparkles className="w-6 h-6" />
+      {/* Featured Flagship AI Tools: Cart Transformer, Greenwash Detective & Eco Check */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="p-5 rounded-3xl bg-primary/5 border border-primary/30 shadow-card flex flex-col justify-between gap-4">
+          <div className="flex items-start gap-3.5">
+            <div className="w-11 h-11 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary shrink-0">
+              <Sparkles className="w-5 h-5" />
             </div>
             <div>
-              <div className="flex items-center gap-2">
-                <h2 className="font-serif text-lg font-bold text-heading">Cart Transformer</h2>
-                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-primary/20 text-primary border border-primary/30">
-                  Competition Star
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <h2 className="font-serif text-base font-bold text-heading">Cart Transformer</h2>
+                <span className="text-[9px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-primary/20 text-primary border border-primary/30">
+                  Star
                 </span>
               </div>
-              <p className="text-xs text-secondary mt-0.5">
-                Type, speak or paste ordinary shopping lists to get a sustainable, budget-respecting cart.
+              <p className="text-xs text-secondary mt-1">
+                Paste ordinary shopping lists to get a sustainable, budget-respecting cart.
               </p>
             </div>
           </div>
           <Link
             to="/transform"
-            className="px-5 py-2.5 rounded-xl bg-primary hover:bg-primary-hover text-primary-contrast text-xs font-semibold transition shrink-0 shadow-soft-sm cursor-pointer whitespace-nowrap"
+            className="w-full py-2.5 px-4 rounded-xl bg-primary hover:bg-primary-hover text-primary-contrast text-xs font-semibold text-center transition shadow-soft-sm cursor-pointer whitespace-nowrap"
           >
             Launch Transformer →
           </Link>
         </div>
 
-        <div className="p-5 rounded-3xl bg-surface-raised border border-line shadow-card flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-3.5">
-            <div className="w-12 h-12 rounded-2xl bg-surface-sunken border border-line flex items-center justify-center text-primary shrink-0">
-              <Sparkles className="w-6 h-6" />
+        <div className="p-5 rounded-3xl bg-amber-500/10 border border-amber-500/30 shadow-card flex flex-col justify-between gap-4">
+          <div className="flex items-start gap-3.5">
+            <div className="w-11 h-11 rounded-2xl bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400 shrink-0">
+              <FileSearch className="w-5 h-5 text-amber-400" />
             </div>
             <div>
-              <div className="flex items-center gap-2">
-                <h2 className="font-serif text-lg font-bold text-heading">Eco Check Any Product</h2>
-                <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-primary-subtle text-primary border border-primary/20">
-                  AI Heuristic
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <h2 className="font-serif text-base font-bold text-heading">Greenwash Detective</h2>
+                <span className="text-[9px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/30">
+                  CBSE 2026
                 </span>
               </div>
-              <p className="text-xs text-secondary mt-0.5">
-                Paste external product text to detect greenwashing red flags and estimate lifecycle grade.
+              <p className="text-xs text-secondary mt-1">
+                Audit product packaging claims for vague buzzwords, missing proof & Trust Score 0-100.
+              </p>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={() => window.dispatchEvent(new CustomEvent('open-greenwashing-detective'))}
+            className="w-full py-2.5 px-4 rounded-xl bg-amber-400 hover:bg-amber-300 text-stone-950 text-xs font-bold text-center transition shadow-soft-sm cursor-pointer whitespace-nowrap"
+          >
+            Open Detective File →
+          </button>
+        </div>
+
+        <div className="p-5 rounded-3xl bg-surface-raised border border-line shadow-card flex flex-col justify-between gap-4">
+          <div className="flex items-start gap-3.5">
+            <div className="w-11 h-11 rounded-2xl bg-surface-sunken border border-line flex items-center justify-center text-primary shrink-0">
+              <Sparkles className="w-5 h-5" />
+            </div>
+            <div>
+              <div className="flex items-center gap-1.5 flex-wrap">
+                <h2 className="font-serif text-base font-bold text-heading">Eco Check</h2>
+                <span className="text-[9px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-primary-subtle text-primary border border-primary/20">
+                  Heuristic
+                </span>
+              </div>
+              <p className="text-xs text-secondary mt-1">
+                Paste external product text to score item lifecycle and discover greener alternatives.
               </p>
             </div>
           </div>
           <Link
             to="/eco-check"
-            className="px-5 py-2.5 rounded-xl bg-primary hover:bg-primary-hover text-primary-contrast text-xs font-semibold transition shrink-0 shadow-soft-sm cursor-pointer whitespace-nowrap active:scale-98"
+            className="w-full py-2.5 px-4 rounded-xl bg-surface hover:bg-surface-sunken text-heading border border-line text-xs font-semibold text-center transition shadow-soft-sm cursor-pointer whitespace-nowrap active:scale-98"
           >
             Open Eco Check →
           </Link>

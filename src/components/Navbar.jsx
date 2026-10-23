@@ -156,12 +156,24 @@ export default function Navbar() {
           {/* User Account Menu */}
           <UserMenu />
 
+          {/* Judge Demo Mode Walkthrough Trigger */}
+          <button
+            type="button"
+            onClick={() => window.dispatchEvent(new CustomEvent('open-judge-walkthrough'))}
+            className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-amber-400/40 bg-amber-400/10 hover:bg-amber-400/20 text-amber-300 font-mono text-xs font-bold transition-all shadow-soft-xs cursor-pointer min-h-[44px]"
+            title="Launch 4-step Responsible AI competition demo walkthrough"
+            aria-label="Launch Judge Demo Walkthrough"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-ping" />
+            <span>Judge Demo</span>
+          </button>
+
           {/* Launch EcoAgent AI Co-Pilot */}
           <button
             type="button"
             onClick={() => setIsAgentOpen(true)}
             className="liquid-pill liquid-pill-dark text-xs gap-1.5"
-            title="Launch Offline Eco Agent Assistant"
+            title="Launch Responsible AI Eco Agent Assistant"
           >
             <Sparkles className="w-3.5 h-3.5 text-primary" />
             <span className="hidden sm:inline">{t('nav.agent', 'Eco Agent')}</span>

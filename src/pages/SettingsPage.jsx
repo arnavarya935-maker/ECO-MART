@@ -97,6 +97,18 @@ export default function SettingsPage() {
     }
   };
 
+  const handleWipeAIMemory = () => {
+    try {
+      localStorage.removeItem('ecomart_user_priorities');
+      localStorage.removeItem('ecomart_reported_answers');
+      localStorage.removeItem('ecomart_recently_viewed');
+      window.dispatchEvent(new CustomEvent('reset-demo'));
+      showFeedback('AI memory, inferences, and decision weights wiped cleanly.');
+    } catch {
+      showFeedback('Failed to wipe AI memory.');
+    }
+  };
+
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8 animate-fade-in pb-24">
       {/* Page Header */}
@@ -577,6 +589,67 @@ export default function SettingsPage() {
         <div className="p-3.5 rounded-2xl bg-surface-sunken border border-line flex flex-wrap items-center justify-between gap-2 text-xs text-muted">
           <span>PWA Cache Version: <strong className="text-heading font-mono">ecomart-offline-2026.10</strong></span>
           <span className="text-primary font-semibold">100% Offline Purity Certified (Zero CDNs / External APIs)</span>
+        </div>
+      </Card>
+
+      {/* Responsible AI: Privacy & Memory Transparency Panel (Part 3 #7) */}
+      <Card clean={true} className="border border-line bg-surface shadow-soft-sm rounded-3xl p-6 space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-line">
+          <div className="flex items-start gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shrink-0 mt-0.5">
+              <ShieldCheck className="w-5 h-5 text-emerald-400" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h3 className="font-serif font-bold text-base text-heading">
+                  AI Privacy & Memory Transparency Panel
+                </h3>
+                <span className="px-2 py-0.5 rounded text-[9px] font-mono font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 uppercase">
+                  CBSE Ethics
+                </span>
+              </div>
+              <p className="text-xs text-secondary mt-0.5 leading-relaxed">
+                CBSE Responsible AI Principle: Algorithmic accountability and the user's right to audit and wipe AI memory.
+              </p>
+            </div>
+          </div>
+
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={handleWipeAIMemory}
+            className="border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10 cursor-pointer"
+          >
+            <RotateCcw className="w-3.5 h-3.5 mr-1" />
+            Wipe AI Memory
+          </Button>
+        </div>
+
+        {/* Live Audit of Stored Inferences */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs font-sans">
+          <div className="p-3 rounded-2xl bg-surface-sunken border border-line space-y-1">
+            <div className="font-mono text-[10px] text-text-muted uppercase">1. Decision Weights & Priorities</div>
+            <div className="text-heading font-medium">Stored in LocalStorage ('ecomart_user_priorities')</div>
+            <div className="text-[11px] text-text-secondary">Custom weights for price, carbon, plastic, and water. Never sent to remote ad networks.</div>
+          </div>
+
+          <div className="p-3 rounded-2xl bg-surface-sunken border border-line space-y-1">
+            <div className="font-mono text-[10px] text-text-muted uppercase">2. Active Agent Session Context</div>
+            <div className="text-heading font-medium">In-Memory Transient State</div>
+            <div className="text-[11px] text-text-secondary">Last searched category, budget ceiling, and active knapsack filters. Erased on page reload or wipe.</div>
+          </div>
+
+          <div className="p-3 rounded-2xl bg-surface-sunken border border-line space-y-1">
+            <div className="font-mono text-[10px] text-text-muted uppercase">3. Reported Inaccuracies & Audits</div>
+            <div className="text-heading font-medium">Stored Locally ('ecomart_reported_answers')</div>
+            <div className="text-[11px] text-text-secondary">User feedback on hallucinations or wrong lifecycle facts, kept 100% on device for local review.</div>
+          </div>
+
+          <div className="p-3 rounded-2xl bg-surface-sunken border border-line space-y-1">
+            <div className="font-mono text-[10px] text-emerald-400 uppercase font-bold">4. Third-Party Tracker Audit</div>
+            <div className="text-heading font-medium">0 Tracking Cookies • 0 Ad Beacons</div>
+            <div className="text-[11px] text-text-secondary">Verified zero third-party telemetry, zero user fingerprinting, and zero external tracking pixels.</div>
+          </div>
         </div>
       </Card>
 

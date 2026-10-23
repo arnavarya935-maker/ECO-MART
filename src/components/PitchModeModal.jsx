@@ -148,14 +148,28 @@ export default function PitchModeModal({ isOpen, onClose }) {
             </div>
           </div>
 
-          <button
-            type="button"
-            onClick={onClose}
-            className="p-2 rounded-xl text-secondary hover:text-heading hover:bg-surface-sunken transition cursor-pointer"
-            aria-label="Close pitch mode tour"
-          >
-            <X className="w-5 h-5" />
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                onClose();
+                window.dispatchEvent(new CustomEvent('open-judge-walkthrough'));
+              }}
+              className="px-3 py-1 rounded-xl bg-amber-400/15 border border-amber-400/30 text-amber-300 text-xs font-mono font-bold hover:bg-amber-400/25 transition cursor-pointer"
+              title="Launch Responsible AI Scripted Walkthrough"
+            >
+              ⚖️ Responsible AI Walkthrough
+            </button>
+
+            <button
+              type="button"
+              onClick={onClose}
+              className="p-2 rounded-xl text-secondary hover:text-heading hover:bg-surface-sunken transition cursor-pointer"
+              aria-label="Close pitch mode tour"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
         </div>
 
         {/* Step Progress Dots */}

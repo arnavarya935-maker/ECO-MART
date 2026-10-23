@@ -5,6 +5,7 @@ import { calculateEcoScore } from '../lib/ecoScore';
 import EcoScoreBadge from './EcoScoreBadge';
 import ProductImage from './ProductImage';
 import WhyRankPopover from './decision/WhyRankPopover';
+import AIEthicsCard from './decision/AIEthicsCard';
 import { useCart } from '../context/CartContext';
 import { playSound } from '../lib/audio';
 
@@ -131,9 +132,12 @@ export default function ProductCard({ product, rankingDetails }) {
                 <Ban className="w-3.5 h-3.5 text-warning" /> {product.plasticGrams}g plastic
               </span>
             </div>
-            {(rankingDetails || product.rank) && (
-              <WhyRankPopover rankingDetails={rankingDetails || (product.rank ? product : null)} />
-            )}
+            <div className="flex items-center gap-1.5 flex-wrap">
+              <AIEthicsCard compact={true} product={product} />
+              {(rankingDetails || product.rank) && (
+                <WhyRankPopover rankingDetails={rankingDetails || (product.rank ? product : null)} />
+              )}
+            </div>
           </div>
         </div>
 
