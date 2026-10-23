@@ -8,6 +8,7 @@ import EcoScoreBadge from '../components/EcoScoreBadge';
 import EcoScorePopover from '../components/EcoScorePopover';
 import ProductCard from '../components/ProductCard';
 import ProductLifecycleTimeline from '../components/lifecycle/ProductLifecycleTimeline';
+import LifecycleTimelineScrubber from '../components/lifecycle/LifecycleTimelineScrubber';
 import SecondLifeTab from '../components/lifecycle/SecondLifeTab';
 import AIEthicsCard from '../components/decision/AIEthicsCard';
 import { playSound } from '../lib/audio';
@@ -229,9 +230,12 @@ export default function ProductPage() {
               )}
             </div>
 
-            {/* Tab 1: Lifecycle Explorer */}
+            {/* Tab 1: Lifecycle Explorer & Interactive Scrubber */}
             {activeTab === 'lifecycle' && (
-              <ProductLifecycleTimeline product={product} />
+              <div className="space-y-6">
+                <LifecycleTimelineScrubber product={product} />
+                <ProductLifecycleTimeline product={product} />
+              </div>
             )}
 
             {/* Tab 2: Second Life Circular Path */}

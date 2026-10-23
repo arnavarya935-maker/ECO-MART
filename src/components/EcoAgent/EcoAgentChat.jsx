@@ -27,6 +27,7 @@ import PrioritiesPanel from '../decision/PrioritiesPanel';
 import EcoScoreBadge from '../EcoScoreBadge';
 import ReasoningExplanationCard from './ReasoningExplanationCard';
 import AIEnergyMeter from './AIEnergyMeter';
+import HonestyMeter from './HonestyMeter';
 
 const QUICK_CHIPS_EN = [
   { id: 'cart-transformer', label: '🪄 Transform shopping list', query: 'Transform my shopping list' },
@@ -36,6 +37,7 @@ const QUICK_CHIPS_EN = [
   { id: 'gift', label: '🎁 Gift under ₹1000', query: 'Find an eco-friendly gift under ₹1000' },
   { id: 'kitchen', label: '🎋 Plastic-free kitchen', query: 'Show plastic-free items for my kitchen' },
   { id: 'cart', label: '🛒 Review my cart', query: 'Review my cart and suggest greener swaps' },
+  { id: 'uncertainty-test', label: '❓ Honest boundary test', query: 'Is this bamboo brush certified to degrade in 3 days?' },
   { id: 'scoring', label: '🔬 How EcoScore works', query: 'Explain how the eco score is calculated' }
 ];
 
@@ -594,6 +596,12 @@ export default function EcoAgentChat() {
             totalSessionWh={totalSessionWh}
             lastQueryWh={lastQueryWh}
             queryCount={queryCount}
+          />
+
+          {/* Honesty & Uncertainty Meter */}
+          <HonestyMeter
+            messages={messages}
+            compact={true}
           />
 
           {judgeMode && (

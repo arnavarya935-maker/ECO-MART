@@ -232,8 +232,9 @@ export async function auditGreenwashingClaim({ text, language = 'en' }) {
       if (data && data.source === 'gemini' && typeof data.trust_score === 'number') {
         return {
           ...data,
+          radar_axes: data.radar_axes || computeClaimRadarAxes(text, data),
           isFallback: false,
-          model: 'Gemini 1.5 Flash'
+          model: data.model || 'Gemini 3 Flash'
         };
       }
     }
@@ -307,11 +308,61 @@ export function generateLocalGreenwashingVerdict(text) {
     plain_verdict_explanation: explanation,
     flagged_phrases: flagged,
     missing_proofs: missing,
+    radar_axes: computeClaimRadarAxes(text),
     positive_elements: hasCert ? ['Mentions legitimate certification standards'] : ['Packaging material specified'],
     recommendation: 'Check the back label for official certifier license codes before purchasing.',
     estimated_energy_wh: 0.04,
     isFallback: true,
     source: 'local_heuristic_detective',
     model: 'EcoMart Rule-Based Detective'
+  };
+}
+
+/**
+ * Computes 5-Axis Environmental Claim Radar Scores (0 to 100)
+ */
+export function computeClaimRadarAxes(text, auditResult = null) {
+  const lower = (text || '').toLowerCase();
+
+  // 1. Vague Wording (100 = concrete & clear; low = vague buzzwords)
+  let vagueScore = 95;
+  if (/100%\s*(eco|green|natural|pure)/i.test(lower)) vagueScore -= 35;
+  if (/chemical[\s-]*free/i.test(lower)) vagueScore -= 25;
+  if (/zero[\s-]*harm|save\s*the\s*earth|clean\s*planet/i.test(lower)) vagueScore -= 25;
+  if (/ocean[\s-]*plastic/i.test(lower) && !/certified|recycled\s*\d+%/i.test(lower)) vagueScore -= 20;
+  vagueScore = Math.max(10, Math.min(100, vagueScore));
+
+  // 2. Verifiable Proof (100 = backed by accredited lab or LCA benchmark)
+  let proofScore = 30;
+  if (/astm|en\s*13432|iso\s*14040|iso\s*14021|lab|lca|lifecycle|cpcb/i.test(lower)) proofScore += 50;
+  if (/\d+%\s*(recycled|post-consumer|bio-based|organic)/i.test(lower)) proofScore += 20;
+  proofScore = Math.max(10, Math.min(100, proofScore));
+
+  // 3. Third-Party Certification (100 = accredited registry citation)
+  let certScore = 20;
+  if (/fsc|gots|usda\s*organic|fair\s*trade|india\s*organic/i.test(lower)) certScore += 60;
+  if (/astm\s*d6400|en\s*13432|tuv\s*austria/i.test(lower)) certScore += 20;
+  certScore = Math.max(10, Math.min(100, certScore));
+
+  // 4. Specificity & Material Boundaries
+  let specScore = 35;
+  if (/bamboo|cotton|jute|kraft|neem|soy\s*wax|glass|aluminum|beeswax/i.test(lower)) specScore += 30;
+  if (/\d+(\.\d+)?\s*(g|kg|l|%|days|months)/i.test(lower)) specScore += 25;
+  if (/handle|packaging|bristles|coating/i.test(lower)) specScore += 10;
+  specScore = Math.max(10, Math.min(100, specScore));
+
+  // 5. Comparison Basis (Disclosing trade-offs without false equivalence)
+  let compScore = 40;
+  if (/trade-off|however|hand-wash|cold-water|pluck|separate|compost/i.test(lower)) compScore += 40;
+  if (/replaces|instead of|compared to/i.test(lower)) compScore += 20;
+  compScore = Math.max(10, Math.min(100, compScore));
+
+  return {
+    vague_wording: vagueScore,
+    proof: proofScore,
+    verifiable_proof: proofScore,
+    certification: certScore,
+    specificity: specScore,
+    comparison_basis: compScore
   };
 }

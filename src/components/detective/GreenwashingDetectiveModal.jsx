@@ -10,7 +10,8 @@ import {
   ArrowRight,
   HelpCircle
 } from 'lucide-react';
-import { auditGreenwashingClaim } from '../../lib/ai/geminiAdapter.js';
+import { auditGreenwashingClaim, computeClaimRadarAxes } from '../../lib/ai/geminiAdapter.js';
+import ClaimRadarChart from './ClaimRadarChart.jsx';
 import { useT } from '../../context/I18nContext';
 
 const SAMPLE_CLAIMS = [
@@ -32,6 +33,7 @@ export default function GreenwashingDetectiveModal({ isOpen, onClose }) {
   const [claimText, setClaimText] = useState(SAMPLE_CLAIMS[0].claim);
   const [loading, setLoading] = useState(false);
   const [auditResult, setAuditResult] = useState(null);
+  const [comparisonClaim, setComparisonClaim] = useState(SAMPLE_CLAIMS[2]);
   const { lang } = useT();
 
   if (!isOpen) return null;
@@ -44,6 +46,11 @@ export default function GreenwashingDetectiveModal({ isOpen, onClose }) {
     try {
       const result = await auditGreenwashingClaim({ text: textToAudit, language: lang });
       setAuditResult(result);
+      try {
+        const stored = JSON.parse(localStorage.getItem('ecomart_gw_audits') || '[]');
+        stored.push({ claim: textToAudit.slice(0, 80), score: result.trust_score, timestamp: Date.now() });
+        localStorage.setItem('ecomart_gw_audits', JSON.stringify(stored.slice(-20)));
+      } catch {}
     } catch {
       // Fallback
       setAuditResult(null);
@@ -200,6 +207,48 @@ export default function GreenwashingDetectiveModal({ isOpen, onClose }) {
                 <p className="font-sans text-xs sm:text-sm text-heading leading-relaxed">
                   {auditResult.plain_verdict_explanation}
                 </p>
+              </div>
+
+              {/* 5-Axis Claim Radar Chart & Comparative Overlay */}
+              <div className="space-y-3 pt-2">
+                <div className="flex items-center justify-between gap-2 flex-wrap">
+                  <span className="text-xs font-mono uppercase tracking-wider text-muted font-bold">
+                    Integrity Fingerprint Radar
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-[10px] font-mono text-muted">Compare with:</span>
+                    <select
+                      value={comparisonClaim ? comparisonClaim.label : 'none'}
+                      onChange={(e) => {
+                        const found = SAMPLE_CLAIMS.find((c) => c.label === e.target.value);
+                        setComparisonClaim(found || null);
+                      }}
+                      className="text-[11px] font-mono px-2 py-1 rounded-lg bg-surface border border-line text-heading focus:outline-none"
+                    >
+                      <option value="none">None (Single Claim)</option>
+                      {SAMPLE_CLAIMS.map((c) => (
+                        <option key={c.label} value={c.label}>
+                          {c.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <ClaimRadarChart
+                  claimA={{
+                    label: 'Target Claim',
+                    axes: auditResult.radar_axes || computeClaimRadarAxes(claimText)
+                  }}
+                  claimB={
+                    comparisonClaim
+                      ? {
+                          label: comparisonClaim.label,
+                          axes: computeClaimRadarAxes(comparisonClaim.claim)
+                        }
+                      : null
+                  }
+                />
               </div>
 
               {/* Flagged Vague Phrases */}

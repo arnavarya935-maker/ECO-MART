@@ -5,6 +5,7 @@ import EcoScoreBadge from './EcoScoreBadge';
 import EcoScorePopover from './EcoScorePopover';
 import ProductGallery from './ProductGallery';
 import ProductLifecycleTimeline from './lifecycle/ProductLifecycleTimeline';
+import LifecycleTimelineScrubber from './lifecycle/LifecycleTimelineScrubber';
 import SecondLifeTab from './lifecycle/SecondLifeTab';
 import AIEthicsCard from './decision/AIEthicsCard';
 import Modal from './ui/Modal';
@@ -324,9 +325,12 @@ export default function ProductDetailModal({ product, onClose }) {
             <SecondLifeTab product={product} />
           )}
 
-          {/* Tab 3: Lifecycle Timeline (5 Stages) */}
+          {/* Tab 3: Lifecycle Timeline (Scrubber + 5 Stages) */}
           {activeTab === 'lifecycle' && (
-            <ProductLifecycleTimeline product={product} />
+            <div className="space-y-6">
+              <LifecycleTimelineScrubber product={product} />
+              <ProductLifecycleTimeline product={product} />
+            </div>
           )}
 
           {/* Tab 4: AI Recommendation Ethics & Transparency Card */}
