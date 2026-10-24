@@ -45,17 +45,14 @@ export default function KineticTypeStrips() {
           {Array.from({ length: 6 }).map((_, i) => (
             <span
               key={i}
-              className="font-display text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black uppercase tracking-tighter text-transparent select-none"
-              style={{
-                WebkitTextStroke: '1.5px rgba(16, 185, 129, 0.4)'
-              }}
+              className="font-display text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black uppercase tracking-tighter text-emerald-900/20 dark:text-emerald-400/20 select-none hover:text-primary transition-colors"
             >
-              VERIFY <span className="text-emerald-500/50 mx-2 sm:mx-4">·</span>
+              VERIFY <span className="text-primary/40 mx-2 sm:mx-4">·</span>
             </span>
           ))}
         </div>
 
-        {/* Row 2: TRUST (Moving Right) */}
+        {/* Row 2: COMPARE (Moving Right) */}
         <div
           aria-hidden="true"
           className="will-change-transform transition-transform ease-out duration-75 flex gap-8 items-center"
@@ -66,14 +63,14 @@ export default function KineticTypeStrips() {
           {Array.from({ length: 6 }).map((_, i) => (
             <span
               key={i}
-              className="font-display text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black uppercase tracking-tighter text-text-muted/15 select-none hover:text-text-muted/30 transition-colors"
+              className="font-display text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black uppercase tracking-tighter text-teal-900/25 dark:text-teal-400/25 select-none hover:text-secondary transition-colors"
             >
-              TRUST <span className="text-primary/30 mx-2 sm:mx-4">·</span>
+              COMPARE <span className="text-secondary/40 mx-2 sm:mx-4">·</span>
             </span>
           ))}
         </div>
 
-        {/* Row 3: PROVE (Moving Left) */}
+        {/* Row 3: CHOOSE (Moving Left) */}
         <div
           aria-hidden="true"
           className="will-change-transform transition-transform ease-out duration-75 flex gap-8 items-center"
@@ -84,12 +81,9 @@ export default function KineticTypeStrips() {
           {Array.from({ length: 6 }).map((_, i) => (
             <span
               key={i}
-              className="font-display text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black uppercase tracking-tighter text-transparent select-none"
-              style={{
-                WebkitTextStroke: '1.5px rgba(20, 184, 166, 0.4)'
-              }}
+              className="font-display text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-black uppercase tracking-tighter text-forest-900/20 dark:text-emerald-500/20 select-none hover:text-heading transition-colors"
             >
-              PROVE <span className="text-teal-500/50 mx-2 sm:mx-4">·</span>
+              CHOOSE <span className="text-primary/40 mx-2 sm:mx-4">·</span>
             </span>
           ))}
         </div>

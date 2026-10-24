@@ -1,17 +1,40 @@
 import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  Swords,
+  Sparkles,
   Camera,
+  Swords,
   Scale,
-  ShieldAlert,
-  Sliders,
-  ArrowRight,
-  Sparkles
+  Activity,
+  ArrowRight
 } from 'lucide-react';
 import { useScrollProgress, isReducedMotion } from '../../lib/scrollAnimation';
 
 const FEATURE_CARDS = [
+  {
+    id: 'eco-agent',
+    route: '/how-it-works',
+    title: 'Eco Agent',
+    tagline: 'Transparent Reasoning Engine',
+    description:
+      'Autonomous AI assistant that exposes verifiable decision steps, weights tradeoffs, and detects greenwashing before you checkout.',
+    icon: Sparkles,
+    badge: 'Core Intelligence',
+    accentColor: '#047857',
+    metric: 'Explainable Reasoning Traces'
+  },
+  {
+    id: 'scanner',
+    route: '/scan',
+    title: 'Label Scanner',
+    tagline: 'Vision-Powered Packaging Audit',
+    description:
+      'Photograph or upload product packaging. Vision AI extracts claims, cross-references ISO 14021 rules, and flags misleading green claims.',
+    icon: Camera,
+    badge: 'Vision AI',
+    accentColor: '#0F766E',
+    metric: 'Instant OCR • Offline Fallbacks'
+  },
   {
     id: 'courtroom',
     route: '/courtroom',
@@ -25,52 +48,28 @@ const FEATURE_CARDS = [
     metric: '3 AI Roles • Real-time Objections'
   },
   {
-    id: 'scanner',
-    route: '/scan',
-    title: 'Label Scanner',
-    tagline: 'Vision-Powered Label Audit',
-    description:
-      'Photograph or upload any product packaging. Our vision proxy extracts marketing claims and checks ISO 14021 compliance.',
-    icon: Camera,
-    badge: 'Vision AI',
-    accentColor: '#14B8A6',
-    metric: 'Instant OCR • Offline Fallbacks'
-  },
-  {
     id: 'fairness',
     route: '/fairness',
     title: 'Fairness Lab',
-    tagline: 'Cross-Linguistic Parity',
+    tagline: 'Cross-Linguistic Parity & Equity',
     description:
-      'Tests recommendation parity across English, Hindi (Devanagari), Hinglish, and student vs affluent consumer personas.',
+      'Audits recommendation parity across English, Hindi (Devanagari), Hinglish, and student vs affluent consumer personas.',
     icon: Scale,
     badge: 'Bias & Equity',
     accentColor: '#34D399',
-    metric: 'Jaccard Token Parity: 93/100'
+    metric: 'Jaccard Parity: 93/100'
   },
   {
-    id: 'blackbox',
-    route: '/blackbox',
-    title: 'Black Box',
-    tagline: 'Model Safety & Guardrails',
+    id: 'impact',
+    route: '/impact',
+    title: 'Impact Command Center',
+    tagline: 'Real-time Planetary Metrics',
     description:
-      'Inspect adversarial prompt injection defense, anti-hallucination interceptors, and strict output determinism.',
-    icon: ShieldAlert,
-    badge: 'Adversarial Defense',
-    accentColor: '#EF4444',
-    metric: '100% Intercept Rate on Attacks'
-  },
-  {
-    id: 'playground',
-    route: '/playground',
-    title: 'Decision Playground',
-    tagline: 'Counterfactual Sensitivity',
-    description:
-      'Drag budget, urgency, and category sliders to reveal the exact mathematical threshold where agent recommendations flip.',
-    icon: Sliders,
-    badge: 'Explainability',
-    accentColor: '#F59E0B',
-    metric: 'Dynamic Boundary Flip Mapping'
+      'Live LCA accounting tracking diverted plastics, avoided carbon emissions, and verified circular lifecycle savings.',
+    icon: Activity,
+    badge: 'LCA Intelligence',
+    accentColor: '#B45309',
+    metric: 'Carbon & Plastic Planetary Delta'
   }
 ];
 

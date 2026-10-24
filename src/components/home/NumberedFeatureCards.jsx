@@ -60,7 +60,7 @@ export default function NumberedFeatureCards() {
             </h2>
           </div>
           <p className="text-xs font-sans text-text-secondary max-w-md">
-            Every metric is transparent, accountable, and designed for rigorous deliberation under CBSE CT &amp; AI guidelines.
+            Every metric is transparent, accountable, and designed for rigorous deliberation under Technophilia 7.0 standards.
           </p>
         </div>
 
@@ -101,8 +101,8 @@ export default function NumberedFeatureCards() {
                     <span className="font-serif text-2xl font-bold text-heading">{f.stat}</span>
                     <span className={`text-[10px] font-mono font-medium px-2 py-0.5 rounded-full ${
                       f.isEstimate
-                        ? 'bg-amber-400/10 text-amber-300 border border-amber-400/30'
-                        : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30'
+                        ? 'bg-amber-500/10 text-amber-700 dark:text-amber-300 border border-amber-500/30'
+                        : 'bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30'
                     }`}>
                       {f.statLabel}
                     </span>

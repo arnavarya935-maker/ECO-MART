@@ -7,10 +7,12 @@ import ProductImage from './ProductImage';
 import WhyRankPopover from './decision/WhyRankPopover';
 import AIEthicsCard from './decision/AIEthicsCard';
 import { useCart } from '../context/CartContext';
+import { useTheme } from '../context/ThemeContext';
 import { playSound } from '../lib/audio';
 
 export default function ProductCard({ product, rankingDetails }) {
   const navigate = useNavigate();
+  const { reduceEffects } = useTheme();
   const {
     addToCart,
     setSelectedProduct,
@@ -20,12 +22,25 @@ export default function ProductCard({ product, rankingDetails }) {
   } = useCart();
 
   const [added, setAdded] = useState(false);
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const ecoScoreData = calculateEcoScore(product);
   const isFavorited = isInWishlist ? isInWishlist(product.id) : false;
 
   // Impact per rupee calculation
   const impactScore = (product.carbonKg * 1000 + (product.plasticGrams || 0)) / product.price;
   const isHighImpactPerRupee = product.isEcoFriendly && impactScore >= 3.5;
+
+  const handleMouseMove = (e) => {
+    if (reduceEffects) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width - 0.5) * 6;
+    const y = -((e.clientY - rect.top) / rect.height - 0.5) * 6;
+    setTilt({ x, y });
+  };
+
+  const handleMouseLeave = () => {
+    setTilt({ x: 0, y: 0 });
+  };
 
   const handleCardClick = () => {
     if (trackRecentlyViewed) trackRecentlyViewed(product);
@@ -49,6 +64,14 @@ export default function ProductCard({ product, rankingDetails }) {
   return (
     <div
       onClick={handleCardClick}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        transform: !reduceEffects && (tilt.x || tilt.y)
+          ? `perspective(900px) rotateX(${tilt.y.toFixed(1)}deg) rotateY(${tilt.x.toFixed(1)}deg) translateY(-2px)`
+          : undefined,
+        transition: 'transform 0.16s ease-out'
+      }}
       className="group relative flex flex-col justify-between bg-surface-raised rounded-3xl border border-line shadow-card product-card-lift cursor-pointer overflow-hidden select-none isolate"
     >
       {/* Top Graphic Showcase - Image First */}

@@ -24,7 +24,7 @@ const STACK_CARDS = [
       { label: 'Audit Points', val: '24 Independent Criteria' },
       { label: 'Rejection Rate', val: '31% of Submitted Claims' }
     ],
-    route: '/detective',
+    route: '/scan',
     ctaText: 'Explore Claim Detective'
   },
   {
@@ -41,7 +41,7 @@ const STACK_CARDS = [
       { label: 'Methodology', val: 'ISO 14040 Compliant LCA' },
       { label: 'End-of-Life', val: '100% Circular Kabadiwala Routing' }
     ],
-    route: '/products',
+    route: '/shop',
     ctaText: 'Browse Catalog Metrics'
   },
   {
