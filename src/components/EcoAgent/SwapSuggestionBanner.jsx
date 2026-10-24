@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function SwapSuggestionBanner() {
   const {
+    isCartOpen,
     activeSwapAlert,
     dismissSwapAlert,
     copilotNudge,
