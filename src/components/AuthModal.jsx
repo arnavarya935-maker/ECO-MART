@@ -307,7 +307,7 @@ export default function AuthModal() {
             </button>
           ) : (
             <div className="py-2.5 px-3 rounded-2xl bg-accent/10 border border-accent/30 text-accent text-[11px] text-center font-medium">
-              ⚡ Google Sign-In hidden while offline. Local Email and Guest Mode work 100% offline!
+              ⚡ Google Sign-In hidden while offline. Local Email and Guest Mode work offline!
             </div>
           )}
 
@@ -317,7 +317,7 @@ export default function AuthModal() {
             onClick={loginAsGuest}
             className="w-full min-h-[44px] py-2.5 px-4 rounded-2xl bg-surface-sunken hover:bg-surface-raised text-secondary font-semibold text-xs border border-line transition-colors flex items-center justify-center gap-1.5 focus-visible:outline-2 focus-visible:outline-focus"
           >
-            <span>Continue as Guest (100% Offline)</span>
+            <span>Continue as Guest (Local Mode)</span>
           </button>
         </div>
 

@@ -95,17 +95,17 @@ export function calculateEcoScore(product) {
   // 4. Certifications Evaluation (Max 15)
   const certCount = Array.isArray(product.certifications) ? product.certifications.length : 0;
   let certScore = 2;
-  let certExplanation = 'No independent eco-credentials verified';
+  let certExplanation = 'No independent eco-credentials listed';
 
   if (certCount >= 3) {
     certScore = 15;
-    certExplanation = `Verified by 3+ rigorous standards: ${product.certifications.join(', ')}`;
+    certExplanation = `Listed by seller (sample data): 3+ credentials (${product.certifications.join(', ')})`;
   } else if (certCount === 2) {
     certScore = 12;
-    certExplanation = `Certified by 2 standards: ${product.certifications.join(', ')}`;
+    certExplanation = `Listed by seller (sample data): 2 credentials (${product.certifications.join(', ')})`;
   } else if (certCount === 1) {
     certScore = 8;
-    certExplanation = `Single eco-standard verified: ${product.certifications[0]}`;
+    certExplanation = `Listed by seller (sample data): ${product.certifications[0]}`;
   } else {
     certScore = 2;
   }

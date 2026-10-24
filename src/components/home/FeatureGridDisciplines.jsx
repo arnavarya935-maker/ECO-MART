@@ -193,7 +193,7 @@ export default function FeatureGridDisciplines() {
           </article>
 
           {/* Card 4: Client-Side Offline Architecture */}
-          <article className="svc-card group flex flex-col justify-between" aria-label="100% Offline Architecture">
+          <article className="svc-card group flex flex-col justify-between" aria-label="Local-First Architecture">
             {/* Live Mini-Visual: Offline Topology Diagram */}
             <div className="w-full h-44 sm:h-48 rounded-xl bg-surface-sunken/80 border border-line p-4 flex flex-col justify-center items-center overflow-hidden relative">
               <div className="flex items-center gap-6">
@@ -220,13 +220,13 @@ export default function FeatureGridDisciplines() {
 
               <div className="mt-4 px-3 py-1 rounded-full bg-surface-raised border border-line text-[10px] font-mono text-text-secondary flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-primary" />
-                <span>Zero Cloud Dependency · 100% Private Offline Execution</span>
+                <span>Zero Cloud Dependency · Private Local Execution</span>
               </div>
             </div>
 
             <div className="mt-6 flex items-start justify-between gap-4">
               <div>
-                <h3 className="font-sans text-lg font-bold text-heading">100% Offline-Native Architecture</h3>
+                <h3 className="font-sans text-lg font-bold text-heading">Local-First Architecture</h3>
                 <p className="mt-1.5 text-xs text-text-secondary leading-relaxed max-w-md">
                   All intent matching, fuzzy dictionaries, and knapsack optimizations run in local JavaScript without pinging remote servers.
                 </p>

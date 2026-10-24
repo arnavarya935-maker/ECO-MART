@@ -106,7 +106,7 @@ export default function EcoQuiz() {
 
   let tier = {
     title: 'Conscious Earth Guardian',
-    badge: 'Tier 1: Master of Circular Living',
+    badge: 'Master of Circular Living',
     desc: 'Outstanding! Your daily routine eliminates single-use plastics and prioritizes biological replenishment.',
     color: 'text-primary bg-primary/10 border-primary/30'
   };
@@ -114,14 +114,14 @@ export default function EcoQuiz() {
   if (scorePercent < 45) {
     tier = {
       title: 'Curious Starter',
-      badge: 'Tier 3: Great Swap Potential',
+      badge: 'Great Swap Potential',
       desc: 'You have tremendous opportunity to save up to 40kg of plastic and 150kg of CO₂ yearly with simple swaps!',
       color: 'text-warning bg-warning/10 border-warning/30'
     };
   } else if (scorePercent < 80) {
     tier = {
       title: 'Mindful Improver',
-      badge: 'Tier 2: Solid Eco Habits',
+      badge: 'Solid Eco Habits',
       desc: 'You have solid sustainable fundamentals! Swapping a couple remaining kitchen and bath items will reach circular zero-waste.',
       color: 'text-accent bg-accent/10 border-accent/30'
     };

@@ -678,7 +678,7 @@ export default function CommandPalette({ isOpen: controlledOpen, onClose: contro
               Select
             </span>
           </div>
-          <span className="font-medium text-primary">100% Offline Index</span>
+          <span className="font-medium text-primary">Local Command Index</span>
         </div>
       </div>
     </div>

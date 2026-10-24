@@ -55,7 +55,7 @@ export default function ImpactReceiptModal({ isOpen, onClose, orderData }) {
             </div>
             <div>
               <h3 className="font-serif font-bold text-base text-heading">
-                Verified Impact Receipt
+                Estimated Impact Receipt
               </h3>
               <div className="text-[10px] font-mono text-text-muted">
                 Order #{orderId} • {orderDate}

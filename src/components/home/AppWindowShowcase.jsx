@@ -56,7 +56,7 @@ export default function AppWindowShowcase() {
             {/* Window title & live badge */}
             <div className="flex items-center gap-3">
               <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 font-mono text-[10px] font-bold">
-                100% OFFLINE AUDIT ENGINE
+                LOCAL AUDIT ENGINE
               </span>
             </div>
           </div>

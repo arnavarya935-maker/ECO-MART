@@ -119,7 +119,7 @@ export default function ShopFilterDrawer({
           {/* 4. Third-Party Certifications */}
           {availableCerts && availableCerts.length > 0 && (
             <div className="space-y-2.5 pt-3 border-t border-line">
-              <span className="font-semibold text-heading text-sm block">Verified Certification</span>
+              <span className="font-semibold text-heading text-sm block">Certifications Claimed</span>
               <div className="flex flex-wrap gap-2">
                 {availableCerts.map((cert) => {
                   const isSelected = selectedCert === cert;

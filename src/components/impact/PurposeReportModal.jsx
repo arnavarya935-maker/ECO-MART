@@ -126,14 +126,14 @@ export default function PurposeReportModal({ isOpen, onClose }) {
                 Conscious Commerce Purpose Report
               </h1>
               <p className="text-xs font-sans text-secondary mt-0.5">
-                Verified on-device sustainability accounting & priority assessment
+                On-device sustainability accounting & priority assessment
               </p>
             </div>
 
             <div className="text-right text-xs font-sans text-muted shrink-0">
               <div className="font-semibold text-heading">{REPORT_DATE}</div>
               <div>Guest Session #ECO-{Math.abs((orders?.length || 1) * 314159 % 90000 + 10000)}</div>
-              <div className="text-[10px] text-primary font-bold">100% Offline Certified</div>
+              <div className="text-[10px] text-primary font-bold">Local-First Accounting</div>
             </div>
           </div>
 

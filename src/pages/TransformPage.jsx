@@ -226,7 +226,7 @@ export default function TransformPage() {
       <div className="space-y-3 text-center sm:text-left">
         <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-semibold uppercase tracking-wider">
           <Sparkles className="w-3.5 h-3.5" />
-          <span>{t('transformer.badge', '100% Offline AI • Multi-Choice Knapsack Optimiser')}</span>
+          <span>{t('transformer.badge', 'Local AI • Multi-Choice Knapsack Optimiser')}</span>
         </div>
         <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-heading">
           {t('transformer.title', 'Cart Transformer')}

@@ -269,18 +269,21 @@ export default function ProductDetailModal({ product, onClose }) {
             </div>
 
             {product.certifications && product.certifications.length > 0 && (
-              <div className="flex items-start gap-2 pt-2 border-t border-line">
-                <span className="text-xs font-bold text-muted uppercase tracking-wider w-24 shrink-0">Certifications:</span>
-                <div className="flex flex-wrap gap-1.5">
-                  {product.certifications.map((c, i) => (
-                    <span
-                      key={i}
-                      className="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-0.5 rounded-full bg-primary-subtle text-primary border border-primary/20"
-                    >
-                      <Award className="w-3 h-3 text-primary" /> {c}
-                    </span>
-                  ))}
+              <div className="flex flex-col gap-1.5 pt-2 border-t border-line">
+                <div className="flex items-start gap-2">
+                  <span className="text-xs font-bold text-muted uppercase tracking-wider w-24 shrink-0">Certifications:</span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {product.certifications.map((c, i) => (
+                      <span
+                        key={i}
+                        className="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-0.5 rounded-full bg-primary-subtle text-primary border border-primary/20"
+                      >
+                        <Award className="w-3 h-3 text-primary" /> {c}
+                      </span>
+                    ))}
+                  </div>
                 </div>
+                <span className="text-[10px] text-muted">Listed by seller (sample data) • Check issuer registry for official status</span>
               </div>
             )}
           </div>

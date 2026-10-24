@@ -36,13 +36,13 @@ export default function NewsletterSignup() {
         </h3>
 
         <p className="text-xs sm:text-sm text-primary-contrast/80 max-w-lg mx-auto font-normal leading-relaxed">
-          Receive curated seasonal produce guides, craft cluster highlights, and new product lifecycle audits. 100% offline-safe subscription.
+          Receive curated seasonal produce guides, craft cluster highlights, and new product lifecycle audits. Local-first subscription simulation.
         </p>
 
         {subscribed ? (
           <div className="p-4 rounded-2xl bg-primary-contrast/10 border border-primary-contrast/30 text-xs font-medium text-primary-contrast flex items-center justify-center gap-2 animate-fade-in">
             <CheckCircle2 className="w-4 h-4" />
-            <span>You're subscribed! Your offline subscription token is saved safely in local storage.</span>
+            <span>You're subscribed! Your subscription preference is saved safely in local storage.</span>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row items-center gap-2.5 max-w-md mx-auto pt-2">
@@ -66,7 +66,7 @@ export default function NewsletterSignup() {
         <div className="flex items-center justify-center gap-3 text-[11px] text-primary-contrast/60 pt-2 font-normal">
           <span>🔒 Zero spam</span>
           <span>•</span>
-          <span>🌱 100% Offline-safe</span>
+          <span>🌱 Private & Local</span>
           <span>•</span>
           <span>Unsubscribe anytime</span>
         </div>

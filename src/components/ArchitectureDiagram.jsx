@@ -91,7 +91,7 @@ export default function ArchitectureDiagram() {
         </div>
         <div className="flex items-center gap-2 shrink-0">
           <span className="px-3 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-medium border border-primary/20">
-            100% Offline Capable
+            Local-First Capable
           </span>
           <span className="px-3 py-1.5 rounded-full bg-secondary/10 text-secondary text-xs font-medium border border-secondary/20">
             0ms Search Latency

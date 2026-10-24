@@ -113,7 +113,7 @@ export default function LoginPage() {
             }}
             className="w-full py-3 rounded-full bg-surface-sunken hover:bg-surface border border-line text-heading font-medium text-xs transition min-h-[44px] cursor-pointer"
           >
-            Continue as Guest (100% Offline)
+            Continue as Guest (Local Mode)
           </button>
 
           <div className="text-center pt-2 text-xs text-muted">

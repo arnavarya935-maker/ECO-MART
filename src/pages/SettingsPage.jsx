@@ -123,7 +123,7 @@ export default function SettingsPage() {
             <span className="text-xs font-semibold uppercase tracking-wider text-primary bg-primary/10 border border-primary/20 px-2.5 py-0.5 rounded-full">
               {t('settings.title', 'Preferences & Accessibility')}
             </span>
-            <span className="text-xs text-muted font-medium">100% Offline Storage</span>
+            <span className="text-xs text-muted font-medium">Local Storage</span>
           </div>
           <h1 className="text-3xl font-serif font-bold text-heading mt-1.5 tracking-tight">
             {lang === 'hi' ? 'एप्लिकेशन सेटिंग्स' : 'Application Settings'}
@@ -402,7 +402,7 @@ export default function SettingsPage() {
                   Web Audio Synthesizer
                 </h3>
                 <p className="text-[11px] text-muted font-normal">
-                  100% offline audio chimes & clicks
+                  Local audio chimes & clicks
                 </p>
               </div>
             </div>

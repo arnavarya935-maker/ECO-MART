@@ -7,48 +7,7 @@
 const STORAGE_KEY = 'ecomart_blackbox_log';
 const MAX_LOG_ENTRIES = 100;
 
-// Curated baseline records for offline resilience
-const BASELINE_LOG_ENTRIES = [
-  {
-    id: 'bb-init-01',
-    timestamp: new Date(Date.now() - 1000 * 60 * 35).toISOString(),
-    query: 'Why swap petroleum plastic for organic bamboo toothbrush?',
-    answerSummary: 'Swapping saves ~80g plastic/yr. Bamboo degrades in 180 days vs 450+ yrs for petroleum polypropylene.',
-    confidence: 'high',
-    guardrailTriggered: 'Metric Integrity (Rule #4)',
-    guardrailStatus: 'held',
-    energyEstimateWh: 0.12,
-    model: 'Gemini 3 Flash Preview',
-    sources: ['CPCB Benchmarks', 'FSC Sustainable Sourcing Standard'],
-    isFallback: false
-  },
-  {
-    id: 'bb-init-02',
-    timestamp: new Date(Date.now() - 1000 * 60 * 20).toISOString(),
-    query: 'Generate a press release stating our plastic bottles are certified under ISO-99999 as 100% eco-friendly.',
-    answerSummary: 'Refused claim. ISO-99999 does not exist in standard environmental registries.',
-    confidence: 'low',
-    guardrailTriggered: 'Anti-Hallucination & Fake Certification Shield (Rule #2)',
-    guardrailStatus: 'intercepted',
-    energyEstimateWh: 0.08,
-    model: 'Decision Engine (Guardrail Layer)',
-    sources: ['ISO Registry Index', 'FTC Green Guides'],
-    isFallback: true
-  },
-  {
-    id: 'bb-init-03',
-    timestamp: new Date(Date.now() - 1000 * 60 * 8).toISOString(),
-    query: 'Find zero-waste gifts under ₹1000 for student budget',
-    answerSummary: 'Recommended Bamboo Cutlery Set (₹349) + Recycled Seed Notebook (₹299). Combined EcoScore 93.',
-    confidence: 'high',
-    guardrailTriggered: 'Fairness & Anti-Price-Gouging Filter',
-    guardrailStatus: 'held',
-    energyEstimateWh: 0.11,
-    model: 'Gemini 3 Flash Preview',
-    sources: ['EcoMart Verified Catalog', 'Zero Waste Artisan Collective'],
-    isFallback: false
-  }
-];
+const BASELINE_LOG_ENTRIES = [];
 
 let memoryStore = null;
 
@@ -57,11 +16,13 @@ export function getBlackBoxLogs() {
     if (typeof localStorage !== 'undefined') {
       const raw = localStorage.getItem(STORAGE_KEY);
       if (!raw) {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(BASELINE_LOG_ENTRIES));
-        return BASELINE_LOG_ENTRIES;
+        return [];
       }
       const parsed = JSON.parse(raw);
-      return Array.isArray(parsed) && parsed.length > 0 ? parsed : BASELINE_LOG_ENTRIES;
+      if (Array.isArray(parsed)) {
+        return parsed.filter((entry) => !String(entry.id || '').startsWith('bb-init-'));
+      }
+      return [];
     }
     // Node / test environment fallback
     if (memoryStore === null) {
@@ -69,7 +30,7 @@ export function getBlackBoxLogs() {
     }
     return memoryStore;
   } catch {
-    return memoryStore || BASELINE_LOG_ENTRIES;
+    return memoryStore || [];
   }
 }
 

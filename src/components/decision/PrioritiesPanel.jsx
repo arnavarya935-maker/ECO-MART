@@ -160,7 +160,7 @@ export default function PrioritiesPanel({ compact = false, className = '' }) {
             />
             <Slider
               id="priority-certs"
-              label="Verified Certifications"
+              label="Disclosed Certifications"
               value={userPriorities.certs}
               min={0}
               max={100}

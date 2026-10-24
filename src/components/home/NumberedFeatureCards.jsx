@@ -60,7 +60,7 @@ export default function NumberedFeatureCards() {
             </h2>
           </div>
           <p className="text-xs font-sans text-text-secondary max-w-md">
-            Every metric is transparent, accountable, and designed for rigorous deliberation under Technophilia 7.0 standards.
+            Every metric is transparent, accountable, and designed for rigorous deliberation under open responsible AI standards.
           </p>
         </div>
 

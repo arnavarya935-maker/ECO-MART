@@ -85,7 +85,7 @@ export const en = {
   // Cart Transformer
   'transformer.title': 'Cart Transformer',
   'transformer.subtitle': 'Paste your ordinary shopping list — our Eco Agent transforms it into a sustainable, budget-respecting cart.',
-  'transformer.badge': '100% Offline AI • Multi-Choice Knapsack Optimiser',
+  'transformer.badge': 'Local AI • Multi-Choice Knapsack Optimiser',
   'transformer.inputPlaceholder': 'e.g. toothbrush, shampoo bottle, 2 plastic water bottles, notebooks, dish soap, polybags under ₹1500',
   'transformer.budgetLabel': 'Budget Limit (optional)',
   'transformer.budgetPlaceholder': '₹ Max Budget',

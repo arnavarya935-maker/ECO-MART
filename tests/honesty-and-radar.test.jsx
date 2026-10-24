@@ -9,13 +9,12 @@ import ClassImpactGarden from '../src/components/tools/ClassImpactGarden';
 import productsData from '../src/data/products.json';
 
 describe('Feature 7: Honesty Meter & Uncertainty Engine', () => {
-  it('provides calibrated baseline honesty metrics so session is never an empty void', () => {
+  it('returns clean initial metrics when session starts without fake baseline entries', () => {
     const metrics = calculateHonestyMetrics([]);
-    expect(metrics.notSureCount).toBeGreaterThan(0);
-    expect(metrics.avgConfidence).toBeGreaterThan(50);
-    expect(metrics.avgConfidence).toBeLessThanOrEqual(100);
-    expect(metrics.uncertaintyLog.length).toBeGreaterThan(0);
-    expect(metrics.historyConfidence.length).toBeGreaterThanOrEqual(5);
+    expect(metrics.notSureCount).toBe(0);
+    expect(metrics.avgConfidence).toBe(100);
+    expect(metrics.uncertaintyLog.length).toBe(0);
+    expect(metrics.historyConfidence.length).toBe(0);
   });
 
   it('detects admitted uncertainty and low confidence in agent messages', () => {
@@ -38,8 +37,8 @@ describe('Feature 7: Honesty Meter & Uncertainty Engine', () => {
 
     const metrics = calculateHonestyMetrics(messages);
     expect(metrics.uncertaintyLog.some((u) => u.query === 'Does it degrade in 5 days?')).toBe(true);
-    expect(metrics.notSureCount).toBeGreaterThan(2);
-    expect(metrics.historyConfidence[metrics.historyConfidence.length - 2]).toBe(45);
+    expect(metrics.notSureCount).toBe(1);
+    expect(metrics.historyConfidence[0]).toBe(45);
   });
 });
 

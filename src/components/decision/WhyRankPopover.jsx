@@ -127,7 +127,7 @@ export default function WhyRankPopover({ rankingDetails }) {
 
           <div className="mt-3 pt-2 border-t border-line text-[9px] font-sans text-muted flex items-center justify-between">
             <span>Normalized using live catalog min-max</span>
-            <span className="text-primary font-semibold">100% Offline AI</span>
+            <span className="text-primary font-semibold">Deterministic Algorithm</span>
           </div>
         </div>
       )}

@@ -176,7 +176,7 @@ export default function EthicsInboxModal({ isOpen, onClose }) {
           </div>
 
           <span className="text-[10px] text-muted hidden sm:inline">
-            Technophilia 7.0 AI Governance
+            Open AI Governance & Safety
           </span>
         </div>
 

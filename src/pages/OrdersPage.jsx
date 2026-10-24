@@ -272,7 +272,7 @@ export default function OrdersPage() {
                     <span>Delivering to: {order.shippingAddress || 'Indiranagar, Bengaluru, Karnataka (560038)'}</span>
                   </div>
                   <span className="text-primary font-medium">
-                    100% Recycled Kraft Box • Zero Plastic Sealed
+                    100% Recycled Kraft Box • Plastic-Free Sealed
                   </span>
                 </div>
               </div>

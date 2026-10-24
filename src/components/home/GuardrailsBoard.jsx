@@ -122,7 +122,7 @@ export default function GuardrailsBoard() {
 
                 <div className="pt-3 border-t border-line/60 flex items-center justify-between text-[11px] font-mono text-text-muted">
                   <span>Audit Engine</span>
-                  <span className="text-primary font-semibold">Tier 1 &amp; 2 Active</span>
+                  <span className="text-primary font-semibold">Active &amp; Enforced</span>
                 </div>
               </div>
             );

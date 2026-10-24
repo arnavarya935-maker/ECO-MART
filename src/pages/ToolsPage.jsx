@@ -20,19 +20,19 @@ import ClassImpactGarden from '../components/tools/ClassImpactGarden';
 import BudgetBasketBuilder from '../components/tools/BudgetBasketBuilder';
 
 const TOOL_TABS = [
-  { id: 'basket', label: 'Budget Basket Builder', icon: ShoppingBag, feature: 'Feature 22' },
-  { id: 'class-garden', label: 'Class Impact Garden', icon: TreePine, feature: 'Feature 9' },
-  { id: 'quiz', label: 'Eco Quiz', icon: Sparkles, feature: 'Feature 43' },
-  { id: 'carbon', label: 'Carbon Calculator', icon: Calculator, feature: 'Feature 44' },
-  { id: 'map', label: 'Artisan Eco Map', icon: MapPin, feature: 'Feature 45' },
-  { id: 'challenge', label: 'Daily Challenge', icon: Flame, feature: 'Feature 46' },
-  { id: 'goals', label: 'Eco Goals', icon: Target, feature: 'Feature 47' },
-  { id: 'savings', label: 'Savings vs Impact', icon: IndianRupee, feature: 'Feature 49' },
-  { id: 'recycling', label: 'Recycling Guide', icon: Recycle, feature: 'Feature 50' },
-  { id: 'seasonal', label: 'Seasonal Produce', icon: Calendar, feature: 'Feature 51' },
-  { id: 'glossary', label: 'Eco Glossary', icon: BookOpen, feature: 'Feature 52' },
-  { id: 'water', label: 'Water & Energy', icon: Droplets, feature: 'Feature 53' },
-  { id: 'garden', label: 'Virtual Tree', icon: TreePine, feature: 'Feature 54' }
+  { id: 'basket', label: 'Budget Basket Builder', icon: ShoppingBag },
+  { id: 'class-garden', label: 'Class Impact Garden', icon: TreePine },
+  { id: 'quiz', label: 'Eco Quiz', icon: Sparkles },
+  { id: 'carbon', label: 'Carbon Calculator', icon: Calculator },
+  { id: 'map', label: 'Artisan Eco Map', icon: MapPin },
+  { id: 'challenge', label: 'Daily Challenge', icon: Flame },
+  { id: 'goals', label: 'Eco Goals', icon: Target },
+  { id: 'savings', label: 'Savings vs Impact', icon: IndianRupee },
+  { id: 'recycling', label: 'Recycling Guide', icon: Recycle },
+  { id: 'seasonal', label: 'Seasonal Produce', icon: Calendar },
+  { id: 'glossary', label: 'Eco Glossary', icon: BookOpen },
+  { id: 'water', label: 'Water & Energy', icon: Droplets },
+  { id: 'garden', label: 'Virtual Tree', icon: TreePine }
 ];
 
 export default function ToolsPage() {

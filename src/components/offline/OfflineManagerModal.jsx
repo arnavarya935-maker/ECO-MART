@@ -60,11 +60,11 @@ export default function OfflineManagerModal({ isOpen, onClose }) {
   };
 
   const OFFLINE_CAPABILITIES = [
-    { feature: 'Product Catalog & Pricing', status: '100% Offline', note: 'All 64 products and lifecycle attributes bundled client-side.' },
-    { feature: 'EcoScore & Carbon Delta Algorithm', status: '100% Offline', note: 'ISO 14040 open formula executes in client JavaScript.' },
-    { feature: 'Multi-Agent Shopping Intelligence', status: '100% Offline', note: 'Deterministic rules & local knowledge collective fallback.' },
-    { feature: 'Greenwash Detection & Claim Lexicon', status: '100% Offline', note: 'ASCI and FTC regulatory regex lexicon runs on device.' },
-    { feature: 'Impact Command Center & Receipts', status: '100% Offline', note: 'Generates printable receipts and budget bars without cloud sync.' },
+    { feature: 'Product Catalog & Pricing', status: 'Offline Available', note: 'All 64 products and lifecycle attributes bundled client-side.' },
+    { feature: 'EcoScore & Carbon Delta Algorithm', status: 'Offline Available', note: 'ISO 14040 open formula executes in client JavaScript.' },
+    { feature: 'Multi-Agent Shopping Intelligence', status: 'Offline Available', note: 'Deterministic rules & local knowledge collective fallback.' },
+    { feature: 'Greenwash Detection & Claim Lexicon', status: 'Offline Available', note: 'ASCI and FTC regulatory regex lexicon runs on device.' },
+    { feature: 'Impact Command Center & Receipts', status: 'Offline Available', note: 'Generates printable receipts and budget bars without cloud sync.' },
     { feature: 'Registry Verification Lookups', status: 'Online Only', note: 'Clicking out to public registries (GOTS, FSC) requires internet.' }
   ];
 
@@ -166,7 +166,7 @@ export default function OfflineManagerModal({ isOpen, onClose }) {
                 </div>
 
                 <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold whitespace-nowrap shrink-0 border ${
-                  cap.status === '100% Offline'
+                  cap.status === 'Offline Available'
                     ? 'bg-emerald-500/10 text-emerald-600 border-emerald-500/30'
                     : 'bg-surface-sunken text-muted border-line'
                 }`}>

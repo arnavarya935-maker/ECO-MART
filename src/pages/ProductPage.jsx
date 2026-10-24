@@ -522,8 +522,11 @@ export default function ProductPage() {
                   <div className="flex items-start gap-2.5 text-xs">
                     <ShieldCheck className="w-4 h-4 text-secondary shrink-0 mt-0.5" />
                     <div>
-                      <span className="font-semibold text-heading">Verified: </span>
-                      <span className="text-secondary">{product.certifications.join(', ')}</span>
+                      <span className="font-semibold text-heading">Certifications: </span>
+                      <span className="text-secondary">
+                        {product.certifications.join(', ')}{' '}
+                        <span className="text-[11px] text-muted font-normal">(Listed by seller (sample data))</span>
+                      </span>
                     </div>
                   </div>
                 )}

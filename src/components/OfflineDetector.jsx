@@ -160,7 +160,7 @@ export default function OfflineDetector() {
           <div className="flex items-center gap-2.5 max-w-7xl mx-auto px-4">
             <WifiOff className="w-4 h-4 shrink-0 text-warning" />
             <span>
-              <strong className="font-semibold text-warning">Offline Mode Active</strong> — EcoMart is 100% offline-native. Catalog browsing, calculators, and cart audits work completely offline without an internet connection.
+              <strong className="font-semibold text-warning">Offline Mode Active</strong> — Catalog browsing, calculators, and cart audits continue to work locally without an internet connection.
             </span>
           </div>
           <button

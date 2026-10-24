@@ -166,8 +166,8 @@ export default function BlackBoxPage() {
           {filteredLogs.length === 0 ? (
             <div className="p-12 text-center rounded-3xl bg-surface border border-line space-y-2">
               <FileText className="w-8 h-8 text-muted mx-auto" />
-              <h3 className="text-sm font-bold text-heading">No audit logs matching criteria</h3>
-              <p className="text-xs text-muted">Try clearing search filters or interacting with Eco Agent.</p>
+              <h3 className="text-sm font-bold text-heading">Nothing here yet</h3>
+              <p className="text-xs text-muted">Interact with the Eco Agent or test a probe in Playground to record your first real interaction trace.</p>
             </div>
           ) : (
             filteredLogs.map((item) => {

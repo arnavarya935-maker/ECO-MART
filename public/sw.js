@@ -1,4 +1,4 @@
-// Offline-Native Service Worker for EcoMart
+// Local-First Service Worker for EcoMart
 const CACHE_NAME = 'ecomart-offline-v3';
 const OFFLINE_FALLBACK = '/offline.html';
 

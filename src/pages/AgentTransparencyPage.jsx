@@ -159,7 +159,7 @@ export default function AgentTransparencyPage() {
                   Deterministic Multi-Agent Collective
                 </h3>
                 <span className="text-[11px] font-mono text-muted">
-                  100% Offline Fallback • Zero Network Needed
+                  Local Fallback • Zero Network Needed
                 </span>
               </div>
             </div>

@@ -86,15 +86,15 @@ export default function Footer() {
             <div className="pt-2 flex flex-wrap gap-2 text-xs font-mono">
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-raised text-heading border border-line text-[11px] uppercase tracking-wider">
                 <ShieldCheck className="w-3.5 h-3.5 text-primary" />
-                Zero Plastic
+                Plastic-Conscious
               </span>
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-raised text-heading border border-line text-[11px] uppercase tracking-wider">
                 <Award className="w-3.5 h-3.5 text-secondary" />
-                Verified Impact
+                Transparent Impact
               </span>
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-raised text-heading border border-line text-[11px] uppercase tracking-wider">
                 <Zap className="w-3.5 h-3.5 text-amber-400" />
-                100% Offline
+                Local-First Engine
               </span>
             </div>
           </div>

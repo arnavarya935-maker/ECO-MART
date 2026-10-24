@@ -56,7 +56,7 @@ export default function ShopActiveChips({
   if (onlyPlasticFree) {
     chips.push({
       id: 'plastic',
-      label: 'Zero Plastic Only',
+      label: 'Plastic-Free Only',
       onClear: onTogglePlasticFree
     });
   }

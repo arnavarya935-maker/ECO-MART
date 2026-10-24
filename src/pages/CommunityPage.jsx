@@ -7,10 +7,10 @@ import PledgeWall from '../components/community/PledgeWall';
 import NewsletterSignup from '../components/community/NewsletterSignup';
 
 const TABS = [
-  { id: 'feed', label: 'Community Feed & Tips', icon: Users, feature: 'Feature 55' },
-  { id: 'leaderboard', label: 'Leaderboard', icon: Trophy, feature: 'Feature 56' },
-  { id: 'pledges', label: 'Pledge Wall', icon: HeartHandshake, feature: 'Feature 60' },
-  { id: 'share', label: 'Shareable Certificate', icon: Share2, feature: 'Feature 59' }
+  { id: 'feed', label: 'Community Feed & Tips', icon: Users },
+  { id: 'leaderboard', label: 'Leaderboard', icon: Trophy },
+  { id: 'pledges', label: 'Pledge Wall', icon: HeartHandshake },
+  { id: 'share', label: 'Shareable Certificate', icon: Share2 }
 ];
 
 export default function CommunityPage() {

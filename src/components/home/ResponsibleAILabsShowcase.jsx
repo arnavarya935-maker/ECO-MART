@@ -101,7 +101,7 @@ export default function ResponsibleAILabsShowcase() {
 
           <div className="flex items-center gap-2 text-xs font-mono text-muted bg-surface px-3 py-2 rounded-xl border border-line self-start sm:self-auto">
             <ShieldCheck className="w-4 h-4 text-emerald-600" />
-            <span>100% Offline Compatible • Zero PII Retained</span>
+            <span>Local-First Intelligence • Zero PII Retained</span>
           </div>
         </div>
 

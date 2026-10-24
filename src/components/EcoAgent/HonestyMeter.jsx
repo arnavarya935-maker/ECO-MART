@@ -15,29 +15,19 @@ import {
 export function calculateHonestyMetrics(messages = []) {
   const agentMessages = messages.filter((m) => m.sender === 'agent' && m.id !== 'welcome');
 
-  // Baseline calibration for initial sessions so widget is never an empty void
-  const baselineEntries = [
-    {
-      id: 'init-uncertainty-1',
-      query: 'Is this bamboo brush 100% biodegradable within 30 days?',
-      reason: 'Missing soil temperature & microbe laboratory data',
-      statement: "I cannot confirm 30-day degradation without certified compost conditions; lab standards usually require 90-180 days.",
-      confidence: 65,
-      timestamp: 'Session start'
-    },
-    {
-      id: 'init-uncertainty-2',
-      query: 'Does copper water bottle cure autoimmune diseases?',
-      reason: 'Medical & health claim beyond sustainability scope',
-      statement: "I am not sure of medical claims and decline to validate unproven health benefits. I only assess its reusable material footprint.",
-      confidence: 45,
-      timestamp: 'Earlier'
-    }
-  ];
+  if (agentMessages.length === 0) {
+    return {
+      notSureCount: 0,
+      avgConfidence: 100,
+      historyConfidence: [],
+      uncertaintyLog: [],
+      totalQueries: 0
+    };
+  }
 
-  let notSureCount = baselineEntries.length;
-  const historyConfidence = [80, 65, 95, 45, 92];
-  const uncertaintyLog = [...baselineEntries];
+  let notSureCount = 0;
+  const historyConfidence = [];
+  const uncertaintyLog = [];
 
   agentMessages.forEach((msg) => {
     const text = (msg.text || '').toLowerCase();
@@ -84,9 +74,9 @@ export function calculateHonestyMetrics(messages = []) {
     }
   });
 
-  const avgConfidence = Math.round(
-    historyConfidence.reduce((a, b) => a + b, 0) / historyConfidence.length
-  );
+  const avgConfidence = historyConfidence.length > 0
+    ? Math.round(historyConfidence.reduce((a, b) => a + b, 0) / historyConfidence.length)
+    : 100;
 
   return {
     notSureCount,
@@ -109,11 +99,13 @@ export default function HonestyMeter({ messages = [] }) {
   // Mini sparkline path
   const sparkWidth = 48;
   const sparkHeight = 16;
-  const sparkPoints = metrics.historyConfidence.map((val, idx, arr) => {
-    const x = (idx / (arr.length - 1 || 1)) * sparkWidth;
-    const y = sparkHeight - (val / 100) * sparkHeight;
-    return `${x},${y}`;
-  }).join(' ');
+  const sparkPoints = metrics.historyConfidence.length > 0
+    ? metrics.historyConfidence.map((val, idx, arr) => {
+        const x = (idx / (arr.length - 1 || 1)) * sparkWidth;
+        const y = sparkHeight - (val / 100) * sparkHeight;
+        return `${x},${y}`;
+      }).join(' ')
+    : `0,${sparkHeight / 2} ${sparkWidth},${sparkHeight / 2}`;
 
   return (
     <>
@@ -258,31 +250,39 @@ export default function HonestyMeter({ messages = [] }) {
                 </span>
                 <span className="text-[11px] font-mono text-muted">Recent response timeline</span>
               </div>
-              <div className="h-12 w-full pt-2 flex items-center justify-center">
-                <svg viewBox="0 0 100 24" className="w-full h-10 overflow-visible">
-                  <polyline
-                    fill="none"
-                    stroke="var(--color-primary, #059669)"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    points={metrics.historyConfidence.map((v, i, arr) => `${(i / (arr.length - 1)) * 96 + 2},${22 - (v / 100) * 18}`).join(' ')}
-                  />
-                  {metrics.historyConfidence.map((v, i, arr) => (
-                    <circle
-                      key={i}
-                      cx={(i / (arr.length - 1)) * 96 + 2}
-                      cy={22 - (v / 100) * 18}
-                      r="3"
-                      className="fill-primary"
-                    />
-                  ))}
-                </svg>
-              </div>
-              <div className="flex justify-between text-[10px] font-mono text-muted">
-                <span>Start</span>
-                <span>Current ({metrics.historyConfidence[metrics.historyConfidence.length - 1]}%)</span>
-              </div>
+              {metrics.historyConfidence.length >= 2 ? (
+                <>
+                  <div className="h-12 w-full pt-2 flex items-center justify-center">
+                    <svg viewBox="0 0 100 24" className="w-full h-10 overflow-visible">
+                      <polyline
+                        fill="none"
+                        stroke="var(--color-primary, #059669)"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        points={metrics.historyConfidence.map((v, i, arr) => `${(i / (arr.length - 1)) * 96 + 2},${22 - (v / 100) * 18}`).join(' ')}
+                      />
+                      {metrics.historyConfidence.map((v, i, arr) => (
+                        <circle
+                          key={i}
+                          cx={(i / (arr.length - 1)) * 96 + 2}
+                          cy={22 - (v / 100) * 18}
+                          r="3"
+                          className="fill-primary"
+                        />
+                      ))}
+                    </svg>
+                  </div>
+                  <div className="flex justify-between text-[10px] font-mono text-muted">
+                    <span>Start</span>
+                    <span>Current ({metrics.historyConfidence[metrics.historyConfidence.length - 1]}%)</span>
+                  </div>
+                </>
+              ) : (
+                <div className="py-4 text-center text-xs text-muted">
+                  No responses evaluated in this session yet.
+                </div>
+              )}
             </div>
 
             {/* Uncertainty Log */}
@@ -298,28 +298,35 @@ export default function HonestyMeter({ messages = [] }) {
               </div>
 
               <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
-                {metrics.uncertaintyLog.map((item) => (
-                  <div
-                    key={item.id}
-                    className="p-3 rounded-2xl bg-surface-raised border border-line/80 space-y-1 text-xs"
-                  >
-                    <div className="flex items-center justify-between text-[11px]">
-                      <span className="font-semibold text-heading truncate max-w-[280px]">
-                        "{item.query}"
-                      </span>
-                      <span className="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500/15 text-amber-500">
-                        {item.confidence}%
-                      </span>
-                    </div>
-                    <p className="text-[11px] text-secondary italic">
-                      "{item.statement}"
-                    </p>
-                    <div className="flex items-center gap-1 text-[10px] text-muted pt-1 border-t border-line/40">
-                      <HelpCircle className="w-3 h-3 text-amber-500 shrink-0" />
-                      <span>Boundary reason: {item.reason}</span>
-                    </div>
+                {metrics.uncertaintyLog.length === 0 ? (
+                  <div className="py-6 text-center text-muted space-y-1 border border-dashed border-line rounded-2xl bg-surface-sunken/40">
+                    <p className="text-xs font-semibold text-heading">Nothing here yet</p>
+                    <p className="text-[11px] text-muted">No uncertainty flags or caveats recorded in this session yet.</p>
                   </div>
-                ))}
+                ) : (
+                  metrics.uncertaintyLog.map((item) => (
+                    <div
+                      key={item.id}
+                      className="p-3 rounded-2xl bg-surface-raised border border-line/80 space-y-1 text-xs"
+                    >
+                      <div className="flex items-center justify-between text-[11px]">
+                        <span className="font-semibold text-heading truncate max-w-[280px]">
+                          "{item.query}"
+                        </span>
+                        <span className="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-amber-500/15 text-amber-500">
+                          {item.confidence}%
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-secondary italic">
+                        "{item.statement}"
+                      </p>
+                      <div className="flex items-center gap-1 text-[10px] text-muted pt-1 border-t border-line/40">
+                        <HelpCircle className="w-3 h-3 text-amber-500 shrink-0" />
+                        <span>Boundary reason: {item.reason}</span>
+                      </div>
+                    </div>
+                  ))
+                )}
               </div>
             </div>
 

@@ -97,7 +97,7 @@ export default function PlaygroundPage() {
             Preset Adversarial Vectors (Click to Launch Attack)
           </h2>
           <p className="text-xs text-muted">
-            Calibrated attack payloads crafted to test ethical boundaries mandated by Technophilia 7.0 Responsible AI criteria.
+            Calibrated attack payloads crafted to test ethical boundaries and responsible AI safety criteria.
           </p>
         </div>
 

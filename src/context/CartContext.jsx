@@ -12,19 +12,6 @@ export { fireGreenConfetti };
 
 const CartContext = createContext();
 
-// Initial mock reviews for offline realism
-const INITIAL_REVIEWS = {
-  'prod-001': [
-    { id: 'r1', author: 'Aarav P.', rating: 5, comment: 'Incredible bamboo craftsmanship. Replaced all plastic boards!', date: '2026-03-12', verifiedEco: true },
-    { id: 'r2', author: 'Neha S.', rating: 5, comment: 'Zero plastic in the parcel. Smells natural and durable.', date: '2026-03-24', verifiedEco: true }
-  ],
-  'prod-002': [
-    { id: 'r3', author: 'Vikram M.', rating: 5, comment: 'Keeps water cold all day, feel great avoiding plastic bottles.', date: '2026-03-18', verifiedEco: true }
-  ],
-  'prod-003': [
-    { id: 'r4', author: 'Pooja K.', rating: 5, comment: 'Cleans deeply without microplastic shedding. Highly recommend.', date: '2026-04-02', verifiedEco: true }
-  ]
-};
 
 // Pure order creation helper
 function createNewOrder(orderData, cartItems, impact, appliedCoupon) {
@@ -86,9 +73,9 @@ export function CartProvider({ children }) {
   const [reviews, setReviews] = useState(() => {
     try {
       const saved = localStorage.getItem('ecomart_reviews');
-      return saved ? JSON.parse(saved) : INITIAL_REVIEWS;
+      return saved ? JSON.parse(saved) : {};
     } catch {
-      return INITIAL_REVIEWS;
+      return {};
     }
   });
 

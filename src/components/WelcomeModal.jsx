@@ -85,7 +85,7 @@ export default function WelcomeModal() {
             </div>
 
             <p className="text-xs sm:text-sm text-muted leading-relaxed font-normal">
-              Every item in our 100% offline catalog is audited with an objective 0–100 Eco-Score formula. We track carbon emissions, plastic packaging, and transportation distance down to the exact gram.
+              Every item in our catalog is audited with an objective 0–100 Eco-Score formula. We track carbon emissions, plastic packaging, and transportation distance down to the exact gram.
             </p>
           </div>
         )}
@@ -166,8 +166,8 @@ export default function WelcomeModal() {
                 <span>Get instant cleaner alternatives when adding conventional items.</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="font-bold text-primary">✓ 100% Offline:</span>
-                <span>Works anytime without an internet connection or external servers.</span>
+                <span className="font-bold text-primary">✓ Local-First:</span>
+                <span>Core catalog and scoring work locally with optional live features.</span>
               </div>
             </div>
           </div>

@@ -2,50 +2,22 @@ import React, { useState } from 'react';
 import { Heart, Send } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
-const INITIAL_POSTS = [
-  {
-    id: 1,
-    author: 'Priya Narang',
-    avatar: '👩🏽‍🌾',
-    location: 'Bengaluru',
-    time: '2 hours ago',
-    content: 'Swapped my synthetic dish sponges for natural coconut coir scrubbers! They lather just as well and go straight into my balcony compost pot when done. Zero microplastics down the sink! 🌿🥥',
-    likes: 24,
-    liked: false,
-    tag: 'Kitchen Swap'
-  },
-  {
-    id: 2,
-    author: 'Kabir Varma',
-    avatar: '👨🏽‍🎓',
-    location: 'Pune',
-    time: '5 hours ago',
-    content: 'Refilled my travel pouch with solid shampoo and neem toothbrush before a 3-day trek. Saved 4 mini hotel plastic bottles and zero leaks in my backpack! 🎒✨',
-    likes: 19,
-    liked: false,
-    tag: 'Travel Zero-Waste'
-  },
-  {
-    id: 3,
-    author: 'Sumanth K.',
-    avatar: '👨🏽‍🌾',
-    location: 'Kochi',
-    time: 'Yesterday',
-    content: 'Beeswax food wraps are magical. Kept half a papaya fresh for 4 days without any plastic cling film! 🐝🥭',
-    likes: 31,
-    liked: false,
-    tag: 'Food Preservation'
-  }
-];
+const INITIAL_POSTS = [];
 
 export default function CommunityFeed() {
   const { user } = useAuth();
   const [posts, setPosts] = useState(() => {
     try {
       const saved = localStorage.getItem('eco_community_posts');
-      return saved ? JSON.parse(saved) : INITIAL_POSTS;
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        return Array.isArray(parsed)
+          ? parsed.filter((p) => !['Priya Narang', 'Kabir Varma', 'Sumanth K.'].includes(p.author))
+          : [];
+      }
+      return [];
     } catch {
-      return INITIAL_POSTS;
+      return [];
     }
   });
 
@@ -160,45 +132,54 @@ export default function CommunityFeed() {
 
       {/* Feed List */}
       <div className="space-y-4">
-        {posts.map((post) => (
-          <div
-            key={post.id}
-            className="p-5 rounded-2xl bg-surface-sunken border border-line space-y-3 transition hover:bg-surface-sunken/80"
-          >
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2.5">
-                <div className="w-9 h-9 rounded-full bg-primary/20 text-primary flex items-center justify-center text-lg shadow-soft-xs">
-                  {post.avatar}
+        {posts.length === 0 ? (
+          <div className="py-12 text-center text-secondary space-y-2 border border-dashed border-line rounded-2xl bg-surface-sunken/30">
+            <p className="text-sm font-semibold text-heading">Nothing here yet</p>
+            <p className="text-xs text-secondary max-w-sm mx-auto">
+              Share your first real zero-waste swap or eco tip with the community above.
+            </p>
+          </div>
+        ) : (
+          posts.map((post) => (
+            <div
+              key={post.id}
+              className="p-5 rounded-2xl bg-surface-sunken border border-line space-y-3 transition hover:bg-surface-sunken/80"
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-9 h-9 rounded-full bg-primary/20 text-primary flex items-center justify-center text-lg shadow-soft-xs">
+                    {post.avatar}
+                  </div>
+                  <div>
+                    <div className="font-semibold text-xs text-heading">{post.author}</div>
+                    <div className="text-[10px] text-muted font-normal">{post.location} • {post.time}</div>
+                  </div>
                 </div>
-                <div>
-                  <div className="font-semibold text-xs text-heading">{post.author}</div>
-                  <div className="text-[10px] text-muted font-normal">{post.location} • {post.time}</div>
-                </div>
+
+                <span className="text-[10px] font-medium uppercase px-2.5 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">
+                  {post.tag}
+                </span>
               </div>
 
-              <span className="text-[10px] font-medium uppercase px-2.5 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">
-                {post.tag}
-              </span>
-            </div>
+              <p className="text-xs text-secondary leading-relaxed font-normal">
+                {post.content}
+              </p>
 
-            <p className="text-xs text-secondary leading-relaxed font-normal">
-              {post.content}
-            </p>
-
-            <div className="flex items-center gap-4 pt-2.5 border-t border-line text-xs text-muted">
-              <button
-                type="button"
-                onClick={() => handleLike(post.id)}
-                className={`flex items-center gap-1.5 font-medium transition cursor-pointer min-h-[44px] focus-visible:outline-2 focus-visible:outline-focus ${
-                  post.liked ? 'text-danger' : 'hover:text-heading'
-                }`}
-              >
-                <Heart className={`w-3.5 h-3.5 ${post.liked ? 'fill-danger text-danger' : ''}`} />
-                <span>{post.likes} Helpful</span>
-              </button>
+              <div className="flex items-center gap-4 pt-2.5 border-t border-line text-xs text-muted">
+                <button
+                  type="button"
+                  onClick={() => handleLike(post.id)}
+                  className={`flex items-center gap-1.5 font-medium transition cursor-pointer min-h-[44px] focus-visible:outline-2 focus-visible:outline-focus ${
+                    post.liked ? 'text-danger' : 'hover:text-heading'
+                  }`}
+                >
+                  <Heart className={`w-3.5 h-3.5 ${post.liked ? 'fill-danger text-danger' : ''}`} />
+                  <span>{post.likes} Helpful</span>
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
     </div>
   );
