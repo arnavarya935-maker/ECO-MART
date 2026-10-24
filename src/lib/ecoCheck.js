@@ -226,11 +226,62 @@ export function analyzeExternalProduct(text, userPriorities = DEFAULT_PRIORITIES
     };
   });
 
+  // 6. Evidence Grades A through D (Feature 14)
+  let evidenceGrade = 'C';
+  let evidenceReason = '';
+  if (detectedCerts.length >= 2 || (detectedCerts.length >= 1 && detectedNatural.length > 0 && !hasPlastic)) {
+    evidenceGrade = 'A';
+    evidenceReason = 'Grade A (Strong Substantiation): Backed by recognized independent third-party certifications and published lifecycle factors.';
+  } else if (detectedCerts.length >= 1 || (detectedNatural.length > 0 && detectedGreenPackaging.length > 0 && !hasPlastic)) {
+    evidenceGrade = 'B';
+    evidenceReason = 'Grade B (Moderate Substantiation): Declared renewable material profile with standard low-impact packaging; independent registry lookup advised.';
+  } else if (hasBuzzwords && (hasPlastic || detectedPlasticPackaging.length > 0)) {
+    evidenceGrade = 'D';
+    evidenceReason = 'Grade D (High Greenwash Risk / Unsubstantiated): Vague buzzwords contradicted by synthetic polymers or non-recyclable packaging.';
+  } else {
+    evidenceGrade = 'C';
+    evidenceReason = 'Grade C (Weak Substantiation): Brand marketing assertions without verifiable third-party certification citations.';
+  }
+
+  // 7. Structured Claim Evidence Graph (Feature 13)
+  const evidenceGraph = {
+    claims: (detectedBuzzwords.length > 0 ? detectedBuzzwords : ['Sustainability Claim']).map((bw, i) => ({
+      id: `claim-${i}`,
+      label: `"${bw}"`,
+      type: 'claim'
+    })),
+    audits: [
+      {
+        id: 'audit-material',
+        label: detectedNatural.length > 0 ? `Natural: ${detectedNatural.join(', ')}` : hasPlastic ? `Synthetic: ${detectedSynthetic.join(', ')}` : 'Material: Unspecified',
+        status: hasPlastic ? 'fail' : detectedNatural.length > 0 ? 'pass' : 'neutral'
+      },
+      {
+        id: 'audit-packaging',
+        label: detectedGreenPackaging.length > 0 ? `Packaging: ${detectedGreenPackaging.join(', ')}` : detectedPlasticPackaging.length > 0 ? `Packaging: ${detectedPlasticPackaging.join(', ')}` : 'Packaging: Unspecified',
+        status: detectedPlasticPackaging.length > 0 ? 'fail' : detectedGreenPackaging.length > 0 ? 'pass' : 'neutral'
+      },
+      {
+        id: 'audit-cert',
+        label: detectedCerts.length > 0 ? `Registry: ${detectedCerts.join(', ').toUpperCase()}` : 'Registry: Zero Third-Party Certs',
+        status: detectedCerts.length > 0 ? 'pass' : 'warning'
+      }
+    ],
+    verdict: {
+      grade: evidenceGrade,
+      reason: evidenceReason,
+      isGreenwashFlagged: evidenceGrade === 'D' || (hasBuzzwords && hasPlastic)
+    }
+  };
+
   return {
     isVague: false,
     rawInput: clean,
     estimatedScore,
     estimatedGrade: grade,
+    evidenceGrade,
+    evidenceReason,
+    evidenceGraph,
     confidence, // 'low' | 'medium' | 'high'
     isEstimate: true,
     matchedCategory,
@@ -242,7 +293,7 @@ export function analyzeExternalProduct(text, userPriorities = DEFAULT_PRIORITIES
     alternatives,
     summary:
       grade === 'A' || grade === 'B'
-        ? `This product displays strong sustainability indicators with an estimated EcoScore of ${estimatedScore}/100 (Grade ${grade}).`
-        : `Caution recommended: contains flags such as ${redFlags[0] || 'synthetic materials'} with an estimated EcoScore of ${estimatedScore}/100 (Grade ${grade}).`
+        ? `This product displays strong sustainability indicators with an estimated EcoScore of ${estimatedScore}/100 (Grade ${grade}, Evidence Grade ${evidenceGrade}).`
+        : `Caution recommended: contains flags such as ${redFlags[0] || 'synthetic materials'} with an estimated EcoScore of ${estimatedScore}/100 (Grade ${grade}, Evidence Grade ${evidenceGrade}).`
   };
 }

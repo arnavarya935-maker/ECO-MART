@@ -9,6 +9,7 @@ import {
   Sparkles
 } from 'lucide-react';
 import { generateAISelfAuditReport } from '../lib/ai/selfAuditEngine.js';
+import AgentReportCard from '../components/agent/AgentReportCard';
 
 export default function AISelfAuditPage() {
   const [report, setReport] = useState(() => generateAISelfAuditReport([]));
@@ -30,7 +31,7 @@ export default function AISelfAuditPage() {
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-forest-900/10 text-forest-900 mb-3">
                 <FileCheck className="w-3.5 h-3.5" />
-                <span>CBSE Responsible AI Compliance</span>
+                <span>Responsible AI &amp; Algorithmic Governance</span>
               </div>
               <h1 className="text-3xl sm:text-4xl font-serif font-bold text-heading">
                 AI Self-Audit Session Report
@@ -279,13 +280,18 @@ export default function AISelfAuditPage() {
           {/* Footer Signature Block */}
           <div className="pt-6 border-t-2 border-line flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs font-mono text-muted">
             <div>
-              <span>EcoMart AI Integrity Commission • School Competition Edition</span>
+              <span>EcoMart Algorithmic Transparency &amp; Safety Framework</span>
               <p className="text-[10px] mt-0.5">100% Deterministic Local Telemetry • Zero PII Retained</p>
             </div>
             <div className="text-right">
               <span>Auditor Stamp: VERIFIED RESPONSIBLE AI</span>
             </div>
           </div>
+        </div>
+
+        {/* Live On-Demand Test Runner & Report Card (Feature 15) */}
+        <div className="print:hidden">
+          <AgentReportCard />
         </div>
       </div>
     </div>

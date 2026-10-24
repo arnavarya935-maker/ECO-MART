@@ -13,7 +13,7 @@ import Modal from './ui/Modal';
 import { useCart } from '../context/CartContext';
 
 export default function ProductDetailModal({ product, onClose }) {
-  const { addToCart, allProducts, getProductReviews, addReview } = useCart();
+  const { addToCart, allProducts, getProductReviews, addReview, setIsAgentOpen } = useCart();
   const [activeTab, setActiveTab] = useState('overview'); // 'overview' | 'lifecycle' | 'reviews'
   const [quantity, setQuantity] = useState(1);
   const [showFormulaPopover, setShowFormulaPopover] = useState(false);
@@ -483,6 +483,26 @@ export default function ProductDetailModal({ product, onClose }) {
           </div>
 
           <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => {
+                onClose();
+                setIsAgentOpen(true);
+                window.dispatchEvent(
+                  new CustomEvent('ecomart-agent-query', {
+                    detail: {
+                      query: `Evaluate the lifecycle, packaging claims, and carbon footprint of ${product.name}`,
+                      contextProduct: product
+                    }
+                  })
+                );
+              }}
+              className="min-h-[44px] flex items-center gap-1.5 px-3 py-2.5 rounded-xl border border-line hover:border-primary/50 text-secondary hover:text-primary font-medium text-xs transition cursor-pointer"
+              title="Ask Eco Agent about this item"
+            >
+              <Sparkles className="w-4 h-4 text-primary" />
+              <span className="hidden sm:inline">Ask Agent</span>
+            </button>
             <Link
               to={`/passport/${product.id}`}
               onClick={onClose}

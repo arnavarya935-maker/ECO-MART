@@ -13,17 +13,20 @@ import {
   Sliders,
   Volume2,
   VolumeX,
-  ShieldAlert
+  ShieldAlert,
+  Brain
 } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { useT } from '../../context/I18nContext';
 import { FEATURES } from '../../lib/features';
 import { sendAgentQuery } from '../../lib/ecoAgent';
+import { runMultiAgentPipeline } from '../../lib/multiAgentEngine';
 import { askEcoAgent } from '../../lib/ai/geminiAdapter';
 import { playSound } from '../../lib/audio';
 import PrioritiesPanel from '../decision/PrioritiesPanel';
 import EcoScoreBadge from '../EcoScoreBadge';
 import ReasoningExplanationCard from './ReasoningExplanationCard';
+import AgentMemoryDrawer from './AgentMemoryDrawer';
 import AIEnergyMeter from './AIEnergyMeter';
 import HonestyMeter from './HonestyMeter';
 import { appendBlackBoxLog } from '../../lib/ai/blackboxStore';
@@ -64,13 +67,18 @@ export default function EcoAgentChat() {
     swapItemInCart,
     showToast,
     userPriorities,
-    updateUserPriorities
+    updateUserPriorities,
+    addToCompare,
+    clearCompare,
+    setIsCompareOpen
   } = useCart();
 
   const { t, lang } = useT();
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [showPriorities, setShowPriorities] = useState(false);
+  const [memoryDrawerOpen, setMemoryDrawerOpen] = useState(false);
+  const [actionStatus, setActionStatus] = useState({});
   const [isListening, setIsListening] = useState(false);
   const [speechSupported] = useState(() => {
     if (typeof window === 'undefined') return false;
@@ -212,7 +220,7 @@ export default function EcoAgentChat() {
     }
 
     try {
-      // Parallel execution: LLM adapter (Gemini via proxy with local verified fallback) + local decision engine
+      // Parallel execution: LLM adapter + local rules + Multi-Agent Collective (Planner, Researcher, Skeptic, Advisor)
       const aiPromise = askEcoAgent({
         query: q,
         language: lang,
@@ -230,6 +238,14 @@ export default function EcoAgentChat() {
           userPriorities
         }
       }).catch(() => null);
+
+      const multiAgentResult = runMultiAgentPipeline({
+        query: q,
+        allProducts,
+        cartItems,
+        userPriorities,
+        contextProduct: agentContext.contextProduct || null
+      });
 
       const [aiResult, responseRaw] = await Promise.all([aiPromise, localPromise]);
       const response = responseRaw || {};
@@ -251,20 +267,27 @@ export default function EcoAgentChat() {
       const replyText =
         aiResult?.answer && (!response.basketPlan && !response.cartReview)
           ? aiResult.answer
-          : response.message || aiResult?.answer || 'I evaluated your request across cradle-to-grave sustainability factors.';
+          : response.message || aiResult?.answer || multiAgentResult?.pipelineHandoffs?.[3]?.summary || 'I evaluated your request across cradle-to-grave sustainability factors.';
+
+      const finalData = Array.isArray(response.data) && response.data.length > 0
+        ? response.data
+        : (multiAgentResult?.items && multiAgentResult.items.length > 0
+            ? multiAgentResult.items
+            : (response.data?.results || aiResult?.recommended_products || []));
 
       const agentMsg = {
         id: `agent-${Date.now()}`,
         sender: 'agent',
         text: replyText,
-        source: aiResult?.source === 'gemini' ? 'cloud-llm' : (response.source || 'local-rules'),
-        data: Array.isArray(response.data) && response.data.length > 0
-          ? response.data
-          : (response.data?.results || aiResult?.recommended_products || []),
+        source: aiResult?.source === 'gemini' ? 'cloud-llm' : (response.source || 'multi-agent-collective'),
+        data: finalData,
         didYouMean: response.didYouMean,
-        tradeoffs: response.tradeoffs,
+        tradeoffs: response.tradeoffs || multiAgentResult?.tradeoffs,
         trace: response.trace || [],
-        basketPlan: response.basketPlan,
+        pipelineHandoffs: multiAgentResult?.pipelineHandoffs || [],
+        skepticReport: multiAgentResult?.skepticReport || null,
+        proposedActions: multiAgentResult?.proposedActions || [],
+        basketPlan: response.basketPlan || multiAgentResult?.basketPlan,
         clarification: response.clarification,
         isFirstResponse: isFirst,
         cartReview: response.cartReview,
@@ -272,7 +295,7 @@ export default function EcoAgentChat() {
         sources_or_assumptions: aiResult?.sources_or_assumptions,
         confidence: aiResult?.confidence || 'high',
         estimated_energy_wh: energy,
-        model: aiResult?.model || (aiResult?.source === 'gemini' ? 'Gemini 1.5 Flash' : 'Decision Engine'),
+        model: aiResult?.model || (aiResult?.source === 'gemini' ? 'Gemini 1.5 Flash' : 'Multi-Agent Collective (Planner/Researcher/Skeptic/Advisor)'),
         isFallback: Boolean(aiResult?.isFallback),
         query: q,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
@@ -359,6 +382,22 @@ export default function EcoAgentChat() {
   useEffect(() => {
     sendRef.current = handleSendMessage;
   });
+
+  // Contextual Agent listener ("Ask Eco Agent about this")
+  useEffect(() => {
+    const handleContextQuery = (e) => {
+      const { query, contextProduct } = e.detail || {};
+      if (contextProduct) {
+        setAgentContext((prev) => ({ ...prev, contextProduct }));
+      }
+      setIsAgentOpen(true);
+      if (query && sendRef.current) {
+        sendRef.current(query);
+      }
+    };
+    window.addEventListener('ecomart-agent-query', handleContextQuery);
+    return () => window.removeEventListener('ecomart-agent-query', handleContextQuery);
+  }, [setIsAgentOpen]);
 
   // Speech Recognition initialization
   useEffect(() => {
@@ -514,6 +553,16 @@ export default function EcoAgentChat() {
           >
             <Sliders className="w-2.5 h-2.5" />
             <span>Priorities</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setMemoryDrawerOpen(true)}
+            className="px-2 py-1 rounded-lg bg-surface-sunken text-text-secondary text-[10px] font-semibold hover:bg-surface hover:text-heading transition-colors border border-line cursor-pointer flex items-center gap-1"
+            title="Inspect & manage stored agent memory"
+          >
+            <Brain className="w-2.5 h-2.5 text-primary" />
+            <span>Memory</span>
           </button>
           {Boolean(agentContext.lastCategory || agentContext.lastBudget || agentContext.lastQuery) && (
             <button
@@ -950,6 +999,90 @@ export default function EcoAgentChat() {
                 </div>
               )}
 
+              {/* Structured Tool Action Confirmation Cards (Tier 1 Feature 6) */}
+              {msg.proposedActions && msg.proposedActions.length > 0 && (
+                <div className="space-y-2 pt-2 border-t border-line">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-primary flex items-center gap-1.5">
+                    <ShieldAlert className="w-3.5 h-3.5 text-primary" />
+                    <span>Action Awaiting Confirmation:</span>
+                  </span>
+                  {msg.proposedActions.map((action) => {
+                    const status = actionStatus[action.id];
+                    return (
+                      <div
+                        key={action.id}
+                        className="p-3 rounded-2xl bg-surface-raised border border-primary/30 shadow-soft-xs space-y-2 text-left"
+                      >
+                        <div className="flex items-start justify-between gap-2">
+                          <div>
+                            <div className="font-bold text-heading text-xs">{action.label}</div>
+                            <div className="text-[11px] text-secondary mt-0.5">{action.description}</div>
+                          </div>
+                          {status && (
+                            <span className={`px-2 py-0.5 rounded-full text-[10px] font-semibold border ${
+                              status === 'confirmed'
+                                ? 'bg-emerald-500/10 text-emerald-600 border-emerald-500/30'
+                                : 'bg-rose-500/10 text-rose-600 border-rose-500/30'
+                            }`}>
+                              {status === 'confirmed' ? '✓ Executed' : '✕ Declined'}
+                            </span>
+                          )}
+                        </div>
+
+                        {action.products && action.products.length > 0 && (
+                          <div className="flex flex-wrap gap-1.5 pt-1">
+                            {action.products.map((p) => (
+                              <span
+                                key={p.id}
+                                className="px-2 py-0.5 rounded-lg bg-surface-sunken border border-line text-[10px] text-heading font-medium flex items-center gap-1"
+                              >
+                                <span>{p.name}</span>
+                                <span className="text-primary font-bold">₹{p.price}</span>
+                              </span>
+                            ))}
+                          </div>
+                        )}
+
+                        {!status && (
+                          <div className="flex items-center gap-2 pt-1">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                if (action.type === 'add_to_cart') {
+                                  (action.products || []).forEach((prod) => addToCart(prod, 1));
+                                  showToast(`Added ${action.products.length} item(s) to cart`, 'success');
+                                  playSound('success');
+                                } else if (action.type === 'compare_products') {
+                                  clearCompare?.();
+                                  (action.products || []).forEach((prod) => addToCompare?.(prod));
+                                  setIsCompareOpen?.(true);
+                                  showToast('Opening side-by-side comparison', 'info');
+                                }
+                                setActionStatus((prev) => ({ ...prev, [action.id]: 'confirmed' }));
+                              }}
+                              className="px-3 py-1.5 rounded-xl bg-primary hover:bg-primary-hover text-primary-contrast font-bold text-[11px] flex items-center gap-1 shadow-soft-xs cursor-pointer transition-colors"
+                            >
+                              <Check className="w-3.5 h-3.5" />
+                              <span>Confirm &amp; Execute</span>
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setActionStatus((prev) => ({ ...prev, [action.id]: 'declined' }));
+                                showToast('Action cancelled', 'info');
+                              }}
+                              className="px-3 py-1.5 rounded-xl bg-surface-sunken hover:bg-surface text-secondary border border-line text-[11px] font-medium cursor-pointer transition-colors"
+                            >
+                              Decline
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+
               {/* Responsible AI: Explainable Decision & Sources Card (Part 3 #1) */}
               {msg.sender === 'agent' && (
                 <ReasoningExplanationCard
@@ -970,10 +1103,12 @@ export default function EcoAgentChat() {
                   }
                   confidence={msg.confidence || 'high'}
                   estimatedEnergyWh={msg.estimated_energy_wh || 0.12}
-                  model={msg.model || (msg.source === 'cloud-llm' ? 'Gemini 1.5 Flash' : 'Local Deterministic Rules')}
+                  model={msg.model || (msg.source === 'cloud-llm' ? 'Gemini 1.5 Flash' : 'Multi-Agent Collective')}
                   isFallback={Boolean(msg.isFallback || msg.source === 'local-fallback' || msg.source === 'local-rules')}
                   messageId={msg.id}
                   query={msg.query || ''}
+                  pipelineHandoffs={msg.pipelineHandoffs || []}
+                  skepticReport={msg.skepticReport || null}
                 />
               )}
 
@@ -1066,6 +1201,12 @@ export default function EcoAgentChat() {
           <Send className="w-4 h-4 text-primary-contrast" />
         </button>
       </div>
+
+      {/* Transparent Memory Inspector Drawer (Feature 7) */}
+      <AgentMemoryDrawer
+        isOpen={memoryDrawerOpen}
+        onClose={() => setMemoryDrawerOpen(false)}
+      />
     </div>
   );
 }

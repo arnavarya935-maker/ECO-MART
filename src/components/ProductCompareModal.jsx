@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Trash2, ShoppingBag, Wind, Droplets, Ban } from 'lucide-react';
+import { X, Trash2, ShoppingBag, Wind, Droplets, Ban, Sparkles, ShieldCheck } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { calculateEcoScore } from '../lib/ecoScore';
 import EcoScoreBadge from './EcoScoreBadge';
@@ -15,6 +15,40 @@ export default function ProductCompareModal() {
     setIsCompareOpen,
     addToCart
   } = useCart();
+
+  const comparisonSummary = React.useMemo(() => {
+    if (!compareList || compareList.length < 2) return null;
+
+    const scored = compareList.map((p) => ({
+      product: p,
+      score: calculateEcoScore(p)?.score || 50,
+      price: p.price || 0,
+      carbon: Number(p.carbonKg || 0),
+      plastic: Number(p.plasticGrams || 0)
+    }));
+
+    const bestEco = [...scored].sort((a, b) => b.score - a.score)[0];
+    const bestPrice = [...scored].sort((a, b) => a.price - b.price)[0];
+    const bestCarbon = [...scored].sort((a, b) => a.carbon - b.carbon)[0];
+    const bestPlastic = [...scored].sort((a, b) => a.plastic - b.plastic)[0];
+
+    const highlights = [];
+    if (bestEco) highlights.push(`${bestEco.product.name} leads in overall environmental performance (${bestEco.score}/100 EcoScore).`);
+    if (bestCarbon && bestCarbon.product.id !== bestEco.product.id) {
+      highlights.push(`${bestCarbon.product.name} yields the lowest carbon footprint at ${bestCarbon.carbon} kg CO₂.`);
+    }
+    if (bestPrice && bestPrice.product.id !== bestEco.product.id) {
+      highlights.push(`${bestPrice.product.name} is the most accessible choice at ₹${bestPrice.price}.`);
+    }
+
+    return {
+      bestEcoId: bestEco?.product.id,
+      bestPriceId: bestPrice?.product.id,
+      bestCarbonId: bestCarbon?.product.id,
+      bestPlasticId: bestPlastic?.product.id,
+      narrative: highlights.join(' ')
+    };
+  }, [compareList]);
 
   if (!isCompareOpen) return null;
 
@@ -50,8 +84,25 @@ export default function ProductCompareModal() {
           )}
         </div>
 
+        {/* Natural Language Summary Banner (Feature 9) */}
+        {comparisonSummary && (
+          <div className="my-4 p-4 rounded-2xl bg-primary/10 border border-primary/25 space-y-2 text-text">
+            <div className="flex items-center gap-2 text-primary font-bold text-xs uppercase tracking-wider">
+              <Sparkles className="w-4 h-4" />
+              <span>Comparative Lifecycle Synthesis</span>
+            </div>
+            <p className="text-xs font-sans text-secondary leading-relaxed">
+              {comparisonSummary.narrative}
+            </p>
+            <div className="flex items-center gap-1.5 text-[10px] text-muted font-sans pt-1 border-t border-primary/20">
+              <ShieldCheck className="w-3 h-3 text-primary shrink-0" />
+              <span>Cradle-to-gate calculations. Certifications claimed on label; verify with respective registries.</span>
+            </div>
+          </div>
+        )}
+
         {/* Content Body */}
-        <div className="flex-1 overflow-y-auto pt-6">
+        <div className="flex-1 overflow-y-auto pt-4">
           {compareList.length === 0 ? (
             <div className="text-center py-16 space-y-3">
               <div className="w-14 h-14 rounded-2xl bg-surface-sunken border border-line text-secondary mx-auto flex items-center justify-center text-2xl shadow-soft-sm">
@@ -66,6 +117,10 @@ export default function ProductCompareModal() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {compareList.map((product) => {
                 const score = calculateEcoScore(product);
+                const isBestEco = comparisonSummary?.bestEcoId === product.id;
+                const isBestPrice = comparisonSummary?.bestPriceId === product.id;
+                const isBestCarbon = comparisonSummary?.bestCarbonId === product.id;
+                const isBestPlastic = comparisonSummary?.bestPlasticId === product.id;
                 return (
                   <div
                     key={product.id}
@@ -101,6 +156,30 @@ export default function ProductCompareModal() {
                     <div className="text-xs text-muted mt-0.5">{product.category}</div>
                     <div className="text-base font-serif font-bold text-heading mt-1">
                       ₹{product.price.toLocaleString('en-IN')}
+                    </div>
+
+                    {/* Best in Row Highlights (Feature 9) */}
+                    <div className="flex flex-wrap gap-1 mt-2 min-h-[22px]">
+                      {isBestEco && (
+                        <span className="px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 text-[10px] font-bold">
+                          ★ Best EcoScore
+                        </span>
+                      )}
+                      {isBestPrice && (
+                        <span className="px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-700 dark:text-amber-300 border border-amber-500/30 text-[10px] font-bold">
+                          💰 Lowest Price
+                        </span>
+                      )}
+                      {isBestCarbon && (
+                        <span className="px-2 py-0.5 rounded-md bg-teal-500/10 text-teal-700 dark:text-teal-300 border border-teal-500/30 text-[10px] font-bold">
+                          🌱 Lowest Carbon
+                        </span>
+                      )}
+                      {isBestPlastic && (
+                        <span className="px-2 py-0.5 rounded-md bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/30 text-[10px] font-bold">
+                          🛡️ Lowest Plastic
+                        </span>
+                      )}
                     </div>
 
                     {/* Score Bar */}

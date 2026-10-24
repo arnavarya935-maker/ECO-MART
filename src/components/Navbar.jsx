@@ -84,16 +84,16 @@ export default function Navbar() {
   }, [currentPath]);
 
   const primaryLinks = [
-    { path: '/', label: lang === 'hi' ? 'होम' : 'Home' },
     { path: '/shop', label: t('nav.shop', 'Shop') },
     {
       id: 'agent',
-      label: t('nav.agent', 'Eco Agent'),
+      label: t('nav.agent', 'Agent'),
       isAction: true,
       onClick: () => setIsAgentOpen(true)
     },
-    { path: '/tools', label: t('nav.tools', 'Tools') },
-    { path: '/how-it-works', label: t('nav.howItWorks', 'How it works') }
+    { path: '/truth-lab', label: 'Truth Lab' },
+    { path: '/impact', label: 'Impact' },
+    { path: '/learn', label: 'Learn' }
   ];
 
   const isLinkActive = (path) => {

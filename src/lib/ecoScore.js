@@ -191,8 +191,24 @@ export function calculateEcoScore(product) {
     };
   }
 
+  // Data completeness & uncertainty margin (Feature 10: Uncertainty Bands)
+  const hasSpecificLca = Boolean(product.lcaVerified || certCount >= 2);
+  const uncertaintyMargin = hasSpecificLca ? 4 : certCount === 1 ? 7 : 12;
+  const minScore = Math.max(0, totalScore - uncertaintyMargin);
+  const maxScore = Math.min(100, totalScore + uncertaintyMargin);
+  const uncertaintyReason = hasSpecificLca
+    ? 'Narrow ±4 pt margin: Backed by multiple independent third-party certifications and published lifecycle factors.'
+    : certCount === 1
+      ? 'Moderate ±7 pt margin: Backed by single claimed certification; batch-level supply chain audit pending.'
+      : 'Broader ±12 pt margin: Derived from general material category benchmarks rather than verified supplier disclosures.';
+
   return {
     score: totalScore,
+    minScore,
+    maxScore,
+    uncertaintyMargin,
+    uncertaintyReason,
+    uncertaintyBand: `[${minScore} - ${maxScore}]`,
     grade,
     gradeLabel,
     colorTheme,

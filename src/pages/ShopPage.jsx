@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { TrendingUp } from 'lucide-react';
 import productsData from '../data/products.json';
 import { calculateEcoScore } from '../lib/ecoScore';
 import { rankProducts } from '../lib/decisionEngine';
@@ -15,6 +16,7 @@ import ShopFilterDrawer from '../components/shop/ShopFilterDrawer';
 import ShopEmptyState from '../components/shop/ShopEmptyState';
 import StarterKits from '../components/tools/StarterKits';
 import ForYouRow from '../components/recommendations/ForYouRow';
+import TradeoffExplorerModal from '../components/shop/TradeoffExplorerModal';
 
 export default function ShopPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -33,6 +35,7 @@ export default function ShopPage() {
   const [onlyEcoFriendly, setOnlyEcoFriendly] = useState(true); // Default true to prioritize eco picks
   const [selectedCert, setSelectedCert] = useState(null);
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
+  const [isTradeoffModalOpen, setIsTradeoffModalOpen] = useState(false);
 
   // Extract all categories & certifications
   const categories = useMemo(() => {
@@ -184,6 +187,17 @@ export default function ShopPage() {
               Filter by certified materials, 0–100 lifecycle eco scores, or sort by impact per rupee.
             </p>
           </div>
+
+          {/* Trade-off Frontier Button (Feature 4) */}
+          <button
+            type="button"
+            onClick={() => setIsTradeoffModalOpen(true)}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-surface-raised hover:bg-surface border border-line hover:border-primary/40 text-heading text-xs font-semibold shadow-soft-xs transition-colors cursor-pointer self-start sm:self-auto shrink-0"
+            title="Open 2D Price vs EcoScore Pareto scatter plot"
+          >
+            <TrendingUp className="w-4 h-4 text-primary" />
+            <span>Trade-off Frontier</span>
+          </button>
         </div>
       </div>
 
@@ -290,6 +304,13 @@ export default function ShopPage() {
         availableCerts={availableCerts}
         onResetFilters={handleResetAllFilters}
         resultCount={sortedProducts.length}
+      />
+
+      {/* 2D Price vs EcoScore Pareto Frontier Modal (Feature 4) */}
+      <TradeoffExplorerModal
+        isOpen={isTradeoffModalOpen}
+        onClose={() => setIsTradeoffModalOpen(false)}
+        products={productsData}
       />
     </div>
   );

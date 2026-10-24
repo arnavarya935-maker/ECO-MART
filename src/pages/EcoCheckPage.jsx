@@ -18,6 +18,7 @@ import { FEATURES } from '../lib/features';
 import productsData from '../data/products.json';
 import EcoScoreBadge from '../components/EcoScoreBadge';
 import ProductImage from '../components/ProductImage';
+import ClaimEvidenceGraph from '../components/detective/ClaimEvidenceGraph';
 
 const EXAMPLE_QUERIES = [
   'Plastic water bottle, eco friendly, BPA free',
@@ -231,6 +232,15 @@ export default function EcoCheckPage() {
                 </div>
               </div>
             </div>
+
+            {/* Claim Evidence Graph & Provenance (Feature 13 & 14) */}
+            {analysis.evidenceGraph && (
+              <ClaimEvidenceGraph
+                evidenceGraph={analysis.evidenceGraph}
+                evidenceGrade={analysis.evidenceGrade}
+                evidenceReason={analysis.evidenceReason}
+              />
+            )}
 
             {/* Sustainable Alternatives from EcoMart Catalog */}
             <div className="bg-surface-raised border border-line rounded-3xl p-6 shadow-card">

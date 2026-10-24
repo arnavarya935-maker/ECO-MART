@@ -66,6 +66,11 @@ export default function EcoScoreBadge({
           <span style={{ color: currentTheme.text }}>Grade {grade}</span>
           <span className="text-muted">•</span>
           <span className="text-text">{score}/100</span>
+          {data?.uncertaintyMargin && (
+            <span className="text-[10px] text-muted font-normal font-mono" title={`Confidence band: ${data.uncertaintyBand || ''}`}>
+              ±{data.uncertaintyMargin}
+            </span>
+          )}
         </div>
       </div>
     );
@@ -77,8 +82,8 @@ export default function EcoScoreBadge({
       <div
         onClick={handleClick}
         role="status"
-        aria-label={`Eco-Score ${score} out of 100, Grade ${grade}`}
-        title={`Eco-Score ${score}/100 (Grade ${grade})`}
+        aria-label={`Eco-Score ${score} out of 100 ${data?.uncertaintyBand ? `Range ${data.uncertaintyBand}` : ''}, Grade ${grade}`}
+        title={`Eco-Score ${score}/100 ${data?.uncertaintyBand ? `Range ${data.uncertaintyBand} (±${data.uncertaintyMargin} pts)` : ''} (Grade ${grade})`}
         className="relative flex items-center justify-center cursor-pointer select-none group"
         style={{ width: dim.size, height: dim.size }}
       >

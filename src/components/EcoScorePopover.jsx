@@ -76,6 +76,24 @@ export default function EcoScorePopover({ product, scoreData, onClose }) {
           </div>
         </div>
 
+        {/* Uncertainty Band & Data Completeness (Feature 10) */}
+        {scoreData.uncertaintyMargin !== undefined && (
+          <div className="mb-5 p-3.5 rounded-2xl bg-surface-raised border border-line space-y-1.5 shadow-soft-xs text-xs">
+            <div className="flex items-center justify-between">
+              <span className="font-bold text-heading flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-primary" />
+                Confidence Band &amp; Provenance
+              </span>
+              <span className="font-mono font-bold text-primary px-2 py-0.5 rounded-md bg-primary/10 border border-primary/20">
+                {scoreData.uncertaintyBand || `[${scoreData.minScore} - ${scoreData.maxScore}]`} (±{scoreData.uncertaintyMargin} pts)
+              </span>
+            </div>
+            <p className="text-[11px] text-secondary leading-relaxed">
+              {scoreData.uncertaintyReason}
+            </p>
+          </div>
+        )}
+
         {/* 5-Factor Weighted Breakdown List */}
         <div className="space-y-3.5">
           <h4 className="text-xs font-bold uppercase tracking-wider text-muted">

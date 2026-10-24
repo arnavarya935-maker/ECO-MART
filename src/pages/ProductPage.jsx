@@ -13,6 +13,7 @@ import SecondLifeTab from '../components/lifecycle/SecondLifeTab';
 import AIEthicsCard from '../components/decision/AIEthicsCard';
 import ChoiceRippleFlow from '../components/lifecycle/ChoiceRippleFlow';
 import ProductTimeMachine from '../components/lifecycle/ProductTimeMachine';
+import SensitivitySliders from '../components/lifecycle/SensitivitySliders';
 import { playSound } from '../lib/audio';
 import {
   ArrowLeft,
@@ -41,7 +42,8 @@ export default function ProductPage() {
     addToCart,
     toggleWishlist,
     isInWishlist,
-    addRecentlyViewed
+    addRecentlyViewed,
+    setIsAgentOpen
   } = useCart();
 
   const [quantity, setQuantity] = useState(1);
@@ -240,6 +242,17 @@ export default function ProductPage() {
               >
                 AI Ethics Card
               </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('sensitivity')}
+                className={`flex-1 py-2 px-3 rounded-xl text-xs font-sans font-bold transition-all min-h-[36px] cursor-pointer ${
+                  activeTab === 'sensitivity'
+                    ? 'bg-surface-raised text-primary shadow-soft-xs border border-primary/30 font-bold'
+                    : 'text-muted hover:text-heading'
+                }`}
+              >
+                Sensitivity
+              </button>
               {swapComparison && (
                 <button
                   type="button"
@@ -254,6 +267,11 @@ export default function ProductPage() {
                 </button>
               )}
             </div>
+
+            {/* Tab: Sensitivity & Use-Phase Simulator (Feature 11) */}
+            {activeTab === 'sensitivity' && (
+              <SensitivitySliders product={product} />
+            )}
 
             {/* Tab 1: Lifecycle Explorer & Interactive Scrubber */}
             {activeTab === 'lifecycle' && (
@@ -529,6 +547,26 @@ export default function ProductPage() {
                   <QrCode className="w-4 h-4 text-primary" />
                   <span>View Trust Passport &amp; QR Certificate</span>
                 </Link>
+
+                {/* Contextual Ask Eco Agent Button (Feature 8) */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsAgentOpen(true);
+                    window.dispatchEvent(
+                      new CustomEvent('ecomart-agent-query', {
+                        detail: {
+                          query: `Evaluate the lifecycle, packaging claims, and carbon footprint of ${product.name}`,
+                          contextProduct: product
+                        }
+                      })
+                    );
+                  }}
+                  className="w-full py-2.5 px-4 rounded-xl border border-line bg-surface-raised hover:bg-surface-sunken text-heading font-sans font-semibold text-xs flex items-center justify-center gap-2 transition cursor-pointer shadow-soft-xs"
+                >
+                  <Sparkles className="w-4 h-4 text-primary" />
+                  <span>Ask Eco Agent about this item</span>
+                </button>
               </div>
             </div>
           </div>
