@@ -19,7 +19,8 @@ import {
   FileCheck,
   Bot,
   Bell,
-  Eye
+  Eye,
+  Newspaper
 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useT } from '../context/I18nContext';
@@ -28,6 +29,7 @@ import UserMenu from './UserMenu';
 import ThemeToggle from './ThemeToggle';
 
 const MORE_LINKS = [
+  { path: '/news', label: 'Eco News Watch', icon: Newspaper, badge: null },
   { path: '/courtroom', label: 'AI Courtroom', icon: Swords, badge: 'Simulated trial' },
   { path: '/transparency', label: 'Agent Transparency', icon: ShieldCheck, badge: null },
   { path: '/scan', label: 'Label Scanner', icon: Camera, badge: null },

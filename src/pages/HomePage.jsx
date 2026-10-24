@@ -22,6 +22,7 @@ import SignatureShowcase from '../components/home/SignatureShowcase';
 import ForYouRow from '../components/recommendations/ForYouRow';
 import RecentlyViewedStrip from '../components/RecentlyViewedStrip';
 import ResponsibleAILabsShowcase from '../components/home/ResponsibleAILabsShowcase';
+import RelatedNewsPanel from '../components/news/RelatedNewsPanel';
 
 export default function HomePage() {
   return (
@@ -91,6 +92,16 @@ export default function HomePage() {
 
       {/* Feedback section: Local "Share feedback" form + labeled representative scenarios */}
       <HonestFeedbackSection />
+
+      {/* In the News strip */}
+      <div className="max-w-6xl mx-auto px-6 md:px-10 py-10">
+        <RelatedNewsPanel
+          topic="greenwashing"
+          title="In the News: Sustainability & Consumer Watch"
+          description="Independent reports on corporate green claims, packaging waste laws, and circular supply chains."
+          maxArticles={3}
+        />
+      </div>
 
       {/* Closing CTA */}
       <EditorialFinalCTA />

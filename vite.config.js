@@ -271,7 +271,8 @@ function apiProxyPlugin() {
             res.end(JSON.stringify({ error: 'Method not allowed' }));
             return;
           }
-          await handleNewsRequest({}, res, req);
+          const queryParams = new URL(req.url, 'http://localhost').searchParams;
+          await handleNewsRequest({ topic: queryParams.get('topic') || queryParams.get('q') || '' }, res, req);
           return;
         }
 

@@ -710,24 +710,20 @@ OUTPUT SCHEMA (STRICT JSON):
 }
 
 /**
- * Handle Eco News request (forward-compatible for Phase 3 news provider adapter)
+ * Handle Eco News request via news provider adapter
  */
 export async function handleNewsRequest(query = {}, res, req = null) {
   if (req && applyRateLimit(req, res)) return;
 
-  // Placeholder handler for Phase 3 news route with cached response structure
+  const { fetchEcoNews } = await import('./newsAdapter.js');
+  const topicParam = query.topic || query.q || 'greenwashing';
+  const result = await fetchEcoNews(topicParam);
+
   res.writeHead(200, {
     'Content-Type': 'application/json',
     'Cache-Control': 'public, s-maxage=1800, stale-while-revalidate=3600'
   });
-  res.end(
-    JSON.stringify({
-      articles: [],
-      provider: process.env.NEWS_PROVIDER || 'gnews',
-      cached: true,
-      lastUpdated: new Date().toISOString()
-    })
-  );
+  res.end(JSON.stringify(result));
 }
 
 /**

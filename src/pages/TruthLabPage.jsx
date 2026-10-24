@@ -23,6 +23,7 @@ import ClaimDiffModal from '../components/detective/ClaimDiffModal';
 import ReportClaimModal from '../components/detective/ReportClaimModal';
 import GreenwashLexiconHighlighter from '../components/detective/GreenwashLexiconHighlighter';
 import BrandTransparencyCard from '../components/detective/BrandTransparencyCard';
+import RelatedNewsPanel from '../components/news/RelatedNewsPanel';
 
 const SAMPLE_CLAIMS = [
   '100% Eco-Friendly Bamboo Toothbrush in plastic packaging',
@@ -295,7 +296,7 @@ export default function TruthLabPage() {
               </p>
             </div>
             <Link
-              to="/scanner"
+              to="/scan"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-primary hover:bg-primary-hover text-primary-contrast font-bold text-xs shadow-soft-sm transition-all"
             >
               <span>Open Packaging Camera Scanner</span>
@@ -310,6 +311,16 @@ export default function TruthLabPage() {
             <AgentReportCard />
           </div>
         )}
+
+        {/* Environmental Claims Industry News */}
+        <div className="pt-6 border-t border-line">
+          <RelatedNewsPanel
+            topic="greenwashing"
+            title="Claims & Regulatory Watch"
+            description="Recent watchdog investigations, FTC updates, and global enforcement on deceptive environmental marketing."
+            maxArticles={3}
+          />
+        </div>
       </div>
 
       {/* Detective & Transparency Modals */}

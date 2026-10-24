@@ -29,7 +29,8 @@ import {
   Lock,
   Wifi,
   Eye,
-  MessageSquare
+  MessageSquare,
+  Newspaper
 } from 'lucide-react';
 import { ECO_GLOSSARY_TERMS } from '../lib/glossary';
 
@@ -229,11 +230,22 @@ export default function CommandPalette({ isOpen: controlledOpen, onClose: contro
     {
       id: 'action-scan',
       type: 'action',
-      title: 'Product Label Scanner & Detective',
-      subtitle: 'Scan packaging photos with AI Vision & 5-Axis Claim Radar (Images not saved)',
+      title: 'Product Label Scanner',
+      subtitle: 'Transcribe printed packaging text with Gemini Vision (Images not saved)',
       icon: Scan,
       perform: () => {
         navigate('/scan');
+        handleClose();
+      }
+    },
+    {
+      id: 'action-news',
+      type: 'action',
+      title: 'Eco News & Industry Watch',
+      subtitle: 'Curated environmental reporting on greenwashing, EPR policy, and circular materials',
+      icon: Newspaper,
+      perform: () => {
+        navigate('/news');
         handleClose();
       }
     },

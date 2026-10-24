@@ -14,7 +14,8 @@ import {
   Sparkles,
   MapPin,
   Wrench,
-  Repeat
+  Repeat,
+  Newspaper
 } from 'lucide-react';
 import CityRecyclingGuideModal from '../components/tools/CityRecyclingGuideModal';
 import RepairGuidesModal from '../components/lifecycle/RepairGuidesModal';
@@ -140,6 +141,13 @@ export default function LearnPage() {
               <Repeat className="w-3.5 h-3.5 text-primary" />
               <span>Second Life Board</span>
             </button>
+            <Link
+              to="/news"
+              className="px-3 py-1.5 rounded-xl bg-surface-raised hover:bg-surface border border-line text-heading text-xs font-semibold shadow-soft-xs transition-colors inline-flex items-center gap-1.5"
+            >
+              <Newspaper className="w-3.5 h-3.5 text-accent" />
+              <span>Eco News Watch</span>
+            </Link>
             <Link
               to="/how-it-works"
               className="px-3 py-1.5 rounded-xl bg-surface-raised hover:bg-surface border border-line text-heading text-xs font-semibold shadow-soft-xs transition-colors inline-flex items-center gap-1.5"

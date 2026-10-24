@@ -43,6 +43,7 @@ const AISelfAuditPage = lazy(() => import('./pages/AISelfAuditPage'));
 const KiranaPage = lazy(() => import('./pages/KiranaPage'));
 const TruthLabPage = lazy(() => import('./pages/TruthLabPage'));
 const LearnPage = lazy(() => import('./pages/LearnPage'));
+const NewsPage = lazy(() => import('./pages/NewsPage'));
 const AgentTransparencyPage = lazy(() => import('./pages/AgentTransparencyPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
@@ -197,6 +198,7 @@ function AppContent() {
             <Route path="/shop" element={<ShopPage />} />
             <Route path="/truth-lab" element={<TruthLabPage />} />
             <Route path="/learn" element={<LearnPage />} />
+            <Route path="/news" element={<NewsPage />} />
             <Route path="/transform" element={<TransformPage />} />
             <Route path="/eco-check" element={<EcoCheckPage />} />
             <Route path="/product/:id" element={<ProductPage />} />

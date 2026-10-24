@@ -18,6 +18,7 @@ import CostPerUseCalculator from '../components/lifecycle/CostPerUseCalculator';
 import EquivalentsTranslatorCard from '../components/impact/EquivalentsTranslatorCard';
 import ProductScaleVisualModal from '../components/product/ProductScaleVisualModal';
 import ProductPassportQRModal from '../components/product/ProductPassportQRModal';
+import RelatedNewsPanel from '../components/news/RelatedNewsPanel';
 import { compareProductToBenchmark } from '../lib/decisionEngine';
 import { playSound } from '../lib/audio';
 import {
@@ -636,6 +637,16 @@ export default function ProductPage() {
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Related Environmental News Panel */}
+        <div className="mt-14">
+          <RelatedNewsPanel
+            topic={product.material || product.category || 'sustainable materials'}
+            title={`Industry & Material News: ${product.material || product.category}`}
+            description={`Independent coverage of ${product.material || product.category} regulations and supply-chain developments.`}
+            maxArticles={3}
+          />
         </div>
 
         {/* Related Products Grid */}

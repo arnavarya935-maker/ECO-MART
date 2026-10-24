@@ -109,7 +109,6 @@ export default function PrivacyCenterModal({ isOpen, onClose }) {
               <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-primary bg-primary/10 border border-primary/20 px-2.5 py-0.5 rounded-full">
                 Privacy Center
               </span>
-              <span className="text-xs text-muted font-medium">Feature 53 &amp; 58</span>
             </div>
             <h3 className="font-serif font-bold text-2xl text-heading mt-1">
               Data Inventory &amp; Privacy Sovereignty
@@ -160,11 +159,11 @@ export default function PrivacyCenterModal({ isOpen, onClose }) {
             </div>
           </div>
 
-          {/* Section 2: What is Sent to the AI API */}
+          {/* Section 2: What is Sent to the AI API & News Proxy */}
           <div className="space-y-3">
             <h4 className="font-serif font-bold text-base text-heading flex items-center gap-2">
               <Server className="w-4 h-4 text-primary" />
-              <span>2. What is Transmitted to the AI API?</span>
+              <span>2. What is Transmitted to Remote Proxies?</span>
             </h4>
             <div className="p-4 rounded-2xl bg-surface-sunken border border-line space-y-2 text-xs text-secondary leading-relaxed font-sans">
               <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-semibold">
@@ -172,13 +171,16 @@ export default function PrivacyCenterModal({ isOpen, onClose }) {
                 <span>Zero Personally Identifiable Information (PII) Transmission</span>
               </div>
               <p>
-                When you query the Eco Agent, only your sanitized search prompt (e.g. "plastic-free kitchen under ₹800") and anonymous priority weight numbers are forwarded through our server-side adapter proxy.
+                When you query the Eco Agent, only your sanitized search prompt and anonymous priority weight numbers are forwarded through our server-side proxy.
+              </p>
+              <p>
+                For the <strong>Eco News</strong> feature, only the selected search topic or keyword (e.g. "greenwashing" or "plastic packaging") is transmitted to fetch headlines. No browsing history, IP logs, or personal tracking are ever shared.
               </p>
               <div className="pt-2 border-t border-line/60 grid grid-cols-2 gap-2 text-[11px] font-mono">
                 <div>✓ 0 Usernames or Emails</div>
-                <div>✓ 0 IP or Device Tracking</div>
-                <div>✓ 0 Tracking Cookies</div>
-                <div>✓ 0 Ad Pixel Beacons</div>
+                <div>✓ 0 Tracking Identifiers</div>
+                <div>✓ 0 Third-Party Ad Cookies</div>
+                <div>✓ 0 Personal Tracking</div>
               </div>
             </div>
           </div>
