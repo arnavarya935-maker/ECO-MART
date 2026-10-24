@@ -44,19 +44,37 @@ export default function EngineeringHero() {
           {/* Headline & Subhead (7 Cols) */}
           <div className="lg:col-span-7 space-y-6 text-left">
             <h1 className="font-sans text-[clamp(2.5rem,6.8vw,5.2rem)] font-bold tracking-[-0.038em] leading-[1.03] text-heading text-balance">
-              Shopping that <br className="hidden sm:inline" />
-              <span className="font-serif italic font-normal text-emerald-400">
-                proves its claims
+              <span className="inline-block overflow-hidden pb-1">
+                <span className="hero-word-reveal [animation-delay:80ms]">Shopping</span>
+              </span>{' '}
+              <span className="inline-block overflow-hidden pb-1">
+                <span className="hero-word-reveal [animation-delay:160ms]">that</span>
+              </span>{' '}
+              <br className="hidden sm:inline" />
+              <span className="inline-block overflow-hidden pb-1">
+                <span className="hero-word-reveal [animation-delay:260ms] font-serif italic font-normal text-emerald-700 dark:text-emerald-400">
+                  proves
+                </span>
+              </span>{' '}
+              <span className="inline-block overflow-hidden pb-1">
+                <span className="hero-word-reveal [animation-delay:340ms] font-serif italic font-normal text-emerald-700 dark:text-emerald-400">
+                  its
+                </span>
+              </span>{' '}
+              <span className="inline-block overflow-hidden pb-1">
+                <span className="hero-word-reveal [animation-delay:420ms] font-serif italic font-normal text-emerald-700 dark:text-emerald-400">
+                  claims
+                </span>
               </span>
-              <span className="inline-block w-2.5 h-2.5 bg-primary ml-2 translate-y-[-2px] rounded-xs shadow-[0_0_10px_rgba(16,185,129,0.9)]" aria-hidden="true" />
+              <span className="inline-block w-2.5 h-2.5 bg-primary ml-2 translate-y-[-2px] rounded-xs shadow-[0_0_10px_rgba(4,120,87,0.5)] hero-settle [animation-delay:520ms]" aria-hidden="true" />
             </h1>
 
-            <p className="max-w-[48ch] font-sans text-sm sm:text-base leading-[1.65] text-text-secondary text-pretty">
+            <p className="max-w-[48ch] font-sans text-sm sm:text-base leading-[1.65] text-text-secondary text-pretty hero-settle [animation-delay:480ms]">
               An AI shopping assistant that exposes its reasoning, verifies certifications, detects greenwashing, and measures lifecycle impact—engineered with verifiable ethical guardrails, powered by a server AI proxy with an offline fallback.
             </p>
 
             {/* CTAs: Liquid Pill Buttons */}
-            <div className="pt-2 flex flex-wrap items-center gap-3.5">
+            <div className="pt-2 flex flex-wrap items-center gap-3.5 hero-settle [animation-delay:600ms]">
               <button
                 type="button"
                 onClick={() => setIsAgentOpen(true)}
@@ -70,10 +88,10 @@ export default function EngineeringHero() {
               <button
                 type="button"
                 onClick={() => window.dispatchEvent(new CustomEvent('open-judge-walkthrough'))}
-                className="liquid-pill liquid-pill-dark group border border-amber-400/40 text-amber-300 hover:border-amber-400 cursor-pointer"
+                className="liquid-pill liquid-pill-dark group border border-amber-400/40 text-amber-700 dark:text-amber-300 hover:border-amber-400 cursor-pointer"
                 id="hero-run-judge-demo-btn"
               >
-                <ShieldCheck className="w-3.5 h-3.5 mr-2 text-amber-400" />
+                <ShieldCheck className="w-3.5 h-3.5 mr-2 text-amber-600 dark:text-amber-400" />
                 <span>Run Judge Demo</span>
               </button>
 
@@ -87,7 +105,7 @@ export default function EngineeringHero() {
             </div>
 
             {/* Editorial Mini-Specs Strip - Real Computed Highlights */}
-            <div className="pt-6 grid grid-cols-3 gap-4 border-t border-line/60 max-w-lg">
+            <div className="pt-6 grid grid-cols-3 gap-4 border-t border-line/60 max-w-lg hero-settle [animation-delay:720ms]">
               <div>
                 <div className="font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.18em] text-text-muted">Sample Catalog</div>
                 <div className="mt-1 text-xs sm:text-sm font-semibold text-heading font-mono">{totalCatalog} Audited Items</div>
@@ -104,20 +122,22 @@ export default function EngineeringHero() {
           </div>
 
           {/* Right Visual: Planetary Biosphere in Safe3D (5 Cols) */}
-          <div className="lg:col-span-5 relative">
-            <div className="relative rounded-2xl border border-line bg-surface-raised/60 p-2 backdrop-blur-md shadow-soft-lg overflow-hidden">
+          <div className="lg:col-span-5 relative hero-settle [animation-delay:550ms]">
+            <div className="relative rounded-3xl border border-line bg-surface-raised/80 p-2.5 backdrop-blur-md shadow-card overflow-hidden">
               <Safe3D
-                featureName="Planetary Biosphere Visualizer"
-                height="390px"
-                staticFallbackImage="/images/products/kit-01.jpg"
+                fallbackTitle="Interactive 3D Biosphere"
+                fallbackSubtitle="Visualizer paused under Reduce Effects or when WebGL is unavailable."
+                fallbackEmoji="🌍"
+                className="h-[380px] sm:h-[440px] w-full"
+                autoLoad={true}
               >
                 <LeafyGlobe3D cartCo2Saved={parseFloat(impact.co2Saved) || 0} />
               </Safe3D>
 
-              <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between text-[10px] font-mono uppercase tracking-[0.16em] text-text-muted bg-surface/80 backdrop-blur-md px-3 py-1.5 rounded-full border border-line">
-                <span className="flex items-center gap-1.5">
-                  <ShieldCheck className="w-3 h-3 text-primary" />
-                  Interactive 3D Simulation
+              <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between text-[10px] font-mono uppercase tracking-[0.16em] text-text-muted bg-surface/90 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-line shadow-soft-xs">
+                <span className="flex items-center gap-1.5 text-heading font-medium">
+                  <ShieldCheck className="w-3.5 h-3.5 text-primary" />
+                  Live 3D Biosphere • Spin to Explore
                 </span>
                 <span className="text-primary font-bold">CO₂ IMPACT (ESTIMATE)</span>
               </div>

@@ -350,6 +350,40 @@ html.dark .ft-planet {
   text-wrap: balance;
 }
 
+/* Effect 1: Split-Text Hero Word-by-Word Reveal & Settle */
+@keyframes heroWordReveal {
+  from {
+    transform: translateY(115%) rotate(2deg);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+.hero-word-reveal {
+  display: inline-block;
+  animation: heroWordReveal 0.85s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  will-change: transform, opacity;
+}
+
+@keyframes heroElementSettle {
+  from {
+    transform: translateY(16px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.hero-settle {
+  animation: heroElementSettle 0.9s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+  will-change: transform, opacity;
+}
+
 /* Typography & Focus & Scrollbar */
 h1, h2, h3, h4 {
   text-wrap: balance;
@@ -414,6 +448,12 @@ select:focus-visible {
   .hero-light-blob-right {
     display: none !important;
   }
+  .hero-word-reveal,
+  .hero-settle {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
 }
 
 html.reduced-motion body::before,
@@ -436,6 +476,15 @@ html.reduced-motion .hero-light-blob-right,
 .reduced-motion .hero-light-blob-left,
 .reduced-motion .hero-light-blob-right {
   display: none !important;
+}
+
+html.reduced-motion .hero-word-reveal,
+html.reduced-motion .hero-settle,
+.reduced-motion .hero-word-reveal,
+.reduced-motion .hero-settle {
+  animation: none !important;
+  transform: none !important;
+  opacity: 1 !important;
 }
 
 /* Accessibility Guards: High Contrast Mode */
