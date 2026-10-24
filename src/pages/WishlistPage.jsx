@@ -1,18 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import { Heart, ShoppingBag, ArrowRight, Share2, Check, Copy } from 'lucide-react';
+import { Heart, ShoppingBag, ArrowRight, Share2, Check, Copy, QrCode } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import ProductCard from '../components/ProductCard';
 import productsData from '../data/products.json';
 import { playSound } from '../lib/audio';
+import { exportWishlistCode, importWishlistCode } from '../lib/circularityEngine';
 
 export default function WishlistPage() {
   const { wishlist, toggleWishlist, moveAllWishlistToCart, showToast } = useCart();
   const [searchParams] = useSearchParams();
   const [copiedType, setCopiedType] = useState(null);
 
-  // If opened via shared link ?items=id1,id2, add missing to wishlist
+  // If opened via shared link ?items=id1,id2 or ?bundle=code, add missing to wishlist
   useEffect(() => {
+    const bundle = searchParams.get('bundle');
+    if (bundle) {
+      const ids = importWishlistCode(bundle);
+      ids.forEach((id) => {
+        const prod = productsData.find((p) => p.id === id);
+        if (prod && !wishlist.some((w) => w.id === prod.id)) {
+          toggleWishlist(prod);
+        }
+      });
+      return;
+    }
     const sharedItemIds = searchParams.get('items');
     if (sharedItemIds) {
       const ids = sharedItemIds.split(',').map((s) => s.trim());
@@ -26,12 +38,12 @@ export default function WishlistPage() {
   }, [searchParams, toggleWishlist, wishlist]);
 
   const handleCopyLink = () => {
-    const itemIds = wishlist.map((p) => p.id).join(',');
-    const url = `${window.location.origin}/#/wishlist?items=${encodeURIComponent(itemIds)}`;
+    const bundleCode = exportWishlistCode(wishlist);
+    const url = `${window.location.origin}/#/wishlist?bundle=${encodeURIComponent(bundleCode)}`;
     navigator.clipboard?.writeText(url);
     playSound('click');
     setCopiedType('link');
-    showToast('Shareable wishlist link copied to clipboard!', 'success');
+    showToast('Shareable wishlist bundle link copied to clipboard!', 'success');
     setTimeout(() => setCopiedType(null), 2500);
   };
 

@@ -29,6 +29,7 @@ import ReasoningExplanationCard from './ReasoningExplanationCard';
 import AgentMemoryDrawer from './AgentMemoryDrawer';
 import AIEnergyMeter from './AIEnergyMeter';
 import HonestyMeter from './HonestyMeter';
+import VoiceShoppingModal from './VoiceShoppingModal';
 import { appendBlackBoxLog } from '../../lib/ai/blackboxStore';
 import { getStrictnessThreshold, setStrictnessThreshold, evaluateConfidenceBrake } from '../../lib/ai/confidenceBrake';
 
@@ -78,6 +79,7 @@ export default function EcoAgentChat() {
   const [loading, setLoading] = useState(false);
   const [showPriorities, setShowPriorities] = useState(false);
   const [memoryDrawerOpen, setMemoryDrawerOpen] = useState(false);
+  const [voiceModalOpen, setVoiceModalOpen] = useState(false);
   const [actionStatus, setActionStatus] = useState({});
   const [isListening, setIsListening] = useState(false);
   const [speechSupported] = useState(() => {
@@ -563,6 +565,15 @@ export default function EcoAgentChat() {
           >
             <Brain className="w-2.5 h-2.5 text-primary" />
             <span>Memory</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setVoiceModalOpen(true)}
+            className="px-2 py-1 rounded-lg bg-surface-sunken text-text-secondary text-[10px] font-semibold hover:bg-surface hover:text-heading transition-colors border border-line cursor-pointer flex items-center gap-1"
+            title="Hands-free Voice Shopping in English / Hindi"
+          >
+            <Mic className="w-2.5 h-2.5 text-primary" />
+            <span>Voice</span>
           </button>
           {Boolean(agentContext.lastCategory || agentContext.lastBudget || agentContext.lastQuery) && (
             <button
@@ -1206,6 +1217,12 @@ export default function EcoAgentChat() {
       <AgentMemoryDrawer
         isOpen={memoryDrawerOpen}
         onClose={() => setMemoryDrawerOpen(false)}
+      />
+
+      {/* Hands-free Voice Shopping Modal (Feature 38) */}
+      <VoiceShoppingModal
+        isOpen={voiceModalOpen}
+        onClose={() => setVoiceModalOpen(false)}
       />
     </div>
   );

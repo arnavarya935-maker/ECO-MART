@@ -321,7 +321,7 @@ export function generateLocalGreenwashingVerdict(text) {
 /**
  * Computes 5-Axis Environmental Claim Radar Scores (0 to 100)
  */
-export function computeClaimRadarAxes(text, auditResult = null) {
+export function computeClaimRadarAxes(text, _auditResult = null) {
   const lower = (text || '').toLowerCase();
 
   // 1. Vague Wording (100 = concrete & clear; low = vague buzzwords)

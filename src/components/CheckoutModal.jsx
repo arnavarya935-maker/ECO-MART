@@ -3,11 +3,13 @@ import { Truck, Leaf, Lock, ArrowRight, ArrowLeft, Box } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useAuth } from '../context/AuthContext';
 import { Modal } from './ui/Modal';
+import ImpactReceiptModal from './impact/ImpactReceiptModal';
 
 export default function CheckoutModal() {
   const {
     checkoutModalOpen,
     setCheckoutModalOpen,
+    cartItems,
     impact,
     recordOrder,
     appliedCoupon
@@ -15,6 +17,8 @@ export default function CheckoutModal() {
   const { user } = useAuth();
 
   const [step, setStep] = useState(1);
+  const [completedOrder, setCompletedOrder] = useState(null);
+  const [receiptOpen, setReceiptOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: user?.name || 'Ayush Sharma',
     email: user?.email || 'ayush@example.com',
@@ -28,6 +32,19 @@ export default function CheckoutModal() {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  if (receiptOpen && completedOrder) {
+    return (
+      <ImpactReceiptModal
+        isOpen={receiptOpen}
+        onClose={() => {
+          setReceiptOpen(false);
+          setCompletedOrder(null);
+        }}
+        orderData={completedOrder}
+      />
+    );
+  }
 
   if (!checkoutModalOpen) return null;
 
@@ -50,14 +67,22 @@ export default function CheckoutModal() {
   const handleFinalSubmit = () => {
     setIsSubmitting(true);
     setTimeout(() => {
-      recordOrder({
+      const order = {
+        id: `ECO-${Math.floor(100000 + Math.random() * 900000)}`,
+        date: new Date().toLocaleDateString('en-IN', { year: 'numeric', month: 'short', day: 'numeric' }),
+        items: cartItems || [],
         address: `${formData.address}, ${formData.city} - ${formData.pincode}`,
         total: finalPayable,
         carbonOffset: formData.carbonOffset,
-        plasticFreePackaging: formData.plasticFreePackaging
-      });
+        plasticFreePackaging: formData.plasticFreePackaging,
+        impact
+      };
+      recordOrder(order);
       setIsSubmitting(false);
+      setCompletedOrder(order);
+      setReceiptOpen(true);
       setCheckoutModalOpen(false);
+      setStep(1);
     }, 700);
   };
 

@@ -5,6 +5,8 @@ import { useT } from '../context/I18nContext';
 import { calculateEcoScore } from '../lib/ecoScore';
 import EcoScoreBadge from './EcoScoreBadge';
 import SwapMyCartModal from './SwapMyCartModal';
+import PersonalCarbonBudgetWidget from './impact/PersonalCarbonBudgetWidget';
+import { recordSwapDecision, getSwapLearnings } from '../lib/personaEngine';
 import { Drawer } from './ui/Modal';
 
 export default function CartDrawer() {
@@ -24,6 +26,8 @@ export default function CartDrawer() {
   const { t } = useT();
 
   const [isSwapModalOpen, setIsSwapModalOpen] = useState(false);
+  const [dismissedSwaps, setDismissedSwaps] = useState([]);
+  const swapLearnings = useMemo(() => getSwapLearnings(), []);
 
   const productMap = useMemo(() => new Map((allProducts || []).map((p) => [p.id, p])), [allProducts]);
 
@@ -215,8 +219,8 @@ export default function CartDrawer() {
                       </div>
 
                       {/* Inline Swap Banner if conventional */}
-                      {greenerAlternative && (
-                        <div className="p-3 rounded-2xl bg-accent-subtle border border-accent/20 font-sans">
+                      {greenerAlternative && !dismissedSwaps.includes(product.id) && !swapLearnings.rejectedIds.includes(greenerAlternative.id) && (
+                        <div className="p-3 rounded-2xl bg-accent-subtle border border-accent/20 font-sans space-y-2">
                           <div className="flex items-center justify-between text-xs font-semibold text-accent">
                             <span className="flex items-center gap-1.5">
                               <AlertTriangle className="w-3.5 h-3.5 text-accent" />
@@ -226,18 +230,33 @@ export default function CartDrawer() {
                               Grade {ecoStats.grade}
                             </span>
                           </div>
-                          <p className="text-[11px] text-secondary mt-1">
+                          <p className="text-[11px] text-secondary">
                             Swap to <strong className="font-semibold text-heading">{greenerAlternative.name}</strong> to save{' '}
                             {Math.max(0, product.carbonKg - greenerAlternative.carbonKg).toFixed(1)}kg CO₂.
                           </p>
-                          <button
-                            type="button"
-                            onClick={() => swapItemInCart(product.id, greenerAlternative)}
-                            className="mt-2.5 w-full py-2 px-3 rounded-xl bg-primary hover:bg-primary-hover text-text-inverted font-sans font-medium text-xs flex items-center justify-center gap-1.5 shadow-soft-sm transition cursor-pointer"
-                          >
-                            <RefreshCw className="w-3.5 h-3.5" />
-                            <span>1-Tap Swap to {greenerAlternative.name}</span>
-                          </button>
+                          <div className="flex gap-2">
+                            <button
+                              type="button"
+                              onClick={() => {
+                                recordSwapDecision(`swap_${product.id}`, true, product, greenerAlternative);
+                                swapItemInCart(product.id, greenerAlternative);
+                              }}
+                              className="flex-1 py-1.5 px-3 rounded-xl bg-primary hover:bg-primary-hover text-primary-contrast font-sans font-semibold text-xs flex items-center justify-center gap-1.5 shadow-soft-xs transition cursor-pointer"
+                            >
+                              <RefreshCw className="w-3.5 h-3.5" />
+                              <span>Approve Swap</span>
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                recordSwapDecision(`swap_${product.id}`, false, product, greenerAlternative);
+                                setDismissedSwaps((prev) => [...prev, product.id]);
+                              }}
+                              className="py-1.5 px-2.5 rounded-xl bg-surface hover:bg-surface-sunken border border-line text-text-muted hover:text-heading font-mono text-[11px] transition cursor-pointer"
+                            >
+                              Keep Original
+                            </button>
+                          </div>
                         </div>
                       )}
                     </div>
@@ -249,6 +268,11 @@ export default function CartDrawer() {
             {/* Footer Checkout Summary */}
             {cartItems.length > 0 && (
               <div className="p-5 border-t border-line bg-surface-raised space-y-3 font-sans">
+                {/* Feature 30: Personal Carbon Budget Widget */}
+                <PersonalCarbonBudgetWidget
+                  consumedKg={impact.co2Saved ? Math.max(1, 15 - impact.co2Saved) : 6.5}
+                />
+
                 {/* Live Impact Counters */}
                 <div className="grid grid-cols-2 gap-2 text-center text-xs p-3 rounded-2xl bg-primary-subtle border border-primary/20 text-heading font-medium">
                   <div>

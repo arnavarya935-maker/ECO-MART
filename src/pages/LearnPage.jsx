@@ -11,8 +11,15 @@ import {
   CheckCircle2,
   AlertTriangle,
   RotateCcw,
-  Sparkles
+  Sparkles,
+  MapPin,
+  Wrench,
+  Repeat
 } from 'lucide-react';
+import CityRecyclingGuideModal from '../components/tools/CityRecyclingGuideModal';
+import RepairGuidesModal from '../components/lifecycle/RepairGuidesModal';
+import SecondLifeBoardModal from '../components/lifecycle/SecondLifeBoardModal';
+import CertificationDecoderModal from '../components/detective/CertificationDecoderModal';
 
 const MYTHS = [
   {
@@ -68,6 +75,10 @@ const CERTS = [
 
 export default function LearnPage() {
   const [activeTab, setActiveTab] = useState('how'); // 'how' | 'tshirt' | 'certs' | 'myths'
+  const [cityRecycleOpen, setCityRecycleOpen] = useState(false);
+  const [repairGuidesOpen, setRepairGuidesOpen] = useState(false);
+  const [secondLifeOpen, setSecondLifeOpen] = useState(false);
+  const [certDecoderOpen, setCertDecoderOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-surface text-text pb-28 sm:pb-20 text-left">
@@ -91,13 +102,39 @@ export default function LearnPage() {
             </p>
           </div>
 
-          <Link
-            to="/how-it-works"
-            className="px-4 py-2 rounded-xl bg-surface-raised hover:bg-surface border border-line text-heading text-xs font-semibold shadow-soft-xs transition-colors inline-flex items-center gap-1.5 self-start sm:self-auto"
-          >
-            <span>Full EcoScore Algorithm</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
+          <div className="flex flex-wrap items-center gap-2 self-start sm:self-auto">
+            <button
+              type="button"
+              onClick={() => setCityRecycleOpen(true)}
+              className="px-3 py-1.5 rounded-xl bg-surface-raised hover:bg-surface border border-line text-heading text-xs font-semibold shadow-soft-xs transition-colors inline-flex items-center gap-1.5 cursor-pointer"
+            >
+              <MapPin className="w-3.5 h-3.5 text-primary" />
+              <span>City Recycling</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setRepairGuidesOpen(true)}
+              className="px-3 py-1.5 rounded-xl bg-surface-raised hover:bg-surface border border-line text-heading text-xs font-semibold shadow-soft-xs transition-colors inline-flex items-center gap-1.5 cursor-pointer"
+            >
+              <Wrench className="w-3.5 h-3.5 text-primary" />
+              <span>Repair Guides</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setSecondLifeOpen(true)}
+              className="px-3 py-1.5 rounded-xl bg-surface-raised hover:bg-surface border border-line text-heading text-xs font-semibold shadow-soft-xs transition-colors inline-flex items-center gap-1.5 cursor-pointer"
+            >
+              <Repeat className="w-3.5 h-3.5 text-primary" />
+              <span>Second Life Board</span>
+            </button>
+            <Link
+              to="/how-it-works"
+              className="px-3 py-1.5 rounded-xl bg-surface-raised hover:bg-surface border border-line text-heading text-xs font-semibold shadow-soft-xs transition-colors inline-flex items-center gap-1.5"
+            >
+              <span>Algorithm</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
         </div>
 
         {/* Tab Navigation */}
@@ -254,13 +291,22 @@ export default function LearnPage() {
         {/* Tab 3: Certification Decoder */}
         {activeTab === 'certs' && (
           <div className="space-y-4">
-            <div className="bg-surface-raised rounded-3xl p-6 border border-line shadow-soft-xs">
-              <h3 className="font-serif font-bold text-xl text-heading">
-                Third-Party Eco-Certification Decoder
-              </h3>
-              <p className="text-xs text-secondary mt-1">
-                Learn what each recognized label guarantees and how to verify certificates against public registries.
-              </p>
+            <div className="bg-surface-raised rounded-3xl p-6 border border-line shadow-soft-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div>
+                <h3 className="font-serif font-bold text-xl text-heading">
+                  Third-Party Eco-Certification Decoder
+                </h3>
+                <p className="text-xs text-secondary mt-1">
+                  Learn what each recognized label guarantees and how to verify certificates against public registries.
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setCertDecoderOpen(true)}
+                className="px-4 py-2 rounded-xl bg-primary text-primary-contrast text-xs font-bold hover:bg-primary-hover transition-colors shadow-soft-xs cursor-pointer shrink-0"
+              >
+                Open Registry Lookup
+              </button>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -333,6 +379,27 @@ export default function LearnPage() {
           </div>
         )}
       </div>
+
+      {/* Circularity & Certification Modals */}
+      <CityRecyclingGuideModal
+        isOpen={cityRecycleOpen}
+        onClose={() => setCityRecycleOpen(false)}
+      />
+
+      <RepairGuidesModal
+        isOpen={repairGuidesOpen}
+        onClose={() => setRepairGuidesOpen(false)}
+      />
+
+      <SecondLifeBoardModal
+        isOpen={secondLifeOpen}
+        onClose={() => setSecondLifeOpen(false)}
+      />
+
+      <CertificationDecoderModal
+        isOpen={certDecoderOpen}
+        onClose={() => setCertDecoderOpen(false)}
+      />
     </div>
   );
 }

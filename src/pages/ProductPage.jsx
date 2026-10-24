@@ -14,6 +14,8 @@ import AIEthicsCard from '../components/decision/AIEthicsCard';
 import ChoiceRippleFlow from '../components/lifecycle/ChoiceRippleFlow';
 import ProductTimeMachine from '../components/lifecycle/ProductTimeMachine';
 import SensitivitySliders from '../components/lifecycle/SensitivitySliders';
+import CostPerUseCalculator from '../components/lifecycle/CostPerUseCalculator';
+import EquivalentsTranslatorCard from '../components/impact/EquivalentsTranslatorCard';
 import { playSound } from '../lib/audio';
 import {
   ArrowLeft,
@@ -253,6 +255,17 @@ export default function ProductPage() {
               >
                 Sensitivity
               </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('economics')}
+                className={`flex-1 py-2 px-3 rounded-xl text-xs font-sans font-bold transition-all min-h-[36px] cursor-pointer ${
+                  activeTab === 'economics'
+                    ? 'bg-surface-raised text-emerald-600 dark:text-emerald-400 shadow-soft-xs border border-emerald-500/30 font-bold'
+                    : 'text-muted hover:text-heading'
+                }`}
+              >
+                Economics
+              </button>
               {swapComparison && (
                 <button
                   type="button"
@@ -271,6 +284,11 @@ export default function ProductPage() {
             {/* Tab: Sensitivity & Use-Phase Simulator (Feature 11) */}
             {activeTab === 'sensitivity' && (
               <SensitivitySliders product={product} />
+            )}
+
+            {/* Tab: Durability Economics & Cost-Per-Use (Feature 31) */}
+            {activeTab === 'economics' && (
+              <CostPerUseCalculator product={product} />
             )}
 
             {/* Tab 1: Lifecycle Explorer & Interactive Scrubber */}
@@ -374,6 +392,15 @@ export default function ProductPage() {
                       <RefreshCw className="w-3.5 h-3.5" /> Upgrade to Eco Version
                     </Link>
                   )}
+                </div>
+
+                {/* Feature 37: Equivalents Translator Card */}
+                <div className="pt-2">
+                  <EquivalentsTranslatorCard
+                    co2Kg={swapComparison.comparison.co2Saved}
+                    plasticGrams={swapComparison.comparison.plasticSaved}
+                    waterLitres={swapComparison.comparison.waterSaved}
+                  />
                 </div>
               </div>
             )}

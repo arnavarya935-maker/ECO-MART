@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { TrendingUp } from 'lucide-react';
+import { TrendingUp, Gift, Package } from 'lucide-react';
 import productsData from '../data/products.json';
 import { calculateEcoScore } from '../lib/ecoScore';
 import { rankProducts } from '../lib/decisionEngine';
@@ -17,6 +16,11 @@ import ShopEmptyState from '../components/shop/ShopEmptyState';
 import StarterKits from '../components/tools/StarterKits';
 import ForYouRow from '../components/recommendations/ForYouRow';
 import TradeoffExplorerModal from '../components/shop/TradeoffExplorerModal';
+import HouseholdProfileSelector from '../components/shop/HouseholdProfileSelector';
+import GiftFinderModal from '../components/shop/GiftFinderModal';
+import OccasionKitsModal from '../components/shop/OccasionKitsModal';
+import IntentSearchInput from '../components/shop/IntentSearchInput';
+import { HOUSEHOLD_PROFILES } from '../lib/personaEngine';
 
 export default function ShopPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -36,6 +40,9 @@ export default function ShopPage() {
   const [selectedCert, setSelectedCert] = useState(null);
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(false);
   const [isTradeoffModalOpen, setIsTradeoffModalOpen] = useState(false);
+  const [activeHouseholdProfile, setActiveHouseholdProfile] = useState('default');
+  const [isGiftFinderOpen, setIsGiftFinderOpen] = useState(false);
+  const [isOccasionKitsOpen, setIsOccasionKitsOpen] = useState(false);
 
   // Extract all categories & certifications
   const categories = useMemo(() => {
@@ -157,6 +164,27 @@ export default function ShopPage() {
     return count;
   }, [categoryParam, queryParam, priceRange, maxPriceLimit, selectedGrade, onlyPlasticFree, onlyEcoFriendly, selectedCert, sortParam]);
 
+  const handleSelectHouseholdProfile = (profileId) => {
+    setActiveHouseholdProfile(profileId);
+    const prof = HOUSEHOLD_PROFILES[profileId];
+    if (prof?.constraints) {
+      if (prof.constraints.maxPrice) setPriceRange(prof.constraints.maxPrice);
+      if (typeof prof.constraints.onlyPlasticFree === 'boolean') setOnlyPlasticFree(prof.constraints.onlyPlasticFree);
+      if (typeof prof.constraints.onlyEcoFriendly === 'boolean') setOnlyEcoFriendly(prof.constraints.onlyEcoFriendly);
+    }
+  };
+
+  const handleApplyIntent = (parsed) => {
+    if (parsed.cleanQuery !== undefined && parsed.cleanQuery.trim()) {
+      updateQueryParam('q', parsed.cleanQuery);
+    }
+    const c = parsed.extractedConstraints;
+    if (c.maxPrice) setPriceRange(c.maxPrice);
+    if (c.category) updateQueryParam('category', c.category);
+    if (c.onlyPlasticFree) setOnlyPlasticFree(true);
+    if (c.onlyEcoFriendly) setOnlyEcoFriendly(true);
+  };
+
   const handleResetAllFilters = () => {
     setSearchParams(new URLSearchParams(), { replace: true });
     setPriceRange(maxPriceLimit);
@@ -164,12 +192,13 @@ export default function ShopPage() {
     setOnlyPlasticFree(false);
     setOnlyEcoFriendly(true);
     setSelectedCert(null);
+    setActiveHouseholdProfile('default');
   };
 
   return (
     <div className="min-h-screen bg-surface text-text pb-28 sm:pb-20">
       {/* Page Header Banner */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-4 space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
             <div className="flex items-center gap-2">
@@ -188,16 +217,50 @@ export default function ShopPage() {
             </p>
           </div>
 
-          {/* Trade-off Frontier Button (Feature 4) */}
-          <button
-            type="button"
-            onClick={() => setIsTradeoffModalOpen(true)}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-surface-raised hover:bg-surface border border-line hover:border-primary/40 text-heading text-xs font-semibold shadow-soft-xs transition-colors cursor-pointer self-start sm:self-auto shrink-0"
-            title="Open 2D Price vs EcoScore Pareto scatter plot"
-          >
-            <TrendingUp className="w-4 h-4 text-primary" />
-            <span>Trade-off Frontier</span>
-          </button>
+          {/* Action Tools Toolbar */}
+          <div className="flex flex-wrap items-center gap-2 self-start sm:self-auto shrink-0">
+            <button
+              type="button"
+              onClick={() => setIsGiftFinderOpen(true)}
+              className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-2xl bg-surface-raised hover:bg-surface border border-line hover:border-amber-500/40 text-heading text-xs font-semibold shadow-soft-xs transition-colors cursor-pointer"
+            >
+              <Gift className="w-3.5 h-3.5 text-amber-500" />
+              <span>Curated Gifts</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setIsOccasionKitsOpen(true)}
+              className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-2xl bg-surface-raised hover:bg-surface border border-line hover:border-primary/40 text-heading text-xs font-semibold shadow-soft-xs transition-colors cursor-pointer"
+            >
+              <Package className="w-3.5 h-3.5 text-primary" />
+              <span>Occasion Kits</span>
+            </button>
+
+            {/* Trade-off Frontier Button (Feature 4) */}
+            <button
+              type="button"
+              onClick={() => setIsTradeoffModalOpen(true)}
+              className="flex items-center gap-1.5 px-3.5 py-2.5 rounded-2xl bg-surface-raised hover:bg-surface border border-line hover:border-primary/40 text-heading text-xs font-semibold shadow-soft-xs transition-colors cursor-pointer"
+              title="Open 2D Price vs EcoScore Pareto scatter plot"
+            >
+              <TrendingUp className="w-3.5 h-3.5 text-primary" />
+              <span>Trade-off Frontier</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Feature 27: Intent Search Bar & Feature 23: Household Profile Selector */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 pt-2">
+          <div className="lg:col-span-5">
+            <IntentSearchInput onApplyIntent={handleApplyIntent} />
+          </div>
+          <div className="lg:col-span-7">
+            <HouseholdProfileSelector
+              activeProfileId={activeHouseholdProfile}
+              onSelectProfile={handleSelectHouseholdProfile}
+            />
+          </div>
         </div>
       </div>
 
@@ -269,13 +332,9 @@ export default function ShopPage() {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {sortedProducts.map((product) => (
-              <motion.div
-                key={product.id}
-                layout={!reduceEffects}
-                transition={{ type: 'spring', stiffness: 350, damping: 25 }}
-              >
+              <div key={product.id}>
                 <ProductCard product={product} rankingDetails={product.rank ? product : null} />
-              </motion.div>
+              </div>
             ))}
           </div>
         )}
@@ -311,6 +370,18 @@ export default function ShopPage() {
         isOpen={isTradeoffModalOpen}
         onClose={() => setIsTradeoffModalOpen(false)}
         products={productsData}
+      />
+
+      {/* Feature 25: Curated Gift Finder Modal */}
+      <GiftFinderModal
+        isOpen={isGiftFinderOpen}
+        onClose={() => setIsGiftFinderOpen(false)}
+      />
+
+      {/* Feature 26: Occasion Kits Modal */}
+      <OccasionKitsModal
+        isOpen={isOccasionKitsOpen}
+        onClose={() => setIsOccasionKitsOpen(false)}
       />
     </div>
   );

@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { RotateCcw, Share2, ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { RotateCcw, Share2, ArrowRight, Sparkles } from 'lucide-react';
+import { useCart } from '../../context/CartContext';
+import { HOUSEHOLD_PROFILES } from '../../lib/personaEngine';
 
 const QUIZ_QUESTIONS = [
   {
@@ -84,6 +87,20 @@ export default function EcoQuiz() {
     };
   }
 
+  const navigate = useNavigate();
+  const { updateUserPriorities } = useCart();
+
+  const personaProfile = scorePercent >= 80
+    ? HOUSEHOLD_PROFILES.minimalist
+    : scorePercent >= 45
+    ? HOUSEHOLD_PROFILES.family
+    : HOUSEHOLD_PROFILES.student;
+
+  const handleApplyPersonaToShop = () => {
+    updateUserPriorities(personaProfile.weights, personaProfile.id);
+    navigate('/shop');
+  };
+
   const handleShare = () => {
     const shareText = `I scored ${scorePercent}% on the EcoMart Sustainability Quiz! Level: ${tier.title}. Audit your habits at EcoMart!`;
     if (navigator.clipboard) {
@@ -158,25 +175,34 @@ export default function EcoQuiz() {
           </div>
 
           <div className="p-4 rounded-2xl bg-surface-sunken border border-line text-xs text-secondary">
-            🌱 <strong className="text-heading">Next Step:</strong> Check your recommended zero-waste swaps in the catalog to push your footprint down to zero!
+            🌱 <strong>Matched Persona:</strong> {personaProfile.icon} <strong className="text-heading">{personaProfile.label}</strong> ({personaProfile.badge}).
+            <p className="text-[11px] text-text-muted mt-1">{personaProfile.description}</p>
           </div>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
             <button
               type="button"
-              onClick={handleShare}
+              onClick={handleApplyPersonaToShop}
               className="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-primary hover:bg-primary-hover text-primary-contrast font-medium text-xs transition shadow-soft-sm cursor-pointer min-h-[44px]"
             >
+              <Sparkles className="w-4 h-4" />
+              <span>Personalize Catalog for My Persona</span>
+            </button>
+            <button
+              type="button"
+              onClick={handleShare}
+              className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2.5 rounded-full border border-line text-secondary font-medium text-xs hover:bg-surface-sunken hover:text-heading transition cursor-pointer min-h-[44px]"
+            >
               <Share2 className="w-4 h-4" />
-              <span>{copied ? 'Result Copied to Clipboard!' : 'Share Result Card'}</span>
+              <span>{copied ? 'Copied!' : 'Share'}</span>
             </button>
             <button
               type="button"
               onClick={handleReset}
-              className="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-2.5 rounded-full border border-line text-secondary font-medium text-xs hover:bg-surface-sunken hover:text-heading transition cursor-pointer min-h-[44px]"
+              className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2.5 rounded-full border border-line text-secondary font-medium text-xs hover:bg-surface-sunken hover:text-heading transition cursor-pointer min-h-[44px]"
             >
               <RotateCcw className="w-4 h-4" />
-              <span>Retake Quiz</span>
+              <span>Retake</span>
             </button>
           </div>
         </div>

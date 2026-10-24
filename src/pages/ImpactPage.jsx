@@ -6,12 +6,16 @@ import CategoryCarbonBarChart from '../components/impact/CategoryCarbonBarChart'
 import HabitLineChart from '../components/impact/HabitLineChart';
 import TrustScoreHistogram from '../components/impact/TrustScoreHistogram';
 import WhatIfCartSimulator from '../components/impact/WhatIfCartSimulator';
+import PersonalCarbonBudgetWidget from '../components/impact/PersonalCarbonBudgetWidget';
+import EquivalentsTranslatorCard from '../components/impact/EquivalentsTranslatorCard';
+import WeeklyEcoReviewModal from '../components/impact/WeeklyEcoReviewModal';
 import { useCart } from '../context/CartContext';
-import { Droplets, Ban, Wind, Activity, Sliders, BarChart3 } from 'lucide-react';
+import { Droplets, Ban, Wind, Activity, Sliders, BarChart3, Calendar, Sparkles } from 'lucide-react';
 
 export default function ImpactPage() {
-  const { setIsAgentOpen } = useCart();
+  const { setIsAgentOpen, cartItems } = useCart();
   const [purposeReportOpen, setPurposeReportOpen] = useState(false);
+  const [weeklyReviewOpen, setWeeklyReviewOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('command_center'); // 'command_center' | 'what_if' | 'cart_ledger'
 
   return (
@@ -66,12 +70,31 @@ export default function ImpactPage() {
               Live Cart Ledger
             </button>
           </div>
+
+          <button
+            type="button"
+            onClick={() => setWeeklyReviewOpen(true)}
+            className="ml-3 px-4 py-1.5 rounded-full border border-primary/30 bg-primary/10 hover:bg-primary/20 text-primary font-bold text-xs transition-all flex items-center gap-1.5 shadow-soft-xs cursor-pointer"
+          >
+            <Calendar className="w-3.5 h-3.5 text-primary" />
+            <span>Weekly Eco Review</span>
+          </button>
         </div>
       </div>
 
       {/* Mode 1: Interactive Command Center Charts */}
       {activeTab === 'command_center' && (
         <div className="space-y-10 animate-fade-in">
+          {/* Carbon Budget and Tangible Equivalents Grid (Features 30 & 37) */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            <div className="lg:col-span-5">
+              <PersonalCarbonBudgetWidget />
+            </div>
+            <div className="lg:col-span-7">
+              <EquivalentsTranslatorCard />
+            </div>
+          </div>
+
           {/* 1. Category Carbon Estimate with Drill-Down */}
           <CategoryCarbonBarChart />
 
@@ -105,6 +128,12 @@ export default function ImpactPage() {
       <PurposeReportModal
         isOpen={purposeReportOpen}
         onClose={() => setPurposeReportOpen(false)}
+      />
+
+      {/* Weekly Eco Review Modal (Feature 39) */}
+      <WeeklyEcoReviewModal
+        isOpen={weeklyReviewOpen}
+        onClose={() => setWeeklyReviewOpen(false)}
       />
 
       {/* Educational Explainer Grid: How Benchmarks Work */}

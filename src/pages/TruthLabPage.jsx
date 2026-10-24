@@ -18,6 +18,11 @@ import { useCart } from '../context/CartContext';
 import productsData from '../data/products.json';
 import ClaimEvidenceGraph from '../components/detective/ClaimEvidenceGraph';
 import AgentReportCard from '../components/agent/AgentReportCard';
+import CertificationDecoderModal from '../components/detective/CertificationDecoderModal';
+import ClaimDiffModal from '../components/detective/ClaimDiffModal';
+import ReportClaimModal from '../components/detective/ReportClaimModal';
+import GreenwashLexiconHighlighter from '../components/detective/GreenwashLexiconHighlighter';
+import BrandTransparencyCard from '../components/detective/BrandTransparencyCard';
 
 const SAMPLE_CLAIMS = [
   '100% Eco-Friendly Bamboo Toothbrush in plastic packaging',
@@ -31,6 +36,9 @@ export default function TruthLabPage() {
   const [activeTab, setActiveTab] = useState('radar'); // 'radar' | 'scanner' | 'courtroom' | 'audit'
   const [claimInput, setClaimInput] = useState(SAMPLE_CLAIMS[0]);
   const [analyzedClaim, setAnalyzedClaim] = useState(SAMPLE_CLAIMS[0]);
+  const [decoderOpen, setDecoderOpen] = useState(false);
+  const [diffOpen, setDiffOpen] = useState(false);
+  const [reportOpen, setReportOpen] = useState(false);
 
   const analysis = React.useMemo(() => {
     if (!analyzedClaim.trim()) return null;
@@ -66,17 +74,38 @@ export default function TruthLabPage() {
             </p>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setDecoderOpen(true)}
+              className="px-3.5 py-2 rounded-xl bg-surface-raised hover:bg-surface border border-line hover:border-primary/40 text-heading text-xs font-semibold shadow-soft-xs transition-colors inline-flex items-center gap-1.5 cursor-pointer"
+            >
+              <span>📜 Cert Decoder</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setDiffOpen(true)}
+              className="px-3.5 py-2 rounded-xl bg-surface-raised hover:bg-surface border border-line hover:border-primary/40 text-heading text-xs font-semibold shadow-soft-xs transition-colors inline-flex items-center gap-1.5 cursor-pointer"
+            >
+              <span>⚖️ Claim Diff</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setReportOpen(true)}
+              className="px-3.5 py-2 rounded-xl bg-surface-raised hover:bg-surface border border-line hover:border-rose-500/40 text-rose-600 dark:text-rose-400 text-xs font-semibold shadow-soft-xs transition-colors inline-flex items-center gap-1.5 cursor-pointer"
+            >
+              <span>🚩 Report Claim</span>
+            </button>
             <Link
               to="/courtroom"
-              className="px-4 py-2 rounded-xl bg-surface-raised hover:bg-surface border border-line hover:border-primary/40 text-heading text-xs font-semibold shadow-soft-xs transition-colors inline-flex items-center gap-1.5"
+              className="px-3.5 py-2 rounded-xl bg-surface-raised hover:bg-surface border border-line hover:border-primary/40 text-heading text-xs font-semibold shadow-soft-xs transition-colors inline-flex items-center gap-1.5"
             >
               <Scale className="w-3.5 h-3.5 text-primary" />
-              <span>Enter Courtroom</span>
+              <span>Courtroom</span>
             </Link>
             <Link
               to="/scanner"
-              className="px-4 py-2 rounded-xl bg-primary hover:bg-primary-hover text-primary-contrast text-xs font-bold shadow-soft-xs transition-colors inline-flex items-center gap-1.5"
+              className="px-3.5 py-2 rounded-xl bg-primary hover:bg-primary-hover text-primary-contrast text-xs font-bold shadow-soft-xs transition-colors inline-flex items-center gap-1.5"
             >
               <Camera className="w-3.5 h-3.5" />
               <span>Label OCR</span>
@@ -212,6 +241,18 @@ export default function TruthLabPage() {
                 </div>
               </div>
             )}
+            {/* Feature 18 & 19: Brand Transparency Scorecard & Ask the Brand */}
+            <div className="pt-4 border-t border-line">
+              <div className="mb-3">
+                <span className="text-[11px] font-mono uppercase tracking-wider text-primary font-bold">
+                  Catalog Disclosures Audit
+                </span>
+                <h3 className="font-serif text-lg font-bold text-heading mt-0.5">
+                  Brand Transparency Scorecard &amp; Lifecycle Completeness
+                </h3>
+              </div>
+              <BrandTransparencyCard product={productsData[0]} />
+            </div>
           </div>
         )}
 
@@ -270,6 +311,11 @@ export default function TruthLabPage() {
           </div>
         )}
       </div>
+
+      {/* Detective & Transparency Modals */}
+      <CertificationDecoderModal isOpen={decoderOpen} onClose={() => setDecoderOpen(false)} />
+      <ClaimDiffModal isOpen={diffOpen} onClose={() => setDiffOpen(false)} />
+      <ReportClaimModal isOpen={reportOpen} onClose={() => setReportOpen(false)} />
     </div>
   );
 }

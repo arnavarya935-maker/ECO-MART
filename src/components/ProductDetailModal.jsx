@@ -9,6 +9,8 @@ import ProductLifecycleTimeline from './lifecycle/ProductLifecycleTimeline';
 import LifecycleTimelineScrubber from './lifecycle/LifecycleTimelineScrubber';
 import SecondLifeTab from './lifecycle/SecondLifeTab';
 import AIEthicsCard from './decision/AIEthicsCard';
+import BrandTransparencyCard from './detective/BrandTransparencyCard';
+import GreenwashLexiconHighlighter from './detective/GreenwashLexiconHighlighter';
 import Modal from './ui/Modal';
 import { useCart } from '../context/CartContext';
 
@@ -166,6 +168,17 @@ export default function ProductDetailModal({ product, onClose }) {
             </button>
             <button
               type="button"
+              onClick={() => setActiveTab('transparency')}
+              className={`flex-1 py-2 px-2.5 rounded-xl text-xs font-sans font-bold transition-all min-h-[36px] cursor-pointer ${
+                activeTab === 'transparency'
+                  ? 'bg-surface-raised text-primary shadow-soft-xs border border-primary/30 font-bold'
+                  : 'text-muted hover:text-heading'
+              }`}
+            >
+              Transparency
+            </button>
+            <button
+              type="button"
               onClick={() => setActiveTab('reviews')}
               className={`flex-1 py-2 px-2.5 rounded-xl text-xs font-sans font-bold transition-all min-h-[36px] cursor-pointer ${
                 activeTab === 'reviews'
@@ -232,7 +245,9 @@ export default function ProductDetailModal({ product, onClose }) {
           <div className="p-4 rounded-2xl bg-surface-sunken border border-line space-y-2.5">
             <div className="flex items-start gap-2">
               <span className="text-xs font-bold text-muted uppercase tracking-wider w-24 shrink-0">Material:</span>
-              <span className="text-sm font-medium text-heading">{product.material}</span>
+              <span className="text-sm font-medium text-heading">
+                <GreenwashLexiconHighlighter text={product.material} />
+              </span>
             </div>
             <div className="flex items-start gap-2">
               <span className="text-xs font-bold text-muted uppercase tracking-wider w-24 shrink-0">Packaging:</span>
@@ -337,6 +352,11 @@ export default function ProductDetailModal({ product, onClose }) {
           {/* Tab 4: AI Recommendation Ethics & Transparency Card */}
           {activeTab === 'ethics' && (
             <AIEthicsCard product={product} />
+          )}
+
+          {/* Tab: Brand Transparency Scorecard */}
+          {activeTab === 'transparency' && (
+            <BrandTransparencyCard product={product} />
           )}
 
           {/* Tab 3: Customer Reviews */}
