@@ -11,6 +11,8 @@ import ProductLifecycleTimeline from '../components/lifecycle/ProductLifecycleTi
 import LifecycleTimelineScrubber from '../components/lifecycle/LifecycleTimelineScrubber';
 import SecondLifeTab from '../components/lifecycle/SecondLifeTab';
 import AIEthicsCard from '../components/decision/AIEthicsCard';
+import ChoiceRippleFlow from '../components/lifecycle/ChoiceRippleFlow';
+import ProductTimeMachine from '../components/lifecycle/ProductTimeMachine';
 import { playSound } from '../lib/audio';
 import {
   ArrowLeft,
@@ -196,6 +198,28 @@ export default function ProductPage() {
               </button>
               <button
                 type="button"
+                onClick={() => setActiveTab('ripple')}
+                className={`flex-1 py-2 px-3 rounded-xl text-xs font-sans font-bold transition-all min-h-[36px] cursor-pointer ${
+                  activeTab === 'ripple'
+                    ? 'bg-surface-raised text-emerald-400 shadow-soft-xs border border-emerald-500/30 font-bold'
+                    : 'text-muted hover:text-heading'
+                }`}
+              >
+                Choice Ripple
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('timemachine')}
+                className={`flex-1 py-2 px-3 rounded-xl text-xs font-sans font-bold transition-all min-h-[36px] cursor-pointer ${
+                  activeTab === 'timemachine'
+                    ? 'bg-surface-raised text-primary shadow-soft-xs border border-primary/30 font-bold'
+                    : 'text-muted hover:text-heading'
+                }`}
+              >
+                Time Machine
+              </button>
+              <button
+                type="button"
                 onClick={() => setActiveTab('secondlife')}
                 className={`flex-1 py-2 px-3 rounded-xl text-xs font-sans font-bold transition-all min-h-[36px] cursor-pointer ${
                   activeTab === 'secondlife'
@@ -237,6 +261,16 @@ export default function ProductPage() {
                 <LifecycleTimelineScrubber product={product} />
                 <ProductLifecycleTimeline product={product} />
               </div>
+            )}
+
+            {/* Tab: Choice Ripple Flow */}
+            {activeTab === 'ripple' && (
+              <ChoiceRippleFlow product={product} />
+            )}
+
+            {/* Tab: Product Time Machine (2030 / 2035) */}
+            {activeTab === 'timemachine' && (
+              <ProductTimeMachine product={product} />
             )}
 
             {/* Tab 2: Second Life Circular Path */}

@@ -27,12 +27,13 @@ export default function Navbar() {
   const navLinks = [
     { path: '/', label: lang === 'hi' ? 'होम' : 'Home' },
     { path: '/shop', label: t('nav.shop', 'Catalog') },
+    { path: '/courtroom', label: lang === 'hi' ? 'अदालत' : 'Courtroom' },
+    { path: '/scan', label: lang === 'hi' ? 'स्कैन' : 'Scan' },
+    { path: '/kirana', label: 'किराना' },
     ...(FEATURES.CART_TRANSFORMER ? [{ path: '/transform', label: t('nav.transform', 'Transformer') }] : []),
     { path: '/eco-check', label: t('nav.ecoCheck', 'Eco Check') },
     { path: '/tools', label: t('nav.tools', 'Eco Tools') },
-    { path: '/impact', label: t('nav.impact', 'Impact') },
     { path: '/fairness', label: 'Fairness' },
-    { path: '/playground', label: 'AI Sandbox' },
     { path: '/how-it-works', label: t('nav.howItWorks', 'Methodology') }
   ];
 

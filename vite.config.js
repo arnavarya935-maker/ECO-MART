@@ -237,11 +237,11 @@ function apiProxyPlugin() {
           return;
         }
 
-        if (url !== '/api/agent' && url !== '/api/detect-greenwash') {
+        if (url !== '/api/agent' && url !== '/api/detect-greenwash' && url !== '/api/scan-label') {
           return next();
         }
 
-        const { isRateLimited, handleAgentRequest, handleGreenwashRequest } = await import('./server/proxyServer.js');
+        const { isRateLimited, handleAgentRequest, handleGreenwashRequest, handleScanLabelRequest } = await import('./server/proxyServer.js');
         const ip = req.headers['x-forwarded-for'] || req.socket?.remoteAddress || '127.0.0.1';
 
         if (isRateLimited(ip)) {
@@ -266,10 +266,11 @@ function apiProxyPlugin() {
           return;
         }
 
+        const maxBodyLength = url === '/api/scan-label' ? 8 * 1024 * 1024 : 100000;
         let raw = '';
         req.on('data', (chunk) => {
           raw += chunk;
-          if (raw.length > 50000) {
+          if (raw.length > maxBodyLength) {
             req.destroy();
           }
         });
@@ -281,6 +282,8 @@ function apiProxyPlugin() {
               await handleAgentRequest(body, res);
             } else if (url === '/api/detect-greenwash') {
               await handleGreenwashRequest(body, res);
+            } else if (url === '/api/scan-label') {
+              await handleScanLabelRequest(body, res);
             }
           } catch {
             res.writeHead(400, { 'Content-Type': 'application/json' });

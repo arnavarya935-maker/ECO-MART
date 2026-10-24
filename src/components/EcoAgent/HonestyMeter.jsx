@@ -41,7 +41,9 @@ export function calculateHonestyMetrics(messages = []) {
 
   agentMessages.forEach((msg) => {
     const text = (msg.text || '').toLowerCase();
+    const isBrakeRefusal = Boolean(msg.confidenceBrakeTriggered) || msg.confidence === 'declined' || text.includes('confidence brake');
     const isUncertain =
+      isBrakeRefusal ||
       msg.confidence === 'low' ||
       text.includes("i'm not sure") ||
       text.includes('not sure') ||
@@ -52,7 +54,9 @@ export function calculateHonestyMetrics(messages = []) {
       Boolean(msg.clarification);
 
     let score = 92;
-    if (msg.confidence === 'low' || text.includes("i'm not sure")) {
+    if (isBrakeRefusal) {
+      score = msg.confidenceScore || 35;
+    } else if (msg.confidence === 'low' || text.includes("i'm not sure")) {
       score = 45;
     } else if (msg.confidence === 'medium' || text.includes('estimate') || isUncertain) {
       score = 70;
@@ -61,13 +65,21 @@ export function calculateHonestyMetrics(messages = []) {
 
     if (isUncertain) {
       notSureCount += 1;
+      let reason = 'Missing supply-chain verification data';
+      if (isBrakeRefusal) {
+        reason = `Confidence Brake Refusal (Strictness: ${msg.strictnessThreshold || 70}%)`;
+      } else if (msg.clarification) {
+        reason = 'User prompt was ambiguous';
+      }
+
       uncertaintyLog.unshift({
         id: msg.id,
         query: msg.query || 'Product sustainability audit',
-        reason: msg.clarification ? 'User prompt was ambiguous' : 'Missing supply-chain verification data',
+        reason,
         statement: msg.text.slice(0, 160) + (msg.text.length > 160 ? '...' : ''),
         confidence: score,
-        timestamp: msg.timestamp || 'Just now'
+        timestamp: msg.timestamp || 'Just now',
+        isBrakeRefusal
       });
     }
   });

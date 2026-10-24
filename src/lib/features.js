@@ -32,7 +32,17 @@ export const FEATURES = {
 
   // Flagship Feature: Cart Transformer (Offline Shopping List to Sustainable Basket)
   CART_TRANSFORMER: true,
-  cartTransformer: true
+  cartTransformer: true,
+
+  // Additional Responsible AI Features (F1-F8)
+  AI_COURTROOM: true,
+  LABEL_SCANNER: true,
+  CONFIDENCE_BRAKE: true,
+  ETHICS_DILEMMAS: true,
+  CHOICE_RIPPLE: true,
+  PRODUCT_TIME_MACHINE: true,
+  AI_SELF_AUDIT: true,
+  KIRANA_MODE: true
 };
 
 /**

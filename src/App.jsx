@@ -36,6 +36,11 @@ const BlackBoxPage = lazy(() => import('./pages/BlackBoxPage'));
 const DuelPage = lazy(() => import('./pages/DuelPage'));
 const TrustPassportPage = lazy(() => import('./pages/TrustPassportPage'));
 const CounterfactualPage = lazy(() => import('./pages/CounterfactualPage'));
+const CourtroomPage = lazy(() => import('./pages/CourtroomPage'));
+const LabelScannerPage = lazy(() => import('./pages/LabelScannerPage'));
+const DilemmasPage = lazy(() => import('./pages/DilemmasPage'));
+const AISelfAuditPage = lazy(() => import('./pages/AISelfAuditPage'));
+const KiranaPage = lazy(() => import('./pages/KiranaPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
 // Widgets, Modals and Drawers - Lazy loaded on demand
@@ -186,6 +191,11 @@ function AppContent() {
             <Route path="/duel" element={<DuelPage />} />
             <Route path="/passport/:id" element={<TrustPassportPage />} />
             <Route path="/counterfactual" element={<CounterfactualPage />} />
+            <Route path="/courtroom" element={<CourtroomPage />} />
+            <Route path="/scan" element={<LabelScannerPage />} />
+            <Route path="/dilemmas" element={<DilemmasPage />} />
+            <Route path="/self-audit" element={<AISelfAuditPage />} />
+            <Route path="/kirana" element={<KiranaPage />} />
             <Route path="/how-it-works" element={<HowItWorksPage />} />
             <Route path="/wishlist" element={<WishlistPage />} />
             <Route path="/profile" element={<ProfilePage />} />

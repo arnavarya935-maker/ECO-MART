@@ -80,11 +80,40 @@ npm run preview
 - **Offline Browser Speech**: Optional read-aloud button on Eco Agent messages using the browser's native `speechSynthesis` API (gracefully hidden when unavailable).
 - **Pitch Mode Shortcut (`P`)**: Pressing `P` anywhere opens a 2-minute guided presenter walkthrough stepping through the 5 flagship competition features in a fixed sequence.
 
+### 9. AI Courtroom (`/courtroom`, `courtroomEngine.js`)
+- **Simulated Turn-by-Turn Legal Trial**: Three distinctly labeled AI roles: **Prosecutor** (exposes greenwashing and omissions), **Defender** (advocates genuine decarbonization steps), and **Judge** (renders an evidentiary verdict and Trust Score 0–100).
+- **Interactive Objection Window**: Shoppers can raise an objection or type custom cross-examination mid-debate.
+- **Evidentiary Integrity**: Explicit policy: *"AI roles, simulated debate. Roles must never invent certifications or statistics."*
+
+### 10. Product Label Scanner (`/scan`, `labelScanner.js`)
+- **AI Vision Packaging Auditor**: Upload or take a photo of product packaging. Proxied via Gemini Vision or deterministic offline heuristics.
+- **Privacy Guarantee**: Stamped **"Image is not saved"**. Processed exclusively in volatile RAM and immediately discarded.
+- **Integrated Claim Radar**: Automatically plots extracted claims onto the interactive 5-axis ISO 14021 Claim Radar.
+
+### 11. Confidence Brake (`confidenceBrake.js`)
+- **Strictness Threshold Slider**: Configurable in Agent Chat and Settings (30% to 95%).
+- **Accountable Refusal**: When certainty falls below threshold, the agent declines to guess, details exact missing lab proofs needed, and logs the interception in the Black Box and Honesty Meter.
+
+### 12. Ethics Dilemma Cards (`/dilemmas`, `dilemmasData.js`)
+- **Human Agency & Value Judgments**: Curated scenario cards (e.g. cheap polyester fleece vs durable heirloom hemp).
+- **Explicit Algorithmic Refusal**: The AI presents trade-offs on both sides and explicitly refuses to pick for the user, affirming that moral choices belong to humans.
+
+### 13. Choice Ripple & Product Time Machine (`ChoiceRippleFlow.jsx`, `ProductTimeMachine.jsx`)
+- **Animated Sankey Lifecycle Flow**: Material → Factory → Shipping → Use → Second Life, with labeled estimates and an accessible table view toggle.
+- **Now / 2030 / 2035 Time Horizons**: Compares Landfill, Recycled, and Reused outcomes over 4 and 9 years, labeled **"Scenario, not a prediction"** with transparent assumptions.
+
+### 14. AI Self-Audit Session Report (`/self-audit`, `selfAuditEngine.js`)
+- **Automated Accountability**: Synthesizes session telemetry into an auditable report detailing admitted uncertainties, bias audits (socioeconomic, linguistic, artisan), guardrails triggered, and concrete model improvement recommendations with print-friendly layout.
+
+### 15. Desi Kirana Mode (`/kirana`, `KiranaPage.jsx`)
+- **Accessible Hindi-First Layout**: High-contrast interface with large touch targets (>48px) for everyday sustainable staples.
+- **Web Speech Integration**: Voice search ("बोलकर खोजें") in Hindi/English with text fallback and Hindi speech synthesis read-aloud ("सुनें").
+
 ---
 
 ## 🎛️ Safety Feature Flags (`src/lib/features.js`)
 
-Every new feature sits behind a simple boolean flag in `src/lib/features.js` so it can be disabled in one line if needed before judging:
+Every feature sits behind a simple boolean flag in `src/lib/features.js` so it can be disabled in one line if needed before judging:
 
 | Feature Flag | Default | Description |
 |---|:---:|---|
@@ -97,6 +126,14 @@ Every new feature sits behind a simple boolean flag in `src/lib/features.js` so 
 | `HINDI_LANGUAGE` | `true` | Hindi/English bilingual switcher and offline font |
 | `SPEECH_SYNTHESIS` | `true` | Offline browser read-aloud for agent replies |
 | `PITCH_MODE` | `true` | 2-minute presenter tour overlay (shortcut 'P') |
+| `AI_COURTROOM` | `true` | Simulated 3-role courtroom debate with objections |
+| `LABEL_SCANNER` | `true` | In-memory vision label scanner & 5-axis Claim Radar |
+| `CONFIDENCE_BRAKE` | `true` | Strictness threshold slider & accountable refusal |
+| `ETHICS_DILEMMAS` | `true` | Curated dilemma cards with explicit AI refusal |
+| `CHOICE_RIPPLE` | `true` | Animated Sankey lifecycle flow with table toggle |
+| `PRODUCT_TIME_MACHINE` | `true` | Now / 2030 / 2035 future horizon scenario outcomes |
+| `AI_SELF_AUDIT` | `true` | Printable session self-audit accountability report |
+| `KIRANA_MODE` | `true` | High-contrast Hindi-first layout with Web Speech |
 
 ---
 
@@ -104,10 +141,11 @@ Every new feature sits behind a simple boolean flag in `src/lib/features.js` so 
 
 | Check | Target / Budget | Result | Status |
 |---|:---:|:---:|:---:|
-| **Initial JS (Home route)** | $\le 200\text{ kB}$ gzip | **148.50 kB** gzip | ✅ **PASSED** |
+| **Initial JS (Home route)** | $\le 200\text{ kB}$ gzip | **166.03 kB** gzip | ✅ **PASSED** |
 | **Offline Purity (`check:urls`)** | 0 external URLs in `src/` or `public/` | **0 external URLs** | ✅ **PASSED** |
-| **Oxlint Quality** | 0 errors, 0 warnings | **0 errors, 0 warnings (103 rules)** | ✅ **PASSED** |
-| **Automated Tests (`npm test`)** | 100% pass | **75 / 75 tests passing** | ✅ **PASSED** |
+| **Oxlint Quality** | 0 errors | **0 errors (103 rules)** | ✅ **PASSED** |
+| **Automated Tests (`npm test`)** | 100% pass | **172 / 172 tests passing (17 suites)** | ✅ **PASSED** |
+| **Guest-First Persistence** | No mandatory login | 100% LocalStorage with in-memory fallbacks | ✅ **PASSED** |
 | **Guest-First Persistence** | No mandatory login | 100% LocalStorage with in-memory fallbacks | ✅ **PASSED** |
 
 ---

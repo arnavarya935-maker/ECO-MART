@@ -17,13 +17,15 @@ import {
   Sparkles,
   Globe,
   Sun,
-  Moon
+  Moon,
+  ShieldAlert
 } from 'lucide-react';
 import { useT } from '../context/I18nContext';
 import { FEATURES } from '../lib/features';
 import Button from '../components/ui/Button';
 import Card from '../components/ui/Card';
 import Badge from '../components/ui/Badge';
+import { getStrictnessThreshold, setStrictnessThreshold } from '../lib/ai/confidenceBrake';
 
 export default function SettingsPage() {
   const {
@@ -62,8 +64,16 @@ export default function SettingsPage() {
     }
   });
 
+  const [strictness, setStrictnessState] = useState(() => getStrictnessThreshold());
   const [resetConfirm, setResetConfirm] = useState(false);
   const [successMsg, setSuccessMsg] = useState('');
+
+  const handleStrictnessChange = (e) => {
+    const val = parseInt(e.target.value, 10);
+    setStrictnessState(val);
+    setStrictnessThreshold(val);
+    showFeedback(`Agent strictness threshold set to ${val}%`);
+  };
 
   const toggleSound = () => {
     const next = !soundEnabled;
@@ -479,6 +489,68 @@ export default function SettingsPage() {
             <Badge variant={copilotMuted ? 'warning' : 'primary'} size="sm">
               {copilotMuted ? 'Muted' : 'Active'}
             </Badge>
+          </div>
+        </Card>
+
+        {/* Confidence Brake Strictness Slider (Feature F3) */}
+        <Card clean={true} className="space-y-4 bg-surface border border-line shadow-soft-sm rounded-3xl p-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-700">
+                <ShieldAlert className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="font-serif font-bold text-base text-heading">
+                  Confidence Brake (Strictness)
+                </h3>
+                <p className="text-[11px] text-muted font-normal">
+                  Decline low-certainty claims instead of guessing
+                </p>
+              </div>
+            </div>
+            <Badge variant={strictness >= 80 ? 'warning' : 'primary'} size="sm">
+              {strictness}% Threshold
+            </Badge>
+          </div>
+          <p className="text-xs text-secondary leading-relaxed font-normal">
+            When Eco Agent certainty falls below this threshold, it refuses to guess, details exactly what lifecycle documentation is missing, and logs the interception in the Black Box and Honesty Meter.
+          </p>
+          <div className="space-y-2 pt-2">
+            <div className="flex justify-between text-xs font-mono text-muted">
+              <span>Lenient (40%)</span>
+              <span className="font-bold text-primary">{strictness}% (Active)</span>
+              <span>Ultra-Strict (90%)</span>
+            </div>
+            <input
+              type="range"
+              min="30"
+              max="95"
+              step="5"
+              value={strictness}
+              onChange={handleStrictnessChange}
+              className="w-full accent-primary cursor-pointer h-2 bg-surface-sunken rounded-lg"
+              aria-label="Confidence Brake Strictness Slider"
+            />
+          </div>
+          <div className="pt-2 flex items-center justify-between">
+            <span className="text-[11px] text-muted">
+              {strictness >= 85
+                ? 'Ultra-Strict: Requires accredited third-party lab certificates.'
+                : strictness >= 65
+                ? 'Balanced: Declines unverified absolute claims & vague buzzwords.'
+                : 'Permissive: Accepts qualitative consumer estimates.'}
+            </span>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                setIsAgentOpen(true);
+                showFeedback('Opened Eco Agent to test Confidence Brake');
+              }}
+              className="text-xs"
+            >
+              Test in Agent
+            </Button>
           </div>
         </Card>
       </div>

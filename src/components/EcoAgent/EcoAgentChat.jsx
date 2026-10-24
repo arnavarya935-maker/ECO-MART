@@ -14,7 +14,8 @@ import {
   RotateCcw,
   Sliders,
   Volume2,
-  VolumeX
+  VolumeX,
+  ShieldAlert
 } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { useTheme } from '../../context/ThemeContext';
@@ -29,6 +30,7 @@ import ReasoningExplanationCard from './ReasoningExplanationCard';
 import AIEnergyMeter from './AIEnergyMeter';
 import HonestyMeter from './HonestyMeter';
 import { appendBlackBoxLog } from '../../lib/ai/blackboxStore';
+import { getStrictnessThreshold, setStrictnessThreshold, evaluateConfidenceBrake } from '../../lib/ai/confidenceBrake';
 
 const QUICK_CHIPS_EN = [
   { id: 'cart-transformer', label: '🪄 Transform shopping list', query: 'Transform my shopping list' },
@@ -146,6 +148,15 @@ export default function EcoAgentChat() {
     lastResults: [],
     lastQuery: null
   });
+
+  const [strictness, setStrictness] = useState(() => getStrictnessThreshold());
+  const [showStrictnessPopover, setShowStrictnessPopover] = useState(false);
+
+  useEffect(() => {
+    const handler = (e) => setStrictness(e.detail);
+    window.addEventListener('strictness-updated', handler);
+    return () => window.removeEventListener('strictness-updated', handler);
+  }, []);
 
   const [messages, setMessages] = useState(() => [
     {
@@ -474,6 +485,36 @@ export default function EcoAgentChat() {
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
 
+      // Confidence Brake Evaluation (Feature F3)
+      const brakeCheck = evaluateConfidenceBrake({
+        query: q,
+        rawConfidence: aiResult?.confidence || 'medium',
+        answerText: replyText,
+        strictness
+      });
+
+      let isBrakeTriggered = false;
+      let finalText = replyText;
+      let guardrailName = agentMsg.confidence === 'low' ? 'Admitted Uncertainty Flag' : 'Standard Metric Integrity';
+      let guardrailStatus = 'held';
+
+      if (brakeCheck.brakeTriggered) {
+        isBrakeTriggered = true;
+        finalText = brakeCheck.refusalMessage;
+        guardrailName = 'Confidence Brake (Strictness Threshold Exceeded)';
+        guardrailStatus = 'intercepted';
+      }
+
+      agentMsg.text = finalText;
+      agentMsg.confidenceBrakeTriggered = isBrakeTriggered;
+      agentMsg.confidenceScore = brakeCheck.confidenceScore;
+      agentMsg.strictnessThreshold = strictness;
+      agentMsg.neededInfo = brakeCheck.neededInfo;
+      if (isBrakeTriggered) {
+        agentMsg.confidence = 'declined';
+        agentMsg.data = [];
+      }
+
       setAgentContext((prev) => ({
         lastCategory: response.analysis?.intent?.category || prev.lastCategory,
         lastBudget: response.analysis?.intent?.maxBudget || prev.lastBudget,
@@ -487,13 +528,15 @@ export default function EcoAgentChat() {
       setMessages((prev) => [...prev, agentMsg]);
       appendBlackBoxLog({
         query: q,
-        answerSummary: replyText,
-        confidence: agentMsg.confidence,
-        guardrailTriggered: agentMsg.confidence === 'low' ? 'Admitted Uncertainty Flag' : 'Standard Metric Integrity',
-        guardrailStatus: 'held',
+        answerSummary: isBrakeTriggered
+          ? `[Confidence Brake Triggered] Refused answer (${brakeCheck.confidenceScore}% < ${strictness}%). Required: ${brakeCheck.neededInfo.join(', ')}`
+          : replyText,
+        confidence: isBrakeTriggered ? 'declined' : agentMsg.confidence,
+        guardrailTriggered: guardrailName,
+        guardrailStatus,
         energyEstimateWh: energy,
-        model: agentMsg.model,
-        sources: agentMsg.sources_or_assumptions,
+        model: isBrakeTriggered ? 'EcoMart Confidence Brake' : agentMsg.model,
+        sources: isBrakeTriggered ? ['Strictness Policy §4', 'Missing Lab Verification'] : agentMsg.sources_or_assumptions,
         isFallback: agentMsg.isFallback
       });
       playSound('pop');
@@ -517,7 +560,7 @@ export default function EcoAgentChat() {
     } finally {
       setLoading(false);
     }
-  }, [input, loading, lang, cartItems, allProducts, agentContext, firstAgentAnswerDone, userPriorities, updateUserPriorities, showToast]);
+  }, [input, loading, lang, cartItems, allProducts, agentContext, firstAgentAnswerDone, userPriorities, updateUserPriorities, showToast, strictness]);
 
   const sendRef = useRef(handleSendMessage);
   useEffect(() => {
@@ -615,6 +658,56 @@ export default function EcoAgentChat() {
             messages={messages}
             compact={true}
           />
+
+          {/* Confidence Brake Control */}
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => setShowStrictnessPopover(!showStrictnessPopover)}
+              className={`px-2 py-1 rounded-lg text-[10px] font-semibold transition-colors border cursor-pointer flex items-center gap-1 ${
+                showStrictnessPopover || strictness >= 80
+                  ? 'bg-amber-500/20 text-amber-800 border-amber-500/40 font-bold'
+                  : 'bg-surface-sunken text-text-secondary border-line hover:text-heading hover:bg-surface'
+              }`}
+              title="Configure Confidence Brake Strictness Threshold"
+            >
+              <ShieldAlert className="w-2.5 h-2.5 text-amber-600" />
+              <span>Brake: {strictness}%</span>
+            </button>
+
+            {showStrictnessPopover && (
+              <div className="absolute right-0 top-full mt-2 w-64 p-3 bg-surface border border-line rounded-2xl shadow-xl z-50 text-xs space-y-2">
+                <div className="flex items-center justify-between font-bold text-heading">
+                  <span className="flex items-center gap-1">
+                    <ShieldAlert className="w-3.5 h-3.5 text-amber-600" />
+                    Confidence Brake
+                  </span>
+                  <span className="font-mono text-primary">{strictness}%</span>
+                </div>
+                <p className="text-[10px] text-muted leading-tight">
+                  Declines answers when certainty falls below threshold.
+                </p>
+                <input
+                  type="range"
+                  min="30"
+                  max="95"
+                  step="5"
+                  value={strictness}
+                  onChange={(e) => {
+                    const val = parseInt(e.target.value, 10);
+                    setStrictness(val);
+                    setStrictnessThreshold(val);
+                  }}
+                  className="w-full accent-primary h-1.5 bg-surface-sunken rounded-lg cursor-pointer"
+                />
+                <div className="flex justify-between text-[9px] text-muted font-mono">
+                  <span>Lenient (40%)</span>
+                  <span>Strict (75%)</span>
+                  <span>Ultra (90%)</span>
+                </div>
+              </div>
+            )}
+          </div>
 
           {judgeMode && (
             <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-amber-400 text-stone-900 uppercase tracking-wider" title="Judge Mode active">
@@ -805,6 +898,38 @@ export default function EcoAgentChat() {
                   </button>
                 )}
               </div>
+
+              {/* Confidence Brake Specialized Refusal Card */}
+              {msg.confidenceBrakeTriggered && (
+                <div className="pt-2 border-t border-amber-500/30">
+                  <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-xs space-y-2">
+                    <div className="flex items-center justify-between text-[10px] font-bold text-amber-800 uppercase">
+                      <span className="flex items-center gap-1">
+                        <ShieldAlert className="w-3.5 h-3.5 text-amber-600" />
+                        Confidence Brake Interception
+                      </span>
+                      <span className="font-mono bg-amber-500/20 px-1.5 py-0.5 rounded">
+                        Certainty: {msg.confidenceScore}% &lt; {msg.strictnessThreshold}%
+                      </span>
+                    </div>
+                    {msg.neededInfo && msg.neededInfo.length > 0 && (
+                      <div className="space-y-1 pt-1 border-t border-amber-500/20">
+                        <span className="text-[10px] font-bold text-heading block">
+                          Required data to satisfy strictness:
+                        </span>
+                        <ul className="space-y-1 text-[11px] text-muted">
+                          {msg.neededInfo.map((info, idx) => (
+                            <li key={idx} className="flex items-start gap-1.5">
+                              <span className="text-amber-600 font-bold">•</span>
+                              <span>{info}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
 
               {/* Cart Transformer Action Button */}
               {msg.transformerCta && (

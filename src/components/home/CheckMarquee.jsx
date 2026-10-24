@@ -9,18 +9,27 @@ import {
   Terminal,
   Zap,
   CheckCircle2,
-  Sliders
+  Sliders,
+  Gavel,
+  Scan,
+  Compass,
+  FileCheck,
+  Store
 } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 
 const CHECKS = [
+  { label: 'AI Courtroom', icon: Gavel, route: '/courtroom', tag: 'Simulated Trial' },
+  { label: 'Label Scanner', icon: Scan, route: '/scan', tag: 'Vision & Radar' },
+  { label: 'Ethics Dilemmas', icon: Compass, route: '/dilemmas', tag: 'Human Moral Choice' },
+  { label: 'AI Self-Audit', icon: FileCheck, route: '/self-audit', tag: 'Auditable Report' },
+  { label: 'Desi Kirana Mode', icon: Store, route: '/kirana', tag: 'Voice & High-Contrast' },
   { label: 'Greenwashing Check', icon: Radar, route: '/shop', tag: 'ISO 14021' },
   { label: 'Carbon Estimate', icon: Wind, route: '/impact', tag: 'Lifecycle LCA' },
   { label: 'Second Life Trajectory', icon: RotateCcw, route: '/shop', tag: 'Circular Stewardship' },
   { label: 'Fairness Test', icon: Scale, route: '/fairness', tag: 'Cross-Linguistic Parity' },
   { label: 'Guardrail Safety Test', icon: ShieldAlert, route: '/playground', tag: 'Multi-Tier Intercept' },
   { label: 'Zero-PII Black Box', icon: Terminal, route: '/blackbox', tag: 'Tamper-Evident' },
-  { label: 'AI Energy Meter', icon: Zap, route: '/impact', tag: 'Watt-Hour Telemetry' },
   { label: 'Counterfactual Flip Test', icon: Sliders, route: '/counterfactual', tag: 'Boundary Simulator' }
 ];
 

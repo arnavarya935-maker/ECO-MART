@@ -22,7 +22,11 @@ import {
   Swords,
   Sliders,
   ShieldCheck,
-  Inbox
+  Inbox,
+  Gavel,
+  Scan,
+  Compass,
+  FileCheck
 } from 'lucide-react';
 
 export default function CommandPalette({ isOpen: controlledOpen, onClose: controlledClose }) {
@@ -226,6 +230,61 @@ export default function CommandPalette({ isOpen: controlledOpen, onClose: contro
       icon: Inbox,
       perform: () => {
         window.dispatchEvent(new CustomEvent('open-ethics-inbox'));
+        handleClose();
+      }
+    },
+    {
+      id: 'action-courtroom',
+      type: 'action',
+      title: 'AI Courtroom: Packaging Claims on Trial',
+      subtitle: 'Turn-by-turn simulated legal debate with Prosecutor, Defender, and Judge',
+      icon: Gavel,
+      perform: () => {
+        navigate('/courtroom');
+        handleClose();
+      }
+    },
+    {
+      id: 'action-scan',
+      type: 'action',
+      title: 'Product Label Scanner & Detective',
+      subtitle: 'Scan packaging photos with AI Vision & 5-Axis Claim Radar (Images not saved)',
+      icon: Scan,
+      perform: () => {
+        navigate('/scan');
+        handleClose();
+      }
+    },
+    {
+      id: 'action-dilemmas',
+      type: 'action',
+      title: 'Ethics Dilemma Cards',
+      subtitle: 'Explore real-world tradeoffs where AI refuses to make moral choices for you',
+      icon: Compass,
+      perform: () => {
+        navigate('/dilemmas');
+        handleClose();
+      }
+    },
+    {
+      id: 'action-self-audit',
+      type: 'action',
+      title: 'AI Self-Audit Session Report',
+      subtitle: 'Generate verifiable session report of uncertainties, bias risks, and guardrails',
+      icon: FileCheck,
+      perform: () => {
+        navigate('/self-audit');
+        handleClose();
+      }
+    },
+    {
+      id: 'action-kirana',
+      type: 'action',
+      title: 'Desi Kirana Mode (किराना मोड)',
+      subtitle: 'Simplified high-contrast Hindi-first layout with Web Speech voice input/output',
+      icon: Store,
+      perform: () => {
+        navigate('/kirana');
         handleClose();
       }
     },
