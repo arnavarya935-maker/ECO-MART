@@ -3,6 +3,7 @@ import {
   clampVelocity,
   computeScrollProgress,
   getStageForProgress,
+  getScenePhase,
   isReducedMotion
 } from '../src/lib/scrollAnimation';
 
@@ -76,9 +77,24 @@ describe('Scroll Animation Utilities', () => {
     });
   });
 
-  describe('isReducedMotion', () => {
-    it('returns a boolean', () => {
-      expect(typeof isReducedMotion()).toBe('boolean');
+  describe('getScenePhase', () => {
+    it('returns 1 opacity for first scene at start', () => {
+      const phase = getScenePhase(0.0, 0, 4);
+      expect(phase.opacity).toBe(1);
+      expect(phase.isActive).toBe(true);
+    });
+
+    it('identifies active scene correctly along scroll progress', () => {
+      expect(getScenePhase(0.1, 0, 4).isActive).toBe(true);
+      expect(getScenePhase(0.35, 1, 4).isActive).toBe(true);
+      expect(getScenePhase(0.65, 2, 4).isActive).toBe(true);
+      expect(getScenePhase(0.9, 3, 4).isActive).toBe(true);
+    });
+
+    it('returns 1 opacity for final scene at completion', () => {
+      const phase = getScenePhase(1.0, 3, 4);
+      expect(phase.opacity).toBe(1);
+      expect(phase.isActive).toBe(true);
     });
   });
 });

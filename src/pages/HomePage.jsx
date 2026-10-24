@@ -4,6 +4,7 @@ import ScrollProgressBar from '../components/home/ScrollProgressBar';
 import KineticTypeStrips from '../components/home/KineticTypeStrips';
 import WordByWordMission from '../components/home/WordByWordMission';
 import GreenwashingStrikethrough from '../components/home/GreenwashingStrikethrough';
+import EcoJourneyScene from '../components/home/EcoJourneyScene';
 import PinnedProductJourney from '../components/home/PinnedProductJourney';
 import HorizontalFeatureGallery from '../components/home/HorizontalFeatureGallery';
 import StickyStackedCards from '../components/home/StickyStackedCards';
@@ -42,6 +43,9 @@ export default function HomePage() {
 
       {/* 1. Greenwashing Strike-through: Scroll-scrubbed marketing claim struck through + Trust Score count-up */}
       <GreenwashingStrikethrough />
+
+      {/* Layered Parallax Story: Eco Journey (Make -> Ship -> Use -> Second Life) */}
+      <EcoJourneyScene />
 
       {/* 2. Pinned Product Journey: Pinned 4-stage scrub (Make -> Ship -> Use -> Second Life) with labeled estimates */}
       <PinnedProductJourney />

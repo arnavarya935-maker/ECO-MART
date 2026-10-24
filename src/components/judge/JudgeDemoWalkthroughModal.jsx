@@ -322,18 +322,26 @@ export default function JudgeDemoWalkthroughModal({ isOpen, onClose }) {
                   </span>
                 </div>
                 <p className="text-xs text-text-secondary mt-0.5">
-                  Start your review by scrolling through the Greenwashing Strike-Through and Pinned Product Journey on the landing page first.
+                  Start your review by scrolling through the Greenwashing Strike-Through, the layered Eco Journey scene, and the Pinned Product Journey on the landing page first.
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-2 shrink-0">
+            <div className="flex items-center gap-2 shrink-0 flex-wrap">
               <button
                 type="button"
                 onClick={() => handleScrollToLanding('greenwash-strikethrough')}
-                className="px-3 py-1.5 rounded-xl bg-red-500/15 hover:bg-red-500/25 border border-red-500/30 text-xs font-mono font-semibold text-red-300 transition-colors flex items-center gap-1.5 cursor-pointer"
+                className="px-3 py-1.5 rounded-xl bg-red-500/15 hover:bg-red-500/25 border border-red-500/30 text-xs font-mono font-semibold text-red-700 dark:text-red-300 transition-colors flex items-center gap-1.5 cursor-pointer"
               >
                 <span>1. Strike-Through</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+              <button
+                type="button"
+                onClick={() => handleScrollToLanding('eco-journey')}
+                className="px-3 py-1.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-xs font-mono font-semibold text-emerald-700 dark:text-emerald-300 transition-colors flex items-center gap-1.5 cursor-pointer"
+              >
+                <span>2. Eco Journey</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
               <button
@@ -341,7 +349,7 @@ export default function JudgeDemoWalkthroughModal({ isOpen, onClose }) {
                 onClick={() => handleScrollToLanding('product-journey')}
                 className="px-3 py-1.5 rounded-xl bg-primary/15 hover:bg-primary/25 border border-primary/30 text-xs font-mono font-semibold text-primary transition-colors flex items-center gap-1.5 cursor-pointer"
               >
-                <span>2. Product Journey</span>
+                <span>3. Product Journey</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>

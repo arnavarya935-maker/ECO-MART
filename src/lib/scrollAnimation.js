@@ -71,6 +71,48 @@ export function getStageForProgress(progress, stagesCount) {
 }
 
 /**
+ * Calculates smooth bell-curve opacity and transition factor for a scene in a multi-scene sequence
+ * @param {number} progress - Overall normalized scroll progress (0 to 1)
+ * @param {number} sceneIndex - 0-indexed scene number
+ * @param {number} totalScenes - Total number of scenes (e.g. 4)
+ * @returns {{ opacity: number, isActive: boolean }}
+ */
+export function getScenePhase(progress, sceneIndex, totalScenes = 4) {
+  if (totalScenes <= 0) return { opacity: 1, isActive: true };
+  const step = 1 / totalScenes;
+  const start = sceneIndex * step;
+  const end = (sceneIndex + 1) * step;
+  const center = start + step / 2;
+
+  // Overlap window for natural cross-fade
+  const overlap = step * 0.35;
+  const windowStart = Math.max(0, start - (sceneIndex === 0 ? 0 : overlap));
+  const windowEnd = Math.min(1, end + (sceneIndex === totalScenes - 1 ? 0 : overlap));
+
+  let opacity = 0;
+  if (progress >= windowStart && progress <= windowEnd) {
+    if (sceneIndex === 0 && progress < center) {
+      opacity = 1;
+    } else if (sceneIndex === totalScenes - 1 && progress > center) {
+      opacity = 1;
+    } else if (progress <= center) {
+      const denom = center - windowStart;
+      opacity = denom > 0 ? (progress - windowStart) / denom : 1;
+    } else {
+      const denom = windowEnd - center;
+      opacity = denom > 0 ? (windowEnd - progress) / denom : 0;
+    }
+  }
+
+  const isActive = progress >= start && progress < (sceneIndex === totalScenes - 1 ? 1.01 : end);
+
+  return {
+    opacity: Math.max(0, Math.min(1, opacity)),
+    isActive
+  };
+}
+
+/**
  * Custom React hook for tracking scroll progress of a referenced element
  * Returns normalized progress (0 to 1), velocity, and isInView state.
  */

@@ -4,6 +4,7 @@ import { isReducedMotion } from '../../lib/scrollAnimation';
 const SECTIONS = [
   { id: 'hero', label: 'Intro' },
   { id: 'greenwash-strikethrough', label: 'Audit Claim' },
+  { id: 'eco-journey', label: 'Eco Scene' },
   { id: 'product-journey', label: 'LCA Journey' },
   { id: 'feature-gallery', label: 'AI Labs' },
   { id: 'stacked-pillars', label: 'Pillars' }
