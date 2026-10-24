@@ -14,26 +14,24 @@
   --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Light Theme Overrides in Polish Layer */
-html.light {
-  --color-surface:         #F6FAF7;
-  --color-surface-raised:  #FFFFFF;
-  --color-surface-sunken:  #EBF3EE;
-  --color-surface-accent:  #E3F3EA;
-  --color-line:            #D8E6DD;
-  --color-border:          #D8E6DD;
-  --color-line-subtle:     rgba(11, 59, 44, 0.08);
-  --color-border-subtle:   rgba(11, 59, 44, 0.08);
-  --color-text-secondary:  #3A4F46;
-  --color-text-muted:      #566B61;
-  --color-heading:         #0B3B2C;
-  --color-text-primary:    #11251E;
-  --shadow-card: 0 4px 20px -2px rgba(11, 59, 44, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.85);
+/* Light Theme Default Polish Layer */
+:root {
+  --shadow-card: 0 4px 20px -2px rgba(11, 59, 44, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.90);
   --shadow-lift: 0 12px 28px -6px rgba(11, 59, 44, 0.10), 0 4px 12px -2px rgba(11, 59, 44, 0.05);
-  --shadow-glow: 0 0 24px -4px rgba(4, 120, 87, 0.20);
+  --shadow-glow: 0 0 20px -4px rgba(4, 120, 87, 0.15);
+  --shadow-glow-subtle: 0 0 12px -2px rgba(4, 120, 87, 0.08);
+  --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* Fixed Body Ambient Wash — Cinematic Forest Glow */
+/* Dark Theme Overrides in Polish Layer */
+html.dark {
+  --shadow-card: 0 8px 32px -4px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --shadow-lift: 0 20px 48px -8px rgba(0, 0, 0, 0.8), 0 0 24px -4px rgba(16, 185, 129, 0.22);
+  --shadow-glow: 0 0 32px -4px rgba(16, 185, 129, 0.30);
+  --shadow-glow-subtle: 0 0 20px -2px rgba(16, 185, 129, 0.15);
+}
+
+/* Fixed Body Ambient Wash — Calm Warm Cream & Emerald Light Default */
 body {
   position: relative;
   min-height: 100vh;
@@ -48,31 +46,31 @@ body::before {
   pointer-events: none;
   z-index: -1;
   background:
+    radial-gradient(circle at 12% 8%, rgba(230, 243, 236, 0.70) 0%, transparent 45%),
+    radial-gradient(circle at 88% 12%, rgba(204, 251, 241, 0.45) 0%, transparent 40%),
+    radial-gradient(circle at 50% 92%, rgba(254, 243, 199, 0.25) 0%, transparent 50%);
+}
+
+html.dark body::before {
+  background:
     radial-gradient(circle at 18% 12%, rgba(16, 185, 129, 0.09) 0%, transparent 48%),
     radial-gradient(circle at 82% 16%, rgba(20, 184, 166, 0.07) 0%, transparent 42%),
     radial-gradient(circle at 50% 90%, rgba(5, 150, 105, 0.08) 0%, transparent 55%);
 }
 
-html.light body::before {
-  background:
-    radial-gradient(circle at 12% 8%, rgba(227, 243, 234, 0.65) 0%, transparent 45%),
-    radial-gradient(circle at 88% 12%, rgba(204, 251, 241, 0.45) 0%, transparent 40%),
-    radial-gradient(circle at 50% 92%, rgba(254, 243, 199, 0.30) 0%, transparent 50%);
-}
-
-/* Glass Header (Transparent -> Frosted on Scroll) */
+/* Glass Header (Light default -> Frosted on Scroll) */
 .editorial-header,
 header.header-glass {
-  background: rgba(5, 16, 11, 0.80) !important;
+  background: rgba(250, 248, 242, 0.90) !important;
   backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid var(--color-line);
 }
 
-html.light .editorial-header,
-html.light header.header-glass {
-  background: rgba(246, 250, 247, 0.90) !important;
-  border-bottom: 1px solid var(--color-line);
+html.dark .editorial-header,
+html.dark header.header-glass {
+  background: rgba(5, 16, 11, 0.85) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 /* --------------------------------------------------------------------------
@@ -224,6 +222,13 @@ html.light header.header-glass {
 
 .ft-char {
   display: inline-block;
+  background: linear-gradient(180deg, var(--color-heading) 15%, rgba(11, 59, 44, 0.40) 65%, rgba(11, 59, 44, 0.08) 95%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+html.dark .ft-char {
   background: linear-gradient(180deg, #F4F7F5 10%, rgba(244, 247, 245, 0.5) 55%, rgba(244, 247, 245, 0.04) 95%);
   -webkit-background-clip: text;
   background-clip: text;
@@ -239,6 +244,10 @@ html.light header.header-glass {
   min-height: 280px;
   transform: translate(-50%, -50%);
   pointer-events: none;
+  background: radial-gradient(closest-side, rgba(4, 120, 87, 0.15), rgba(15, 118, 110, 0.05) 50%, transparent 75%);
+}
+
+html.dark .ft-glow {
   background: radial-gradient(closest-side, rgba(16, 185, 129, 0.24), rgba(20, 184, 166, 0.08) 50%, transparent 75%);
 }
 
@@ -251,6 +260,14 @@ html.light header.header-glass {
   transform: translate(-50%, 0);
   border-radius: 50%;
   pointer-events: none;
+  background: radial-gradient(circle at 50% 0%, #E6F3EC, #FAF8F2 35%, transparent 60%);
+  box-shadow: 0 -1px rgba(4, 120, 87, 0.3),
+              0 -3px 18px rgba(4, 120, 87, 0.12),
+              inset 0 1px rgba(255, 255, 255, 0.8),
+              inset 0 40px 80px -40px rgba(4, 120, 87, 0.15);
+}
+
+html.dark .ft-planet {
   background: radial-gradient(circle at 50% 0%, #0F241B, #07150F 20%, #05100B 45%);
   box-shadow: 0 -1px rgba(52, 211, 153, 0.8),
               0 -3px 18px rgba(16, 185, 129, 0.35),

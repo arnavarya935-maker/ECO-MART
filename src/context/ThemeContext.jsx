@@ -3,18 +3,18 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 const ThemeContext = createContext();
 
 export function ThemeProvider({ children }) {
-  // Global Dark / Light Theme (respects prefers-color-scheme if unset, dark forest-black by default)
+  // Global Light / Dark Theme (defaults to LIGHT, respects stored preference or dark system preference)
   const [theme, setTheme] = useState(() => {
     try {
       const saved = localStorage.getItem('ecomart_theme');
       if (saved === 'light' || saved === 'dark') return saved;
       if (typeof window !== 'undefined' && window.matchMedia) {
-        if (window.matchMedia('(prefers-color-scheme: light)').matches) return 'light';
         if (window.matchMedia('(prefers-color-scheme: dark)').matches) return 'dark';
+        if (window.matchMedia('(prefers-color-scheme: light)').matches) return 'light';
       }
-      return 'dark';
+      return 'light'; // Default is LIGHT
     } catch {
-      return 'dark';
+      return 'light';
     }
   });
 

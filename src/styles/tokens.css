@@ -93,45 +93,45 @@
   --color-sand-800: #463E32;
   --color-sand-900: #25201A;
 
-  /* Canonical Semantic Design Tokens — Dark Forest-Black Default */
-  --color-surface:         #05100B; /* Deep forest-black canvas */
-  --color-surface-raised:  #0D1C16; /* Raised surface card / panel */
-  --color-surface-sunken:  #030A07; /* Deep sunken surface */
-  --color-surface-accent:  #112A20; /* Subtle dark emerald highlight */
-  --color-surface-highlight:#163529;
-  --color-line:            rgba(255, 255, 255, 0.08); /* Hairline border */
-  --color-line-subtle:     rgba(255, 255, 255, 0.05);
-  --color-border:          rgba(255, 255, 255, 0.08);
-  --color-border-subtle:   rgba(255, 255, 255, 0.05);
-  --color-border-focus:    #10B981;
-  --color-heading:         #F4F7F5; /* Crisp near-white */
-  --color-heading-hover:   #FFFFFF;
-  --color-heading-active:  #E2E8E4;
-  --color-text:            #F4F7F5;
-  --color-text-primary:    #F4F7F5;
-  --color-text-secondary:  #B4C6BD; /* Sage text, WCAG AAA 9.1:1 */
-  --color-text-muted:      #889E93; /* Muted text, WCAG AA 5.5:1 */
-  --color-text-inverted:   #05100B;
-  --color-primary:         #10B981; /* Emerald 500 */
-  --color-primary-hover:   #34D399; /* Emerald 400 */
-  --color-primary-active:  #059669; /* Emerald 600 */
-  --color-primary-subtle:  rgba(16, 185, 129, 0.12);
-  --color-secondary:       #14B8A6; /* Teal 500 */
-  --color-secondary-hover: #2DD4BF; /* Teal 400 */
-  --color-secondary-subtle:rgba(20, 184, 166, 0.12);
-  --color-accent:          #F59E0B; /* Amber 500 */
-  --color-accent-hover:    #FBBF24; /* Amber 400 */
-  --color-accent-subtle:   rgba(245, 158, 11, 0.14);
+  /* Canonical Semantic Design Tokens — Light Theme Default ("Aesop meets Apple") */
+  --color-surface:         #FAF8F2; /* Warm cream background */
+  --color-surface-raised:  #FFFFFF; /* Pure white card surface */
+  --color-surface-sunken:  #F2EFE9; /* Sunken container surface */
+  --color-surface-accent:  #E6F3EC; /* Soft sage/green accent surface */
+  --color-surface-highlight:#DCEEE4;/* Subtle highlight surface */
+  --color-line:            #DCE5DF; /* Clean subtle divider border */
+  --color-line-subtle:     rgba(11, 59, 44, 0.07);
+  --color-border:          #DCE5DF;
+  --color-border-subtle:   rgba(11, 59, 44, 0.07);
+  --color-border-focus:    #047857; /* Focus emerald */
+  --color-heading:         #0B3B2C; /* Deep forest-green heading, WCAG AAA */
+  --color-heading-hover:   #173D30;
+  --color-heading-active:  #051D16;
+  --color-text:            #11251E; /* Deep forest-slate body text, WCAG AAA */
+  --color-text-primary:    #11251E;
+  --color-text-secondary:  #2E453B; /* Secondary forest-gray, WCAG AA */
+  --color-text-muted:      #4A6357; /* Muted caption text, WCAG AA */
+  --color-text-inverted:   #FFFFFF;
+  --color-primary:         #047857; /* Emerald 700 / Forest Emerald */
+  --color-primary-hover:   #065F46; /* Emerald 800 */
+  --color-primary-active:  #064E3B; /* Emerald 900 */
+  --color-primary-subtle:  #E6F3EC;
+  --color-secondary:       #0F766E; /* Teal 700 */
+  --color-secondary-hover: #115E59;
+  --color-secondary-subtle:#CCFBF1;
+  --color-accent:          #B45309; /* Amber 700 (Rare highlight) */
+  --color-accent-hover:    #92400E;
+  --color-accent-subtle:   #FEF3C7;
   --color-muted:           var(--color-text-muted);
-  --color-focus:           #10B981;
-  --color-success:         #10B981;
-  --color-success-subtle:  rgba(16, 185, 129, 0.12);
-  --color-warning:         #F59E0B;
-  --color-warning-subtle:  rgba(245, 158, 11, 0.14);
-  --color-danger:          #EF4444;
-  --color-danger-subtle:   rgba(239, 68, 68, 0.14);
-  --color-info:            #14B8A6;
-  --color-info-subtle:     rgba(20, 184, 166, 0.12);
+  --color-focus:           #047857;
+  --color-success:         #047857;
+  --color-success-subtle:  #E6F3EC;
+  --color-warning:         #B45309;
+  --color-warning-subtle:  #FEF3C7;
+  --color-danger:          #DC2626;
+  --color-danger-subtle:   rgba(220, 38, 38, 0.10);
+  --color-info:            #0F766E;
+  --color-info-subtle:     #CCFBF1;
 
   /* Short Legacy-Alias Block */
   --surface:               var(--color-surface);
@@ -143,9 +143,9 @@
   --heading:               var(--color-heading);
 
   /* Gradients */
-  --gradient-hero: linear-gradient(180deg, #E8F5EE 0%, #FAF9F6 100%);
-  --gradient-card: linear-gradient(180deg, #FFFFFF 0%, #FAFBF9 100%);
-  --gradient-emerald-teal: linear-gradient(135deg, var(--color-emerald-600) 0%, var(--color-teal-600) 100%);
+  --gradient-hero: linear-gradient(180deg, #E6F3EC 0%, #FAF8F2 100%);
+  --gradient-card: linear-gradient(180deg, #FFFFFF 0%, #F9FBF9 100%);
+  --gradient-emerald-teal: linear-gradient(135deg, var(--color-emerald-700) 0%, var(--color-teal-700) 100%);
   --gradient-forest: linear-gradient(135deg, var(--color-forest-900) 0%, var(--color-forest-800) 100%);
 
   /* Spacing Scale (4/8px Scale) */
@@ -164,23 +164,23 @@
   --space-24: 96px;
 
   /* Consistent Radii */
-  --radius-sm: 6px;
-  --radius-md: 12px;
-  --radius-lg: 18px;
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
   --radius-xl: 28px;
   --radius-pill: 9999px;
 
-  /* Layered Forest-Black Dark Depth & Glows */
-  --shadow-soft-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
-  --shadow-soft-md: 0 8px 24px rgba(0, 0, 0, 0.5);
-  --shadow-soft-lg: 0 16px 40px rgba(0, 0, 0, 0.6);
-  --shadow-card: 0 8px 32px -4px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  --shadow-lift: 0 20px 48px -8px rgba(0, 0, 0, 0.75), 0 0 24px -4px rgba(16, 185, 129, 0.18);
-  --shadow-glow: 0 0 32px -4px rgba(16, 185, 129, 0.25);
-  --shadow-glow-subtle: 0 0 20px -2px rgba(16, 185, 129, 0.12);
+  /* Layered Natural Shadows (Aesop meets Apple — Soft Depth, No Neon Glow) */
+  --shadow-soft-sm: 0 1px 3px rgba(11, 59, 44, 0.05), 0 1px 2px rgba(11, 59, 44, 0.03);
+  --shadow-soft-md: 0 4px 14px -2px rgba(11, 59, 44, 0.06), 0 2px 6px -1px rgba(11, 59, 44, 0.03);
+  --shadow-soft-lg: 0 12px 28px -4px rgba(11, 59, 44, 0.08), 0 4px 10px -2px rgba(11, 59, 44, 0.04);
+  --shadow-card: 0 4px 20px -2px rgba(11, 59, 44, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  --shadow-lift: 0 12px 28px -6px rgba(11, 59, 44, 0.10), 0 4px 12px -2px rgba(11, 59, 44, 0.05);
+  --shadow-glow: 0 0 20px -4px rgba(4, 120, 87, 0.15);
+  --shadow-glow-subtle: 0 0 12px -2px rgba(4, 120, 87, 0.08);
 
   /* Focus Ring */
-  --focus-ring: 0 0 0 3px rgba(16, 185, 129, 0.45);
+  --focus-ring: 0 0 0 3px rgba(4, 120, 87, 0.35);
 
   /* Motion Tokens */
   --duration-micro: 120ms;
@@ -203,47 +203,50 @@
 }
 
 /* --------------------------------------------------------------------------
-   Light Theme Preset (Preserved for Light Mode Toggle)
+   Dark Theme Preset (Persisted Dark Mode Toggle)
    -------------------------------------------------------------------------- */
-html.light {
-  --color-surface:         #F6FAF7;
-  --color-surface-raised:  #FFFFFF;
-  --color-surface-sunken:  #EBF3EE;
-  --color-surface-accent:  #E3F3EA;
-  --color-surface-highlight:#DCEBE3;
-  --color-line:            #D8E6DD;
-  --color-line-subtle:     rgba(11, 59, 44, 0.08);
-  --color-border:          #D8E6DD;
-  --color-border-subtle:   rgba(11, 59, 44, 0.08);
-  --color-border-focus:    #047857;
-  --color-heading:         #0B3B2C;
-  --color-heading-hover:   #173d30;
-  --color-heading-active:  #051d16;
-  --color-text:            #11251E;
-  --color-text-primary:    #11251E;
-  --color-text-secondary:  #3A4F46;
-  --color-text-muted:      #566B61;
-  --color-text-inverted:   #FFFFFF;
-  --color-primary:         #047857;
-  --color-primary-hover:   #065f46;
-  --color-primary-active:  #064e3b;
-  --color-primary-subtle:  #E3F3EA;
-  --color-secondary:       #0F766E;
-  --color-secondary-hover: #115E59;
-  --color-secondary-subtle:#CCFBF1;
-  --color-accent:          #B45309;
-  --color-accent-hover:    #92400E;
-  --color-accent-subtle:   #FEF3C7;
-  --color-warning:         #B45309;
-  --color-warning-subtle:  #FEF3C7;
-  --shadow-soft-sm: 0 2px 8px -2px rgba(11, 59, 44, 0.05), 0 1px 3px rgba(11, 59, 44, 0.04);
-  --shadow-soft-md: 0 10px 25px -5px rgba(11, 59, 44, 0.06), 0 4px 10px -2px rgba(11, 59, 44, 0.03);
-  --shadow-soft-lg: 0 20px 40px -10px rgba(11, 59, 44, 0.08), 0 8px 16px -4px rgba(11, 59, 44, 0.04);
-  --shadow-card: 0 4px 20px -2px rgba(11, 59, 44, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.85);
-  --shadow-lift: 0 12px 28px -6px rgba(11, 59, 44, 0.10), 0 4px 12px -2px rgba(11, 59, 44, 0.05);
-  --shadow-glow: 0 0 24px -4px rgba(4, 120, 87, 0.20);
-  --shadow-glow-subtle: 0 0 16px -2px rgba(4, 120, 87, 0.12);
-  --focus-ring: 0 0 0 3px rgba(5, 150, 105, 0.3);
+html.dark {
+  --color-surface:         #05100B; /* Deep forest-black canvas */
+  --color-surface-raised:  #0D1C16; /* Raised surface card / panel */
+  --color-surface-sunken:  #030A07; /* Deep sunken surface */
+  --color-surface-accent:  #112A20; /* Subtle dark emerald highlight */
+  --color-surface-highlight:#163529;
+  --color-line:            rgba(255, 255, 255, 0.08);
+  --color-line-subtle:     rgba(255, 255, 255, 0.05);
+  --color-border:          rgba(255, 255, 255, 0.08);
+  --color-border-subtle:   rgba(255, 255, 255, 0.05);
+  --color-border-focus:    #10B981;
+  --color-heading:         #F4F7F5;
+  --color-heading-hover:   #FFFFFF;
+  --color-heading-active:  #E2E8E4;
+  --color-text:            #F4F7F5;
+  --color-text-primary:    #F4F7F5;
+  --color-text-secondary:  #B4C6BD;
+  --color-text-muted:      #889E93;
+  --color-text-inverted:   #05100B;
+  --color-primary:         #10B981;
+  --color-primary-hover:   #34D399;
+  --color-primary-active:  #059669;
+  --color-primary-subtle:  rgba(16, 185, 129, 0.12);
+  --color-secondary:       #14B8A6;
+  --color-secondary-hover: #2DD4BF;
+  --color-secondary-subtle:rgba(20, 184, 166, 0.12);
+  --color-accent:          #F59E0B;
+  --color-accent-hover:    #FBBF24;
+  --color-accent-subtle:   rgba(245, 158, 11, 0.14);
+  --color-warning:         #F59E0B;
+  --color-danger:          #EF4444;
+  --color-danger-subtle:   rgba(239, 68, 68, 0.14);
+  --color-info:            #14B8A6;
+  --color-info-subtle:     rgba(20, 184, 166, 0.12);
+  --shadow-soft-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-soft-md: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --shadow-soft-lg: 0 16px 40px rgba(0, 0, 0, 0.6);
+  --shadow-card: 0 8px 32px -4px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --shadow-lift: 0 20px 48px -8px rgba(0, 0, 0, 0.75), 0 0 24px -4px rgba(16, 185, 129, 0.18);
+  --shadow-glow: 0 0 32px -4px rgba(16, 185, 129, 0.25);
+  --shadow-glow-subtle: 0 0 20px -2px rgba(16, 185, 129, 0.12);
+  --focus-ring: 0 0 0 3px rgba(16, 185, 129, 0.45);
 }
 
 /* --------------------------------------------------------------------------
