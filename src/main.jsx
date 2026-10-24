@@ -14,10 +14,14 @@ if (typeof window !== 'undefined' && 'serviceWorker' in navigator && (import.met
     navigator.serviceWorker
       .register('/sw.js')
       .then((registration) => {
-        // Check if an update is already waiting
-        if (registration.waiting && navigator.serviceWorker.controller) {
+        // Check if an update is already waiting and activate it immediately
+        if (registration.waiting) {
+          registration.waiting.postMessage({ type: 'SKIP_WAITING' });
           window.dispatchEvent(new CustomEvent('sw-update-waiting', { detail: { registration } }));
         }
+
+        // Check for updates on network
+        registration.update?.();
 
         // Listen for new updates found
         registration.addEventListener('updatefound', () => {
@@ -25,6 +29,7 @@ if (typeof window !== 'undefined' && 'serviceWorker' in navigator && (import.met
           if (!newWorker) return;
           newWorker.addEventListener('statechange', () => {
             if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              newWorker.postMessage({ type: 'SKIP_WAITING' });
               window.dispatchEvent(new CustomEvent('sw-update-waiting', { detail: { registration } }));
             }
           });

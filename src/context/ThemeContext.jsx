@@ -3,39 +3,20 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 const ThemeContext = createContext();
 
 export function ThemeProvider({ children }) {
-  // Global Light / Dark Theme (defaults to LIGHT, respects stored preference or dark system preference)
+  // Global Light / Dark Theme (defaults strictly to LIGHT; persists user preference in v2)
   const [theme, setTheme] = useState(() => {
     try {
-      const saved = localStorage.getItem('ecomart_theme');
+      const saved = localStorage.getItem('ecomart_theme_v2');
       if (saved === 'light' || saved === 'dark') return saved;
-      if (typeof window !== 'undefined' && window.matchMedia) {
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches) return 'dark';
-        if (window.matchMedia('(prefers-color-scheme: light)').matches) return 'light';
-      }
-      return 'light'; // Default is LIGHT
+      return 'light'; // Default is strictly LIGHT
     } catch {
       return 'light';
     }
   });
 
-  // Listen to system theme changes if no manual preference stored
-  useEffect(() => {
-    if (typeof window === 'undefined' || !window.matchMedia) return;
-    const media = window.matchMedia('(prefers-color-scheme: dark)');
-    const handleChange = (e) => {
-      try {
-        const saved = localStorage.getItem('ecomart_theme');
-        if (!saved) {
-          setTheme(e.matches ? 'dark' : 'light');
-        }
-      } catch {}
-    };
-    media.addEventListener?.('change', handleChange);
-    return () => media.removeEventListener?.('change', handleChange);
-  }, []);
-
   useEffect(() => {
     try {
+      localStorage.setItem('ecomart_theme_v2', theme);
       localStorage.setItem('ecomart_theme', theme);
       if (theme === 'dark') {
         document.documentElement.classList.add('dark');
