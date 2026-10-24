@@ -10,8 +10,6 @@ import {
   CheckCircle2,
   Eye,
   Type,
-  Award,
-  Play,
   RotateCcw,
   ShieldCheck,
   Sparkles,
@@ -38,9 +36,7 @@ export default function SettingsPage() {
     dyslexicFont,
     setDyslexicFont,
     textSize,
-    setTextSize,
-    judgeMode,
-    toggleJudgeMode
+    setTextSize
   } = useTheme();
 
   const {
@@ -49,8 +45,7 @@ export default function SettingsPage() {
     setWishlist,
     setIsAgentOpen,
     copilotMuted,
-    toggleCopilotMuted,
-    triggerCopilotDemo
+    toggleCopilotMuted
   } = useCart();
 
   const { t, lang, setLang } = useT();
@@ -211,7 +206,7 @@ export default function SettingsPage() {
                 Theme & Canvas
               </h3>
               <p className="text-[11px] text-muted font-normal">
-                Forest-black engineering canvas is the competition default; warm sand light theme preserved
+                Choose between warm cream light theme and deep forest dark theme
               </p>
             </div>
           </div>
@@ -474,18 +469,6 @@ export default function SettingsPage() {
             Provides contextual recommendations with "Why am I seeing this?" reasoning when conventional items are added. Rate-limited to at most 1 per 20 seconds and 5 per session.
           </p>
           <div className="pt-2 flex items-center gap-3">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => {
-                triggerCopilotDemo();
-                showFeedback('Triggered sample Copilot nudge');
-              }}
-              className="text-xs"
-            >
-              <Play className="w-3.5 h-3.5 mr-1 text-primary" />
-              Test Copilot Nudge (Demo)
-            </Button>
             <Badge variant={copilotMuted ? 'warning' : 'primary'} size="sm">
               {copilotMuted ? 'Muted' : 'Active'}
             </Badge>
@@ -555,114 +538,6 @@ export default function SettingsPage() {
         </Card>
       </div>
 
-      {/* Competition & Judge Presentation Toolkit (Features 13, 14, 17) */}
-      <Card clean={true} className="border-2 border-primary/30 bg-primary/5 shadow-soft-md rounded-3xl p-6 sm:p-8 space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-line pb-4">
-          <div className="flex items-start gap-3">
-            <div className="w-11 h-11 rounded-2xl bg-primary text-primary-contrast flex items-center justify-center shrink-0 shadow-soft-xs">
-              <Award className="w-6 h-6" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-primary bg-primary/10 border border-primary/20 px-2.5 py-0.5 rounded-full">
-                  School Competition Mode
-                </span>
-                <span className="text-[10px] text-muted font-mono">
-                  Build: v1.2.0-offline
-                </span>
-              </div>
-              <h2 className="text-xl sm:text-2xl font-serif font-bold text-heading mt-1">
-                Judge & Presentation Toolkit
-              </h2>
-              <p className="text-xs sm:text-sm text-secondary mt-0.5">
-                Optimized for the 31 Oct 2026 offline school competition demo. Toggle distraction-free evaluation and auto-play scripted scenarios.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <Badge variant={judgeMode ? 'primary' : 'neutral'} size="md">
-              {judgeMode ? '🏆 Judge Mode Active' : 'Standard Mode'}
-            </Badge>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Judge Mode Switch */}
-          <div className="p-4 rounded-2xl bg-surface border border-line space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="font-serif font-bold text-sm text-heading flex items-center gap-1.5">
-                <ShieldCheck className="w-4 h-4 text-primary" />
-                Judge Presentation Mode
-              </span>
-              <button
-                type="button"
-                onClick={() => {
-                  toggleJudgeMode();
-                  showFeedback(judgeMode ? 'Standard mode restored' : 'Judge mode activated (popups & audio disabled, reduced motion on)');
-                }}
-                className={`relative inline-flex h-7 w-12 items-center rounded-full transition-colors cursor-pointer min-h-[44px] ${
-                  judgeMode ? 'bg-primary' : 'bg-surface-sunken border border-line'
-                }`}
-                aria-label="Toggle Judge Mode"
-              >
-                <span
-                  className={`inline-block h-5 w-5 transform rounded-full bg-surface shadow-soft-xs transition-transform ${
-                    judgeMode ? 'translate-x-6' : 'translate-x-1'
-                  }`}
-                />
-              </button>
-            </div>
-            <p className="text-xs text-secondary leading-relaxed font-normal">
-              Disables welcome modals, exit-intent prompts, audio sound effects, and Easter eggs. Turns on reduced visual effects. (Also activated via URL <code className="px-1 py-0.5 rounded bg-surface-sunken text-[10px] font-mono font-bold">?judge=1</code>).
-            </p>
-          </div>
-
-          {/* Scripted Demo Scenario Trigger */}
-          <div className="p-4 rounded-2xl bg-surface border border-line space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="font-serif font-bold text-sm text-heading flex items-center gap-1.5">
-                <Play className="w-4 h-4 text-primary" />
-                Scripted Demo Scenario
-              </span>
-              <div className="flex items-center gap-2">
-                <Button
-                  variant="primary"
-                  size="sm"
-                  onClick={() => {
-                    if (setIsAgentOpen) setIsAgentOpen(true);
-                    window.dispatchEvent(new CustomEvent('start-demo-scenario'));
-                    showFeedback('Scripted 60s demo scenario launched in Eco Agent!');
-                  }}
-                >
-                  <Play className="w-3.5 h-3.5 fill-current mr-1" />
-                  Run Demo
-                </Button>
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  onClick={() => {
-                    window.dispatchEvent(new CustomEvent('reset-demo'));
-                    showFeedback('Demo scenario, cart, and chat reset to clean slate.');
-                  }}
-                  title="Reset demo, cart, and chat"
-                >
-                  <RotateCcw className="w-3.5 h-3.5" />
-                </Button>
-              </div>
-            </div>
-            <p className="text-xs text-secondary leading-relaxed font-normal">
-              Pre-seeds cart with 3 conventional single-use products, opens the Eco Agent, and auto-plays a 60s flow: goal query → reasoning trace → swap recommendation → swaps applied → impact receipt.
-            </p>
-          </div>
-        </div>
-
-        {/* Offline Verification String */}
-        <div className="p-3.5 rounded-2xl bg-surface-sunken border border-line flex flex-wrap items-center justify-between gap-2 text-xs text-muted">
-          <span>PWA Cache Version: <strong className="text-heading font-mono">ecomart-offline-2026.10</strong></span>
-          <span className="text-primary font-semibold">100% Offline Purity Certified (Zero CDNs / External APIs)</span>
-        </div>
-      </Card>
 
       {/* Responsible AI: Privacy & Memory Transparency Panel (Part 3 #7) */}
       <Card clean={true} className="border border-line bg-surface shadow-soft-sm rounded-3xl p-6 space-y-4">

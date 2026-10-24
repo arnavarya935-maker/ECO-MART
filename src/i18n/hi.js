@@ -96,7 +96,7 @@ export const hi = {
   'transformer.exampleBathroom': '🛁 बाथरूम रीस्टॉक (₹1200)',
   'transformer.exampleKitchen': '🍳 रसोई सामग्री (₹1000)',
   'transformer.exampleHinglish': '🇮🇳 हिंग्लिश दैनिक सूची',
-  'transformer.judgeNote': 'जज मोड: इको एजेंट का सजीव परीक्षण करने के लिए हाल ही में खरीदी गई कोई भी 5 चीजें लिखें',
+  'transformer.inputTip': 'सुझाव: प्रमाणित विकल्पों की गणना के लिए अपनी खरीदारी रसीद या सूची यहां पेस्ट करें।',
   'transformer.thinkingTitle': 'निर्णय प्रक्रिया (How I Decided)',
   'transformer.skipThinking': 'एनीमेशन छोड़ें',
   'transformer.beforeCart': 'आपकी सामान्य खरीदारी',

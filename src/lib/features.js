@@ -1,6 +1,6 @@
 /**
  * EcoMart Feature Flags
- * Competition Demo Safety: Any feature can be toggled on/off with a single boolean flag.
+ * Modular switches for application capabilities.
  */
 export const FEATURES = {
   // Phase 1: Priority-Weighted Multi-Criteria Decision Engine
@@ -26,9 +26,6 @@ export const FEATURES = {
 
   // Phase 8: Offline Speech Synthesis (read aloud)
   SPEECH_SYNTHESIS: true,
-
-  // Phase 8: Pitch Mode presenter tour (shortcut 'P')
-  PITCH_MODE: true,
 
   // Flagship Feature: Cart Transformer (Offline Shopping List to Sustainable Basket)
   CART_TRANSFORMER: true,

@@ -125,7 +125,7 @@ export default function GreenwashingDetectiveModal({ isOpen, onClose }) {
           {/* Preset Dubious Scenarios for Quick Live Demo */}
           <div className="space-y-1.5">
             <div className="font-mono text-[10px] text-text-muted uppercase tracking-wider">
-              Try sample claims for live judge demo:
+              Try a sample claim:
             </div>
             <div className="flex flex-wrap gap-2">
               {SAMPLE_CLAIMS.map((sample) => (

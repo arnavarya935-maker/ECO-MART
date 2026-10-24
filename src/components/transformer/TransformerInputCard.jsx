@@ -102,13 +102,13 @@ export default function TransformerInputCard({
           </div>
         </div>
 
-        {/* Judge / Demo Hint */}
+        {/* Product Input Tip */}
         <p className="text-xs text-secondary flex items-center gap-1.5">
           <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
           <span>
             {t(
-              'transformer.judgeNote',
-              "Judge Mode: Type any 5 things you bought recently to test Eco Agent live"
+              'transformer.inputTip',
+              'Tip: Paste items from your grocery receipt or shopping list to calculate verified swaps.'
             )}
           </span>
         </p>

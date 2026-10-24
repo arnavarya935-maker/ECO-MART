@@ -57,24 +57,22 @@ describe('Phase 3 - Proactive Copilot', () => {
     expect(nudge6).toBeNull();
   });
 
-  it('is fully disabled in Judge Mode by default unless user overrides', () => {
+  it('respects isMuted to suppress nudges', () => {
     const convItem = productsData.find((p) => !p.isEcoFriendly);
 
-    // Judge mode active -> blocked
-    const judgeNudge = engine.checkCartAdd(convItem, productsData, {
+    // Muted -> blocked
+    const mutedNudge = engine.checkCartAdd(convItem, productsData, {
       now: 1000,
-      isJudgeMode: true,
-      judgeOverride: false
+      isMuted: true
     });
-    expect(judgeNudge).toBeNull();
+    expect(mutedNudge).toBeNull();
 
-    // Judge mode active WITH override -> allowed
-    const overriddenNudge = engine.checkCartAdd(convItem, productsData, {
+    // Not muted -> allowed
+    const unmutedNudge = engine.checkCartAdd(convItem, productsData, {
       now: 1000,
-      isJudgeMode: true,
-      judgeOverride: true
+      isMuted: false
     });
-    expect(overriddenNudge).not.toBeNull();
+    expect(unmutedNudge).not.toBeNull();
   });
 
   it('triggers budget nudge when cart total is within 15% of stated budget', () => {
@@ -101,9 +99,11 @@ describe('Phase 3 - Proactive Copilot', () => {
   });
 
   it('each nudge includes a valid trigger and transparent reasoning', () => {
-    const demo = engine.createDemoNudge(productsData);
-    expect(demo.trigger).toBeDefined();
-    expect(demo.reasoning).toBeDefined();
-    expect(demo.reasoning.length).toBeGreaterThan(10);
+    const convItem = productsData.find((p) => !p.isEcoFriendly);
+    const nudge = engine.checkCartAdd(convItem, productsData, { now: 1000 });
+    expect(nudge).not.toBeNull();
+    expect(nudge.trigger).toBeDefined();
+    expect(nudge.reasoning).toBeDefined();
+    expect(nudge.reasoning.length).toBeGreaterThan(10);
   });
 });

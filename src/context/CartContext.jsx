@@ -178,11 +178,6 @@ export function CartProvider({ children }) {
     setActiveSwapAlert(null);
   }, []);
 
-  const triggerCopilotDemo = useCallback(() => {
-    const nudge = copilotEngine.triggerDemoNudge();
-    setCopilotNudge(nudge);
-    return nudge;
-  }, []);
 
   const swapCartItem = useCallback((oldId, newProduct) => {
     setCartItems((prev) =>
@@ -666,7 +661,6 @@ export function CartProvider({ children }) {
         dismissCopilotNudge,
         copilotMuted,
         toggleCopilotMuted,
-        triggerCopilotDemo,
         swapCartItem,
         trackCategoryBrowsing
       }}

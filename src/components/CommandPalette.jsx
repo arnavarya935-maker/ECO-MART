@@ -21,7 +21,6 @@ import {
   Terminal,
   Swords,
   Sliders,
-  ShieldCheck,
   Inbox,
   Gavel,
   Scan,
@@ -164,28 +163,6 @@ export default function CommandPalette({ isOpen: controlledOpen, onClose: contro
       icon: Sparkles,
       perform: () => {
         navigate('/playground');
-        handleClose();
-      }
-    },
-    {
-      id: 'action-pitch-mode',
-      type: 'action',
-      title: 'Launch Pitch Mode (Judge Demo Tour)',
-      subtitle: '2-minute guided presenter walkthrough of new AI features (Press P)',
-      icon: Sparkles,
-      perform: () => {
-        window.dispatchEvent(new CustomEvent('open-pitch-mode'));
-        handleClose();
-      }
-    },
-    {
-      id: 'action-judge-demo-10',
-      type: 'action',
-      title: 'Run 10-Step Judge Demo Walkthrough',
-      subtitle: 'Comprehensive 10-step scripted evaluation tour for Technophilia 7.0 judges (Server AI + Offline Fallback)',
-      icon: ShieldCheck,
-      perform: () => {
-        window.dispatchEvent(new CustomEvent('open-judge-demo'));
         handleClose();
       }
     },

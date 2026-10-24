@@ -1,59 +1,58 @@
 import React from 'react';
-import { User, Users, School, Check, ArrowRight } from 'lucide-react';
+import { User, Users, ShieldCheck, Check, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const TIERS = [
   {
-    id: 'explorer',
-    name: 'Explorer',
-    badge: 'Individual Learner',
+    id: 'shopper',
+    name: 'Everyday Shopper',
+    badge: 'Individual Swaps',
     icon: User,
-    summary: 'For students and conscious shoppers investigating real-world product sustainability.',
+    summary: 'For conscious individuals looking to verify sustainability claims and replace plastic essentials.',
     features: [
-      '5-Axis Claim Radar on catalog items',
-      'Explainable AI reasoning + ELI10 toggle',
-      'Trust Passport generation with offline SVG QR',
-      'What-If Cart Simulator with live gauges',
-      'Personal session energy telemetry (Wh)'
+      '5-Axis Claim Radar on sustainable items',
+      '1-Tap Cart Transformer with verified swaps',
+      'Trust Passport generation with offline QR code',
+      'What-If Cart Simulator with live footprint gauges',
+      'Personal session carbon and plastic reduction tracking'
     ],
     highlight: false,
     cta: 'Explore Catalog',
     route: '/shop'
   },
   {
-    id: 'classroom',
-    name: 'Classroom',
-    badge: 'Collaborative Lab',
+    id: 'household',
+    name: 'Conscious Household',
+    badge: 'Pantry & Family',
     icon: Users,
-    summary: 'For peer deliberation, ethics workshops, and cross-linguistic bias evaluations.',
+    summary: 'For families and shared pantries eliminating single-use packaging and reducing waste.',
     features: [
-      'Fairness Lab multilingual tests (EN, HI, Hinglish)',
-      'Break the AI adversarial prompt sandbox',
-      '5-Round Human vs AI greenwash duel benchmark',
-      'Classroom Impact Garden aggregated tracking',
-      'Interactive Counterfactual decision boundary slider'
+      'Camera-based Label Scanner with claim verification',
+      'Kirana Mode for Indian unpackaged bulk staples',
+      'Multilingual interface support (English & Hindi)',
+      'Smart refill tracking and local artisan discovery',
+      'Custom eco-priority weighting in decision engine'
     ],
     highlight: true,
-    cta: 'Launch Fairness Lab',
-    route: '/fairness'
+    cta: 'Try Cart Transformer',
+    route: '/transform'
   },
   {
-    id: 'school',
-    name: 'School / District',
-    badge: 'District Deliberations',
-    icon: School,
-    summary: 'For CBSE CT & AI showcase presentations, judge audits, and administrative governance.',
+    id: 'transparency',
+    name: 'Transparency & Audit',
+    badge: 'Community & Trust',
+    icon: ShieldCheck,
+    summary: 'For researchers, sustainability auditors, and community members demanding rigorous proof.',
     features: [
-      '10-Step scripted offline Judge Demo mode',
-      'Append-only tamper-evident AI Black Box log',
-      'Human-in-the-loop Ethics Inbox alert queue',
-      'Zero-PII compliance and raw JSON log export',
-      'Full offline runtime with zero external CDN reliance'
+      'Simulated AI Courtroom trials for greenwashing claims',
+      'Append-only local AI telemetry log (Black Box)',
+      'Cross-linguistic fairness & neutrality evaluation',
+      'Zero-tracking architecture with local-first storage',
+      'Exportable JSON lifecycle audits for verified claims'
     ],
     highlight: false,
-    cta: 'Run Judge Demo',
-    route: '#',
-    action: () => window.dispatchEvent(new CustomEvent('open-judge-walkthrough'))
+    cta: 'Enter AI Courtroom',
+    route: '/courtroom'
   }
 ];
 
@@ -63,16 +62,13 @@ export default function ImpactTiers() {
       <div className="max-w-6xl mx-auto px-6 md:px-10 space-y-10">
         <div className="text-center max-w-2xl mx-auto space-y-3">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-raised border border-line text-primary font-mono text-[11px] font-semibold uppercase tracking-wider">
-            CBSE Deliberations Architecture
+            Verified Circular Scope
           </div>
           <h2 className="font-serif text-3xl sm:text-4xl font-bold text-heading">
-            Deployment &amp; Impact Tiers
+            What You Can Do with EcoMart
           </h2>
           <p className="text-xs font-sans text-text-secondary leading-relaxed">
-            Architectural scope designed for student inquiry, collaborative peer auditing, and district-level evaluation.
-            <span className="block mt-1 font-mono text-amber-300 font-semibold">
-              * Educational project concept only — zero commercial pricing or licensing.
-            </span>
+            From single-tap swaps on everyday staples to rigorous multi-agent trials of sustainability claims.
           </p>
         </div>
 
@@ -90,7 +86,7 @@ export default function ImpactTiers() {
               >
                 {tier.highlight && (
                   <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full bg-primary text-primary-contrast font-mono text-[10px] font-bold uppercase tracking-wider shadow-soft-xs">
-                    Recommended for Labs
+                    Popular
                   </span>
                 )}
 
@@ -127,24 +123,17 @@ export default function ImpactTiers() {
                 </div>
 
                 <div className="pt-4 border-t border-line">
-                  {tier.action ? (
-                    <button
-                      type="button"
-                      onClick={tier.action}
-                      className="w-full py-2.5 px-4 rounded-xl bg-surface-raised border border-amber-400/40 text-amber-300 hover:bg-amber-400/10 font-sans font-semibold text-xs flex items-center justify-center gap-2 transition cursor-pointer"
-                    >
-                      <span>{tier.cta}</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
-                  ) : (
-                    <Link
-                      to={tier.route}
-                      className="w-full py-2.5 px-4 rounded-xl bg-primary hover:bg-primary-hover text-primary-contrast font-sans font-semibold text-xs flex items-center justify-center gap-2 transition cursor-pointer shadow-soft-xs"
-                    >
-                      <span>{tier.cta}</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </Link>
-                  )}
+                  <Link
+                    to={tier.route}
+                    className={`w-full py-2.5 px-4 rounded-xl font-sans font-semibold text-xs flex items-center justify-center gap-2 transition cursor-pointer shadow-soft-xs ${
+                      tier.highlight
+                        ? 'bg-primary hover:bg-primary-hover text-primary-contrast'
+                        : 'bg-surface-raised hover:bg-surface-sunken text-heading border border-line'
+                    }`}
+                  >
+                    <span>{tier.cta}</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
                 </div>
               </div>
             );

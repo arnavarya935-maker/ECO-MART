@@ -33,19 +33,18 @@ export default function EditorialFinalCTA() {
         </h2>
 
         <p className="mt-5 mx-auto max-w-xl font-sans text-xs sm:text-sm md:text-base text-text-secondary leading-relaxed">
-          Transform your ordinary grocery or household list into a verified zero-waste cart in seconds. No cloud APIs, no data tracking, 100% on-device.
+          Transform your ordinary grocery or household list into a verified zero-waste cart in seconds. Expose hidden footprints, eliminate plastic waste, and calculate circular swaps.
         </p>
 
         <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-          <button
-            type="button"
-            onClick={() => window.dispatchEvent(new CustomEvent('open-judge-walkthrough'))}
+          <Link
+            to="/transform"
             className="liquid-pill liquid-pill-emerald group cursor-pointer"
           >
             <Sparkles className="w-4 h-4 mr-2" />
-            <span>Run Judge Demo Showcase</span>
+            <span>Transform Your Cart</span>
             <ArrowUpRight className="w-4 h-4 ml-2 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </button>
+          </Link>
 
           <Link
             to="/shop"

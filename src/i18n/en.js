@@ -96,7 +96,7 @@ export const en = {
   'transformer.exampleBathroom': '🛁 Bathroom Restock (₹1200)',
   'transformer.exampleKitchen': '🍳 Kitchen Restock (₹1000)',
   'transformer.exampleHinglish': '🇮🇳 Hinglish Daily List',
-  'transformer.judgeNote': "Judge's own list: Type any 5 things you bought recently to test Eco Agent live",
+  'transformer.inputTip': 'Tip: Paste items from your grocery receipt or shopping list to calculate verified swaps.',
   'transformer.thinkingTitle': 'How I Decided',
   'transformer.skipThinking': 'Skip trace animation',
   'transformer.beforeCart': 'Your Usual Cart',

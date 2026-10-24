@@ -11,7 +11,7 @@ export default function HowItWorksPage() {
       {/* Page Title */}
       <div className="text-center max-w-2xl mx-auto space-y-3">
         <span className="text-xs font-semibold uppercase tracking-wider text-primary bg-primary/10 border border-primary/20 px-3.5 py-1 rounded-full inline-block">
-          Judge & Presentation Guide
+          Methodology & Architecture
         </span>
         <h1 className="text-3xl sm:text-5xl font-serif font-bold text-heading tracking-tight">
           How EcoMart Agent Works
@@ -166,7 +166,7 @@ export default function HowItWorksPage() {
         </div>
       </section>
 
-      {/* Presentation CTA */}
+      {/* Interactive Agent CTA */}
       <div className="text-center py-6">
         <button
           type="button"
@@ -174,7 +174,7 @@ export default function HowItWorksPage() {
           className="px-8 py-3.5 rounded-full bg-primary hover:bg-primary-hover text-primary-contrast font-medium text-sm shadow-soft-sm transition active:scale-95 inline-flex items-center gap-2 cursor-pointer min-h-[44px]"
         >
           <Sparkles className="w-4 h-4 text-accent" />
-          <span>Launch Eco Agent Live Demo</span>
+          <span>Try Eco Agent</span>
         </button>
       </div>
     </div>

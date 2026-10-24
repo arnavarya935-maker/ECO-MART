@@ -59,9 +59,7 @@ const KeyboardShortcutsModal = lazy(() => import('./components/KeyboardShortcuts
 const EasterEggKonami = lazy(() => import('./components/EasterEggKonami'));
 const CursorGlow = lazy(() => import('./components/CursorGlow'));
 const LeafParticles = lazy(() => import('./components/LeafParticles'));
-const PitchModeModal = lazy(() => import('./components/PitchModeModal'));
 const GreenwashingDetectiveModal = lazy(() => import('./components/detective/GreenwashingDetectiveModal'));
-const JudgeDemoWalkthroughModal = lazy(() => import('./components/judge/JudgeDemoWalkthroughModal'));
 const EthicsInboxModal = lazy(() => import('./components/decision/EthicsInboxModal'));
 
 function PageLoadingFallback() {
@@ -79,7 +77,7 @@ function PageLoadingFallback() {
 }
 
 function AppContent() {
-  const { reduceEffects, judgeMode } = useTheme();
+  const { reduceEffects } = useTheme();
   const { authModalOpen } = useAuth();
   const {
     isCartOpen,
@@ -99,12 +97,10 @@ function AppContent() {
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
   const [shortcutsOpen, setShortcutsOpen] = useState(false);
   const [konamiActive, setKonamiActive] = useState(false);
-  const [pitchModeOpen, setPitchModeOpen] = useState(false);
   const [greenwashingModalOpen, setGreenwashingModalOpen] = useState(false);
-  const [judgeWalkthroughOpen, setJudgeWalkthroughOpen] = useState(false);
   const [ethicsInboxOpen, setEthicsInboxOpen] = useState(false);
 
-  // Global listeners for Command Palette, Shortcuts, Pitch Mode, and Konami
+  // Global listeners for Command Palette, Shortcuts, and Konami
   useEffect(() => {
     const handleKeyDown = (e) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
@@ -112,9 +108,6 @@ function AppContent() {
         setCommandPaletteOpen((prev) => !prev);
       } else if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) {
         return;
-      } else if (e.key.toLowerCase() === 'p' && !e.ctrlKey && !e.metaKey && !e.altKey) {
-        e.preventDefault();
-        setPitchModeOpen((prev) => !prev);
       } else if (e.key === '?' || (e.key === '/' && e.shiftKey)) {
         e.preventDefault();
         setShortcutsOpen((prev) => !prev);
@@ -124,23 +117,17 @@ function AppContent() {
     };
 
     const handleCustomToggle = () => setCommandPaletteOpen((prev) => !prev);
-    const handlePitchToggle = () => setPitchModeOpen((prev) => !prev);
     const handleGreenwashingToggle = () => setGreenwashingModalOpen(true);
-    const handleJudgeWalkthroughToggle = () => setJudgeWalkthroughOpen(true);
     const handleEthicsInboxToggle = () => setEthicsInboxOpen(true);
 
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('toggle-command-palette', handleCustomToggle);
-    window.addEventListener('open-pitch-mode', handlePitchToggle);
     window.addEventListener('open-greenwashing-detective', handleGreenwashingToggle);
-    window.addEventListener('open-judge-walkthrough', handleJudgeWalkthroughToggle);
     window.addEventListener('open-ethics-inbox', handleEthicsInboxToggle);
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('toggle-command-palette', handleCustomToggle);
-      window.removeEventListener('open-pitch-mode', handlePitchToggle);
       window.removeEventListener('open-greenwashing-detective', handleGreenwashingToggle);
-      window.removeEventListener('open-judge-walkthrough', handleJudgeWalkthroughToggle);
       window.removeEventListener('open-ethics-inbox', handleEthicsInboxToggle);
     };
   }, []);
@@ -261,27 +248,27 @@ function AppContent() {
         </Suspense>
       )}
 
-      {/* Welcome & Exit Intent Modals (Suppressed in Judge Mode) */}
-      {welcomeModalOpen && !judgeMode && (
+      {/* Welcome & Exit Intent Modals */}
+      {welcomeModalOpen && (
         <Suspense fallback={null}>
           <WelcomeModal />
         </Suspense>
       )}
-      {exitIntentOpen && !judgeMode && (
+      {exitIntentOpen && (
         <Suspense fallback={null}>
           <ExitIntentModal />
         </Suspense>
       )}
 
-      {/* Achievement Unlocked Pop-up (Suppressed in Judge Mode) */}
-      {Boolean(unlockedBadge) && !judgeMode && (
+      {/* Achievement Unlocked Pop-up */}
+      {Boolean(unlockedBadge) && (
         <Suspense fallback={null}>
           <AchievementUnlockedModal />
         </Suspense>
       )}
 
-      {/* Konami Code Easter Egg (Suppressed in Judge Mode) */}
-      {konamiActive && !judgeMode && (
+      {/* Konami Code Easter Egg */}
+      {konamiActive && (
         <Suspense fallback={null}>
           <EasterEggKonami />
         </Suspense>
@@ -294,24 +281,10 @@ function AppContent() {
         </Suspense>
       )}
 
-      {/* Phase 8: Pitch Mode Presenter Tour Overlay (Shortcut P) */}
-      {pitchModeOpen && (
-        <Suspense fallback={null}>
-          <PitchModeModal isOpen={pitchModeOpen} onClose={() => setPitchModeOpen(false)} />
-        </Suspense>
-      )}
-
       {/* Responsible AI: Greenwashing Detective Dossier */}
       {greenwashingModalOpen && (
         <Suspense fallback={null}>
           <GreenwashingDetectiveModal isOpen={greenwashingModalOpen} onClose={() => setGreenwashingModalOpen(false)} />
-        </Suspense>
-      )}
-
-      {/* Responsible AI: Judge Demo Mode Walkthrough */}
-      {judgeWalkthroughOpen && (
-        <Suspense fallback={null}>
-          <JudgeDemoWalkthroughModal isOpen={judgeWalkthroughOpen} onClose={() => setJudgeWalkthroughOpen(false)} />
         </Suspense>
       )}
 

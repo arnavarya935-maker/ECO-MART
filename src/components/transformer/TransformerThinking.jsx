@@ -4,9 +4,9 @@ import { useTheme } from '../../context/ThemeContext';
 import { useT } from '../../context/I18nContext';
 
 export default function TransformerThinking({ trace = [], onComplete }) {
-  const { reduceEffects, judgeMode } = useTheme();
+  const { reduceEffects } = useTheme();
   const { t } = useT();
-  const isInstant = reduceEffects || judgeMode;
+  const isInstant = reduceEffects;
 
   const [visibleStepCount, setVisibleStepCount] = useState(() => (isInstant ? trace.length : 1));
   const timerRef = useRef(null);

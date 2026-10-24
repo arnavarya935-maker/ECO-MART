@@ -1,7 +1,7 @@
 /**
  * Eco Copilot Decision & Rate-Limiting Engine
  * Pure logic module: Handles trigger rules, 20s rate limiter, 5/session budget,
- * Judge Mode controls, and transparent "Why am I seeing this?" reasoning.
+ * and transparent "Why am I seeing this?" reasoning.
  */
 
 import { calculateEcoScore } from './ecoScore.js';
@@ -32,12 +32,9 @@ export class CopilotEngine {
    */
   canNudge({
     now = Date.now(),
-    isMuted = false,
-    isJudgeMode = false,
-    judgeOverride = false
+    isMuted = false
   } = {}) {
     if (isMuted) return false;
-    if (isJudgeMode && !judgeOverride) return false;
     if (this.nudgeCount >= this.maxSessionNudges) return false;
     if (this.lastNudgeTime > 0 && now - this.lastNudgeTime < this.cooldownMs) return false;
     return true;
@@ -169,35 +166,6 @@ export class CopilotEngine {
     return null;
   }
 
-  /**
-   * Demo Mode Trigger (Bypasses rate limit for competition demonstration)
-   */
-  createDemoNudge(allProducts = []) {
-    const plasticItem = (allProducts || []).find((p) => !p.isEcoFriendly) || {
-      id: 'demo-conv-item',
-      name: 'Single-Use Plastic Cutlery Pack',
-      price: 129
-    };
-    const swap = getSwapSuggestion(plasticItem, allProducts);
-    const greener = swap?.greenerProduct || {
-      id: 'kit-01',
-      name: 'Organic Bamboo Cutlery Set',
-      price: 349
-    };
-
-    return {
-      id: `copilot-demo-${Date.now()}`,
-      type: 'swap',
-      title: 'Eco Copilot Proactive Nudge 🚀',
-      message: `Swap "${plasticItem.name}" for "${greener.name}" to prevent 145g of plastic waste.`,
-      trigger: 'Demo Mode competition showcase flow',
-      reasoning: 'Demonstrating proactive front-end copilot reasoning: detects low-grade items and suggests verified zero-waste swaps with 1-tap replacement.',
-      product: plasticItem,
-      greenerProduct: greener,
-      actionLabel: '1-Tap Swap',
-      actionType: 'swap'
-    };
-  }
 }
 
 export const copilotEngine = new CopilotEngine();

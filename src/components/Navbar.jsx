@@ -267,18 +267,6 @@ export default function Navbar() {
             )}
           </Link>
 
-          {/* Judge Demo Walkthrough Trigger */}
-          <button
-            type="button"
-            onClick={() => window.dispatchEvent(new CustomEvent('open-judge-walkthrough'))}
-            className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/20 text-amber-700 dark:text-amber-300 font-sans text-xs font-semibold transition-all shadow-soft-xs cursor-pointer min-h-[40px]"
-            title="Launch Responsible AI competition demo walkthrough"
-            aria-label="Launch Judge Demo Walkthrough"
-          >
-            <ShieldCheck className="w-3.5 h-3.5 text-amber-500" />
-            <span>Judge Demo</span>
-          </button>
-
           {/* User Account Menu */}
           <UserMenu />
 
@@ -372,20 +360,6 @@ export default function Navbar() {
                 );
               })}
             </div>
-          </div>
-
-          <div className="pt-3 border-t border-line flex items-center justify-between">
-            <button
-              type="button"
-              onClick={() => {
-                setMobileMenuOpen(false);
-                window.dispatchEvent(new CustomEvent('open-judge-walkthrough'));
-              }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-amber-500/10 border border-amber-500/30 text-xs font-semibold text-amber-700 dark:text-amber-300"
-            >
-              <ShieldCheck className="w-4 h-4 text-amber-500" />
-              <span>Launch Judge Demo</span>
-            </button>
           </div>
         </div>
       )}

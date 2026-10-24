@@ -34,7 +34,7 @@ export default function EngineeringHero() {
         <div className="flex items-center justify-between border-t border-line/60 pt-4 font-mono text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.22em] text-text-muted">
           <span className="flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-            <span className="hidden sm:inline">AUTONOMOUS ECO AGENT ·</span> TECHNOPHILIA 7.0
+            <span className="hidden sm:inline">AUTONOMOUS ECO AGENT ·</span> VERIFIABLE CIRCULAR COMMERCE
           </span>
           <span className="text-primary font-bold">SERVER AI + OFFLINE FALLBACK</span>
         </div>
@@ -85,15 +85,14 @@ export default function EngineeringHero() {
                 <span>Try Eco Agent</span>
               </button>
 
-              <button
-                type="button"
-                onClick={() => window.dispatchEvent(new CustomEvent('open-judge-walkthrough'))}
-                className="liquid-pill liquid-pill-dark group border border-amber-400/40 text-amber-700 dark:text-amber-300 hover:border-amber-400 cursor-pointer"
-                id="hero-run-judge-demo-btn"
+              <Link
+                to="/scan"
+                className="liquid-pill liquid-pill-dark group cursor-pointer"
+                id="hero-check-claim-btn"
               >
-                <ShieldCheck className="w-3.5 h-3.5 mr-2 text-amber-600 dark:text-amber-400" />
-                <span>Run Judge Demo</span>
-              </button>
+                <ShieldCheck className="w-3.5 h-3.5 mr-2 text-primary" />
+                <span>Check a product claim</span>
+              </Link>
 
               <Link
                 to="/shop"

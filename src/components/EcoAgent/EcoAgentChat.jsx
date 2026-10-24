@@ -10,15 +10,12 @@ import {
   MicOff,
   Check,
   Sparkles,
-  Play,
-  RotateCcw,
   Sliders,
   Volume2,
   VolumeX,
   ShieldAlert
 } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
-import { useTheme } from '../../context/ThemeContext';
 import { useT } from '../../context/I18nContext';
 import { FEATURES } from '../../lib/features';
 import { sendAgentQuery } from '../../lib/ecoAgent';
@@ -58,7 +55,6 @@ const QUICK_CHIPS_HI = [
 
 export default function EcoAgentChat() {
   const navigate = useNavigate();
-  const { judgeMode } = useTheme();
   const {
     isAgentOpen,
     setIsAgentOpen,
@@ -66,8 +62,6 @@ export default function EcoAgentChat() {
     allProducts,
     addToCart,
     swapItemInCart,
-    clearCart,
-    setCartItems,
     showToast,
     userPriorities,
     updateUserPriorities
@@ -172,207 +166,6 @@ export default function EcoAgentChat() {
 
   const messagesEndRef = useRef(null);
   const recognitionRef = useRef(null);
-
-  const [demoRunning, setDemoRunning] = useState(false);
-  const demoTimeoutsRef = useRef([]);
-
-  const stopDemoTimeouts = useCallback(() => {
-    demoTimeoutsRef.current.forEach((t) => clearTimeout(t));
-    demoTimeoutsRef.current = [];
-    setDemoRunning(false);
-  }, []);
-
-  const handleResetDemo = useCallback(() => {
-    stopDemoTimeouts();
-    if (clearCart) clearCart();
-    setMessages([
-      {
-        id: 'welcome',
-        sender: 'agent',
-        text: "👋 Demo reset to clean state. Ready for new queries or another demo run!",
-        quickChips: true,
-        timestamp: 'Just now'
-      }
-    ]);
-    setAgentContext({
-      lastCategory: null,
-      lastBudget: null,
-      lastSort: null,
-      lastRecipient: null,
-      lastPackaging: null,
-      lastResults: [],
-      lastQuery: null
-    });
-    showToast('Demo environment reset', 'info');
-  }, [clearCart, showToast, stopDemoTimeouts]);
-
-  const handleRunDemoScenario = useCallback(() => {
-    stopDemoTimeouts();
-    setDemoRunning(true);
-    setIsAgentOpen(true);
-
-    const conv1 = allProducts.find((p) => p.id === 'care-01-conv') || {
-      id: 'care-01-conv',
-      name: 'Nylon Bristle Plastic Toothbrushes (Pack of 4)',
-      category: 'Personal Care',
-      price: 120,
-      icon: '🪥',
-      isEcoFriendly: false,
-      conventionalAlternativeId: 'care-01'
-    };
-    const conv2 = allProducts.find((p) => p.id === 'care-02-conv') || {
-      id: 'care-02-conv',
-      name: 'Chemical Liquid Shampoo in HDPE Bottle (350ml)',
-      category: 'Personal Care',
-      price: 280,
-      icon: '🧴',
-      isEcoFriendly: false,
-      conventionalAlternativeId: 'care-02'
-    };
-    const conv3 = allProducts.find((p) => p.id === 'kit-01-conv') || {
-      id: 'kit-01-conv',
-      name: 'Single-Use Plastic Cutlery Pack (50 pcs)',
-      category: 'Kitchen',
-      price: 129,
-      icon: '🍴',
-      isEcoFriendly: false,
-      conventionalAlternativeId: 'kit-01'
-    };
-
-    if (setCartItems) {
-      setCartItems([
-        { product: conv1, quantity: 1 },
-        { product: conv2, quantity: 1 },
-        { product: conv3, quantity: 1 }
-      ]);
-      try {
-        localStorage.setItem(
-          'ecomart_cart',
-          JSON.stringify([
-            { product: conv1, quantity: 1 },
-            { product: conv2, quantity: 1 },
-            { product: conv3, quantity: 1 }
-          ])
-        );
-      } catch {}
-    }
-
-    const green1 = allProducts.find((p) => p.id === 'care-01');
-    const green2 = allProducts.find((p) => p.id === 'care-02');
-    const green3 = allProducts.find((p) => p.id === 'kit-01');
-
-    setMessages([
-      {
-        id: 'demo-user-1',
-        sender: 'user',
-        text: 'Audit my cart and help me switch to a zero-waste lifestyle under ₹1500',
-        timestamp: 'Just now'
-      }
-    ]);
-
-    const t1 = setTimeout(() => {
-      const auditMsg = {
-        id: 'demo-agent-audit',
-        sender: 'agent',
-        text: 'I audited your cart! Found 3 conventional items with high plastic and carbon footprint. Here is how we can swap them for certified circular alternatives while staying well under your ₹1500 budget:',
-        source: 'local-rule-engine',
-        data: [green1, green2, green3].filter(Boolean),
-        isFirstResponse: true,
-        trace: [
-          { step: 'Understood goal', detail: 'Audit cart & eliminate single-use plastics under ₹1500' },
-          { step: 'Constraints identified', detail: '3 conventional items found: plastic toothbrush, liquid shampoo, disposable cutlery' },
-          { step: 'Candidates matched', detail: 'Matched 3 certified zero-waste circular alternatives (Bamboo Toothbrush, Solid Shampoo Bar, Bamboo Cutlery)' },
-          { step: 'Scored & Ranked', detail: 'Swapping all 3 raises cart average EcoScore from 38 to 92/100' },
-          { step: 'Trade-offs evaluated', detail: 'Upfront cost is ₹897 vs ₹529, but eliminates 485g plastic and avoids 4.2kg lifecycle CO2' },
-          { step: 'Decision', detail: 'Recommended executing conscious swaps to achieve zero-waste starter kit' }
-        ],
-        tradeoffs: {
-          winnerName: 'Certified Zero-Waste Bundle',
-          runnerUpName: 'Conventional Plastic Cart',
-          beats: [
-            'Diverts 485g of single-use plastic from landfills',
-            'Prevents 4.2kg lifecycle greenhouse emissions',
-            'Saves 142 litres of freshwater in production'
-          ],
-          givesUp: [
-            '₹368 higher initial investment for reusable materials'
-          ]
-        },
-        timestamp: 'Just now'
-      };
-      setMessages((prev) => [...prev, auditMsg]);
-    }, 1200);
-
-    const t2 = setTimeout(() => {
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: 'demo-user-apply',
-          sender: 'user',
-          text: 'Apply all greener swaps to my cart now',
-          timestamp: 'Just now'
-        }
-      ]);
-
-      if (setCartItems && green1 && green2 && green3) {
-        setCartItems([
-          { product: green1, quantity: 1 },
-          { product: green2, quantity: 1 },
-          { product: green3, quantity: 1 }
-        ]);
-        try {
-          localStorage.setItem(
-            'ecomart_cart',
-            JSON.stringify([
-              { product: green1, quantity: 1 },
-              { product: green2, quantity: 1 },
-              { product: green3, quantity: 1 }
-            ])
-          );
-        } catch {}
-      }
-    }, 4500);
-
-    const t3 = setTimeout(() => {
-      const receiptMsg = {
-        id: 'demo-agent-receipt',
-        sender: 'agent',
-        text: '🎉 Conscious swaps applied! Your cart is now 100% verified plastic-free (Total: ₹897, under your ₹1500 budget). Here is your environmental savings receipt:',
-        source: 'local-rule-engine',
-        basketPlan: {
-          itemCount: 3,
-          totalPrice: 897,
-          budget: 1500,
-          averageEcoScore: 92,
-          savings: {
-            co2Saved: 4.2,
-            plasticSaved: 485,
-            waterSaved: 142
-          }
-        },
-        timestamp: 'Just now'
-      };
-      setMessages((prev) => [...prev, receiptMsg]);
-      setDemoRunning(false);
-      showToast('Demo scenario completed successfully!', 'success');
-    }, 6500);
-
-    demoTimeoutsRef.current = [t1, t2, t3];
-  }, [allProducts, setCartItems, showToast, setIsAgentOpen, stopDemoTimeouts]);
-
-  useEffect(() => {
-    const handleStartEvent = () => handleRunDemoScenario();
-    const handleResetEvent = () => handleResetDemo();
-
-    window.addEventListener('start-demo-scenario', handleStartEvent);
-    window.addEventListener('reset-demo', handleResetEvent);
-
-    return () => {
-      window.removeEventListener('start-demo-scenario', handleStartEvent);
-      window.removeEventListener('reset-demo', handleResetEvent);
-      stopDemoTimeouts();
-    };
-  }, [handleRunDemoScenario, handleResetDemo, stopDemoTimeouts]);
 
   // Core send query handler
   const handleSendMessage = useCallback(async (queryText) => {
@@ -709,11 +502,6 @@ export default function EcoAgentChat() {
             )}
           </div>
 
-          {judgeMode && (
-            <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-amber-400 text-stone-900 uppercase tracking-wider" title="Judge Mode active">
-              Judge
-            </span>
-          )}
           <button
             type="button"
             onClick={() => setShowPriorities(!showPriorities)}
@@ -727,28 +515,6 @@ export default function EcoAgentChat() {
             <Sliders className="w-2.5 h-2.5" />
             <span>Priorities</span>
           </button>
-          <button
-            type="button"
-            onClick={handleRunDemoScenario}
-            disabled={demoRunning}
-            className="px-2 py-1 rounded-lg bg-surface-sunken text-primary text-[10px] font-bold hover:bg-surface transition-colors border border-line cursor-pointer flex items-center gap-1 shadow-soft-xs"
-            title="Auto-play 60s scripted competition demo flow"
-          >
-            <Play className="w-2.5 h-2.5 fill-current" />
-            <span>{demoRunning ? 'Running...' : 'Demo scenario'}</span>
-          </button>
-
-          {(demoRunning || messages.length > 1) && (
-            <button
-              type="button"
-              onClick={handleResetDemo}
-              className="px-2 py-1 rounded-lg bg-surface-sunken text-text-secondary text-[10px] font-semibold hover:bg-surface transition-colors border border-line cursor-pointer flex items-center gap-1"
-              title="Reset demo, cart, and chat"
-            >
-              <RotateCcw className="w-2.5 h-2.5" />
-              <span>Reset</span>
-            </button>
-          )}
           {Boolean(agentContext.lastCategory || agentContext.lastBudget || agentContext.lastQuery) && (
             <button
               type="button"

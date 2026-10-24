@@ -8,7 +8,6 @@ import { useTheme } from '../context/ThemeContext';
 const SHORTCUTS = [
   { key: '?', label: 'Open / close this keyboard shortcuts guide' },
   { key: 'Cmd/Ctrl + K', label: 'Open Command Palette' },
-  { key: 'P', label: 'Pitch Mode Presenter Tour (Phase 8)' },
   { key: 'H', label: 'Navigate to Home' },
   { key: 'S', label: 'Open Shop Catalog' },
   { key: 'T', label: 'Open Eco Tools & Calculators' },
