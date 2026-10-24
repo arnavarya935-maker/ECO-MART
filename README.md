@@ -1,176 +1,196 @@
-# EcoMart — Sustainable E-Commerce Platform Powered by Eco Agent
+# EcoMart — Transparent Sustainable E-Commerce & Agentic Shopping Platform
 
-> *"Don't just shop. Shop with purpose."*  
-> **School Competition Edition (31 Oct 2026)** • **100% Offline-Native**
+> *"Shop with clarity. Every claim grounded, every estimate transparent."*
 
-EcoMart is a fast, offline-native sustainable e-commerce web application built with **React 19**, **Vite**, **Tailwind CSS v4 & semantic design tokens**, **React Three Fiber (Three.js)**, **Framer Motion**, and **Recharts**. EcoMart transparently scores products with a verified 0–100 lifecycle formula, suggests cleaner product swaps, detects greenwashing, and provides an autonomous, visibly intelligent Eco Agent—all running 100% locally with zero external network or CDN dependencies.
-
-For live competition presentation instructions and judge Q&A, refer to the [Competition Demo Script & Judge Q&A](DEMO_SCRIPT.md).
+EcoMart is a production-grade, local-first sustainable e-commerce web application built with **React 19**, **Vite**, **Tailwind CSS v4 & semantic design tokens**, **React Three Fiber (Three.js)**, **Framer Motion**, and **Recharts**. EcoMart transparently scores products with an open lifecycle formula, suggests cleaner product swaps, detects greenwashing, and provides a multi-agent shopping assistant—all running with zero external CDN dependencies and honest uncertainty boundaries.
 
 ---
 
-## 🚀 Quick Setup & CI Verification
+## 🏛️ Architecture Overview
 
-```bash
-# 1. Install dependencies
-npm install
-
-# 2. Run comprehensive CI verification (lint, image audit, 75 tests, build, url purity & bundle budget)
-npm run verify
-
-# 3. Or run individual validation steps:
-npm run lint          # oxlint with 103 rules, 0 errors & 0 warnings across 152 files
-npm run check         # 100% unique product images, zero broken links
-npm test              # 75 Vitest tests across 8 test suites (all passing)
-npm run check:urls    # confirms 0 external URLs in src/ or public/ (100% offline)
-npm run bundle:report # verifies Home route JS is 148.5 kB gzipped (budget: 200 kB)
-
-# 4. Run acceptance checks script:
-node scripts/run-acceptance-checks.mjs
-
-# 5. Start local development server
-npm run dev
-
-# 6. Preview production build locally
-npm run preview
+```
+                                  ┌──────────────────────────────────────────────┐
+                                  │           EcoMart Client (Browser)          │
+                                  │  - React 19 + Vite + Tailwind CSS v4 Tokens  │
+                                  │  - Local-First Storage (localStorage/IDB)    │
+                                  │  - Service Worker (App Shell + Offline Mode) │
+                                  │  - Deterministic Offline AI Engines          │
+                                  └──────────────────────┬───────────────────────┘
+                                                         │
+                                        API Requests (/api/*)
+                                                         │
+                                                         ▼
+                                  ┌──────────────────────────────────────────────┐
+                                  │      Edge / Serverless Proxy Gateway         │
+                                  │   (server/proxyServer.js & api/*.js)         │
+                                  │  - In-Memory Rate Limiting (30 req/min/IP)   │
+                                  │  - Payload Validation (Max 3MB base64)       │
+                                  │  - Header Injection (x-goog-api-key)         │
+                                  │  - Output Schema Validation & Sanitization   │
+                                  └───────┬──────────────┬──────────────┬────────┘
+                                          │              │              │
+                                          ▼              ▼              ▼
+                                  ┌──────────────┐┌──────────────┐┌──────────────┐
+                                  │Google Gemini ││ GNews /      ││Open Food     │
+                                  │2.5 Flash API ││ NewsData API ││Facts Registry│
+                                  └──────────────┘└──────────────┘└──────────────┘
 ```
 
+1. **Local-First PWA Architecture**:
+   - Zero external CDN scripts, fonts, or images. 100% self-hosted assets in `public/` and `src/assets/`.
+   - All cart, preference, and agent memory state is local-first (`localStorage`) with a dedicated **Privacy Center** to inspect, export (JSON), or permanently delete data.
+   - Progressive Web App with service worker pre-caching the core application shell and providing offline fallback.
+
+2. **Server-Side API Security & Rate Limiting**:
+   - Zero API keys are ever leaked to client bundles. API keys are injected server-side via `x-goog-api-key`.
+   - Sliding-window rate limiter enforces 30 requests/minute per client IP with `429 Too Many Requests` responses.
+   - Strict payload size ceilings (3MB base64) protect against memory denial-of-service.
+   - Responses are strictly validated and mapped against schema models before reaching the client; raw model payloads are never directly forwarded.
+
+3. **Multi-Provider AI & Offline Fallback**:
+   - Powered by Google Gemini 2.5 Flash (`gemini-2.5-flash`), with deterministic rule-based client fallbacks for all features when offline or unconfigured.
+   - All AI-generated estimates are clearly labeled with uncertainty ranges and assumption notices.
+
+4. **Curated Eco News Adapter**:
+   - Multi-provider news adapter (`/api/news`) supporting GNews and NewsData.
+   - Restricts queries to 7 allowlisted sustainability topics (*Climate, Supply Chain, Policy, Tech, Biodiversity, Energy, Circular Economy*) with an in-memory 1-hour cache.
+
+5. **Open Food Facts Barcode Integration**:
+   - `/api/barcode` queries public product registries for packaging and certification data with a 6-second timeout and sanitization layer.
+
 ---
 
-## 🏆 Key Features & Competition Architecture
+## 🔄 Before vs. After Comparison
 
-### 1. Priority-Weighted Decision Engine (`src/lib/decisionEngine.js`)
-- **Multi-Criteria Mathematical Scoring**: Normalizes candidates across **7 independent dimensions**: Price, Carbon, Plastic, Water, Local transit distance, Certifications, and EcoScore.
-- **Interactive "My Priorities" Sliders**: Live in Shop filter bar, filter drawer, and Eco Agent chat. Adjusting any slider re-ranks products in real-time with smooth Framer Motion card animations.
-- **"Why this rank?" Popover**: Every product card provides an auditable breakdown of exact point contributions from the user's active priorities.
-- **Natural Language Priority Tuning**: In chat, saying *"I care most about price"* or *"plastic matters more"* updates the active weights dynamically.
+| Dimension | Before (Initial Codebase) | After (EcoMart Production Upgrade) |
+| :--- | :--- | :--- |
+| **API Security** | API keys passed in URL query strings or exposed client-side; no rate limiting or payload limits. | Server-side gateway with `x-goog-api-key` header injection, 30 req/min sliding-window rate limit, 3MB body limit, and output sanitization. |
+| **Label Scanner** | Hardcoded fake scores, simulated camera scans, fabricated certainty verdicts. | Real canvas downscaling (max 1024px), Tesseract OCR verbatim text transcription, Open Food Facts barcode registry lookups, zero invented scores. |
+| **Eco News Hub** | Missing news feature or static placeholder links. | Production news adapter supporting GNews and NewsData with 7 allowlisted topics, 1-hour caching, and honest empty states. |
+| **Honesty & Copy** | Blanket claims ("100% offline", "Zero Plastic", "Verified Impact"), fake customer reviews, and seeded leaderboard users. | Complete purge of synthetic traction and unverified claims; ISO 14040 open formulas, uncertainty min-max bands, and labeled estimates. |
+| **Codebase Health** | 11 orphaned/dead components, duplicate styling classes, unused state hooks, ad-hoc buttons. | 11 dead components removed; design system components wired (`GlossaryTooltip`, `EmptyState`, `Tabs`, `Chip`, `Skeleton`, `Input`). |
+| **UI Polish & Viewports** | Mobile collisions between floating widgets and bottom nav; sub-12px micro-text (`text-[9px]`); fixed-height button clipping. | Quiet luxury styling with Fraunces & Inter; standard z-index scale; min 12px micro-eyebrows and 14px body; `min-h-[44px]` touch targets. |
+| **Automated Testing** | 75 unit tests with baseline test regressions and missing integration coverage. | **243 passing tests** across 27 suites, including automated forbidden-terms regression test and full route rendering suite. |
+| **Asset & URL Purity** | Inconsistent image assets and unverified links. | 64/64 unique images verified; **0 external URLs** in `src/` or `public/`; Home route JS 182.98 kB (within 200 kB budget). |
 
-### 2. "Eco Check Any Product" Paste Analyzer (`src/pages/EcoCheckPage.jsx`, `src/lib/ecoCheck.js`)
-- **Real-World Heuristic Parser**: Users paste or type external product descriptions (e.g. *"Plastic water bottle, eco friendly, BPA free"*).
-- **Greenwashing & Material Detection**: Identifies petrochemical synthetic materials (*plastic, polyester, nylon, PVC*), unverified marketing buzzwords (*"100% eco friendly", "natural", "non-toxic"*), and verifies third-party credentials (*GOTS, FSC, Fair Trade*).
-- **Catalog Alternatives Mapping**: Assigns an estimated EcoScore with a confidence grade and recommends up to 3 catalog alternatives with estimated CO₂ and plastic savings.
-- **Honesty in UI**: Every calculation is stamped **"Estimate"** or **"Qualitative"**; vague inputs trigger a clarifying question with quick-reply chips rather than guessing.
+---
 
-### 3. Proactive Copilot (`src/lib/copilotEngine.js`, `SwapSuggestionBanner.jsx`)
-- **Autonomous Reasoning**: Speaks up without waiting to be prompted when a conventional or low-grade product enters the cart, the cart EcoScore drops by 5+ points, or browsing frequency indicates category interest.
-- **Non-Blocking Ergonomics**: Renders a floating, accessible copilot toast with a 1-tap greener swap and a collapsible **"Why am I seeing this?"** explanation revealing the underlying trigger and environmental delta.
-- **Rate-Limiter**: Enforces a strict cooldown of at least **20 seconds** between nudges and a hard session limit of **at most 5 nudges**. Muted in Judge Mode and configurable in Settings.
+## 🧭 How Each Hub Works (Plain-Language Guide)
 
-### 4. Product Lifecycle Explorer (`ProductLifecycleTimeline.jsx`, `lifecycleEngine.js`)
-- **5-Stage Animated Timeline**: Displays the physical journey: Material Extraction → Making → Transport → Packaging → End of Life.
-- **Comparative Deltas**: Interactive toggle compares each stage against conventional alternatives using quantitative metrics (*water consumed, kg CO₂e, plastic grams*) and qualitative audit notes.
-- **Accessible & Static**: Built with lightweight SVG and CSS (zero Three.js overhead) and respects the "Reduce effects" toggle.
+### 1. Shop Hub (`/shop`)
+The Shop Hub presents a curated catalog of 64 sustainable products with real-time multi-criteria ranking. Shoppers can adjust interactive priority sliders (Price, Carbon, Plastic, Water, Local Distance) to reorder products dynamically, with every card featuring a "Why this rank?" audit popover. When a conventional item is added to the cart, the proactive copilot suggests a cleaner swap and shows the exact environmental delta.
 
-### 5. Year-Ahead Projection & Purpose Report (`YearAheadProjection.jsx`, `PurposeReportModal.jsx`)
-- **12-Month Impact Simulation**: Users configure rebuy cadence (weekly, monthly, quarterly, yearly); projects annual CO₂, water, and plastic diverted vs conventional items with lazy-loaded Recharts curves.
-- **Purpose Report Card Export**: One-page high-resolution shareable card export via `html-to-image` and dedicated `@media print` print styles for clean PDF export.
-- **Documented Conversion Factors (`src/lib/conversionConstants.js`)**: All tree equivalents, passenger car km, and shower equivalents reference documented EPA and EEA conversion constants.
+### 2. Agent Hub (`/agent`)
+The Agent Hub provides a transparent multi-agent shopping assistant featuring visible collaboration between Planner, Researcher, Skeptic, and Advisor roles. It can solve constraint-based shopping goals (e.g., "dorm essentials under ₹3,000"), critiquing its own recommendations via Skeptic mode. All conversation context and preference memory are stored locally on-device and can be edited or wiped with one click.
 
-### 6. Personalised "For You" On-Device Learning (`preferenceModel.js`, `ForYouRow.jsx`)
-- **100% Local Privacy**: Lightweight local signals (category views, product opens, wishlist, cart adds, swaps accepted/declined, priority weights) are stored only in `localStorage`.
-- **Explainable Recommendations**: Renders a curated "For You" row on Home and Shop with transparent one-line explanations (*"Because you chose plastic-free swaps"*).
-- **1-Click Reset**: Visible note and button to reset learned preferences immediately.
+### 3. Truth Lab Hub (`/truth-lab`)
+The Truth Lab is an environmental claims audit center unifying four specialized tools:
+- **Greenwashing Detective**: Analyzes product descriptions against FTC and ASCI regulatory lexicons.
+- **Claim Radar**: Plots marketing statements across 5 independent axes (Vague Wording, Proof, Certification, Specificity, Benchmarking).
+- **Label Scanner (`/scan`)**: Extracts verbatim packaging text via client-side OCR and queries the Open Food Facts barcode registry without storing images.
+- **AI Courtroom (`/courtroom`)**: Simulates a three-role legal debate where a Prosecutor exposes vague claims, a Defender highlights genuine merits, and an impartial Judge delivers an evidentiary verdict.
 
-### 7. Hindi/English Bilingual Support (`src/i18n/`, `I18nContext.jsx`)
-- **Bilingual Interface**: Seamless `EN / हिंदी` language toggle in Navbar and Settings.
-- **100% Offline Devanagari Font**: Local `@fontsource/noto-sans-devanagari` bundled offline and lazy-loaded only when Hindi is selected.
-- **Natural Language Parsing**: Eco Agent understands Hindi and Hinglish queries in Latin or Devanagari script (*"sabse sasta"*, *"kam dam"*, *"thela check karo"*, *"tohfa"*, *"झोला"*, *"रसोई के बर्तन"*).
+### 4. Impact Hub (`/impact`)
+The Impact Hub translates abstract environmental metrics into actionable personal accountability. It tracks a live monthly personal carbon budget consumed by cart purchases, visualizes product lifecycle digital twins (from material extraction to second life), and calculates cost-per-use economics against single-use disposables. Shoppers can export a printable Purpose Receipt using EPA/EEA conversion factors.
 
-### 8. Speech Synthesis & Presenter Pitch Mode (`PitchModeModal.jsx`)
-- **Offline Browser Speech**: Optional read-aloud button on Eco Agent messages using the browser's native `speechSynthesis` API (gracefully hidden when unavailable).
-- **Pitch Mode Shortcut (`P`)**: Pressing `P` anywhere opens a 2-minute guided presenter walkthrough stepping through the 5 flagship competition features in a fixed sequence.
+### 5. Learn Hub (`/learn`)
+The Learn Hub builds long-term sustainability literacy through interactive, engaging storytelling. It features the scroll-driven "Life of a T-Shirt" story mode, verified myth-buster cards, category repair and reuse guides, and an inline glossary for eco terminology. Includes full bilingual support (English and Hindi) with offline typography and accessible high-contrast modes.
 
-### 9. AI Courtroom (`/courtroom`, `courtroomEngine.js`)
-- **Simulated Turn-by-Turn Legal Trial**: Three distinctly labeled AI roles: **Prosecutor** (exposes greenwashing and omissions), **Defender** (advocates genuine decarbonization steps), and **Judge** (renders an evidentiary verdict and Trust Score 0–100).
-- **Interactive Objection Window**: Shoppers can raise an objection or type custom cross-examination mid-debate.
-- **Evidentiary Integrity**: Explicit policy: *"AI roles, simulated debate. Roles must never invent certifications or statistics."*
+---
 
-### 10. Product Label Scanner (`/scan`, `labelScanner.js`)
-- **AI Vision Packaging Auditor**: Upload or take a photo of product packaging. Proxied via Gemini Vision or deterministic offline heuristics.
-- **Privacy Guarantee**: Stamped **"Image is not saved"**. Processed exclusively in volatile RAM and immediately discarded.
-- **Integrated Claim Radar**: Automatically plots extracted claims onto the interactive 5-axis ISO 14021 Claim Radar.
+## ⚙️ Environment Variables
 
-### 11. Confidence Brake (`confidenceBrake.js`)
-- **Strictness Threshold Slider**: Configurable in Agent Chat and Settings (30% to 95%).
-- **Accountable Refusal**: When certainty falls below threshold, the agent declines to guess, details exact missing lab proofs needed, and logs the interception in the Black Box and Honesty Meter.
+EcoMart works out of the box in offline-first mode without any required environment variables. To enable live cloud AI and news providers, create a `.env` or `.env.local` file:
 
-### 12. Ethics Dilemma Cards (`/dilemmas`, `dilemmasData.js`)
-- **Human Agency & Value Judgments**: Curated scenario cards (e.g. cheap polyester fleece vs durable heirloom hemp).
-- **Explicit Algorithmic Refusal**: The AI presents trade-offs on both sides and explicitly refuses to pick for the user, affirming that moral choices belong to humans.
+```env
+# -----------------------------------------------------------------------------
+# Google Gemini AI Configuration
+# -----------------------------------------------------------------------------
+# Required for live generative responses; if omitted, EcoMart seamlessly uses
+# verified deterministic offline heuristics.
+GEMINI_API_KEY=your_gemini_api_key_here
 
-### 13. Choice Ripple & Product Time Machine (`ChoiceRippleFlow.jsx`, `ProductTimeMachine.jsx`)
-- **Animated Sankey Lifecycle Flow**: Material → Factory → Shipping → Use → Second Life, with labeled estimates and an accessible table view toggle.
-- **Now / 2030 / 2035 Time Horizons**: Compares Landfill, Recycled, and Reused outcomes over 4 and 9 years, labeled **"Scenario, not a prediction"** with transparent assumptions.
+# Model identifier (defaults to gemini-2.5-flash)
+GEMINI_MODEL=gemini-2.5-flash
 
-### 14. AI Self-Audit Session Report (`/self-audit`, `selfAuditEngine.js`)
-- **Automated Accountability**: Synthesizes session telemetry into an auditable report detailing admitted uncertainties, bias audits (socioeconomic, linguistic, artisan), guardrails triggered, and concrete model improvement recommendations with print-friendly layout.
+# -----------------------------------------------------------------------------
+# Curated Eco News Configuration
+# -----------------------------------------------------------------------------
+# Supported providers: 'gnews' or 'newsdata'
+NEWS_PROVIDER=gnews
 
-### 15. Desi Kirana Mode (`/kirana`, `KiranaPage.jsx`)
-- **Accessible Hindi-First Layout**: High-contrast interface with large touch targets (>48px) for everyday sustainable staples.
-- **Web Speech Integration**: Voice search ("बोलकर खोजें") in Hindi/English with text fallback and Hindi speech synthesis read-aloud ("सुनें").
+# API key for the selected news provider
+NEWS_API_KEY=your_news_api_key_here
+
+# -----------------------------------------------------------------------------
+# Server Configuration (Optional)
+# -----------------------------------------------------------------------------
+# Port for standalone proxy server (default: 3001)
+PORT=3001
+```
 
 ---
 
 ## 🎛️ Safety Feature Flags (`src/lib/features.js`)
 
-Every feature sits behind a simple boolean flag in `src/lib/features.js` so it can be disabled in one line if needed before judging:
+Every key capability is guarded by a boolean flag in `src/lib/features.js` for safe deployment and granular control:
 
 | Feature Flag | Default | Description |
 |---|:---:|---|
-| `DECISION_ENGINE` | `true` | Priority-Weighted Multi-Criteria Decision Engine |
-| `ECO_CHECK` | `true` | Eco Check Any Product paste analyzer |
-| `PROACTIVE_COPILOT` | `true` | Rate-limited non-blocking copilot reasoning nudges |
-| `LIFECYCLE_EXPLORER` | `true` | 5-stage product lifecycle timeline |
-| `YEAR_AHEAD_REPORT` | `true` | 12-month projection and shareable Purpose Report |
+| `DECISION_ENGINE` | `true` | Multi-criteria priority-weighted ranking engine |
+| `ECO_CHECK` | `true` | Text paste greenwashing and material analyzer |
+| `PROACTIVE_COPILOT` | `true` | Rate-limited non-blocking sustainable swap nudges |
+| `LIFECYCLE_EXPLORER` | `true` | 5-stage product lifecycle timeline scrubber |
+| `YEAR_AHEAD_REPORT` | `true` | 12-month projection and printable Purpose Report |
 | `FOR_YOU_LEARNING` | `true` | On-device privacy-first personalization row |
-| `HINDI_LANGUAGE` | `true` | Hindi/English bilingual switcher and offline font |
-| `SPEECH_SYNTHESIS` | `true` | Offline browser read-aloud for agent replies |
-| `PITCH_MODE` | `true` | 2-minute presenter tour overlay (shortcut 'P') |
+| `HINDI_LANGUAGE` | `true` | Hindi/English bilingual switcher and offline fonts |
 | `AI_COURTROOM` | `true` | Simulated 3-role courtroom debate with objections |
-| `LABEL_SCANNER` | `true` | In-memory vision label scanner & 5-axis Claim Radar |
+| `LABEL_SCANNER` | `true` | Verbatim OCR label scanner & barcode registry lookup |
 | `CONFIDENCE_BRAKE` | `true` | Strictness threshold slider & accountable refusal |
-| `ETHICS_DILEMMAS` | `true` | Curated dilemma cards with explicit AI refusal |
-| `CHOICE_RIPPLE` | `true` | Animated Sankey lifecycle flow with table toggle |
-| `PRODUCT_TIME_MACHINE` | `true` | Now / 2030 / 2035 future horizon scenario outcomes |
+| `ETHICS_DILEMMAS` | `true` | Dilemma cards with explicit algorithmic refusal |
+| `CHOICE_RIPPLE` | `true` | Animated Sankey lifecycle flow with table view |
+| `PRODUCT_TIME_MACHINE` | `true` | Future scenario outcomes (Now / 2030 / 2035) |
 | `AI_SELF_AUDIT` | `true` | Printable session self-audit accountability report |
 | `KIRANA_MODE` | `true` | High-contrast Hindi-first layout with Web Speech |
 
 ---
 
-## 📊 Performance Budget & Offline Compliance
+## 🚀 Getting Started & CI Verification
 
-| Check | Target / Budget | Result | Status |
-|---|:---:|:---:|:---:|
-| **Initial JS (Home route)** | $\le 200\text{ kB}$ gzip | **166.03 kB** gzip | ✅ **PASSED** |
-| **Offline Purity (`check:urls`)** | 0 external URLs in `src/` or `public/` | **0 external URLs** | ✅ **PASSED** |
-| **Oxlint Quality** | 0 errors | **0 errors (103 rules)** | ✅ **PASSED** |
-| **Automated Tests (`npm test`)** | 100% pass | **172 / 172 tests passing (17 suites)** | ✅ **PASSED** |
-| **Guest-First Persistence** | No mandatory login | 100% LocalStorage with in-memory fallbacks | ✅ **PASSED** |
-| **Guest-First Persistence** | No mandatory login | 100% LocalStorage with in-memory fallbacks | ✅ **PASSED** |
+### Prerequisites
+- Node.js 18.0.0 or higher
+- npm 9.0.0 or higher
+
+### Installation & Development
+
+```bash
+# 1. Install dependencies
+npm install
+
+# 2. Start local development server (with built-in API proxy)
+npm run dev
+
+# 3. Open in your browser
+# Default: http://localhost:5173 (or 5174 if 5173 is occupied)
+```
+
+### Comprehensive CI Quality Suite
+
+```bash
+# Run the complete verification gate:
+npm run verify
+```
+
+`npm run verify` runs the following automated checks in sequence:
+1. `npm run lint`: Oxlint static analysis across all files (0 errors).
+2. `npm run check`: Image integrity check (64/64 unique images, zero broken assets).
+3. `npm test`: 243 Vitest tests across 27 suites (100% passing).
+4. `npm run build`: Production bundle compilation via Vite.
+5. `npm run check:urls`: Scans `src/` and `public/` for external CDN URLs (0 external URLs).
+6. `npm run bundle:report`: Verifies initial Home JS bundle is under the 200 kB gzipped threshold.
 
 ---
 
-## 🔒 Server-Side AI Proxy & API Security Architecture
+## 📄 License & Attribution
 
-EcoMart proxies all AI requests through a protected serverless gateway (`server/proxyServer.js` and `api/*.js`) to ensure zero API key leakage to client bundles:
-* **API Key Transmission**: The Gemini API key (`GEMINI_API_KEY`) is securely injected server-side via the `x-goog-api-key` HTTP header, never in URL query strings or client bundles.
-* **Model Configuration**: Model routing is controlled via `GEMINI_MODEL`, defaulting to Google's stable production model `gemini-1.5-flash` (no unstable preview defaults).
-* **Sliding Window Rate Limiter**: Client requests to `/api/agent`, `/api/detect-greenwash`, `/api/scan-label`, and `/api/news` are rate-limited by client IP (`x-forwarded-for`) to 30 requests/minute. Exceeded thresholds return `HTTP 429 Too Many Requests` with a `Retry-After: 60` header.
-  > **Note on Serverless Environments**: On serverless platforms like Vercel, serverless function instances scale ephemerally across multiple execution containers, making in-memory rate limiting a best-effort defense layer.
-* **Payload Size Ceiling**: Incoming vision scanner payloads are strictly validated, rejecting base64 strings exceeding 3MB to stay safely under Vercel's ~4.5MB request body limit.
-* **Schema Validation & Output Sanitization**: Model JSON outputs are parsed and strictly mapped against validated schema properties before being returned. Raw model properties are never spread directly into API responses.
-* **Deterministic Offline Fallback**: In the absence of an API key or when network connectivity drops, all endpoints cleanly return deterministic verified heuristics clearly labeled `"Offline answer"`.
-
----
-
-## 🧪 Verified Acceptance Checks
-
-| Acceptance Check | Result |
-|---|---|
-| **Plastic 100 / Price 0 Re-ranking** | Lowest-plastic (0g) items rank #1 with score 100; reverse puts cheapest (₹80) #1 with score 100 |
-| **Agent Priority Tuning** | *"I care most about price"* updates price weight to 100 and confirms in agent reasoning trace |
-| **Eco Check Analyzer** | *"Plastic water bottle, eco friendly, BPA free"* flags synthetic polymer & vague claims, assigns Grade E, recommends 3 certified catalog alternatives |
-| **Proactive Copilot** | Adding conventional product triggers exactly 1 swap nudge with working *"Why am I seeing this?"* and 20s cooldown |
-| **Product Lifecycle Robustness** | All 64 catalog products + sparse products render 5 lifecycle stages without errors |
-| **Offline Purity** | 100% guest flow verified with zero external CDN requests or console network errors |
-
+EcoMart is open-source software built for educational sustainability research and transparent e-commerce design. All conversion factors and impact formulas are grounded in public ISO 14040/14044 lifecycle standards, EPA guidelines, and the Open Food Facts public registry.

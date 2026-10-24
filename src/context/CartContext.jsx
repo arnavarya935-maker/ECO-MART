@@ -310,12 +310,9 @@ export function CartProvider({ children }) {
 
     // Check for proactive copilot nudge and sustainable swap alert
     recordSignal('cart_add', { id: product.id, category: product.category });
-    const isJudge = typeof window !== 'undefined' && localStorage.getItem('ecomart_judge_mode') === 'true';
     if (FEATURES.PROACTIVE_COPILOT) {
       const nudge = copilotEngine.checkCartAdd(product, productsData, {
-        isMuted: copilotMuted,
-        isJudgeMode: isJudge,
-        judgeOverride: false
+        isMuted: copilotMuted
       });
       if (nudge) {
         setCopilotNudge(nudge);
@@ -483,10 +480,8 @@ export function CartProvider({ children }) {
     if (!category) return;
     recordSignal('category_view', category);
     if (!FEATURES.PROACTIVE_COPILOT) return;
-    const isJudge = typeof window !== 'undefined' && localStorage.getItem('ecomart_judge_mode') === 'true';
     const nudge = copilotEngine.checkCategoryBrowsing(category, {
-      isMuted: copilotMuted,
-      isJudgeMode: isJudge
+      isMuted: copilotMuted
     });
     if (nudge) {
       setCopilotNudge(nudge);

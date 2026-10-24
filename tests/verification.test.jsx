@@ -26,6 +26,10 @@ import SettingsPage from '../src/pages/SettingsPage';
 import LoginPage from '../src/pages/LoginPage';
 import SignupPage from '../src/pages/SignupPage';
 import NotFoundPage from '../src/pages/NotFoundPage';
+import TruthLabPage from '../src/pages/TruthLabPage';
+import LabelScannerPage from '../src/pages/LabelScannerPage';
+import NewsPage from '../src/pages/NewsPage';
+import CourtroomPage from '../src/pages/CourtroomPage';
 
 // Setup environment mocks for server-side / node rendering
 if (typeof globalThis.localStorage === 'undefined' || !globalThis.localStorage?.getItem) {
@@ -309,5 +313,21 @@ describe('Route Smoke Test (Every route renders without console errors)', () => 
 
   it('renders Not Found route (*) without console errors', () => {
     renderRoute('/404', NotFoundPage);
+  });
+
+  it('renders Truth Lab route (/truth-lab) without console errors', () => {
+    renderRoute('/truth-lab', TruthLabPage);
+  });
+
+  it('renders Label Scanner route (/scan) without console errors', () => {
+    renderRoute('/scan', LabelScannerPage);
+  });
+
+  it('renders News route (/news) without console errors', () => {
+    renderRoute('/news', NewsPage);
+  });
+
+  it('renders Courtroom route (/courtroom) without console errors', () => {
+    renderRoute('/courtroom', CourtroomPage);
   });
 });
