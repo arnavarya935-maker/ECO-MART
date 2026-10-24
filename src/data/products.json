@@ -32,7 +32,17 @@
       "/images/products/kit-01.jpg",
       "/images/products/kit-01.svg"
     ],
-    "photoId": "photo-1584308666744-24d5c474f2ae"
+    "photoId": "photo-1584308666744-24d5c474f2ae",
+    "alt": "Handcrafted reusable bamboo fork, spoon, and chopsticks rolled in an organic cotton travel pouch.",
+    "lqip": "data:image/webp;base64,UklGRngAAABXRUJQVlA4IGwAAADwAwCdASoQABQAP1WQv1YxqaajsAgCMCqJZgCdMoABgClB+0EQP3wAAP47CdRMzSU0QvCA9ddBffzo+0NakLXuPwgfrf6YjHMv04nI5b9uWcyKuOmvT8Oi6B/5TY1VbAHRdfrkysrRcOVAAAA=",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Unsplash",
+      "photographer": "Imad Alassiry",
+      "photographerUrl": "https://unsplash.com/@imadalassiry",
+      "photoUrl": "https://unsplash.com/photos/a-wooden-box-filled-with-lots-of-wooden-utensils--6pOZeq7u-A",
+      "license": "Unsplash Free License"
+    }
   },
   {
     "id": "kit-01-conv",
@@ -63,7 +73,17 @@
       "/images/products/kit-01-conv.jpg",
       "/images/products/kit-01-conv.svg"
     ],
-    "photoId": "photo-1617347454431-f49d7ff5c3b1"
+    "photoId": "photo-1617347454431-f49d7ff5c3b1",
+    "alt": "Single-use white plastic disposable forks and spoons packed in a plastic sleeve.",
+    "lqip": "data:image/webp;base64,UklGRmgAAABXRUJQVlA4IFwAAACwAwCdASoQABQAP1WSv1YxqiajsAgCMCqJYwDLLB37GD3gD+jDgAD+SQ83sfixrEdeqWASjHsvsuETkj//8aYuWb84mY6X90CQtgmnXqNX9hs5BCSXNQVxohoAAA==",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Unsplash",
+      "photographer": "Padraig Treanor",
+      "photographerUrl": "https://unsplash.com/@padraigo",
+      "photoUrl": "https://unsplash.com/photos/silver-fork-on-black-surface-W9ZPxedQcrg",
+      "license": "Unsplash Free License"
+    }
   },
   {
     "id": "kit-02",
@@ -97,7 +117,17 @@
       "/images/products/kit-02.jpg",
       "/images/products/kit-02.svg"
     ],
-    "photoId": "photo-1546069901-ba9599a7e63c"
+    "photoId": "photo-1546069901-ba9599a7e63c",
+    "alt": "Smooth polished reclaimed natural coconut shell bowls sitting on an unadorned tabletop.",
+    "lqip": "data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAACwAwCdASoQABQAP1WQv1WxqaajMAgCMCqJZwAAWYWT1yyukzTFAAD+4xUq2HnpjItbte4JWcAxUZngJVJ0IMqjCRmcCfIWVda1O3MBAAA=",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "ayeletphotography",
+      "photographerUrl": "https://pixabay.com/users/ayeletphotography-1807591/",
+      "photoUrl": "https://pixabay.com/photos/coconut-flesh-food-coconut-shell-1123738/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "kit-02-conv",
@@ -128,7 +158,17 @@
       "/images/products/kit-02-conv.jpg",
       "/images/products/kit-02-conv.svg"
     ],
-    "photoId": "photo-1576402187878-974f70c890a5"
+    "photoId": "photo-1576402187878-974f70c890a5",
+    "alt": "Synthetic plastic melamine patterned dinner bowls on a countertop.",
+    "lqip": "data:image/webp;base64,UklGRogAAABXRUJQVlA4IHwAAAAQBACdASoQABQAP1WQv1YxqaajsAgCMCqJZACdABjszIHwEnDDbu2AAADNmPZ8A6pUBhRzTqE+78SikZqQcfNQxRJFdK9En1+MfnQ29rKgldrSaIShmQIFlGpe+xgEbR6yXbYpeZEzy6kCZod4ScFM6DqZ0vDHDmVPDQAA",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "joannawielgosz",
+      "photographerUrl": "https://pixabay.com/users/joannawielgosz-168212/",
+      "photoUrl": "https://pixabay.com/photos/ramen-soup-food-asian-pasta-7238665/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "kit-03",
@@ -158,11 +198,22 @@
     ],
     "imageQuery": "1607344645866-009c320c5ab8",
     "photographer": "Tania Melnyczuk",
-    "image": "/images/products/kit-03.svg",
+    "image": "/images/products/kit-03.jpg",
     "images": [
+      "/images/products/kit-03.jpg",
       "/images/products/kit-03.svg"
     ],
-    "photoId": "photo-1607344645866-009c320c5ab8"
+    "photoId": "photo-1607344645866-009c320c5ab8",
+    "alt": "Reusable golden honeycomb patterned beeswax food storage wraps folded on a kitchen counter.",
+    "lqip": "data:image/webp;base64,UklGRm4AAABXRUJQVlA4IGIAAADQAwCdASoQABQAP1WSv1WxqiajMAgCMCqJQBdgBDzsB9j0YNR5uwAA3jI5PPhpfp2NEvb9u9gIuTJrdViYZ1bNuYh5S/d6OrlhpWXNHrFvtF7vVeNtqrIZUMaqjGh9CMQAAA==",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Unsplash",
+      "photographer": "Jack Cole",
+      "photographerUrl": "https://unsplash.com/@thisisjackcole",
+      "photoUrl": "https://unsplash.com/photos/a-person-holding-a-piece-of-cheese-on-a-cutting-board-UlPIZi9hONI",
+      "license": "Unsplash Free License"
+    }
   },
   {
     "id": "kit-03-conv",
@@ -193,7 +244,17 @@
       "/images/products/kit-03-conv.jpg",
       "/images/products/kit-03-conv.svg"
     ],
-    "photoId": "photo-1586528116311-ad8dd3c8310d"
+    "photoId": "photo-1586528116311-ad8dd3c8310d",
+    "alt": "Disposable transparent PVC plastic food wrap film on a roll with cardboard cutter.",
+    "lqip": "data:image/webp;base64,UklGRnQAAABXRUJQVlA4IGgAAADQAwCdASoQABQAP1WSvlWxqiajMAgCMCqJYgBUfoSrSby5lDktpiAA/uXxP4Z2xJ7sFQjjeL4kcw8H66TSSBISAofM1vBVjVGJFrqd4PBzTAbr5BXMcT66xox6WO6ase2Egr66AOAAAA==",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Unsplash",
+      "photographer": "Sophia Marston",
+      "photographerUrl": "https://unsplash.com/@sophiajmars",
+      "photoUrl": "https://unsplash.com/photos/two-fruits-bZI7Wj_KoWw",
+      "license": "Unsplash Free License"
+    }
   },
   {
     "id": "kit-04",
@@ -227,7 +288,17 @@
       "/images/products/kit-04.jpg",
       "/images/products/kit-04.svg"
     ],
-    "photoId": "photo-1602143407151-7111542de6e8"
+    "photoId": "photo-1602143407151-7111542de6e8",
+    "alt": "Ayurvedic traditional hammered pure copper water bottle with leakproof brass cap.",
+    "lqip": "data:image/webp;base64,UklGRpIAAABXRUJQVlA4IIYAAABQBACdASoQABQAP1WSv1YxqiajsAgCMCqJbACdMoR3BtABMVeh+IKKu7dAAPaySlPNVVJN51s+qVWA0yOy5khBcwQcFuEC7JsfCiTiOhlHHIiOxYgNm5MUE3DoX0RoUrao16NGQxTl6Z+fsFDDcez40bGM8JaYR2VvwjAEHnX8ooIdfQAAAA==",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Unsplash",
+      "photographer": "Harsh Jain",
+      "photographerUrl": "https://unsplash.com/@harshjain1",
+      "photoUrl": "https://unsplash.com/photos/brown-house-s4Pi5Cyk47w",
+      "license": "Unsplash Free License"
+    }
   },
   {
     "id": "kit-04-conv",
@@ -258,7 +329,17 @@
       "/images/products/kit-04-conv.jpg",
       "/images/products/kit-04-conv.svg"
     ],
-    "photoId": "photo-1523362628745-0c100150b504"
+    "photoId": "photo-1523362628745-0c100150b504",
+    "alt": "Single-use disposable transparent PET plastic water bottles with blue screw caps.",
+    "lqip": "data:image/webp;base64,UklGRnIAAABXRUJQVlA4IGYAAADwAwCdASoQABQAP1WQv1WxqaajMAgCMCqJYwDMHBusJ+dLU15Y9JtEAP3bs5fzZ634xKjEISZpdpb9xpuniNoZichN0eu8Ya6+nLNakCy+ju5TJukfZFA3CaOPJnxOHOOLPczl8AA=",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "Hans",
+      "photographerUrl": "https://pixabay.com/users/Hans-2/",
+      "photoUrl": "https://pixabay.com/photos/bottles-plastic-bottle-bottle-60466/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "care-01",
@@ -288,11 +369,22 @@
     ],
     "imageQuery": "1607613009820-a29f7ab81c04",
     "photographer": "Superkitina",
-    "image": "/images/products/care-01.svg",
+    "image": "/images/products/care-01.jpg",
     "images": [
+      "/images/products/care-01.jpg",
       "/images/products/care-01.svg"
     ],
-    "photoId": "photo-1607613009820-a29f7ab81c04"
+    "photoId": "photo-1607613009820-a29f7ab81c04",
+    "alt": "Biodegradable natural Moso bamboo toothbrushes with charcoal bristles lying flat.",
+    "lqip": "data:image/webp;base64,UklGRmgAAABXRUJQVlA4IFwAAADQAwCdASoQABQAP1WSv1YxqiajsAgCMCqJQBYdhCjm9ngzZLynCwAA/tMb1lT0vMvinzxx5nluOHwdJrRZlx3djeaEFK2eoafKJdhHXx5fD1Yu7ZyOu8gh3PyQAA==",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Unsplash",
+      "photographer": "Sara Groblechner",
+      "photographerUrl": "https://unsplash.com/@groblechnersara",
+      "photoUrl": "https://unsplash.com/photos/brown-wooden-sticks-in-gray-ceramic-bowl-7TgbRVEYdYY",
+      "license": "Unsplash Free License"
+    }
   },
   {
     "id": "care-01-conv",
@@ -323,7 +415,17 @@
       "/images/products/care-01-conv.jpg",
       "/images/products/care-01-conv.svg"
     ],
-    "photoId": "photo-1559494007-9f5847c49d94"
+    "photoId": "photo-1559494007-9f5847c49d94",
+    "alt": "Conventional injection-molded plastic toothbrushes with colorful nylon bristles.",
+    "lqip": "data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAACwAwCdASoQABQAP1WYxFexqqejsAgCMCqJZgCdDiMwIYbv62eM4AD8o6k/kxUTZ9jys2peGTREQOITvpFXo8nOADJ7APwJa4yol17Gx6Xg02AA",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Unsplash",
+      "photographer": "Pawel Czerwinski",
+      "photographerUrl": "https://unsplash.com/@pawel_czerwinski",
+      "photoUrl": "https://unsplash.com/photos/purple-and-green-toothbrush-a4MRm2Zbj2E",
+      "license": "Unsplash Free License"
+    }
   },
   {
     "id": "care-02",
@@ -353,11 +455,22 @@
     ],
     "imageQuery": "1607006314180-a6ddfc02f829",
     "photographer": "Sarah Chai",
-    "image": "/images/products/care-02.svg",
+    "image": "/images/products/care-02.jpg",
     "images": [
+      "/images/products/care-02.jpg",
       "/images/products/care-02.svg"
     ],
-    "photoId": "photo-1607006314180-a6ddfc02f829"
+    "photoId": "photo-1607006314180-a6ddfc02f829",
+    "alt": "Handmade organic solid shampoo bar made with neem and argan botanical extracts.",
+    "lqip": "data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAACwAwCdASoQABQAP1WSv1YxqiajsAgCMCqJZV2AWeATljJcIBODwAD+6j3AphDKFvAcvuCrpJ/QdGaWz7cq9ZHXFinkrH1nCfQAAA==",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Unsplash",
+      "photographer": "Diana Light",
+      "photographerUrl": "https://unsplash.com/@dreamcatchlight",
+      "photoUrl": "https://unsplash.com/photos/white-and-brown-wooden-rolling-pin-pBBxMUCgwuU",
+      "license": "Unsplash Free License"
+    }
   },
   {
     "id": "care-02-conv",
@@ -383,11 +496,22 @@
     ],
     "imageQuery": "1584308666744-24d5c474f2ae",
     "photographer": "Curology",
-    "image": "/images/products/care-02-conv.svg",
+    "image": "/images/products/care-02-conv.jpg",
     "images": [
+      "/images/products/care-02-conv.jpg",
       "/images/products/care-02-conv.svg"
     ],
-    "photoId": "photo-1584308666744-24d5c474f2ae"
+    "photoId": "photo-1584308666744-24d5c474f2ae",
+    "alt": "Commercial liquid chemical shampoo in an opaque HDPE plastic pump bottle.",
+    "lqip": "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAAAQBACdASoQABQAP1WYwFcxqyajsAgCMCqJZQAAW+vk97SmGsgC25MZYAD+0uD06loRbdSGOfm3Blrl6v/b2so0tD8NAeHTfq781k+GffKayVXLEbdymT5651Q25hAA",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Unsplash",
+      "photographer": "Sincerely Media",
+      "photographerUrl": "https://unsplash.com/@sincerelymedia",
+      "photoUrl": "https://unsplash.com/photos/white-plastic-bottle-on-white-table-LtGwgq7r_mc",
+      "license": "Unsplash Free License"
+    }
   },
   {
     "id": "care-03",
@@ -421,7 +545,17 @@
       "/images/products/care-03.jpg",
       "/images/products/care-03.svg"
     ],
-    "photoId": "photo-1508380702597-707c1b00695c"
+    "photoId": "photo-1508380702597-707c1b00695c",
+    "alt": "Precision-machined double-edge brass safety razor with stainless steel knurled handle.",
+    "lqip": "data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAACQAwCdASoQABQAP1WQvlWxqaajMAgCMCqJYwAAWwRgKA+R4AtIAP3tQDXtbvnJJGpmGKPEfcbptUsqaCxWK5uYJmDMDTPJUgAmQRUAAAA=",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Unsplash",
+      "photographer": "David Trinks",
+      "photographerUrl": "https://unsplash.com/@dtrinksrph",
+      "photoUrl": "https://unsplash.com/photos/a-silver-double-edge-safety-razor-in-a-bowl-K-sTvjBW_Mg",
+      "license": "Unsplash Free License"
+    }
   },
   {
     "id": "care-03-conv",
@@ -452,7 +586,17 @@
       "/images/products/care-03-conv.jpg",
       "/images/products/care-03-conv.svg"
     ],
-    "photoId": "photo-1585829365295-ab7cd400c167"
+    "photoId": "photo-1585829365295-ab7cd400c167",
+    "alt": "Multi-blade disposable blue plastic razors packaged for single-use shaving.",
+    "lqip": "data:image/webp;base64,UklGRpYAAABXRUJQVlA4IIoAAABwBACdASoQABQAP1WSvlWxqiajMAgCMCqJbACdL1Fx/ANMtapn9M7SybLMAAD+omDuYr/WRf5bGdulkdjkYhm4yUZBocJ3VGz9KcFf/jyhockkCj9spDfxQCYnj7P5JiUMKeMQX1V2EsWjdov8/La/WdbPgvv807zVV9DW5NxP16LbHoz4aEAAAAA=",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Unsplash",
+      "photographer": "amirhosein esmaeili",
+      "photographerUrl": "https://unsplash.com/@im__thelight",
+      "photoUrl": "https://unsplash.com/photos/stainless-steel-nail-cutter-on-red-surface-MrP7rmAg1Lw",
+      "license": "Unsplash Free License"
+    }
   },
   {
     "id": "care-04",
@@ -481,11 +625,22 @@
     ],
     "imageQuery": "1608248597359-009772a8c3d2",
     "photographer": "Brittany Neale",
-    "image": "/images/products/care-04.svg",
+    "image": "/images/products/care-04.jpg",
     "images": [
+      "/images/products/care-04.jpg",
       "/images/products/care-04.svg"
     ],
-    "photoId": "photo-1608248597359-009772a8c3d2"
+    "photoId": "photo-1608248597359-009772a8c3d2",
+    "alt": "Natural raw shea butter and mint conditioning lip balm in a circular screw-top aluminium tin.",
+    "lqip": "data:image/webp;base64,UklGRkAAAABXRUJQVlA4IDQAAADQAgCdASoQABQALxGq1WqmMbGxkYEQSzgABc6LgikAAP7qf+Vf1bvWsq5Bsop8A/EEAAAA",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Unsplash",
+      "photographer": "Zhivko Minkov",
+      "photographerUrl": "https://unsplash.com/@lazywhiskey",
+      "photoUrl": "https://unsplash.com/photos/an-american-flag-design-on-a-small-tin-4B0XAbRCHKw",
+      "license": "Unsplash Free License"
+    }
   },
   {
     "id": "care-04-conv",
@@ -516,7 +671,17 @@
       "/images/products/care-04-conv.jpg",
       "/images/products/care-04-conv.svg"
     ],
-    "photoId": "photo-1599305445671-ac291c95aaa9"
+    "photoId": "photo-1599305445671-ac291c95aaa9",
+    "alt": "Conventional petroleum jelly twist-up lip balm stick in a printed plastic tube.",
+    "lqip": "data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAABwAwCdASoQABQAP1WkxFixraejsAgCMCqJYwDCgGlgAss/sIAA/vaC/jpX0umg/umcjIkXvoHnhgroskquSrAtvEwMvsuAAAA=",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Unsplash",
+      "photographer": "Raychan",
+      "photographerUrl": "https://unsplash.com/@wx1993",
+      "photoUrl": "https://unsplash.com/photos/lip-glow-color-reviver-balm-bottle-ggXpnt03L0Y",
+      "license": "Unsplash Free License"
+    }
   },
   {
     "id": "fash-01",
@@ -551,7 +716,17 @@
       "/images/products/fash-01.jpg",
       "/images/products/fash-01.svg"
     ],
-    "photoId": "photo-1598033129183-c4f50c736f10"
+    "photoId": "photo-1598033129183-c4f50c736f10",
+    "alt": "Breathable handspun organic Khadi cotton button-down shirt neatly folded.",
+    "lqip": "data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAADQAwCdASoQABQAP1WSv1WxqiajMAgCMCqJQBdgA9Lek5+2J2gL6wAA/tlO7XbTnJCktf5f+sZAzta4EJQq5M6hsI04T4rEnTdqS13n6wxHbcAA",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Unsplash",
+      "photographer": "Lisanto 李奕良",
+      "photographerUrl": "https://unsplash.com/@lisanto_",
+      "photoUrl": "https://unsplash.com/photos/white-polo-shirt-hanged-on-brown-wooden-cabinet-ve2dwNxZ5Rg",
+      "license": "Unsplash Free License"
+    }
   },
   {
     "id": "fash-01-conv",
@@ -577,11 +752,22 @@
     ],
     "imageQuery": "1620012253295-c15c429f6b96",
     "photographer": "Nimble Made",
-    "image": "/images/products/fash-01-conv.svg",
+    "image": "/images/products/fash-01-conv.jpg",
     "images": [
+      "/images/products/fash-01-conv.jpg",
       "/images/products/fash-01-conv.svg"
     ],
-    "photoId": "photo-1620012253295-c15c429f6b96"
+    "photoId": "photo-1620012253295-c15c429f6b96",
+    "alt": "Classic pressed long-sleeve cotton-polyester blend formal dress shirts neatly folded.",
+    "lqip": "data:image/webp;base64,UklGRlIAAABXRUJQVlA4IEYAAACwAwCdASoQABQAP1WSv1WxqiajMAgCMCqJZwAAUrJR4cwNay7CCAD+xC5ZR2vbL2NvmIssIaxVh+mHKu/6rAAYsFB3jgAA",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "Gadini",
+      "photographerUrl": "https://pixabay.com/users/Gadini-388416/",
+      "photoUrl": "https://pixabay.com/photos/shirts-dress-shirts-clothing-591750/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "fash-02",
@@ -615,7 +801,17 @@
       "/images/products/fash-02.jpg",
       "/images/products/fash-02.svg"
     ],
-    "photoId": "photo-1560769629-975ec94e6a86"
+    "photoId": "photo-1560769629-975ec94e6a86",
+    "alt": "Eco-conscious low-top sneakers constructed from organic canvas with vulcanized soles.",
+    "lqip": "data:image/webp;base64,UklGRlwAAABXRUJQVlA4IFAAAADwAwCdASoQABQAP1WSv1YxqiajsAgCMCqJZgBT8AY0ZfFzq1w4XFhgAP6e1EbcvpqOZx2sKwZJtuQ6Nb7+IfZT8Ayz6SHeoP6QhybWgJAAAA==",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "u_2k4dtu9w7u",
+      "photographerUrl": "https://pixabay.com/users/u_2k4dtu9w7u-25568599/",
+      "photoUrl": "https://pixabay.com/photos/shoes-fashion-shopping-8212405/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "fash-02-conv",
@@ -646,7 +842,17 @@
       "/images/products/fash-02-conv.jpg",
       "/images/products/fash-02-conv.svg"
     ],
-    "photoId": "photo-1542291026-7eec264c27ff"
+    "photoId": "photo-1542291026-7eec264c27ff",
+    "alt": "Mass-produced synthetic athletic running shoes with molded rubber outsoles.",
+    "lqip": "data:image/webp;base64,UklGRlwAAABXRUJQVlA4IFAAAABQAwCdASoQABQAP1WQvlWxqaajMAgCMCqJQAALe4YihSsYAAD+5xO8Dj1jG88P1NlBD9icdQfyj9IaSgESwpQOUqMqvJYVILTMQ2q/C7AAAA==",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "stux",
+      "photographerUrl": "https://pixabay.com/users/stux-12364/",
+      "photoUrl": "https://pixabay.com/photos/running-shoe-shoe-brooks-371625/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "fash-03",
@@ -680,7 +886,17 @@
       "/images/products/fash-03.jpg",
       "/images/products/fash-03.svg"
     ],
-    "photoId": "photo-1609357605129-26f69add5d6e"
+    "photoId": "photo-1609357605129-26f69add5d6e",
+    "alt": "Artisanal cruelty-free Ahimsa peace silk stole draped gracefully across neutral linen.",
+    "lqip": "data:image/webp;base64,UklGRo4AAABXRUJQVlA4IIIAAABwBACdASoQABQAP1WSv1YxqiajsAgCMCqJagC7MoBOACJGydrdgVQN+DjuwAD+fjEjvFdC1XDADUlqvVeqykJeZeqKYZBXfN08RR8iezWVQgMjePX+RmeyqNKPcKM7Q7qm3uwktU5OS3BkZ0tjlF5FxmlxXYeo+0R+zWLKFAfU24gA",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Unsplash",
+      "photographer": "Siora Photography",
+      "photographerUrl": "https://unsplash.com/@siora18",
+      "photoUrl": "https://unsplash.com/photos/purple-and-white-textile-JGl6nH5XhMU",
+      "license": "Unsplash Free License"
+    }
   },
   {
     "id": "fash-03-conv",
@@ -711,7 +927,17 @@
       "/images/products/fash-03-conv.jpg",
       "/images/products/fash-03-conv.svg"
     ],
-    "photoId": "photo-1520903920243-00d872a2d1c9"
+    "photoId": "photo-1520903920243-00d872a2d1c9",
+    "alt": "Mass-manufactured synthetic acrylic and polyester printed winter neck scarf.",
+    "lqip": "data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAABwAwCdASoQABQAP1WQvlWxqaajMAgCMCqJZQAAUayUt1S7u9AA/nGuk4CxSJLwlLu3n8WqJRZc2s8l8VyTUcrAwHY2qTc61VFeIQAAAAA=",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Unsplash",
+      "photographer": "Susan Wilkinson",
+      "photographerUrl": "https://unsplash.com/@susan_wilkinson",
+      "photoUrl": "https://unsplash.com/photos/red-and-black-striped-textile-9dDJk8lvUwg",
+      "license": "Unsplash Free License"
+    }
   },
   {
     "id": "fash-04",
@@ -745,7 +971,17 @@
       "/images/products/fash-04.jpg",
       "/images/products/fash-04.svg"
     ],
-    "photoId": "photo-1586350977771-b3b0abd50c82"
+    "photoId": "photo-1586350977771-b3b0abd50c82",
+    "alt": "Breathable antibacterial crew socks knitted from sustainable organic bamboo viscose.",
+    "lqip": "data:image/webp;base64,UklGRmgAAABXRUJQVlA4IFwAAADwAwCdASoQABQAP1WSv1YxqiajsAgCMCqJZQDCgBjyILN0eikWaewAAP5UQtr1PSrspulovdFd2WSiZZFCKY+bhbF/BxTXTUvZASN1HJ8ID43Pw0SJ+yx/EgAAAA==",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Unsplash",
+      "photographer": "NIKHIL",
+      "photographerUrl": "https://unsplash.com/@vinikhill",
+      "photoUrl": "https://unsplash.com/photos/a-pair-of-green-socks-laying-on-top-of-a-white-surface-8Al2ylhlCYk",
+      "license": "Unsplash Free License"
+    }
   },
   {
     "id": "fash-04-conv",
@@ -771,11 +1007,22 @@
     ],
     "imageQuery": "1582966770380-4822839218d6",
     "photographer": "Lucas Hoang",
-    "image": "/images/products/fash-04-conv.svg",
+    "image": "/images/products/fash-04-conv.jpg",
     "images": [
+      "/images/products/fash-04-conv.jpg",
       "/images/products/fash-04-conv.svg"
     ],
-    "photoId": "photo-1582966770380-4822839218d6"
+    "photoId": "photo-1582966770380-4822839218d6",
+    "alt": "Line of freshly washed athletic socks hanging on a wooden clothespin dryer line.",
+    "lqip": "data:image/webp;base64,UklGRmQAAABXRUJQVlA4IFgAAACwAwCdASoQABQAP1WSv1YxqiajsAgCMCqJQAALyAFDS1ejyJk4gAD+eActgAXylHsAojRAMR3GJJ3EM6eUw0xcVJG4SDNM8EQ11O8s1REGqzozQCtr3sAA",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "PublicDomainPictures",
+      "photographerUrl": "https://pixabay.com/users/PublicDomainPictures-14/",
+      "photoUrl": "https://pixabay.com/photos/sock-socks-laundry-clothespin-hang-19562/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "stat-01",
@@ -810,7 +1057,17 @@
       "/images/products/stat-01.jpg",
       "/images/products/stat-01.svg"
     ],
-    "photoId": "photo-1544816155-12df9643f363"
+    "photoId": "photo-1544816155-12df9643f363",
+    "alt": "Artisanal plantable seed paper journal embedded with marigold and basil herb seeds.",
+    "lqip": "data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAACwAwCdASoQABQAP1WQvlWxqaajMAgCMCqJYwCdABVQlkntrg4rAADbgSWXwwyBKLh/R6l4WO6bCXjuHDhphjXKmpCwWuVRbYsitUxWlPybsDAA",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Unsplash",
+      "photographer": "Prophsee Journals",
+      "photographerUrl": "https://unsplash.com/@prophsee",
+      "photoUrl": "https://unsplash.com/photos/an-open-notebook-sitting-on-top-of-a-wooden-table-mtKV-bjjaGk",
+      "license": "Unsplash Free License"
+    }
   },
   {
     "id": "stat-01-conv",
@@ -841,7 +1098,17 @@
       "/images/products/stat-01-conv.jpg",
       "/images/products/stat-01-conv.svg"
     ],
-    "photoId": "photo-1589998059171-988d887df646"
+    "photoId": "photo-1589998059171-988d887df646",
+    "alt": "Plastic-laminated spiral-bound student notebook with bleached wood-pulp pages.",
+    "lqip": "data:image/webp;base64,UklGRm4AAABXRUJQVlA4IGIAAAAQBACdASoQABQAP1WQvlWxqaajMAgCMCqJZQC7ABS5pOMdsxS7fxaWgAD3dtSiKmuBbg7zpKQAyew5PEmAPZbrqrUCA5vsisv67kZt4SPxoIz5+XC1O1HqExVILRBmzAAAAA==",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "MsErinEast",
+      "photographerUrl": "https://pixabay.com/users/MsErinEast-13683390/",
+      "photoUrl": "https://pixabay.com/photos/vintage-flatlay-write-antique-4494596/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "stat-02",
@@ -870,11 +1137,22 @@
     ],
     "imageQuery": "1585336261026-41804f877d94",
     "photographer": "Ashkan Forouzani",
-    "image": "/images/products/stat-02.svg",
+    "image": "/images/products/stat-02.jpg",
     "images": [
+      "/images/products/stat-02.jpg",
       "/images/products/stat-02.svg"
     ],
-    "photoId": "photo-1585336261026-41804f877d94"
+    "photoId": "photo-1585336261026-41804f877d94",
+    "alt": "Stationery ballpoint pens rolled from reclaimed newsprint with biodegradable caps.",
+    "lqip": "data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAACwAwCdASoQABQAP1WSwFYxqiajsAgCMCqJQBibBEAIi65NYw47YAD+5x8gQOJYaLern9D3EmAft2oMc1JgRwZUUxrMpNZBtSUAAA==",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "hayabuzo",
+      "photographerUrl": "https://pixabay.com/users/hayabuzo-2236518/",
+      "photoUrl": "https://pixabay.com/photos/sheets-box-paper-pen-1503827/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "stat-02-conv",
@@ -905,7 +1183,17 @@
       "/images/products/stat-02-conv.jpg",
       "/images/products/stat-02-conv.svg"
     ],
-    "photoId": "photo-1583485088034-697b5bc54ccd"
+    "photoId": "photo-1583485088034-697b5bc54ccd",
+    "alt": "Standard disposable plastic ballpoint pens with blue ink caps on an office desktop.",
+    "lqip": "data:image/webp;base64,UklGRngAAABXRUJQVlA4IGwAAAAwBACdASoQABQAP1WSv1WxqiajMAgCMCqJaACpAiAAKUdtVkqbzlRuKYAA/srlbfDtAuAaNfyk+Mik5+ySBdD9ghR0GvvIPgSHes47dfQJGKP53nxhozKIIcEyzXfFVmBdDZYRt+6L96kkAAA=",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "NickyPe",
+      "photographerUrl": "https://pixabay.com/users/NickyPe-10327513/",
+      "photoUrl": "https://pixabay.com/photos/ballpoint-pen-stationery-write-6527860/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "stat-03",
@@ -939,7 +1227,17 @@
       "/images/products/stat-03.jpg",
       "/images/products/stat-03.svg"
     ],
-    "photoId": "photo-1516962215378-7fa2e137ae93"
+    "photoId": "photo-1516962215378-7fa2e137ae93",
+    "alt": "Hand-carved reclaimed teak wood desktop organizer with dedicated smartphone slot.",
+    "lqip": "data:image/webp;base64,UklGRowAAABXRUJQVlA4IIAAAADQAwCdASoQABQAP1WQvlWxqaajMAgCMCqJZwAD5Vm188JJ3dCmIwAA/tQwwXCFJT/wjn7Hja7AYBC8lLqbEevgrZT40HgCWEpbdaJv7Fs+JgI41URtsjGc/wMep1H8V60Ud+YpVnupn6McwX1HqyqnMORjJNdZBTv4LQIDAjgAAA==",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "kaboompics",
+      "photographerUrl": "https://pixabay.com/users/kaboompics-1013994/",
+      "photoUrl": "https://pixabay.com/photos/mobile-phone-cell-smartphone-nokia-791058/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "stat-03-conv",
@@ -970,7 +1268,17 @@
       "/images/products/stat-03-conv.jpg",
       "/images/products/stat-03-conv.svg"
     ],
-    "photoId": "photo-1586075010923-2dd4570fb338"
+    "photoId": "photo-1586075010923-2dd4570fb338",
+    "alt": "Molded clear acrylic plastic desk stationery caddy with multiple compartments.",
+    "lqip": "data:image/webp;base64,UklGRoAAAABXRUJQVlA4IHQAAAAQBACdASoQABQAP1WQvlWxqaajMAgCMCqJbACdMoRwHZ/AFnMLSZpTSADG5LbnOL0n8FipKKEhZNQXvSD4fdDsr1kbNB331DHVO+sLuEJPte3qxTcyym6JgMwcSjzo5Pkl4IWqeXhPuH1xOka7ZxZL9wAAAA==",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "eluela31",
+      "photographerUrl": "https://pixabay.com/users/eluela31-4894494/",
+      "photoUrl": "https://pixabay.com/photos/art-multicoloured-to-dye-abstract-2369664/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "stat-04",
@@ -1004,7 +1312,17 @@
       "/images/products/stat-04.jpg",
       "/images/products/stat-04.svg"
     ],
-    "photoId": "photo-1506784983877-45594efa4cbe"
+    "photoId": "photo-1506784983877-45594efa4cbe",
+    "alt": "Sustainable tree-free notebook featuring a textured natural Mediterranean cork hardcover.",
+    "lqip": "data:image/webp;base64,UklGRlIAAABXRUJQVlA4IEYAAACQAwCdASoQABQAP1WSv1WxqiajMAgCMCqJZQAARl4F72kU7r4gAP5S9CDD7eQiKunQ0PCSVaQ6AK73emAeiJfg5SLbOAAA",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "fotografierende",
+      "photographerUrl": "https://pixabay.com/users/fotografierende-4558536/",
+      "photoUrl": "https://pixabay.com/photos/write-notebook-pen-hand-paper-4491416/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "stat-04-conv",
@@ -1035,7 +1353,17 @@
       "/images/products/stat-04-conv.jpg",
       "/images/products/stat-04-conv.svg"
     ],
-    "photoId": "photo-1531346878377-a5be20888e57"
+    "photoId": "photo-1531346878377-a5be20888e57",
+    "alt": "Petrochemical synthetic faux-PU leather executive personal diary with elastic band.",
+    "lqip": "data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAACQAwCdASoQABQAP1WUv1YxqiajsAgCMCqJaACdMoAEZn0yy/8AAP7c7AhdWrj3ojAeLoQxjALOfko9Rm7u47LhpyORauAfZWNQAA==",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "Darkmoon_Art",
+      "photographerUrl": "https://pixabay.com/users/Darkmoon_Art-1664300/",
+      "photoUrl": "https://pixabay.com/photos/a-book-isolated-book-cover-empty-3088777/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "home-01",
@@ -1070,7 +1398,17 @@
       "/images/products/home-01.jpg",
       "/images/products/home-01.svg"
     ],
-    "photoId": "photo-1603006905003-be475563bc59"
+    "photoId": "photo-1603006905003-be475563bc59",
+    "alt": "Hand-poured lemon and blackberry scented soy wax candle in an amber glass jar.",
+    "lqip": "data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAADQAwCdASoQABQAP1WSv1WxqiajMAgCMCqJZgDDNB6sQ1p5c6JzxEAA/dJDWQXlItB4JqKLblSRvy1Oeed4cEDi1SGasVPTPG9l8VSoPSMh4AAA",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "Tikovka1355",
+      "photographerUrl": "https://pixabay.com/users/Tikovka1355-16935155/",
+      "photoUrl": "https://pixabay.com/photos/lemon-candle-scented-candle-6668364/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "home-01-conv",
@@ -1096,11 +1434,22 @@
     ],
     "imageQuery": "1572726729437-3eb32111b4af",
     "photographer": "Dima Pechurin",
-    "image": "/images/products/home-01-conv.svg",
+    "image": "/images/products/home-01-conv.jpg",
     "images": [
+      "/images/products/home-01-conv.jpg",
       "/images/products/home-01-conv.svg"
     ],
-    "photoId": "photo-1572726729437-3eb32111b4af"
+    "photoId": "photo-1572726729437-3eb32111b4af",
+    "alt": "Industrial paraffin wax candle scented with synthetic fragrance oils in a plastic tub.",
+    "lqip": "data:image/webp;base64,UklGRmgAAABXRUJQVlA4IFwAAACwAwCdASoQABQAP1WSv1YxqiajsAgCMCqJZACdACHPVjOy6mzIrAD+cNdo1sfC6ja4vnw0xWR2pSPNNjOGRVVceROZvYcL1lM6k5TdZ26tOoi0/VUZiIVjZkAAAA==",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "Darya-Greengrey",
+      "photographerUrl": "https://pixabay.com/users/Darya-Greengrey-24193189/",
+      "photoUrl": "https://pixabay.com/photos/candles-massage-spa-relaxation-7304948/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "home-02",
@@ -1129,11 +1478,22 @@
     ],
     "imageQuery": "1533090161767-e6ffed986b88",
     "photographer": "Brooke Cagle",
-    "image": "/images/products/home-02.svg",
+    "image": "/images/products/home-02.jpg",
     "images": [
+      "/images/products/home-02.jpg",
       "/images/products/home-02.svg"
     ],
-    "photoId": "photo-1533090161767-e6ffed986b88"
+    "photoId": "photo-1533090161767-e6ffed986b88",
+    "alt": "Rustic serving tray handcrafted from upcycled pine wood with elegant brass handle inlays.",
+    "lqip": "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAADQAwCdASoQABQAP1WSv1YxqiajsAgCMCqJYwC7ACHfCQ1ePWfM3OgA/p2UssUPTDk3MhNoGA7eLi1OUNMMxWUT+bIs5YpWgHuUnAAA",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "DigitalDDay",
+      "photographerUrl": "https://pixabay.com/users/DigitalDDay-2936879/",
+      "photoUrl": "https://pixabay.com/photos/coffee-beverage-caffeine-breakfast-4908764/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "home-02-conv",
@@ -1164,7 +1524,17 @@
       "/images/products/home-02-conv.jpg",
       "/images/products/home-02-conv.svg"
     ],
-    "photoId": "photo-1590736969955-71cc94801759"
+    "photoId": "photo-1590736969955-71cc94801759",
+    "alt": "Glossy injection-molded acrylic food serving tray holding glasses and bottles.",
+    "lqip": "data:image/webp;base64,UklGRnoAAABXRUJQVlA4IG4AAABQBACdASoQABQAP1WSv1YxqiajsAgCMCqJZACdMoADTleFTKNV0fegnHIAAP7i5IpHoSDd2cYDLaX+1R6/j38Icw1uq/9yekC/iLqmNhPicsmurKvjyAL1tkZN/B5JnVXs+mW+wnMKlNJiKTRgAA==",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "Pexels",
+      "photographerUrl": "https://pixabay.com/users/Pexels-2286921/",
+      "photoUrl": "https://pixabay.com/photos/drinks-alcohol-glasses-champagne-1283608/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "home-03",
@@ -1199,7 +1569,17 @@
       "/images/products/home-03.jpg",
       "/images/products/home-03.svg"
     ],
-    "photoId": "photo-1588854337236-6889d631faa8"
+    "photoId": "photo-1588854337236-6889d631faa8",
+    "alt": "Heavy-duty natural coconut coir entrance doormat with durable woven husk fibers.",
+    "lqip": "data:image/webp;base64,UklGRloAAABXRUJQVlA4IE4AAADwAwCdASoQABQAP1WQvlWxqaajMAgCMCqJZgCdMoADUBAMnTbZ9DiQAPhZfMjlAiWyF1W2TwQdwnryoQfzoTDhu/2peWMbiD2EuCNfAAA=",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "geralt",
+      "photographerUrl": "https://pixabay.com/users/geralt-9301/",
+      "photoUrl": "https://pixabay.com/photos/door-portal-entrance-door-wall-259729/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "home-03-conv",
@@ -1230,7 +1610,17 @@
       "/images/products/home-03-conv.jpg",
       "/images/products/home-03-conv.svg"
     ],
-    "photoId": "photo-1513694203232-719a280e022f"
+    "photoId": "photo-1513694203232-719a280e022f",
+    "alt": "Synthetic petroleum-based black PVC rubber scraper floor mat.",
+    "lqip": "data:image/webp;base64,UklGRm4AAABXRUJQVlA4IGIAAAAwBACdASoQABQAP1WQv1WxqaajMAgCMCqJQBOmUABqQex6PxNG5kOx7gAA90vMDERkFCotqcLYwXuLZcKdxmtinY1EipBgFv6KIG8rzyJEre+TCumo/fuI17RsTnQaoQAAAA==",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "12019",
+      "photographerUrl": "https://pixabay.com/users/12019-12019/",
+      "photoUrl": "https://pixabay.com/photos/door-building-architecture-108198/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "home-04",
@@ -1264,7 +1654,17 @@
       "/images/products/home-04.jpg",
       "/images/products/home-04.svg"
     ],
-    "photoId": "photo-1485955900006-10f4d324d411"
+    "photoId": "photo-1485955900006-10f4d324d411",
+    "alt": "Unglazed porous ceramic self-watering herb planter with nutrient-rich potting soil.",
+    "lqip": "data:image/webp;base64,UklGRnQAAABXRUJQVlA4IGgAAADwAwCdASoQABQAP1WQv1WxqaajMAgCMCqJbAC7ABalD0jqwbAi2daAAPihYNKdg7YH4Mru10u+xDhlP6hr8Asdeniv9deit9XELHIj04pAbvjVMZx3vebSuUlcSLeZs59/nDMz8eIAAA==",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "fotoerich",
+      "photographerUrl": "https://pixabay.com/users/fotoerich-4176355/",
+      "photoUrl": "https://pixabay.com/photos/cacti-plants-cactus-green-spur-2683378/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "home-04-conv",
@@ -1295,7 +1695,17 @@
       "/images/products/home-04-conv.jpg",
       "/images/products/home-04-conv.svg"
     ],
-    "photoId": "photo-1509423350716-97f9360b4e09"
+    "photoId": "photo-1509423350716-97f9360b4e09",
+    "alt": "Stacks of black injection-molded plastic garden seedling nursery pots and containers.",
+    "lqip": "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAABwAwCdASoQABQAP1WQvlWxqaaksAgCMCqJZwAAWnzlxCmSkyAA/f0VagKDxmNM+5/w68MHnuPNqVovmXLmA9RU8N0GiF0QPrdfdCgA",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "Dave175",
+      "photographerUrl": "https://pixabay.com/users/Dave175-96974/",
+      "photoUrl": "https://pixabay.com/photos/flower-pots-plant-pot-pots-215692/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "bag-01",
@@ -1325,11 +1735,22 @@
     ],
     "imageQuery": "1544816155-12df9643f363",
     "photographer": "Kelly Sikkema",
-    "image": "/images/products/bag-01.svg",
+    "image": "/images/products/bag-01.jpg",
     "images": [
+      "/images/products/bag-01.jpg",
       "/images/products/bag-01.svg"
     ],
-    "photoId": "photo-1544816155-12df9643f363"
+    "photoId": "photo-1544816155-12df9643f363",
+    "alt": "Sturdy heavyweight organic cotton canvas grocery shopping tote bag hanging against a clean wall.",
+    "lqip": "data:image/webp;base64,UklGRj4AAABXRUJQVlA4IDIAAADQAgCdASoQABQAP1WSv1YxqiajsAgCMCqJZwAAfKAAAP7s65HKnrXg2qeICcAz0cAAAA==",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "BRRT",
+      "photographerUrl": "https://pixabay.com/users/BRRT-122519/",
+      "photoUrl": "https://pixabay.com/photos/bag-cotton-cotton-bag-textile-wall-4364558/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "bag-01-conv",
@@ -1355,11 +1776,22 @@
     ],
     "imageQuery": "1597484662317-c9312b9d29ef",
     "photographer": "Brian Yurasits",
-    "image": "/images/products/bag-01-conv.svg",
+    "image": "/images/products/bag-01-conv.jpg",
     "images": [
+      "/images/products/bag-01-conv.jpg",
       "/images/products/bag-01-conv.svg"
     ],
-    "photoId": "photo-1597484662317-c9312b9d29ef"
+    "photoId": "photo-1597484662317-c9312b9d29ef",
+    "alt": "Synthetic non-woven polypropylene plastic grocery bags in bright colors.",
+    "lqip": "data:image/webp;base64,UklGRmgAAABXRUJQVlA4IFwAAADQAwCdASoQABQAP1WSv1WxqiajMAgCMCqJaAC06CFQ8xUjYC2PIYAA/cxtpq5Nk58RWbTesAfZ0aAkuCviWIF2ULX5r6gOZdYlp7JH22ZYQHqTZeWBG8O3n4AAAA==",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "9159032",
+      "photographerUrl": "https://pixabay.com/users/9159032-9159032/",
+      "photoUrl": "https://pixabay.com/photos/non-woven-bags-eco-friendly-bags-3917805/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "bag-02",
@@ -1394,7 +1826,17 @@
       "/images/products/bag-02.jpg",
       "/images/products/bag-02.svg"
     ],
-    "photoId": "photo-1553062407-98eeb64c6a62"
+    "photoId": "photo-1553062407-98eeb64c6a62",
+    "alt": "Handcrafted eco-friendly natural woven golden jute shopping tote bag.",
+    "lqip": "data:image/webp;base64,UklGRmgAAABXRUJQVlA4IFwAAADwAwCdASoQABQAP1WQvlWxqaajMAgCMCqJaACw7B4nNr/rE7z4vfPcAP7o8EBELMpMYYm3zceXKZKt2zcYeKsAump7qjrae30sBuC3bOtmMdkFZQQ304uEPuEAAA==",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "articonn",
+      "photographerUrl": "https://pixabay.com/users/articonn-312751/",
+      "photoUrl": "https://pixabay.com/photos/bag-shopping-weave-jute-ecological-421456/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "bag-02-conv",
@@ -1425,7 +1867,17 @@
       "/images/products/bag-02-conv.jpg",
       "/images/products/bag-02-conv.svg"
     ],
-    "photoId": "photo-1622560480605-d83c853bc5c3"
+    "photoId": "photo-1622560480605-d83c853bc5c3",
+    "alt": "Padded synthetic neoprene protective computer sleeve case for portable laptops.",
+    "lqip": "data:image/webp;base64,UklGRlwAAABXRUJQVlA4IFAAAADQAwCdASoQABQAP1WQvlWxqaajMAgCMCqJQBOgBDv8e+vDVC2r7SQA/lCBiFWI5WsvwG15OTx3SHhn1XNEPKc3Q3e26VTSUlKetrLEGuAAAA==",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "StockSnap",
+      "photographerUrl": "https://pixabay.com/users/StockSnap-894430/",
+      "photoUrl": "https://pixabay.com/photos/macbook-laptop-computer-technology-2616768/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "bag-03",
@@ -1459,7 +1911,17 @@
       "/images/products/bag-03.jpg",
       "/images/products/bag-03.svg"
     ],
-    "photoId": "photo-1547949003-9792a18a2601"
+    "photoId": "photo-1547949003-9792a18a2601",
+    "alt": "Rugged weekend travel backpack crafted from heavy-duty organic canvas and reinforced webbing.",
+    "lqip": "data:image/webp;base64,UklGRmIAAABXRUJQVlA4IFYAAADQAwCdASoQABQAP1WSv1YxqiajsAgCMCqJZQAAUopaWCfr1TbnTgAA3lQ8+SiGOaLx+GBPqThJEEALBOD2VWIX2m/kCvGQDs+tFjavVpSQOa5KwEAAAA==",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "Pexels",
+      "photographerUrl": "https://pixabay.com/users/Pexels-2286921/",
+      "photoUrl": "https://pixabay.com/photos/backpack-bag-lake-river-trees-1867591/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "bag-03-conv",
@@ -1485,11 +1947,22 @@
     ],
     "imageQuery": "1553062407-98eeb64c6a62",
     "photographer": "Taylor Beach",
-    "image": "/images/products/bag-03-conv.svg",
+    "image": "/images/products/bag-03-conv.jpg",
     "images": [
+      "/images/products/bag-03-conv.jpg",
       "/images/products/bag-03-conv.svg"
     ],
-    "photoId": "photo-1553062407-98eeb64c6a62"
+    "photoId": "photo-1553062407-98eeb64c6a62",
+    "alt": "Durable synthetic leather gym fitness duffel bag designed for sports training gear.",
+    "lqip": "data:image/webp;base64,UklGRnQAAABXRUJQVlA4IGgAAADwAwCdASoQABQAP1WSv1YxqiajsAgCMCqJbAC7LwABed8g8xoZsaTwAP48kpnlrmhFhS4UYXGGValHTDVhAnm756oaTw+A80Qk+p+FuKGGqZh7nX9kC5adhUP6+UifGDthuB//UowAAA==",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "zimrankhalid199",
+      "photographerUrl": "https://pixabay.com/users/zimrankhalid199-18458484/",
+      "photoUrl": "https://pixabay.com/photos/duffel-bag-gym-hustler-fitness-7365977/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "bag-04",
@@ -1524,7 +1997,17 @@
       "/images/products/bag-04.jpg",
       "/images/products/bag-04.svg"
     ],
-    "photoId": "photo-1610557892470-55d9e80c0bce"
+    "photoId": "photo-1610557892470-55d9e80c0bce",
+    "alt": "Reusable organic mesh net grocery produce bag filled with fresh farmers market lemons.",
+    "lqip": "data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAACQAwCdASoQABQAP1WSv1YxqiajsAgCMCqJbACdACHiFNxothFgAP4T0/ZAXRt/xZyNUlO8Y/U/cPFPNv2D2nG/5/zhpvwAAAA=",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "ClarissaBell",
+      "photographerUrl": "https://pixabay.com/users/ClarissaBell-1025460/",
+      "photoUrl": "https://pixabay.com/photos/lemon-citrus-colorful-bitter-acid-8544476/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "bag-04-conv",
@@ -1555,7 +2038,17 @@
       "/images/products/bag-04-conv.jpg",
       "/images/products/bag-04-conv.svg"
     ],
-    "photoId": "photo-1530587191325-3db32d826c18"
+    "photoId": "photo-1530587191325-3db32d826c18",
+    "alt": "Perforated roll of clear ultrathin single-use plastic grocery store produce bags.",
+    "lqip": "data:image/webp;base64,UklGRpAAAABXRUJQVlA4IIQAAAAQBACdASoQABQAP1WSv1YxqiajsAgCMCqJbACsABnzg4gRLdGzfYmhgAD9dIswsqUIfeQqQl7dUg+TRJkfIeVDKm2BvBYNOs9DqFY+40KzK1Jpb8mQcLLWnQPK1Qsd6Xuvvj3dfj8KhErp1CwGicRlFPVGLEe+xY4kh9aR+Z6Rx/kAAAA=",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "detait",
+      "photographerUrl": "https://pixabay.com/users/detait-19031569/",
+      "photoUrl": "https://pixabay.com/photos/fruit-food-colourful-fresh-market-8773085/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "out-01",
@@ -1584,11 +2077,22 @@
     ],
     "imageQuery": "1508873696983-2df5293cb32b",
     "photographer": "Matt Hoffman",
-    "image": "/images/products/out-01.svg",
+    "image": "/images/products/out-01.jpg",
     "images": [
+      "/images/products/out-01.jpg",
       "/images/products/out-01.svg"
     ],
-    "photoId": "photo-1508873696983-2df5293cb32b"
+    "photoId": "photo-1508873696983-2df5293cb32b",
+    "alt": "Solar-rechargeable outdoor camping lantern inspired by vintage glass kerosene lanterns.",
+    "lqip": "data:image/webp;base64,UklGRk4AAABXRUJQVlA4IEIAAACwAwCdASoQABQAP1WSv1YxqiajsAgCMCqJZQAAW+vrNXuBMDMxAAD+6NwuXIm5U1SUwYY1TZcd+mT9PpS9LlfUAAA=",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "Bergadder",
+      "photographerUrl": "https://pixabay.com/users/Bergadder-20679/",
+      "photoUrl": "https://pixabay.com/photos/kerosene-lamp-lamp-light-lighting-574504/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "out-01-conv",
@@ -1619,7 +2123,17 @@
       "/images/products/out-01-conv.jpg",
       "/images/products/out-01-conv.svg"
     ],
-    "photoId": "photo-1543269865-cbf427effbad"
+    "photoId": "photo-1543269865-cbf427effbad",
+    "alt": "Handheld battery-powered tactical LED camping flashlight torch for outdoor illumination.",
+    "lqip": "data:image/webp;base64,UklGRl4AAABXRUJQVlA4IFIAAACwAwCdASoQABQAP1WQvlWxqaajMAgCMCqJZgCdABZXVl8yB3RiAAD+cNuSjIRz6NE8/sNH9hdVhHm2If6k/0gg9O659XrqZ42y25It4DAfGAAA",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "Ray_Shrewsberry",
+      "photographerUrl": "https://pixabay.com/users/Ray_Shrewsberry-7673058/",
+      "photoUrl": "https://pixabay.com/photos/tactical-flashlight-flashlight-torch-7662681/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "out-02",
@@ -1648,11 +2162,22 @@
     ],
     "imageQuery": "1602143407151-7111542de6e8",
     "photographer": "Bluewater Globe",
-    "image": "/images/products/out-02.svg",
+    "image": "/images/products/out-02.jpg",
     "images": [
+      "/images/products/out-02.jpg",
       "/images/products/out-02.svg"
     ],
-    "photoId": "photo-1602143407151-7111542de6e8"
+    "photoId": "photo-1602143407151-7111542de6e8",
+    "alt": "Vacuum-insulated food-grade recycled stainless steel travel thermos flask with leakproof seal.",
+    "lqip": "data:image/webp;base64,UklGRn4AAABXRUJQVlA4IHIAAACQAwCdASoQABQAP1WQvlWxqaajMAgCMCqJZQAAUVlns2UjCAUQAP7BgTBjJ7hVInMCv7OD58yEz0liFO3obBfvcr4rXhNScb22cUZw6rVnZbuYHRFHdmIZ6AnPWWsOq5uhd3ELuJCZtiHWIyJQbpiAAAA=",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "StockSnap",
+      "photographerUrl": "https://pixabay.com/users/StockSnap-894430/",
+      "photoUrl": "https://pixabay.com/photos/thermos-heater-coffee-tea-drink-2565513/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "out-02-conv",
@@ -1683,7 +2208,17 @@
       "/images/products/out-02-conv.jpg",
       "/images/products/out-02-conv.svg"
     ],
-    "photoId": "photo-1517256064527-09c73fc73e38"
+    "photoId": "photo-1517256064527-09c73fc73e38",
+    "alt": "Stack of disposable brightly colored plastic drinking party cups.",
+    "lqip": "data:image/webp;base64,UklGRoIAAABXRUJQVlA4IHYAAABwAwCdASoQABQAP1WSv1YxqiajsAgCMCqJbAC7AANBsVlWTQAA/f2uwgBKvdOJydgp5NILRuz0qYLUAdpG1OX4dCTenj5qBpEQaEz3lmcK+5NstEm6B/JhUmPNNq/fakOBZWuxnqK2SSXiWRIEcBn4LU+BbgAA",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "Evilowl",
+      "photographerUrl": "https://pixabay.com/users/Evilowl-6246757/",
+      "photoUrl": "https://pixabay.com/photos/yellow-cups-paper-cups-6576738/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "out-03",
@@ -1717,7 +2252,17 @@
       "/images/products/out-03.jpg",
       "/images/products/out-03.svg"
     ],
-    "photoId": "photo-1601925260368-ae2f83cf8b7f"
+    "photoId": "photo-1601925260368-ae2f83cf8b7f",
+    "alt": "Eco-friendly non-slip green yoga exercise mat rolled neatly on a studio floor.",
+    "lqip": "data:image/webp;base64,UklGRnYAAABXRUJQVlA4IGoAAAAQBACdASoQABQAP1WQvlWxqaajMAgCMCqJaACw7CFf3na6pinR4uUGAADeFFuaAaQDiyfRPI0RO7Sn5kW63cowfZ3oSRPoQ5mZTcM54EupYEZv+CzYHymqZjNteYrwYwZagnRAwgVvtAAA",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "pixelcreatures",
+      "photographerUrl": "https://pixabay.com/users/pixelcreatures-127599/",
+      "photoUrl": "https://pixabay.com/photos/yoga-yoga-mat-green-940359/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "out-03-conv",
@@ -1743,11 +2288,22 @@
     ],
     "imageQuery": "1592417817098-8f3d6ff30950",
     "photographer": "Elena Kloppenburg",
-    "image": "/images/products/out-03-conv.svg",
+    "image": "/images/products/out-03-conv.jpg",
     "images": [
+      "/images/products/out-03-conv.jpg",
       "/images/products/out-03-conv.svg"
     ],
-    "photoId": "photo-1592417817098-8f3d6ff30950"
+    "photoId": "photo-1592417817098-8f3d6ff30950",
+    "alt": "Conventional lightweight PVC foam fitness exercise mats stacked on a gym studio rack.",
+    "lqip": "data:image/webp;base64,UklGRmoAAABXRUJQVlA4IF4AAADQAwCdASoQABQAP1WSv1YxqiajsAgCMCqJagCsAB8vRy4j20JkygAA93CfRU+J0BeR1DXJdPAX5srZwJpo7ugRZCXtJmN03WCCOxNqdQkCIAq4QRfER1kvyHGjIAAA",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "Ben_Kerckx",
+      "photographerUrl": "https://pixabay.com/users/Ben_Kerckx-69781/",
+      "photoUrl": "https://pixabay.com/photos/yoga-mat-mats-colors-yoga-wall-1743203/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "out-04",
@@ -1781,7 +2337,17 @@
       "/images/products/out-04.jpg",
       "/images/products/out-04.svg"
     ],
-    "photoId": "photo-1528698827591-e19ccd7bc23d"
+    "photoId": "photo-1528698827591-e19ccd7bc23d",
+    "alt": "Woven organic wool outdoor picnic blanket with warm vibrant striped texture.",
+    "lqip": "data:image/webp;base64,UklGRoIAAABXRUJQVlA4IHYAAABwBACdASoQABQAP1WQv1WxqaajMAgCMCqJbACdMoADQt2v29za8tYX4s5sAAD+vDEN9WZXibg532V1zvqzTzpQ3ahPzAh/yjB95etfFmzA6s1HZnj6UDykQgic2pZ+cT+DSmIR2t0yX7LD9dF4GpQ+h3BxgAAA",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "wal_172619",
+      "photographerUrl": "https://pixabay.com/users/wal_172619-12138562/",
+      "photoUrl": "https://pixabay.com/photos/wool-texture-colorful-blanket-warm-10238586/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "out-04-conv",
@@ -1812,7 +2378,17 @@
       "/images/products/out-04-conv.jpg",
       "/images/products/out-04-conv.svg"
     ],
-    "photoId": "photo-1507652313519-d4e9174996dd"
+    "photoId": "photo-1507652313519-d4e9174996dd",
+    "alt": "Soft folded synthetic fleece travel blanket backed with water-resistant polyester.",
+    "lqip": "data:image/webp;base64,UklGRkYAAABXRUJQVlA4IDoAAACwAwCdASoQABQAP1WUwVaxqicjsAgCMCqJaQAASrOo7D4ntlJ/8AD+k1jx+e916xlmgs+jpm2BpgAA",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "Engin_Akyurt",
+      "photographerUrl": "https://pixabay.com/users/Engin_Akyurt-3656355/",
+      "photoUrl": "https://pixabay.com/photos/fabric-white-texture-2644454/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "clean-01",
@@ -1847,7 +2423,17 @@
       "/images/products/clean-01.jpg",
       "/images/products/clean-01.svg"
     ],
-    "photoId": "photo-1583947215259-38e31be8751f"
+    "photoId": "photo-1583947215259-38e31be8751f",
+    "alt": "Bowl of natural wild-harvested Himalayan soapberries and soapnuts for eco-friendly laundry.",
+    "lqip": "data:image/webp;base64,UklGRooAAABXRUJQVlA4IH4AAABQBACdASoQABQAP1WSv1YxqiajsAgCMCqJbACdMoR4GBy4kdOrDJb1ecwAAP6ita8D0KuL2wDwr4RHw52bujHCeVeZQa4KbG1APhzQjiWHj6oNxw0fhS9uYPQfUj7gnCUlQiiL5CiAJdL9jgdJoVKfba937DYLI6At3LHGAAA=",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "jackmac34",
+      "photographerUrl": "https://pixabay.com/users/jackmac34-483877/",
+      "photoUrl": "https://pixabay.com/photos/nuts-almonds-hazelnuts-mix-protein-1118233/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "clean-01-conv",
@@ -1878,7 +2464,17 @@
       "/images/products/clean-01-conv.jpg",
       "/images/products/clean-01-conv.svg"
     ],
-    "photoId": "photo-1585670210693-e7fdd16b142e"
+    "photoId": "photo-1585670210693-e7fdd16b142e",
+    "alt": "Chemical washing powder laundry detergent with plastic measuring scoop.",
+    "lqip": "data:image/webp;base64,UklGRlAAAABXRUJQVlA4IEQAAADQAwCdASoQABQAP1WSv1YxqiajsAgCMCqJZwAAXAXwH/SrzcWGtbgA/sMmq8fSuEtO3M7OVZSVTUxo2MVtN7GLxbDgAA==",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "habelfrank",
+      "photographerUrl": "https://pixabay.com/users/habelfrank-2379311/",
+      "photoUrl": "https://pixabay.com/photos/washing-powder-laundry-detergent-1500058/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "clean-02",
@@ -1907,11 +2503,22 @@
     ],
     "imageQuery": "1584308666744-24d5c474f2ae",
     "photographer": "Sarah Chai",
-    "image": "/images/products/clean-02.svg",
+    "image": "/images/products/clean-02.jpg",
     "images": [
+      "/images/products/clean-02.jpg",
       "/images/products/clean-02.svg"
     ],
-    "photoId": "photo-1584308666744-24d5c474f2ae"
+    "photoId": "photo-1584308666744-24d5c474f2ae",
+    "alt": "Compostable dish scrubber and bath sponge made from natural porous wild-harvested sea sponge.",
+    "lqip": "data:image/webp;base64,UklGRnIAAABXRUJQVlA4IGYAAABQBACdASoQABQAP1WSv1YxqiajsAgCMCqJZACdMoACiEzmqlOprxbhYnwAAP4dQO7eSGPfooVrFf5l84EbixvTFUVt9FFerf2K76kKb6mvKShpBRQk8Y7WLFX7ZCmi+4zbZJVGsAA=",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "manfredrichter",
+      "photographerUrl": "https://pixabay.com/users/manfredrichter-4055600/",
+      "photoUrl": "https://pixabay.com/photos/sponges-natural-sponges-sea-sponge-3757293/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "clean-02-conv",
@@ -1937,11 +2544,22 @@
     ],
     "imageQuery": "1585670210693-e7fdd16b142e",
     "photographer": "Volodymyr Hryshchenko",
-    "image": "/images/products/clean-02-conv.svg",
+    "image": "/images/products/clean-02-conv.jpg",
     "images": [
+      "/images/products/clean-02-conv.jpg",
       "/images/products/clean-02-conv.svg"
     ],
-    "photoId": "photo-1585670210693-e7fdd16b142e"
+    "photoId": "photo-1585670210693-e7fdd16b142e",
+    "alt": "Dual-surface synthetic polyurethane dishwashing cleaning sponge.",
+    "lqip": "data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAABQAwCdASoQABQAP1WSv1WxqiajMAgCMCqJbAC7ACHKGfV5gAD+rmtK4GbnXTu3snw6IsgO1WAFvS+Ww9816uovkVR5cys6R3SAAA==",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "Ralphs_Fotos",
+      "photographerUrl": "https://pixabay.com/users/Ralphs_Fotos-1767157/",
+      "photoUrl": "https://pixabay.com/photos/sponge-cleaning-sponge-clean-3081410/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "clean-03",
@@ -1975,7 +2593,17 @@
       "/images/products/clean-03.jpg",
       "/images/products/clean-03.svg"
     ],
-    "photoId": "photo-1584820927498-cfe5211fd8bf"
+    "photoId": "photo-1584820927498-cfe5211fd8bf",
+    "alt": "Effervescent plant-based concentrated surface cleaner tablets in compostable paper wrap.",
+    "lqip": "data:image/webp;base64,UklGRm4AAABXRUJQVlA4IGIAAADQAwCdASoQABQAP1WSv1YxqiajsAgCMCqJagC06B0z6yE19yuHwQAA/OKG04knuIHGySMSQR5jD9QaQXQemxofeWsgXqxqQpg74/stZatTvWNNsJgQn09GheNJptpi3cAAAA==",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "stevepb",
+      "photographerUrl": "https://pixabay.com/users/stevepb-282134/",
+      "photoUrl": "https://pixabay.com/photos/vitamin-b-effervescent-tablet-871135/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "clean-03-conv",
@@ -2001,11 +2629,22 @@
     ],
     "imageQuery": "1585670210693-e7fdd16b142e",
     "photographer": "The Creative Exchange",
-    "image": "/images/products/clean-03-conv.svg",
+    "image": "/images/products/clean-03-conv.jpg",
     "images": [
+      "/images/products/clean-03-conv.jpg",
       "/images/products/clean-03-conv.svg"
     ],
-    "photoId": "photo-1585670210693-e7fdd16b142e"
+    "photoId": "photo-1585670210693-e7fdd16b142e",
+    "alt": "Single-use plastic spray trigger bottle containing blue chemical ammonia window cleaner.",
+    "lqip": "data:image/webp;base64,UklGRoAAAABXRUJQVlA4IHQAAADQAwCdASoQABQAP1WQvlWxqaajMAgCMCqJbAC2yBUsP2Gxkbs5eoAA/Fp0dIQJk6Lg0638HeZKyjecRQC+5bjpV5IqZTtuPg2LWt/7M3OscrWEm/690i6Qdk/pMk9kTUoYLR3TRRAnzdAH6xNijIenHAAAAA==",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "tookapic",
+      "photographerUrl": "https://pixabay.com/users/tookapic-1386459/",
+      "photoUrl": "https://pixabay.com/photos/cleaning-equipment-spray-932936/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "clean-04",
@@ -2034,11 +2673,22 @@
     ],
     "imageQuery": "1584308666744-24d5c474f2ae",
     "photographer": "Sarah Chai",
-    "image": "/images/products/clean-04.svg",
+    "image": "/images/products/clean-04.jpg",
     "images": [
+      "/images/products/clean-04.jpg",
       "/images/products/clean-04.svg"
     ],
-    "photoId": "photo-1584308666744-24d5c474f2ae"
+    "photoId": "photo-1584308666744-24d5c474f2ae",
+    "alt": "Zero-waste artisan cleaning brush crafted with beech wood handle and tough natural bristles.",
+    "lqip": "data:image/webp;base64,UklGRlgAAABXRUJQVlA4IEwAAACwAwCdASoQABQAP1WQv1YxqaajsAgCMCqJYwDImA8psnwc9XqLIAD836qnEoND8qpQzI/kssR0l0GUScC/DAhfduY058LtublE0wAA",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "Monfocus",
+      "photographerUrl": "https://pixabay.com/users/Monfocus-2516394/",
+      "photoUrl": "https://pixabay.com/photos/soap-bristle-natural-brush-rag-4017606/",
+      "license": "Pixabay Content License"
+    }
   },
   {
     "id": "clean-04-conv",
@@ -2064,10 +2714,21 @@
     ],
     "imageQuery": "1585670210693-e7fdd16b142e",
     "photographer": "Anton",
-    "image": "/images/products/clean-04-conv.svg",
+    "image": "/images/products/clean-04-conv.jpg",
     "images": [
+      "/images/products/clean-04-conv.jpg",
       "/images/products/clean-04-conv.svg"
     ],
-    "photoId": "photo-1585670210693-e7fdd16b142e"
+    "photoId": "photo-1585670210693-e7fdd16b142e",
+    "alt": "Standard molded polypropylene plastic toilet brush seated in a plastic drip holder caddy.",
+    "lqip": "data:image/webp;base64,UklGRkQAAABXRUJQVlA4IDgAAABQAwCdASoQABQAP1Vo0GIxpCunGAIwKolnAMM0Azkz42Fo0ACF3ix1uf8ihaYfugK8yDDUXMAAAA==",
+    "imageCredit": {
+      "type": "stock",
+      "source": "Pixabay",
+      "photographer": "steinchen",
+      "photographerUrl": "https://pixabay.com/users/steinchen-21981/",
+      "photoUrl": "https://pixabay.com/photos/toilet-brush-hygiene-bath-clinic-243459/",
+      "license": "Pixabay Content License"
+    }
   }
 ]

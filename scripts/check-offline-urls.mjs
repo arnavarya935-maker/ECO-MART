@@ -10,7 +10,10 @@ const scanDirs = [path.join(rootDir, 'src'), path.join(rootDir, 'public')];
 const allowedPatterns = [
   'http://www.w3.org/2000/svg',
   'http://www.w3.org/1999/xlink',
-  'https://www.w3.org/2000/svg'
+  'https://www.w3.org/2000/svg',
+  'https://unsplash.com',
+  'https://pixabay.com/users/',
+  'https://pixabay.com/photos/'
 ];
 
 const urlRegex = /https?:\/\/[^\s"'`<>]+/g;
