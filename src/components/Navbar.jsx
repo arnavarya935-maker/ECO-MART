@@ -29,8 +29,8 @@ import ThemeToggle from './ThemeToggle';
 
 const MORE_LINKS = [
   { path: '/courtroom', label: 'AI Courtroom', icon: Swords, badge: 'Simulated trial' },
-  { path: '/transparency', label: 'Agent Transparency', icon: ShieldCheck, badge: 'Feature 54' },
-  { path: '/scan', label: 'Label Scanner', icon: Camera, badge: 'Vision OCR' },
+  { path: '/transparency', label: 'Agent Transparency', icon: ShieldCheck, badge: null },
+  { path: '/scan', label: 'Label Scanner', icon: Camera, badge: null },
   { path: '/kirana', label: 'Kirana Mode', icon: Store, badge: 'Desi packaging' },
   { path: '/transform', label: 'Cart Transformer', icon: RefreshCw, badge: '1-tap swap' },
   { path: '/eco-check', label: 'Eco Check', icon: ShieldCheck, badge: 'Purity audit' },

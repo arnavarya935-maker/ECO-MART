@@ -234,11 +234,11 @@ function apiProxyPlugin() {
           return;
         }
 
-        if (url !== '/api/agent' && url !== '/api/detect-greenwash' && url !== '/api/scan-label' && url !== '/api/news') {
+        if (url !== '/api/agent' && url !== '/api/detect-greenwash' && url !== '/api/scan-label' && url !== '/api/news' && url !== '/api/barcode') {
           return next();
         }
 
-        const { applyRateLimit, handleAgentRequest, handleGreenwashRequest, handleScanLabelRequest, handleNewsRequest } = await import('./server/proxyServer.js');
+        const { applyRateLimit, handleAgentRequest, handleGreenwashRequest, handleScanLabelRequest, handleNewsRequest, handleBarcodeRequest } = await import('./server/proxyServer.js');
 
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -251,6 +251,17 @@ function apiProxyPlugin() {
         }
 
         if (applyRateLimit(req, res)) {
+          return;
+        }
+
+        if (url === '/api/barcode') {
+          if (req.method !== 'GET') {
+            res.writeHead(405, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'Method not allowed' }));
+            return;
+          }
+          const queryParams = new URL(req.url, 'http://localhost').searchParams;
+          await handleBarcodeRequest({ code: queryParams.get('code') || '' }, res, req);
           return;
         }
 

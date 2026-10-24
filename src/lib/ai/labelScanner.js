@@ -1,187 +1,244 @@
 /**
- * EcoMart Label Scanner Engine
- * Client-side interface to Gemini Vision API (/api/scan-label)
- * with robust offline sample labels and cached audits.
+ * EcoMart Label Scanner Engine (Phase 2 Rebuild)
  *
- * PRIVACY GUARANTEE:
- * Image files are processed in volatile memory only and are NEVER saved or written to disk.
+ * GOAL: The scanner ONLY reads what is printed on the label and shows it accurately.
+ * No scoring, no verdicts, no extra fluff.
+ * Certifications are never marked verified ("Printed on label. Check the issuer's registry.").
+ *
+ * PRIVACY:
+ * Images are downscaled client-side, processed in transient memory, and NEVER saved.
  */
-
-import { auditGreenwashingClaim, computeClaimRadarAxes } from './geminiAdapter.js';
 
 export const SAMPLE_LABELS = [
   {
     id: 'sample-shampoo',
-    title: 'EcoGlide Herbal Shampoo Bottle',
-    category: 'Personal Care',
-    imageType: 'cosmetic',
+    title: 'Botanical Herbal Shampoo',
+    labelType: 'Sample label (fictional product)',
     previewColor: 'from-emerald-700 to-teal-900',
-    mockPackagingText: '100% Eco-Friendly Herbal Botanical Shampoo. Chemical-Free Formula. Natural Plant Essences. Save the Earth.',
-    extractedClaims: [
-      '100% Eco-Friendly',
-      'Chemical-Free Formula',
-      'Natural Plant Essences',
-      'Save the Earth'
-    ],
-    precomputedVerdict: {
-      trust_score: 32,
-      verdict: 'High Greenwashing Risk',
-      plain_verdict_explanation:
-        'This packaging relies entirely on broad, unqualified marketing buzzwords ("100% Eco-Friendly", "Chemical-Free") explicitly prohibited under ISO 14021 and FTC Green Guides without specific lifecycle boundaries.',
-      flagged_phrases: [
-        {
-          phrase: '100% Eco-Friendly',
-          issue: 'Sweeping superlative prohibited without full cradle-to-grave lifecycle proof.'
-        },
-        {
-          phrase: 'Chemical-Free Formula',
-          issue: 'Scientifically misleading: water and botanical oils are chemicals. Used to instill unwarranted fear.'
-        },
-        {
-          phrase: 'Save the Earth',
-          issue: 'Broad, unsubstantiated environmental benefit claim.'
-        }
+    transcription: {
+      is_product_label: true,
+      reason_if_not: null,
+      product_name: 'Botanical Herbal Shampoo',
+      brand: 'EcoGlide (Fictional)',
+      net_quantity: '250 ml',
+      ingredients: [
+        'Aqua (Purified Water)',
+        'Sodium Lauroyl Sarcosinate (Coconut-derived)',
+        'Aloe Barbadensis Leaf Juice',
+        'Azadirachta Indica (Neem) Leaf Extract',
+        'Citric Acid'
       ],
-      missing_proofs: [
-        'No organic certification license (e.g. USDA Organic, India Organic, or COSMOS)',
-        'No biodegradable lab degradation standard cited for surfactants (e.g. OECD 301)'
+      claims: [
+        'Herbal botanical formula',
+        'Plant-derived surfactants',
+        'Contains organic neem extract',
+        'Save our planet initiative'
       ],
-      positive_elements: [
-        'Mentions plant essences'
+      certifications_printed: [],
+      packaging_marks: [
+        'HDPE 2 recycling symbol',
+        'Please rinse and recycle bottle'
       ],
-      radar_axes: {
-        vague_wording: 20,
-        verifiable_proof: 15,
-        omission_risk: 25,
-        lifecycle_boundary: 30,
-        third_party_audit: 10
-      },
-      recommendation: 'Check the back label INCI list for petroleum sulfates (SLS/SLES) and synthetic preservatives.'
+      manufacturer: 'Nature Care Laboratories Ltd, Okhla Industrial Area, New Delhi',
+      country_of_origin: 'India',
+      batch_mfg_expiry: 'Mfg: 04/2026, Exp: 03/2028, Batch: NL-26A',
+      barcode_number: '8901234567890',
+      usage_instructions: 'Apply generous amount to wet hair, massage into lather, rinse thoroughly with water.',
+      disposal_instructions: 'Rinse empty bottle thoroughly and place in designated municipal dry plastic bin.',
+      warnings: 'For external use only. Avoid contact with eyes. In case of contact, flush immediately with water.',
+      language_detected: 'en',
+      legibility: 'good',
+      confidence: {
+        product_name: 'high',
+        ingredients: 'high',
+        claims: 'high',
+        certifications: 'high'
+      }
     }
   },
   {
     id: 'sample-khadi-tote',
-    title: 'Kaveri Valley Pure Khadi Tote',
-    category: 'Bags & Accessories',
-    imageType: 'textile',
+    title: 'Hand-loomed Cotton Tote Bag',
+    labelType: 'Sample label (fictional product)',
     previewColor: 'from-amber-700 to-stone-800',
-    mockPackagingText: '100% GOTS Certified Organic Cotton. Hand-loomed in Tamil Nadu Artisan Cluster. Zero Synthetic Dyes. Fair Trade Certified #FT-8832.',
-    extractedClaims: [
-      '100% GOTS Certified Organic Cotton',
-      'Hand-loomed in Tamil Nadu Artisan Cluster',
-      'Zero Synthetic Dyes',
-      'Fair Trade Certified #FT-8832'
-    ],
-    precomputedVerdict: {
-      trust_score: 94,
-      verdict: 'Verified Sustainable Claim',
-      plain_verdict_explanation:
-        'Outstanding transparency. Backed by specific third-party accreditation (GOTS and Fair Trade Certified with license number) and explicit artisanal manufacturing boundaries.',
-      flagged_phrases: [],
-      missing_proofs: [],
-      positive_elements: [
-        'Specific GOTS certification license',
-        'Verifiable Fair Trade registry #FT-8832',
-        'Zero synthetic toxic dye formulation'
+    transcription: {
+      is_product_label: true,
+      reason_if_not: null,
+      product_name: 'Hand-loomed Cotton Tote Bag',
+      brand: 'Kaveri Valley Textiles (Fictional)',
+      net_quantity: '1 Unit (38cm x 42cm)',
+      ingredients: [
+        '100% Cotton'
       ],
-      radar_axes: {
-        vague_wording: 95,
-        verifiable_proof: 96,
-        omission_risk: 90,
-        lifecycle_boundary: 92,
-        third_party_audit: 98
-      },
-      recommendation: 'An exemplary sustainable textile product with verified environmental and social chain of custody.'
+      claims: [
+        '100% Organic Cotton',
+        'Hand-loomed by artisan cooperative',
+        'Azo-free natural vegetable dyes'
+      ],
+      certifications_printed: [
+        {
+          name: 'GOTS Certified Organic',
+          has_license_number: true
+        }
+      ],
+      packaging_marks: [
+        '100% post-consumer recycled paper hangtag'
+      ],
+      manufacturer: 'Kaveri Valley Artisan Cooperative, Erode, Tamil Nadu',
+      country_of_origin: 'India',
+      batch_mfg_expiry: 'Lot: KV-2026-T4',
+      barcode_number: '8905551234567',
+      usage_instructions: 'Gentle hand wash in cold water with mild detergent. Line dry in shade.',
+      disposal_instructions: 'Biodegradable natural cotton fiber. Suitable for backyard composting at end of life.',
+      warnings: 'Natural vegetable dyes may release minor color during initial wash.',
+      language_detected: 'en',
+      legibility: 'good',
+      confidence: {
+        product_name: 'high',
+        ingredients: 'high',
+        claims: 'high',
+        certifications: 'high'
+      }
     }
   },
   {
     id: 'sample-detergent-pods',
-    title: 'BioClean Dishwasher Pods',
-    category: 'Cleaning',
-    imageType: 'household',
+    title: 'Dishwasher Detergent Pods',
+    labelType: 'Sample label (fictional product)',
     previewColor: 'from-teal-600 to-cyan-900',
-    mockPackagingText: 'Biodegradable Plant Formula in Dissolvable PVA Pod. Ocean Safe. Recyclable Kraft Box.',
-    extractedClaims: [
-      'Biodegradable Plant Formula',
-      'Dissolvable PVA Pod',
-      'Ocean Safe',
-      'Recyclable Kraft Box'
-    ],
-    precomputedVerdict: {
-      trust_score: 64,
-      verdict: 'Plausible but Partially Unverified',
-      plain_verdict_explanation:
-        'The recyclable kraft box and plant-based surfactants represent authentic plastic-reduction gains. However, "Ocean Safe" is an unqualified claim, and PVA polymer dissolution requires municipal wastewater conditions.',
-      flagged_phrases: [
-        {
-          phrase: 'Ocean Safe',
-          issue: 'Unsubstantiated claim: PVA and concentrated surfactants in marine water do not break down immediately.'
-        }
+    transcription: {
+      is_product_label: true,
+      reason_if_not: null,
+      product_name: 'Zero-Waste Dishwasher Detergent Pods',
+      brand: 'BioClean Home (Fictional)',
+      net_quantity: '30 Pods (Net Wt. 600g)',
+      ingredients: [
+        'Sodium Carbonate',
+        'Sodium Percarbonate',
+        'Citric Acid',
+        'Polyvinyl Alcohol (PVA) film wrapper',
+        'Citrus Limon (Lemon) Essential Oil'
       ],
-      missing_proofs: [
-        'No marine ecotoxicity lab standard cited (e.g. OECD 201/202)',
-        'Post-consumer recycled content % of kraft box not specified'
+      claims: [
+        'Dissolvable plant-based PVA film',
+        'Zero synthetic fragrance',
+        'Septic tank safe'
       ],
-      positive_elements: [
-        'Plastic tub replaced with paper kraft box',
-        'Plant-based surfactant formulation'
+      certifications_printed: [],
+      packaging_marks: [
+        'Uncoated kraft board box',
+        'Plastic-free packaging'
       ],
-      radar_axes: {
-        vague_wording: 65,
-        verifiable_proof: 55,
-        omission_risk: 50,
-        lifecycle_boundary: 75,
-        third_party_audit: 60
-      },
-      recommendation: 'A solid low-plastic alternative, but ensure your local wastewater facility supports bio-digestion.'
+      manufacturer: 'BioClean Eco Innovations Pvt Ltd, Whitefield, Bengaluru, Karnataka',
+      country_of_origin: 'India',
+      batch_mfg_expiry: 'Batch: BC-882, Mfg: 02/2026',
+      barcode_number: '8908889990001',
+      usage_instructions: 'Handle with dry hands only. Place one pod in dishwasher main dispenser cup. Do not puncture.',
+      disposal_instructions: 'Recycle cardboard box with paper stream or place in home compost bin.',
+      warnings: 'Keep out of reach of children. Causes serious eye irritation. If swallowed, call poison control.',
+      language_detected: 'en',
+      legibility: 'good',
+      confidence: {
+        product_name: 'high',
+        ingredients: 'high',
+        claims: 'high',
+        certifications: 'high'
+      }
     }
   }
 ];
 
 /**
- * Audit a product label image
+ * Lazy-load on-device OCR using Tesseract.js
+ * Shows honest raw OCR text if offline or API unavailable
+ */
+async function performOnDeviceOcr(imageSource) {
+  if (typeof window === 'undefined' || typeof Worker === 'undefined') {
+    throw new Error('On-device OCR is only supported in browser environments.');
+  }
+
+  try {
+    const tesseract = await import('tesseract.js');
+    const createWorker = tesseract.createWorker || tesseract.default?.createWorker;
+
+    if (!createWorker) {
+      throw new Error('Tesseract worker constructor unavailable');
+    }
+
+    const worker = await createWorker('eng', 1, {
+      workerPath: '/ocr/worker.min.js',
+      corePath: '/ocr/tesseract-core.wasm.js',
+      langPath: '/ocr',
+      logger: () => {}
+    });
+
+    const result = await worker.recognize(imageSource);
+    await worker.terminate();
+
+    const text = result?.data?.text?.trim();
+    if (!text) {
+      throw new Error('No legible text detected');
+    }
+
+    return text;
+  } catch {
+    throw new Error('On-device OCR could not transcribe text from this image.');
+  }
+}
+
+/**
+ * Scan and transcribe a product label image
+ *
  * @param {Object} options
- * @param {string} options.imageBase64 - Base64 encoded image string
- * @param {string} options.mimeType - 'image/jpeg', 'image/png', or 'image/webp'
+ * @param {string} [options.imageBase64] - Base64 encoded image string (already downscaled)
+ * @param {string} [options.mimeType='image/jpeg']
  * @param {string} [options.language='en']
- * @param {string} [options.sampleId] - If picking an offline sample
+ * @param {string} [options.sampleId] - Pick an offline sample label
+ * @returns {Promise<Object>} Transcribed label data matching strict schema
  */
 export async function scanProductLabel({
-  imageBase64,
+  imageBase64 = null,
   mimeType = 'image/jpeg',
   language = 'en',
   sampleId = null
 }) {
-  // If user selected an offline sample directly
+  // 1. Direct offline sample selection
   if (sampleId) {
     const sample = SAMPLE_LABELS.find((s) => s.id === sampleId);
     if (sample) {
       return {
-        source: 'cached_offline_sample',
-        extracted_text: sample.mockPackagingText,
-        identified_product_name: sample.title,
-        ...sample.precomputedVerdict,
-        privacy_guarantee: 'Image is not saved (100% offline sample).'
+        source: 'sample_label',
+        sampleId: sample.id,
+        sampleTitle: sample.title,
+        labelType: sample.labelType,
+        ...sample.transcription,
+        privacy_guarantee: 'Image is not saved.'
       };
     }
+    throw new Error('Sample label not found.');
   }
 
-  // Client-side file size guard (4MB)
-  if (imageBase64 && imageBase64.length > 5.8 * 1024 * 1024) {
-    throw new Error('Image size exceeds 4MB. Please upload a smaller image.');
+  if (!imageBase64) {
+    throw new Error('No image data provided for scanning.');
   }
 
-  // Attempt server-side Gemini Vision via proxy
+  // 2. Serverless safe transmission limit guard
+  const cleanBase64 = imageBase64.replace(/^data:image\/[a-zA-Z+]+;base64,/, '');
+  if (cleanBase64.length > 3 * 1024 * 1024) {
+    throw new Error('Image data exceeds safe 3MB limit. Please downscale the image.');
+  }
+
+  // 3. Attempt Server-side Vision Transcription via Gemini Proxy
   try {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 14000);
+    const timeout = setTimeout(() => controller.abort(), 15000);
 
     const res = await fetch('/api/scan-label', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       signal: controller.signal,
       body: JSON.stringify({
-        imageBase64,
+        imageBase64: cleanBase64,
         mimeType,
         language
       })
@@ -191,31 +248,94 @@ export async function scanProductLabel({
 
     if (res.ok) {
       const data = await res.json();
-      if (data && data.source === 'gemini_vision' && typeof data.trust_score === 'number') {
+      if (data && data.source === 'gemini_vision') {
+        // If the model determined it is not a product label, return non-label verdict honestly
+        if (data.is_product_label === false) {
+          return {
+            source: 'gemini_vision',
+            is_product_label: false,
+            reason_if_not: data.reason_if_not || 'No product label detected in photo.',
+            privacy_guarantee: 'Image is not saved.'
+          };
+        }
+
         return {
-          ...data,
-          privacy_guarantee: 'Image is not saved (Processed in volatile memory only).'
+          source: 'gemini_vision',
+          is_product_label: true,
+          product_name: data.product_name || null,
+          brand: data.brand || null,
+          net_quantity: data.net_quantity || null,
+          ingredients: Array.isArray(data.ingredients) ? data.ingredients : [],
+          claims: Array.isArray(data.claims) ? data.claims : [],
+          certifications_printed: Array.isArray(data.certifications_printed)
+            ? data.certifications_printed.map((c) => ({
+                name: c.name || (typeof c === 'string' ? c : ''),
+                has_license_number: Boolean(c.has_license_number)
+              }))
+            : [],
+          packaging_marks: Array.isArray(data.packaging_marks) ? data.packaging_marks : [],
+          manufacturer: data.manufacturer || null,
+          country_of_origin: data.country_of_origin || null,
+          batch_mfg_expiry: data.batch_mfg_expiry || null,
+          barcode_number: data.barcode_number || null,
+          usage_instructions: data.usage_instructions || null,
+          disposal_instructions: data.disposal_instructions || null,
+          warnings: data.warnings || null,
+          language_detected: data.language_detected || 'en',
+          legibility: data.legibility || 'good',
+          confidence: data.confidence || {
+            product_name: 'medium',
+            ingredients: 'medium',
+            claims: 'medium',
+            certifications: 'medium'
+          },
+          privacy_guarantee: 'Image is not saved.'
         };
       }
     }
   } catch {
-    // Graceful offline fallback
+    // API unavailable or timed out; proceed to offline OCR fallback
   }
 
-  // Offline / Fallback heuristic extraction
-  // If vision API is not connected, evaluate based on image heuristics
-  const fallbackAudit = await auditGreenwashingClaim({
-    text: 'Packaging Label Audit: Natural eco-friendly claim without verified license code.',
-    language
-  });
+  // 4. Offline Fallback: Lazy-load On-Device Tesseract.js OCR
+  // Note: NEVER invent fake claims, ingredients, or scores.
+  try {
+    const rawOcrText = await performOnDeviceOcr(imageBase64);
+    if (rawOcrText && rawOcrText.length > 5) {
+      return {
+        source: 'on_device_ocr',
+        is_product_label: true,
+        ocr_note: 'OCR text, may contain errors',
+        raw_ocr_text: rawOcrText,
+        product_name: null,
+        brand: null,
+        net_quantity: null,
+        ingredients: [],
+        claims: [],
+        certifications_printed: [],
+        packaging_marks: [],
+        manufacturer: null,
+        country_of_origin: null,
+        batch_mfg_expiry: null,
+        barcode_number: null,
+        usage_instructions: null,
+        disposal_instructions: null,
+        warnings: null,
+        language_detected: 'en',
+        legibility: 'partial',
+        confidence: {
+          product_name: 'low',
+          ingredients: 'low',
+          claims: 'low',
+          certifications: 'low'
+        },
+        privacy_guarantee: 'Image is not saved.'
+      };
+    }
+  } catch {
+    // OCR also failed
+  }
 
-  return {
-    source: 'local_offline_fallback',
-    extracted_text:
-      'Product Packaging Label (Extracted via Local Heuristics)\nClaims: "Eco-Friendly Formula, Botanical Ingredients, Plastic-Free Intent"',
-    identified_product_name: 'Scanned Product Label',
-    ...fallbackAudit,
-    radar_axes: computeClaimRadarAxes('Eco-friendly botanical claim'),
-    privacy_guarantee: 'Image is not saved (Processed locally in browser memory).'
-  };
+  // 5. Honest Error: Do not guess or invent data
+  throw new Error('Could not read product label. Please upload a closer, well-lit photo of the label text.');
 }

@@ -1,5 +1,5 @@
 import React, { Suspense, lazy, useState, useEffect } from 'react';
-import { HashRouter, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
 import { I18nProvider } from './context/I18nContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
@@ -211,7 +211,7 @@ function AppContent() {
             <Route path="/counterfactual" element={<CounterfactualPage />} />
             <Route path="/courtroom" element={<CourtroomPage />} />
             <Route path="/scan" element={<LabelScannerPage />} />
-            <Route path="/scanner" element={<LabelScannerPage />} />
+            <Route path="/scanner" element={<Navigate to="/scan" replace />} />
             <Route path="/dilemmas" element={<DilemmasPage />} />
             <Route path="/self-audit" element={<AISelfAuditPage />} />
             <Route path="/kirana" element={<KiranaPage />} />

@@ -729,3 +729,62 @@ export async function handleNewsRequest(query = {}, res, req = null) {
     })
   );
 }
+
+/**
+ * Handle Barcode Lookup against Open Food Facts public database
+ */
+export async function handleBarcodeRequest(query = {}, res, req = null) {
+  if (req && applyRateLimit(req, res)) return;
+
+  const { code } = query || {};
+  if (!code || typeof code !== 'string') {
+    res.writeHead(400, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ error: 'Barcode code parameter is required.' }));
+    return;
+  }
+
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 6000);
+
+    const apiUrl = `https://world.openfoodfacts.org/api/v0/product/${encodeURIComponent(code.trim())}.json`;
+    const apiResponse = await fetch(apiUrl, {
+      signal: controller.signal,
+      headers: { 'User-Agent': 'EcoMart-Scanner/1.0 (Educational sustainability audit)' }
+    });
+    clearTimeout(timeout);
+
+    if (apiResponse.ok) {
+      const data = await apiResponse.json();
+      if (data && data.status === 1 && data.product) {
+        res.writeHead(200, {
+          'Content-Type': 'application/json',
+          'Cache-Control': 'public, s-maxage=86400'
+        });
+        res.end(
+          JSON.stringify({
+            found: true,
+            source: 'Open Food Facts (Public Registry)',
+            product_name: sanitizeString(data.product.product_name, 200, null),
+            brand: sanitizeString(data.product.brands, 150, null),
+            ingredients_text: sanitizeString(data.product.ingredients_text, 1000, null),
+            packaging: sanitizeString(data.product.packaging, 300, null),
+            ecoscore_grade: sanitizeString(data.product.ecoscore_grade, 10, null)
+          })
+        );
+        return;
+      }
+    }
+  } catch {
+    // Network failure or timeout
+  }
+
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  res.end(
+    JSON.stringify({
+      found: false,
+      message: 'Barcode not found in Open Food Facts registry.'
+    })
+  );
+}
+

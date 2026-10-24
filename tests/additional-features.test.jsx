@@ -34,20 +34,21 @@ describe('Additional Features Verification (F1 to F8)', () => {
   });
 
   describe('F2: Label Scanner (/scan)', () => {
-    it('provides offline sample labels with precomputed verdicts and Claim Radar axes', () => {
+    it('provides offline sample labels with pure transcription and no fake scores', () => {
       expect(SAMPLE_LABELS.length).toBeGreaterThanOrEqual(3);
       const sample = SAMPLE_LABELS[0];
-      expect(sample.precomputedVerdict.radar_axes).toBeDefined();
-      expect(sample.precomputedVerdict.trust_score).toBeDefined();
+      expect(sample.labelType).toBe('Sample label (fictional product)');
+      expect(sample.transcription.is_product_label).toBe(true);
+      expect(sample.transcription.product_name).toBeDefined();
     });
 
     it('enforces privacy guarantee and file size guard', async () => {
       const result = await scanProductLabel({ sampleId: SAMPLE_LABELS[0].id });
       expect(result.privacy_guarantee.toLowerCase()).toContain('image is not saved');
 
-      // Oversized payload guard (>4MB binary / >5.8MB base64)
-      const oversized = 'a'.repeat(6 * 1024 * 1024);
-      await expect(scanProductLabel({ imageBase64: oversized })).rejects.toThrow('exceeds 4MB');
+      // Oversized payload guard (>3MB base64)
+      const oversized = 'a'.repeat(4 * 1024 * 1024);
+      await expect(scanProductLabel({ imageBase64: oversized })).rejects.toThrow(/3MB/);
     });
   });
 
