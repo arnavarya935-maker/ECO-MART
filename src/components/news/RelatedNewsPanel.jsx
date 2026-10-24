@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Newspaper, ExternalLink, ArrowRight, Sparkles } from 'lucide-react';
 import { getEcoNews } from '../../lib/newsService.js';
+import Skeleton from '../ui/Skeleton';
 
 export default function RelatedNewsPanel({
   topic = 'greenwashing',
@@ -60,9 +61,17 @@ export default function RelatedNewsPanel({
       </div>
 
       {loading ? (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 animate-pulse">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {[...Array(maxArticles)].map((_, i) => (
-            <div key={i} className="h-32 bg-surface-sunken rounded-2xl" />
+            <div key={i} className="p-4 rounded-2xl bg-surface border border-line space-y-3">
+              <Skeleton width="w-20" height="h-3" />
+              <Skeleton width="w-3/4" height="h-5" />
+              <Skeleton width="w-full" height="h-8" />
+              <div className="pt-2 flex items-center justify-between">
+                <Skeleton width="w-12" height="h-3" />
+                <Skeleton width="w-10" height="h-3" />
+              </div>
+            </div>
           ))}
         </div>
       ) : (

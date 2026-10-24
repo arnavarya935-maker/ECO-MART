@@ -19,6 +19,8 @@ import EquivalentsTranslatorCard from '../components/impact/EquivalentsTranslato
 import ProductScaleVisualModal from '../components/product/ProductScaleVisualModal';
 import ProductPassportQRModal from '../components/product/ProductPassportQRModal';
 import RelatedNewsPanel from '../components/news/RelatedNewsPanel';
+import GlossaryTooltip from '../components/ui/GlossaryTooltip';
+import EmptyState from '../components/ui/EmptyState';
 import { compareProductToBenchmark } from '../lib/decisionEngine';
 import { playSound } from '../lib/audio';
 import {
@@ -109,16 +111,14 @@ export default function ProductPage() {
 
   if (!product) {
     return (
-      <div className="max-w-4xl mx-auto px-4 py-20 text-center">
-        <h2 className="font-serif text-2xl font-bold text-heading mb-3">Product Not Found</h2>
-        <p className="text-secondary mb-6 font-sans">The sustainable item you are looking for may have moved or doesn't exist.</p>
-        <Link
-          to="/shop"
-          className="inline-flex items-center gap-2 px-6 py-3 min-h-[44px] rounded-full bg-primary text-primary-contrast font-sans font-medium hover:bg-primary-hover transition shadow-soft-sm"
-        >
-          <ArrowLeft className="w-4 h-4" />
-          Back to Shop Catalog
-        </Link>
+      <div className="max-w-4xl mx-auto px-4 py-20">
+        <EmptyState
+          emoji="📦"
+          title="Product Not Found"
+          description="The sustainable item you are looking for may have moved or doesn't exist."
+          actionLabel="Back to Shop Catalog"
+          onAction={() => navigate('/shop')}
+        />
       </div>
     );
   }
@@ -347,7 +347,7 @@ export default function ProductPage() {
                 </div>
 
                 <p className="text-xs font-sans text-secondary leading-relaxed">
-                  Compared to traditional alternative <strong className="font-semibold text-heading">{swapComparison.alternative.name}</strong>, choosing this conscious item avoids:
+                  Compared to traditional alternative <strong className="font-semibold text-heading">{swapComparison.alternative.name}</strong>, choosing this conscious item yields <GlossaryTooltip term="Embodied Carbon">avoided emissions</GlossaryTooltip>:
                 </p>
 
                 <div className="grid grid-cols-3 gap-3">
@@ -482,7 +482,7 @@ export default function ProductPage() {
                       )}
                     </div>
                     <div className="text-[11px] font-sans text-primary font-medium">
-                      Click for 5-pillar lifecycle audit
+                      Click for 5-pillar <GlossaryTooltip term="Cradle-to-Grave">lifecycle audit</GlossaryTooltip>
                     </div>
                   </div>
                   <button
@@ -524,7 +524,12 @@ export default function ProductPage() {
                     <div>
                       <span className="font-semibold text-heading">Certifications: </span>
                       <span className="text-secondary">
-                        {product.certifications.join(', ')}{' '}
+                        {product.certifications.map((c, i) => (
+                          <React.Fragment key={c}>
+                            {i > 0 && ', '}
+                            <GlossaryTooltip term={c}>{c}</GlossaryTooltip>
+                          </React.Fragment>
+                        ))}{' '}
                         <span className="text-[11px] text-muted font-normal">(Listed by seller (sample data))</span>
                       </span>
                     </div>

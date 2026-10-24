@@ -19,6 +19,7 @@ import HouseholdProfileSelector from '../components/shop/HouseholdProfileSelecto
 import GiftFinderModal from '../components/shop/GiftFinderModal';
 import OccasionKitsModal from '../components/shop/OccasionKitsModal';
 import IntentSearchInput from '../components/shop/IntentSearchInput';
+import Chip from '../components/ui/Chip';
 import { HOUSEHOLD_PROFILES } from '../lib/personaEngine';
 
 export default function ShopPage() {
@@ -329,18 +330,13 @@ export default function ShopPage() {
             { id: 'Festive', label: '🪔 Festive Gifting' },
             { id: 'Winter', label: '❄️ Winter Care' }
           ].map((s) => (
-            <button
+            <Chip
               key={s.id}
-              type="button"
+              active={selectedSeason === s.id}
               onClick={() => setSelectedSeason(s.id)}
-              className={`px-3 py-1.5 rounded-full border text-xs font-sans whitespace-nowrap transition cursor-pointer min-h-[32px] ${
-                selectedSeason === s.id
-                  ? 'bg-primary text-primary-contrast border-primary font-semibold shadow-soft-xs'
-                  : 'bg-surface-raised border-line text-secondary hover:text-heading hover:bg-surface'
-              }`}
             >
               {s.label}
-            </button>
+            </Chip>
           ))}
         </div>
 

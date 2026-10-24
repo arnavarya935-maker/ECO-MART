@@ -24,6 +24,16 @@ import ReportClaimModal from '../components/detective/ReportClaimModal';
 import GreenwashLexiconHighlighter from '../components/detective/GreenwashLexiconHighlighter';
 import BrandTransparencyCard from '../components/detective/BrandTransparencyCard';
 import RelatedNewsPanel from '../components/news/RelatedNewsPanel';
+import Tabs from '../components/ui/Tabs';
+import Chip from '../components/ui/Chip';
+import GlossaryTooltip from '../components/ui/GlossaryTooltip';
+
+const TRUTH_TABS = [
+  { id: 'radar', label: 'Claim Radar & Evidence' },
+  { id: 'courtroom', label: 'AI Courtroom' },
+  { id: 'scanner', label: 'Packaging OCR Scanner' },
+  { id: 'audit', label: 'Agent Safety Report Card' }
+];
 
 const SAMPLE_CLAIMS = [
   '100% Eco-Friendly Bamboo Toothbrush in plastic packaging',
@@ -71,7 +81,7 @@ export default function TruthLabPage() {
               The Truth Lab
             </h1>
             <p className="font-sans text-xs sm:text-sm text-secondary mt-1 max-w-2xl">
-              Zero marketing fluff. Cross-audit brand claims, inspect packaging evidence graphs, run live AI safety probes, or take contentious claims to the courtroom.
+              Zero marketing fluff. Cross-audit brand claims for <GlossaryTooltip term="Greenwashing">greenwashing</GlossaryTooltip>, inspect packaging evidence graphs, evaluate <GlossaryTooltip term="Embodied Carbon">embodied carbon</GlossaryTooltip> data, or take contentious claims to the courtroom.
             </p>
           </div>
 
@@ -105,7 +115,7 @@ export default function TruthLabPage() {
               <span>Courtroom</span>
             </Link>
             <Link
-              to="/scanner"
+              to="/scan"
               className="px-3.5 py-2 rounded-xl bg-primary hover:bg-primary-hover text-primary-contrast text-xs font-bold shadow-soft-xs transition-colors inline-flex items-center gap-1.5"
             >
               <Camera className="w-3.5 h-3.5" />
@@ -115,29 +125,8 @@ export default function TruthLabPage() {
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex items-center gap-2 mt-6 overflow-x-auto pb-2">
-          {[
-            { id: 'radar', label: '🕵️ Claim Radar & Evidence', desc: 'A-D Evidence Grading' },
-            { id: 'courtroom', label: '⚖️ AI Courtroom & Trials', desc: 'Adversarial Legal Simulation' },
-            { id: 'scanner', label: '📷 Packaging OCR Scanner', desc: 'Barcode & Text Extraction' },
-            { id: 'audit', label: '🛡️ Agent Safety Report Card', desc: 'Live Bias & Hallucination Probes' }
-          ].map((tab) => (
-            <button
-              key={tab.id}
-              type="button"
-              onClick={() => setActiveTab(tab.id)}
-              className={`px-4 py-2.5 rounded-2xl border text-xs font-sans transition-all whitespace-nowrap cursor-pointer text-left ${
-                activeTab === tab.id
-                  ? 'bg-primary text-primary-contrast border-primary shadow-soft-xs font-bold'
-                  : 'bg-surface-raised text-secondary border-line hover:text-heading hover:bg-surface'
-              }`}
-            >
-              <div>{tab.label}</div>
-              <div className={`text-[10px] font-normal ${activeTab === tab.id ? 'text-primary-contrast/80' : 'text-muted'}`}>
-                {tab.desc}
-              </div>
-            </button>
-          ))}
+        <div className="mt-6 overflow-x-auto pb-2">
+          <Tabs tabs={TRUTH_TABS} activeTab={activeTab} onChange={setActiveTab} />
         </div>
       </div>
 
@@ -178,14 +167,13 @@ export default function TruthLabPage() {
               <div className="flex items-center gap-1.5 flex-wrap pt-1 text-xs">
                 <span className="text-[10px] font-mono uppercase text-muted mr-1">Quick Samples:</span>
                 {SAMPLE_CLAIMS.map((sample, idx) => (
-                  <button
+                  <Chip
                     key={idx}
-                    type="button"
+                    active={claimInput === sample}
                     onClick={() => handleAudit(sample)}
-                    className="px-2.5 py-1 rounded-xl bg-surface-sunken hover:bg-surface text-secondary border border-line text-[11px] transition-colors cursor-pointer"
                   >
                     {sample.slice(0, 32)}...
-                  </button>
+                  </Chip>
                 ))}
               </div>
             </div>
@@ -208,7 +196,7 @@ export default function TruthLabPage() {
                       <span>Red Flags &amp; Inconsistencies ({analysis.redFlags.length})</span>
                     </div>
                     {analysis.redFlags.length === 0 ? (
-                      <p className="text-xs text-muted">No overt greenwashing inconsistencies detected in this text.</p>
+                      <p className="text-xs text-muted">No overt <GlossaryTooltip term="Greenwashing">greenwashing</GlossaryTooltip> inconsistencies detected in this text.</p>
                     ) : (
                       <ul className="space-y-1.5 text-xs text-heading">
                         {analysis.redFlags.map((flag, idx) => (
@@ -227,7 +215,7 @@ export default function TruthLabPage() {
                       <span>Verified Green Signals ({analysis.greenSignals.length})</span>
                     </div>
                     {analysis.greenSignals.length === 0 ? (
-                      <p className="text-xs text-muted">No verifiable third-party certification cited.</p>
+                      <p className="text-xs text-muted">No verifiable third-party certification cited (e.g. <GlossaryTooltip term="GOTS Certified">GOTS</GlossaryTooltip>).</p>
                     ) : (
                       <ul className="space-y-1.5 text-xs text-heading">
                         {analysis.greenSignals.map((signal, idx) => (
@@ -249,7 +237,7 @@ export default function TruthLabPage() {
                   Catalog Disclosures Audit
                 </span>
                 <h3 className="font-serif text-lg font-bold text-heading mt-0.5">
-                  Brand Transparency Scorecard &amp; Lifecycle Completeness
+                  Brand Transparency Scorecard &amp; <GlossaryTooltip term="Cradle-to-Grave">Lifecycle Completeness</GlossaryTooltip>
                 </h3>
               </div>
               <BrandTransparencyCard product={productsData[0]} />

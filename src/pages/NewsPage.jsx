@@ -14,6 +14,10 @@ import {
   ArrowLeft
 } from 'lucide-react';
 import { getEcoNews, summarizeNewsSnippet, NEWS_TOPICS } from '../lib/newsService.js';
+import Chip from '../components/ui/Chip';
+import Input from '../components/ui/Input';
+import Skeleton from '../components/ui/Skeleton';
+import EmptyState from '../components/ui/EmptyState';
 
 export default function NewsPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -160,32 +164,27 @@ export default function NewsPage() {
             {NEWS_TOPICS.map((t) => {
               const isSelected = activeTopic.toLowerCase() === t.id.toLowerCase();
               return (
-                <button
+                <Chip
                   key={t.id}
-                  type="button"
+                  active={isSelected}
                   onClick={() => handleTopicClick(t.id)}
-                  className={`px-3.5 py-2 rounded-full text-xs font-medium transition cursor-pointer active:scale-95 ${
-                    isSelected
-                      ? 'bg-primary text-primary-contrast shadow-soft-xs font-semibold'
-                      : 'bg-surface-raised hover:bg-surface border border-line text-heading'
-                  }`}
                 >
                   {t.label}
-                </button>
+                </Chip>
               );
             })}
           </div>
 
           {/* Manual Search Form (Never fetches per keystroke) */}
-          <form onSubmit={handleSearchSubmit} className="flex gap-2 max-w-xl">
-            <div className="relative flex-1">
-              <Search className="w-4 h-4 text-text-muted absolute left-3.5 top-1/2 -translate-y-1/2" />
-              <input
+          <form onSubmit={handleSearchSubmit} className="flex gap-2 max-w-xl items-start">
+            <div className="flex-1">
+              <Input
+                id="news-search"
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search topics (e.g. EPR India, packaging, fast fashion)..."
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-surface border border-line text-xs font-medium text-heading placeholder:text-text-muted focus:outline-2 focus:outline-focus min-h-[44px]"
+                icon={Search}
               />
             </div>
             <button
@@ -200,13 +199,18 @@ export default function NewsPage() {
 
         {/* Loading State */}
         {loading && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-pulse">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[...Array(6)].map((_, i) => (
-              <div key={i} className="p-6 rounded-3xl bg-surface-raised border border-line space-y-4 h-64">
-                <div className="h-4 bg-surface-sunken rounded w-1/3" />
-                <div className="h-6 bg-surface-sunken rounded w-3/4" />
-                <div className="h-16 bg-surface-sunken rounded w-full" />
-                <div className="h-8 bg-surface-sunken rounded w-1/2" />
+              <div key={i} className="p-6 rounded-3xl bg-surface-raised border border-line space-y-4 h-64 flex flex-col justify-between">
+                <div className="space-y-3">
+                  <Skeleton width="w-1/3" height="h-4" />
+                  <Skeleton width="w-4/5" height="h-6" />
+                  <Skeleton width="w-full" height="h-16" />
+                </div>
+                <div className="flex justify-between pt-3 border-t border-line">
+                  <Skeleton width="w-24" height="h-8" />
+                  <Skeleton width="w-20" height="h-8" />
+                </div>
               </div>
             ))}
           </div>
@@ -296,24 +300,13 @@ export default function NewsPage() {
 
         {/* Empty State (Never shows fake articles) */}
         {!loading && (!newsData.articles || newsData.articles.length === 0) && (
-          <div className="p-12 rounded-3xl bg-surface-raised border border-line text-center space-y-4 max-w-xl mx-auto">
-            <div className="w-12 h-12 rounded-full bg-surface-sunken flex items-center justify-center mx-auto text-text-muted">
-              <Newspaper className="w-6 h-6" />
-            </div>
-            <div className="space-y-1.5">
-              <h3 className="font-serif font-bold text-xl text-heading">No Recent Articles Found</h3>
-              <p className="text-xs sm:text-sm text-secondary">
-                {newsData.message || 'No current articles found for this topic query. The news feed updates periodically.'}
-              </p>
-            </div>
-            <button
-              type="button"
-              onClick={() => handleTopicClick('all')}
-              className="px-5 py-2.5 rounded-xl bg-primary text-primary-contrast font-medium text-xs shadow-soft-sm cursor-pointer"
-            >
-              Browse All Topics
-            </button>
-          </div>
+          <EmptyState
+            icon={Newspaper}
+            title="No Recent Articles Found"
+            description={newsData.message || 'No current articles found for this topic query. The news feed updates periodically.'}
+            actionLabel="Browse All Topics"
+            onAction={() => handleTopicClick('all')}
+          />
         )}
       </div>
     </div>

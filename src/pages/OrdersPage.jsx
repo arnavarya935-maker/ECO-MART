@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   Package,
   ArrowRight,
@@ -20,6 +20,7 @@ import {
 import { useCart } from '../context/CartContext';
 import { playSound } from '../lib/audio';
 import ShareableImpactCard from '../components/community/ShareableImpactCard';
+import EmptyState from '../components/ui/EmptyState';
 
 const TRACKING_STAGES = [
   { id: 'placed', title: 'Order Placed', subtitle: 'Plastic-free manifest generated', icon: CheckCircle2 },
@@ -29,6 +30,7 @@ const TRACKING_STAGES = [
 ];
 
 export default function OrdersPage() {
+  const navigate = useNavigate();
   const { orders, showToast } = useCart();
   // Maintain simulated status map orderId -> stageIndex (0 to 3)
   const [orderStages, setOrderStages] = useState({});
@@ -77,23 +79,13 @@ export default function OrdersPage() {
       </div>
 
       {orders.length === 0 ? (
-        <div className="text-center py-20 bg-surface rounded-3xl border border-line shadow-soft-sm space-y-4">
-          <div className="w-16 h-16 rounded-full bg-surface-sunken text-muted flex items-center justify-center mx-auto text-2xl">
-            <Package className="w-7 h-7" />
-          </div>
-          <h3 className="font-serif font-bold text-lg text-heading">
-            No orders placed yet
-          </h3>
-          <p className="text-xs sm:text-sm text-secondary max-w-sm mx-auto leading-relaxed font-normal">
-            Once you complete a simulated conscious checkout, your environmental impact receipt and live tracking simulation will appear here.
-          </p>
-          <Link
-            to="/shop"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary hover:bg-primary-hover text-primary-contrast text-xs font-medium shadow-soft-xs transition min-h-[44px]"
-          >
-            Start Shopping
-          </Link>
-        </div>
+        <EmptyState
+          icon={Package}
+          title="No orders placed yet"
+          description="Once you complete a simulated conscious checkout, your environmental impact receipt and live tracking simulation will appear here."
+          actionLabel="Start Shopping"
+          onAction={() => navigate('/shop')}
+        />
       ) : (
         <div className="space-y-6">
           {orders.map((order) => {

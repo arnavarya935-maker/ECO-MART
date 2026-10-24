@@ -25,6 +25,15 @@ import TShirtStoryMode from '../components/learn/TShirtStoryMode';
 import MythBusterCards from '../components/learn/MythBusterCards';
 import ShoppersChecklistModal from '../components/tools/ShoppersChecklistModal';
 import { CheckSquare } from 'lucide-react';
+import Tabs from '../components/ui/Tabs';
+import GlossaryTooltip from '../components/ui/GlossaryTooltip';
+
+const LEARN_TABS = [
+  { id: 'how', label: 'Lifecycle Accounting' },
+  { id: 'tshirt', label: 'Journey of a T-Shirt' },
+  { id: 'certs', label: 'Certification Decoder' },
+  { id: 'myths', label: 'Myth-Busters' }
+];
 
 const MYTHS = [
   {
@@ -104,7 +113,7 @@ export default function LearnPage() {
               Learn &amp; Truth Academy
             </h1>
             <p className="font-sans text-xs sm:text-sm text-secondary mt-1 max-w-2xl">
-              Understand cradle-to-grave lifecycle accounting, decode eco-certifications, debunk greenwashing myths, and follow product journeys.
+              Understand <GlossaryTooltip term="Cradle-to-Grave">cradle-to-grave</GlossaryTooltip> lifecycle accounting, <GlossaryTooltip term="Circular Economy">circular economy</GlossaryTooltip> pathways, decode eco-certifications, and debunk greenwashing myths.
             </p>
           </div>
 
@@ -159,29 +168,8 @@ export default function LearnPage() {
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex items-center gap-2 mt-6 overflow-x-auto pb-2">
-          {[
-            { id: 'how', label: '🔬 Lifecycle Accounting', desc: '5 Environmental Pillars' },
-            { id: 'tshirt', label: '👕 Journey of a T-Shirt', desc: 'Cradle to Second Life' },
-            { id: 'certs', label: '🏅 Certification Decoder', desc: 'GOTS, FSC, OEKO-TEX' },
-            { id: 'myths', label: '💡 Sustainability Myth-Busters', desc: 'Landfill, Paper & Recycling' }
-          ].map((tab) => (
-            <button
-              key={tab.id}
-              type="button"
-              onClick={() => setActiveTab(tab.id)}
-              className={`px-4 py-2.5 rounded-2xl border text-xs font-sans transition-all whitespace-nowrap cursor-pointer text-left ${
-                activeTab === tab.id
-                  ? 'bg-primary text-primary-contrast border-primary shadow-soft-xs font-bold'
-                  : 'bg-surface-raised text-secondary border-line hover:text-heading hover:bg-surface'
-              }`}
-            >
-              <div>{tab.label}</div>
-              <div className={`text-[10px] font-normal ${activeTab === tab.id ? 'text-primary-contrast/80' : 'text-muted'}`}>
-                {tab.desc}
-              </div>
-            </button>
-          ))}
+        <div className="mt-6 overflow-x-auto pb-2">
+          <Tabs tabs={LEARN_TABS} activeTab={activeTab} onChange={setActiveTab} />
         </div>
       </div>
 
@@ -194,27 +182,47 @@ export default function LearnPage() {
               {
                 title: '1. Material Renewability (30%)',
                 badge: '30 Pts Max',
-                desc: 'Evaluates the feedstock origin. Prioritizes certified organic fibers, agricultural byproducts (bamboo, coconut coir, jute), and post-consumer recycled glass/metal over virgin petroleum synthetics.'
+                desc: (
+                  <span>
+                    Evaluates the feedstock origin. Prioritizes certified organic fibers, agricultural byproducts (bamboo, coconut coir, jute), and post-consumer recycled glass/metal over virgin petroleum synthetics.
+                  </span>
+                )
               },
               {
                 title: '2. Low-Emission Carbon Footprint (25%)',
                 badge: '25 Pts Max',
-                desc: 'Calculates cradle-to-gate greenhouse emissions (kg CO₂e) covering agricultural energy, industrial heat, and processing fuel using open LCA benchmark data.'
+                desc: (
+                  <span>
+                    Calculates <GlossaryTooltip term="Cradle-to-Grave">cradle-to-gate</GlossaryTooltip> greenhouse emissions (<GlossaryTooltip term="Embodied Carbon">embodied carbon</GlossaryTooltip> in kg CO₂e) covering agricultural energy, industrial heat, and processing fuel using open LCA benchmark data.
+                  </span>
+                )
               },
               {
                 title: '3. Plastic-Free Packaging (20%)',
                 badge: '20 Pts Max',
-                desc: 'Rewards 100% paperboard, seed paper, tin, and biodegradable packaging. Heavily penalizes virgin blister packs and plastic wrap that outlast the product itself.'
+                desc: (
+                  <span>
+                    Rewards 100% paperboard, seed paper, tin, and compostable packaging (<GlossaryTooltip term="Biodegradable vs Compostable">compostable vs biodegradable</GlossaryTooltip>). Heavily penalizes virgin blister packs and plastic wrap that outlast the product itself.
+                  </span>
+                )
               },
               {
                 title: '4. Third-Party Certifications (15%)',
                 badge: '15 Pts Max',
-                desc: 'Validates independent audits (FSC, GOTS, Fair Trade, Leaping Bunny). Self-declarations receive zero points in this category to prevent greenwashing.'
+                desc: (
+                  <span>
+                    Validates independent audits (<GlossaryTooltip term="FSC 100% Certified">FSC</GlossaryTooltip>, <GlossaryTooltip term="GOTS Certified">GOTS</GlossaryTooltip>, Fair Trade, Leaping Bunny). Self-declarations receive zero points in this category to prevent greenwashing.
+                  </span>
+                )
               },
               {
                 title: '5. Local Shipping & Proximity (10%)',
                 badge: '10 Pts Max',
-                desc: 'Measures transport distance from artisan manufacturing centers to consumer hubs. Local intra-state crafts receive maximum proximity credits.'
+                desc: (
+                  <span>
+                    Measures transport distance (<GlossaryTooltip term="Food Miles & Freight Proximity">food miles &amp; freight proximity</GlossaryTooltip>) from artisan manufacturing centers to consumer hubs. Local intra-state crafts receive maximum proximity credits.
+                  </span>
+                )
               },
               {
                 title: 'Data Completeness & Confidence',

@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { Heart, ShoppingBag, ArrowRight, Share2, Check, Copy, QrCode } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import ProductCard from '../components/ProductCard';
+import EmptyState from '../components/ui/EmptyState';
 import productsData from '../data/products.json';
 import { playSound } from '../lib/audio';
 import { exportWishlistCode, importWishlistCode } from '../lib/circularityEngine';
 
 export default function WishlistPage() {
+  const navigate = useNavigate();
   const { wishlist, toggleWishlist, moveAllWishlistToCart, showToast } = useCart();
   const [searchParams] = useSearchParams();
   const [copiedType, setCopiedType] = useState(null);
@@ -112,24 +114,13 @@ export default function WishlistPage() {
       </div>
 
       {wishlist.length === 0 ? (
-        <div className="text-center py-20 bg-surface rounded-3xl border border-line shadow-soft-sm space-y-4">
-          <div className="w-16 h-16 rounded-full bg-surface-sunken text-muted flex items-center justify-center mx-auto text-2xl">
-            <Heart className="w-7 h-7" />
-          </div>
-          <h3 className="font-serif font-bold text-lg text-heading">
-            Your wishlist is empty
-          </h3>
-          <p className="text-xs sm:text-sm text-secondary max-w-sm mx-auto leading-relaxed font-normal">
-            Click the heart icon on any product in the shop catalog to save sustainable favorites here and generate shareable links.
-          </p>
-          <Link
-            to="/shop"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary hover:bg-primary-hover text-primary-contrast text-xs font-medium shadow-soft-xs transition min-h-[44px]"
-          >
-            <span>Explore Eco Catalog</span>
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
+        <EmptyState
+          icon={Heart}
+          title="Your wishlist is empty"
+          description="Click the heart icon on any product in the shop catalog to save sustainable favorites here and generate shareable links."
+          actionLabel="Explore Eco Catalog"
+          onAction={() => navigate('/shop')}
+        />
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {wishlist.map((product) => (
