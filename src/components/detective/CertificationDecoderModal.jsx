@@ -41,7 +41,7 @@ export default function CertificationDecoderModal({ isOpen, onClose }) {
     <div
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
+      className="fixed inset-0 z-modals flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
       onClick={onClose}
     >
       <div
@@ -59,7 +59,7 @@ export default function CertificationDecoderModal({ isOpen, onClose }) {
                 <h2 className="font-serif font-bold text-lg text-heading">
                   Certification Decoder &amp; Registry Guide
                 </h2>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                <span className="text-xs font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
                   Curated Reference
                 </span>
               </div>
@@ -73,7 +73,7 @@ export default function CertificationDecoderModal({ isOpen, onClose }) {
             <button
               type="button"
               onClick={() => setShowHowItWorks(!showHowItWorks)}
-              className="p-2 rounded-xl border border-line bg-surface hover:bg-surface-sunken text-text-muted hover:text-heading text-xs font-mono flex items-center gap-1 transition"
+              className="px-3 py-2 min-h-[44px] rounded-xl border border-line bg-surface hover:bg-surface-sunken text-text-muted hover:text-heading text-xs font-mono flex items-center gap-1.5 transition cursor-pointer"
               title="How this decoder works"
             >
               <HelpCircle className="w-3.5 h-3.5 text-primary" />
@@ -82,7 +82,8 @@ export default function CertificationDecoderModal({ isOpen, onClose }) {
             <button
               type="button"
               onClick={onClose}
-              className="p-2 rounded-xl border border-line text-text-muted hover:text-heading hover:bg-surface transition"
+              className="p-2.5 min-h-[44px] min-w-[44px] rounded-xl border border-line text-text-muted hover:text-heading hover:bg-surface transition flex items-center justify-center cursor-pointer"
+              aria-label="Close dialog"
             >
               <X className="w-4 h-4" />
             </button>
@@ -111,7 +112,7 @@ export default function CertificationDecoderModal({ isOpen, onClose }) {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by certification name (e.g. FSC, GOTS, Organic)..."
-              className="w-full pl-9 pr-3 py-2 text-xs rounded-xl bg-surface-sunken border border-line focus:outline-none focus:border-primary text-heading placeholder:text-text-muted font-sans"
+              className="w-full pl-9 pr-3 py-2.5 min-h-[44px] text-xs rounded-xl bg-surface-sunken border border-line focus:outline-none focus:border-primary text-heading placeholder:text-text-muted font-sans"
             />
           </div>
           <div className="flex gap-1.5 overflow-x-auto pb-1 sm:pb-0 scrollbar-thin">
@@ -120,7 +121,7 @@ export default function CertificationDecoderModal({ isOpen, onClose }) {
                 key={cat}
                 type="button"
                 onClick={() => setSelectedCategory(cat)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-mono whitespace-nowrap transition cursor-pointer ${
+                className={`px-3.5 py-2 min-h-[44px] rounded-xl text-xs font-mono whitespace-nowrap transition cursor-pointer flex items-center justify-center ${
                   selectedCategory === cat
                     ? 'bg-primary text-white font-semibold'
                     : 'bg-surface-sunken border border-line text-text-secondary hover:text-heading'

@@ -1,6 +1,6 @@
 /**
  * On-Device Personalization & Preference Learning Engine
- * 100% Offline & Private: Tracks interaction signals strictly in localStorage.
+ * Local-First & Private: Tracks interaction signals strictly in localStorage.
  * No remote telemetry, cookies, or cloud sync.
  */
 

@@ -62,7 +62,7 @@ export default function GiftFinderModal({ isOpen, onClose }) {
     <div
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
+      className="fixed inset-0 z-modals flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
       onClick={onClose}
     >
       <div
@@ -80,12 +80,12 @@ export default function GiftFinderModal({ isOpen, onClose }) {
                 <h3 className="font-serif font-bold text-lg text-heading">
                   Curated Eco Gift Finder
                 </h3>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-surface-raised border border-line text-text-muted">
+                <span className="text-xs font-mono px-2 py-0.5 rounded-full bg-surface-raised border border-line text-text-muted">
                   Conscious Gifting
                 </span>
               </div>
               <p className="text-xs text-text-secondary mt-0.5">
-                Zero plastic clutter. Match the recipient, celebration, and budget with meaningful circular gifts.
+                Zero landfill clutter. Match the recipient, celebration, and budget with meaningful circular gifts.
               </p>
             </div>
           </div>
@@ -94,7 +94,7 @@ export default function GiftFinderModal({ isOpen, onClose }) {
             <button
               type="button"
               onClick={() => setShowHowItWorks(!showHowItWorks)}
-              className="p-2 rounded-xl border border-line bg-surface hover:bg-surface-sunken text-text-muted hover:text-heading text-xs font-mono flex items-center gap-1 transition"
+              className="px-3 py-2 min-h-[44px] rounded-xl border border-line bg-surface hover:bg-surface-sunken text-text-muted hover:text-heading text-xs font-mono flex items-center gap-1.5 transition cursor-pointer"
             >
               <HelpCircle className="w-3.5 h-3.5 text-primary" />
               <span className="hidden sm:inline">How it works</span>
@@ -102,7 +102,8 @@ export default function GiftFinderModal({ isOpen, onClose }) {
             <button
               type="button"
               onClick={onClose}
-              className="p-2 rounded-xl border border-line text-text-muted hover:text-heading hover:bg-surface transition"
+              className="p-2.5 min-h-[44px] min-w-[44px] rounded-xl border border-line text-text-muted hover:text-heading hover:bg-surface transition flex items-center justify-center cursor-pointer"
+              aria-label="Close dialog"
             >
               <X className="w-4 h-4" />
             </button>

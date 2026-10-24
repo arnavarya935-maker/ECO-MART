@@ -154,7 +154,7 @@ export function AuthProvider({ children }) {
     return sessionUser;
   };
 
-  // Log in as Guest (100% offline, zero network requirement)
+  // Log in as Guest (local-first session, zero network requirement)
   const loginAsGuest = () => {
     const guestUser = {
       id: `guest-${Date.now()}`,

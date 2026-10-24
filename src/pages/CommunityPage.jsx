@@ -27,7 +27,7 @@ export default function CommunityPage() {
           Community & Gamification
         </h1>
         <p className="text-sm sm:text-base text-secondary leading-relaxed max-w-xl mx-auto">
-          Connect with local shoppers, celebrate seasonal eco champions, pin your pledge, and download your verified impact certificate.
+          Connect with local shoppers, celebrate seasonal eco champions, pin your pledge, and download your logged impact summary.
         </p>
       </div>
 

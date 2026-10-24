@@ -84,15 +84,15 @@ export default function Footer() {
 
             {/* Trust Marks */}
             <div className="pt-2 flex flex-wrap gap-2 text-xs font-mono">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-raised text-heading border border-line text-[11px] uppercase tracking-wider">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-raised text-heading border border-line text-xs uppercase tracking-wider">
                 <ShieldCheck className="w-3.5 h-3.5 text-primary" />
                 Plastic-Conscious
               </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-raised text-heading border border-line text-[11px] uppercase tracking-wider">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-raised text-heading border border-line text-xs uppercase tracking-wider">
                 <Award className="w-3.5 h-3.5 text-secondary" />
                 Transparent Impact
               </span>
-              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-raised text-heading border border-line text-[11px] uppercase tracking-wider">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-raised text-heading border border-line text-xs uppercase tracking-wider">
                 <Zap className="w-3.5 h-3.5 text-amber-400" />
                 Local-First Engine
               </span>
@@ -101,7 +101,7 @@ export default function Footer() {
 
           {/* Quick Navigation (2 cols) */}
           <nav aria-label="Footer Index" className="md:col-span-2 md:col-start-7">
-            <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-text-muted mb-5">
+            <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-text-muted mb-5">
               Index
             </p>
             <ul className="space-y-2.5 text-xs font-sans font-medium text-text-secondary">
@@ -161,7 +161,7 @@ export default function Footer() {
 
           {/* Methodology & Science (2 cols) */}
           <div className="md:col-span-2">
-            <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-text-muted mb-5">
+            <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-text-muted mb-5">
               Methodology
             </p>
             <ul className="space-y-2 text-xs font-mono text-text-secondary">
@@ -191,7 +191,7 @@ export default function Footer() {
           {/* Newsletter Field & Back to top (3 cols) */}
           <div className="md:col-span-3 space-y-4">
             <div className="flex items-center justify-between">
-              <p className="font-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-text-muted">
+              <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-text-muted">
                 Stay Conscious
               </p>
               <button
@@ -245,8 +245,8 @@ export default function Footer() {
           </div>
           <div className="flex flex-wrap items-center gap-2 text-heading font-medium">
             <span className={`w-2 h-2 rounded-full ${healthInfo.gemini ? 'bg-primary animate-pulse' : 'bg-amber-400'}`} />
-            <span className="font-mono text-[11px]">{healthInfo.label}</span>
-            <span className="px-2 py-0.5 rounded-full bg-surface-raised text-[10px] text-text-muted border border-line font-mono">
+            <span className="font-mono text-xs">{healthInfo.label}</span>
+            <span className="px-2 py-0.5 rounded-full bg-surface-raised text-xs text-text-muted border border-line font-mono">
               Server AI + Offline Fallback
             </span>
           </div>
@@ -254,7 +254,7 @@ export default function Footer() {
       </div>
 
       {/* Monumental ECOMART Wordmark with Emerald Planet Glow */}
-      <div className="relative mt-16 md:mt-24 pb-8 overflow-hidden">
+      <div className="relative mt-16 md:mt-24 pb-28 md:pb-16 overflow-hidden">
         <div className="relative z-10 overflow-hidden px-[4vw]" aria-hidden="true">
           <p className="ft-mark text-[clamp(4.2rem,15vw,18rem)]">
             <span className="ft-char tracking-tighter">ECOMART</span>

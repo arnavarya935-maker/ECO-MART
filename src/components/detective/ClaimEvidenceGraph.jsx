@@ -49,7 +49,7 @@ export default function ClaimEvidenceGraph({ evidenceGraph, evidenceGrade, evide
             <h4 className="font-serif font-bold text-sm text-heading">
               Claim Evidence Graph &amp; Provenance
             </h4>
-            <span className="text-[10px] text-muted font-mono uppercase tracking-wider block">
+            <span className="text-xs text-muted font-mono uppercase tracking-wider block">
               Pillar-by-Pillar Verification Matrix
             </span>
           </div>
@@ -64,7 +64,7 @@ export default function ClaimEvidenceGraph({ evidenceGraph, evidenceGrade, evide
       <div className="grid grid-cols-1 md:grid-cols-11 gap-3 items-center">
         {/* Stage 1: Declared Claims (3 cols) */}
         <div className="md:col-span-3 space-y-2">
-          <span className="text-[10px] font-mono uppercase text-muted tracking-wider block font-bold">
+          <span className="text-xs font-mono uppercase text-muted tracking-wider block font-bold">
             1. Declared Claims
           </span>
           <div className="space-y-1.5">
@@ -87,7 +87,7 @@ export default function ClaimEvidenceGraph({ evidenceGraph, evidenceGrade, evide
 
         {/* Stage 2: Verification Audits (4 cols) */}
         <div className="md:col-span-4 space-y-2">
-          <span className="text-[10px] font-mono uppercase text-muted tracking-wider block font-bold">
+          <span className="text-xs font-mono uppercase text-muted tracking-wider block font-bold">
             2. Evidence Cross-Audit
           </span>
           <div className="space-y-1.5">
@@ -105,7 +105,7 @@ export default function ClaimEvidenceGraph({ evidenceGraph, evidenceGrade, evide
                   className={`p-2.5 rounded-xl border text-xs font-medium flex items-center justify-between gap-2 shadow-2xs ${statusClass}`}
                 >
                   <span className="truncate">{audit.label}</span>
-                  <span className="text-[10px] font-mono font-bold uppercase shrink-0">
+                  <span className="text-xs font-mono font-bold uppercase shrink-0">
                     {audit.status}
                   </span>
                 </div>
@@ -121,14 +121,14 @@ export default function ClaimEvidenceGraph({ evidenceGraph, evidenceGrade, evide
 
         {/* Stage 3: Verdict (2 cols) */}
         <div className="md:col-span-2 space-y-2">
-          <span className="text-[10px] font-mono uppercase text-muted tracking-wider block font-bold">
+          <span className="text-xs font-mono uppercase text-muted tracking-wider block font-bold">
             3. Final Grade
           </span>
           <div className={`p-3 rounded-2xl border text-center space-y-1 shadow-soft-xs ${gradeColors.badge}`}>
             <div className="w-9 h-9 rounded-xl bg-surface mx-auto flex items-center justify-center font-serif text-lg font-bold border border-line">
               {grade}
             </div>
-            <div className="text-[10px] font-bold">{gradeColors.label.split(':')[0]}</div>
+            <div className="text-xs font-bold">{gradeColors.label.split(':')[0]}</div>
           </div>
         </div>
       </div>
@@ -139,10 +139,10 @@ export default function ClaimEvidenceGraph({ evidenceGraph, evidenceGrade, evide
           <VerdictIcon className="w-4 h-4 text-primary shrink-0" />
           <span>Audit Conclusion:</span>
         </div>
-        <p className="text-[11px] text-secondary leading-relaxed pl-5">
+        <p className="text-xs text-secondary leading-relaxed pl-5">
           {reason}
         </p>
-        <div className="text-[10px] font-sans text-muted pl-5 pt-1 border-t border-line/50">
+        <div className="text-xs font-sans text-muted pl-5 pt-1 border-t border-line/50">
           Note: Certifications are claimed on label. Check the respective issuer&rsquo;s public registry before purchasing.
         </div>
       </div>

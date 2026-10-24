@@ -281,7 +281,7 @@ export default function TShirtStoryMode() {
       <div className="p-6 sm:p-8 border-b border-line bg-surface flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-primary bg-primary/10 border border-primary/20 px-2.5 py-0.5 rounded-full">
+            <span className="text-xs font-mono font-bold uppercase tracking-wider text-primary bg-primary/10 border border-primary/20 px-2.5 py-0.5 rounded-full">
               Interactive Story Mode
             </span>
             <span className="text-xs text-muted font-medium">
@@ -300,7 +300,7 @@ export default function TShirtStoryMode() {
           <button
             type="button"
             onClick={() => setIsPlaying(!isPlaying)}
-            className="px-3.5 py-2 rounded-xl bg-primary text-primary-contrast hover:bg-primary-hover text-xs font-semibold flex items-center gap-1.5 transition-colors shadow-soft-xs cursor-pointer min-h-[40px]"
+            className="px-4 py-2.5 rounded-xl bg-primary text-primary-contrast hover:bg-primary-hover text-xs font-semibold flex items-center gap-1.5 transition-colors shadow-soft-xs cursor-pointer min-h-[44px]"
           >
             {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
             <span>{isPlaying ? 'Pause Story' : 'Autoplay Story'}</span>
@@ -311,7 +311,7 @@ export default function TShirtStoryMode() {
               setIsPlaying(false);
               setActiveStageIndex(0);
             }}
-            className="p-2 rounded-xl bg-surface-sunken hover:bg-surface border border-line text-secondary hover:text-heading transition-colors cursor-pointer"
+            className="p-2.5 rounded-xl bg-surface-sunken hover:bg-surface border border-line text-secondary hover:text-heading transition-colors cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center"
             title="Reset to beginning"
             aria-label="Reset to beginning"
           >
@@ -320,7 +320,7 @@ export default function TShirtStoryMode() {
           <button
             type="button"
             onClick={() => setShowExplanation(!showExplanation)}
-            className="p-2 rounded-xl bg-surface-sunken hover:bg-surface border border-line text-secondary hover:text-heading transition-colors cursor-pointer"
+            className="p-2.5 rounded-xl bg-surface-sunken hover:bg-surface border border-line text-secondary hover:text-heading transition-colors cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center"
             title="How metrics are calculated"
             aria-label="How metrics are calculated"
           >
@@ -334,7 +334,7 @@ export default function TShirtStoryMode() {
         {renderArtwork(stage.svgType)}
 
         {/* Location Stamp */}
-        <div className="absolute top-4 left-4 bg-surface/90 backdrop-blur-md px-3 py-1.5 rounded-xl border border-line text-[11px] font-mono text-heading shadow-soft-xs flex items-center gap-1.5">
+        <div className="absolute top-4 left-4 bg-surface/90 backdrop-blur-md px-3 py-1.5 rounded-xl border border-line text-xs font-mono text-heading shadow-soft-xs flex items-center gap-1.5">
           <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
           <span>Stage {activeStageIndex + 1}: {stage.location}</span>
         </div>
@@ -350,13 +350,13 @@ export default function TShirtStoryMode() {
               setIsPlaying(false);
               setActiveStageIndex(idx);
             }}
-            className={`px-3 py-1.5 rounded-xl text-xs font-sans transition-all whitespace-nowrap cursor-pointer text-left flex items-center gap-1.5 ${
+            className={`px-3.5 py-2 min-h-[44px] rounded-xl text-xs font-sans transition-all whitespace-nowrap cursor-pointer text-left flex items-center gap-1.5 ${
               activeStageIndex === idx
                 ? 'bg-primary text-primary-contrast font-bold shadow-soft-xs'
                 : 'bg-surface-sunken text-secondary border border-line hover:text-heading'
             }`}
           >
-            <span className="font-mono text-[10px] opacity-75">{idx + 1}.</span>
+            <span className="font-mono text-xs opacity-75">{idx + 1}.</span>
             <span>{s.title.split(' ')[0]}</span>
           </button>
         ))}
@@ -365,7 +365,7 @@ export default function TShirtStoryMode() {
       {/* Active Stage Details & Impact Ledger */}
       <div className="p-6 sm:p-8 space-y-6">
         <div>
-          <span className="text-[10px] font-mono font-bold uppercase text-primary tracking-wider">
+          <span className="text-xs font-mono font-bold uppercase text-primary tracking-wider">
             Lifecycle Milestone {activeStageIndex + 1}
           </span>
           <h3 className="font-serif font-bold text-xl sm:text-2xl text-heading mt-0.5">
@@ -389,7 +389,7 @@ export default function TShirtStoryMode() {
             <div className="text-base font-serif font-bold text-heading">
               {stage.waterUsed}
             </div>
-            <div className="text-[10px] text-muted line-through">
+            <div className="text-xs text-muted line-through">
               Conventional: {stage.waterConventional}
             </div>
           </div>
@@ -402,7 +402,7 @@ export default function TShirtStoryMode() {
             <div className="text-base font-serif font-bold text-heading">
               {stage.co2Emitted}
             </div>
-            <div className="text-[10px] text-muted line-through">
+            <div className="text-xs text-muted line-through">
               Conventional: {stage.co2Conventional}
             </div>
           </div>
@@ -415,7 +415,7 @@ export default function TShirtStoryMode() {
             <div className="text-base font-serif font-bold text-heading">
               {stage.chemicals}
             </div>
-            <div className="text-[10px] text-muted line-through">
+            <div className="text-xs text-muted line-through">
               Conventional: {stage.chemicalsConventional}
             </div>
           </div>
@@ -427,13 +427,13 @@ export default function TShirtStoryMode() {
             type="button"
             disabled={activeStageIndex === 0}
             onClick={() => setActiveStageIndex((prev) => Math.max(0, prev - 1))}
-            className="px-4 py-2 rounded-xl bg-surface-sunken hover:bg-surface border border-line text-xs font-semibold text-heading disabled:opacity-40 transition-colors inline-flex items-center gap-1.5 cursor-pointer"
+            className="px-4 py-2.5 min-h-[44px] rounded-xl bg-surface-sunken hover:bg-surface border border-line text-xs font-semibold text-heading disabled:opacity-40 transition-colors inline-flex items-center gap-1.5 cursor-pointer"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>Previous Stage</span>
           </button>
 
-          <span className="text-[11px] font-mono text-muted">
+          <span className="text-xs font-mono text-muted">
             Stage {activeStageIndex + 1} of {STAGES.length}
           </span>
 
@@ -441,7 +441,7 @@ export default function TShirtStoryMode() {
             type="button"
             disabled={activeStageIndex === STAGES.length - 1}
             onClick={() => setActiveStageIndex((prev) => Math.min(STAGES.length - 1, prev + 1))}
-            className="px-4 py-2 rounded-xl bg-primary hover:bg-primary-hover text-primary-contrast text-xs font-semibold disabled:opacity-40 transition-colors inline-flex items-center gap-1.5 cursor-pointer shadow-soft-xs"
+            className="px-4 py-2.5 min-h-[44px] rounded-xl bg-primary hover:bg-primary-hover text-primary-contrast text-xs font-semibold disabled:opacity-40 transition-colors inline-flex items-center gap-1.5 cursor-pointer shadow-soft-xs"
           >
             <span>Next Stage</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -456,7 +456,7 @@ export default function TShirtStoryMode() {
             <h4 className="font-serif font-bold text-sm text-heading">
               How are these cradle-to-grave numbers estimated?
             </h4>
-            <span className="text-[10px] font-mono text-muted">
+            <span className="text-xs font-mono text-muted">
               ISO 14040 Life Cycle Assessment Methodology
             </span>
           </div>

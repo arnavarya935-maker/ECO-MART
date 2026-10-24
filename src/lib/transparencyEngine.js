@@ -1,6 +1,6 @@
 /**
  * EcoMart Transparency & Greenwash Intelligence Engine
- * 100% Offline, Deterministic, and Grounded in FTC & ASCI Advertising Guidelines.
+ * Deterministic, Local-First, and Grounded in FTC & ASCI Advertising Guidelines.
  */
 
 // Curated database of environmental claims and regulated certification frameworks

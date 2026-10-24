@@ -161,22 +161,22 @@ export default function ProductCompareModal() {
                     {/* Best in Row Highlights (Feature 9) */}
                     <div className="flex flex-wrap gap-1 mt-2 min-h-[22px]">
                       {isBestEco && (
-                        <span className="px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 text-[10px] font-bold">
+                        <span className="px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 text-xs font-bold">
                           ★ Best EcoScore
                         </span>
                       )}
                       {isBestPrice && (
-                        <span className="px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-700 dark:text-amber-300 border border-amber-500/30 text-[10px] font-bold">
+                        <span className="px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-700 dark:text-amber-300 border border-amber-500/30 text-xs font-bold">
                           💰 Lowest Price
                         </span>
                       )}
                       {isBestCarbon && (
-                        <span className="px-2 py-0.5 rounded-md bg-teal-500/10 text-teal-700 dark:text-teal-300 border border-teal-500/30 text-[10px] font-bold">
+                        <span className="px-2 py-0.5 rounded-md bg-teal-500/10 text-teal-700 dark:text-teal-300 border border-teal-500/30 text-xs font-bold">
                           🌱 Lowest Carbon
                         </span>
                       )}
                       {isBestPlastic && (
-                        <span className="px-2 py-0.5 rounded-md bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/30 text-[10px] font-bold">
+                        <span className="px-2 py-0.5 rounded-md bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border border-indigo-500/30 text-xs font-bold">
                           🛡️ Lowest Plastic
                         </span>
                       )}
@@ -233,7 +233,7 @@ export default function ProductCompareModal() {
                         <div className="text-secondary mb-1.5 font-medium">Certifications</div>
                         <div className="flex flex-wrap gap-1">
                           {(product.certifications || []).map((c, i) => (
-                            <span key={i} className="text-[10px] px-2 py-0.5 rounded-md bg-surface-sunken border border-line text-secondary font-medium">
+                            <span key={i} className="text-xs px-2 py-0.5 rounded-md bg-surface-sunken border border-line text-secondary font-medium">
                               {c}
                             </span>
                           ))}

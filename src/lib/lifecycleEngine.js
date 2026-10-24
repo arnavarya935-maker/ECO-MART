@@ -1,6 +1,6 @@
 /**
  * Product Lifecycle Calculation Engine
- * 100% Offline, Derive stage data honestly from product attributes
+ * Local-First: Derives stage data honestly from product attributes
  */
 
 /**

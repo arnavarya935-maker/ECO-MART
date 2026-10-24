@@ -74,7 +74,7 @@ export default function GreenwashingDetectiveModal({ isOpen, onClose }) {
       role="dialog"
       aria-modal="true"
       aria-label="Greenwashing Detective Dossier"
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/75 backdrop-blur-md overflow-y-auto"
+      className="fixed inset-0 z-modals flex items-center justify-center p-4 sm:p-6 bg-black/75 backdrop-blur-md overflow-y-auto"
     >
       <div className="relative w-full max-w-2xl rounded-3xl bg-surface-raised border border-line shadow-soft-2xl overflow-hidden text-heading animate-scale-up my-8">
         {/* Detective Case File Top Header */}
@@ -85,7 +85,7 @@ export default function GreenwashingDetectiveModal({ isOpen, onClose }) {
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-amber-400 font-bold">
+                <span className="font-mono text-xs uppercase tracking-[0.2em] text-amber-400 font-bold">
                   CASE FILE #GW-2026 · AI ETHICS AUDIT
                 </span>
               </div>
@@ -98,7 +98,7 @@ export default function GreenwashingDetectiveModal({ isOpen, onClose }) {
           <button
             type="button"
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-surface border border-line hover:bg-surface-raised text-text-muted hover:text-heading flex items-center justify-center transition-colors cursor-pointer"
+            className="w-11 h-11 min-h-[44px] min-w-[44px] rounded-full bg-surface border border-line hover:bg-surface-raised text-text-muted hover:text-heading flex items-center justify-center transition-colors cursor-pointer"
             aria-label="Close detective case file"
           >
             ✕
@@ -124,7 +124,7 @@ export default function GreenwashingDetectiveModal({ isOpen, onClose }) {
 
           {/* Preset Dubious Scenarios for Quick Live Demo */}
           <div className="space-y-1.5">
-            <div className="font-mono text-[10px] text-text-muted uppercase tracking-wider">
+            <div className="font-mono text-xs text-text-muted uppercase tracking-wider">
               Try a sample claim:
             </div>
             <div className="flex flex-wrap gap-2">
@@ -136,7 +136,7 @@ export default function GreenwashingDetectiveModal({ isOpen, onClose }) {
                     setClaimText(sample.claim);
                     handleRunAudit(sample.claim);
                   }}
-                  className="px-2.5 py-1 rounded-lg bg-surface border border-line hover:border-primary/50 text-[11px] font-mono text-text-secondary hover:text-heading transition-colors cursor-pointer"
+                  className="px-3 py-1.5 min-h-[36px] rounded-lg bg-surface border border-line hover:border-primary/50 text-xs font-mono text-text-secondary hover:text-heading transition-colors cursor-pointer flex items-center"
                 >
                   {sample.label}
                 </button>
@@ -173,8 +173,8 @@ export default function GreenwashingDetectiveModal({ isOpen, onClose }) {
               {/* Trust Score Header */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-line pb-4">
                 <div>
-                  <div className="font-mono text-[10px] uppercase tracking-wider text-text-muted">
-                    VERIFIED TRUST SCORE
+                  <div className="font-mono text-xs uppercase tracking-wider text-text-muted">
+                    EVIDENTIARY TRUST SCORE
                   </div>
                   <div className="flex items-baseline gap-2 mt-1">
                     <span className="font-mono text-4xl sm:text-5xl font-bold text-heading">
@@ -185,7 +185,7 @@ export default function GreenwashingDetectiveModal({ isOpen, onClose }) {
                 </div>
 
                 <div className="text-left sm:text-right">
-                  <div className="font-mono text-[10px] uppercase tracking-wider text-text-muted">
+                  <div className="font-mono text-xs uppercase tracking-wider text-text-muted">
                     CASE VERDICT
                   </div>
                   <div
@@ -200,7 +200,7 @@ export default function GreenwashingDetectiveModal({ isOpen, onClose }) {
 
               {/* Plain Verdict Explanation */}
               <div>
-                <div className="font-mono text-[10px] uppercase tracking-wider text-text-muted mb-1 flex items-center gap-1">
+                <div className="font-mono text-xs uppercase tracking-wider text-text-muted mb-1 flex items-center gap-1">
                   <HelpCircle className="w-3.5 h-3.5 text-primary" />
                   <span>Detective's Summary</span>
                 </div>
@@ -216,14 +216,14 @@ export default function GreenwashingDetectiveModal({ isOpen, onClose }) {
                     Integrity Fingerprint Radar
                   </span>
                   <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-mono text-muted">Compare with:</span>
+                    <span className="text-xs font-mono text-muted">Compare with:</span>
                     <select
                       value={comparisonClaim ? comparisonClaim.label : 'none'}
                       onChange={(e) => {
                         const found = SAMPLE_CLAIMS.find((c) => c.label === e.target.value);
                         setComparisonClaim(found || null);
                       }}
-                      className="text-[11px] font-mono px-2 py-1 rounded-lg bg-surface border border-line text-heading focus:outline-none"
+                      className="text-xs font-mono px-3 py-2 min-h-[44px] rounded-lg bg-surface border border-line text-heading focus:outline-none"
                     >
                       <option value="none">None (Single Claim)</option>
                       {SAMPLE_CLAIMS.map((c) => (
@@ -254,7 +254,7 @@ export default function GreenwashingDetectiveModal({ isOpen, onClose }) {
               {/* Flagged Vague Phrases */}
               {auditResult.flagged_phrases && auditResult.flagged_phrases.length > 0 && (
                 <div>
-                  <div className="font-mono text-[10px] uppercase tracking-wider text-rose-400 mb-2 flex items-center gap-1 font-bold">
+                  <div className="font-mono text-xs uppercase tracking-wider text-rose-400 mb-2 flex items-center gap-1 font-bold">
                     <AlertTriangle className="w-3.5 h-3.5 text-rose-400" />
                     <span>Flagged Vague or Deceptive Buzzwords ({auditResult.flagged_phrases.length})</span>
                   </div>
@@ -267,7 +267,7 @@ export default function GreenwashingDetectiveModal({ isOpen, onClose }) {
                         <div className="font-mono font-bold text-rose-300">
                           &ldquo;{flag.phrase}&rdquo;
                         </div>
-                        <div className="text-text-secondary text-[11px] leading-snug">
+                        <div className="text-text-secondary text-xs leading-snug">
                           {flag.issue || flag.reason}
                         </div>
                       </div>
@@ -279,7 +279,7 @@ export default function GreenwashingDetectiveModal({ isOpen, onClose }) {
               {/* Missing Independent Proofs */}
               {auditResult.missing_proofs && auditResult.missing_proofs.length > 0 && (
                 <div>
-                  <div className="font-mono text-[10px] uppercase tracking-wider text-amber-400 mb-2 flex items-center gap-1 font-bold">
+                  <div className="font-mono text-xs uppercase tracking-wider text-amber-400 mb-2 flex items-center gap-1 font-bold">
                     <XCircle className="w-3.5 h-3.5 text-amber-400" />
                     <span>Missing Third-Party Verification</span>
                   </div>
@@ -297,9 +297,9 @@ export default function GreenwashingDetectiveModal({ isOpen, onClose }) {
               {/* Positive Elements */}
               {auditResult.positive_elements && auditResult.positive_elements.length > 0 && (
                 <div>
-                  <div className="font-mono text-[10px] uppercase tracking-wider text-primary mb-1 flex items-center gap-1 font-bold">
+                  <div className="font-mono text-xs uppercase tracking-wider text-primary mb-1 flex items-center gap-1 font-bold">
                     <CheckCircle2 className="w-3.5 h-3.5 text-primary" />
-                    <span>Verified Aspects</span>
+                    <span>Supported Aspects</span>
                   </div>
                   <ul className="space-y-1">
                     {auditResult.positive_elements.map((pos, idx) => (
@@ -313,10 +313,10 @@ export default function GreenwashingDetectiveModal({ isOpen, onClose }) {
               )}
 
               {/* Footer Meta */}
-              <div className="pt-3 border-t border-line/60 flex items-center justify-between font-mono text-[10px] text-text-muted">
-                <span>MODEL: {auditResult.model || 'Gemini 1.5 Flash'}</span>
+              <div className="pt-3 border-t border-line/60 flex items-center justify-between font-mono text-xs text-text-muted">
+                <span>MODEL: {auditResult.model || 'Gemini 2.5 Flash'}</span>
                 <span className="flex items-center gap-1 text-primary">
-                  <Zap className="w-3 h-3 text-primary" />
+                  <Zap className="w-3.5 h-3.5 text-primary" />
                   <span>~{auditResult.estimated_energy_wh || 0.11} Wh compute</span>
                 </span>
               </div>

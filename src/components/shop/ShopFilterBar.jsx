@@ -31,7 +31,7 @@ export default function ShopFilterBar({
             <button
               type="button"
               onClick={() => onSearchChange('')}
-              className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 text-muted hover:text-heading cursor-pointer min-h-[32px] min-w-[32px] flex items-center justify-center"
+              className="absolute right-2 top-1/2 -translate-y-1/2 p-2 text-muted hover:text-heading cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center"
               aria-label="Clear search query"
             >
               <X className="w-3.5 h-3.5" />
@@ -83,7 +83,7 @@ export default function ShopFilterBar({
             <SlidersHorizontal className="w-3.5 h-3.5 text-primary" />
             <span>{t('shop.filters', 'Filters')}</span>
             {activeFilterCount > 0 && (
-              <span className="w-4 h-4 rounded-full bg-primary text-text-inverted text-[9px] font-sans font-bold flex items-center justify-center">
+              <span className="min-w-[18px] h-[18px] px-1 rounded-full bg-primary text-text-inverted text-xs font-sans font-bold flex items-center justify-center leading-none">
                 {activeFilterCount}
               </span>
             )}

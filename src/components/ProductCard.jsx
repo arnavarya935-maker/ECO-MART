@@ -86,11 +86,11 @@ export default function ProductCard({ product, rankingDetails }) {
 
         {/* Top Left Badges */}
         <div className="absolute top-3 left-3 flex flex-col gap-1 items-start z-2 pointer-events-none">
-          <span className="text-[10px] font-sans font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full bg-surface-raised/95 text-heading border border-line backdrop-blur-xs shadow-2xs">
+          <span className="text-xs font-sans font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full bg-surface-raised/95 text-heading border border-line backdrop-blur-xs shadow-2xs">
             {product.category}
           </span>
           {isHighImpactPerRupee && (
-            <span className="text-[10px] font-sans font-semibold px-2 py-0.5 rounded-full bg-surface-accent text-primary border border-primary/20 backdrop-blur-xs shadow-2xs flex items-center gap-1">
+            <span className="text-xs font-sans font-semibold px-2 py-0.5 rounded-full bg-surface-accent text-primary border border-primary/20 backdrop-blur-xs shadow-2xs flex items-center gap-1">
               <Sparkles className="w-2.5 h-2.5 text-primary" /> High Impact / ₹
             </span>
           )}
@@ -147,7 +147,7 @@ export default function ProductCard({ product, rankingDetails }) {
 
           {/* Environmental metrics & Decision Engine Ranking */}
           <div className="flex flex-wrap items-center justify-between gap-2 mt-3">
-            <div className="flex items-center gap-3 text-[11px] font-sans text-secondary font-medium">
+            <div className="flex items-center gap-3 text-xs font-sans text-secondary font-medium">
               <span className="flex items-center gap-1" title="Carbon footprint">
                 <Wind className="w-3.5 h-3.5 text-primary" /> {product.carbonKg}kg CO₂
               </span>
@@ -159,7 +159,7 @@ export default function ProductCard({ product, rankingDetails }) {
               <button
                 type="button"
                 onClick={handleQuickView}
-                className="text-[11px] font-sans font-semibold text-primary hover:underline flex items-center gap-1 cursor-pointer"
+                className="text-xs font-sans font-semibold text-primary hover:underline flex items-center gap-1 cursor-pointer min-h-[32px]"
                 title="Inspect EcoScore audit methodology and formula"
               >
                 <Sparkles className="w-3 h-3 text-primary" />
@@ -176,7 +176,7 @@ export default function ProductCard({ product, rankingDetails }) {
         {/* Bottom Price & One-Tap Add to Cart */}
         <div className="pt-3 border-t border-line flex items-center justify-between gap-2">
           <div>
-            <div className="text-[10px] font-sans uppercase font-medium text-muted tracking-wider">Price</div>
+            <div className="text-xs font-sans uppercase font-medium text-muted tracking-wider">Price</div>
             <div className="text-base sm:text-lg font-sans font-bold text-heading">
               ₹{product.price.toLocaleString('en-IN')}
             </div>

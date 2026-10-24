@@ -191,7 +191,7 @@ export default function Navbar() {
             {/* Dropdown Panel */}
             {moreOpen && (
               <div className="absolute top-full right-0 mt-2 w-80 p-2.5 rounded-2xl bg-surface-raised border border-line shadow-soft-lg z-50 animate-scale-up grid grid-cols-1 gap-1">
-                <div className="px-3 py-1.5 text-[11px] font-sans font-semibold uppercase tracking-wider text-text-muted border-b border-line mb-1">
+                <div className="px-3 py-1.5 text-xs font-sans font-semibold uppercase tracking-wider text-text-muted border-b border-line mb-1">
                   Responsible AI Labs & Tools
                 </div>
                 {MORE_LINKS.map((item) => {
@@ -202,7 +202,7 @@ export default function Navbar() {
                     <Link
                       key={item.path}
                       to={item.path}
-                      className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs font-sans transition-all ${
+                      className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs font-sans transition-all min-h-[44px] ${
                         active
                           ? 'bg-surface-accent text-primary font-semibold'
                           : 'text-text hover:bg-surface-sunken hover:text-heading'
@@ -212,7 +212,7 @@ export default function Navbar() {
                         <Icon className="w-4 h-4 text-primary shrink-0" />
                         <span className="font-medium text-heading">{item.label}</span>
                       </div>
-                      <span className="text-[10px] text-text-muted font-normal bg-surface px-2 py-0.5 rounded-md border border-line">
+                      <span className="text-xs text-text-muted font-normal bg-surface px-2 py-0.5 rounded-md border border-line">
                         {item.badge}
                       </span>
                     </Link>
@@ -231,11 +231,11 @@ export default function Navbar() {
             onClick={() => window.dispatchEvent(new CustomEvent('toggle-command-palette'))}
             title="Search & Quick Actions (Ctrl+K)"
             aria-label="Search and command palette"
-            className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-line bg-surface-raised/70 hover:bg-surface-raised text-text-muted hover:text-heading text-xs font-sans transition cursor-pointer min-h-[40px]"
+            className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-line bg-surface-raised/70 hover:bg-surface-raised text-text-muted hover:text-heading text-xs font-sans transition cursor-pointer min-h-[44px]"
           >
             <Search className="w-3.5 h-3.5 text-text-muted" />
             <span className="hidden sm:inline font-medium">Search</span>
-            <kbd className="hidden sm:inline px-1.5 py-0.5 text-[10px] bg-surface-sunken border border-line rounded text-text-muted font-mono font-semibold">
+            <kbd className="hidden sm:inline px-1.5 py-0.5 text-xs bg-surface-sunken border border-line rounded text-text-muted font-mono font-semibold">
               ⌘K
             </kbd>
           </button>
@@ -250,7 +250,7 @@ export default function Navbar() {
               onClick={toggleLanguage}
               title={lang === 'en' ? 'Switch to Hindi (हिंदी)' : 'Switch to English'}
               aria-label={`Switch language: ${lang === 'en' ? 'Hindi' : 'English'}`}
-              className="flex items-center gap-1 px-2.5 py-1.5 rounded-full border border-line bg-surface-raised/70 hover:bg-surface-raised text-heading text-xs font-sans font-medium transition cursor-pointer min-h-[40px]"
+              className="flex items-center gap-1 px-2.5 py-1.5 rounded-full border border-line bg-surface-raised/70 hover:bg-surface-raised text-heading text-xs font-sans font-medium transition cursor-pointer min-h-[44px]"
             >
               <Globe className="w-3.5 h-3.5 text-primary" />
               <span>{lang === 'en' ? 'हिंदी' : 'EN'}</span>
@@ -263,7 +263,7 @@ export default function Navbar() {
             onClick={() => window.dispatchEvent(new CustomEvent('open-notification-center'))}
             title="Notification Center (In-app insights)"
             aria-label="Open notifications"
-            className="relative p-2.5 rounded-full border border-line bg-surface-raised/70 hover:bg-surface-raised text-text-muted hover:text-heading transition min-h-[40px] min-w-[40px] flex items-center justify-center cursor-pointer"
+            className="relative p-2.5 rounded-full border border-line bg-surface-raised/70 hover:bg-surface-raised text-text-muted hover:text-heading transition min-h-[44px] min-w-[44px] flex items-center justify-center cursor-pointer"
           >
             <Bell className="w-4 h-4" />
             <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
@@ -275,7 +275,7 @@ export default function Navbar() {
             onClick={() => window.dispatchEvent(new CustomEvent('open-accessibility-center'))}
             title="Accessibility & Ergonomics Center"
             aria-label="Open accessibility options"
-            className="p-2.5 rounded-full border border-line bg-surface-raised/70 hover:bg-surface-raised text-text-muted hover:text-primary transition min-h-[40px] min-w-[40px] flex items-center justify-center cursor-pointer"
+            className="p-2.5 rounded-full border border-line bg-surface-raised/70 hover:bg-surface-raised text-text-muted hover:text-primary transition min-h-[44px] min-w-[44px] flex items-center justify-center cursor-pointer"
           >
             <Eye className="w-4 h-4" />
           </button>
@@ -285,11 +285,11 @@ export default function Navbar() {
             to="/wishlist"
             title="Saved Wishlist"
             aria-label="View wishlist"
-            className="relative p-2.5 rounded-full border border-line bg-surface-raised/70 hover:bg-surface-raised text-text-muted hover:text-danger transition min-h-[40px] min-w-[40px] flex items-center justify-center cursor-pointer"
+            className="relative p-2.5 rounded-full border border-line bg-surface-raised/70 hover:bg-surface-raised text-text-muted hover:text-danger transition min-h-[44px] min-w-[44px] flex items-center justify-center cursor-pointer"
           >
             <Heart className="w-4 h-4" />
             {wishlist && wishlist.length > 0 && (
-              <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-danger text-white text-[9px] font-mono font-bold flex items-center justify-center shadow-xs">
+              <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-danger text-white text-xs font-mono font-bold flex items-center justify-center shadow-xs">
                 {wishlist.length}
               </span>
             )}
@@ -302,13 +302,13 @@ export default function Navbar() {
           <button
             type="button"
             onClick={() => setIsCartOpen(true)}
-            className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-primary hover:bg-primary-hover text-primary-contrast text-xs font-semibold shadow-soft-xs transition-all cursor-pointer min-h-[40px]"
+            className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-primary hover:bg-primary-hover text-primary-contrast text-xs font-semibold shadow-soft-xs transition-all cursor-pointer min-h-[44px]"
             aria-label={`Shopping cart with ${impact.totalItems} items`}
           >
             <ShoppingBag className="w-3.5 h-3.5" />
             <span className="hidden sm:inline font-sans">{t('nav.cart', 'Cart')}</span>
             {impact.totalItems > 0 && (
-              <span className="px-1.5 py-0.2 bg-white text-primary text-[10px] rounded-full font-bold ml-0.5">
+              <span className="px-1.5 py-0.2 bg-white text-primary text-xs rounded-full font-bold ml-0.5">
                 {impact.totalItems}
               </span>
             )}
@@ -318,7 +318,7 @@ export default function Navbar() {
           <button
             type="button"
             onClick={() => setMobileMenuOpen((prev) => !prev)}
-            className="lg:hidden p-2 rounded-full border border-line bg-surface-raised/70 text-text-muted hover:text-heading cursor-pointer min-h-[40px] min-w-[40px] flex items-center justify-center"
+            className="lg:hidden p-2 rounded-full border border-line bg-surface-raised/70 text-text-muted hover:text-heading cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center"
             aria-label={mobileMenuOpen ? 'Close navigation drawer' : 'Open navigation drawer'}
             aria-expanded={mobileMenuOpen}
           >
@@ -331,7 +331,7 @@ export default function Navbar() {
       {mobileMenuOpen && (
         <div className="lg:hidden fixed inset-x-0 top-18 bg-surface/98 backdrop-blur-2xl border-b border-line shadow-soft-lg p-5 space-y-4 max-h-[85vh] overflow-y-auto z-40 animate-slide-down">
           <div className="space-y-1">
-            <div className="text-[11px] font-sans font-semibold uppercase tracking-wider text-text-muted px-2 py-1">
+            <div className="text-xs font-sans font-semibold uppercase tracking-wider text-text-muted px-2 py-1">
               Primary Navigation
             </div>
             {primaryLinks.map((link) => {
@@ -369,7 +369,7 @@ export default function Navbar() {
           </div>
 
           <div className="pt-2 border-t border-line space-y-1">
-            <div className="text-[11px] font-sans font-semibold uppercase tracking-wider text-text-muted px-2 py-1">
+            <div className="text-xs font-sans font-semibold uppercase tracking-wider text-text-muted px-2 py-1">
               Responsible AI Labs & Tools
             </div>
             <div className="grid grid-cols-2 gap-2">

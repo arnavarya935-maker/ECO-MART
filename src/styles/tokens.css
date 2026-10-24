@@ -193,9 +193,9 @@
 
   /* Canonical Z-Index Scale */
   --z-base:            0;
+  --z-widgets:         35;
   --z-nav:             40;
   --z-sticky:          45;
-  --z-widgets:         50;
   --z-drawers:         60;
   --z-modals:          70;
   --z-command-palette: 80;

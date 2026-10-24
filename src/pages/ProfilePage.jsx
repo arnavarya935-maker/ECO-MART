@@ -79,15 +79,15 @@ export default function ProfilePage() {
   const totalWaterSaved = Math.round(orders.reduce((acc, o) => acc + (o.impact?.waterSaved || 60), 0) + 190);
 
   const badges = [
-    { id: 'b1', name: 'Planetary Steward', icon: '🌍', desc: 'Verified carbon savings receipt logged', unlocked: true },
-    { id: 'b2', name: 'Zero Plastic Pioneer', icon: '🎋', desc: 'Opted for 100% plastic-free packaging', unlocked: true },
+    { id: 'b1', name: 'Planetary Steward', icon: '🌍', desc: 'Carbon savings receipt logged', unlocked: true },
+    { id: 'b2', name: 'Plastic-Free Pioneer', icon: '🎋', desc: 'Opted for plastic-free packaging', unlocked: true },
     { id: 'b3', name: 'Eco Alchemist', icon: '✨', desc: 'Completed a 1-tap cleaner product swap', unlocked: true },
     { id: 'b4', name: 'Local Champion', icon: '📍', desc: 'Supported regional artisans < 150km away', unlocked: points >= 200 },
     { id: 'b5', name: 'Tree Planter', icon: '🌳', desc: 'Avoided over 10kg of lifecycle CO₂', unlocked: points >= 300 },
     { id: 'b6', name: 'Forest Guardian', icon: '🛡️', desc: 'Reached top conscious consumer tier', unlocked: points >= 500 }
   ];
 
-  // Export shareable impact card (Feature 24 & Feature 59)
+  // Export shareable impact card
   const handleExportCard = async () => {
     if (!shareCardRef.current) return;
     try {
@@ -119,7 +119,7 @@ export default function ProfilePage() {
             title="Click to choose a local avatar"
           >
             {currentUser?.avatar || '🌱'}
-            <div className="absolute inset-0 bg-primary-hover/90 rounded-2xl opacity-0 group-hover:opacity-100 flex items-center justify-center text-[10px] font-semibold text-primary-contrast transition">
+            <div className="absolute inset-0 bg-primary-hover/90 rounded-2xl opacity-0 group-hover:opacity-100 flex items-center justify-center text-xs font-semibold text-primary-contrast transition">
               Change
             </div>
           </button>
@@ -129,7 +129,7 @@ export default function ProfilePage() {
                 {currentUser?.name || 'Conscious Explorer'}
               </h1>
               {isGuest && (
-                <span className="text-[10px] uppercase font-semibold tracking-wider px-2.5 py-0.5 rounded-full bg-warning text-primary-contrast">
+                <span className="text-xs uppercase font-semibold tracking-wider px-2.5 py-0.5 rounded-full bg-warning text-primary-contrast">
                   Guest
                 </span>
               )}
@@ -161,7 +161,7 @@ export default function ProfilePage() {
               style={{ width: `${level.progress}%` }}
             />
           </div>
-          <div className="text-[11px] text-primary-contrast/80 flex justify-between font-normal">
+          <div className="text-xs text-primary-contrast/80 flex justify-between font-normal">
             <span>Next: {level.next}</span>
             <span>{points}/{level.target} pts</span>
           </div>
@@ -274,27 +274,27 @@ export default function ProfilePage() {
                   <Wind className="w-4 h-4" />
                 </div>
                 <div className="font-serif font-bold text-base text-heading">{totalCo2Saved} kg</div>
-                <div className="text-[10px] text-muted font-medium">CO₂ Avoided</div>
+                <div className="text-xs text-muted font-medium">CO₂ Avoided</div>
               </div>
               <div>
                 <div className="flex items-center justify-center text-warning mb-0.5">
                   <Ban className="w-4 h-4" />
                 </div>
                 <div className="font-serif font-bold text-base text-heading">{totalPlasticAvoided} g</div>
-                <div className="text-[10px] text-muted font-medium">Plastic Diverted</div>
+                <div className="text-xs text-muted font-medium">Plastic Diverted</div>
               </div>
               <div>
                 <div className="flex items-center justify-center text-accent mb-0.5">
                   <Droplets className="w-4 h-4" />
                 </div>
                 <div className="font-serif font-bold text-base text-heading">{totalWaterSaved} L</div>
-                <div className="text-[10px] text-muted font-medium">Water Saved</div>
+                <div className="text-xs text-muted font-medium">Water Saved</div>
               </div>
             </div>
 
-            <div className="text-[10px] text-muted flex justify-between font-normal">
+            <div className="text-xs text-muted flex justify-between font-normal">
               <span>{orders.length} conscious orders placed</span>
-              <span>100% Zero-Waste Packing</span>
+              <span>Minimal Waste Packing</span>
             </div>
           </div>
 
@@ -311,7 +311,7 @@ export default function ProfilePage() {
         </div>
       </div>
 
-      {/* Achievements & Badges Grid (Feature 24) */}
+      {/* Achievements & Badges Grid */}
       <div className="p-6 sm:p-8 rounded-3xl bg-surface border border-line shadow-soft-sm space-y-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -337,9 +337,9 @@ export default function ProfilePage() {
             >
               <div className="text-3xl mb-1.5">{b.icon}</div>
               <div className="font-semibold text-xs text-heading">{b.name}</div>
-              <div className="text-[10px] text-muted mt-1 leading-snug">{b.desc}</div>
+              <div className="text-xs text-muted mt-1 leading-snug">{b.desc}</div>
               {b.unlocked && (
-                <span className="inline-block mt-2 text-[10px] font-semibold text-primary">
+                <span className="inline-block mt-2 text-xs font-semibold text-primary">
                   ✓ Unlocked
                 </span>
               )}
@@ -358,8 +358,8 @@ export default function ProfilePage() {
           <div className="p-4 rounded-2xl bg-surface-sunken border border-line text-xs text-secondary">
             <div className="font-semibold text-heading">{currentUser?.name || 'Ayush Sharma'}</div>
             <div className="mt-1 leading-relaxed">Flat 402, Green Meadows Residency, Bengaluru, Karnataka - 560034</div>
-            <div className="mt-2 text-[11px] text-primary font-medium">
-              ⚡ EV Courier Route Verified
+            <div className="mt-2 text-xs text-primary font-medium">
+              ⚡ EV Courier Route Optimized
             </div>
           </div>
         </div>

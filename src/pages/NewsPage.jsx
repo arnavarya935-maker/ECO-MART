@@ -6,11 +6,9 @@ import {
   ExternalLink,
   Sparkles,
   Clock,
-  RefreshCw,
   Info,
   ChevronDown,
   ChevronUp,
-  AlertCircle,
   ArrowLeft
 } from 'lucide-react';
 import { getEcoNews, summarizeNewsSnippet, NEWS_TOPICS } from '../lib/newsService.js';
@@ -29,10 +27,6 @@ export default function NewsPage() {
   const [loading, setLoading] = useState(true);
   const [expandedSummary, setExpandedSummary] = useState({}); // articleUrl -> { bullets, loading }
 
-  useEffect(() => {
-    loadNews(activeTopic);
-  }, [activeTopic]);
-
   const loadNews = async (topicOrQuery) => {
     setLoading(true);
     try {
@@ -44,6 +38,11 @@ export default function NewsPage() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    loadNews(activeTopic);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeTopic]);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();

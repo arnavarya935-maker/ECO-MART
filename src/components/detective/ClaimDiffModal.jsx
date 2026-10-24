@@ -30,7 +30,7 @@ export default function ClaimDiffModal({ isOpen, onClose, initialProductA = null
     <div
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
+      className="fixed inset-0 z-modals flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
       onClick={onClose}
     >
       <div
@@ -48,7 +48,7 @@ export default function ClaimDiffModal({ isOpen, onClose, initialProductA = null
                 <h2 className="font-serif font-bold text-lg text-heading">
                   Claim Diff: Side-by-Side Marketing Audit
                 </h2>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-surface-raised border border-line text-text-muted">
+                <span className="text-xs font-mono px-2 py-0.5 rounded-full bg-surface-raised border border-line text-text-muted">
                   Truth Lab Tool
                 </span>
               </div>
@@ -134,7 +134,7 @@ export default function ClaimDiffModal({ isOpen, onClose, initialProductA = null
             <div className="p-4 rounded-2xl bg-primary/10 border border-primary/20 flex items-start gap-3">
               <Sparkles className="w-5 h-5 text-primary shrink-0 mt-0.5" />
               <div>
-                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-primary">
+                <span className="text-xs font-mono font-bold uppercase tracking-wider text-primary">
                   Comparative Synthesis
                 </span>
                 <p className="text-xs text-heading mt-0.5 leading-relaxed font-sans">
@@ -149,7 +149,7 @@ export default function ClaimDiffModal({ isOpen, onClose, initialProductA = null
             {/* Column A */}
             <div className="p-4 rounded-3xl bg-surface-sunken border border-line space-y-3.5">
               <div className="border-b border-line pb-2">
-                <span className="text-[10px] font-mono text-text-muted uppercase">Product A</span>
+                <span className="text-xs font-mono text-text-muted uppercase">Product A</span>
                 <h4 className="font-serif font-bold text-base text-heading">{productA.name}</h4>
                 <div className="flex items-center gap-2 mt-1">
                   <span className="px-2 py-0.5 rounded-full text-xs font-mono font-bold bg-surface border border-line">
@@ -160,7 +160,7 @@ export default function ClaimDiffModal({ isOpen, onClose, initialProductA = null
 
               {/* Marketing Claims */}
               <div>
-                <span className="text-[11px] font-mono text-text-muted uppercase block mb-1">
+                <span className="text-xs font-mono text-text-muted uppercase block mb-1">
                   Declared Marketing Claims
                 </span>
                 <ul className="space-y-1">
@@ -175,7 +175,7 @@ export default function ClaimDiffModal({ isOpen, onClose, initialProductA = null
 
               {/* Flagged Phrases */}
               <div>
-                <span className="text-[11px] font-mono text-text-muted uppercase flex items-center gap-1 mb-1">
+                <span className="text-xs font-mono text-text-muted uppercase flex items-center gap-1 mb-1">
                   <AlertTriangle className="w-3.5 h-3.5 text-amber-500" />
                   Flagged Buzzwords ({diffResult?.productA.flaggedPhrases.length || 0})
                 </span>
@@ -187,10 +187,10 @@ export default function ClaimDiffModal({ isOpen, onClose, initialProductA = null
                   <div className="space-y-1.5">
                     {diffResult?.productA.flaggedPhrases.map((flag, idx) => (
                       <div key={idx} className="p-2 rounded-xl bg-surface border border-amber-500/20 text-xs">
-                        <div className="font-mono font-bold text-amber-600 dark:text-amber-400 text-[11px]">
+                        <div className="font-mono font-bold text-amber-600 dark:text-amber-400 text-xs">
                           "{flag.matchedText}" — {flag.category}
                         </div>
-                        <div className="text-[10px] text-text-secondary mt-0.5">
+                        <div className="text-xs text-text-secondary mt-0.5">
                           {flag.reason}
                         </div>
                       </div>
@@ -203,7 +203,7 @@ export default function ClaimDiffModal({ isOpen, onClose, initialProductA = null
             {/* Column B */}
             <div className="p-4 rounded-3xl bg-surface-sunken border border-line space-y-3.5">
               <div className="border-b border-line pb-2">
-                <span className="text-[10px] font-mono text-text-muted uppercase">Product B</span>
+                <span className="text-xs font-mono text-text-muted uppercase">Product B</span>
                 <h4 className="font-serif font-bold text-base text-heading">{productB.name}</h4>
                 <div className="flex items-center gap-2 mt-1">
                   <span className="px-2 py-0.5 rounded-full text-xs font-mono font-bold bg-surface border border-line">
@@ -214,7 +214,7 @@ export default function ClaimDiffModal({ isOpen, onClose, initialProductA = null
 
               {/* Marketing Claims */}
               <div>
-                <span className="text-[11px] font-mono text-text-muted uppercase block mb-1">
+                <span className="text-xs font-mono text-text-muted uppercase block mb-1">
                   Declared Marketing Claims
                 </span>
                 <ul className="space-y-1">
@@ -229,7 +229,7 @@ export default function ClaimDiffModal({ isOpen, onClose, initialProductA = null
 
               {/* Flagged Phrases */}
               <div>
-                <span className="text-[11px] font-mono text-text-muted uppercase flex items-center gap-1 mb-1">
+                <span className="text-xs font-mono text-text-muted uppercase flex items-center gap-1 mb-1">
                   <AlertTriangle className="w-3.5 h-3.5 text-amber-500" />
                   Flagged Buzzwords ({diffResult?.productB.flaggedPhrases.length || 0})
                 </span>
@@ -241,10 +241,10 @@ export default function ClaimDiffModal({ isOpen, onClose, initialProductA = null
                   <div className="space-y-1.5">
                     {diffResult?.productB.flaggedPhrases.map((flag, idx) => (
                       <div key={idx} className="p-2 rounded-xl bg-surface border border-amber-500/20 text-xs">
-                        <div className="font-mono font-bold text-amber-600 dark:text-amber-400 text-[11px]">
+                        <div className="font-mono font-bold text-amber-600 dark:text-amber-400 text-xs">
                           "{flag.matchedText}" — {flag.category}
                         </div>
-                        <div className="text-[10px] text-text-secondary mt-0.5">
+                        <div className="text-xs text-text-secondary mt-0.5">
                           {flag.reason}
                         </div>
                       </div>

@@ -172,8 +172,8 @@ export default function TrustPassportPage() {
           {/* Client-Side QR Code */}
           <div className="flex flex-col items-center sm:items-end gap-1.5 shrink-0">
             <NativeSvgQrCode value={passportUrl} size={110} />
-            <span className="text-[9px] font-mono text-muted flex items-center gap-1">
-              <QrCode className="w-3 h-3 text-primary" />
+            <span className="text-xs font-mono text-muted flex items-center gap-1">
+              <QrCode className="w-3.5 h-3.5 text-primary" />
               Scan on Phone
             </span>
           </div>
@@ -182,17 +182,17 @@ export default function TrustPassportPage() {
         {/* 3 Pillars Grid: EcoScore, Greenwashing Check, Packaging Integrity */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="p-4 rounded-2xl bg-surface-sunken border border-line text-center space-y-1">
-            <span className="text-[10px] font-mono text-muted uppercase font-bold block">
+            <span className="text-xs font-mono text-muted uppercase font-bold block">
               Audited EcoScore
             </span>
             <div className="text-3xl font-serif font-black text-primary">
               {ecoScoreData.score} <span className="text-xs font-normal text-muted">/ 100</span>
             </div>
-            <span className="text-[10px] font-mono text-muted block">Grade {ecoScoreData.grade} • Verified Lifecycle</span>
+            <span className="text-xs font-mono text-muted block">Grade {ecoScoreData.grade} • Estimated Lifecycle</span>
           </div>
 
           <div className="p-4 rounded-2xl bg-surface-sunken border border-line text-center space-y-1">
-            <span className="text-[10px] font-mono text-muted uppercase font-bold block">
+            <span className="text-xs font-mono text-muted uppercase font-bold block">
               Greenwashing Trust
             </span>
             <div className={`text-3xl font-serif font-black ${
@@ -200,17 +200,17 @@ export default function TrustPassportPage() {
             }`}>
               {greenwashData.trustScore}%
             </div>
-            <span className="text-[10px] font-mono text-muted block">{greenwashData.verdict}</span>
+            <span className="text-xs font-mono text-muted block">{greenwashData.verdict}</span>
           </div>
 
           <div className="p-4 rounded-2xl bg-surface-sunken border border-line text-center space-y-1">
-            <span className="text-[10px] font-mono text-muted uppercase font-bold block">
+            <span className="text-xs font-mono text-muted uppercase font-bold block">
               Plastic Waste
             </span>
             <div className="text-3xl font-serif font-black text-heading">
               {product.plasticGrams} <span className="text-xs font-normal text-muted">grams</span>
             </div>
-            <span className="text-[10px] font-mono text-muted block capitalize">{product.packaging} Packaging</span>
+            <span className="text-xs font-mono text-muted block capitalize">{product.packaging} Packaging</span>
           </div>
         </div>
 
@@ -252,9 +252,9 @@ export default function TrustPassportPage() {
         <div className="pt-4 border-t border-line flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-muted">
           <div className="flex items-center gap-2">
             <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
-            <span>Responsible AI Standard: Verified offline-native data model. No invented claims.</span>
+            <span>Responsible AI Standard: Deterministic local data model. No invented claims.</span>
           </div>
-          <span className="font-mono text-[10px] text-heading">
+          <span className="font-mono text-xs text-heading">
             EcoMart Telemetry Engine v2.0
           </span>
         </div>

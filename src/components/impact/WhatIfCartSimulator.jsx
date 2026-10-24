@@ -62,7 +62,7 @@ const SIMULATION_ITEMS = [
       price: 240
     },
     sustainable: {
-      name: 'Cold-Pressed Solid Neem Shampoo Bar (Zero Plastic)',
+      name: 'Cold-Pressed Solid Neem Shampoo Bar (Plastic-Free)',
       plasticG: 0,
       co2Kg: 0.16,
       waterL: 20,

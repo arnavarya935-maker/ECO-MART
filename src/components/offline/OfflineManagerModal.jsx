@@ -72,7 +72,7 @@ export default function OfflineManagerModal({ isOpen, onClose }) {
     <div
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in text-left text-text"
+      className="fixed inset-0 z-modals flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in text-left text-text"
       onClick={onClose}
     >
       <div
@@ -83,10 +83,10 @@ export default function OfflineManagerModal({ isOpen, onClose }) {
         <div className="p-6 border-b border-line bg-surface flex items-start justify-between gap-4">
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-primary bg-primary/10 border border-primary/20 px-2.5 py-0.5 rounded-full">
-                Offline Purity
+              <span className="text-xs font-mono font-bold uppercase tracking-wider text-primary bg-primary/10 border border-primary/20 px-2.5 py-0.5 rounded-full">
+                Offline Resilience
               </span>
-              <span className="text-xs text-muted font-medium">Feature 55 • PWA Service Worker</span>
+              <span className="text-xs text-muted font-medium">PWA Service Worker</span>
             </div>
             <h3 className="font-serif font-bold text-2xl text-heading mt-1">
               Offline Capability Manager
@@ -99,7 +99,7 @@ export default function OfflineManagerModal({ isOpen, onClose }) {
           <button
             type="button"
             onClick={onClose}
-            className="p-2 rounded-xl text-muted hover:text-heading hover:bg-surface-sunken transition-colors cursor-pointer"
+            className="p-2.5 rounded-xl text-muted hover:text-heading hover:bg-surface-sunken transition-colors cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center"
             aria-label="Close Offline Manager"
           >
             <X className="w-5 h-5" />
@@ -119,15 +119,15 @@ export default function OfflineManagerModal({ isOpen, onClose }) {
             <div>
               <div className="font-bold text-xs text-heading flex items-center gap-2">
                 <span>Network Status:</span>
-                <span className={`px-2 py-0.5 rounded-full text-[10px] uppercase font-mono font-bold ${
+                <span className={`px-2 py-0.5 rounded-full text-xs uppercase font-mono font-bold ${
                   isOnline
                     ? 'bg-emerald-500/15 text-emerald-600'
                     : 'bg-amber-500/15 text-amber-600'
                 }`}>
-                  {isOnline ? 'Online (Proxy Active)' : 'Offline Native'}
+                  {isOnline ? 'Online (Proxy Active)' : 'Offline Mode'}
                 </span>
               </div>
-              <div className="text-[11px] text-muted mt-0.5 font-mono">
+              <div className="text-xs text-muted mt-0.5 font-mono">
                 {cacheSizeEst}
               </div>
             </div>
@@ -137,7 +137,7 @@ export default function OfflineManagerModal({ isOpen, onClose }) {
             <button
               type="button"
               onClick={handleInstallPWA}
-              className="px-3.5 py-2 rounded-xl bg-primary hover:bg-primary-hover text-primary-contrast font-semibold text-xs flex items-center gap-1.5 transition shadow-soft-xs cursor-pointer"
+              className="px-4 py-2.5 min-h-[44px] rounded-xl bg-primary hover:bg-primary-hover text-primary-contrast font-semibold text-xs flex items-center gap-1.5 transition shadow-soft-xs cursor-pointer"
             >
               <Download className="w-3.5 h-3.5" />
               <span>Install App</span>
@@ -160,12 +160,12 @@ export default function OfflineManagerModal({ isOpen, onClose }) {
                   <div className="font-serif font-bold text-xs text-heading">
                     {cap.feature}
                   </div>
-                  <div className="text-[11px] text-secondary mt-0.5">
+                  <div className="text-xs text-secondary mt-0.5">
                     {cap.note}
                   </div>
                 </div>
 
-                <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold whitespace-nowrap shrink-0 border ${
+                <span className={`px-2.5 py-0.5 rounded-full text-xs font-mono font-bold whitespace-nowrap shrink-0 border ${
                   cap.status === 'Offline Available'
                     ? 'bg-emerald-500/10 text-emerald-600 border-emerald-500/30'
                     : 'bg-surface-sunken text-muted border-line'
@@ -178,12 +178,12 @@ export default function OfflineManagerModal({ isOpen, onClose }) {
         </div>
 
         {/* Footer */}
-        <div className="p-4 bg-surface border-t border-line flex items-center justify-between text-[11px] text-muted">
-          <span>0 external assets loaded over CDNs; verified 100% local.</span>
+        <div className="p-4 bg-surface border-t border-line flex items-center justify-between text-xs text-muted">
+          <span>0 external assets loaded over CDNs; self-hosted and offline-capable.</span>
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-1.5 rounded-xl bg-surface-sunken hover:bg-surface border border-line text-xs font-semibold text-heading cursor-pointer"
+            className="px-5 py-2.5 min-h-[44px] rounded-xl bg-surface-sunken hover:bg-surface border border-line text-xs font-semibold text-heading cursor-pointer inline-flex items-center justify-center"
           >
             Done
           </button>

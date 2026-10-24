@@ -8,7 +8,7 @@
  * ETHICAL RULES:
  * 1. AI roles, simulated debate clearly labeled.
  * 2. Roles must NEVER invent fake certifications or statistics.
- * 3. 100% offline-ready with verified preloaded debate scenarios.
+ * 3. Fully offline-ready with preloaded debate scenarios.
  */
 
 export const CACHED_DEBATES = [

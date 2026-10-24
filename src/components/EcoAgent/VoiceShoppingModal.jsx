@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   Mic,
   MicOff,
@@ -7,10 +7,8 @@ import {
   X,
   Sparkles,
   ArrowRight,
-  Globe,
   HelpCircle
 } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
 
 const VOICE_PRESETS = {
   hinglish: [
@@ -27,25 +25,14 @@ const VOICE_PRESETS = {
 };
 
 export default function VoiceShoppingModal({ isOpen, onClose }) {
-  const navigate = useNavigate();
   const [lang, setLang] = useState('hinglish'); // 'hinglish' | 'hindi'
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState('');
   const [ttsEnabled, setTtsEnabled] = useState(true);
   const [statusMessage, setStatusMessage] = useState('Tap the microphone to speak or choose a voice prompt.');
-  const [supported, setSupported] = useState(true);
   const [showHowItWorks, setShowHowItWorks] = useState(false);
 
   const recognitionRef = useRef(null);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SpeechRecognition) {
-        setSupported(false);
-      }
-    }
-  }, []);
 
   const speakText = (text) => {
     if (!ttsEnabled || typeof window === 'undefined' || !window.speechSynthesis) return;
@@ -140,7 +127,7 @@ export default function VoiceShoppingModal({ isOpen, onClose }) {
     <div
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
+      className="fixed inset-0 z-modals flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
       onClick={onClose}
     >
       <div
@@ -158,7 +145,7 @@ export default function VoiceShoppingModal({ isOpen, onClose }) {
                 <h3 className="font-serif font-bold text-base text-heading">
                   Hinglish &amp; Hindi Voice Shopping
                 </h3>
-                <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                <span className="text-xs font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
                   Web Speech STT/TTS
                 </span>
               </div>
@@ -172,14 +159,16 @@ export default function VoiceShoppingModal({ isOpen, onClose }) {
             <button
               type="button"
               onClick={() => setShowHowItWorks(!showHowItWorks)}
-              className="p-1.5 rounded-xl border border-line bg-surface hover:bg-surface-sunken text-text-muted hover:text-heading text-xs font-mono transition"
+              className="p-2.5 min-h-[44px] min-w-[44px] rounded-xl border border-line bg-surface hover:bg-surface-sunken text-text-muted hover:text-heading text-xs font-mono transition flex items-center justify-center cursor-pointer"
+              aria-label="How voice shopping works"
             >
-              <HelpCircle className="w-3.5 h-3.5 text-primary" />
+              <HelpCircle className="w-4 h-4 text-primary" />
             </button>
             <button
               type="button"
               onClick={onClose}
-              className="p-1.5 rounded-xl border border-line text-text-muted hover:text-heading hover:bg-surface transition"
+              className="p-2.5 min-h-[44px] min-w-[44px] rounded-xl border border-line text-text-muted hover:text-heading hover:bg-surface transition flex items-center justify-center cursor-pointer"
+              aria-label="Close dialog"
             >
               <X className="w-4 h-4" />
             </button>

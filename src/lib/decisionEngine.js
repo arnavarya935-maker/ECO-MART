@@ -1,6 +1,6 @@
 /**
  * EcoMart Decision Engine - Priority-Weighted Multi-Criteria Decision Making (MCDM)
- * 100% Offline & Transparent.
+ * Local-First & Transparent.
  *
  * Evaluates products across 7 normalised dimensions:
  * 1. Price (lower is better)

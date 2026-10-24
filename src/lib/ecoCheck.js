@@ -1,6 +1,6 @@
 /**
  * Eco Check - External Product Sustainability Analyzer
- * 100% Offline Heuristic AI Parser
+ * Local-First Heuristic Analyzer
  *
  * Evaluates any product description or claims pasted by the user,
  * detects greenwashing, calculates an estimated EcoScore with confidence level,

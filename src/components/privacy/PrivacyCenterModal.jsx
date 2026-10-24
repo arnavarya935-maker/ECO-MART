@@ -95,7 +95,7 @@ export default function PrivacyCenterModal({ isOpen, onClose }) {
     <div
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in text-left text-text"
+      className="fixed inset-0 z-modals flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in text-left text-text"
       onClick={onClose}
     >
       <div
@@ -106,7 +106,7 @@ export default function PrivacyCenterModal({ isOpen, onClose }) {
         <div className="p-6 border-b border-line bg-surface flex items-start justify-between gap-4">
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-primary bg-primary/10 border border-primary/20 px-2.5 py-0.5 rounded-full">
+              <span className="text-xs font-mono font-bold uppercase tracking-wider text-primary bg-primary/10 border border-primary/20 px-2.5 py-0.5 rounded-full">
                 Privacy Center
               </span>
             </div>
@@ -121,7 +121,7 @@ export default function PrivacyCenterModal({ isOpen, onClose }) {
           <button
             type="button"
             onClick={onClose}
-            className="p-2 rounded-xl text-muted hover:text-heading hover:bg-surface-sunken transition-colors cursor-pointer"
+            className="p-2.5 rounded-xl text-muted hover:text-heading hover:bg-surface-sunken transition-colors cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center"
             aria-label="Close Privacy Center"
           >
             <X className="w-5 h-5" />
@@ -152,8 +152,8 @@ export default function PrivacyCenterModal({ isOpen, onClose }) {
               ].map((item, idx) => (
                 <div key={idx} className="p-3.5 rounded-2xl bg-surface border border-line space-y-1">
                   <div className="font-bold text-heading">{item.title}</div>
-                  <div className="text-[10px] font-mono text-muted">{item.key}</div>
-                  <div className="text-[11px] text-secondary mt-1">{item.note}</div>
+                  <div className="text-xs font-mono text-muted">{item.key}</div>
+                  <div className="text-xs text-secondary mt-1">{item.note}</div>
                 </div>
               ))}
             </div>
@@ -176,7 +176,7 @@ export default function PrivacyCenterModal({ isOpen, onClose }) {
               <p>
                 For the <strong>Eco News</strong> feature, only the selected search topic or keyword (e.g. "greenwashing" or "plastic packaging") is transmitted to fetch headlines. No browsing history, IP logs, or personal tracking are ever shared.
               </p>
-              <div className="pt-2 border-t border-line/60 grid grid-cols-2 gap-2 text-[11px] font-mono">
+              <div className="pt-2 border-t border-line/60 grid grid-cols-2 gap-2 text-xs font-mono">
                 <div>✓ 0 Usernames or Emails</div>
                 <div>✓ 0 Tracking Identifiers</div>
                 <div>✓ 0 Third-Party Ad Cookies</div>
@@ -203,12 +203,12 @@ export default function PrivacyCenterModal({ isOpen, onClose }) {
                 <button
                   type="button"
                   onClick={handleExportAll}
-                  className="px-3.5 py-2 rounded-xl bg-primary hover:bg-primary-hover text-primary-contrast font-semibold text-xs flex items-center gap-1.5 transition shadow-soft-xs cursor-pointer"
+                  className="px-4 py-2.5 min-h-[44px] rounded-xl bg-primary hover:bg-primary-hover text-primary-contrast font-semibold text-xs flex items-center gap-1.5 transition shadow-soft-xs cursor-pointer"
                 >
                   <Download className="w-3.5 h-3.5" />
                   <span>Export JSON</span>
                 </button>
-                <label className="px-3.5 py-2 rounded-xl bg-surface-sunken hover:bg-surface border border-line text-heading font-semibold text-xs flex items-center gap-1.5 transition cursor-pointer">
+                <label className="px-4 py-2.5 min-h-[44px] rounded-xl bg-surface-sunken hover:bg-surface border border-line text-heading font-semibold text-xs flex items-center gap-1.5 transition cursor-pointer">
                   <Upload className="w-3.5 h-3.5 text-primary" />
                   <span>Import JSON</span>
                   <input
@@ -231,7 +231,7 @@ export default function PrivacyCenterModal({ isOpen, onClose }) {
             <div className="p-4 rounded-2xl bg-danger/5 border border-danger/20 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
                 <div className="font-bold text-xs text-heading">Purge Local Storage</div>
-                <div className="text-[11px] text-secondary mt-0.5">
+                <div className="text-xs text-secondary mt-0.5">
                   Permanently wipe all cart items, orders, preferences, and cached AI inferences.
                 </div>
               </div>
@@ -240,7 +240,7 @@ export default function PrivacyCenterModal({ isOpen, onClose }) {
                 <button
                   type="button"
                   onClick={() => setResetConfirm(true)}
-                  className="px-4 py-2 rounded-xl bg-danger text-white font-semibold text-xs hover:bg-rose-700 transition cursor-pointer shrink-0"
+                  className="px-4 py-2.5 min-h-[44px] rounded-xl bg-danger text-white font-semibold text-xs hover:bg-rose-700 transition cursor-pointer shrink-0"
                 >
                   Delete All Data
                 </button>
@@ -249,14 +249,14 @@ export default function PrivacyCenterModal({ isOpen, onClose }) {
                   <button
                     type="button"
                     onClick={handleDeleteAll}
-                    className="px-4 py-2 rounded-xl bg-danger text-white font-bold text-xs hover:bg-rose-700 transition cursor-pointer"
+                    className="px-4 py-2.5 min-h-[44px] rounded-xl bg-danger text-white font-bold text-xs hover:bg-rose-700 transition cursor-pointer"
                   >
                     Confirm Permanent Erase
                   </button>
                   <button
                     type="button"
                     onClick={() => setResetConfirm(false)}
-                    className="px-3 py-2 rounded-xl bg-surface border border-line text-xs font-semibold text-heading cursor-pointer"
+                    className="px-3.5 py-2.5 min-h-[44px] rounded-xl bg-surface border border-line text-xs font-semibold text-heading cursor-pointer"
                   >
                     Cancel
                   </button>
@@ -267,12 +267,12 @@ export default function PrivacyCenterModal({ isOpen, onClose }) {
         </div>
 
         {/* Footer */}
-        <div className="p-4 bg-surface border-t border-line flex items-center justify-between text-[11px] text-muted">
+        <div className="p-4 bg-surface border-t border-line flex items-center justify-between text-xs text-muted">
           <span>EcoMart Privacy Guarantee: We never monetize user attention or telemetry.</span>
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-1.5 rounded-xl bg-surface-sunken hover:bg-surface border border-line text-xs font-semibold text-heading cursor-pointer"
+            className="px-5 py-2.5 min-h-[44px] rounded-xl bg-surface-sunken hover:bg-surface border border-line text-xs font-semibold text-heading cursor-pointer inline-flex items-center justify-center"
           >
             Done
           </button>

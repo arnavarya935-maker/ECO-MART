@@ -107,7 +107,7 @@ export default function NotificationCenterModal({ isOpen, onClose }) {
     <div
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
+      className="fixed inset-0 z-modals flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in"
       onClick={onClose}
     >
       <div
@@ -118,7 +118,7 @@ export default function NotificationCenterModal({ isOpen, onClose }) {
         <div className="p-6 border-b border-line bg-surface flex items-start justify-between gap-4">
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-primary bg-primary/10 border border-primary/20 px-2.5 py-0.5 rounded-full">
+              <span className="text-xs font-mono font-bold uppercase tracking-wider text-primary bg-primary/10 border border-primary/20 px-2.5 py-0.5 rounded-full">
                 In-App Only
               </span>
               {unreadCount > 0 && (
@@ -131,14 +131,14 @@ export default function NotificationCenterModal({ isOpen, onClose }) {
               Notification Center
             </h3>
             <p className="text-xs text-secondary mt-0.5">
-              100% on-device agent updates, weekly reminders, and reported claim audit logs.
+              Local on-device agent updates, weekly reminders, and reported claim audit logs.
             </p>
           </div>
 
           <button
             type="button"
             onClick={onClose}
-            className="p-2 rounded-xl text-muted hover:text-heading hover:bg-surface-sunken transition-colors cursor-pointer"
+            className="p-2.5 rounded-xl text-muted hover:text-heading hover:bg-surface-sunken transition-colors cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center"
             aria-label="Close Notifications"
           >
             <X className="w-5 h-5" />
@@ -214,10 +214,10 @@ export default function NotificationCenterModal({ isOpen, onClose }) {
 
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between gap-2">
-                    <span className="text-[10px] font-mono font-bold uppercase text-primary">
+                    <span className="text-xs font-mono font-bold uppercase text-primary">
                       {item.category}
                     </span>
-                    <span className="text-[10px] text-muted font-mono">{item.timestamp}</span>
+                    <span className="text-xs text-muted font-mono">{item.timestamp}</span>
                   </div>
                   <h4 className="font-serif font-bold text-sm text-heading mt-0.5">
                     {item.title}
@@ -236,7 +236,7 @@ export default function NotificationCenterModal({ isOpen, onClose }) {
         </div>
 
         {/* Privacy Note */}
-        <div className="p-4 bg-surface border-t border-line text-[11px] text-muted text-left">
+        <div className="p-4 bg-surface border-t border-line text-xs text-muted text-left">
           <span>🔒 <strong>Local-Only Delivery:</strong> Notifications never ping remote tracking servers or request invasive browser push permissions.</span>
         </div>
       </div>

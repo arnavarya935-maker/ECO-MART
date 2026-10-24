@@ -43,7 +43,7 @@ export default function AccessibilityCenterModal({ isOpen, onClose }) {
     <div
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in text-left text-text"
+      className="fixed inset-0 z-modals flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm animate-fade-in text-left text-text"
       onClick={onClose}
     >
       <div
@@ -54,10 +54,10 @@ export default function AccessibilityCenterModal({ isOpen, onClose }) {
         <div className="p-6 border-b border-line bg-surface flex items-start justify-between gap-4">
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-primary bg-primary/10 border border-primary/20 px-2.5 py-0.5 rounded-full">
+              <span className="text-xs font-mono font-bold uppercase tracking-wider text-primary bg-primary/10 border border-primary/20 px-2.5 py-0.5 rounded-full">
                 WCAG 2.1 AA Compliant
               </span>
-              <span className="text-xs text-muted font-medium">Feature 46 &amp; 56</span>
+              <span className="text-xs text-muted font-medium">Display &amp; Ergonomics</span>
             </div>
             <h3 className="font-serif font-bold text-2xl text-heading mt-1">
               Accessibility &amp; Ergonomics Center
@@ -70,7 +70,7 @@ export default function AccessibilityCenterModal({ isOpen, onClose }) {
           <button
             type="button"
             onClick={onClose}
-            className="p-2 rounded-xl text-muted hover:text-heading hover:bg-surface-sunken transition-colors cursor-pointer"
+            className="p-2.5 rounded-xl text-muted hover:text-heading hover:bg-surface-sunken transition-colors cursor-pointer min-h-[44px] min-w-[44px] flex items-center justify-center"
             aria-label="Close Accessibility Center"
           >
             <X className="w-5 h-5" />
@@ -86,7 +86,7 @@ export default function AccessibilityCenterModal({ isOpen, onClose }) {
                 <Type className="w-4 h-4 text-primary" />
                 <span>Text Size Scale</span>
               </div>
-              <span className="text-[11px] font-mono text-muted uppercase">
+              <span className="text-xs font-mono text-muted uppercase">
                 Active: {textSize}
               </span>
             </div>
@@ -100,14 +100,14 @@ export default function AccessibilityCenterModal({ isOpen, onClose }) {
                   key={opt.id}
                   type="button"
                   onClick={() => setTextSize(opt.id)}
-                  className={`p-2.5 rounded-xl border text-xs font-semibold transition cursor-pointer text-center ${
+                  className={`p-2.5 min-h-[44px] rounded-xl border text-xs font-semibold transition cursor-pointer text-center flex flex-col items-center justify-center ${
                     textSize === opt.id
                       ? 'bg-primary text-primary-contrast border-primary shadow-soft-xs'
                       : 'bg-surface-sunken hover:bg-surface border-line text-secondary'
                   }`}
                 >
                   <div>{opt.label}</div>
-                  <div className={`text-[10px] font-normal ${textSize === opt.id ? 'text-primary-contrast/80' : 'text-muted'}`}>
+                  <div className={`text-xs font-normal ${textSize === opt.id ? 'text-primary-contrast/80' : 'text-muted'}`}>
                     {opt.size}
                   </div>
                 </button>
@@ -128,7 +128,7 @@ export default function AccessibilityCenterModal({ isOpen, onClose }) {
             <button
               type="button"
               onClick={() => setDyslexicFont(!dyslexicFont)}
-              className={`px-4 py-2 rounded-xl text-xs font-semibold border transition cursor-pointer shrink-0 ${
+              className={`px-4 py-2 min-h-[44px] rounded-xl text-xs font-semibold border transition cursor-pointer shrink-0 inline-flex items-center justify-center ${
                 dyslexicFont
                   ? 'bg-primary text-primary-contrast border-primary shadow-soft-xs'
                   : 'bg-surface-sunken text-secondary border-line hover:text-heading'
@@ -151,7 +151,7 @@ export default function AccessibilityCenterModal({ isOpen, onClose }) {
             <button
               type="button"
               onClick={() => setHighContrast(!highContrast)}
-              className={`px-4 py-2 rounded-xl text-xs font-semibold border transition cursor-pointer shrink-0 ${
+              className={`px-4 py-2 min-h-[44px] rounded-xl text-xs font-semibold border transition cursor-pointer shrink-0 inline-flex items-center justify-center ${
                 highContrast
                   ? 'bg-primary text-primary-contrast border-primary shadow-soft-xs'
                   : 'bg-surface-sunken text-secondary border-line hover:text-heading'
@@ -174,7 +174,7 @@ export default function AccessibilityCenterModal({ isOpen, onClose }) {
             <button
               type="button"
               onClick={toggleReduceEffects}
-              className={`px-4 py-2 rounded-xl text-xs font-semibold border transition cursor-pointer shrink-0 ${
+              className={`px-4 py-2 min-h-[44px] rounded-xl text-xs font-semibold border transition cursor-pointer shrink-0 inline-flex items-center justify-center ${
                 reduceEffects
                   ? 'bg-primary text-primary-contrast border-primary shadow-soft-xs'
                   : 'bg-surface-sunken text-secondary border-line hover:text-heading'
@@ -184,7 +184,7 @@ export default function AccessibilityCenterModal({ isOpen, onClose }) {
             </button>
           </div>
 
-          {/* 5. Kids Mode (Feature 46) */}
+          {/* 5. Kids Mode */}
           <div className="p-4 rounded-2xl bg-surface border border-line flex items-center justify-between gap-4">
             <div>
               <div className="font-serif font-bold text-sm text-heading flex items-center gap-1.5">
@@ -198,7 +198,7 @@ export default function AccessibilityCenterModal({ isOpen, onClose }) {
             <button
               type="button"
               onClick={toggleKidsMode}
-              className={`px-4 py-2 rounded-xl text-xs font-semibold border transition cursor-pointer shrink-0 ${
+              className={`px-4 py-2 min-h-[44px] rounded-xl text-xs font-semibold border transition cursor-pointer shrink-0 inline-flex items-center justify-center ${
                 kidsMode
                   ? 'bg-accent text-accent-contrast border-accent shadow-soft-xs font-bold'
                   : 'bg-surface-sunken text-secondary border-line hover:text-heading'
@@ -214,7 +214,7 @@ export default function AccessibilityCenterModal({ isOpen, onClose }) {
           <button
             type="button"
             onClick={handleResetDefaults}
-            className="text-xs text-secondary hover:text-heading flex items-center gap-1.5 cursor-pointer font-medium"
+            className="text-xs text-secondary hover:text-heading flex items-center gap-1.5 cursor-pointer font-medium min-h-[44px]"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             <span>Reset to Standard Defaults</span>
@@ -222,7 +222,7 @@ export default function AccessibilityCenterModal({ isOpen, onClose }) {
           <button
             type="button"
             onClick={onClose}
-            className="px-4 py-1.5 rounded-xl bg-primary hover:bg-primary-hover text-primary-contrast text-xs font-semibold transition cursor-pointer shadow-soft-xs"
+            className="px-5 py-2.5 min-h-[44px] rounded-xl bg-primary hover:bg-primary-hover text-primary-contrast text-xs font-semibold transition cursor-pointer shadow-soft-xs inline-flex items-center justify-center"
           >
             Done
           </button>

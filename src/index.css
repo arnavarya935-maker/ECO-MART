@@ -142,7 +142,7 @@
 .z-base { z-index: var(--z-base, 0) !important; }
 .z-nav { z-index: var(--z-nav, 40) !important; }
 .z-sticky { z-index: var(--z-sticky, 45) !important; }
-.z-widgets { z-index: var(--z-widgets, 50) !important; }
+.z-widgets { z-index: var(--z-widgets, 35) !important; }
 .z-drawers { z-index: var(--z-drawers, 60) !important; }
 .z-modals { z-index: var(--z-modals, 70) !important; }
 .z-command-palette { z-index: var(--z-command-palette, 80) !important; }

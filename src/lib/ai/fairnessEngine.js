@@ -158,7 +158,7 @@ export const FAIRNESS_PRESETS = [
 
 /**
  * Generate synthetic or live responses for each variant
- * Falls back to deterministic verified answers for 100% offline consistency
+ * Falls back to deterministic verified answers for local consistency
  */
 export async function evaluateFairnessVariant(variant, customLiveFetcher = null) {
   // If a live fetcher is passed and online, attempt call

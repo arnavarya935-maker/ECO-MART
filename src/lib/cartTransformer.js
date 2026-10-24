@@ -1,6 +1,6 @@
 /**
  * EcoMart Cart Transformer Engine
- * 100% Offline, Deterministic, Mathematical Multi-Choice Knapsack Optimiser.
+ * Deterministic Mathematical Multi-Choice Knapsack Optimiser.
  * Transforms an ordinary handwritten, typed, or spoken shopping list into a
  * sustainable, budget-respecting cart with explainable decisions.
  */

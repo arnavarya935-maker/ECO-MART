@@ -36,7 +36,7 @@ const REGIONAL_PINS = [
     name: 'East Africa',
     lat: -0.2,
     lon: 37.8,
-    metric: 'Zero Plastic Bags',
+    metric: 'Single-Use Bags Avoided',
     fact: 'Strictest single-use bans enabled sisal and banana-fiber reusable totes across markets.'
   },
   {

@@ -63,7 +63,7 @@ export default function ImpactDashboard({ showHeader = true }) {
 
           <div className="flex items-center gap-3">
             <div className="px-4 py-2 rounded-2xl bg-accent/10 border border-accent/30 text-right">
-              <div className="text-[10px] font-semibold uppercase tracking-wider text-accent">
+              <div className="text-xs font-semibold uppercase tracking-wider text-accent">
                 Eco Points Earned
               </div>
               <div className="text-xl font-serif font-bold text-accent flex items-center justify-end gap-1">
@@ -75,7 +75,7 @@ export default function ImpactDashboard({ showHeader = true }) {
             </div>
 
             <div className="px-4 py-2 rounded-2xl bg-surface-sunken border border-line text-right">
-              <div className="text-[10px] font-semibold uppercase tracking-wider text-muted">
+              <div className="text-xs font-semibold uppercase tracking-wider text-muted">
                 Cart Eco Rating
               </div>
               <div className="text-xl font-serif font-bold text-heading">
@@ -98,14 +98,14 @@ export default function ImpactDashboard({ showHeader = true }) {
                 <span className="text-xs font-semibold uppercase tracking-wider text-heading">
                   Cart Biosphere Health Tier
                 </span>
-                <span className="text-[10px] font-semibold uppercase px-2.5 py-0.5 rounded-full bg-primary/20 text-primary border border-primary/30">
+                <span className="text-xs font-semibold uppercase px-2.5 py-0.5 rounded-full bg-primary/20 text-primary border border-primary/30">
                   {averageGrade === 'A' ? 'Thriving Canopy' : averageGrade === 'B' ? 'Growing Grove' : averageGrade === 'C' ? 'Sprouting' : 'Conscious Seedling'}
                 </span>
               </div>
               <p className="text-xs text-secondary font-normal mt-0.5">
                 {totalItems > 0
                   ? `Your active cart achieves a collective Eco-Score of ${averageEcoScore}/100 with Grade ${averageGrade}.`
-                  : 'Add items or swap conventional products to begin cultivating your verified impact savings.'}
+                  : 'Add items or swap conventional products to begin cultivating your estimated impact savings.'}
               </p>
             </div>
           </div>
@@ -223,7 +223,7 @@ export default function ImpactDashboard({ showHeader = true }) {
                   {badge.icon}
                 </div>
                 {!badge.unlocked && (
-                  <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-primary text-primary-contrast flex items-center justify-center text-[9px] shadow-sm">
+                  <div className="absolute -bottom-1 -right-1 w-4 h-4 rounded-full bg-primary text-primary-contrast flex items-center justify-center text-xs shadow-sm">
                     🔒
                   </div>
                 )}
@@ -235,11 +235,11 @@ export default function ImpactDashboard({ showHeader = true }) {
                     {badge.name}
                   </span>
                   {badge.unlocked ? (
-                    <span className="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full bg-primary text-primary-contrast shadow-soft-xs">
+                    <span className="text-xs font-semibold uppercase px-2 py-0.5 rounded-full bg-primary text-primary-contrast shadow-soft-xs">
                       Unlocked
                     </span>
                   ) : (
-                    <span className="text-[10px] font-medium uppercase px-2 py-0.5 rounded-full bg-line text-muted">
+                    <span className="text-xs font-medium uppercase px-2 py-0.5 rounded-full bg-line text-muted">
                       Locked
                     </span>
                   )}

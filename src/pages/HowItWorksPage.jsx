@@ -17,7 +17,7 @@ export default function HowItWorksPage() {
           How EcoMart Agent Works
         </h1>
         <p className="text-sm sm:text-base text-secondary leading-relaxed max-w-xl mx-auto font-normal">
-          An in-depth look at our transparent 0-100 Eco-Score Engine, offline-native NLP parser,
+          An in-depth look at our transparent 0-100 Eco-Score Engine, local-first NLP parser,
           and automated greener swap recommendation algorithms.
         </p>
       </div>
@@ -143,7 +143,7 @@ export default function HowItWorksPage() {
             <li><strong className="text-heading">Budget constraints:</strong> "under 1000", "below 500"</li>
             <li><strong className="text-heading">Categories:</strong> "kitchen", "stationery", "bags", "personal care"</li>
             <li><strong className="text-heading">Gifting intent:</strong> "gift for my teacher"</li>
-            <li><strong className="text-heading">Packaging preferences:</strong> "plastic-free", "zero plastic"</li>
+            <li><strong className="text-heading">Packaging preferences:</strong> "plastic-free", "minimal packaging"</li>
             <li><strong className="text-heading">Cart actions:</strong> "review my cart", "audit my items"</li>
           </ul>
         </div>

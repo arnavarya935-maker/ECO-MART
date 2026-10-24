@@ -1,6 +1,6 @@
 /**
  * EcoMart Impact Economics & Tangible Equivalents Engine
- * 100% Offline, Deterministic, and Grounded in Disclosed Assumptions.
+ * Deterministic and Grounded in Disclosed Assumptions.
  */
 
 // Published conversion factors with citations

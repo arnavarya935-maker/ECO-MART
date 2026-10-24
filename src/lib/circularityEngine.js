@@ -1,6 +1,6 @@
 /**
  * EcoMart Circularity, Packaging & Recycling Engine
- * 100% Offline, Deterministic, and Local-First.
+ * Deterministic and Local-First.
  */
 
 // City-specific municipal waste segregation guidelines

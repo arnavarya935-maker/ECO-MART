@@ -1,6 +1,6 @@
 /**
  * EcoMart Persona, Household Profiles & Intent Engine
- * 100% Offline, Deterministic, and Local-First.
+ * Deterministic and Local-First.
  */
 
 export const HOUSEHOLD_PROFILES = {
@@ -26,8 +26,8 @@ export const HOUSEHOLD_PROFILES = {
     id: 'family',
     label: 'Conscious Family',
     icon: '🏡',
-    badge: 'Low-Tox & Zero Plastic',
-    description: 'Non-toxic, zero-plastic packaging for home, kitchen and child safety.',
+    badge: 'Low-Tox & Plastic-Free',
+    description: 'Non-toxic, plastic-free packaging for home, kitchen and child safety.',
     constraints: { minEcoScore: 60, onlyPlasticFree: true },
     weights: { price: 40, carbon: 60, plastic: 100, water: 50, local: 60, certs: 70, ecoScore: 80 }
   },

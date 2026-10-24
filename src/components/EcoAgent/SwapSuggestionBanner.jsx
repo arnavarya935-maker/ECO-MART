@@ -67,7 +67,7 @@ export default function SwapSuggestionBanner() {
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="text-[10px] font-sans font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-primary-subtle text-primary border border-primary/20">
+                <span className="text-xs font-sans font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-primary-subtle text-primary border border-primary/20">
                   Eco Copilot
                 </span>
                 <span className="text-xs font-sans text-muted">Active Reasoning</span>
@@ -131,7 +131,7 @@ export default function SwapSuggestionBanner() {
           <button
             type="button"
             onClick={() => setShowReasoning(!showReasoning)}
-            className="flex items-center gap-1.5 text-[11px] font-sans font-semibold text-muted hover:text-primary transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 text-xs font-sans font-semibold text-muted hover:text-primary transition-colors cursor-pointer"
             aria-expanded={showReasoning}
           >
             <span>Why am I seeing this?</span>

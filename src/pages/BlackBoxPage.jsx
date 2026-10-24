@@ -315,26 +315,26 @@ export default function BlackBoxPage() {
         <div
           role="dialog"
           aria-modal="true"
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-xs animate-fade-in"
+          className="fixed inset-0 z-modals flex items-center justify-center p-4 bg-black/70 backdrop-blur-xs animate-fade-in"
         >
           <div className="w-full max-w-sm rounded-3xl bg-surface border border-line p-6 shadow-2xl space-y-4 text-center">
             <Trash2 className="w-8 h-8 text-rose-400 mx-auto" />
             <h3 className="font-serif font-bold text-base text-heading">Clear Black Box Audit Log?</h3>
             <p className="text-xs text-muted">
-              This will reset the local audit telemetry log on this device. Baseline verification entries will remain available for offline judge demonstrations.
+              This will reset the local audit telemetry log on this device. Future queries and interactions will continue to be logged locally.
             </p>
             <div className="flex gap-2 pt-2">
               <button
                 type="button"
                 onClick={() => setShowClearConfirm(false)}
-                className="flex-1 py-2 rounded-xl bg-surface-sunken border border-line text-xs font-semibold text-heading hover:bg-surface transition-colors cursor-pointer"
+                className="flex-1 py-2.5 min-h-[44px] rounded-xl bg-surface-sunken border border-line text-xs font-semibold text-heading hover:bg-surface transition-colors cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 type="button"
                 onClick={handleClear}
-                className="flex-1 py-2 rounded-xl bg-rose-500 hover:bg-rose-600 text-white text-xs font-bold transition-colors cursor-pointer"
+                className="flex-1 py-2.5 min-h-[44px] rounded-xl bg-rose-500 hover:bg-rose-600 text-white text-xs font-bold transition-colors cursor-pointer shadow-soft-xs"
               >
                 Clear Log
               </button>

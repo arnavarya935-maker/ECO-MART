@@ -150,7 +150,7 @@ export default function TruthLabPage() {
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') handleAudit();
                   }}
-                  placeholder="e.g. 100% natural organic cotton bag with zero plastic..."
+                  placeholder="e.g. 100% natural organic cotton bag with plastic-free packaging..."
                   className="flex-1 px-4 py-3 rounded-2xl bg-surface-sunken border border-line text-xs font-medium text-heading focus:bg-surface focus:border-primary transition min-h-[44px]"
                 />
                 <button

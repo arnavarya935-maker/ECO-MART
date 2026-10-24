@@ -1,7 +1,7 @@
 /**
  * EcoMart Responsible AI Adapter
- * Swappable interface for LLM calls (Gemini 1.5 Flash via secure backend proxy)
- * with robust offline/cached fallback to guarantee 100% offline reliability.
+ * Swappable interface for LLM calls (Gemini 2.5 Flash via secure backend proxy)
+ * with robust offline/cached fallback to guarantee deterministic local reliability.
  */
 
 import { queryEcoCatalog } from '../ecoAgent.js';
