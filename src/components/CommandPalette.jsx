@@ -182,7 +182,7 @@ export default function CommandPalette({ isOpen: controlledOpen, onClose: contro
       id: 'action-judge-demo-10',
       type: 'action',
       title: 'Run 10-Step Judge Demo Walkthrough',
-      subtitle: 'Comprehensive 10-step scripted evaluation tour for CBSE judges (100% Offline)',
+      subtitle: 'Comprehensive 10-step scripted evaluation tour for Technophilia 7.0 judges (Server AI + Offline Fallback)',
       icon: ShieldCheck,
       perform: () => {
         window.dispatchEvent(new CustomEvent('open-judge-demo'));

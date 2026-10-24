@@ -24,7 +24,7 @@ export default function Hero() {
             {/* Pill Tag */}
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface-raised border border-line shadow-soft-sm text-heading text-xs font-sans font-medium mx-auto lg:mx-0">
               <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-              <span>{t('hero.badge', '100% Offline • Verified Sustainable Commerce')}</span>
+              <span>{t('hero.badge', 'Shop with Purpose • Transparent Impact Estimates')}</span>
             </div>
 
             {/* Main Headline with Fraunces serif and elegant gradient */}
@@ -77,9 +77,9 @@ export default function Hero() {
 
               <div className="space-y-0.5">
                 <div className="text-xs font-sans font-semibold text-heading flex items-center gap-1.5">
-                  <ShieldCheck className="w-3.5 h-3.5 text-primary" /> 100% Offline
+                  <ShieldCheck className="w-3.5 h-3.5 text-primary" /> Offline Capable
                 </div>
-                <div className="text-[11px] font-sans text-muted">Zero External CDNs</div>
+                <div className="text-[11px] font-sans text-muted">Fallback Mode Built-In</div>
               </div>
             </div>
           </div>

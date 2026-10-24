@@ -19,7 +19,7 @@ export default function ImpactPage() {
       {/* Top Banner */}
       <div className="text-center max-w-3xl mx-auto space-y-3">
         <span className="text-xs font-semibold uppercase tracking-wider text-primary bg-primary/10 border border-primary/20 px-3.5 py-1 rounded-full inline-block">
-          Tangible Planetary Accounting • CBSE DLD 2026
+          Tangible Planetary Accounting • Technophilia 7.0
         </span>
         <h1 className="text-3xl sm:text-5xl font-serif font-bold text-heading tracking-tight">
           Impact Command Center & Ledger

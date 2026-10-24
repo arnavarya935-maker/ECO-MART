@@ -221,7 +221,7 @@ export default function Footer() {
             <span className={`w-2 h-2 rounded-full ${healthInfo.gemini ? 'bg-primary animate-pulse' : 'bg-amber-400'}`} />
             <span className="font-mono text-[11px]">{healthInfo.label}</span>
             <span className="px-2 py-0.5 rounded-full bg-surface-raised text-[10px] text-text-muted border border-line font-mono">
-              100% Offline Native
+              Server AI + Offline Fallback
             </span>
           </div>
         </div>

@@ -176,7 +176,7 @@ export default function EthicsInboxModal({ isOpen, onClose }) {
           </div>
 
           <span className="text-[10px] text-muted hidden sm:inline">
-            CBSE DLD 2026-27 AI Governance
+            Technophilia 7.0 AI Governance
           </span>
         </div>
 

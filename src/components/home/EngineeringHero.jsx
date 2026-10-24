@@ -6,11 +6,17 @@ import { useT } from '../../context/I18nContext';
 import Safe3D from '../3D/Safe3D';
 import ContourCanvas from './ContourCanvas';
 
+import productsData from '../../data/products.json';
+
 const LeafyGlobe3D = React.lazy(() => import('../3D/LeafyGlobe3D'));
 
 export default function EngineeringHero() {
   const { setIsAgentOpen, impact } = useCart();
-  const { t, lang } = useT();
+  useT();
+
+  const totalCatalog = productsData.length;
+  const plasticFreeCount = productsData.filter((p) => p.packaging === 'plastic-free').length;
+  const plasticFreePct = Math.round((plasticFreeCount / totalCatalog) * 100);
 
   return (
     <header id="hero" className="relative w-full overflow-hidden bg-surface antialiased pt-8 pb-16 md:pt-12 md:pb-24 border-b border-line">
@@ -28,9 +34,9 @@ export default function EngineeringHero() {
         <div className="flex items-center justify-between border-t border-line/60 pt-4 font-mono text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.22em] text-text-muted">
           <span className="flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-            <span className="hidden sm:inline">AUTONOMOUS ECO AGENT ·</span> EST. 2026
+            <span className="hidden sm:inline">AUTONOMOUS ECO AGENT ·</span> TECHNOPHILIA 7.0
           </span>
-          <span className="text-primary font-bold">100% OFFLINE NATIVE</span>
+          <span className="text-primary font-bold">SERVER AI + OFFLINE FALLBACK</span>
         </div>
 
         {/* Hero Grid: Typography on Left, Biosphere Visualizer on Right */}
@@ -46,7 +52,7 @@ export default function EngineeringHero() {
             </h1>
 
             <p className="max-w-[48ch] font-sans text-sm sm:text-base leading-[1.65] text-text-secondary text-pretty">
-              An AI shopping assistant that exposes its reasoning, verifies certifications, detects greenwashing, and measures lifecycle impact—engineered with verifiable ethical guardrails, running 100% offline.
+              An AI shopping assistant that exposes its reasoning, verifies certifications, detects greenwashing, and measures lifecycle impact—engineered with verifiable ethical guardrails, powered by a server AI proxy with an offline fallback.
             </p>
 
             {/* CTAs: Liquid Pill Buttons */}
@@ -80,19 +86,19 @@ export default function EngineeringHero() {
               </Link>
             </div>
 
-            {/* Editorial Mini-Specs Strip */}
+            {/* Editorial Mini-Specs Strip - Real Computed Highlights */}
             <div className="pt-6 grid grid-cols-3 gap-4 border-t border-line/60 max-w-lg">
               <div>
-                <div className="font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.18em] text-text-muted">Lifecycle</div>
-                <div className="mt-1 text-xs sm:text-sm font-semibold text-heading font-mono">0–100 EcoScore</div>
+                <div className="font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.18em] text-text-muted">Sample Catalog</div>
+                <div className="mt-1 text-xs sm:text-sm font-semibold text-heading font-mono">{totalCatalog} Audited Items</div>
               </div>
               <div>
                 <div className="font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.18em] text-text-muted">Packaging</div>
-                <div className="mt-1 text-xs sm:text-sm font-semibold text-heading font-mono">0g Plastic</div>
+                <div className="mt-1 text-xs sm:text-sm font-semibold text-heading font-mono">{plasticFreePct}% Plastic-Free</div>
               </div>
               <div>
-                <div className="font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.18em] text-text-muted">Engine</div>
-                <div className="mt-1 text-xs sm:text-sm font-semibold text-heading font-mono">0ms CDN Lag</div>
+                <div className="font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.18em] text-text-muted">Architecture</div>
+                <div className="mt-1 text-xs sm:text-sm font-semibold text-heading font-mono">API + Offline Mode</div>
               </div>
             </div>
           </div>
@@ -111,9 +117,9 @@ export default function EngineeringHero() {
               <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between text-[10px] font-mono uppercase tracking-[0.16em] text-text-muted bg-surface/80 backdrop-blur-md px-3 py-1.5 rounded-full border border-line">
                 <span className="flex items-center gap-1.5">
                   <ShieldCheck className="w-3 h-3 text-primary" />
-                  Verified Carbon Sink
+                  Interactive 3D Simulation
                 </span>
-                <span className="text-primary font-bold">LIFECYCLE VERIFIED</span>
+                <span className="text-primary font-bold">CO₂ IMPACT (ESTIMATE)</span>
               </div>
             </div>
           </div>

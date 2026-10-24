@@ -14,14 +14,14 @@ export const en = {
   'nav.agent': 'Eco Agent',
 
   // Hero
-  'hero.badge': '100% Offline • Verified Sustainable Commerce',
+  'hero.badge': 'Shop with Purpose • Transparent Impact Estimates',
   'hero.title': "Don't just shop. Shop with purpose.",
-  'hero.subtitle': 'EcoMart is an offline-first conscious marketplace audited by an intelligent AI Agent. Every choice tracks real lifecycle carbon avoidance, plastic diversion, and water savings.',
+  'hero.subtitle': 'EcoMart is a conscious marketplace audited by an intelligent AI Agent. Every choice tracks real lifecycle carbon avoidance, plastic diversion, and water savings.',
   'hero.exploreCta': 'Explore Sustainable Catalog',
   'hero.agentCta': 'Consult Eco Agent Co-Pilot',
-  'hero.statProducts': '64 Audited Products',
-  'hero.statOffline': '100% Offline-Native',
-  'hero.statCo2': 'CO₂ Lifecycle Delta',
+  'hero.statProducts': '24 Audited Products',
+  'hero.statOffline': 'Server AI + Offline Mode',
+  'hero.statCo2': 'CO₂ Lifecycle Delta (Est.)',
 
   // Home Page
   'home.forYou': 'Personalized For You',

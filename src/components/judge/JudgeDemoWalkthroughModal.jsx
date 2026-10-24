@@ -203,11 +203,11 @@ export default function JudgeDemoWalkthroughModal({ isOpen, onClose }) {
                   Judge Demo Mode: Responsible AI Showcase
                 </h2>
                 <span className="px-2 py-0.5 rounded text-[9px] font-mono font-bold bg-amber-400 text-stone-950 uppercase">
-                  CBSE DLD 2026-27
+                  Technophilia 7.0
                 </span>
               </div>
               <p className="text-[11px] text-text-muted mt-0.5 hidden sm:block">
-                10-Step Interactive Script • AI Ethics Detectives • 100% Offline Ready
+                10-Step Interactive Evaluation • Explainable AI Audits • Server API + Offline Fallback
               </p>
             </div>
           </div>

@@ -36,10 +36,16 @@ export default function ImpactPulseWidget() {
             </div>
 
             <div className="text-xs font-medium text-heading flex items-center gap-1.5">
-              <span>Impact Pulse:</span>
-              <span className="text-primary font-bold">
-                {plasticGrams}g Plastic Diverted
-              </span>
+              <span className="text-text-muted">Impact Pulse:</span>
+              {totalItems > 0 && plasticGrams > 0 ? (
+                <span className="text-primary font-bold">
+                  ~{plasticGrams}g Plastic Diverted <span className="text-[10px] text-text-muted font-normal">(Estimate)</span>
+                </span>
+              ) : (
+                <span className="text-text-secondary font-normal italic text-[11px]">
+                  Add items to see your estimated impact
+                </span>
+              )}
             </div>
 
             <button
@@ -55,7 +61,7 @@ export default function ImpactPulseWidget() {
           {isExpanded && (
             <div className="p-4 pt-2 border-t border-line space-y-3 w-72 text-xs">
               <div className="flex items-center justify-between text-muted font-semibold uppercase text-[10px]">
-                <span>Cart Planetary Delta</span>
+                <span>Cart Planetary Delta (Estimate)</span>
                 <button
                   type="button"
                   onClick={() => setIsDismissed(true)}
@@ -66,23 +72,35 @@ export default function ImpactPulseWidget() {
                 </button>
               </div>
 
-              <div className="grid grid-cols-2 gap-2 text-center">
-                <div className="p-2 rounded-xl bg-surface-sunken border border-line">
-                  <div className="font-bold text-primary">
-                    {co2Kg.toFixed(2)} kg
+              {totalItems > 0 ? (
+                <>
+                  <div className="grid grid-cols-2 gap-2 text-center">
+                    <div className="p-2 rounded-xl bg-surface-sunken border border-line">
+                      <div className="font-bold text-primary">
+                        ~{co2Kg.toFixed(2)} kg
+                      </div>
+                      <div className="text-[10px] text-muted font-medium">CO₂ Prevented (Est.)</div>
+                    </div>
+                    <div className="p-2 rounded-xl bg-surface-sunken border border-line">
+                      <div className="font-bold text-accent">
+                        ~{waterLitres} L
+                      </div>
+                      <div className="text-[10px] text-muted font-medium">Water Saved (Est.)</div>
+                    </div>
                   </div>
-                  <div className="text-[10px] text-muted font-medium">CO₂ Prevented</div>
-                </div>
-                <div className="p-2 rounded-xl bg-surface-sunken border border-line">
-                  <div className="font-bold text-accent">
-                    {waterLitres} L
-                  </div>
-                  <div className="text-[10px] text-muted font-medium">Water Saved</div>
-                </div>
-              </div>
 
-              <div className="text-[11px] text-secondary leading-snug">
-                🌱 Your cart averages <strong className="text-heading">Grade {averageGrade}</strong> across {totalItems} audited items.
+                  <div className="text-[11px] text-secondary leading-snug">
+                    🌱 Your cart averages <strong className="text-heading">Grade {averageGrade}</strong> across {totalItems} audited items.
+                  </div>
+                </>
+              ) : (
+                <div className="py-2 text-[11px] text-text-secondary leading-relaxed bg-surface-sunken p-2.5 rounded-xl border border-line">
+                  Your cart is empty. Add eco-certified products to see your calculated plastic diversion, CO₂ savings, and water preservation estimates.
+                </div>
+              )}
+
+              <div className="text-[9px] text-text-muted border-t border-line/60 pt-1.5">
+                * Estimates derived from product LCA coefficients compared against petrochemical baselines.
               </div>
             </div>
           )}
@@ -120,7 +138,7 @@ export default function ImpactPulseWidget() {
           >
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
             <span className="text-[11px] text-primary font-bold">
-              {plasticGrams}g Diverted
+              {totalItems > 0 && plasticGrams > 0 ? `~${plasticGrams}g Diverted (Est.)` : 'Impact Pulse'}
             </span>
             {isExpanded ? <ChevronDown className="w-3 h-3 text-muted" /> : <ChevronUp className="w-3 h-3 text-muted" />}
           </button>
