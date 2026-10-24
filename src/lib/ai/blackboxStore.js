@@ -1,13 +1,13 @@
 /**
  * EcoMart AI Black Box Store
  * Append-only local telemetry log of every agent and guardrail interaction.
- * CBSE Responsible AI compliance: Never logs API keys, personal names, or PII.
+ * Responsible AI compliance: Never logs API keys, personal names, or PII.
  */
 
 const STORAGE_KEY = 'ecomart_blackbox_log';
 const MAX_LOG_ENTRIES = 100;
 
-// Curated baseline records for Judge Demo & offline resilience
+// Curated baseline records for offline resilience
 const BASELINE_LOG_ENTRIES = [
   {
     id: 'bb-init-01',

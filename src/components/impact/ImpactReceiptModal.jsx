@@ -161,6 +161,51 @@ export default function ImpactReceiptModal({ isOpen, onClose, orderData }) {
             })}
           </div>
 
+          {/* Order Timeline View (Feature 51: Clearly Marked Prototype) */}
+          <div className="p-4 rounded-3xl bg-surface border border-line space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-mono uppercase tracking-wider text-primary font-bold">
+                Low-Carbon Fulfillment Journey
+              </span>
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-800 dark:text-amber-200 border border-amber-500/20">
+                Simulated Prototype
+              </span>
+            </div>
+
+            <div className="space-y-3 pt-1">
+              {[
+                { title: 'Order Reserved', desc: 'Item allocated in local Bengaluru inventory; zero synthetic packing tape.', time: '0m', done: true },
+                { title: 'Kraft Corrugated Consolidation', desc: 'Multi-item batch packaging in 100% recycled unbleached kraft box.', time: '+2h', done: true },
+                { title: 'Hub Aggregation Transit', desc: 'Consolidated route dispatch to minimize vehicle km per parcel.', time: '+18h', done: false },
+                { title: 'Electric / Low-Emission Delivery', desc: 'Final-mile allocation via local low-emission delivery fleet.', time: 'Est. Tomorrow', done: false }
+              ].map((stage, idx) => (
+                <div key={idx} className="flex items-start gap-3 text-xs">
+                  <div className="flex flex-col items-center">
+                    <div className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-bold ${
+                      stage.done ? 'bg-primary text-primary-contrast' : 'bg-surface-sunken border border-line text-text-muted'
+                    }`}>
+                      {stage.done ? '✓' : idx + 1}
+                    </div>
+                    {idx < 3 && <div className="w-0.5 h-6 bg-line my-0.5" />}
+                  </div>
+                  <div className="flex-1 pb-1">
+                    <div className="flex items-center justify-between">
+                      <span className="font-semibold text-heading">{stage.title}</span>
+                      <span className="text-[10px] font-mono text-text-muted">{stage.time}</span>
+                    </div>
+                    <p className="text-[11px] text-text-secondary leading-snug mt-0.5">
+                      {stage.desc}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="text-[10px] text-text-muted font-mono pt-1 border-t border-line/60">
+              Note: Prototype timeline view demonstrating low-carbon fulfillment steps. No third-party carrier API is queried.
+            </div>
+          </div>
+
           {/* Totals */}
           <div className="pt-2 border-t border-line space-y-1 text-xs">
             <div className="flex items-center justify-between text-heading font-serif font-bold text-base">

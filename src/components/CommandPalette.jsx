@@ -24,9 +24,14 @@ import {
   Inbox,
   Gavel,
   Scan,
-  Compass,
-  FileCheck
+  FileCheck,
+  BookOpen,
+  Lock,
+  Wifi,
+  Eye,
+  MessageSquare
 } from 'lucide-react';
+import { ECO_GLOSSARY_TERMS } from '../lib/glossary';
 
 export default function CommandPalette({ isOpen: controlledOpen, onClose: controlledClose }) {
   const [internalOpen, setInternalOpen] = useState(true);
@@ -348,8 +353,69 @@ export default function CommandPalette({ isOpen: controlledOpen, onClose: contro
       title: 'Go to Settings & Accessibility',
       subtitle: 'Font size, dyslexia font, high-contrast toggle',
       icon: Settings,
+      group: 'Pages & Navigation',
       perform: () => {
         navigate('/settings');
+        handleClose();
+      }
+    },
+    {
+      id: 'nav-transparency',
+      type: 'navigation',
+      title: 'Agent Transparency & Safety Report',
+      subtitle: 'Model specifications, guardrails, and automated report card',
+      icon: FileCheck,
+      group: 'Pages & Navigation',
+      perform: () => {
+        navigate('/transparency');
+        handleClose();
+      }
+    },
+    {
+      id: 'action-privacy',
+      type: 'action',
+      title: 'Privacy Center & Data Export',
+      subtitle: 'Inspect local storage inventory, export JSON backup, or wipe local data',
+      icon: Lock,
+      group: 'Privacy & Offline',
+      perform: () => {
+        window.dispatchEvent(new CustomEvent('open-privacy-center'));
+        handleClose();
+      }
+    },
+    {
+      id: 'action-offline',
+      type: 'action',
+      title: 'Offline Capabilities Manager',
+      subtitle: 'View offline operational matrix and PWA installation status',
+      icon: Wifi,
+      group: 'Privacy & Offline',
+      perform: () => {
+        window.dispatchEvent(new CustomEvent('open-offline-manager'));
+        handleClose();
+      }
+    },
+    {
+      id: 'action-accessibility',
+      type: 'action',
+      title: 'Accessibility & Ergonomics Center',
+      subtitle: 'Text size scale, OpenDyslexic font, high contrast, and kids mode',
+      icon: Eye,
+      group: 'Tools & Truth Lab',
+      perform: () => {
+        window.dispatchEvent(new CustomEvent('open-accessibility-center'));
+        handleClose();
+      }
+    },
+    {
+      id: 'action-feedback',
+      type: 'action',
+      title: 'Feedback & Claim Reporting Inbox',
+      subtitle: 'Submit honest sustainability feedback or export community reports',
+      icon: MessageSquare,
+      group: 'Tools & Truth Lab',
+      perform: () => {
+        window.dispatchEvent(new CustomEvent('open-feedback-inbox'));
         handleClose();
       }
     },
@@ -359,6 +425,7 @@ export default function CommandPalette({ isOpen: controlledOpen, onClose: contro
       title: 'Methodology: How Eco-Score Works',
       subtitle: 'Read our 0-100 lifecycle formula standards',
       icon: HelpCircle,
+      group: 'Pages & Navigation',
       perform: () => {
         navigate('/how-it-works');
         handleClose();
@@ -366,26 +433,27 @@ export default function CommandPalette({ isOpen: controlledOpen, onClose: contro
     }
   ], [navigate, setIsCartOpen, setIsAgentOpen, reduceEffects, toggleReduceEffects, handleClose]);
 
-  // Filter items based on query
+  // Filter items based on query with grouped structure
   const filteredItems = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) {
-      return actions.slice(0, 8);
+      return actions.slice(0, 10).map((a) => ({ ...a, group: a.group || 'Quick Actions' }));
     }
 
-    // Match products
+    // 1. Match products
     const matchingProducts = productsData
       .filter((p) => {
         return (
           p.name.toLowerCase().includes(q) ||
           p.category.toLowerCase().includes(q) ||
-          p.material.toLowerCase().includes(q)
+          (p.material || '').toLowerCase().includes(q)
         );
       })
       .slice(0, 5)
       .map((p) => ({
         id: `prod-${p.id}`,
         type: 'product',
+        group: 'Products',
         title: p.name,
         subtitle: `₹${p.price} • ${p.category} • ${p.material}`,
         icon: Store,
@@ -395,15 +463,51 @@ export default function CommandPalette({ isOpen: controlledOpen, onClose: contro
         }
       }));
 
-    // Match actions
-    const matchingActions = actions.filter((a) => {
-      return (
-        a.title.toLowerCase().includes(q) ||
-        a.subtitle.toLowerCase().includes(q)
-      );
-    });
+    // 2. Match actions & tools
+    const matchingTools = actions
+      .filter((a) => {
+        return (
+          (a.group?.includes('Tools') || a.type === 'action') &&
+          (a.title.toLowerCase().includes(q) || a.subtitle.toLowerCase().includes(q))
+        );
+      })
+      .map((a) => ({ ...a, group: 'Tools & Truth Lab' }));
 
-    return [...matchingProducts, ...matchingActions];
+    // 3. Match pages
+    const matchingPages = actions
+      .filter((a) => {
+        return (
+          a.type === 'navigation' &&
+          !matchingTools.some((t) => t.id === a.id) &&
+          (a.title.toLowerCase().includes(q) || a.subtitle.toLowerCase().includes(q))
+        );
+      })
+      .map((a) => ({ ...a, group: 'Pages & Hubs' }));
+
+    // 4. Match Glossary Terms
+    const matchingGlossary = (ECO_GLOSSARY_TERMS || [])
+      .filter((item) => {
+        return (
+          item.term.toLowerCase().includes(q) ||
+          item.category.toLowerCase().includes(q) ||
+          (item.shortDef || '').toLowerCase().includes(q)
+        );
+      })
+      .slice(0, 4)
+      .map((item) => ({
+        id: `glossary-${item.term}`,
+        type: 'glossary',
+        group: 'Eco Glossary Terms',
+        title: item.term,
+        subtitle: `${item.category}: ${item.shortDef}`,
+        icon: BookOpen,
+        perform: () => {
+          navigate('/tools');
+          handleClose();
+        }
+      }));
+
+    return [...matchingProducts, ...matchingTools, ...matchingPages, ...matchingGlossary];
   }, [query, actions, navigate, handleClose]);
 
   // Keyboard navigation
@@ -448,7 +552,7 @@ export default function CommandPalette({ isOpen: controlledOpen, onClose: contro
               setSelectedIndex(0);
             }}
             onKeyDown={handleKeyDown}
-            placeholder="Type a command, product, or action..."
+            placeholder="Search products, tools, pages, or eco terms..."
             className="flex-1 bg-transparent text-sm sm:text-base font-medium outline-hidden placeholder:text-muted text-heading"
           />
           {query && (
@@ -460,7 +564,7 @@ export default function CommandPalette({ isOpen: controlledOpen, onClose: contro
                 inputRef.current?.focus();
               }}
               aria-label="Clear search query"
-              className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-surface-sunken text-muted hover:text-text transition-colors focus-visible:outline-2 focus-visible:outline-focus"
+              className="w-8 h-8 rounded-lg flex items-center justify-center hover:bg-surface-sunken text-muted hover:text-text transition-colors focus-visible:outline-2 focus-visible:outline-focus cursor-pointer"
             >
               <X className="w-4 h-4" />
             </button>
@@ -470,67 +574,81 @@ export default function CommandPalette({ isOpen: controlledOpen, onClose: contro
           </kbd>
         </div>
 
-        {/* Results List */}
+        {/* Results List with Grouped Categories */}
         <div className="max-h-[60vh] overflow-y-auto p-2.5 space-y-1">
           {filteredItems.length === 0 ? (
             <div className="py-12 text-center text-muted">
               <p className="text-sm font-serif font-bold text-heading">No matching commands or products found</p>
-              <p className="text-xs mt-1 text-muted">Try searching for "bamboo", "cart", or "calculator"</p>
+              <p className="text-xs mt-1 text-muted">Try searching for "bamboo", "GOTS", "courtroom", or "carbon"</p>
             </div>
           ) : (
             filteredItems.map((item, idx) => {
-              const Icon = item.icon;
+              const Icon = item.icon || Store;
               const isSelected = idx === selectedIndex;
-              return (
-                <button
-                  key={item.id}
-                  type="button"
-                  onClick={item.perform}
-                  onMouseEnter={() => setSelectedIndex(idx)}
-                  className={`w-full flex items-center justify-between px-3.5 py-3 rounded-2xl text-left transition-colors min-h-[44px] focus-visible:outline-2 focus-visible:outline-focus ${
-                    isSelected
-                      ? 'bg-surface-accent text-heading border border-primary/20 shadow-soft-xs'
-                      : 'hover:bg-surface-sunken text-text border border-transparent'
-                  }`}
-                >
-                  <div className="flex items-center gap-3.5 min-w-0">
-                    <div
-                      className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition-colors ${
-                        isSelected
-                          ? 'bg-heading text-primary'
-                          : 'bg-surface-sunken text-secondary border border-line'
-                      }`}
-                    >
-                      <Icon className="w-4 h-4" />
-                    </div>
-                    <div className="min-w-0">
-                      <div className="text-xs sm:text-sm font-bold truncate text-heading">
-                        {item.title}
-                      </div>
-                      <div className="text-[11px] text-muted truncate mt-0.5">
-                        {item.subtitle}
-                      </div>
-                    </div>
-                  </div>
+              const prevGroup = idx > 0 ? filteredItems[idx - 1].group : null;
+              const showGroupHeader = item.group && item.group !== prevGroup;
 
-                  <div className="flex items-center gap-2 pl-2 shrink-0">
-                    {item.type === 'product' && (
-                      <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-md bg-surface-accent text-primary border border-primary/20">
-                        Product
-                      </span>
-                    )}
-                    {item.type === 'action' && (
-                      <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-md bg-warning-subtle text-warning border border-warning/20">
-                        Action
-                      </span>
-                    )}
-                    <ArrowRight
-                      className={`w-4 h-4 transition-transform ${
-                        isSelected ? 'text-heading translate-x-0.5' : 'text-muted'
-                      }`}
-                    />
-                  </div>
-                </button>
+              return (
+                <React.Fragment key={item.id}>
+                  {showGroupHeader && (
+                    <div className="px-3 pt-3 pb-1 text-[10px] font-mono font-bold uppercase tracking-wider text-primary">
+                      {item.group}
+                    </div>
+                  )}
+                  <button
+                    type="button"
+                    onClick={item.perform}
+                    onMouseEnter={() => setSelectedIndex(idx)}
+                    className={`w-full flex items-center justify-between px-3.5 py-3 rounded-2xl text-left transition-colors min-h-[44px] focus-visible:outline-2 focus-visible:outline-focus cursor-pointer ${
+                      isSelected
+                        ? 'bg-surface-accent text-heading border border-primary/20 shadow-soft-xs'
+                        : 'hover:bg-surface-sunken text-text border border-transparent'
+                    }`}
+                  >
+                    <div className="flex items-center gap-3.5 min-w-0">
+                      <div
+                        className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 transition-colors ${
+                          isSelected
+                            ? 'bg-heading text-primary'
+                            : 'bg-surface-sunken text-secondary border border-line'
+                        }`}
+                      >
+                        <Icon className="w-4 h-4" />
+                      </div>
+                      <div className="min-w-0">
+                        <div className="text-xs sm:text-sm font-bold truncate text-heading">
+                          {item.title}
+                        </div>
+                        <div className="text-[11px] text-muted truncate mt-0.5">
+                          {item.subtitle}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2 pl-2 shrink-0">
+                      {item.type === 'product' && (
+                        <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-md bg-surface-accent text-primary border border-primary/20 font-mono">
+                          Product
+                        </span>
+                      )}
+                      {item.type === 'glossary' && (
+                        <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-md bg-primary/10 text-primary border border-primary/20 font-mono">
+                          Glossary
+                        </span>
+                      )}
+                      {item.type === 'action' && (
+                        <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-md bg-warning-subtle text-warning border border-warning/20 font-mono">
+                          Tool
+                        </span>
+                      )}
+                      <ArrowRight
+                        className={`w-4 h-4 transition-transform ${
+                          isSelected ? 'text-heading translate-x-0.5' : 'text-muted'
+                        }`}
+                      />
+                    </div>
+                  </button>
+                </React.Fragment>
               );
             })
           )}

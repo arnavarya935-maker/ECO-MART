@@ -57,7 +57,7 @@ const STEPS = [
     title: 'Explain',
     tagline: 'Auditable Decision Transparency',
     description:
-      'Generates a step-by-step reasoning trace with transparent data citations. The judge and user can inspect why each swap was made, down to transport kilometers and packaging degradation times.',
+      'Generates a step-by-step reasoning trace with transparent data citations. Shoppers and auditors can inspect why each swap was made, down to transport kilometers and packaging degradation times.',
     engine: 'Verifiable Trace Generator',
     visual: {
       type: 'trace',

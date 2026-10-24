@@ -3,8 +3,7 @@
  * Evaluates whether the shopping agent provides fair, non-discriminatory,
  * and consistent advice regardless of language (English, Hindi, Hinglish)
  * or buyer socioeconomic framing (budget-conscious vs zero-waste purist).
- *
- * CBSE Theme: Ethics and Responsible Use of AI
+ * Standard: Ethics and Responsible Use of AI
  */
 
 import productsData from '../../data/products.json';

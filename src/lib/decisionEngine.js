@@ -348,3 +348,76 @@ export function parsePriorityIntent(query, currentWeights = DEFAULT_PRIORITIES) 
 
   return null;
 }
+
+/**
+ * Computes category averages from catalog dataset (Feature 63)
+ */
+export function computeCategoryBenchmarks(products = []) {
+  const categories = {};
+
+  products.forEach((p) => {
+    const cat = p.category || 'General';
+    if (!categories[cat]) {
+      categories[cat] = {
+        count: 0,
+        totalEcoScore: 0,
+        totalPrice: 0,
+        totalCarbon: 0,
+        totalPlastic: 0,
+        totalWater: 0
+      };
+    }
+    const c = categories[cat];
+    c.count += 1;
+    c.totalEcoScore += Number(p.ecoScore || 70);
+    c.totalPrice += Number(p.price || 0);
+    c.totalCarbon += Number(p.carbonKg || p.carbon || 1.5);
+    c.totalPlastic += Number(p.plasticGrams || p.plastic || 50);
+    c.totalWater += Number(p.waterLitres || p.water || 100);
+  });
+
+  const benchmarks = {};
+  Object.entries(categories).forEach(([cat, stats]) => {
+    benchmarks[cat] = {
+      category: cat,
+      sampleSize: stats.count,
+      avgEcoScore: Math.round(stats.totalEcoScore / stats.count),
+      avgPrice: Math.round(stats.totalPrice / stats.count),
+      avgCarbonKg: Number((stats.totalCarbon / stats.count).toFixed(2)),
+      avgPlasticGrams: Math.round(stats.totalPlastic / stats.count),
+      avgWaterLitres: Math.round(stats.totalWater / stats.count)
+    };
+  });
+
+  return benchmarks;
+}
+
+/**
+ * Compares a specific product to its category benchmarks
+ */
+export function compareProductToBenchmark(product, products = []) {
+  if (!product) return null;
+  const benchmarks = computeCategoryBenchmarks(products);
+  const catBenchmark = benchmarks[product.category] || {
+    avgEcoScore: 75,
+    avgCarbonKg: 1.8,
+    avgPlasticGrams: 80,
+    avgPrice: 450,
+    sampleSize: products.length
+  };
+
+  const prodScore = Number(product.ecoScore || 75);
+  const prodCarbon = Number(product.carbonKg || product.carbon || 1.2);
+  const prodPlastic = Number(product.plasticGrams || product.plastic || 10);
+
+  return {
+    category: product.category,
+    sampleSize: catBenchmark.sampleSize,
+    ecoScoreDelta: prodScore - catBenchmark.avgEcoScore,
+    carbonDeltaKg: Number((catBenchmark.avgCarbonKg - prodCarbon).toFixed(2)),
+    plasticDeltaGrams: Math.round(catBenchmark.avgPlasticGrams - prodPlastic),
+    avgEcoScore: catBenchmark.avgEcoScore,
+    avgCarbonKg: catBenchmark.avgCarbonKg,
+    avgPlasticGrams: catBenchmark.avgPlasticGrams
+  };
+}

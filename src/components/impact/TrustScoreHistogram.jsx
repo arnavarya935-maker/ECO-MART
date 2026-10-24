@@ -132,7 +132,7 @@ export default function TrustScoreHistogram() {
       {/* Assumptions Label */}
       <div className="flex items-center gap-2 text-[11px] text-muted font-mono bg-surface-sunken/60 px-3 py-1.5 rounded-xl border border-line/40">
         <Info className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-        <span><strong>Sample Dataset & Session Logs:</strong> Aggregates live session audits with the CBSE calibrated benchmark corpus.</span>
+        <span><strong>Sample Dataset & Session Logs:</strong> Aggregates live session audits with the calibrated environmental benchmark corpus.</span>
       </div>
 
       {showTable ? (

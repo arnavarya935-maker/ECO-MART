@@ -89,7 +89,7 @@ export default function ToolsPage() {
               <div className="flex items-center gap-1.5 flex-wrap">
                 <h2 className="font-serif text-base font-bold text-heading">Greenwash Detective</h2>
                 <span className="text-[9px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-300 border border-amber-400/30">
-                  CBSE 2026
+                  Auditor
                 </span>
               </div>
               <p className="text-xs text-secondary mt-1">

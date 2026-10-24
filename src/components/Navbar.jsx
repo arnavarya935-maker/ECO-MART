@@ -17,7 +17,9 @@ import {
   Scale,
   Sliders,
   FileCheck,
-  Bot
+  Bot,
+  Bell,
+  Eye
 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useT } from '../context/I18nContext';
@@ -27,6 +29,7 @@ import ThemeToggle from './ThemeToggle';
 
 const MORE_LINKS = [
   { path: '/courtroom', label: 'AI Courtroom', icon: Swords, badge: 'Simulated trial' },
+  { path: '/transparency', label: 'Agent Transparency', icon: ShieldCheck, badge: 'Feature 54' },
   { path: '/scan', label: 'Label Scanner', icon: Camera, badge: 'Vision OCR' },
   { path: '/kirana', label: 'Kirana Mode', icon: Store, badge: 'Desi packaging' },
   { path: '/transform', label: 'Cart Transformer', icon: RefreshCw, badge: '1-tap swap' },
@@ -251,6 +254,29 @@ export default function Navbar() {
               <span>{lang === 'en' ? 'हिंदी' : 'EN'}</span>
             </button>
           )}
+
+          {/* Notification Center Trigger */}
+          <button
+            type="button"
+            onClick={() => window.dispatchEvent(new CustomEvent('open-notification-center'))}
+            title="Notification Center (In-app insights)"
+            aria-label="Open notifications"
+            className="relative p-2.5 rounded-full border border-line bg-surface-raised/70 hover:bg-surface-raised text-text-muted hover:text-heading transition min-h-[40px] min-w-[40px] flex items-center justify-center cursor-pointer"
+          >
+            <Bell className="w-4 h-4" />
+            <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+          </button>
+
+          {/* Accessibility Center Trigger */}
+          <button
+            type="button"
+            onClick={() => window.dispatchEvent(new CustomEvent('open-accessibility-center'))}
+            title="Accessibility & Ergonomics Center"
+            aria-label="Open accessibility options"
+            className="p-2.5 rounded-full border border-line bg-surface-raised/70 hover:bg-surface-raised text-text-muted hover:text-primary transition min-h-[40px] min-w-[40px] flex items-center justify-center cursor-pointer"
+          >
+            <Eye className="w-4 h-4" />
+          </button>
 
           {/* Wishlist Button */}
           <Link

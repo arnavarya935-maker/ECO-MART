@@ -1,11 +1,11 @@
 import React from 'react';
-import { SearchX, RotateCcw } from 'lucide-react';
+import { SearchX, RotateCcw, Sparkles } from 'lucide-react';
 
-export default function ShopEmptyState({ onReset, onSearchSuggestion }) {
+export default function ShopEmptyState({ onReset, onSearchSuggestion, onAskAgent, currentQuery }) {
   const suggestions = ['Bamboo Cutlery', 'Organic Cotton', 'Seed Paper', 'Solid Shampoo', 'Copper Tumbler'];
 
   return (
-    <div className="py-20 px-6 text-center bg-surface-raised rounded-3xl border border-line shadow-soft-sm space-y-5 my-6">
+    <div className="py-16 px-6 text-center bg-surface-raised rounded-3xl border border-line shadow-soft-sm space-y-5 my-6">
       <div className="w-16 h-16 rounded-3xl bg-surface-sunken text-primary flex items-center justify-center mx-auto text-2xl border border-line shadow-soft-sm">
         <SearchX className="w-8 h-8 text-primary" />
       </div>
@@ -14,8 +14,14 @@ export default function ShopEmptyState({ onReset, onSearchSuggestion }) {
         <h3 className="font-serif text-xl font-bold text-heading tracking-tight">
           No sustainable products matched your filter criteria
         </h3>
-        <p className="font-sans text-xs sm:text-sm text-muted max-w-md mx-auto leading-relaxed">
-          Try broadening your price range, clearing specific certification filters, or exploring our recommended conscious keywords.
+        <p className="font-sans text-xs sm:text-sm text-secondary max-w-md mx-auto leading-relaxed">
+          {currentQuery ? (
+            <>
+              No direct matches for <strong className="text-heading">"{currentQuery}"</strong>. Try broadening your criteria or let our AI agent find close sustainable equivalents.
+            </>
+          ) : (
+            'Try broadening your price range, clearing specific certification filters, or exploring our recommended conscious keywords.'
+          )}
         </p>
       </div>
 
@@ -38,15 +44,34 @@ export default function ShopEmptyState({ onReset, onSearchSuggestion }) {
         </div>
       </div>
 
-      {/* Reset button */}
-      <div className="pt-2">
+      {/* Action buttons: Reset & Ask Agent */}
+      <div className="pt-3 flex flex-wrap items-center justify-center gap-3">
         <button
           type="button"
           onClick={onReset}
-          className="inline-flex items-center gap-2 px-6 py-3 min-h-[44px] rounded-2xl bg-primary hover:bg-primary-hover text-text-inverted font-sans font-medium text-xs shadow-soft-sm transition cursor-pointer"
+          className="inline-flex items-center gap-2 px-5 py-2.5 min-h-[44px] rounded-2xl bg-surface hover:bg-surface-sunken border border-line text-heading font-sans font-medium text-xs shadow-soft-xs transition cursor-pointer"
         >
-          <RotateCcw className="w-4 h-4" />
+          <RotateCcw className="w-4 h-4 text-secondary" />
           <span>Reset All Filters</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => {
+            if (onAskAgent) {
+              onAskAgent();
+            } else {
+              window.dispatchEvent(
+                new CustomEvent('ecomart-agent-query', {
+                  detail: { query: `Find sustainable alternatives for ${currentQuery || 'kitchen and daily home essentials'}` }
+                })
+              );
+            }
+          }}
+          className="inline-flex items-center gap-2 px-5 py-2.5 min-h-[44px] rounded-2xl bg-primary hover:bg-primary-hover text-primary-contrast font-sans font-semibold text-xs shadow-soft-sm transition cursor-pointer"
+        >
+          <Sparkles className="w-4 h-4" />
+          <span>Ask EcoAgent for Alternatives</span>
         </button>
       </div>
     </div>

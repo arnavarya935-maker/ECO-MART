@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { ShoppingBag, Wind, Droplets, Ban, MapPin, Award, CheckCircle, Sparkles, RefreshCw, QrCode } from 'lucide-react';
+import { ShoppingBag, Wind, Droplets, Ban, MapPin, Award, CheckCircle, Sparkles, RefreshCw, QrCode, Ruler } from 'lucide-react';
 import { calculateEcoScore, compareProductImpact, detectGreenwashing } from '../lib/ecoScore';
+import { compareProductToBenchmark } from '../lib/decisionEngine';
 import EcoScoreBadge from './EcoScoreBadge';
 import EcoScorePopover from './EcoScorePopover';
 import ProductGallery from './ProductGallery';
@@ -11,6 +11,8 @@ import SecondLifeTab from './lifecycle/SecondLifeTab';
 import AIEthicsCard from './decision/AIEthicsCard';
 import BrandTransparencyCard from './detective/BrandTransparencyCard';
 import GreenwashLexiconHighlighter from './detective/GreenwashLexiconHighlighter';
+import ProductScaleVisualModal from './product/ProductScaleVisualModal';
+import ProductPassportQRModal from './product/ProductPassportQRModal';
 import Modal from './ui/Modal';
 import { useCart } from '../context/CartContext';
 
@@ -20,6 +22,8 @@ export default function ProductDetailModal({ product, onClose }) {
   const [quantity, setQuantity] = useState(1);
   const [showFormulaPopover, setShowFormulaPopover] = useState(false);
   const [showReviewForm, setShowReviewForm] = useState(false);
+  const [isScaleModalOpen, setIsScaleModalOpen] = useState(false);
+  const [isPassportQROpen, setIsPassportQROpen] = useState(false);
   const [newRating, setNewRating] = useState(5);
   const [reviewerName, setReviewerName] = useState('');
   const [reviewComment, setReviewComment] = useState('');
@@ -45,6 +49,7 @@ export default function ProductDetailModal({ product, onClose }) {
 
   const ecoScoreData = calculateEcoScore(product);
   const greenwashing = detectGreenwashing(product);
+  const benchmark = compareProductToBenchmark(product);
 
   // Look up alternative product (either eco alternative or conventional)
   const productMap = new Map((allProducts || []).map((p) => [p.id, p]));
@@ -90,7 +95,14 @@ export default function ProductDetailModal({ product, onClose }) {
 
             <div className="p-5 rounded-2xl bg-surface-sunken border border-line shadow-soft-sm">
               <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
-                <EcoScoreBadge scoreData={ecoScoreData} product={product} size="lg" />
+                <div className="flex flex-wrap items-center gap-2">
+                  <EcoScoreBadge scoreData={ecoScoreData} product={product} size="lg" />
+                  {benchmark && (
+                    <span className="text-[11px] font-mono px-2.5 py-1 rounded-full bg-surface-raised border border-line text-heading">
+                      vs {product.category} Avg: <strong className={benchmark.carbonDiffPct <= 0 ? 'text-primary' : 'text-danger'}>{benchmark.carbonDiffPct > 0 ? `+${benchmark.carbonDiffPct}%` : `${benchmark.carbonDiffPct}%`} CO₂e</strong>
+                    </span>
+                  )}
+                </div>
                 <button
                   type="button"
                   onClick={() => setShowFormulaPopover(true)}
@@ -505,6 +517,24 @@ export default function ProductDetailModal({ product, onClose }) {
           <div className="flex items-center gap-2">
             <button
               type="button"
+              onClick={() => setIsScaleModalOpen(true)}
+              className="min-h-[44px] flex items-center gap-1.5 px-3 py-2.5 rounded-xl border border-line hover:border-primary/50 text-secondary hover:text-primary font-medium text-xs transition cursor-pointer"
+              title="Compare physical dimensions with smartphone, mug, and laptop"
+            >
+              <Ruler className="w-4 h-4 text-primary" />
+              <span className="hidden sm:inline">Scale View</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => setIsPassportQROpen(true)}
+              className="min-h-[44px] flex items-center gap-1.5 px-3 py-2.5 rounded-xl border border-line hover:border-primary/50 text-secondary hover:text-primary font-medium text-xs transition cursor-pointer"
+              title="Product Passport QR Code"
+            >
+              <QrCode className="w-4 h-4 text-primary" />
+              <span className="hidden sm:inline">Passport QR</span>
+            </button>
+            <button
+              type="button"
               onClick={() => {
                 onClose();
                 setIsAgentOpen(true);
@@ -523,16 +553,6 @@ export default function ProductDetailModal({ product, onClose }) {
               <Sparkles className="w-4 h-4 text-primary" />
               <span className="hidden sm:inline">Ask Agent</span>
             </button>
-            <Link
-              to={`/passport/${product.id}`}
-              onClick={onClose}
-              className="min-h-[44px] flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl border border-line hover:border-primary/50 text-secondary hover:text-primary font-medium text-xs transition cursor-pointer"
-              title="View Trust Passport and QR Certificate"
-              id={`modal-passport-link-${product.id}`}
-            >
-              <QrCode className="w-4 h-4 text-primary" />
-              <span className="hidden sm:inline">Trust Passport</span>
-            </Link>
             <button
               type="button"
               onClick={handleAddToCart}
@@ -543,6 +563,24 @@ export default function ProductDetailModal({ product, onClose }) {
             </button>
           </div>
         </div>
+
+        {/* Feature 50: Physical Scale Visual Modal */}
+        {isScaleModalOpen && (
+          <ProductScaleVisualModal
+            isOpen={isScaleModalOpen}
+            onClose={() => setIsScaleModalOpen(false)}
+            product={product}
+          />
+        )}
+
+        {/* Feature 61: Product Passport QR Modal */}
+        {isPassportQROpen && (
+          <ProductPassportQRModal
+            isOpen={isPassportQROpen}
+            onClose={() => setIsPassportQROpen(false)}
+            product={product}
+          />
+        )}
 
         {showFormulaPopover && (
           <EcoScorePopover

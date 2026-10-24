@@ -15,7 +15,7 @@ import {
 export function calculateHonestyMetrics(messages = []) {
   const agentMessages = messages.filter((m) => m.sender === 'agent' && m.id !== 'welcome');
 
-  // Baseline calibration for judges/new sessions so widget is never an empty void
+  // Baseline calibration for initial sessions so widget is never an empty void
   const baselineEntries = [
     {
       id: 'init-uncertainty-1',
@@ -201,7 +201,7 @@ export default function HonestyMeter({ messages = [] }) {
                     Agent Honesty & Uncertainty Meter
                   </h3>
                   <p className="text-xs text-muted">
-                    CBSE Responsible AI requirement: Visibility into when AI is not sure.
+                    Responsible AI requirement: Complete visibility into epistemic uncertainty and knowledge limits.
                   </p>
                 </div>
               </div>

@@ -6,7 +6,6 @@ import { calculateEcoScore } from '../lib/ecoScore';
 import { rankProducts } from '../lib/decisionEngine';
 import { FEATURES } from '../lib/features';
 import { useCart } from '../context/CartContext';
-import { useTheme } from '../context/ThemeContext';
 import ProductCard from '../components/ProductCard';
 import PrioritiesPanel from '../components/decision/PrioritiesPanel';
 import ShopFilterBar from '../components/shop/ShopFilterBar';
@@ -25,7 +24,6 @@ import { HOUSEHOLD_PROFILES } from '../lib/personaEngine';
 export default function ShopPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const { userPriorities } = useCart();
-  const { reduceEffects } = useTheme();
 
   // URL-driven query states
   const categoryParam = searchParams.get('category') || 'All';
@@ -43,6 +41,7 @@ export default function ShopPage() {
   const [activeHouseholdProfile, setActiveHouseholdProfile] = useState('default');
   const [isGiftFinderOpen, setIsGiftFinderOpen] = useState(false);
   const [isOccasionKitsOpen, setIsOccasionKitsOpen] = useState(false);
+  const [selectedSeason, setSelectedSeason] = useState('All'); // 'All' | 'Monsoon' | 'Summer' | 'Festive' | 'Winter'
 
   // Extract all categories & certifications
   const categories = useMemo(() => {
@@ -118,9 +117,29 @@ export default function ShopPage() {
         return false;
       }
 
+      // 8. Seasonal & Regional Filter (Feature 64)
+      if (selectedSeason !== 'All') {
+        const mat = (product.material || '').toLowerCase();
+        const cat = (product.category || '').toLowerCase();
+        const name = (product.name || '').toLowerCase();
+        if (selectedSeason === 'Monsoon') {
+          const matchesMonsoon = mat.includes('steel') || mat.includes('neem') || mat.includes('bamboo') || cat.includes('kitchen') || name.includes('bottle') || name.includes('scrubber');
+          if (!matchesMonsoon) return false;
+        } else if (selectedSeason === 'Summer') {
+          const matchesSummer = mat.includes('cotton') || mat.includes('copper') || mat.includes('clay') || cat.includes('clothing') || name.includes('bottle') || name.includes('tote');
+          if (!matchesSummer) return false;
+        } else if (selectedSeason === 'Festive') {
+          const matchesFestive = mat.includes('brass') || mat.includes('paper') || cat.includes('home') || (product.certifications && product.certifications.length > 0);
+          if (!matchesFestive) return false;
+        } else if (selectedSeason === 'Winter') {
+          const matchesWinter = mat.includes('wood') || mat.includes('glass') || cat.includes('care') || cat.includes('home');
+          if (!matchesWinter) return false;
+        }
+      }
+
       return true;
     });
-  }, [categoryParam, queryParam, priceRange, selectedGrade, onlyPlasticFree, onlyEcoFriendly, selectedCert]);
+  }, [categoryParam, queryParam, priceRange, selectedGrade, onlyPlasticFree, onlyEcoFriendly, selectedCert, selectedSeason]);
 
   // Sort products
   const sortedProducts = useMemo(() => {
@@ -298,6 +317,33 @@ export default function ShopPage() {
           onClearAll={handleResetAllFilters}
         />
 
+        {/* Seasonal & Regional Living Filters (Feature 64) */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-1 pt-1 text-xs">
+          <span className="text-[11px] font-mono text-muted uppercase tracking-wider shrink-0 mr-1">
+            Season:
+          </span>
+          {[
+            { id: 'All', label: 'All Seasons' },
+            { id: 'Monsoon', label: '🌧️ Monsoon Essentials' },
+            { id: 'Summer', label: '☀️ Summer Zero-Waste' },
+            { id: 'Festive', label: '🪔 Festive Gifting' },
+            { id: 'Winter', label: '❄️ Winter Care' }
+          ].map((s) => (
+            <button
+              key={s.id}
+              type="button"
+              onClick={() => setSelectedSeason(s.id)}
+              className={`px-3 py-1.5 rounded-full border text-xs font-sans whitespace-nowrap transition cursor-pointer min-h-[32px] ${
+                selectedSeason === s.id
+                  ? 'bg-primary text-primary-contrast border-primary font-semibold shadow-soft-xs'
+                  : 'bg-surface-raised border-line text-secondary hover:text-heading hover:bg-surface'
+              }`}
+            >
+              {s.label}
+            </button>
+          ))}
+        </div>
+
         {/* Result Count Status Strip */}
         <div className="flex items-center justify-between py-2.5 text-xs font-sans text-muted font-medium">
           <span>
@@ -328,6 +374,14 @@ export default function ShopPage() {
           <ShopEmptyState
             onReset={handleResetAllFilters}
             onSearchSuggestion={(term) => updateQueryParam('q', term)}
+            currentQuery={queryParam}
+            onAskAgent={() => {
+              window.dispatchEvent(
+                new CustomEvent('ecomart-agent-query', {
+                  detail: { query: `Find sustainable recommendations for ${queryParam || (selectedSeason !== 'All' ? selectedSeason + ' season essentials' : 'daily kitchen and home items')}` }
+                })
+              );
+            }}
           />
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">

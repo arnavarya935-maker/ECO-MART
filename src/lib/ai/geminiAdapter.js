@@ -1,13 +1,13 @@
 /**
  * EcoMart Responsible AI Adapter
  * Swappable interface for LLM calls (Gemini 1.5 Flash via secure backend proxy)
- * with robust offline/cached fallback to guarantee 100% judge presentation reliability.
+ * with robust offline/cached fallback to guarantee 100% offline reliability.
  */
 
 import { queryEcoCatalog } from '../ecoAgent.js';
 import productsData from '../../data/products.json';
 
-// Curated verified knowledge cache for common competition demo scenarios
+// Curated verified knowledge cache for common sustainable shopping scenarios
 const VERIFIED_FALLBACK_ANSWERS = [
   {
     triggers: ['bamboo', 'toothbrush', 'brush', 'teeth', 'plastic toothbrush'],

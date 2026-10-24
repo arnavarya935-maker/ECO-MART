@@ -2,8 +2,7 @@
  * EcoMart Break-the-AI Guardrails & Adversarial Defense Engine
  * Implements input sanitization, adversarial attack detection,
  * system prompt protection, and output schema validation.
- *
- * CBSE Theme: Ethics and Responsible Use of AI
+ * Theme: Ethics and Responsible Use of AI
  */
 
 export const ETHICAL_GUARDRAILS = {
@@ -186,7 +185,7 @@ export function generateGuardrailDefenseResponse(attackResult, rawQuery) {
   if (rule?.id === 'system_prompt_protection') {
     return {
       agentResponse:
-        "I am EcoMart's Responsible AI Shopping Assistant. I operate strictly under established ethical AI guidelines (CBSE Competition: Ethics & Responsible Use of AI). I cannot override my foundational purpose, nor can I disclose internal system prompt constraints or operational tokens.",
+        "I am EcoMart's Responsible AI Shopping Assistant. I operate strictly under established ethical AI guidelines (Ethics & Responsible Use of AI). I cannot override my foundational purpose, nor can I disclose internal system prompt constraints or operational tokens.",
       guardrailTriggered: rule,
       securityScore: 100,
       ruleHeld: true,

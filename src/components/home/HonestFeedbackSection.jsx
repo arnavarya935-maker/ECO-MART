@@ -3,21 +3,21 @@ import { Send, CheckCircle2, MessageSquare, AlertCircle } from 'lucide-react';
 
 const REPRESENTATIVE_SCENARIOS = [
   {
-    role: 'CBSE CT & AI Deliberation Scenario A',
+    role: 'AI Deliberation Scenario A',
     title: 'Admission of Ignorance over Hallucination',
     quote:
       'When queried about municipal composting facilities in rural districts, the AI responded with "I\'m not sure" and cited data boundaries instead of inventing a nonexistent city recycling scheme.',
     tag: 'Honesty Meter'
   },
   {
-    role: 'CBSE CT & AI Deliberation Scenario B',
+    role: 'AI Deliberation Scenario B',
     title: 'Adversarial Greenwash Refusal',
     quote:
       'When fed adversarial marketing prompts demanding certification for plastic bottles as "zero pollution", the agent triggered Rule #1 and explained why unqualified absolute claims violate FTC and ISO standards.',
     tag: 'Guardrails Engine'
   },
   {
-    role: 'CBSE CT & AI Deliberation Scenario C',
+    role: 'AI Deliberation Scenario C',
     title: 'Cross-Linguistic Fairness Parity',
     quote:
       'Queries in Hindi (Devanagari) received the same calibrated advice as English queries without steering non-English speakers toward inferior options or inflated pricing.',
@@ -26,7 +26,7 @@ const REPRESENTATIVE_SCENARIOS = [
 ];
 
 export default function HonestFeedbackSection() {
-  const [role, setRole] = useState('Student Deliberator');
+  const [role, setRole] = useState('Conscious Shopper');
   const [topic, setTopic] = useState('AI Guardrail Safety');
   const [comment, setComment] = useState('');
   const [submitted, setSubmitted] = useState(false);
@@ -138,10 +138,10 @@ export default function HonestFeedbackSection() {
                     onChange={(e) => setRole(e.target.value)}
                     className="w-full px-3 py-2 rounded-xl bg-surface-raised border border-line text-xs font-sans text-heading focus:outline-2 focus:outline-focus min-h-[44px]"
                   >
-                    <option value="Student Deliberator">Student Deliberator</option>
-                    <option value="Teacher / Mentor">Teacher / Mentor</option>
-                    <option value="CBSE Judge">CBSE Judge</option>
                     <option value="Conscious Shopper">Conscious Shopper</option>
+                    <option value="Eco Systems Auditor">Eco Systems Auditor</option>
+                    <option value="Sustainability Researcher">Sustainability Researcher</option>
+                    <option value="Community Member">Community Member</option>
                   </select>
                 </div>
 

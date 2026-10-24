@@ -552,11 +552,11 @@ export default function SettingsPage() {
                   AI Privacy & Memory Transparency Panel
                 </h3>
                 <span className="px-2 py-0.5 rounded text-[9px] font-mono font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 uppercase">
-                  CBSE Ethics
+                  Responsible AI
                 </span>
               </div>
               <p className="text-xs text-secondary mt-0.5 leading-relaxed">
-                CBSE Responsible AI Principle: Algorithmic accountability and the user's right to audit and wipe AI memory.
+                Algorithmic accountability: full transparent access to inspect, export, and wipe locally stored agent memory.
               </p>
             </div>
           </div>

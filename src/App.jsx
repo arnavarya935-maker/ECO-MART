@@ -43,6 +43,7 @@ const AISelfAuditPage = lazy(() => import('./pages/AISelfAuditPage'));
 const KiranaPage = lazy(() => import('./pages/KiranaPage'));
 const TruthLabPage = lazy(() => import('./pages/TruthLabPage'));
 const LearnPage = lazy(() => import('./pages/LearnPage'));
+const AgentTransparencyPage = lazy(() => import('./pages/AgentTransparencyPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
 // Widgets, Modals and Drawers - Lazy loaded on demand
@@ -63,6 +64,11 @@ const CursorGlow = lazy(() => import('./components/CursorGlow'));
 const LeafParticles = lazy(() => import('./components/LeafParticles'));
 const GreenwashingDetectiveModal = lazy(() => import('./components/detective/GreenwashingDetectiveModal'));
 const EthicsInboxModal = lazy(() => import('./components/decision/EthicsInboxModal'));
+const PrivacyCenterModal = lazy(() => import('./components/privacy/PrivacyCenterModal'));
+const OfflineManagerModal = lazy(() => import('./components/offline/OfflineManagerModal'));
+const AccessibilityCenterModal = lazy(() => import('./components/accessibility/AccessibilityCenterModal'));
+const NotificationCenterModal = lazy(() => import('./components/notifications/NotificationCenterModal'));
+const FeedbackInboxModal = lazy(() => import('./components/feedback/FeedbackInboxModal'));
 
 function PageLoadingFallback() {
   return (
@@ -101,8 +107,13 @@ function AppContent() {
   const [konamiActive, setKonamiActive] = useState(false);
   const [greenwashingModalOpen, setGreenwashingModalOpen] = useState(false);
   const [ethicsInboxOpen, setEthicsInboxOpen] = useState(false);
+  const [privacyCenterOpen, setPrivacyCenterOpen] = useState(false);
+  const [offlineManagerOpen, setOfflineManagerOpen] = useState(false);
+  const [accessibilityCenterOpen, setAccessibilityCenterOpen] = useState(false);
+  const [notificationCenterOpen, setNotificationCenterOpen] = useState(false);
+  const [feedbackInboxOpen, setFeedbackInboxOpen] = useState(false);
 
-  // Global listeners for Command Palette, Shortcuts, and Konami
+  // Global listeners for Command Palette, Shortcuts, and Tier 3 modals
   useEffect(() => {
     const handleKeyDown = (e) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
@@ -121,16 +132,32 @@ function AppContent() {
     const handleCustomToggle = () => setCommandPaletteOpen((prev) => !prev);
     const handleGreenwashingToggle = () => setGreenwashingModalOpen(true);
     const handleEthicsInboxToggle = () => setEthicsInboxOpen(true);
+    const handlePrivacyToggle = () => setPrivacyCenterOpen(true);
+    const handleOfflineToggle = () => setOfflineManagerOpen(true);
+    const handleAccessibilityToggle = () => setAccessibilityCenterOpen(true);
+    const handleNotificationToggle = () => setNotificationCenterOpen(true);
+    const handleFeedbackToggle = () => setFeedbackInboxOpen(true);
 
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('toggle-command-palette', handleCustomToggle);
     window.addEventListener('open-greenwashing-detective', handleGreenwashingToggle);
     window.addEventListener('open-ethics-inbox', handleEthicsInboxToggle);
+    window.addEventListener('open-privacy-center', handlePrivacyToggle);
+    window.addEventListener('open-offline-manager', handleOfflineToggle);
+    window.addEventListener('open-accessibility-center', handleAccessibilityToggle);
+    window.addEventListener('open-notification-center', handleNotificationToggle);
+    window.addEventListener('open-feedback-inbox', handleFeedbackToggle);
+
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('toggle-command-palette', handleCustomToggle);
       window.removeEventListener('open-greenwashing-detective', handleGreenwashingToggle);
       window.removeEventListener('open-ethics-inbox', handleEthicsInboxToggle);
+      window.removeEventListener('open-privacy-center', handlePrivacyToggle);
+      window.removeEventListener('open-offline-manager', handleOfflineToggle);
+      window.removeEventListener('open-accessibility-center', handleAccessibilityToggle);
+      window.removeEventListener('open-notification-center', handleNotificationToggle);
+      window.removeEventListener('open-feedback-inbox', handleFeedbackToggle);
     };
   }, []);
 
@@ -191,6 +218,7 @@ function AppContent() {
             <Route path="/how-it-works" element={<HowItWorksPage />} />
             <Route path="/wishlist" element={<WishlistPage />} />
             <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/transparency" element={<AgentTransparencyPage />} />
             <Route path="/orders" element={<OrdersPage />} />
             <Route path="/settings" element={<SettingsPage />} />
             <Route path="/login" element={<LoginPage />} />
@@ -297,6 +325,41 @@ function AppContent() {
       {ethicsInboxOpen && (
         <Suspense fallback={null}>
           <EthicsInboxModal isOpen={ethicsInboxOpen} onClose={() => setEthicsInboxOpen(false)} />
+        </Suspense>
+      )}
+
+      {/* Tier 3: Privacy Center Modal */}
+      {privacyCenterOpen && (
+        <Suspense fallback={null}>
+          <PrivacyCenterModal isOpen={privacyCenterOpen} onClose={() => setPrivacyCenterOpen(false)} />
+        </Suspense>
+      )}
+
+      {/* Tier 3: Offline Manager Modal */}
+      {offlineManagerOpen && (
+        <Suspense fallback={null}>
+          <OfflineManagerModal isOpen={offlineManagerOpen} onClose={() => setOfflineManagerOpen(false)} />
+        </Suspense>
+      )}
+
+      {/* Tier 3: Accessibility Center Modal */}
+      {accessibilityCenterOpen && (
+        <Suspense fallback={null}>
+          <AccessibilityCenterModal isOpen={accessibilityCenterOpen} onClose={() => setAccessibilityCenterOpen(false)} />
+        </Suspense>
+      )}
+
+      {/* Tier 3: Notification Center Modal */}
+      {notificationCenterOpen && (
+        <Suspense fallback={null}>
+          <NotificationCenterModal isOpen={notificationCenterOpen} onClose={() => setNotificationCenterOpen(false)} />
+        </Suspense>
+      )}
+
+      {/* Tier 3: Feedback Inbox Modal */}
+      {feedbackInboxOpen && (
+        <Suspense fallback={null}>
+          <FeedbackInboxModal isOpen={feedbackInboxOpen} onClose={() => setFeedbackInboxOpen(false)} />
         </Suspense>
       )}
 

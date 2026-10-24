@@ -196,7 +196,7 @@ export default function ClassImpactGarden() {
       <div className="flex items-start gap-2.5 p-3.5 rounded-2xl bg-surface-sunken border border-line text-xs text-muted text-left">
         <ShieldCheck className="w-4 h-4 text-primary shrink-0 mt-0.5" />
         <p className="leading-relaxed">
-          <strong className="text-heading">CBSE Responsible AI & Privacy Notice:</strong> This class garden only persists anonymous numeric counters in client localStorage. No usernames, roll numbers, IP addresses, or device fingerprints are ever captured.
+          <strong className="text-heading">Responsible AI & Privacy Notice:</strong> This collective challenge only persists anonymous numeric counters in client localStorage. No usernames, roll numbers, IP addresses, or device fingerprints are ever captured.
         </p>
       </div>
     </div>

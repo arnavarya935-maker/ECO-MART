@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { RotateCcw, Share2, ArrowRight, Sparkles } from 'lucide-react';
+import { RotateCcw, Share2, ArrowRight, Sparkles, Brain, ShieldCheck } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { HOUSEHOLD_PROFILES } from '../../lib/personaEngine';
 
-const QUIZ_QUESTIONS = [
+// Foundational Initial Questions
+const BASE_QUESTIONS = [
   {
-    id: 1,
+    id: 'q1',
     question: 'How do you carry your groceries and shopping?',
     options: [
       { text: 'Single-use plastic bags from the store counter', points: 0 },
@@ -15,16 +16,45 @@ const QUIZ_QUESTIONS = [
     ]
   },
   {
-    id: 2,
+    id: 'q2',
     question: 'What kind of toothbrush and dental items do you use?',
     options: [
       { text: 'Plastic handle toothbrush replaced every 3 months', points: 0 },
       { text: 'Electric toothbrush with replaceable plastic heads', points: 15 },
       { text: '100% compostable FSC bamboo toothbrush with plant bristles', points: 30 }
     ]
+  }
+];
+
+// Advanced Branch (User scored >= 45 on base questions)
+const ADVANCED_QUESTIONS = [
+  {
+    id: 'q3_adv',
+    level: 'Advanced',
+    question: 'How do you verify environmental claims and third-party certifications on labels?',
+    options: [
+      { text: 'I trust terms like "100% Eco-Pure" and "Natural" on the packaging front', points: 5 },
+      { text: 'I look for basic recycling logos and general sustainability symbols', points: 15 },
+      { text: 'I verify license codes on accredited registries (GOTS, FSC, OEKO-TEX)', points: 30 }
+    ]
   },
   {
-    id: 3,
+    id: 'q4_adv',
+    level: 'Advanced',
+    question: 'What is your approach to product lifecycle and end-of-life handling?',
+    options: [
+      { text: 'Items go into standard municipal trash when worn out', points: 5 },
+      { text: 'I place recyclable containers into dry municipal waste bins', points: 15 },
+      { text: 'I prioritize repairable modular goods, upcycling, and home composting', points: 30 }
+    ]
+  }
+];
+
+// Foundational Branch (User scored < 45 on base questions)
+const FOUNDATIONAL_QUESTIONS = [
+  {
+    id: 'q3_found',
+    level: 'Foundational',
     question: 'How do you keep leftovers and food fresh in the kitchen?',
     options: [
       { text: 'Disposable PVC cling wrap film and foil rolls', points: 0 },
@@ -33,7 +63,8 @@ const QUIZ_QUESTIONS = [
     ]
   },
   {
-    id: 4,
+    id: 'q4_found',
+    level: 'Foundational',
     question: 'When buying personal care products (shampoo, soap, face wash):',
     options: [
       { text: 'Liquid formulas in single-use plastic bottles with pumps', points: 0 },
@@ -44,24 +75,33 @@ const QUIZ_QUESTIONS = [
 ];
 
 export default function EcoQuiz() {
-  const [currentQ, setCurrentQ] = useState(0);
+  const [currentQIndex, setCurrentQIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [completed, setCompleted] = useState(false);
   const [copied, setCopied] = useState(false);
 
+  // Compute adaptive question list dynamically
+  const initialPoints = (selectedAnswers[0] || 0) + (selectedAnswers[1] || 0);
+  const isAdvancedBranch = initialPoints >= 45;
+
+  const activeQuestions = [
+    ...BASE_QUESTIONS,
+    ...(isAdvancedBranch ? ADVANCED_QUESTIONS : FOUNDATIONAL_QUESTIONS)
+  ];
+
   const handleSelectOption = (points) => {
-    const updated = { ...selectedAnswers, [currentQ]: points };
+    const updated = { ...selectedAnswers, [currentQIndex]: points };
     setSelectedAnswers(updated);
 
-    if (currentQ < QUIZ_QUESTIONS.length - 1) {
-      setCurrentQ(currentQ + 1);
+    if (currentQIndex < activeQuestions.length - 1) {
+      setCurrentQIndex(currentQIndex + 1);
     } else {
       setCompleted(true);
     }
   };
 
   const totalScore = Object.values(selectedAnswers).reduce((a, b) => a + b, 0);
-  const maxScore = QUIZ_QUESTIONS.length * 30;
+  const maxScore = activeQuestions.length * 30;
   const scorePercent = Math.round((totalScore / maxScore) * 100);
 
   let tier = {
@@ -102,7 +142,7 @@ export default function EcoQuiz() {
   };
 
   const handleShare = () => {
-    const shareText = `I scored ${scorePercent}% on the EcoMart Sustainability Quiz! Level: ${tier.title}. Audit your habits at EcoMart!`;
+    const shareText = `I scored ${scorePercent}% on the EcoMart Sustainability Quiz (${isAdvancedBranch ? 'Advanced' : 'Standard'} Adaptive Track)! Level: ${tier.title}. Audit your habits at EcoMart!`;
     if (navigator.clipboard) {
       navigator.clipboard.writeText(shareText);
       setCopied(true);
@@ -111,36 +151,50 @@ export default function EcoQuiz() {
   };
 
   const handleReset = () => {
-    setCurrentQ(0);
+    setCurrentQIndex(0);
     setSelectedAnswers({});
     setCompleted(false);
   };
 
+  const currentQuestion = activeQuestions[currentQIndex];
+
   return (
-    <div className="p-6 sm:p-8 rounded-3xl bg-surface border border-line shadow-soft-sm max-w-2xl mx-auto">
+    <div className="p-6 sm:p-8 rounded-3xl bg-surface border border-line shadow-soft-sm max-w-2xl mx-auto text-left">
       {!completed ? (
         <div className="space-y-6">
-          <div className="flex items-center justify-between border-b border-line pb-4">
-            <span className="text-xs font-semibold uppercase tracking-wider text-primary bg-primary/10 border border-primary/20 px-2.5 py-1 rounded-full">
-              Question {currentQ + 1} of {QUIZ_QUESTIONS.length}
-            </span>
+          <div className="flex items-center justify-between border-b border-line pb-4 flex-wrap gap-2">
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-semibold uppercase tracking-wider text-primary bg-primary/10 border border-primary/20 px-2.5 py-1 rounded-full font-mono">
+                Question {currentQIndex + 1} of {activeQuestions.length}
+              </span>
+              {currentQIndex >= 2 && (
+                <span className={`text-[10px] font-mono font-bold uppercase px-2 py-0.5 rounded-full border ${
+                  isAdvancedBranch
+                    ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-500/30'
+                    : 'bg-amber-500/15 text-amber-700 dark:text-amber-400 border-amber-500/30'
+                }`}>
+                  Adaptive Track: {isAdvancedBranch ? 'Advanced LCA' : 'Practical Essentials'}
+                </span>
+              )}
+            </div>
+
             <div className="flex items-center gap-1.5 text-xs text-muted font-medium">
               <span>Progress:</span>
-              <div className="w-24 h-2 bg-surface-sunken border border-line rounded-full overflow-hidden">
+              <div className="w-20 h-2 bg-surface-sunken border border-line rounded-full overflow-hidden">
                 <div
                   className="h-full bg-primary transition-all duration-300"
-                  style={{ width: `${((currentQ) / QUIZ_QUESTIONS.length) * 100}%` }}
+                  style={{ width: `${((currentQIndex) / activeQuestions.length) * 100}%` }}
                 />
               </div>
             </div>
           </div>
 
           <h3 className="text-lg sm:text-xl font-serif font-bold text-heading leading-snug">
-            {QUIZ_QUESTIONS[currentQ].question}
+            {currentQuestion.question}
           </h3>
 
           <div className="space-y-3">
-            {QUIZ_QUESTIONS[currentQ].options.map((opt, idx) => (
+            {currentQuestion.options.map((opt, idx) => (
               <button
                 key={idx}
                 type="button"
@@ -154,6 +208,13 @@ export default function EcoQuiz() {
               </button>
             ))}
           </div>
+
+          {currentQIndex >= 2 && (
+            <div className="text-[11px] text-muted flex items-center gap-1.5 pt-1">
+              <Brain className="w-3.5 h-3.5 text-primary" />
+              <span>Adaptive engine adjusted questions based on your earlier sustainability responses.</span>
+            </div>
+          )}
         </div>
       ) : (
         /* Result Tier Card */
@@ -174,36 +235,47 @@ export default function EcoQuiz() {
             </p>
           </div>
 
-          <div className="p-4 rounded-2xl bg-surface-sunken border border-line text-xs text-secondary">
-            🌱 <strong>Matched Persona:</strong> {personaProfile.icon} <strong className="text-heading">{personaProfile.label}</strong> ({personaProfile.badge}).
-            <p className="text-[11px] text-text-muted mt-1">{personaProfile.description}</p>
+          <div className="p-4 rounded-2xl bg-surface-sunken border border-line text-xs text-secondary text-left space-y-1.5">
+            <div className="flex items-center justify-between">
+              <div>
+                🌱 <strong>Matched Persona:</strong> {personaProfile.icon} <strong className="text-heading">{personaProfile.label}</strong>
+              </div>
+              <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-surface border border-line text-primary font-bold">
+                {isAdvancedBranch ? 'Advanced LCA Track' : 'Essential Habit Track'}
+              </span>
+            </div>
+            <p className="text-[11px] text-muted">{personaProfile.description}</p>
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+          {/* Action Row */}
+          <div className="space-y-3 pt-2">
             <button
               type="button"
               onClick={handleApplyPersonaToShop}
-              className="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-2.5 rounded-full bg-primary hover:bg-primary-hover text-primary-contrast font-medium text-xs transition shadow-soft-sm cursor-pointer min-h-[44px]"
+              className="w-full py-3 px-6 rounded-2xl bg-primary hover:bg-primary-hover text-primary-contrast font-bold text-xs flex items-center justify-center gap-2 shadow-soft-sm transition-all cursor-pointer"
             >
               <Sparkles className="w-4 h-4" />
-              <span>Personalize Catalog for My Persona</span>
+              <span>Personalize Catalog for My Persona ({personaProfile.label})</span>
             </button>
-            <button
-              type="button"
-              onClick={handleShare}
-              className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2.5 rounded-full border border-line text-secondary font-medium text-xs hover:bg-surface-sunken hover:text-heading transition cursor-pointer min-h-[44px]"
-            >
-              <Share2 className="w-4 h-4" />
-              <span>{copied ? 'Copied!' : 'Share'}</span>
-            </button>
-            <button
-              type="button"
-              onClick={handleReset}
-              className="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2.5 rounded-full border border-line text-secondary font-medium text-xs hover:bg-surface-sunken hover:text-heading transition cursor-pointer min-h-[44px]"
-            >
-              <RotateCcw className="w-4 h-4" />
-              <span>Retake</span>
-            </button>
+
+            <div className="flex gap-3">
+              <button
+                type="button"
+                onClick={handleShare}
+                className="flex-1 py-2.5 rounded-xl border border-line bg-surface hover:bg-surface-sunken text-xs font-semibold text-heading transition flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <Share2 className="w-3.5 h-3.5 text-primary" />
+                <span>{copied ? 'Copied to Clipboard!' : 'Share Score'}</span>
+              </button>
+              <button
+                type="button"
+                onClick={handleReset}
+                className="py-2.5 px-4 rounded-xl border border-line bg-surface hover:bg-surface-sunken text-xs font-semibold text-secondary transition flex items-center gap-1.5 cursor-pointer"
+              >
+                <RotateCcw className="w-3.5 h-3.5" />
+                <span>Retake</span>
+              </button>
+            </div>
           </div>
         </div>
       )}

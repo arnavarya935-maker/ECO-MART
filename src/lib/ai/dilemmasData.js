@@ -1,8 +1,7 @@
 /**
  * EcoMart Ethics Dilemma Scenarios
  * Curated sustainable consumer dilemmas where there is no objective single "right" answer.
- *
- * CBSE RESPONSIBLE AI RULE:
+ * RESPONSIBLE AI RULE:
  * The AI explicitly refuses to pick for the user, explaining that value judgments
  * and priorities belong to human conscience, not algorithmic optimization.
  */

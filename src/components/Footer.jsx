@@ -111,19 +111,45 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to="/transform" className="ln-sweep hover:text-heading transition py-1 inline-block min-h-[32px]">
-                  Cart Transformer
+                <Link to="/transparency" className="ln-sweep hover:text-heading transition py-1 inline-block min-h-[32px]">
+                  Agent Transparency
                 </Link>
               </li>
               <li>
-                <Link to="/eco-check" className="ln-sweep hover:text-heading transition py-1 inline-block min-h-[32px]">
-                  Eco Check Audit
-                </Link>
+                <button
+                  type="button"
+                  onClick={() => window.dispatchEvent(new CustomEvent('open-privacy-center'))}
+                  className="ln-sweep hover:text-heading transition py-1 inline-block min-h-[32px] text-left cursor-pointer"
+                >
+                  Privacy Center &amp; Data
+                </button>
               </li>
               <li>
-                <Link to="/tools" className="ln-sweep hover:text-heading transition py-1 inline-block min-h-[32px]">
-                  Eco Tools & Kits
-                </Link>
+                <button
+                  type="button"
+                  onClick={() => window.dispatchEvent(new CustomEvent('open-offline-manager'))}
+                  className="ln-sweep hover:text-heading transition py-1 inline-block min-h-[32px] text-left cursor-pointer"
+                >
+                  Offline Purity Manager
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  onClick={() => window.dispatchEvent(new CustomEvent('open-feedback-inbox'))}
+                  className="ln-sweep hover:text-heading transition py-1 inline-block min-h-[32px] text-left cursor-pointer"
+                >
+                  Feedback &amp; Audit Inbox
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  onClick={() => window.dispatchEvent(new CustomEvent('open-accessibility-center'))}
+                  className="ln-sweep hover:text-heading transition py-1 inline-block min-h-[32px] text-left cursor-pointer"
+                >
+                  Accessibility Center
+                </button>
               </li>
               <li>
                 <Link to="/impact" className="ln-sweep hover:text-heading transition py-1 inline-block min-h-[32px]">

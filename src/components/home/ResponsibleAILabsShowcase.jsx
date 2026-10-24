@@ -95,7 +95,7 @@ export default function ResponsibleAILabsShowcase() {
               Evidence, Transparency & Human Agency
             </h2>
             <p className="text-muted mt-1 text-sm sm:text-base max-w-2xl">
-              Explore our six interactive demonstration labs designed for the CBSE School Competition.
+              Explore our six interactive demonstration labs designed for verifiable responsible AI, fairness, and transparency.
             </p>
           </div>
 

@@ -252,7 +252,7 @@ export default function TrustPassportPage() {
         <div className="pt-4 border-t border-line flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-muted">
           <div className="flex items-center gap-2">
             <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
-            <span>CBSE Responsible AI Standard: Verified offline-native data model. No invented claims.</span>
+            <span>Responsible AI Standard: Verified offline-native data model. No invented claims.</span>
           </div>
           <span className="font-mono text-[10px] text-heading">
             EcoMart Telemetry Engine v2.0

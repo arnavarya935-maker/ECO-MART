@@ -204,7 +204,7 @@ export default function SecondLifeTab({ product }) {
         <div className="flex items-center gap-2 text-[10px] text-text-muted pt-1">
           <ShieldCheck className="w-3.5 h-3.5 text-primary" />
           <span>
-            CBSE AI Ethics guideline: Responsible shopping requires transparency regarding disposal impact and post-consumer handling.
+            Responsible AI guideline: Circular shopping requires complete transparency regarding disposal impact and post-consumer handling.
           </span>
         </div>
       </div>

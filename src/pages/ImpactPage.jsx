@@ -9,6 +9,7 @@ import WhatIfCartSimulator from '../components/impact/WhatIfCartSimulator';
 import PersonalCarbonBudgetWidget from '../components/impact/PersonalCarbonBudgetWidget';
 import EquivalentsTranslatorCard from '../components/impact/EquivalentsTranslatorCard';
 import WeeklyEcoReviewModal from '../components/impact/WeeklyEcoReviewModal';
+import StreaksGoalWidget from '../components/impact/StreaksGoalWidget';
 import { useCart } from '../context/CartContext';
 import { Droplets, Ban, Wind, Activity, Sliders, BarChart3, Calendar, Sparkles } from 'lucide-react';
 
@@ -94,6 +95,9 @@ export default function ImpactPage() {
               <EquivalentsTranslatorCard />
             </div>
           </div>
+
+          {/* Streaks & Weekly Goals with Progress Rings (Feature 44) */}
+          <StreaksGoalWidget />
 
           {/* 1. Category Carbon Estimate with Drill-Down */}
           <CategoryCarbonBarChart />

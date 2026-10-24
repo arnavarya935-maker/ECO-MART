@@ -3,7 +3,7 @@ import { Zap, HelpCircle, X, Cpu, Leaf, Info } from 'lucide-react';
 
 /**
  * AI Energy Meter
- * Responsible AI Showcase Component for CBSE Competition.
+ * Responsible AI transparency component.
  * Measures and transparently reports estimated inference energy per query
  * and session cumulative total, clearly labeled as an estimate.
  */
@@ -165,7 +165,7 @@ function EnergyExplainerModal({
                 Why Does an Eco App Track AI Energy?
               </h3>
               <p className="text-[10px] text-text-muted">
-                CBSE Responsible AI Principle: Algorithmic Transparency
+                Responsible AI Principle: Algorithmic & Environmental Transparency
               </p>
             </div>
           </div>

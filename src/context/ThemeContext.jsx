@@ -77,6 +77,14 @@ export function ThemeProvider({ children }) {
     }
   });
 
+  const [kidsMode, setKidsMode] = useState(() => {
+    try {
+      return localStorage.getItem('ecomart_kids_mode') === 'true';
+    } catch {
+      return false;
+    }
+  });
+
   useEffect(() => {
     try {
       localStorage.setItem('ecomart_reduce_effects', JSON.stringify(reduceEffects));
@@ -122,7 +130,18 @@ export function ThemeProvider({ children }) {
     } catch {}
   }, [textSize]);
 
-  // On app load, clear stale competition judge mode from localStorage
+  useEffect(() => {
+    try {
+      localStorage.setItem('ecomart_kids_mode', JSON.stringify(kidsMode));
+      if (kidsMode) {
+        document.documentElement.classList.add('kids-mode');
+      } else {
+        document.documentElement.classList.remove('kids-mode');
+      }
+    } catch {}
+  }, [kidsMode]);
+
+  // On app load, clear any stale legacy keys from localStorage
   useEffect(() => {
     try {
       localStorage.removeItem('ecomart_judge_mode');
@@ -131,6 +150,10 @@ export function ThemeProvider({ children }) {
 
   const toggleReduceEffects = () => {
     setReduceEffects((prev) => !prev);
+  };
+
+  const toggleKidsMode = () => {
+    setKidsMode((prev) => !prev);
   };
 
   return (
@@ -150,7 +173,10 @@ export function ThemeProvider({ children }) {
         dyslexicFont,
         setDyslexicFont,
         textSize,
-        setTextSize
+        setTextSize,
+        kidsMode,
+        setKidsMode,
+        toggleKidsMode
       }}
     >
       {children}

@@ -11,7 +11,7 @@ import {
 /**
  * AI Ethics Card
  * Transparency manifest for every product recommendation in EcoMart.
- * Demonstrates CBSE Responsible AI principles:
+ * Demonstrates Responsible AI principles:
  * - Algorithmic fairness (0% sponsored bias)
  * - Data lineage (which lifecycle attributes were evaluated)
  * - Transparent recommendation rationale
@@ -92,7 +92,7 @@ export default function AIEthicsCard({
               </span>
             </h4>
             <div className="text-[10px] text-text-muted">
-              CBSE Responsible AI Principle: Fairness, Accountability & Open Lineage
+              Responsible AI Principle: Fairness, Accountability & Open Lineage
             </div>
           </div>
         </div>

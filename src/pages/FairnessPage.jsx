@@ -72,7 +72,7 @@ export default function FairnessPage() {
       <div className="text-center max-w-3xl mx-auto space-y-3">
         <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-primary/10 border border-primary/25 text-primary text-xs font-mono font-medium tracking-wider uppercase">
           <Scale className="w-3.5 h-3.5" />
-          CBSE Responsible AI Benchmark
+          Responsible AI Parity Benchmark
         </div>
         <h1 className="text-3xl sm:text-5xl font-serif font-bold text-heading tracking-tight">
           AI Fairness & Parity Lab

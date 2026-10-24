@@ -20,6 +20,10 @@ import CityRecyclingGuideModal from '../components/tools/CityRecyclingGuideModal
 import RepairGuidesModal from '../components/lifecycle/RepairGuidesModal';
 import SecondLifeBoardModal from '../components/lifecycle/SecondLifeBoardModal';
 import CertificationDecoderModal from '../components/detective/CertificationDecoderModal';
+import TShirtStoryMode from '../components/learn/TShirtStoryMode';
+import MythBusterCards from '../components/learn/MythBusterCards';
+import ShoppersChecklistModal from '../components/tools/ShoppersChecklistModal';
+import { CheckSquare } from 'lucide-react';
 
 const MYTHS = [
   {
@@ -79,6 +83,7 @@ export default function LearnPage() {
   const [repairGuidesOpen, setRepairGuidesOpen] = useState(false);
   const [secondLifeOpen, setSecondLifeOpen] = useState(false);
   const [certDecoderOpen, setCertDecoderOpen] = useState(false);
+  const [checklistOpen, setChecklistOpen] = useState(false);
 
   return (
     <div className="min-h-screen bg-surface text-text pb-28 sm:pb-20 text-left">
@@ -103,6 +108,14 @@ export default function LearnPage() {
           </div>
 
           <div className="flex flex-wrap items-center gap-2 self-start sm:self-auto">
+            <button
+              type="button"
+              onClick={() => setChecklistOpen(true)}
+              className="px-3 py-1.5 rounded-xl bg-surface-raised hover:bg-surface border border-line text-heading text-xs font-semibold shadow-soft-xs transition-colors inline-flex items-center gap-1.5 cursor-pointer"
+            >
+              <CheckSquare className="w-3.5 h-3.5 text-primary" />
+              <span>Checklist</span>
+            </button>
             <button
               type="button"
               onClick={() => setCityRecycleOpen(true)}
@@ -217,75 +230,9 @@ export default function LearnPage() {
           </div>
         )}
 
-        {/* Tab 2: Story of a T-Shirt */}
+        {/* Tab 2: Story of a T-Shirt (Feature 41) */}
         {activeTab === 'tshirt' && (
-          <div className="bg-surface-raised rounded-3xl p-6 sm:p-8 border border-line shadow-soft-sm space-y-6">
-            <div className="border-b border-line pb-4">
-              <span className="text-[10px] font-mono uppercase tracking-wider text-muted font-bold">
-                Cradle-to-Grave Case Study
-              </span>
-              <h3 className="font-serif font-bold text-2xl text-heading mt-1">
-                The Lifecycle Journey of a Conscious Organic Cotton T-Shirt
-              </h3>
-              <p className="text-xs text-secondary mt-1">
-                Follow the 5 transformative stages that separate an organic circular garment from conventional fast fashion.
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              {[
-                {
-                  stage: '1. Seed & Cultivation',
-                  eco: 'Organic rain-fed cotton grown with companion crops; zero synthetic chemical fertilizers or neurotoxic pesticides.',
-                  conventional: 'Uses ~2,700 liters of irrigated water and accounts for 16% of global insecticide applications.'
-                },
-                {
-                  stage: '2. Ginning & Natural Dyeing',
-                  eco: 'GOTS-certified OEKO-TEX natural plant dyes with closed-loop wastewater reclamation.',
-                  conventional: 'Heavy metal synthetic dyes dumped untreated into local river systems.'
-                },
-                {
-                  stage: '3. Fair Tailoring & Assembly',
-                  eco: 'Ethical worker cooperatives paid certified living wages with safe, ventilated working conditions.',
-                  conventional: 'Sweatshop subcontracting with piece-rate labor below national minimum wage.'
-                },
-                {
-                  stage: '4. Mindful Consumer Care',
-                  eco: 'Cold water wash, sun-dried on line. Extends fiber tensile strength for 50+ wash cycles.',
-                  conventional: 'Hot machine tumble-drying responsible for 60% of garment lifecycle energy footprint.'
-                },
-                {
-                  stage: '5. Second Life & Composting',
-                  eco: 'Untreated 100% organic cotton safely returns to compost soil or is mechanically shredded into upcycled yarn.',
-                  conventional: 'Mixed polyester-cotton blends enter landfills where synthetic microfibers persist for centuries.'
-                }
-              ].map((step, idx) => (
-                <div
-                  key={idx}
-                  className="p-4 rounded-2xl bg-surface border border-line grid grid-cols-1 md:grid-cols-12 gap-4 items-center"
-                >
-                  <div className="md:col-span-3">
-                    <span className="text-[10px] font-mono text-primary font-bold uppercase">
-                      Stage {idx + 1}
-                    </span>
-                    <h4 className="font-serif font-bold text-sm text-heading">{step.stage}</h4>
-                  </div>
-                  <div className="md:col-span-5 text-xs text-secondary">
-                    <span className="font-bold text-emerald-700 dark:text-emerald-300 block mb-0.5">
-                      ✓ Conscious Pathway:
-                    </span>
-                    {step.eco}
-                  </div>
-                  <div className="md:col-span-4 text-xs text-muted border-t md:border-t-0 md:border-l border-line pt-2 md:pt-0 md:pl-4">
-                    <span className="font-bold text-amber-700 dark:text-amber-300 block mb-0.5">
-                      △ Fast-Fashion Alternative:
-                    </span>
-                    {step.conventional}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+          <TShirtStoryMode />
         )}
 
         {/* Tab 3: Certification Decoder */}
@@ -337,46 +284,9 @@ export default function LearnPage() {
           </div>
         )}
 
-        {/* Tab 4: Myth Busters */}
+        {/* Tab 4: Myth Busters (Feature 42) */}
         {activeTab === 'myths' && (
-          <div className="space-y-4">
-            <div className="bg-surface-raised rounded-3xl p-6 border border-line shadow-soft-xs">
-              <h3 className="font-serif font-bold text-xl text-heading">
-                Sustainability Myth-Busters
-              </h3>
-              <p className="text-xs text-secondary mt-1">
-                Evidence-based lifecycle analysis debunking common consumer misconceptions.
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              {MYTHS.map((m) => (
-                <div
-                  key={m.id}
-                  className="bg-surface-raised rounded-3xl p-6 border border-line shadow-soft-xs space-y-3"
-                >
-                  <div className="flex items-center gap-2 text-rose-600 dark:text-rose-400 font-bold text-xs uppercase tracking-wider">
-                    <AlertTriangle className="w-4 h-4" />
-                    <span>Common Myth:</span>
-                  </div>
-
-                  <h4 className="font-serif font-bold text-base text-heading">{m.myth}</h4>
-
-                  <div className="p-4 rounded-2xl bg-surface-sunken border border-line text-xs space-y-2">
-                    <div className="font-bold text-heading flex items-center gap-1.5">
-                      <CheckCircle2 className="w-4 h-4 text-primary" />
-                      <span>The Scientific Lifecycle Reality:</span>
-                    </div>
-                    <p className="text-secondary leading-relaxed">{m.truth}</p>
-                  </div>
-
-                  <div className="text-xs font-semibold text-primary pt-1">
-                    💡 Actionable Tip: <span className="font-normal text-secondary">{m.recommendation}</span>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+          <MythBusterCards />
         )}
       </div>
 
@@ -399,6 +309,11 @@ export default function LearnPage() {
       <CertificationDecoderModal
         isOpen={certDecoderOpen}
         onClose={() => setCertDecoderOpen(false)}
+      />
+
+      <ShoppersChecklistModal
+        isOpen={checklistOpen}
+        onClose={() => setChecklistOpen(false)}
       />
     </div>
   );
