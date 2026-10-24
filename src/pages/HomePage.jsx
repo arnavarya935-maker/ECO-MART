@@ -1,5 +1,12 @@
 import React from 'react';
 import EngineeringHero from '../components/home/EngineeringHero';
+import ScrollProgressBar from '../components/home/ScrollProgressBar';
+import KineticTypeStrips from '../components/home/KineticTypeStrips';
+import WordByWordMission from '../components/home/WordByWordMission';
+import GreenwashingStrikethrough from '../components/home/GreenwashingStrikethrough';
+import PinnedProductJourney from '../components/home/PinnedProductJourney';
+import HorizontalFeatureGallery from '../components/home/HorizontalFeatureGallery';
+import StickyStackedCards from '../components/home/StickyStackedCards';
 import CheckMarquee from '../components/home/CheckMarquee';
 import AppWindowShowcase from '../components/home/AppWindowShowcase';
 import NumberedFeatureCards from '../components/home/NumberedFeatureCards';
@@ -13,32 +20,57 @@ import EditorialFinalCTA from '../components/home/EditorialFinalCTA';
 import SignatureShowcase from '../components/home/SignatureShowcase';
 import ForYouRow from '../components/recommendations/ForYouRow';
 import RecentlyViewedStrip from '../components/RecentlyViewedStrip';
+import ResponsibleAILabsShowcase from '../components/home/ResponsibleAILabsShowcase';
 
 export default function HomePage() {
   return (
     <div className="w-full bg-surface antialiased">
-      {/* 2. Hero: Two-line headline about shopping that proves its claims, ContourCanvas, CTAs */}
+      {/* 8. Scroll Progress Bar & Floating Quick-Nav */}
+      <ScrollProgressBar />
+
+      {/* Hero: Two-line headline about shopping that proves its claims */}
       <EngineeringHero />
 
-      {/* 3. Marquee of text chips naming check types (paused on hover and reduced motion) */}
+      {/* 3. Kinetic Type Hero Strips: Giant VERIFY / TRUST / PROVE strips with scroll velocity response */}
+      <KineticTypeStrips />
+
+      {/* Check types marquee */}
       <CheckMarquee />
 
-      {/* 4. App-window showcase: Framed mockup built from live EcoMart dashboard components */}
+      {/* 4. Word-by-Word Mission Reveal: Opacity scrubbed per word with inline semantic icons */}
+      <WordByWordMission />
+
+      {/* 1. Greenwashing Strike-through: Scroll-scrubbed marketing claim struck through + Trust Score count-up */}
+      <GreenwashingStrikethrough />
+
+      {/* 2. Pinned Product Journey: Pinned 4-stage scrub (Make -> Ship -> Use -> Second Life) with labeled estimates */}
+      <PinnedProductJourney />
+
+      {/* 5. Horizontal Pinned Feature Gallery: Courtroom, Label Scanner, Fairness Lab, Black Box, Playground */}
+      <HorizontalFeatureGallery />
+
+      {/* 6 & 7. Sticky Stacked Cards & Clip-Path Reveals: Multi-Axis, Lifecycle, Transparency */}
+      <StickyStackedCards />
+
+      {/* Flagship Responsible AI Laboratory Showcase (F1-F8) */}
+      <ResponsibleAILabsShowcase />
+
+      {/* App-window showcase: Framed mockup built from live EcoMart dashboard components */}
       <AppWindowShowcase />
 
-      {/* 5. Three numbered feature cards (01/02/03) with one stat each */}
+      {/* Numbered feature cards (01/02/03) with key stats */}
       <NumberedFeatureCards />
 
-      {/* 6. Live "Eco Agent pipeline" panel: Orchestrator -> Workers -> Validator + live counters */}
+      {/* Live "Eco Agent pipeline" panel: Orchestrator -> Workers -> Validator + live counters */}
       <AgentPipelinePanel />
 
-      {/* 7. Guardrails board: 5 rules with status chips Enforced / Monitoring / Blocked */}
+      {/* Guardrails board: 5 rules with status chips Enforced / Monitoring / Blocked */}
       <GuardrailsBoard />
 
-      {/* 8. Ethics Inbox preview: Human-in-the-loop review queue */}
+      {/* Ethics Inbox preview: Human-in-the-loop review queue */}
       <EthicsInboxPreview />
 
-      {/* 9. Insights dashboard: Stat cards, session energy bar, bar chart, product-vs-check table */}
+      {/* Insights dashboard: Stat cards, session energy bar, bar chart, product-vs-check table */}
       <InsightsDashboard />
 
       {/* Product Catalog Showcase (Preserved live interactive shopping features) */}
@@ -50,13 +82,13 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* 10. "Impact tiers" (Explorer / Classroom / School) describing feature scope, no prices */}
+      {/* Impact tiers describing feature scope */}
       <ImpactTiers />
 
-      {/* 11. Feedback section: Local "Share feedback" form + labeled representative scenarios */}
+      {/* Feedback section: Local "Share feedback" form + labeled representative scenarios */}
       <HonestFeedbackSection />
 
-      {/* 12. Closing CTA (Footer rendered in App.jsx with live proxy health check) */}
+      {/* Closing CTA */}
       <EditorialFinalCTA />
     </div>
   );

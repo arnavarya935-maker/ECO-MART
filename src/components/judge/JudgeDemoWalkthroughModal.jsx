@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
   ShieldAlert,
   Radar,
@@ -17,9 +17,8 @@ import {
   CheckCircle2,
   ShieldCheck,
   Globe2,
-  Lock,
-  Download,
-  AlertTriangle
+  Sparkles,
+  ArrowRight
 } from 'lucide-react';
 import CategoryCarbonBarChart from '../impact/CategoryCarbonBarChart';
 import WhatIfCartSimulator from '../impact/WhatIfCartSimulator';
@@ -144,10 +143,24 @@ const SCRIPTED_STEPS = [
 ];
 
 export default function JudgeDemoWalkthroughModal({ isOpen, onClose }) {
+  const navigate = useNavigate();
   const [currentStepIdx, setCurrentStepIdx] = useState(0);
 
   // Sample duel state for step 10 preview
   const [duelGuess, setDuelGuess] = useState(null);
+
+  const handleScrollToLanding = (elementId) => {
+    onClose();
+    if (window.location.pathname !== '/') {
+      navigate('/');
+    }
+    setTimeout(() => {
+      const el = document.getElementById(elementId);
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 120);
+  };
 
   if (!isOpen) return null;
 
@@ -247,8 +260,93 @@ export default function JudgeDemoWalkthroughModal({ isOpen, onClose }) {
           })}
         </div>
 
+        {/* Quick Jump to Flagship Interactive Labs (F1-F8) */}
+        <div className="px-4 py-2 bg-amber-500/10 border-b border-amber-500/20 flex items-center justify-between gap-2 overflow-x-auto text-[11px] font-mono">
+          <span className="font-bold text-amber-900 shrink-0 uppercase tracking-wider">
+            Flagship Competition Labs:
+          </span>
+          <div className="flex items-center gap-2 shrink-0">
+            <Link
+              to="/courtroom"
+              onClick={onClose}
+              className="px-2.5 py-1 rounded-lg bg-surface text-heading hover:bg-forest-900 hover:text-white transition font-medium border border-line"
+            >
+              ⚖️ Courtroom
+            </Link>
+            <Link
+              to="/scan"
+              onClick={onClose}
+              className="px-2.5 py-1 rounded-lg bg-surface text-heading hover:bg-forest-900 hover:text-white transition font-medium border border-line"
+            >
+              📷 Label Scanner
+            </Link>
+            <Link
+              to="/dilemmas"
+              onClick={onClose}
+              className="px-2.5 py-1 rounded-lg bg-surface text-heading hover:bg-forest-900 hover:text-white transition font-medium border border-line"
+            >
+              🧭 Dilemmas
+            </Link>
+            <Link
+              to="/self-audit"
+              onClick={onClose}
+              className="px-2.5 py-1 rounded-lg bg-surface text-heading hover:bg-forest-900 hover:text-white transition font-medium border border-line"
+            >
+              📋 Self-Audit
+            </Link>
+            <Link
+              to="/kirana"
+              onClick={onClose}
+              className="px-2.5 py-1 rounded-lg bg-surface text-heading hover:bg-forest-900 hover:text-white transition font-medium border border-line"
+            >
+              🏪 Kirana
+            </Link>
+          </div>
+        </div>
+
         {/* Main Content Area */}
         <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-5 bg-surface">
+          {/* Cinematic Scroll-Animation Quick Launcher for Judges */}
+          <div className="p-4 rounded-2xl bg-gradient-to-r from-emerald-950/60 via-surface-raised to-teal-950/60 border border-primary/30 flex flex-col md:flex-row md:items-center justify-between gap-3 shadow-soft-sm">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 rounded-xl bg-primary/20 text-primary flex items-center justify-center shrink-0 border border-primary/30">
+                <Sparkles className="w-5 h-5 text-primary animate-pulse" />
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-mono font-bold uppercase tracking-wider text-primary">
+                    Judge Demo Intro • Scroll Experience
+                  </span>
+                  <span className="px-1.5 py-0.5 rounded text-[9px] font-mono bg-primary/20 text-primary uppercase">
+                    Start Here
+                  </span>
+                </div>
+                <p className="text-xs text-text-secondary mt-0.5">
+                  Start your review by scrolling through the Greenwashing Strike-Through and Pinned Product Journey on the landing page first.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                type="button"
+                onClick={() => handleScrollToLanding('greenwash-strikethrough')}
+                className="px-3 py-1.5 rounded-xl bg-red-500/15 hover:bg-red-500/25 border border-red-500/30 text-xs font-mono font-semibold text-red-300 transition-colors flex items-center gap-1.5 cursor-pointer"
+              >
+                <span>1. Strike-Through</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+              <button
+                type="button"
+                onClick={() => handleScrollToLanding('product-journey')}
+                className="px-3 py-1.5 rounded-xl bg-primary/15 hover:bg-primary/25 border border-primary/30 text-xs font-mono font-semibold text-primary transition-colors flex items-center gap-1.5 cursor-pointer"
+              >
+                <span>2. Product Journey</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          </div>
+
           {/* Step Meta Banner */}
           <div className="p-4 rounded-2xl bg-surface-raised border border-line flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-soft-xs">
             <div className="flex items-start gap-3">
