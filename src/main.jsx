@@ -3,6 +3,19 @@ import { createRoot } from 'react-dom/client';
 import './index.css';
 import App from './App.jsx';
 
+// Vite dynamic chunk import error handler (prevents blank screen/error on new deployments)
+if (typeof window !== 'undefined') {
+  window.addEventListener('vite:preloadError', (event) => {
+    console.warn('[Vite] Preload error detected, reloading page for fresh assets...', event);
+    const reloadKey = 'ecomart_vite_preload_reload';
+    const lastReload = Number(sessionStorage.getItem(reloadKey) || 0);
+    if (Date.now() - lastReload > 8000) {
+      sessionStorage.setItem(reloadKey, String(Date.now()));
+      window.location.reload();
+    }
+  });
+}
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <App />
@@ -39,9 +52,13 @@ if (typeof window !== 'undefined' && 'serviceWorker' in navigator && (import.met
         console.warn('[SW] Registration failed:', err);
       });
 
-    // Reload window when new service worker takes control
+    // Reload window when new service worker takes control (guarded against multiple firings)
+    let refreshing = false;
     navigator.serviceWorker.addEventListener('controllerchange', () => {
-      window.location.reload();
+      if (!refreshing) {
+        refreshing = true;
+        window.location.reload();
+      }
     });
   });
 }

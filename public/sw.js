@@ -1,5 +1,5 @@
 // Local-First Service Worker for EcoMart
-const CACHE_NAME = 'ecomart-offline-v3';
+const CACHE_NAME = 'ecomart-offline-v4';
 const OFFLINE_FALLBACK = '/offline.html';
 
 // Precache ONLY the App Shell
@@ -15,6 +15,7 @@ const APP_SHELL = [
 ];
 
 self.addEventListener('install', (event) => {
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
       return Promise.all(
@@ -52,24 +53,21 @@ self.addEventListener('message', (event) => {
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
 
-  // Stale-while-revalidate for navigation / HTML requests
+  // Navigation requests: Network-first for fresh deployments with offline fallback
   if (event.request.mode === 'navigate' || event.request.headers.get('accept')?.includes('text/html')) {
     event.respondWith(
-      caches.match(event.request).then((cachedResponse) => {
-        const fetchPromise = fetch(event.request)
-          .then((networkResponse) => {
-            if (networkResponse && networkResponse.status === 200) {
-              const clone = networkResponse.clone();
-              caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
-            }
-            return networkResponse;
-          })
-          .catch(() => {
-            return cachedResponse || caches.match(OFFLINE_FALLBACK) || caches.match('/index.html');
-          });
-
-        return cachedResponse || fetchPromise;
-      })
+      fetch(event.request)
+        .then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200) {
+            const clone = networkResponse.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
+          }
+          return networkResponse;
+        })
+        .catch(() => {
+          return caches.match(event.request)
+            .then((cached) => cached || caches.match(OFFLINE_FALLBACK) || caches.match('/index.html'));
+        })
     );
     return;
   }
