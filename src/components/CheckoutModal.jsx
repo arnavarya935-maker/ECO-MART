@@ -279,6 +279,16 @@ export default function CheckoutModal() {
                     <span>+₹20</span>
                   </div>
                 )}
+                {/* Environmental Impact Summary */}
+                <div className="p-3 rounded-xl bg-primary-subtle border border-primary/20 flex items-center justify-between text-xs">
+                  <div className="flex items-center gap-1.5 font-medium text-heading">
+                    <Leaf className="w-3.5 h-3.5 text-primary" />
+                    <span>Estimated Planetary Impact:</span>
+                  </div>
+                  <span className="font-bold text-primary font-mono text-[11px]">
+                    ~{impact.plasticAvoided || 120}g Plastic • ~{impact.co2Saved || '0.8'}kg CO₂
+                  </span>
+                </div>
                 <div className="flex justify-between font-bold text-heading pt-2 border-t border-line text-sm">
                   <span>Total Amount</span>
                   <span className="font-serif text-lg font-bold text-heading">₹{finalPayable.toLocaleString('en-IN')}</span>

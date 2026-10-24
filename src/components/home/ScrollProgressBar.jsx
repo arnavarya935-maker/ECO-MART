@@ -102,10 +102,10 @@ export default function ScrollProgressBar() {
         />
       </div>
 
-      {/* Floating Active-Section Pill Indicator (Desktop only, subtle bottom-right dock) */}
+      {/* Floating Active-Section Pill Indicator (Desktop only, unobtrusive top-right dock below navbar) */}
       <nav
         aria-label="Section quick navigation"
-        className="hidden md:flex fixed bottom-6 right-6 z-40 items-center gap-1.5 p-1.5 rounded-full bg-surface-raised/90 backdrop-blur-md border border-line shadow-card text-[11px] font-mono select-none"
+        className="hidden xl:flex fixed top-22 right-6 z-30 items-center gap-1 p-1 rounded-full bg-surface-raised/90 backdrop-blur-md border border-line shadow-soft-md text-xs font-sans select-none"
       >
         {SECTIONS.map((sec) => {
           const isActive = activeSectionId === sec.id;
@@ -113,16 +113,16 @@ export default function ScrollProgressBar() {
             <button
               key={sec.id}
               onClick={() => scrollToSection(sec.id)}
-              className={`px-3 py-1 rounded-full transition-all duration-200 flex items-center gap-1.5 ${
+              className={`px-2.5 py-1 rounded-full transition-all duration-200 flex items-center gap-1.5 cursor-pointer text-xs ${
                 isActive
-                  ? 'bg-primary text-text-inverted font-bold shadow-soft-sm'
+                  ? 'bg-primary text-primary-contrast font-semibold shadow-soft-xs'
                   : 'text-text-muted hover:text-heading hover:bg-surface-sunken'
               }`}
               aria-current={isActive ? 'true' : undefined}
             >
               <span
                 className={`w-1.5 h-1.5 rounded-full transition-colors ${
-                  isActive ? 'bg-surface' : 'bg-line'
+                  isActive ? 'bg-primary-contrast' : 'bg-line'
                 }`}
               />
               <span>{sec.label}</span>

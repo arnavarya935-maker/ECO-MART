@@ -133,6 +133,15 @@ export default function ProductCard({ product, rankingDetails }) {
               </span>
             </div>
             <div className="flex items-center gap-1.5 flex-wrap">
+              <button
+                type="button"
+                onClick={handleQuickView}
+                className="text-[11px] font-sans font-semibold text-primary hover:underline flex items-center gap-1 cursor-pointer"
+                title="Inspect EcoScore audit methodology and formula"
+              >
+                <Sparkles className="w-3 h-3 text-primary" />
+                Why this score?
+              </button>
               <AIEthicsCard compact={true} product={product} />
               {(rankingDetails || product.rank) && (
                 <WhyRankPopover rankingDetails={rankingDetails || (product.rank ? product : null)} />
