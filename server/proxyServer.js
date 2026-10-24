@@ -20,13 +20,14 @@ function getGeminiApiKey() {
       }
     }
   } catch {
-    // Ignore fs errors in edge environments
+    // Ignore fs errors in edge / serverless environments
   }
   return null;
 }
 
-// Simple in-memory sliding window rate limiter
+// In-memory sliding window rate limiter
 // IP -> Array of timestamps (ms)
+// Note: Best-effort on ephemeral serverless instances
 const rateLimitMap = new Map();
 const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute
 const MAX_REQUESTS_PER_WINDOW = 30; // 30 requests / minute
@@ -46,23 +47,230 @@ export function isRateLimited(ip) {
   return false;
 }
 
-// Clean up stale rate limits every 5 minutes
-setInterval(() => {
-  const now = Date.now();
-  for (const [ip, timestamps] of rateLimitMap.entries()) {
-    const valid = timestamps.filter((t) => now - t < RATE_LIMIT_WINDOW_MS);
-    if (valid.length === 0) {
-      rateLimitMap.delete(ip);
-    } else {
-      rateLimitMap.set(ip, valid);
-    }
+export function getClientIp(req) {
+  if (!req) return '127.0.0.1';
+  const forwarded = req.headers?.['x-forwarded-for'] || req.headers?.['x-real-ip'] || '';
+  if (typeof forwarded === 'string' && forwarded.length > 0) {
+    return forwarded.split(',')[0].trim();
   }
-}, 5 * 60 * 1000).unref?.();
+  return req.socket?.remoteAddress || '127.0.0.1';
+}
+
+export function applyRateLimit(req, res) {
+  const ip = getClientIp(req);
+  if (isRateLimited(ip)) {
+    res.writeHead(429, {
+      'Content-Type': 'application/json',
+      'Retry-After': '60'
+    });
+    res.end(
+      JSON.stringify({
+        error: 'Too many requests. Please wait a minute and try again.',
+        retryAfterSeconds: 60
+      })
+    );
+    return true;
+  }
+  return false;
+}
+
+// Clean up stale rate limits periodically (safe on persistent Node servers)
+if (typeof setInterval !== 'undefined') {
+  setInterval(() => {
+    const now = Date.now();
+    for (const [ip, timestamps] of rateLimitMap.entries()) {
+      const valid = timestamps.filter((t) => now - t < RATE_LIMIT_WINDOW_MS);
+      if (valid.length === 0) {
+        rateLimitMap.delete(ip);
+      } else {
+        rateLimitMap.set(ip, valid);
+      }
+    }
+  }, 5 * 60 * 1000).unref?.();
+}
+
+// --- Strict Schema Sanitizers & Output Validators ---
+
+export function sanitizeString(val, maxLen = 2000, fallback = '') {
+  if (typeof val !== 'string') return fallback;
+  const cleaned = val.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '').trim();
+  return cleaned.slice(0, maxLen);
+}
+
+export function sanitizeNumber(val, fallback = 0, min = -Infinity, max = Infinity) {
+  const num = Number(val);
+  if (isNaN(num) || !isFinite(num)) return fallback;
+  return Math.min(Math.max(num, min), max);
+}
+
+export function sanitizeStringArray(val, maxItems = 20, maxLen = 300) {
+  if (!Array.isArray(val)) return [];
+  return val
+    .filter((item) => typeof item === 'string')
+    .map((item) => sanitizeString(item, maxLen))
+    .filter(Boolean)
+    .slice(0, maxItems);
+}
+
+export function sanitizeAgentOutput(parsed, modelName = 'gemini-1.5-flash') {
+  if (!parsed || typeof parsed !== 'object') {
+    return {
+      source: 'gemini',
+      model: modelName,
+      answer: 'Response format could not be verified.',
+      reasoning_summary: 'Output validation check completed.',
+      sources_or_assumptions: [],
+      confidence: 'low',
+      estimated_energy_wh: 0.12,
+      recommended_categories: [],
+      caveat: 'AI estimates are probabilistic. Verify manufacturer certifications on package.'
+    };
+  }
+
+  const confidence = ['high', 'medium', 'low'].includes(parsed.confidence) ? parsed.confidence : 'medium';
+
+  return {
+    source: 'gemini',
+    model: modelName,
+    answer: sanitizeString(parsed.answer, 4000, 'Direct answer unavailable.'),
+    reasoning_summary: sanitizeString(parsed.reasoning_summary, 1000, 'Evaluated against sustainability criteria.'),
+    sources_or_assumptions: sanitizeStringArray(parsed.sources_or_assumptions, 10, 300),
+    confidence,
+    estimated_energy_wh: sanitizeNumber(parsed.estimated_energy_wh, 0.12, 0.01, 10.0),
+    recommended_categories: sanitizeStringArray(parsed.recommended_categories, 8, 100),
+    caveat: sanitizeString(parsed.caveat, 500, 'AI estimates are probabilistic. Verify manufacturer certifications on package.')
+  };
+}
+
+export function sanitizeGreenwashOutput(parsed, modelName = 'gemini-1.5-flash') {
+  if (!parsed || typeof parsed !== 'object') {
+    return {
+      source: 'gemini',
+      model: modelName,
+      trust_score: 50,
+      verdict: 'Plausible but Unverified',
+      plain_verdict_explanation: 'Claim analysis completed.',
+      flagged_phrases: [],
+      missing_proofs: [],
+      positive_elements: [],
+      recommendation: 'Check packaging for verifiable certifications.',
+      estimated_energy_wh: 0.11
+    };
+  }
+
+  const trust_score = Math.round(sanitizeNumber(parsed.trust_score, 50, 0, 100));
+  const verdict = sanitizeString(parsed.verdict, 100, 'Plausible but Unverified');
+  const plain_verdict_explanation = sanitizeString(parsed.plain_verdict_explanation, 1000, '');
+
+  const flagged_phrases = Array.isArray(parsed.flagged_phrases)
+    ? parsed.flagged_phrases
+        .filter((f) => f && typeof f === 'object')
+        .slice(0, 15)
+        .map((f) => ({
+          phrase: sanitizeString(f.phrase, 200),
+          issue: sanitizeString(f.issue, 500)
+        }))
+        .filter((f) => f.phrase)
+    : [];
+
+  const missing_proofs = sanitizeStringArray(parsed.missing_proofs, 10, 300);
+  const positive_elements = sanitizeStringArray(parsed.positive_elements, 10, 300);
+  const recommendation = sanitizeString(parsed.recommendation, 500, 'Look for explicit certification numbers.');
+  const estimated_energy_wh = sanitizeNumber(parsed.estimated_energy_wh, 0.11, 0.01, 10.0);
+
+  return {
+    source: 'gemini',
+    model: modelName,
+    trust_score,
+    verdict,
+    plain_verdict_explanation,
+    flagged_phrases,
+    missing_proofs,
+    positive_elements,
+    recommendation,
+    estimated_energy_wh
+  };
+}
+
+export function sanitizeScanLabelOutput(parsed, modelName = 'gemini-1.5-flash') {
+  if (!parsed || typeof parsed !== 'object') {
+    return {
+      source: 'gemini_vision',
+      model: modelName,
+      is_product_label: false,
+      reason_if_not: 'Could not parse response structure.',
+      product_name: null,
+      brand: null,
+      net_quantity: null,
+      ingredients: [],
+      claims: [],
+      certifications_printed: [],
+      packaging_marks: [],
+      manufacturer: null,
+      country_of_origin: null,
+      batch_mfg_expiry: null,
+      barcode_number: null,
+      usage_instructions: null,
+      disposal_instructions: null,
+      warnings: null,
+      language_detected: 'en',
+      legibility: 'poor',
+      confidence: 'low'
+    };
+  }
+
+  const is_product_label = Boolean(parsed.is_product_label ?? true);
+
+  const certifications_printed = Array.isArray(parsed.certifications_printed)
+    ? parsed.certifications_printed
+        .slice(0, 20)
+        .map((c) => {
+          if (typeof c === 'string') {
+            return { name: sanitizeString(c, 100), has_license_number: false };
+          }
+          return {
+            name: sanitizeString(c?.name, 100),
+            has_license_number: Boolean(c?.has_license_number)
+          };
+        })
+        .filter((c) => c.name)
+    : [];
+
+  const legibility = ['good', 'partial', 'poor'].includes(parsed.legibility) ? parsed.legibility : 'good';
+
+  return {
+    source: 'gemini_vision',
+    model: modelName,
+    is_product_label,
+    reason_if_not: is_product_label ? null : sanitizeString(parsed.reason_if_not, 300, 'No product label detected.'),
+    product_name: sanitizeString(parsed.product_name, 200, null),
+    brand: sanitizeString(parsed.brand, 200, null),
+    net_quantity: sanitizeString(parsed.net_quantity, 100, null),
+    ingredients: sanitizeStringArray(parsed.ingredients, 100, 200),
+    claims: sanitizeStringArray(parsed.claims, 30, 200),
+    certifications_printed,
+    packaging_marks: sanitizeStringArray(parsed.packaging_marks, 20, 200),
+    manufacturer: sanitizeString(parsed.manufacturer, 300, null),
+    country_of_origin: sanitizeString(parsed.country_of_origin, 100, null),
+    batch_mfg_expiry: sanitizeString(parsed.batch_mfg_expiry, 200, null),
+    barcode_number: sanitizeString(parsed.barcode_number, 50, null),
+    usage_instructions: sanitizeString(parsed.usage_instructions, 500, null),
+    disposal_instructions: sanitizeString(parsed.disposal_instructions, 500, null),
+    warnings: sanitizeString(parsed.warnings, 500, null),
+    language_detected: sanitizeString(parsed.language_detected, 50, 'en'),
+    legibility,
+    confidence: typeof parsed.confidence === 'object' && parsed.confidence !== null
+      ? parsed.confidence
+      : (['high', 'medium', 'low'].includes(parsed.confidence) ? parsed.confidence : 'medium')
+  };
+}
 
 /**
  * Handle Eco Agent chat request to Gemini
  */
-export async function handleAgentRequest(body, res) {
+export async function handleAgentRequest(body, res, req = null) {
+  if (req && applyRateLimit(req, res)) return;
+
   const { query, language = 'en', context = {} } = body || {};
 
   // Input length validation
@@ -81,7 +289,6 @@ export async function handleAgentRequest(body, res) {
   const apiKey = getGeminiApiKey();
 
   if (!apiKey || apiKey === 'your_gemini_api_key_here') {
-    // Return friendly status indicating no API key provided so frontend triggers verified fallback
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(
       JSON.stringify({
@@ -93,7 +300,7 @@ export async function handleAgentRequest(body, res) {
     return;
   }
 
-  const systemInstruction = `You are EcoMart's Responsible AI Shopping Assistant (CBSE Competition: Ethics & Responsible AI).
+  const systemInstruction = `You are EcoMart's Responsible AI Shopping Assistant.
 Your purpose: Guide shoppers toward verified sustainable alternatives, lower lifecycle carbon footprints, and zero-plastic choices.
 
 ETHICAL RESPONSIBILITY RULES (STRICT):
@@ -118,16 +325,21 @@ You MUST respond with valid JSON matching this exact structure:
 Context memory: ${JSON.stringify(context)}
 User preferred language: ${language}`;
 
+  const model = process.env.GEMINI_MODEL || 'gemini-1.5-flash';
+
   try {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 12000);
 
-    const model = process.env.GEMINI_MODEL || 'gemini-3-flash-preview';
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+    // Security: API key transmitted exclusively via x-goog-api-key header, not URL query parameter
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
 
     const apiResponse = await fetch(apiUrl, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-goog-api-key': apiKey
+      },
       signal: controller.signal,
       body: JSON.stringify({
         system_instruction: {
@@ -175,26 +387,18 @@ User preferred language: ${language}`;
     } catch {
       parsed = {
         answer: rawContent,
-        reasoning_summary: 'Processed directly via Gemini 1.5 Flash.',
+        reasoning_summary: 'Processed directly via Gemini.',
         sources_or_assumptions: ['Direct model output', 'EcoMart lifecycle index'],
         confidence: 'medium',
         estimated_energy_wh: 0.12
       };
     }
 
-    // Ensure estimated energy is populated responsibly
-    if (!parsed.estimated_energy_wh) {
-      parsed.estimated_energy_wh = 0.12;
-    }
+    // Validate and sanitize output against strict schema - NEVER spread raw model output
+    const sanitizedResponse = sanitizeAgentOutput(parsed, model);
 
     res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(
-      JSON.stringify({
-        source: 'gemini',
-        model: model,
-        ...parsed
-      })
-    );
+    res.end(JSON.stringify(sanitizedResponse));
   } catch (err) {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(
@@ -210,7 +414,9 @@ User preferred language: ${language}`;
 /**
  * Handle Greenwashing Detective request to Gemini
  */
-export async function handleGreenwashRequest(body, res) {
+export async function handleGreenwashRequest(body, res, req = null) {
+  if (req && applyRateLimit(req, res)) return;
+
   const { text: claimText, language = 'en' } = body || {};
 
   if (!claimText || typeof claimText !== 'string') {
@@ -270,16 +476,20 @@ Respond with valid JSON:
   "estimated_energy_wh": 0.11
 }`;
 
+  const model = process.env.GEMINI_MODEL || 'gemini-1.5-flash';
+
   try {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 12000);
 
-    const model = process.env.GEMINI_MODEL || 'gemini-3-flash-preview';
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
 
     const apiResponse = await fetch(apiUrl, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-goog-api-key': apiKey
+      },
       signal: controller.signal,
       body: JSON.stringify({
         system_instruction: {
@@ -313,16 +523,12 @@ Respond with valid JSON:
     if (!rawContent) throw new Error('Empty response from Gemini');
 
     const parsed = JSON.parse(rawContent);
-    if (!parsed.estimated_energy_wh) parsed.estimated_energy_wh = 0.11;
+
+    // Validate and sanitize output against strict schema - NEVER spread raw model output
+    const sanitizedResponse = sanitizeGreenwashOutput(parsed, model);
 
     res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(
-      JSON.stringify({
-        source: 'gemini',
-        model: model,
-        ...parsed
-      })
-    );
+    res.end(JSON.stringify(sanitizedResponse));
   } catch (err) {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(
@@ -337,9 +543,11 @@ Respond with valid JSON:
 /**
  * Handle Label Scanner request to Gemini Vision API
  * Validates file type and size server-side, NEVER writes images to disk,
- * and extracts claims to run Greenwashing Detective and Claim Radar.
+ * and extracts verbatim text accurately without fabrication.
  */
-export async function handleScanLabelRequest(body, res) {
+export async function handleScanLabelRequest(body, res, req = null) {
+  if (req && applyRateLimit(req, res)) return;
+
   const { imageBase64, mimeType = 'image/jpeg', language = 'en' } = body || {};
 
   // 1. File type validation
@@ -354,22 +562,26 @@ export async function handleScanLabelRequest(body, res) {
     return;
   }
 
-  // 2. File size validation (Max 4MB binary => approx 5.6M Base64 characters)
+  // 2. File size validation (Max ~3MB base64 to stay safely within Vercel's 4.5MB payload limit)
   if (!imageBase64 || typeof imageBase64 !== 'string') {
     res.writeHead(400, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ error: 'Image data is required in base64 format.' }));
     return;
   }
 
-  const MAX_BASE64_LENGTH = 5.8 * 1024 * 1024;
-  if (imageBase64.length > MAX_BASE64_LENGTH) {
-    res.writeHead(413, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ error: 'Image exceeds 4MB size limit.' }));
-    return;
-  }
-
   // 3. Privacy Guarantee: Clean base64 strip (no disk I/O, no DB saving)
   const cleanBase64 = imageBase64.replace(/^data:image\/[a-zA-Z+]+;base64,/, '');
+
+  const MAX_BASE64_LENGTH = 3 * 1024 * 1024; // 3MB limit
+  if (cleanBase64.length > MAX_BASE64_LENGTH) {
+    res.writeHead(413, { 'Content-Type': 'application/json' });
+    res.end(
+      JSON.stringify({
+        error: 'Image data exceeds the 3MB safe serverless payload limit. Please upload a smaller or downscaled image.'
+      })
+    );
+    return;
+  }
 
   const apiKey = getGeminiApiKey();
 
@@ -385,60 +597,53 @@ export async function handleScanLabelRequest(body, res) {
     return;
   }
 
-  const systemInstruction = `You are EcoMart's Product Label Vision Auditor (Greenwashing Detective + Claim Radar).
-Analyze the submitted product label or packaging image.
-PRIVACY MANDATE: The image is processed in transient memory only and is NEVER stored.
+  const systemInstruction = `You are EcoMart's Product Label Scanner.
+Goal: Transcribe only what is printed on the label accurately.
+SYSTEM MANDATE: Transcribe only text that is visibly printed. Never infer, guess or add facts. Use null for anything not visible or unreadable.
+Certifications are never marked verified.
 
-YOUR TASK:
-1. Extract all visible text claims, marketing buzzwords, and certification marks from the label.
-2. Flag deceptive greenwashing terms (FTC Green Guides & ISO 14021 violations like "100% natural", "chemical-free", unverified "eco-friendly").
-3. Detect missing proofs (e.g. absent lab standards or accreditation licenses).
-4. Assign an objective Trust Score from 0 to 100.
-5. Provide 5-axis Claim Radar scores (0 to 100):
-   - vague_wording (100 = precise, 0 = broad fluff)
-   - verifiable_proof (100 = third-party lab tested, 0 = self-declared)
-   - omission_risk (100 = full lifecycle disclosed, 0 = key impacts hidden)
-   - lifecycle_boundary (100 = cradle-to-grave, 0 = selective phase only)
-   - third_party_audit (100 = accredited certification license, 0 = unverified)
-
-OUTPUT FORMAT:
-Respond with valid JSON:
+OUTPUT SCHEMA (STRICT JSON):
 {
-  "extracted_text": "Extracted text lines from the image",
-  "identified_product_name": "Inferred product title or category",
-  "trust_score": 45,
-  "verdict": "High Greenwashing Risk" | "Plausible but Unverified" | "Verified Sustainable",
-  "plain_verdict_explanation": "Concise 2-3 sentence verdict on the packaging.",
-  "flagged_phrases": [
-    { "phrase": "e.g. 100% natural", "issue": "Unqualified broad claim." }
-  ],
-  "missing_proofs": [
-    "No certification license number displayed"
-  ],
-  "positive_elements": [
-    "Recyclable symbol present"
-  ],
-  "radar_axes": {
-    "vague_wording": 40,
-    "verifiable_proof": 30,
-    "omission_risk": 50,
-    "lifecycle_boundary": 45,
-    "third_party_audit": 20
-  },
-  "recommendation": "Check the manufacturer website for the official certificate number before purchase.",
-  "privacy_guarantee": "Image was processed in volatile memory and immediately purged."
+  "is_product_label": boolean,
+  "reason_if_not": string or null,
+  "product_name": string or null,
+  "brand": string or null,
+  "net_quantity": string or null,
+  "ingredients": [string],
+  "claims": [string],
+  "certifications_printed": [{"name": string, "has_license_number": boolean}],
+  "packaging_marks": [string],
+  "manufacturer": string or null,
+  "country_of_origin": string or null,
+  "batch_mfg_expiry": string or null,
+  "barcode_number": string or null,
+  "usage_instructions": string or null,
+  "disposal_instructions": string or null,
+  "warnings": string or null,
+  "language_detected": string,
+  "legibility": "good" | "partial" | "poor",
+  "confidence": {
+    "product_name": "high" | "medium" | "low",
+    "ingredients": "high" | "medium" | "low",
+    "claims": "high" | "medium" | "low",
+    "certifications": "high" | "medium" | "low"
+  }
 }`;
+
+  const model = process.env.GEMINI_MODEL || 'gemini-1.5-flash';
 
   try {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 15000);
 
-    const model = process.env.GEMINI_MODEL || 'gemini-3-flash-preview';
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
 
     const apiResponse = await fetch(apiUrl, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-goog-api-key': apiKey
+      },
       signal: controller.signal,
       body: JSON.stringify({
         system_instruction: {
@@ -449,7 +654,7 @@ Respond with valid JSON:
             role: 'user',
             parts: [
               {
-                text: `Scan and audit this packaging label image for greenwashing and environmental claim veracity. Language: ${language}`
+                text: `Scan and transcribe the printed text on this product label. Language: ${language}`
               },
               {
                 inline_data: {
@@ -462,7 +667,7 @@ Respond with valid JSON:
         ],
         generationConfig: {
           response_mime_type: 'application/json',
-          temperature: 0.2,
+          temperature: 0.0,
           max_output_tokens: 3000
         }
       })
@@ -488,14 +693,11 @@ Respond with valid JSON:
 
     const parsed = JSON.parse(rawContent);
 
+    // Validate and sanitize output against strict schema - NEVER spread raw model output
+    const sanitizedResponse = sanitizeScanLabelOutput(parsed, model);
+
     res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(
-      JSON.stringify({
-        source: 'gemini_vision',
-        model: model,
-        ...parsed
-      })
-    );
+    res.end(JSON.stringify(sanitizedResponse));
   } catch (err) {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(
@@ -507,3 +709,23 @@ Respond with valid JSON:
   }
 }
 
+/**
+ * Handle Eco News request (forward-compatible for Phase 3 news provider adapter)
+ */
+export async function handleNewsRequest(query = {}, res, req = null) {
+  if (req && applyRateLimit(req, res)) return;
+
+  // Placeholder handler for Phase 3 news route with cached response structure
+  res.writeHead(200, {
+    'Content-Type': 'application/json',
+    'Cache-Control': 'public, s-maxage=1800, stale-while-revalidate=3600'
+  });
+  res.end(
+    JSON.stringify({
+      articles: [],
+      provider: process.env.NEWS_PROVIDER || 'gnews',
+      cached: true,
+      lastUpdated: new Date().toISOString()
+    })
+  );
+}

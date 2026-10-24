@@ -1,8 +1,8 @@
 /**
  * Vercel Serverless Function: /api/scan-label
- * Dispatches label scanning to the Responsible AI Proxy handler
+ * Dispatches label scanning to the Responsible AI Proxy handler with rate limiting
  */
-import { handleScanLabelRequest } from '../server/proxyServer.js';
+import { handleScanLabelRequest, applyRateLimit } from '../server/proxyServer.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -11,5 +11,7 @@ export default async function handler(req, res) {
     return;
   }
 
-  await handleScanLabelRequest(req.body || {}, res);
+  if (applyRateLimit(req, res)) return;
+
+  await handleScanLabelRequest(req.body || {}, res, req);
 }

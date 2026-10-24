@@ -234,26 +234,33 @@ function apiProxyPlugin() {
           return;
         }
 
-        if (url !== '/api/agent' && url !== '/api/detect-greenwash' && url !== '/api/scan-label') {
+        if (url !== '/api/agent' && url !== '/api/detect-greenwash' && url !== '/api/scan-label' && url !== '/api/news') {
           return next();
         }
 
-        const { isRateLimited, handleAgentRequest, handleGreenwashRequest, handleScanLabelRequest } = await import('./server/proxyServer.js');
-        const ip = req.headers['x-forwarded-for'] || req.socket?.remoteAddress || '127.0.0.1';
-
-        if (isRateLimited(ip)) {
-          res.writeHead(429, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify({ error: 'Rate limit exceeded. Please wait a minute.' }));
-          return;
-        }
+        const { applyRateLimit, handleAgentRequest, handleGreenwashRequest, handleScanLabelRequest, handleNewsRequest } = await import('./server/proxyServer.js');
 
         res.setHeader('Access-Control-Allow-Origin', '*');
-        res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
         res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
         if (req.method === 'OPTIONS') {
           res.writeHead(204);
           res.end();
+          return;
+        }
+
+        if (applyRateLimit(req, res)) {
+          return;
+        }
+
+        if (url === '/api/news') {
+          if (req.method !== 'GET') {
+            res.writeHead(405, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'Method not allowed' }));
+            return;
+          }
+          await handleNewsRequest({}, res, req);
           return;
         }
 
@@ -263,7 +270,7 @@ function apiProxyPlugin() {
           return;
         }
 
-        const maxBodyLength = url === '/api/scan-label' ? 8 * 1024 * 1024 : 100000;
+        const maxBodyLength = url === '/api/scan-label' ? 4.5 * 1024 * 1024 : 100000;
         let raw = '';
         req.on('data', (chunk) => {
           raw += chunk;
@@ -276,11 +283,11 @@ function apiProxyPlugin() {
           try {
             const body = JSON.parse(raw || '{}');
             if (url === '/api/agent') {
-              await handleAgentRequest(body, res);
+              await handleAgentRequest(body, res, req);
             } else if (url === '/api/detect-greenwash') {
-              await handleGreenwashRequest(body, res);
+              await handleGreenwashRequest(body, res, req);
             } else if (url === '/api/scan-label') {
-              await handleScanLabelRequest(body, res);
+              await handleScanLabelRequest(body, res, req);
             }
           } catch {
             res.writeHead(400, { 'Content-Type': 'application/json' });

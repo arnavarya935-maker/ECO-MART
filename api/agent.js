@@ -1,8 +1,8 @@
 /**
  * Vercel Serverless Function: /api/agent
- * Uses the EcoMart Responsible AI Proxy handler
+ * Uses the EcoMart Responsible AI Proxy handler with rate limiting
  */
-import { handleAgentRequest } from '../server/proxyServer.js';
+import { handleAgentRequest, applyRateLimit } from '../server/proxyServer.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -11,5 +11,7 @@ export default async function handler(req, res) {
     return;
   }
 
-  await handleAgentRequest(req.body || {}, res);
+  if (applyRateLimit(req, res)) return;
+
+  await handleAgentRequest(req.body || {}, res, req);
 }

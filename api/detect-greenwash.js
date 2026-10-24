@@ -1,8 +1,8 @@
 /**
  * Vercel Serverless Function: /api/detect-greenwash
- * Uses the EcoMart Greenwashing Detective Proxy handler
+ * Uses the EcoMart Greenwashing Detective Proxy handler with rate limiting
  */
-import { handleGreenwashRequest } from '../server/proxyServer.js';
+import { handleGreenwashRequest, applyRateLimit } from '../server/proxyServer.js';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -11,5 +11,7 @@ export default async function handler(req, res) {
     return;
   }
 
-  await handleGreenwashRequest(req.body || {}, res);
+  if (applyRateLimit(req, res)) return;
+
+  await handleGreenwashRequest(req.body || {}, res, req);
 }

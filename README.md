@@ -150,6 +150,19 @@ Every feature sits behind a simple boolean flag in `src/lib/features.js` so it c
 
 ---
 
+## 🔒 Server-Side AI Proxy & API Security Architecture
+
+EcoMart proxies all AI requests through a protected serverless gateway (`server/proxyServer.js` and `api/*.js`) to ensure zero API key leakage to client bundles:
+* **API Key Transmission**: The Gemini API key (`GEMINI_API_KEY`) is securely injected server-side via the `x-goog-api-key` HTTP header, never in URL query strings or client bundles.
+* **Model Configuration**: Model routing is controlled via `GEMINI_MODEL`, defaulting to Google's stable production model `gemini-1.5-flash` (no unstable preview defaults).
+* **Sliding Window Rate Limiter**: Client requests to `/api/agent`, `/api/detect-greenwash`, `/api/scan-label`, and `/api/news` are rate-limited by client IP (`x-forwarded-for`) to 30 requests/minute. Exceeded thresholds return `HTTP 429 Too Many Requests` with a `Retry-After: 60` header.
+  > **Note on Serverless Environments**: On serverless platforms like Vercel, serverless function instances scale ephemerally across multiple execution containers, making in-memory rate limiting a best-effort defense layer.
+* **Payload Size Ceiling**: Incoming vision scanner payloads are strictly validated, rejecting base64 strings exceeding 3MB to stay safely under Vercel's ~4.5MB request body limit.
+* **Schema Validation & Output Sanitization**: Model JSON outputs are parsed and strictly mapped against validated schema properties before being returned. Raw model properties are never spread directly into API responses.
+* **Deterministic Offline Fallback**: In the absence of an API key or when network connectivity drops, all endpoints cleanly return deterministic verified heuristics clearly labeled `"Offline answer"`.
+
+---
+
 ## 🧪 Verified Acceptance Checks
 
 | Acceptance Check | Result |
@@ -160,3 +173,4 @@ Every feature sits behind a simple boolean flag in `src/lib/features.js` so it c
 | **Proactive Copilot** | Adding conventional product triggers exactly 1 swap nudge with working *"Why am I seeing this?"* and 20s cooldown |
 | **Product Lifecycle Robustness** | All 64 catalog products + sparse products render 5 lifecycle stages without errors |
 | **Offline Purity** | 100% guest flow verified with zero external CDN requests or console network errors |
+
