@@ -4,7 +4,7 @@ import { useCart } from '../../context/CartContext';
 import { PRIORITY_PRESETS } from '../../lib/decisionEngine';
 import Slider from '../ui/Slider';
 
-export default function PrioritiesPanel({ compact = false, className = '' }) {
+export default function PrioritiesPanel({ compact = false, className = '', onSliderChange = null }) {
   const {
     userPriorities,
     updateUserPriorities,
@@ -19,6 +19,12 @@ export default function PrioritiesPanel({ compact = false, className = '' }) {
 
   const handleSliderChange = (key, value) => {
     updateUserPriorities({ [key]: value });
+    if (onSliderChange) onSliderChange(key, value);
+  };
+
+  const handlePresetSelect = (presetId) => {
+    applyPriorityPreset(presetId);
+    if (onSliderChange) onSliderChange('preset', presetId);
   };
 
   const isCustom = activePreset === 'custom';
@@ -90,7 +96,7 @@ export default function PrioritiesPanel({ compact = false, className = '' }) {
                   <button
                     key={preset.id}
                     type="button"
-                    onClick={() => applyPriorityPreset(preset.id)}
+                    onClick={() => handlePresetSelect(preset.id)}
                     className={`px-2.5 py-1 rounded-xl text-xs font-sans font-medium transition-all flex items-center gap-1.5 cursor-pointer border ${
                       isSelected
                         ? 'bg-primary text-primary-contrast border-primary shadow-soft-xs'

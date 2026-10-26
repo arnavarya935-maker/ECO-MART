@@ -189,6 +189,15 @@ export function CartProvider({ children }) {
   const [toasts, setToasts] = useState([]);
   const [unlockedBadge, setUnlockedBadge] = useState(null);
 
+  // AI Agent Online vs Offline Mode (User selectable)
+  const [agentMode, setAgentModeState] = useState(() => {
+    try {
+      return localStorage.getItem('ecomart_agent_mode') || 'online';
+    } catch {
+      return 'online';
+    }
+  });
+
   // First-time welcome modal
   const [welcomeModalOpen, setWelcomeModalOpen] = useState(() => {
     try {
@@ -226,6 +235,24 @@ export function CartProvider({ children }) {
     }
     return id;
   }, [dismissToast]);
+
+  const setAgentMode = useCallback((mode) => {
+    setAgentModeState(mode);
+    try {
+      localStorage.setItem('ecomart_agent_mode', mode);
+      window.dispatchEvent(new CustomEvent('ecomart-agent-mode-change', { detail: { mode } }));
+    } catch {}
+    showToast(
+      mode === 'online'
+        ? '🌐 Online AI Connected (Cloud Gemini 2.5)'
+        : '⚡ Offline Mode Active (Local-First Heuristics)',
+      'info'
+    );
+  }, [showToast]);
+
+  const toggleAgentMode = useCallback(() => {
+    setAgentMode(agentMode === 'online' ? 'offline' : 'online');
+  }, [agentMode, setAgentMode]);
 
   const toastMessage = toasts.length > 0 ? toasts[toasts.length - 1] : null;
 
@@ -644,7 +671,11 @@ export function CartProvider({ children }) {
         copilotMuted,
         toggleCopilotMuted,
         swapCartItem,
-        trackCategoryBrowsing
+        trackCategoryBrowsing,
+        // AI Agent Online/Offline Mode
+        agentMode,
+        setAgentMode,
+        toggleAgentMode
       }}
     >
       {children}

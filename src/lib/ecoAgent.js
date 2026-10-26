@@ -1158,7 +1158,11 @@ export function queryEcoCatalog(allProducts, userQuery, context = null, weights 
       return (a.carbonKg || 0) - (b.carbonKg || 0);
     });
   } else if (filteredResults.length > 0) {
-    filteredResults = rankProducts(filteredResults, activeWeights);
+    if (intent.isGift) {
+      filteredResults.sort((a, b) => b.relevanceScore - a.relevanceScore);
+    } else {
+      filteredResults = rankProducts(filteredResults, activeWeights);
+    }
   }
 
   // Top results slice (strictly enforcing budget unless category budget was relaxed)
@@ -1462,48 +1466,54 @@ export async function sendAgentQuery(arg1, arg2, arg3, arg4) {
     cartReviewData = auditCartSustainability(cartItems, allProducts);
   }
 
-  // Attempt optional LLM enhancement behind try/catch with contract { query, context }
+  // Attempt optional LLM enhancement when online mode is active
   try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 1800);
+    const isOnline = typeof window !== 'undefined'
+      ? (localStorage.getItem('ecomart_agent_mode') !== 'offline')
+      : true;
 
-    const res = await fetch('/api/agent', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        query,
-        context: {
-          intent,
-          lastCategory: context?.lastCategory,
-          lastBudget: context?.lastBudget,
-          searchResultsCount: localResponse.results ? localResponse.results.length : 0,
-          cartReview: cartReviewData
+    if (isOnline) {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 8000);
+
+      const res = await fetch('/api/agent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          query,
+          context: {
+            intent,
+            lastCategory: context?.lastCategory,
+            lastBudget: context?.lastBudget,
+            searchResultsCount: localResponse.results ? localResponse.results.length : 0,
+            cartReview: cartReviewData
+          }
+        }),
+        signal: controller.signal
+      });
+
+      clearTimeout(timeoutId);
+
+      if (res.ok) {
+        const data = await res.json();
+        if (data && data.reply && (data.source === 'cloud-llm' || data.source === 'gemini')) {
+          return {
+            source: 'cloud-llm',
+            message: data.reply,
+            data: localResponse.results || [],
+            analysis: {
+              ...localResponse,
+              intent: localResponse.intent || intent
+            },
+            tradeoffs: localResponse.tradeoffs,
+            trace: localResponse.trace || [],
+            basketPlan: localResponse.type === 'basket-plan' ? localResponse : null,
+            clarification: localResponse.clarification || null,
+            didYouMean: localResponse.didYouMean,
+            cartReview: cartReviewData,
+            newPriorities: priorityAdjustment || null
+          };
         }
-      }),
-      signal: controller.signal
-    });
-
-    clearTimeout(timeoutId);
-
-    if (res.ok) {
-      const data = await res.json();
-      if (data && data.reply && data.source === 'cloud-llm') {
-        return {
-          source: 'cloud-llm',
-          message: data.reply,
-          data: localResponse.results || [],
-          analysis: {
-            ...localResponse,
-            intent: localResponse.intent || intent
-          },
-          tradeoffs: localResponse.tradeoffs,
-          trace: localResponse.trace || [],
-          basketPlan: localResponse.type === 'basket-plan' ? localResponse : null,
-          clarification: localResponse.clarification || null,
-          didYouMean: localResponse.didYouMean,
-          cartReview: cartReviewData,
-          newPriorities: priorityAdjustment || null
-        };
       }
     }
   } catch {

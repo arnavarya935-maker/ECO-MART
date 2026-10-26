@@ -355,7 +355,13 @@ export default function ShopPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-2">
         {FEATURES.DECISION_ENGINE && (
           <div className="mb-6">
-            <PrioritiesPanel />
+            <PrioritiesPanel
+              onSliderChange={() => {
+                if (sortParam !== 'featured') {
+                  updateQueryParam('sort', 'featured');
+                }
+              }}
+            />
           </div>
         )}
 

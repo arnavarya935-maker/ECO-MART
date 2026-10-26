@@ -71,7 +71,9 @@ export default function EcoAgentChat() {
     updateUserPriorities,
     addToCompare,
     clearCompare,
-    setIsCompareOpen
+    setIsCompareOpen,
+    agentMode,
+    toggleAgentMode
   } = useCart();
 
   const { t, lang } = useT();
@@ -469,16 +471,32 @@ export default function EcoAgentChat() {
           <div>
             <div className="font-sans font-bold text-sm flex items-center gap-1.5 text-heading">
               <span>Eco Agent</span>
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span className={`w-2 h-2 rounded-full ${agentMode === 'online' ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`} />
             </div>
             <div className="text-[10px] text-text-muted font-medium flex items-center gap-1 font-mono uppercase tracking-wider">
-              <span className="text-emerald-400">Gemini + Responsible AI</span>
+              <span className={agentMode === 'online' ? 'text-emerald-400 font-semibold' : 'text-amber-400 font-semibold'}>
+                {agentMode === 'online' ? 'Gemini 2.5 Cloud' : 'Local 0ms Engine'}
+              </span>
             </div>
           </div>
         </div>
 
         {/* Actions */}
         <div className="flex items-center gap-1.5 flex-wrap justify-end">
+          {/* Online/Offline Toggle in Chat Header */}
+          <button
+            type="button"
+            onClick={toggleAgentMode}
+            className={`px-2 py-1 rounded-lg text-[10px] font-semibold transition-colors border cursor-pointer flex items-center gap-1 ${
+              agentMode === 'online'
+                ? 'bg-primary/20 text-primary border-primary/30 font-bold'
+                : 'bg-amber-500/20 text-amber-500 border-amber-500/40 font-bold'
+            }`}
+            title="Toggle Online Cloud AI vs Local Offline Engine"
+          >
+            <span className={`w-1.5 h-1.5 rounded-full ${agentMode === 'online' ? 'bg-primary' : 'bg-amber-500'}`} />
+            <span>{agentMode === 'online' ? 'Online' : 'Offline'}</span>
+          </button>
           {/* AI Compute Energy Meter */}
           <AIEnergyMeter
             compact={true}

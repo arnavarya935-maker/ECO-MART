@@ -153,8 +153,8 @@ export function rankProducts(products, weights = DEFAULT_PRIORITIES, constraints
     return [];
   }
 
-  // 2. Clamp and validate weights
-  const safeWeights = {
+  // 2. Clamp and validate weights with user intent amplification
+  const rawWeights = {
     price: Math.max(0, Math.min(100, Number(weights?.price ?? DEFAULT_PRIORITIES.price))),
     carbon: Math.max(0, Math.min(100, Number(weights?.carbon ?? DEFAULT_PRIORITIES.carbon))),
     plastic: Math.max(0, Math.min(100, Number(weights?.plastic ?? DEFAULT_PRIORITIES.plastic))),
@@ -163,6 +163,12 @@ export function rankProducts(products, weights = DEFAULT_PRIORITIES, constraints
     certs: Math.max(0, Math.min(100, Number(weights?.certs ?? DEFAULT_PRIORITIES.certs))),
     ecoScore: Math.max(0, Math.min(100, Number(weights?.ecoScore ?? DEFAULT_PRIORITIES.ecoScore)))
   };
+
+  // Dynamic non-linear power scaling: weights >= 50 get decisive responsiveness
+  const safeWeights = {};
+  for (const [k, v] of Object.entries(rawWeights)) {
+    safeWeights[k] = v >= 50 ? Math.pow(v / 50, 3.5) * 50 : Math.pow(v / 50, 1.8) * 50;
+  }
 
   const totalWeight = Object.values(safeWeights).reduce((a, b) => a + b, 0) || 1;
 
@@ -187,6 +193,37 @@ export function rankProducts(products, weights = DEFAULT_PRIORITIES, constraints
     ecoScore: { min: Math.min(...ecoScores), max: Math.max(...ecoScores) }
   };
 
+  // Relative percentile ranking ensures slider adjustments immediately reorder cards
+  const keys = ['price', 'carbon', 'plastic', 'water', 'local', 'certs', 'ecoScore'];
+  const lowerIsBetter = { price: true, carbon: true, plastic: true, water: true, local: true, certs: false, ecoScore: false };
+
+  const getProductValue = (p, k) => {
+    switch (k) {
+      case 'price': return p.price ?? 0;
+      case 'carbon': return p.carbonKg ?? 0;
+      case 'plastic': return p.plasticGrams ?? 0;
+      case 'water': return p.waterLitres ?? 0;
+      case 'local': return p.madeInKm ?? 0;
+      case 'certs': return Array.isArray(p.certifications) ? p.certifications.length : 0;
+      case 'ecoScore': return typeof p.ecoScore === 'number' ? p.ecoScore : (calculateEcoScore(p)?.score || 50);
+      default: return 0;
+    }
+  };
+
+  const percentiles = {};
+  for (const k of keys) {
+    const sorted = [...candidates].sort((a, b) => {
+      const va = getProductValue(a, k);
+      const vb = getProductValue(b, k);
+      return lowerIsBetter[k] ? va - vb : vb - va;
+    });
+    percentiles[k] = new Map();
+    sorted.forEach((item, idx) => {
+      const pct = (candidates.length - 1 - idx) / Math.max(1, candidates.length - 1);
+      percentiles[k].set(item.id, pct);
+    });
+  }
+
   // 4. Compute per-product scores and contributions
   const scored = candidates.map((product) => {
     const rawVal = {
@@ -200,13 +237,13 @@ export function rankProducts(products, weights = DEFAULT_PRIORITIES, constraints
     };
 
     const norm = {
-      price: normaliseValue(rawVal.price, stats.price.min, stats.price.max, true),
-      carbon: normaliseValue(rawVal.carbon, stats.carbon.min, stats.carbon.max, true),
-      plastic: normaliseValue(rawVal.plastic, stats.plastic.min, stats.plastic.max, true),
-      water: normaliseValue(rawVal.water, stats.water.min, stats.water.max, true),
-      local: normaliseValue(rawVal.local, stats.local.min, stats.local.max, true),
-      certs: normaliseValue(rawVal.certs, stats.certs.min, stats.certs.max, false),
-      ecoScore: normaliseValue(rawVal.ecoScore, stats.ecoScore.min, stats.ecoScore.max, false)
+      price: 0.3 * normaliseValue(rawVal.price, stats.price.min, stats.price.max, true) + 0.7 * (percentiles.price.get(product.id) ?? 0.5),
+      carbon: 0.3 * normaliseValue(rawVal.carbon, stats.carbon.min, stats.carbon.max, true) + 0.7 * (percentiles.carbon.get(product.id) ?? 0.5),
+      plastic: 0.3 * normaliseValue(rawVal.plastic, stats.plastic.min, stats.plastic.max, true) + 0.7 * (percentiles.plastic.get(product.id) ?? 0.5),
+      water: 0.3 * normaliseValue(rawVal.water, stats.water.min, stats.water.max, true) + 0.7 * (percentiles.water.get(product.id) ?? 0.5),
+      local: 0.3 * normaliseValue(rawVal.local, stats.local.min, stats.local.max, true) + 0.7 * (percentiles.local.get(product.id) ?? 0.5),
+      certs: 0.3 * normaliseValue(rawVal.certs, stats.certs.min, stats.certs.max, false) + 0.7 * (percentiles.certs.get(product.id) ?? 0.5),
+      ecoScore: 0.3 * normaliseValue(rawVal.ecoScore, stats.ecoScore.min, stats.ecoScore.max, false) + 0.7 * (percentiles.ecoScore.get(product.id) ?? 0.5)
     };
 
     // Calculate contribution of each criterion to the final score (0-100 scale)
@@ -229,9 +266,9 @@ export function rankProducts(products, weights = DEFAULT_PRIORITIES, constraints
         criterion: k,
         impact: contributions[k],
         norm: norm[k],
-        weight: safeWeights[k]
+        weight: rawWeights[k]
       }))
-      .sort((a, b) => b.impact - a.impact || b.norm - a.norm);
+      .sort((a, b) => b.weight - a.weight || b.impact - a.impact || b.norm - a.norm);
 
     const topFactors = factorRank.slice(0, 2);
     const topReasons = topFactors.map((f) => formatReason(f.criterion, product));

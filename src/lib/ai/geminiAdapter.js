@@ -153,6 +153,14 @@ export async function askEcoAgent({ query, language = 'en', context = {} }) {
     };
   }
 
+  const isOnline = typeof window !== 'undefined'
+    ? (localStorage.getItem('ecomart_agent_mode') !== 'offline')
+    : true;
+
+  if (!isOnline) {
+    return generateLocalFallbackAnswer(query, language);
+  }
+
   try {
     const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 9000);

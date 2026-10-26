@@ -43,7 +43,7 @@ const MORE_LINKS = [
 
 export default function Navbar() {
   const location = useLocation();
-  const { impact, setIsCartOpen, setIsAgentOpen, wishlist } = useCart();
+  const { impact, setIsCartOpen, setIsAgentOpen, wishlist, agentMode, toggleAgentMode } = useCart();
   const { t, lang, toggleLanguage } = useT();
   const currentPath = location.pathname;
 
@@ -225,6 +225,37 @@ export default function Navbar() {
 
         {/* Action Controls (Clean, uncluttered, tooltips) */}
         <div className="flex items-center gap-2 sm:gap-2.5">
+          {/* Online / Offline AI Switcher */}
+          <button
+            type="button"
+            onClick={toggleAgentMode}
+            title={
+              agentMode === 'online'
+                ? 'AI Agent: Online (Gemini 2.5 Cloud) — Click to switch to Offline 0ms'
+                : 'AI Agent: Offline (Local Heuristics 0ms) — Click to switch to Online Gemini'
+            }
+            aria-label={`Toggle AI mode: currently ${agentMode}`}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-sans font-semibold transition-all min-h-[44px] cursor-pointer shadow-soft-xs select-none ${
+              agentMode === 'online'
+                ? 'bg-primary/10 border-primary/30 text-primary hover:bg-primary/20'
+                : 'bg-amber-500/10 border-amber-500/30 text-amber-500 hover:bg-amber-500/20'
+            }`}
+          >
+            <span className="relative flex h-2 w-2">
+              {agentMode === 'online' && (
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
+              )}
+              <span
+                className={`relative inline-flex rounded-full h-2 w-2 ${
+                  agentMode === 'online' ? 'bg-primary' : 'bg-amber-500'
+                }`}
+              />
+            </span>
+            <span className="hidden sm:inline">
+              {agentMode === 'online' ? 'Online AI' : 'Offline AI'}
+            </span>
+          </button>
+
           {/* Command Palette Trigger */}
           <button
             type="button"
@@ -330,6 +361,28 @@ export default function Navbar() {
       {/* Mobile Drawer (Clean, non-cramped slide-down menu) */}
       {mobileMenuOpen && (
         <div className="lg:hidden fixed inset-x-0 top-18 bg-surface/98 backdrop-blur-2xl border-b border-line shadow-soft-lg p-5 space-y-4 max-h-[85vh] overflow-y-auto z-40 animate-slide-down">
+          {/* Mobile AI Mode Selector */}
+          <div className="p-3 rounded-2xl bg-surface-sunken border border-line flex items-center justify-between">
+            <div>
+              <div className="text-xs font-bold text-heading">Eco Agent Mode</div>
+              <div className="text-[11px] text-muted">
+                {agentMode === 'online' ? 'Gemini 2.5 Flash Cloud' : 'Local Deterministic (0ms)'}
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={toggleAgentMode}
+              className={`px-3 py-1.5 rounded-full text-xs font-semibold border flex items-center gap-1.5 cursor-pointer ${
+                agentMode === 'online'
+                  ? 'bg-primary text-primary-contrast border-primary shadow-soft-xs'
+                  : 'bg-amber-500 text-white border-amber-600'
+              }`}
+            >
+              <span className={`w-2 h-2 rounded-full ${agentMode === 'online' ? 'bg-white' : 'bg-white'}`} />
+              <span>{agentMode === 'online' ? 'Online' : 'Offline'}</span>
+            </button>
+          </div>
+
           <div className="space-y-1">
             <div className="text-xs font-sans font-semibold uppercase tracking-wider text-text-muted px-2 py-1">
               Primary Navigation

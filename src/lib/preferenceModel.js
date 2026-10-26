@@ -154,7 +154,7 @@ export function getPersonalizedRanking(products, userPriorities = DEFAULT_PRIORI
   // Apply signal-based adjustments
   const scored = baseRanked.map((item) => {
     let boost = 0;
-    let reason = 'Selected based on your balanced sustainability priorities';
+    let reason = item.explanation || 'Selected based on your priorities';
 
     const categoryViews = signals.categoryViews[item.category] || 0;
     if (categoryViews > 0) {
