@@ -45,12 +45,24 @@ export default function VoiceShoppingModal({ isOpen, onClose }) {
     } catch {}
   };
 
-  const startListening = () => {
+  const startListening = async () => {
     if (typeof window === 'undefined') return;
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) {
       setStatusMessage('Web Speech API is not supported in this browser. Please click a preset prompt below.');
       return;
+    }
+
+    if (navigator?.mediaDevices?.getUserMedia) {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        stream.getTracks().forEach((track) => track.stop());
+      } catch (permErr) {
+        if (permErr?.name === 'NotAllowedError' || permErr?.name === 'PermissionDeniedError') {
+          setStatusMessage('Microphone access denied. Please allow microphone in browser URL bar.');
+          return;
+        }
+      }
     }
 
     try {
@@ -75,9 +87,17 @@ export default function VoiceShoppingModal({ isOpen, onClose }) {
         setTranscript(text);
       };
 
-      recognition.onerror = () => {
+      recognition.onerror = (event) => {
         setIsListening(false);
-        setStatusMessage('Could not recognize voice. Try a preset prompt below.');
+        if (event?.error === 'not-allowed') {
+          setStatusMessage('Microphone access denied. Please allow microphone in browser URL bar.');
+        } else if (event?.error === 'network' || event?.error === 'service-not-allowed') {
+          setStatusMessage('Browser speech network service restricted in Opera. Tap any preset prompt below!');
+        } else if (event?.error === 'no-speech') {
+          setStatusMessage('No voice detected. Please speak closer to your mic or tap a preset below.');
+        } else {
+          setStatusMessage('Could not recognize voice. Tap a preset prompt below.');
+        }
       };
 
       recognition.onend = () => {

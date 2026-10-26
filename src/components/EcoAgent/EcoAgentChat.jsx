@@ -444,39 +444,140 @@ export default function EcoAgentChat() {
     return () => window.removeEventListener('ecomart-agent-query', handleContextQuery);
   }, [setIsAgentOpen]);
 
-  // Speech Recognition initialization
+  // Cleanup any active speech recognition on unmount
   useEffect(() => {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (SpeechRecognition) {
+    return () => {
+      if (recognitionRef.current) {
+        try {
+          recognitionRef.current.abort();
+        } catch {}
+      }
+    };
+  }, []);
+
+  // Dynamic Speech Recognition Voice-to-Text Handler
+  const toggleVoiceInput = useCallback(async () => {
+    // If currently listening, stop immediately
+    if (isListening) {
+      if (recognitionRef.current) {
+        try {
+          recognitionRef.current.stop();
+        } catch {}
+      }
+      setIsListening(false);
+      return;
+    }
+
+    const SpeechRecognition = typeof window !== 'undefined'
+      ? (window.SpeechRecognition || window.webkitSpeechRecognition)
+      : null;
+
+    if (!SpeechRecognition) {
+      showToast(
+        lang === 'hi'
+          ? 'आपके ब्राउज़र में आवाज़ पहचान उपलब्ध नहीं है। वॉइस शॉपिंग विंडो खोली जा रही है।'
+          : 'Speech recognition is not supported in this browser. Opening Voice Assistant!',
+        'info'
+      );
+      setVoiceModalOpen(true);
+      return;
+    }
+
+    // Explicitly check/request microphone permission first so browser native prompt displays
+    if (navigator?.mediaDevices?.getUserMedia) {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        stream.getTracks().forEach((track) => track.stop());
+      } catch (permErr) {
+        if (permErr?.name === 'NotAllowedError' || permErr?.name === 'PermissionDeniedError') {
+          showToast(
+            lang === 'hi'
+              ? 'माइक्रोफ़ोन की अनुमति नहीं मिली। कृपया ब्राउज़र में अनुमति दें।'
+              : 'Microphone permission denied. Please allow microphone in browser URL bar.',
+            'warning'
+          );
+          return;
+        }
+      }
+    }
+
+    // Stop any previous stale instance
+    if (recognitionRef.current) {
+      try {
+        recognitionRef.current.abort();
+      } catch {}
+      recognitionRef.current = null;
+    }
+
+    try {
       const recognition = new SpeechRecognition();
       recognition.continuous = false;
-      recognition.interimResults = false;
-      recognition.lang = 'en-US';
+      recognition.interimResults = true;
+      recognition.lang = lang === 'hi' ? 'hi-IN' : 'en-IN';
+      recognition.maxAlternatives = 1;
 
-      recognition.onstart = () => setIsListening(true);
-      recognition.onend = () => setIsListening(false);
-      recognition.onerror = () => setIsListening(false);
+      recognition.onstart = () => {
+        setIsListening(true);
+        playSound('pop');
+        showToast(
+          lang === 'hi'
+            ? '🎙️ सुन रहा हूँ... बोलिए (हिंदी या इंग्लिश)'
+            : '🎙️ Listening... Speak now (Hindi or English)',
+          'info'
+        );
+      };
+
       recognition.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        if (transcript) {
-          sendRef.current(transcript);
+        let transcriptText = '';
+        for (let i = 0; i < event.results.length; i++) {
+          transcriptText += event.results[i][0].transcript;
+        }
+        if (transcriptText) {
+          setInput(transcriptText);
         }
       };
 
-      recognitionRef.current = recognition;
-    }
-  }, []);
+      recognition.onerror = (event) => {
+        console.warn('SpeechRecognition error:', event?.error);
+        setIsListening(false);
+        if (event?.error === 'not-allowed') {
+          showToast(
+            lang === 'hi'
+              ? 'माइक्रोफ़ोन की अनुमति अस्वीकृत। ब्राउज़र सेटिंग्स में अनुमति दें।'
+              : 'Microphone access denied. Please allow mic in browser settings.',
+            'warning'
+          );
+        } else if (event?.error === 'network' || event?.error === 'service-not-allowed') {
+          showToast(
+            lang === 'hi'
+              ? 'ब्राउज़र स्पीच नेटवर्क ब्लॉक है। वॉइस शॉपिंग सहायक खोला जा रहा है!'
+              : 'Browser speech service restricted. Opening Voice Assistant!',
+            'info'
+          );
+          setVoiceModalOpen(true);
+        } else if (event?.error === 'no-speech') {
+          showToast(
+            lang === 'hi'
+              ? 'कोई आवाज़ सुनाई नहीं दी। कृपया माइक के पास बोलें।'
+              : 'No speech detected. Please speak closer to your microphone.',
+            'info'
+          );
+        }
+      };
 
-  const toggleVoiceInput = () => {
-    if (!recognitionRef.current) return;
-    if (isListening) {
-      recognitionRef.current.stop();
-    } else {
-      try {
-        recognitionRef.current.start();
-      } catch {}
+      recognition.onend = () => {
+        setIsListening(false);
+      };
+
+      recognitionRef.current = recognition;
+      recognition.start();
+    } catch (err) {
+      console.warn('Failed to start speech recognition:', err);
+      setIsListening(false);
+      showToast('Could not start microphone. Opening Voice Assistant!', 'info');
+      setVoiceModalOpen(true);
     }
-  };
+  }, [isListening, lang, showToast]);
 
   useEffect(() => {
     if (isAgentOpen) {
@@ -1282,22 +1383,42 @@ export default function EcoAgentChat() {
         ))}
       </div>
 
-      {/* Message Input Box */}
-      <div className="sticky bottom-0 z-10 p-3 bg-surface-raised/95 backdrop-blur-md border-t border-line flex items-center gap-2">
-        {speechSupported && (
+      {/* Active Listening Indicator Banner */}
+      {isListening && (
+        <div className="px-4 py-2 bg-rose-500/15 border-t border-rose-500/30 flex items-center justify-between text-xs text-rose-400 animate-pulse font-sans">
+          <span className="flex items-center gap-2 font-semibold">
+            <span className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping" />
+            <span>
+              {lang === 'hi'
+                ? '🎙️ सुन रहा हूँ... बोलिए (आवाज़ टेक्स्ट बॉक्स में आ रही है)'
+                : '🎙️ Listening... speak now (transcribing live into input)'}
+            </span>
+          </span>
           <button
             type="button"
             onClick={toggleVoiceInput}
-            className={`w-11 h-11 rounded-xl border flex items-center justify-center transition-colors focus-visible:outline-2 focus-visible:outline-focus cursor-pointer ${
-              isListening
-                ? 'bg-danger/10 border-danger text-danger animate-pulse'
-                : 'bg-surface-sunken border-line text-muted hover:text-heading'
-            }`}
-            title={isListening ? 'Listening...' : 'Voice Input'}
+            className="text-[11px] font-bold px-2 py-0.5 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 hover:text-white transition cursor-pointer"
           >
-            {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
+            Done / Stop
           </button>
-        )}
+        </div>
+      )}
+
+      {/* Message Input Box */}
+      <div className="sticky bottom-0 z-10 p-3 bg-surface-raised/95 backdrop-blur-md border-t border-line flex items-center gap-2">
+        <button
+          type="button"
+          onClick={speechSupported ? toggleVoiceInput : () => setVoiceModalOpen(true)}
+          className={`w-11 h-11 rounded-xl border flex items-center justify-center transition-all focus-visible:outline-2 focus-visible:outline-focus cursor-pointer ${
+            isListening
+              ? 'bg-rose-500/20 border-rose-500 text-rose-500 animate-pulse ring-2 ring-rose-500/30'
+              : 'bg-surface-sunken border-line text-muted hover:text-heading hover:bg-surface'
+          }`}
+          title={isListening ? 'Listening... click to stop' : 'Voice-to-Text (Speak in English or Hindi)'}
+          aria-label={isListening ? 'Stop listening' : 'Start voice-to-text input'}
+        >
+          {isListening ? <MicOff className="w-4 h-4 text-rose-500" /> : <Mic className="w-4 h-4 text-primary" />}
+        </button>
 
         <input
           type="text"
@@ -1306,8 +1427,14 @@ export default function EcoAgentChat() {
           onKeyDown={(e) => {
             if (e.key === 'Enter') handleSendMessage();
           }}
-          placeholder={t('agent.inputPlaceholder', 'Ask about swaps, budget gifts, scoring...')}
-          className="flex-1 bg-surface-sunken border border-line rounded-xl px-3.5 py-2.5 text-xs font-medium outline-hidden focus:border-primary focus:bg-surface transition-colors min-h-[44px] text-heading placeholder:text-muted focus:outline-2 focus:outline-focus"
+          placeholder={
+            isListening
+              ? (lang === 'hi' ? '🎙️ आपकी आवाज़ सुनी जा रही है...' : '🎙️ Listening to your voice...')
+              : t('agent.inputPlaceholder', 'Ask about swaps, budget gifts, scoring...')
+          }
+          className={`flex-1 bg-surface-sunken border rounded-xl px-3.5 py-2.5 text-xs font-medium outline-hidden transition-colors min-h-[44px] text-heading placeholder:text-muted focus:outline-2 focus:outline-focus ${
+            isListening ? 'border-rose-500/50 bg-rose-500/5' : 'border-line focus:border-primary focus:bg-surface'
+          }`}
         />
 
         <button
