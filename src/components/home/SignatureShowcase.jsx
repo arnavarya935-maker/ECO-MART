@@ -64,18 +64,22 @@ export default function SignatureShowcase() {
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                   {/* Left: Product Packshot in soft panel (5 Cols) */}
                   <div className="lg:col-span-5 relative">
-                    <div className="relative aspect-4/3 w-full rounded-xl bg-surface-sunken border border-line/80 overflow-hidden p-6 flex items-center justify-center">
+                    <div className="relative aspect-[4/3] w-full rounded-xl bg-surface-sunken border border-line/80 overflow-hidden p-6 flex items-center justify-center">
                       {/* Ambient corner glow */}
                       <div className="absolute -top-12 -left-12 w-32 h-32 bg-primary/10 rounded-full blur-2xl pointer-events-none" />
 
                       <img
                         src={product.image}
                         alt={product.name}
-                        className="max-h-full max-w-full object-contain filter drop-shadow-lg transition-transform duration-500 ease-out group-hover:scale-105"
-                        loading="lazy"
+                        width="800"
+                        height="600"
+                        className="w-full h-full object-contain filter drop-shadow-lg transition-transform duration-500 ease-out group-hover:scale-105"
+                        loading="eager"
+                        decoding="async"
                         onError={(e) => {
-                          e.currentTarget.onerror = null;
-                          e.currentTarget.src = product.image.replace(/\.(jpg|webp)$/, '.svg');
+                          if (e.currentTarget.src && e.currentTarget.src.endsWith('.jpg')) {
+                            e.currentTarget.src = product.image.replace(/\.jpg$/, '.svg');
+                          }
                         }}
                       />
 

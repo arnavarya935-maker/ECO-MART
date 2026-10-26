@@ -305,10 +305,12 @@ export default function KiranaPage() {
               >
                 <div className="space-y-3">
                   {/* Image & Voice Read-Aloud */}
-                  <div className="relative aspect-4/3 rounded-2xl overflow-hidden bg-surface-sunken border border-line">
+                  <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-surface-sunken border border-line">
                     <img
                       src={prod.image || prod.images?.[0]}
                       alt={prod.name}
+                      width="400"
+                      height="300"
                       className="w-full h-full object-cover"
                       loading="lazy"
                     />
