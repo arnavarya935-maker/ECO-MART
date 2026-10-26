@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import {
   Mic,
   MicOff,
@@ -13,6 +13,7 @@ import {
 import productsData from '../data/products.json';
 import { useCart } from '../context/CartContext';
 import { playSound } from '../lib/audio';
+import { startAudioCapture, transcribeAudioBlob } from '../lib/transcribeClient';
 
 // Hindi Translations & Display Names for Kirana Products
 const HINDI_PRODUCT_MAP = {
@@ -58,6 +59,9 @@ export default function KiranaPage() {
   const [speechError, setSpeechError] = useState(null);
   const [speakingId, setSpeakingId] = useState(null);
   const [addedMap, setAddedMap] = useState({});
+  const audioCaptureRef = useRef(null);
+  const recognitionRef = useRef(null);
+  const nativeTranscribedRef = useRef(false);
 
   // Filter eco-friendly items suitable for daily Kirana grocery
   const kiranaProducts = useMemo(() => {
@@ -84,53 +88,75 @@ export default function KiranaPage() {
     });
   }, [selectedCategory, searchQuery]);
 
-  // Voice Input via Web Speech API
-  const handleVoiceSearch = () => {
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  // Voice Input via HTML5 Audio Capture + Gemini Transcribe + Web Speech fallback
+  const handleVoiceSearch = async () => {
+    if (isListening) {
+      if (recognitionRef.current) {
+        try { recognitionRef.current.stop(); } catch {}
+      }
+      setIsListening(false);
+      if (audioCaptureRef.current) {
+        const audioBlob = await audioCaptureRef.current.stop();
+        audioCaptureRef.current = null;
+        if (nativeTranscribedRef.current && searchQuery) return;
 
-    if (!SpeechRecognition) {
-      setSpeechError('आपके ब्राउज़र में आवाज़ पहचान (Web Speech) उपलब्ध नहीं है। कृपया लिखकर खोजें।');
+        if (audioBlob && audioBlob.size > 200) {
+          try {
+            const data = await transcribeAudioBlob(audioBlob, 'hi');
+            if (data?.transcript) {
+              setSearchQuery(data.transcript);
+              playSound('click');
+              return;
+            }
+          } catch {}
+        }
+        setSpeechError('आवाज़ स्पष्ट नहीं सुनाई दी। कृपया दोबारा बोलें या नीचे से चुनें।');
+        setTimeout(() => setSpeechError(null), 4000);
+      }
+      return;
+    }
+
+    setSpeechError(null);
+    nativeTranscribedRef.current = false;
+
+    // Start audio capture (supported everywhere including Opera)
+    try {
+      const capture = await startAudioCapture();
+      audioCaptureRef.current = capture;
+      setIsListening(true);
+      playSound('pop');
+    } catch {
+      setSpeechError('माइक्रोफ़ोन की अनुमति नहीं मिली। कृपया लिखकर खोजें।');
       setTimeout(() => setSpeechError(null), 4000);
       return;
     }
 
-    try {
-      const recognition = new SpeechRecognition();
-      recognition.lang = 'hi-IN'; // Prioritize Hindi voice recognition
-      recognition.continuous = false;
-      recognition.interimResults = false;
+    // In parallel, SpeechRecognition for real-time text if supported
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
+      try {
+        const recognition = new SpeechRecognition();
+        recognition.lang = 'hi-IN';
+        recognition.continuous = false;
+        recognition.interimResults = false;
 
-      recognition.onstart = () => {
-        setIsListening(true);
-        setSpeechError(null);
-        playSound('pop');
-      };
+        recognition.onresult = (event) => {
+          const transcript = event.results[0]?.[0]?.transcript || '';
+          if (transcript) {
+            nativeTranscribedRef.current = true;
+            setSearchQuery(transcript);
+            setIsListening(false);
+            playSound('click');
+          }
+        };
 
-      recognition.onresult = (event) => {
-        const transcript = event.results[0]?.[0]?.transcript || '';
-        setSearchQuery(transcript);
-        setIsListening(false);
-        playSound('click');
-      };
+        recognition.onerror = (event) => {
+          console.warn('Kirana SpeechRecognition error:', event?.error);
+        };
 
-      recognition.onerror = (event) => {
-        setIsListening(false);
-        if (event.error === 'not-allowed') {
-          setSpeechError('माइक्रोफ़ोन की अनुमति नहीं मिली। कृपया अनुमति दें या नीचे लिखकर खोजें।');
-        } else {
-          setSpeechError('आवाज़ स्पष्ट नहीं सुनाई दी। कृपया दोबारा बोलें।');
-        }
-        setTimeout(() => setSpeechError(null), 4000);
-      };
-
-      recognition.onend = () => {
-        setIsListening(false);
-      };
-
-      recognition.start();
-    } catch {
-      setIsListening(false);
-      setSpeechError('आवाज़ पहचान शुरू नहीं हो सकी।');
+        recognitionRef.current = recognition;
+        recognition.start();
+      } catch {}
     }
   };
 

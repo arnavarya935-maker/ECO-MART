@@ -7,8 +7,10 @@ import {
   X,
   Sparkles,
   ArrowRight,
-  HelpCircle
+  HelpCircle,
+  Loader2
 } from 'lucide-react';
+import { startAudioCapture, transcribeAudioBlob } from '../../lib/transcribeClient';
 
 const VOICE_PRESETS = {
   hinglish: [
@@ -32,7 +34,10 @@ export default function VoiceShoppingModal({ isOpen, onClose }) {
   const [statusMessage, setStatusMessage] = useState('Tap the microphone to speak or choose a voice prompt.');
   const [showHowItWorks, setShowHowItWorks] = useState(false);
 
+  const [isTranscribing, setIsTranscribing] = useState(false);
   const recognitionRef = useRef(null);
+  const audioCaptureRef = useRef(null);
+  const nativeTranscribedRef = useRef(false);
 
   const speakText = (text) => {
     if (!ttsEnabled || typeof window === 'undefined' || !window.speechSynthesis) return;
@@ -47,76 +52,121 @@ export default function VoiceShoppingModal({ isOpen, onClose }) {
 
   const startListening = async () => {
     if (typeof window === 'undefined') return;
-    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SpeechRecognition) {
-      setStatusMessage('Web Speech API is not supported in this browser. Please click a preset prompt below.');
+    setTranscript('');
+    nativeTranscribedRef.current = false;
+
+    // 1. Start audio capture with HTML5 MediaRecorder (universal support across Opera, Chrome, Edge, Safari, Firefox)
+    try {
+      const capture = await startAudioCapture();
+      audioCaptureRef.current = capture;
+      setIsListening(true);
+      setStatusMessage(
+        lang === 'hindi'
+          ? '🎙️ सुन रहा हूँ... बोलिए (रोकने के लिए माइक दबाएं)'
+          : '🎙️ Listening... Speak now (Tap mic when done)'
+      );
+    } catch (permErr) {
+      if (permErr?.name === 'NotAllowedError' || permErr?.name === 'PermissionDeniedError') {
+        setStatusMessage(
+          lang === 'hindi'
+            ? 'माइक्रोफ़ोन की अनुमति अस्वीकृत। ब्राउज़र में अनुमति दें।'
+            : 'Microphone access denied. Please allow microphone in browser URL bar.'
+        );
+        return;
+      }
+      setStatusMessage(
+        lang === 'hindi'
+          ? 'माइक शुरू नहीं हो सका। नीचे दिए गए सुझावों में से चुनें।'
+          : 'Microphone unavailable. Please click a preset prompt below.'
+      );
       return;
     }
 
-    if (navigator?.mediaDevices?.getUserMedia) {
+    // 2. In parallel, attempt native SpeechRecognition (for real-time streaming in Chrome / Edge)
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (SpeechRecognition) {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        stream.getTracks().forEach((track) => track.stop());
-      } catch (permErr) {
-        if (permErr?.name === 'NotAllowedError' || permErr?.name === 'PermissionDeniedError') {
-          setStatusMessage('Microphone access denied. Please allow microphone in browser URL bar.');
-          return;
+        if (recognitionRef.current) {
+          recognitionRef.current.abort();
         }
+
+        const recognition = new SpeechRecognition();
+        recognition.lang = lang === 'hindi' ? 'hi-IN' : 'en-IN';
+        recognition.continuous = false;
+        recognition.interimResults = true;
+
+        recognition.onresult = (event) => {
+          const text = Array.from(event.results)
+            .map((r) => r[0].transcript)
+            .join('');
+          if (text) {
+            nativeTranscribedRef.current = true;
+            setTranscript(text);
+          }
+        };
+
+        recognition.onerror = (event) => {
+          console.warn('Native SpeechRecognition error:', event?.error);
+          // In Opera, event.error === 'network' is expected; MediaRecorder handles it on stop
+        };
+
+        recognitionRef.current = recognition;
+        recognition.start();
+      } catch (err) {
+        console.warn('Native SpeechRecognition start error:', err);
       }
-    }
-
-    try {
-      if (recognitionRef.current) {
-        recognitionRef.current.abort();
-      }
-
-      const recognition = new SpeechRecognition();
-      recognition.lang = lang === 'hindi' ? 'hi-IN' : 'en-IN';
-      recognition.continuous = false;
-      recognition.interimResults = true;
-
-      recognition.onstart = () => {
-        setIsListening(true);
-        setStatusMessage(lang === 'hindi' ? 'सुन रहा हूँ... बोलिए' : 'Listening... Speak now');
-      };
-
-      recognition.onresult = (event) => {
-        const text = Array.from(event.results)
-          .map((r) => r[0].transcript)
-          .join('');
-        setTranscript(text);
-      };
-
-      recognition.onerror = (event) => {
-        setIsListening(false);
-        if (event?.error === 'not-allowed') {
-          setStatusMessage('Microphone access denied. Please allow microphone in browser URL bar.');
-        } else if (event?.error === 'network' || event?.error === 'service-not-allowed') {
-          setStatusMessage('Browser speech network service restricted in Opera. Tap any preset prompt below!');
-        } else if (event?.error === 'no-speech') {
-          setStatusMessage('No voice detected. Please speak closer to your mic or tap a preset below.');
-        } else {
-          setStatusMessage('Could not recognize voice. Tap a preset prompt below.');
-        }
-      };
-
-      recognition.onend = () => {
-        setIsListening(false);
-      };
-
-      recognitionRef.current = recognition;
-      recognition.start();
-    } catch {
-      setIsListening(false);
-      setStatusMessage('Microphone access denied or unavailable. Use the presets below.');
     }
   };
 
-  const stopListening = () => {
+  const stopListening = async () => {
     if (recognitionRef.current) {
-      recognitionRef.current.stop();
+      try {
+        recognitionRef.current.stop();
+      } catch {}
     }
     setIsListening(false);
+
+    if (audioCaptureRef.current) {
+      const audioBlob = await audioCaptureRef.current.stop();
+      audioCaptureRef.current = null;
+
+      if (nativeTranscribedRef.current && transcript) {
+        handleExecuteVoiceQuery(transcript);
+        return;
+      }
+
+      if (audioBlob && audioBlob.size > 200) {
+        setIsTranscribing(true);
+        setStatusMessage(
+          lang === 'hindi'
+            ? '⚡ AI से आवाज़ को समझा जा रहा है...'
+            : '⚡ Transcribing voice with AI Audio...'
+        );
+        try {
+          const res = await transcribeAudioBlob(audioBlob, lang === 'hindi' ? 'hi' : 'en');
+          if (res?.transcript && res.transcript.trim()) {
+            setTranscript(res.transcript.trim());
+            setStatusMessage(
+              lang === 'hindi'
+                ? `आवाज़ दर्ज हुई: "${res.transcript}"`
+                : `Voice heard: "${res.transcript}"`
+            );
+            handleExecuteVoiceQuery(res.transcript.trim());
+            return;
+          }
+        } catch (err) {
+          console.warn('Audio transcribe error:', err);
+        } finally {
+          setIsTranscribing(false);
+        }
+      }
+
+      setStatusMessage(
+        lang === 'hindi'
+          ? 'आवाज़ स्पष्ट नहीं सुनाई दी। कृपया नीचे दिए गए वॉइस प्रॉम्प्ट्स में से चुनें।'
+          : 'Could not clearly recognize speech. Please select a preset prompt below.'
+      );
+    }
   };
 
   const handleExecuteVoiceQuery = (queryText) => {
@@ -249,15 +299,24 @@ export default function VoiceShoppingModal({ isOpen, onClose }) {
           <div className="relative inline-block">
             <button
               type="button"
+              disabled={isTranscribing}
               onClick={isListening ? stopListening : startListening}
               className={`w-20 h-20 rounded-full flex items-center justify-center text-3xl transition-all shadow-soft-lg cursor-pointer mx-auto ${
-                isListening
+                isTranscribing
+                  ? 'bg-amber-500 text-white animate-pulse'
+                  : isListening
                   ? 'bg-rose-500 text-white animate-pulse scale-105'
                   : 'bg-primary text-white hover:opacity-90'
               }`}
-              title={isListening ? 'Click to stop listening' : 'Click to start speaking'}
+              title={isTranscribing ? 'Transcribing...' : isListening ? 'Click to stop listening' : 'Click to start speaking'}
             >
-              {isListening ? <Mic className="w-8 h-8" /> : <MicOff className="w-8 h-8 opacity-90" />}
+              {isTranscribing ? (
+                <Loader2 className="w-8 h-8 animate-spin" />
+              ) : isListening ? (
+                <Mic className="w-8 h-8" />
+              ) : (
+                <MicOff className="w-8 h-8 opacity-90" />
+              )}
             </button>
           </div>
 

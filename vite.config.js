@@ -234,11 +234,11 @@ function apiProxyPlugin() {
           return;
         }
 
-        if (url !== '/api/agent' && url !== '/api/detect-greenwash' && url !== '/api/scan-label' && url !== '/api/news' && url !== '/api/barcode') {
+        if (url !== '/api/agent' && url !== '/api/detect-greenwash' && url !== '/api/scan-label' && url !== '/api/news' && url !== '/api/barcode' && url !== '/api/transcribe') {
           return next();
         }
 
-        const { applyRateLimit, handleAgentRequest, handleGreenwashRequest, handleScanLabelRequest, handleNewsRequest, handleBarcodeRequest } = await import('./server/proxyServer.js');
+        const { applyRateLimit, handleAgentRequest, handleGreenwashRequest, handleScanLabelRequest, handleNewsRequest, handleBarcodeRequest, handleTranscribeRequest } = await import('./server/proxyServer.js');
 
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -282,7 +282,7 @@ function apiProxyPlugin() {
           return;
         }
 
-        const maxBodyLength = url === '/api/scan-label' ? 4.5 * 1024 * 1024 : 100000;
+        const maxBodyLength = (url === '/api/scan-label' || url === '/api/transcribe') ? 4.5 * 1024 * 1024 : 100000;
         let raw = '';
         req.on('data', (chunk) => {
           raw += chunk;
@@ -300,6 +300,8 @@ function apiProxyPlugin() {
               await handleGreenwashRequest(body, res, req);
             } else if (url === '/api/scan-label') {
               await handleScanLabelRequest(body, res, req);
+            } else if (url === '/api/transcribe') {
+              await handleTranscribeRequest(body, res, req);
             }
           } catch {
             res.writeHead(400, { 'Content-Type': 'application/json' });

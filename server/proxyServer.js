@@ -27,7 +27,7 @@ export function getGeminiApiKey() {
 
 
 export function getGeminiModel() {
-  if (process.env.GEMINI_MODEL && process.env.GEMINI_MODEL !== 'gemini-1.5-flash') {
+  if (process.env.GEMINI_MODEL && process.env.GEMINI_MODEL !== 'gemini-1.5-flash' && process.env.GEMINI_MODEL !== 'gemini-3-flash-preview') {
     return process.env.GEMINI_MODEL;
   }
   try {
@@ -36,7 +36,7 @@ export function getGeminiModel() {
       if (fs.existsSync(envPath)) {
         const text = fs.readFileSync(envPath, 'utf-8');
         const match = text.match(/^\s*GEMINI_MODEL\s*=\s*["']?([^"'\r\n]+)["']?/m);
-        if (match && match[1] && match[1] !== 'gemini-1.5-flash') {
+        if (match && match[1] && match[1] !== 'gemini-1.5-flash' && match[1] !== 'gemini-3-flash-preview') {
           return match[1].trim();
         }
       }
@@ -44,7 +44,7 @@ export function getGeminiModel() {
   } catch {
     // Ignore fs errors in edge / serverless environments
   }
-  return 'gemini-3-flash-preview';
+  return 'gemini-3.5-flash';
 }
 
 
@@ -814,4 +814,157 @@ export async function handleBarcodeRequest(query = {}, res, req = null) {
     })
   );
 }
+
+/**
+ * Handle Audio-to-Text Transcription via Gemini Multimodal Proxy
+ */
+export async function handleTranscribeRequest(body, res, req = null) {
+  if (req && applyRateLimit(req, res)) return;
+
+  const { audioBase64, mimeType = 'audio/webm', language = 'en' } = body || {};
+
+  if (!audioBase64 || typeof audioBase64 !== 'string') {
+    res.writeHead(400, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ error: 'Audio data is required' }));
+    return;
+  }
+
+  // Extract pure Base64 data regardless of data URL formatting or codec parameters
+  const cleanBase64 = audioBase64.includes(',')
+    ? audioBase64.split(',')[1]
+    : audioBase64.replace(/^data:[^;]+;base64,/, '');
+
+  // Extract clean MIME type without codec parameters (e.g. 'audio/webm;codecs=opus' -> 'audio/webm')
+  let cleanMimeType = (mimeType || 'audio/webm').split(';')[0].trim().toLowerCase();
+  if (!cleanMimeType || !cleanMimeType.startsWith('audio/')) {
+    cleanMimeType = 'audio/webm';
+  }
+
+  const apiKey = getGeminiApiKey();
+  if (!apiKey || apiKey === 'your_gemini_api_key_here') {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(
+      JSON.stringify({
+        transcript: '',
+        source: 'local_fallback',
+        error: 'NO_API_KEY_CONFIGURED'
+      })
+    );
+    return;
+  }
+
+  const modelsToTry = ['gemini-3.5-flash', 'gemini-3.5-transcribe', 'gemini-3.8-flash'];
+  let finalTranscript = '';
+  let successfulModel = '';
+
+  for (const model of modelsToTry) {
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 12000);
+
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
+
+      const isSpecializedTranscribeModel = model.includes('transcribe');
+      const requestBody = isSpecializedTranscribeModel
+        ? {
+            contents: [
+              {
+                role: 'user',
+                parts: [
+                  {
+                    text: `Transcribe this spoken query verbatim in English, Hindi, or Hinglish. Preferred language: ${language}. Do not add notes.`
+                  },
+                  {
+                    inline_data: {
+                      mime_type: cleanMimeType,
+                      data: cleanBase64
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        : {
+            system_instruction: {
+              parts: [
+                {
+                  text: 'You are an accurate Speech-to-Text Transcriber for EcoMart. Output strictly valid JSON: {"transcript": "exact spoken words here"}. If inaudible or empty, output {"transcript": ""}.'
+                }
+              ]
+            },
+            contents: [
+              {
+                role: 'user',
+                parts: [
+                  {
+                    text: `Transcribe this spoken audio verbatim. Preferred language: ${language}`
+                  },
+                  {
+                    inline_data: {
+                      mime_type: cleanMimeType,
+                      data: cleanBase64
+                    }
+                  }
+                ]
+              }
+            ],
+            generationConfig: {
+              response_mime_type: 'application/json',
+              temperature: 0.0,
+              max_output_tokens: 400
+            }
+          };
+
+      const apiResponse = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-goog-api-key': apiKey
+        },
+        signal: controller.signal,
+        body: JSON.stringify(requestBody)
+      });
+
+      clearTimeout(timeout);
+
+      if (!apiResponse.ok) {
+        continue;
+      }
+
+      const data = await apiResponse.json();
+      const rawContent = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (!rawContent) continue;
+
+      if (isSpecializedTranscribeModel) {
+        finalTranscript = rawContent.trim();
+        successfulModel = model;
+        break;
+      } else {
+        try {
+          const parsed = JSON.parse(rawContent);
+          finalTranscript = typeof parsed.transcript === 'string' ? parsed.transcript.trim() : '';
+          successfulModel = model;
+          break;
+        } catch {
+          // If JSON parse failed, clean and use raw text directly
+          finalTranscript = rawContent.replace(/```json|```|\{|\}|"transcript"\s*:\s*/g, '').replace(/^"|"$/g, '').trim();
+          successfulModel = model;
+          break;
+        }
+      }
+    } catch {
+      // Try next model in cascade
+    }
+  }
+
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  res.end(
+    JSON.stringify({
+      transcript: finalTranscript,
+      source: successfulModel ? 'gemini_audio' : 'local_fallback',
+      model: successfulModel || null
+    })
+  );
+}
+
 

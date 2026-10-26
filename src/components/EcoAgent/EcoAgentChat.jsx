@@ -34,6 +34,7 @@ import HonestyMeter from './HonestyMeter';
 import VoiceShoppingModal from './VoiceShoppingModal';
 import { appendBlackBoxLog } from '../../lib/ai/blackboxStore';
 import { getStrictnessThreshold, setStrictnessThreshold, evaluateConfidenceBrake } from '../../lib/ai/confidenceBrake';
+import { startAudioCapture, transcribeAudioBlob } from '../../lib/transcribeClient';
 
 const QUICK_CHIPS_EN = [
   { id: 'cart-transformer', label: '🪄 Transform shopping list', query: 'Transform my shopping list' },
@@ -86,9 +87,17 @@ export default function EcoAgentChat() {
   const [voiceModalOpen, setVoiceModalOpen] = useState(false);
   const [actionStatus, setActionStatus] = useState({});
   const [isListening, setIsListening] = useState(false);
+  const [isTranscribing, setIsTranscribing] = useState(false);
+  const [showVoicePrompts, setShowVoicePrompts] = useState(false);
+  const audioCaptureRef = useRef(null);
+  const hasNativeSpeechTranscribedRef = useRef(false);
   const [speechSupported] = useState(() => {
     if (typeof window === 'undefined') return false;
-    return !!(window.SpeechRecognition || window.webkitSpeechRecognition);
+    return Boolean(
+      (navigator?.mediaDevices?.getUserMedia && typeof MediaRecorder !== 'undefined') ||
+      window.SpeechRecognition ||
+      window.webkitSpeechRecognition
+    );
   });
   const [hasVoice, setHasVoice] = useState(false);
   const [speakingMsgId, setSpeakingMsgId] = useState(null);
@@ -444,7 +453,7 @@ export default function EcoAgentChat() {
     return () => window.removeEventListener('ecomart-agent-query', handleContextQuery);
   }, [setIsAgentOpen]);
 
-  // Cleanup any active speech recognition on unmount
+  // Cleanup any active speech recognition or media recording on unmount
   useEffect(() => {
     return () => {
       if (recognitionRef.current) {
@@ -452,12 +461,15 @@ export default function EcoAgentChat() {
           recognitionRef.current.abort();
         } catch {}
       }
+      if (audioCaptureRef.current) {
+        audioCaptureRef.current.cancel();
+      }
     };
   }, []);
 
-  // Dynamic Speech Recognition Voice-to-Text Handler
+  // Dynamic Speech Recognition & MediaRecorder Voice-to-Text Handler
   const toggleVoiceInput = useCallback(async () => {
-    // If currently listening, stop immediately
+    // If currently listening, stop immediately and trigger transcription
     if (isListening) {
       if (recognitionRef.current) {
         try {
@@ -465,119 +477,132 @@ export default function EcoAgentChat() {
         } catch {}
       }
       setIsListening(false);
+
+      if (audioCaptureRef.current) {
+        const audioBlob = await audioCaptureRef.current.stop();
+        audioCaptureRef.current = null;
+
+        // If native Web Speech API already transcribed text, skip remote API
+        if (hasNativeSpeechTranscribedRef.current) return;
+
+        if (audioBlob && audioBlob.size > 200) {
+          setIsTranscribing(true);
+          showToast(
+            lang === 'hi' ? '⚡ आवाज़ को टेक्स्ट में बदला जा रहा है...' : '⚡ Transcribing audio with AI...',
+            'info'
+          );
+          try {
+            const data = await transcribeAudioBlob(audioBlob, lang === 'hi' ? 'hi' : 'en');
+            if (data?.transcript && data.transcript.trim()) {
+              setInput(data.transcript.trim());
+              showToast(
+                lang === 'hi'
+                  ? `आवाज़ दर्ज हुई: "${data.transcript}"`
+                  : `Voice transcribed: "${data.transcript}"`,
+                'success'
+              );
+              playSound('click');
+              return;
+            }
+          } catch (err) {
+            console.warn('Transcribe error:', err);
+          } finally {
+            setIsTranscribing(false);
+          }
+        }
+
+        showToast(
+          lang === 'hi'
+            ? 'आवाज़ पहचान में नहीं आई। नीचे दिए गए वॉइस प्रॉम्प्ट्स में से चुनें।'
+            : 'Could not clearly recognize speech. Try the voice presets below.',
+          'info'
+        );
+        setShowVoicePrompts(true);
+      }
       return;
     }
 
+    setShowVoicePrompts(true);
+    hasNativeSpeechTranscribedRef.current = false;
+
+    // If offline, inform shopper
+    if (agentMode === 'offline') {
+      showToast(
+        lang === 'hi'
+          ? 'ऑफ़लाइन मोड: नीचे दिए गए लोकप्रिय वॉइस प्रॉम्प्ट्स में से चुनें, या ऑनलाइन AI ऑन करें।'
+          : 'Offline Mode: Tap any quick voice prompt below, or switch to Online for AI audio transcription!',
+        'info'
+      );
+    }
+
+    // 1. Request microphone access via HTML5 MediaRecorder (supported universally across Opera, Chrome, Edge, Firefox, Safari)
+    try {
+      const capture = await startAudioCapture();
+      audioCaptureRef.current = capture;
+    } catch (permErr) {
+      if (permErr?.name === 'NotAllowedError' || permErr?.name === 'PermissionDeniedError') {
+        showToast(
+          lang === 'hi'
+            ? 'माइक्रोफ़ोन की अनुमति नहीं मिली। कृपया ब्राउज़र में अनुमति दें।'
+            : 'Microphone permission denied. Please allow microphone in browser URL bar.',
+          'warning'
+        );
+        return;
+      }
+    }
+
+    // 2. In parallel, attempt native Web Speech API (for real-time streaming text in Chrome / Edge)
     const SpeechRecognition = typeof window !== 'undefined'
       ? (window.SpeechRecognition || window.webkitSpeechRecognition)
       : null;
 
-    if (!SpeechRecognition) {
-      showToast(
-        lang === 'hi'
-          ? 'आपके ब्राउज़र में आवाज़ पहचान उपलब्ध नहीं है। वॉइस शॉपिंग विंडो खोली जा रही है।'
-          : 'Speech recognition is not supported in this browser. Opening Voice Assistant!',
-        'info'
-      );
-      setVoiceModalOpen(true);
-      return;
-    }
+    if (SpeechRecognition) {
+      if (recognitionRef.current) {
+        try {
+          recognitionRef.current.abort();
+        } catch {}
+        recognitionRef.current = null;
+      }
 
-    // Explicitly check/request microphone permission first so browser native prompt displays
-    if (navigator?.mediaDevices?.getUserMedia) {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        stream.getTracks().forEach((track) => track.stop());
-      } catch (permErr) {
-        if (permErr?.name === 'NotAllowedError' || permErr?.name === 'PermissionDeniedError') {
-          showToast(
-            lang === 'hi'
-              ? 'माइक्रोफ़ोन की अनुमति नहीं मिली। कृपया ब्राउज़र में अनुमति दें।'
-              : 'Microphone permission denied. Please allow microphone in browser URL bar.',
-            'warning'
-          );
-          return;
-        }
+        const recognition = new SpeechRecognition();
+        recognition.continuous = false;
+        recognition.interimResults = true;
+        recognition.lang = lang === 'hi' ? 'hi-IN' : 'en-IN';
+        recognition.maxAlternatives = 1;
+
+        recognition.onresult = (event) => {
+          let transcriptText = '';
+          for (let i = 0; i < event.results.length; i++) {
+            transcriptText += event.results[i][0].transcript;
+          }
+          if (transcriptText) {
+            hasNativeSpeechTranscribedRef.current = true;
+            setInput(transcriptText);
+          }
+        };
+
+        recognition.onerror = (event) => {
+          console.warn('Native SpeechRecognition error:', event?.error);
+          // In Opera, event.error === 'network' is expected; MediaRecorder handles it on stop
+        };
+
+        recognitionRef.current = recognition;
+        recognition.start();
+      } catch (err) {
+        console.warn('Native SpeechRecognition start error:', err);
       }
     }
 
-    // Stop any previous stale instance
-    if (recognitionRef.current) {
-      try {
-        recognitionRef.current.abort();
-      } catch {}
-      recognitionRef.current = null;
-    }
-
-    try {
-      const recognition = new SpeechRecognition();
-      recognition.continuous = false;
-      recognition.interimResults = true;
-      recognition.lang = lang === 'hi' ? 'hi-IN' : 'en-IN';
-      recognition.maxAlternatives = 1;
-
-      recognition.onstart = () => {
-        setIsListening(true);
-        playSound('pop');
-        showToast(
-          lang === 'hi'
-            ? '🎙️ सुन रहा हूँ... बोलिए (हिंदी या इंग्लिश)'
-            : '🎙️ Listening... Speak now (Hindi or English)',
-          'info'
-        );
-      };
-
-      recognition.onresult = (event) => {
-        let transcriptText = '';
-        for (let i = 0; i < event.results.length; i++) {
-          transcriptText += event.results[i][0].transcript;
-        }
-        if (transcriptText) {
-          setInput(transcriptText);
-        }
-      };
-
-      recognition.onerror = (event) => {
-        console.warn('SpeechRecognition error:', event?.error);
-        setIsListening(false);
-        if (event?.error === 'not-allowed') {
-          showToast(
-            lang === 'hi'
-              ? 'माइक्रोफ़ोन की अनुमति अस्वीकृत। ब्राउज़र सेटिंग्स में अनुमति दें।'
-              : 'Microphone access denied. Please allow mic in browser settings.',
-            'warning'
-          );
-        } else if (event?.error === 'network' || event?.error === 'service-not-allowed') {
-          showToast(
-            lang === 'hi'
-              ? 'ब्राउज़र स्पीच नेटवर्क ब्लॉक है। वॉइस शॉपिंग सहायक खोला जा रहा है!'
-              : 'Browser speech service restricted. Opening Voice Assistant!',
-            'info'
-          );
-          setVoiceModalOpen(true);
-        } else if (event?.error === 'no-speech') {
-          showToast(
-            lang === 'hi'
-              ? 'कोई आवाज़ सुनाई नहीं दी। कृपया माइक के पास बोलें।'
-              : 'No speech detected. Please speak closer to your microphone.',
-            'info'
-          );
-        }
-      };
-
-      recognition.onend = () => {
-        setIsListening(false);
-      };
-
-      recognitionRef.current = recognition;
-      recognition.start();
-    } catch (err) {
-      console.warn('Failed to start speech recognition:', err);
-      setIsListening(false);
-      showToast('Could not start microphone. Opening Voice Assistant!', 'info');
-      setVoiceModalOpen(true);
-    }
-  }, [isListening, lang, showToast]);
+    setIsListening(true);
+    playSound('pop');
+    showToast(
+      lang === 'hi'
+        ? '🎙️ आवाज़ रिकॉर्ड हो रही है... बोलिए (रोकने के लिए Done या Mic दबाएं)'
+        : '🎙️ Recording voice... Speak now (Tap Done or Mic to transcribe)',
+      'info'
+    );
+  }, [isListening, lang, showToast, agentMode]);
 
   useEffect(() => {
     if (isAgentOpen) {
@@ -1383,6 +1408,20 @@ export default function EcoAgentChat() {
         ))}
       </div>
 
+      {/* Transcribing Indicator (AI Speech Engine) */}
+      {isTranscribing && (
+        <div className="px-4 py-2 bg-emerald-500/15 border-t border-emerald-500/30 flex items-center justify-between text-xs text-emerald-400 animate-pulse font-sans">
+          <span className="flex items-center gap-2 font-semibold">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
+            <span>
+              {lang === 'hi'
+                ? '⚡ आवाज़ को टेक्स्ट में बदला जा रहा है (AI Audio Transcriber)...'
+                : '⚡ Transcribing voice with AI Audio Transcriber...'}
+            </span>
+          </span>
+        </div>
+      )}
+
       {/* Active Listening Indicator Banner */}
       {isListening && (
         <div className="px-4 py-2 bg-rose-500/15 border-t border-rose-500/30 flex items-center justify-between text-xs text-rose-400 animate-pulse font-sans">
@@ -1390,8 +1429,8 @@ export default function EcoAgentChat() {
             <span className="w-2.5 h-2.5 rounded-full bg-rose-500 animate-ping" />
             <span>
               {lang === 'hi'
-                ? '🎙️ सुन रहा हूँ... बोलिए (आवाज़ टेक्स्ट बॉक्स में आ रही है)'
-                : '🎙️ Listening... speak now (transcribing live into input)'}
+                ? '🎙️ सुन रहा हूँ... बोलिए (बोलना खत्म होने पर Done दबाएं)'
+                : '🎙️ Recording voice... Speak now (Tap Done when finished)'}
             </span>
           </span>
           <button
@@ -1399,8 +1438,50 @@ export default function EcoAgentChat() {
             onClick={toggleVoiceInput}
             className="text-[11px] font-bold px-2 py-0.5 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 hover:text-white transition cursor-pointer"
           >
-            Done / Stop
+            Done / Transcribe
           </button>
+        </div>
+      )}
+
+      {/* Voice Prompts Strip (Quick 1-tap voice queries for offline / restricted browsers) */}
+      {showVoicePrompts && (
+        <div className="p-2.5 bg-surface-raised border-t border-line text-xs space-y-1.5 animate-slide-up shadow-soft-sm">
+          <div className="flex items-center justify-between text-[11px] font-semibold text-heading">
+            <span className="flex items-center gap-1.5 text-primary">
+              <Mic className="w-3.5 h-3.5 text-primary animate-pulse" />
+              <span>{lang === 'hi' ? 'वॉइस सर्च विकल्प (बोलें या तुरंत टैप करें):' : 'Voice Query Shortcuts (Speak or Tap to Search):'}</span>
+            </span>
+            <button
+              type="button"
+              onClick={() => setShowVoicePrompts(false)}
+              className="text-text-muted hover:text-heading p-1 rounded-md cursor-pointer"
+              aria-label="Close voice prompts"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          </div>
+          <div className="flex gap-1.5 overflow-x-auto scrollbar-none pb-0.5">
+            {[
+              { id: 'v1', label: '🎋 Bamboo toothbrush dikhao', query: 'Mujhe bamboo toothbrush aur zero-waste bath items dikhao' },
+              { id: 'v2', label: '🎁 Gift under ₹1000', query: 'Find an eco-friendly gift under ₹1000' },
+              { id: 'v3', label: '🍳 Plastic-free kitchen items', query: 'Show plastic-free items for my kitchen' },
+              { id: 'v4', label: '🛒 Review my cart for swaps', query: 'Review my cart and suggest greener swaps' },
+              { id: 'v5', label: '💰 Sabse sasta green option', query: 'Show cheapest green option under 300' }
+            ].map((vp) => (
+              <button
+                key={vp.id}
+                type="button"
+                onClick={() => {
+                  setInput(vp.query);
+                  handleSendMessage(vp.query);
+                  setShowVoicePrompts(false);
+                }}
+                className="px-2.5 py-1 rounded-xl bg-surface-sunken hover:bg-surface text-secondary hover:text-heading border border-line text-[11px] font-medium shrink-0 cursor-pointer shadow-soft-xs transition-colors flex items-center gap-1"
+              >
+                <span>{vp.label}</span>
+              </button>
+            ))}
+          </div>
         </div>
       )}
 
