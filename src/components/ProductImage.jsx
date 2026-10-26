@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { Eye } from 'lucide-react';
 
 export default function ProductImage({
@@ -13,28 +13,16 @@ export default function ProductImage({
 }) {
   const [loaded, setLoaded] = useState(false);
   const [error, setError] = useState(false);
-  const [currentSrc, setCurrentSrc] = useState(src);
-  const imgRef = useRef(null);
+  const [attemptedFallback, setAttemptedFallback] = useState(false);
 
-  useEffect(() => {
-    setCurrentSrc(src);
-    setError(false);
+  // Reset state when src prop changes (React recommended pattern)
+  const [prevSrc, setPrevSrc] = useState(src);
+  if (src !== prevSrc) {
+    setPrevSrc(src);
     setLoaded(false);
-  }, [src]);
-
-  // Check if image is already cached/complete on mount or src change
-  useEffect(() => {
-    if (imgRef.current && (imgRef.current.complete || imgRef.current.naturalWidth > 0)) {
-      setLoaded(true);
-    }
-  }, [currentSrc]);
-
-  const handleRef = (node) => {
-    imgRef.current = node;
-    if (node && (node.complete || node.naturalWidth > 0)) {
-      setLoaded(true);
-    }
-  };
+    setError(false);
+    setAttemptedFallback(false);
+  }
 
   const categoryBgs = {
     Kitchen: 'from-accent-subtle to-surface-sunken',
@@ -49,10 +37,13 @@ export default function ProductImage({
 
   const bgGrad = categoryBgs[category] || 'from-surface-sunken to-surface-raised';
 
+  const activeSrc = attemptedFallback && src && src.endsWith('.jpg')
+    ? src.replace(/\.jpg$/, '.svg')
+    : src;
+
   const handleImageError = () => {
-    if (currentSrc && currentSrc.endsWith('.jpg')) {
-      // Try SVG fallback before erroring
-      setCurrentSrc(currentSrc.replace(/\.jpg$/, '.svg'));
+    if (!attemptedFallback && src && src.endsWith('.jpg')) {
+      setAttemptedFallback(true);
     } else {
       setError(true);
     }
@@ -73,10 +64,9 @@ export default function ProductImage({
       )}
 
       {/* Main product image */}
-      {!error && currentSrc ? (
+      {!error && activeSrc ? (
         <img
-          ref={handleRef}
-          src={currentSrc}
+          src={activeSrc}
           alt={alt}
           loading={priority ? 'eager' : 'lazy'}
           decoding="async"
@@ -91,12 +81,12 @@ export default function ProductImage({
       ) : null}
 
       {/* Graceful fallback icon if image fails completely */}
-      {(error || !currentSrc) && (
+      {(error || !activeSrc) && (
         <div className="flex flex-col items-center justify-center p-4 text-center z-10">
           <span className="text-5xl transform transition-transform group-hover:scale-110">
             {fallbackIcon}
           </span>
-          <span className="text-[10px] font-bold uppercase tracking-wider text-text-muted mt-2">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-muted mt-2">
             {category}
           </span>
         </div>
