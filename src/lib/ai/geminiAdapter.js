@@ -106,6 +106,7 @@ export function generateLocalFallbackAnswer(query, _language = 'en') {
         confidence: item.confidence,
         estimated_energy_wh: item.estimated_energy_wh,
         recommended_products: prods,
+        recommended_categories: item.recommended_categories || [],
         isFallback: true,
         source: 'local_verified_cache',
         model: 'EcoMart Offline Heuristic Engine'
