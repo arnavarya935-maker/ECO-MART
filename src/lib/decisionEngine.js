@@ -458,3 +458,13 @@ export function compareProductToBenchmark(product, products = []) {
     avgPlasticGrams: catBenchmark.avgPlasticGrams
   };
 }
+
+/**
+ * Calculates priority-weighted decision score for a single product
+ */
+export function calculateProductScore(product, weights = DEFAULT_PRIORITIES) {
+  if (!product) return 50;
+  const res = rankProducts([product], weights);
+  return res[0]?.score ?? (calculateEcoScore(product)?.score || 50);
+}
+

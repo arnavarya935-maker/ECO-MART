@@ -315,6 +315,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   if (env.GEMINI_API_KEY) process.env.GEMINI_API_KEY = env.GEMINI_API_KEY;
   if (env.ECO_AGENT_API_KEY) process.env.ECO_AGENT_API_KEY = env.ECO_AGENT_API_KEY;
+  if (env.GEMINI_MODEL) process.env.GEMINI_MODEL = env.GEMINI_MODEL;
 
   return {
     plugins: [

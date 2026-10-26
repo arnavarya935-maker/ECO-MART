@@ -10,6 +10,20 @@ import productsData from '../../data/products.json';
 // Curated verified knowledge cache for common sustainable shopping scenarios
 const VERIFIED_FALLBACK_ANSWERS = [
   {
+    triggers: ['hi', 'hello', 'hey', 'namaste', 'kaise ho', 'good morning', 'good afternoon', 'good evening', 'greetings', 'help'],
+    answer:
+      "Hello! I am your EcoMart Responsible Shopping Assistant. I'm here to help you discover verified sustainable alternatives, eliminate single-use plastics, and audit product footprints across our catalog. What would you like to shop or check today?",
+    reasoning_summary:
+      'Warm conversational greeting welcoming the shopper to conscious shopping choices.',
+    sources_or_assumptions: [
+      'EcoMart Responsible AI interaction protocol'
+    ],
+    confidence: 'high',
+    estimated_energy_wh: 0.02,
+    recommended_categories: ['Kitchen', 'Personal Care', 'Home', 'Bags'],
+    suggestedProducts: ['care-01', 'kit-01', 'stat-01']
+  },
+  {
     triggers: ['bamboo', 'toothbrush', 'brush', 'teeth', 'plastic toothbrush'],
     answer:
       'Swapping a petroleum plastic toothbrush for an FSC-certified organic bamboo toothbrush avoids ~80g of plastic per year. Moso bamboo degrades in backyard compost in ~180 days, whereas polypropylene plastic persists for over 450 years shedding microplastics.',
@@ -141,7 +155,7 @@ export function generateLocalFallbackAnswer(query, _language = 'en') {
  * Main Eco Agent Query Dispatcher
  * Calls the secure backend proxy (/api/agent), falling back gracefully to local verified intelligence.
  */
-export async function askEcoAgent({ query, language = 'en', context = {} }) {
+export async function askEcoAgent({ query, language = 'en', context = {}, mode = null }) {
   if (!query || !query.trim()) {
     return {
       answer: "Please ask a question about sustainable swaps, materials, or product footprints.",
@@ -153,9 +167,11 @@ export async function askEcoAgent({ query, language = 'en', context = {} }) {
     };
   }
 
-  const isOnline = typeof window !== 'undefined'
-    ? (localStorage.getItem('ecomart_agent_mode') !== 'offline')
-    : true;
+  const isOnline = mode
+    ? mode === 'online'
+    : (typeof window !== 'undefined'
+      ? (localStorage.getItem('ecomart_agent_mode') !== 'offline')
+      : true);
 
   if (!isOnline) {
     return generateLocalFallbackAnswer(query, language);

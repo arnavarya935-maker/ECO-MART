@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-function getGeminiApiKey() {
+export function getGeminiApiKey() {
   if (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY !== 'your_gemini_api_key_here') {
     return process.env.GEMINI_API_KEY;
   }
@@ -24,6 +24,29 @@ function getGeminiApiKey() {
   }
   return null;
 }
+
+
+export function getGeminiModel() {
+  if (process.env.GEMINI_MODEL && process.env.GEMINI_MODEL !== 'gemini-1.5-flash') {
+    return process.env.GEMINI_MODEL;
+  }
+  try {
+    for (const envFileName of ['.env', '.env.local']) {
+      const envPath = path.resolve(process.cwd(), envFileName);
+      if (fs.existsSync(envPath)) {
+        const text = fs.readFileSync(envPath, 'utf-8');
+        const match = text.match(/^\s*GEMINI_MODEL\s*=\s*["']?([^"'\r\n]+)["']?/m);
+        if (match && match[1] && match[1] !== 'gemini-1.5-flash') {
+          return match[1].trim();
+        }
+      }
+    }
+  } catch {
+    // Ignore fs errors in edge / serverless environments
+  }
+  return 'gemini-3-flash-preview';
+}
+
 
 // In-memory sliding window rate limiter
 // IP -> Array of timestamps (ms)
@@ -325,87 +348,95 @@ You MUST respond with valid JSON matching this exact structure:
 Context memory: ${JSON.stringify(context)}
 User preferred language: ${language}`;
 
-  const model = process.env.GEMINI_MODEL || 'gemini-1.5-flash';
+  const primaryModel = getGeminiModel();
+  const modelsToTry = [primaryModel, 'gemini-3.5-flash', 'gemini-3.8-flash'].filter((v, i, a) => a.indexOf(v) === i);
+  let lastErr = null;
+  let success = false;
 
-  try {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 12000);
-
-    // Security: API key transmitted exclusively via x-goog-api-key header, not URL query parameter
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
-
-    const apiResponse = await fetch(apiUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-goog-api-key': apiKey
-      },
-      signal: controller.signal,
-      body: JSON.stringify({
-        system_instruction: {
-          parts: [{ text: systemInstruction }]
-        },
-        contents: [
-          {
-            role: 'user',
-            parts: [{ text: userPrompt }]
-          }
-        ],
-        generationConfig: {
-          response_mime_type: 'application/json',
-          temperature: 0.3,
-          max_output_tokens: 2500
-        }
-      })
-    });
-
-    clearTimeout(timeout);
-
-    if (!apiResponse.ok) {
-      const errText = await apiResponse.text().catch(() => '');
-      res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.end(
-        JSON.stringify({
-          source: 'local_fallback',
-          reason: `API_HTTP_${apiResponse.status}`,
-          details: errText.slice(0, 200)
-        })
-      );
-      return;
-    }
-
-    const data = await apiResponse.json();
-    const rawContent = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-
-    if (!rawContent) {
-      throw new Error('Empty response from Gemini');
-    }
-
-    let parsed;
+  for (const model of modelsToTry) {
     try {
-      parsed = JSON.parse(rawContent);
-    } catch {
-      parsed = {
-        answer: rawContent,
-        reasoning_summary: 'Processed directly via Gemini.',
-        sources_or_assumptions: ['Direct model output', 'EcoMart lifecycle index'],
-        confidence: 'medium',
-        estimated_energy_wh: 0.12
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 12000);
+
+      // Security: API key transmitted exclusively via x-goog-api-key header, not URL query parameter
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
+
+      const apiResponse = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-goog-api-key': apiKey
+        },
+        signal: controller.signal,
+        body: JSON.stringify({
+          system_instruction: {
+            parts: [{ text: systemInstruction }]
+          },
+          contents: [
+            {
+              role: 'user',
+              parts: [{ text: userPrompt }]
+            }
+          ],
+          generationConfig: {
+            response_mime_type: 'application/json',
+            temperature: 0.3,
+            max_output_tokens: 2500
+          }
+        })
+      });
+
+      clearTimeout(timeout);
+
+      if (!apiResponse.ok) {
+        const errText = await apiResponse.text().catch(() => '');
+        lastErr = { status: apiResponse.status, details: errText.slice(0, 200) };
+        continue;
+      }
+
+      const data = await apiResponse.json();
+      const rawContent = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+      if (!rawContent) {
+        lastErr = { status: 200, details: 'Empty response candidate' };
+        continue;
+      }
+
+      let parsed;
+      try {
+        parsed = JSON.parse(rawContent);
+      } catch {
+        parsed = {
+          answer: rawContent,
+          reasoning_summary: 'Processed directly via Gemini.',
+          sources_or_assumptions: ['Direct model output', 'EcoMart lifecycle index'],
+          confidence: 'medium',
+          estimated_energy_wh: 0.12
+        };
+      }
+
+      // Validate and sanitize output against strict schema - NEVER spread raw model output
+      const sanitizedResponse = sanitizeAgentOutput(parsed, model);
+
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(sanitizedResponse));
+      success = true;
+      break;
+    } catch (err) {
+      lastErr = {
+        status: err.name === 'AbortError' ? 408 : 500,
+        details: err.message
       };
     }
+  }
 
-    // Validate and sanitize output against strict schema - NEVER spread raw model output
-    const sanitizedResponse = sanitizeAgentOutput(parsed, model);
-
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify(sanitizedResponse));
-  } catch (err) {
+  if (!success) {
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(
       JSON.stringify({
         source: 'local_fallback',
-        reason: err.name === 'AbortError' ? 'API_TIMEOUT' : 'API_NETWORK_ERROR',
-        message: err.message
+        reason: lastErr?.status ? `API_HTTP_${lastErr.status}` : 'API_NETWORK_ERROR',
+        details: lastErr?.details || 'Model attempt exhausted'
       })
     );
   }
@@ -476,7 +507,7 @@ Respond with valid JSON:
   "estimated_energy_wh": 0.11
 }`;
 
-  const model = process.env.GEMINI_MODEL || 'gemini-1.5-flash';
+  const model = getGeminiModel();
 
   try {
     const controller = new AbortController();
@@ -630,7 +661,7 @@ OUTPUT SCHEMA (STRICT JSON):
   }
 }`;
 
-  const model = process.env.GEMINI_MODEL || 'gemini-1.5-flash';
+  const model = getGeminiModel();
 
   try {
     const controller = new AbortController();

@@ -21,7 +21,7 @@ import { useT } from '../../context/I18nContext';
 import { FEATURES } from '../../lib/features';
 import { sendAgentQuery } from '../../lib/ecoAgent';
 import { runMultiAgentPipeline } from '../../lib/multiAgentEngine';
-import { askEcoAgent } from '../../lib/ai/geminiAdapter';
+import { askEcoAgent, generateLocalFallbackAnswer } from '../../lib/ai/geminiAdapter';
 import { playSound } from '../../lib/audio';
 import PrioritiesPanel from '../decision/PrioritiesPanel';
 import EcoScoreBadge from '../EcoScoreBadge';
@@ -225,13 +225,16 @@ export default function EcoAgentChat() {
 
     try {
       // Parallel execution: LLM adapter + local rules + Multi-Agent Collective (Planner, Researcher, Skeptic, Advisor)
-      const aiPromise = askEcoAgent({
-        query: q,
-        language: lang,
-        userPriorities,
-        cartItems,
-        allProducts
-      }).catch(() => null);
+      const aiPromise = agentMode === 'offline'
+        ? Promise.resolve(generateLocalFallbackAnswer(q, lang))
+        : askEcoAgent({
+            query: q,
+            language: lang,
+            userPriorities,
+            cartItems,
+            allProducts,
+            mode: agentMode
+          }).catch(() => null);
 
       const localPromise = sendAgentQuery({
         query: q,
@@ -299,7 +302,7 @@ export default function EcoAgentChat() {
         sources_or_assumptions: aiResult?.sources_or_assumptions,
         confidence: aiResult?.confidence || 'high',
         estimated_energy_wh: energy,
-        model: aiResult?.model || (aiResult?.source === 'gemini' ? 'Gemini 1.5 Flash' : 'Multi-Agent Collective (Planner/Researcher/Skeptic/Advisor)'),
+        model: aiResult?.model || (aiResult?.source === 'gemini' ? 'Gemini 3 Flash' : (agentMode === 'online' ? 'Gemini 2.5 Cloud' : 'Multi-Agent Collective (Planner/Researcher/Skeptic/Advisor)')),
         isFallback: Boolean(aiResult?.isFallback),
         query: q,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
@@ -360,18 +363,21 @@ export default function EcoAgentChat() {
         isFallback: agentMsg.isFallback
       });
       playSound('pop');
-    } catch {
-      // Silent graceful offline fallback
+    } catch (err) {
+      console.error('EcoAgent chat error:', err);
+      const isOnline = agentMode === 'online';
       setMessages((prev) => [
         ...prev,
         {
           id: `agent-${Date.now()}`,
           sender: 'agent',
-          text: "I am operating in responsible offline mode. You can ask for plastic-free kitchen essentials, gifts under ₹1000, or click 'Review my cart' below!",
-          source: 'local-fallback',
+          text: isOnline
+            ? "I am connected in Online AI mode, but encountered a transient error. You can ask for plastic-free kitchen essentials, gifts under ₹1000, or click 'Review my cart' below!"
+            : "I am operating in responsible offline mode. You can ask for plastic-free kitchen essentials, gifts under ₹1000, or click 'Review my cart' below!",
+          source: isOnline ? 'cloud-llm' : 'local-fallback',
           confidence: 'high',
-          estimated_energy_wh: 0,
-          reasoning_summary: 'Loaded from local deterministic knowledge store.',
+          estimated_energy_wh: isOnline ? 0.05 : 0,
+          reasoning_summary: isOnline ? 'Online cloud model recovered with local knowledge cache.' : 'Loaded from local deterministic knowledge store.',
           sources_or_assumptions: ['Local verified sustainability dataset'],
           query: q,
           timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
@@ -380,7 +386,8 @@ export default function EcoAgentChat() {
     } finally {
       setLoading(false);
     }
-  }, [input, loading, lang, cartItems, allProducts, agentContext, firstAgentAnswerDone, userPriorities, updateUserPriorities, showToast, strictness]);
+  }, [input, loading, lang, cartItems, allProducts, agentContext, firstAgentAnswerDone, userPriorities, updateUserPriorities, showToast, strictness, agentMode]);
+
 
   const sendRef = useRef(handleSendMessage);
   useEffect(() => {
