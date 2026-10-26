@@ -4,7 +4,7 @@
  * with robust offline/cached fallback to guarantee deterministic local reliability.
  */
 
-import { queryEcoCatalog } from '../ecoAgent.js';
+import { queryEcoCatalog, KNOWN_DICTIONARY } from '../ecoAgent.js';
 import productsData from '../../data/products.json';
 
 // Curated verified knowledge cache for common sustainable shopping scenarios
@@ -114,43 +114,52 @@ export function generateLocalFallbackAnswer(query, _language = 'en') {
     }
   }
 
-  // 2. Check if query matches any catalog product, category, or sustainable keywords
-  const hasDirectMatch = productsData.some(
-    (p) =>
-      lower.includes(p.name.toLowerCase()) ||
-      lower.includes(p.category.toLowerCase()) ||
-      (p.tags && p.tags.some((tag) => lower.includes(tag.toLowerCase())))
-  );
+  // 2. Query verified catalog via intelligent multi-token matching
+  const hasRecognizedNoun = (KNOWN_DICTIONARY || []).some((term) => lower.includes(term));
+  const catalogResponse = queryEcoCatalog(productsData, query);
+  const matched = Array.isArray(catalogResponse) ? catalogResponse : (catalogResponse?.results || []);
+  const hasNameMatch = matched.some((p) => p.nameMatched);
+  const isValidCatalogMatch = (hasRecognizedNoun || hasNameMatch) && matched.length > 0;
 
-  let topItems = [];
-  let answerText = '';
-
-  if (hasDirectMatch) {
-    const catalogResponse = queryEcoCatalog(productsData, query);
-    topItems = (Array.isArray(catalogResponse) ? catalogResponse : (catalogResponse?.results || [])).slice(0, 3);
+  if (isValidCatalogMatch) {
+    const topItems = matched.slice(0, 3);
     const itemNames = topItems.map((p) => `"${p.name}" (₹${p.price}, EcoScore: ${p.ecoScore || 90})`).join(', ');
-    answerText = `I found sustainable alternatives from our verified catalog: ${itemNames}. Each eliminates single-use plastics and uses biodegradable or recyclable materials.`;
-  } else {
-    answerText = `I am not sure of a verified catalog match or certified carbon metrics for "${query}". In responsible AI, I will not invent unverified statistics. For sustainable shopping: look for 3rd-party certifications (FSC/GOTS), verify plastic-free packaging, and avoid vague claims like "100% eco-friendly".`;
+    const answerText = `I found sustainable alternatives from our verified catalog: ${itemNames}. Each eliminates single-use plastics and uses biodegradable or recyclable materials.`;
+
+    return {
+      answer: answerText,
+      reasoning_summary: 'Matched against local catalog using keyword tokens and MCDM sustainability scoring.',
+      sources_or_assumptions: [
+        'EcoMart Verified Product Catalog (64 verified SKUs)',
+        'Deterministic 0–100 EcoScore Lifecycle Formula'
+      ],
+      confidence: 'high',
+      estimated_energy_wh: 0.01,
+      recommended_products: topItems,
+      recommended_categories: [...new Set(topItems.map((p) => p.category))],
+      isFallback: true,
+      source: 'local_catalog_engine',
+      model: 'EcoMart Offline Catalog Engine'
+    };
   }
 
   return {
-    answer: answerText,
-    reasoning_summary: hasDirectMatch
-      ? 'Parsed user intent via local token matching. Queried catalog for plastic-free functional substitutes within verified artisan cooperative supplies.'
-      : 'Query lacked verifiable catalog SKU or accredited LCA lifecycle data. Adhering to responsible AI guideline: decline hallucinating unverified facts.',
+    answer: `I am not sure of a verified catalog match for "${query}". For sustainable shopping: look for 3rd-party certifications (FSC/GOTS), verify plastic-free packaging, and avoid vague claims like "100% eco-friendly". You can explore categories like Kitchen, Personal Care, Home, or Bags!`,
+    reasoning_summary: 'Query had no direct catalog SKU match. Providing helpful category directions and anti-greenwashing guidance.',
     sources_or_assumptions: [
       'EcoMart Verified Product Catalog (64 verified SKUs)',
       'Deterministic 0–100 EcoScore Lifecycle Formula (ISO 14040 principles)'
     ],
-    confidence: hasDirectMatch ? 'medium' : 'low',
-    estimated_energy_wh: 0.04,
-    recommended_products: topItems,
+    confidence: 'low',
+    estimated_energy_wh: 0.01,
+    recommended_products: [],
+    recommended_categories: ['Kitchen', 'Personal Care', 'Home', 'Bags'],
     isFallback: true,
     source: 'local_catalog_engine',
     model: 'EcoMart Local Rules Engine'
   };
 }
+
 
 /**
  * Main Eco Agent Query Dispatcher
@@ -237,6 +246,14 @@ export async function auditGreenwashingClaim({ text, language = 'en' }) {
       estimated_energy_wh: 0,
       isFallback: true
     };
+  }
+
+  const isOnline = typeof window !== 'undefined'
+    ? (localStorage.getItem('ecomart_agent_mode') !== 'offline' && (typeof navigator === 'undefined' || navigator.onLine))
+    : true;
+
+  if (!isOnline) {
+    return generateLocalGreenwashingVerdict(text);
   }
 
   try {

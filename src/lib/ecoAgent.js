@@ -1469,7 +1469,7 @@ export async function sendAgentQuery(arg1, arg2, arg3, arg4) {
   // Attempt optional LLM enhancement when online mode is active
   try {
     const isOnline = typeof window !== 'undefined'
-      ? (localStorage.getItem('ecomart_agent_mode') !== 'offline')
+      ? (localStorage.getItem('ecomart_agent_mode') !== 'offline' && (typeof navigator === 'undefined' || navigator.onLine !== false))
       : true;
 
     if (isOnline) {

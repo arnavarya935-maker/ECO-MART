@@ -73,15 +73,20 @@ export async function summarizeNewsSnippet({ title, snippet }) {
     };
   }
 
-  try {
-    // Attempt fast explanation via /api/agent proxy
-    const prompt = `Summarize this environmental news snippet in exactly 2 concise, neutral bullet points. Only summarize what is stated in the snippet, never extrapolate or invent facts:\nTitle: ${title}\nSnippet: ${snippet}`;
+  const isOnline = typeof window !== 'undefined'
+    ? (localStorage.getItem('ecomart_agent_mode') !== 'offline' && (typeof navigator === 'undefined' || navigator.onLine !== false))
+    : true;
 
-    const res = await fetch('/api/agent', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query: prompt, language: 'en' })
-    });
+  if (isOnline) {
+    try {
+      // Attempt fast explanation via /api/agent proxy
+      const prompt = `Summarize this environmental news snippet in exactly 2 concise, neutral bullet points. Only summarize what is stated in the snippet, never extrapolate or invent facts:\nTitle: ${title}\nSnippet: ${snippet}`;
+
+      const res = await fetch('/api/agent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: prompt, language: 'en' })
+      });
 
     if (res.ok) {
       const data = await res.json();
@@ -98,8 +103,9 @@ export async function summarizeNewsSnippet({ title, snippet }) {
         };
       }
     }
-  } catch {
-    // Fallback to deterministic text extraction
+    } catch {
+      // Fallback to deterministic text extraction
+    }
   }
 
   // Deterministic local fallback: break snippet into clean sentences

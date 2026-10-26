@@ -14,7 +14,9 @@ import {
   Volume2,
   VolumeX,
   ShieldAlert,
-  Brain
+  Brain,
+  Settings,
+  RotateCcw
 } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { useT } from '../../context/I18nContext';
@@ -143,6 +145,7 @@ export default function EcoAgentChat() {
     }
   }, [speakingMsgId, lang]);
 
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const [addedItemMap, setAddedItemMap] = useState({});
   const [firstAgentAnswerDone, setFirstAgentAnswerDone] = useState(false);
   const [agentContext, setAgentContext] = useState({
@@ -156,7 +159,6 @@ export default function EcoAgentChat() {
   });
 
   const [strictness, setStrictness] = useState(() => getStrictnessThreshold());
-  const [showStrictnessPopover, setShowStrictnessPopover] = useState(false);
 
   useEffect(() => {
     const handler = (e) => setStrictness(e.detail);
@@ -164,17 +166,41 @@ export default function EcoAgentChat() {
     return () => window.removeEventListener('strictness-updated', handler);
   }, []);
 
+  const getWelcomeText = useCallback((mode, l) => {
+    if (l === 'hi') {
+      return mode === 'online'
+        ? "👋 नमस्ते! मैं इकोमार्ट का AI शॉपिंग गाइड हूँ (Gemini Cloud)। शून्य-अपशिष्ट उपहार खोजने, बजट बास्केट बनाने या अपने झोले के ऑडिट के लिए मुझसे पूछें।"
+        : "👋 नमस्ते! मैं इकोमार्ट का ऑफ़लाइन शॉपिंग गाइड हूँ। प्लास्टिक-मुक्त रसोई सामान, शून्य-अपशिष्ट उपहार खोजने या बजट बास्केट के लिए मुझसे पूछें।";
+    }
+    return mode === 'online'
+      ? "👋 Welcome to EcoMart! I'm your conscious shopping assistant powered by Gemini Cloud AI. Ask me to find zero-waste gifts, assemble a budget basket, or audit your cart for cleaner swaps."
+      : "👋 Welcome to EcoMart! I'm operating in responsible offline mode. Ask me to find plastic-free kitchen essentials, zero-waste gifts, or click 'Review my cart' below!";
+  }, []);
+
   const [messages, setMessages] = useState(() => [
     {
       id: 'welcome',
       sender: 'agent',
-      text: lang === 'hi'
-        ? "👋 नमस्ते! मैं इकोमार्ट का ऑफ़लाइन AI शॉपिंग गाइड हूँ। शून्य-अपशिष्ट उपहार खोजने, बजट बास्केट बनाने या अपने झोले के ऑडिट के लिए मुझसे पूछें।"
-        : "👋 Welcome to EcoMart! I'm your offline conscious shopping guide. Ask me to find zero-waste gifts, assemble a budget basket, or audit your cart for cleaner swaps.",
+      text: getWelcomeText(agentMode, lang),
       quickChips: true,
       timestamp: 'Just now'
     }
   ]);
+
+  useEffect(() => {
+    setMessages((prev) => {
+      if (prev.length === 1 && prev[0].id === 'welcome') {
+        return [
+          {
+            ...prev[0],
+            text: getWelcomeText(agentMode, lang)
+          }
+        ];
+      }
+      return prev;
+    });
+  }, [agentMode, lang, getWelcomeText]);
+
 
   const messagesEndRef = useRef(null);
   const recognitionRef = useRef(null);
@@ -270,11 +296,14 @@ export default function EcoAgentChat() {
       setLastQueryWh(energy);
       setQueryCount((prev) => prev + 1);
 
-      // Prefer AI answer text when rich knowledge is returned
+      // When online with real Gemini AI, use rich LLM response text.
+      // In offline mode (or if cloud AI fell back), use the deterministic decision engine's message from sendAgentQuery
+      // which has detailed price ranking, budget filtering, and trade-off explanations!
+      const isCloudAI = agentMode === 'online' && aiResult?.source === 'gemini' && !aiResult?.isFallback;
       const replyText =
-        aiResult?.answer && (!response.basketPlan && !response.cartReview)
+        isCloudAI && aiResult?.answer && (!response.basketPlan && !response.cartReview)
           ? aiResult.answer
-          : response.message || aiResult?.answer || multiAgentResult?.pipelineHandoffs?.[3]?.summary || 'I evaluated your request across cradle-to-grave sustainability factors.';
+          : (response.message || aiResult?.answer || multiAgentResult?.pipelineHandoffs?.[3]?.summary || 'I evaluated your request across cradle-to-grave sustainability factors.');
 
       const finalData = Array.isArray(response.data) && response.data.length > 0
         ? response.data
@@ -282,11 +311,15 @@ export default function EcoAgentChat() {
             ? multiAgentResult.items
             : (response.data?.results || aiResult?.recommended_products || []));
 
+      const rawConfidence = (finalData && finalData.length > 0)
+        ? 'high'
+        : (isCloudAI ? (aiResult?.confidence || 'medium') : (response.analysis?.confidence || 'medium'));
+
       const agentMsg = {
         id: `agent-${Date.now()}`,
         sender: 'agent',
         text: replyText,
-        source: aiResult?.source === 'gemini' ? 'cloud-llm' : (response.source || 'multi-agent-collective'),
+        source: isCloudAI ? 'cloud-llm' : (response.source || 'multi-agent-collective'),
         data: finalData,
         didYouMean: response.didYouMean,
         tradeoffs: response.tradeoffs || multiAgentResult?.tradeoffs,
@@ -298,12 +331,12 @@ export default function EcoAgentChat() {
         clarification: response.clarification,
         isFirstResponse: isFirst,
         cartReview: response.cartReview,
-        reasoning_summary: aiResult?.reasoning_summary,
-        sources_or_assumptions: aiResult?.sources_or_assumptions,
-        confidence: aiResult?.confidence || 'high',
+        reasoning_summary: aiResult?.reasoning_summary || response.explanation || 'Evaluated across cradle-to-grave sustainability factors.',
+        sources_or_assumptions: aiResult?.sources_or_assumptions || ['EcoMart Verified Catalog (64 SKUs)', 'ISO 14040 Lifecycle Principles'],
+        confidence: rawConfidence,
         estimated_energy_wh: energy,
-        model: aiResult?.model || (aiResult?.source === 'gemini' ? 'Gemini 3 Flash' : (agentMode === 'online' ? 'Gemini 2.5 Cloud' : 'Multi-Agent Collective (Planner/Researcher/Skeptic/Advisor)')),
-        isFallback: Boolean(aiResult?.isFallback),
+        model: isCloudAI ? (aiResult?.model || 'Gemini 3 Flash') : (agentMode === 'online' ? 'Gemini 2.5 Cloud' : 'Multi-Agent Collective (Planner/Researcher/Skeptic/Advisor)'),
+        isFallback: !isCloudAI && Boolean(aiResult?.isFallback),
         query: q,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
@@ -311,10 +344,11 @@ export default function EcoAgentChat() {
       // Confidence Brake Evaluation (Feature F3)
       const brakeCheck = evaluateConfidenceBrake({
         query: q,
-        rawConfidence: aiResult?.confidence || 'medium',
+        rawConfidence,
         answerText: replyText,
         strictness
       });
+
 
       let isBrakeTriggered = false;
       let finalText = replyText;
@@ -467,10 +501,10 @@ export default function EcoAgentChat() {
       role="dialog"
       aria-modal="true"
       aria-label="Eco Agent Chat Assistant"
-      className="fixed bottom-20 sm:bottom-6 right-3 sm:right-6 z-drawers w-full sm:w-[440px] max-w-[calc(100vw-1.5rem)] h-[620px] max-h-[calc(100dvh-6.5rem)] bg-surface border border-line rounded-3xl shadow-soft-xl flex flex-col overflow-hidden text-text animate-slide-up"
+      className="fixed bottom-16 sm:bottom-6 right-2 sm:right-6 z-drawers w-full sm:w-[480px] max-w-[calc(100vw-1rem)] h-[680px] max-h-[calc(100dvh-4.5rem)] bg-surface border border-line rounded-3xl shadow-soft-xl flex flex-col overflow-hidden text-text animate-slide-up"
     >
-      {/* Top Header Bar */}
-      <div className="p-4 bg-surface-raised border-b border-line text-heading flex items-center justify-between shadow-soft-xs">
+      {/* Top Header Bar - Clean Single-Row */}
+      <div className="px-4 py-3 bg-surface-raised border-b border-line text-heading flex items-center justify-between shadow-soft-xs">
         <div className="flex items-center gap-2.5">
           <div className="w-9 h-9 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 flex items-center justify-center shadow-soft-xs">
             <Sparkles className="w-4 h-4 text-emerald-400" />
@@ -488,122 +522,208 @@ export default function EcoAgentChat() {
           </div>
         </div>
 
-        {/* Actions */}
-        <div className="flex items-center gap-1.5 flex-wrap justify-end">
-          {/* Online/Offline Toggle in Chat Header */}
+        {/* Clean Single-Row Actions */}
+        <div className="flex items-center gap-1.5">
+          {/* Quick Mode Toggle Pill */}
           <button
             type="button"
             onClick={toggleAgentMode}
-            className={`px-2 py-1 rounded-lg text-[10px] font-semibold transition-colors border cursor-pointer flex items-center gap-1 ${
+            className={`px-2.5 py-1 rounded-xl text-[11px] font-semibold transition-all border cursor-pointer flex items-center gap-1.5 shadow-soft-xs ${
               agentMode === 'online'
-                ? 'bg-primary/20 text-primary border-primary/30 font-bold'
-                : 'bg-amber-500/20 text-amber-500 border-amber-500/40 font-bold'
+                ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/25'
+                : 'bg-amber-500/15 text-amber-400 border-amber-500/30 hover:bg-amber-500/25'
             }`}
-            title="Toggle Online Cloud AI vs Local Offline Engine"
+            title="Click to toggle between Online Gemini AI and Offline Local Engine"
           >
-            <span className={`w-1.5 h-1.5 rounded-full ${agentMode === 'online' ? 'bg-primary' : 'bg-amber-500'}`} />
+            <span className={`w-1.5 h-1.5 rounded-full ${agentMode === 'online' ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`} />
             <span>{agentMode === 'online' ? 'Online' : 'Offline'}</span>
           </button>
-          {/* AI Compute Energy Meter */}
-          <AIEnergyMeter
-            compact={true}
-            totalSessionWh={totalSessionWh}
-            lastQueryWh={lastQueryWh}
-            queryCount={queryCount}
-          />
 
-          {/* Honesty & Uncertainty Meter */}
-          <HonestyMeter
-            messages={messages}
-            compact={true}
-          />
-
-          {/* Confidence Brake Control */}
-          <div className="relative">
-            <button
-              type="button"
-              onClick={() => setShowStrictnessPopover(!showStrictnessPopover)}
-              className={`px-2 py-1 rounded-lg text-[10px] font-semibold transition-colors border cursor-pointer flex items-center gap-1 ${
-                showStrictnessPopover || strictness >= 80
-                  ? 'bg-amber-500/20 text-amber-800 border-amber-500/40 font-bold'
-                  : 'bg-surface-sunken text-text-secondary border-line hover:text-heading hover:bg-surface'
-              }`}
-              title="Configure Confidence Brake Strictness Threshold"
-            >
-              <ShieldAlert className="w-2.5 h-2.5 text-amber-600" />
-              <span>Brake: {strictness}%</span>
-            </button>
-
-            {showStrictnessPopover && (
-              <div className="absolute right-0 top-full mt-2 w-64 p-3 bg-surface border border-line rounded-2xl shadow-xl z-50 text-xs space-y-2">
-                <div className="flex items-center justify-between font-bold text-heading">
-                  <span className="flex items-center gap-1">
-                    <ShieldAlert className="w-3.5 h-3.5 text-amber-600" />
-                    Confidence Brake
-                  </span>
-                  <span className="font-mono text-primary">{strictness}%</span>
-                </div>
-                <p className="text-[10px] text-muted leading-tight">
-                  Declines answers when certainty falls below threshold.
-                </p>
-                <input
-                  type="range"
-                  min="30"
-                  max="95"
-                  step="5"
-                  value={strictness}
-                  onChange={(e) => {
-                    const val = parseInt(e.target.value, 10);
-                    setStrictness(val);
-                    setStrictnessThreshold(val);
-                  }}
-                  className="w-full accent-primary h-1.5 bg-surface-sunken rounded-lg cursor-pointer"
-                />
-                <div className="flex justify-between text-[9px] text-muted font-mono">
-                  <span>Lenient (40%)</span>
-                  <span>Strict (75%)</span>
-                  <span>Ultra (90%)</span>
-                </div>
-              </div>
-            )}
-          </div>
-
-          <button
-            type="button"
-            onClick={() => setShowPriorities(!showPriorities)}
-            className={`px-2 py-1 rounded-lg text-[10px] font-semibold transition-colors border cursor-pointer flex items-center gap-1 ${
-              showPriorities
-                ? 'bg-amber-400 text-stone-950 border-amber-400 font-bold'
-                : 'bg-surface-sunken text-text-secondary border-line hover:text-heading hover:bg-surface'
-            }`}
-            title="Adjust multi-criteria decision weights"
-          >
-            <Sliders className="w-2.5 h-2.5" />
-            <span>Priorities</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setMemoryDrawerOpen(true)}
-            className="px-2 py-1 rounded-lg bg-surface-sunken text-text-secondary text-[10px] font-semibold hover:bg-surface hover:text-heading transition-colors border border-line cursor-pointer flex items-center gap-1"
-            title="Inspect & manage stored agent memory"
-          >
-            <Brain className="w-2.5 h-2.5 text-primary" />
-            <span>Memory</span>
-          </button>
+          {/* Hands-free Voice Shopping */}
           <button
             type="button"
             onClick={() => setVoiceModalOpen(true)}
-            className="px-2 py-1 rounded-lg bg-surface-sunken text-text-secondary text-[10px] font-semibold hover:bg-surface hover:text-heading transition-colors border border-line cursor-pointer flex items-center gap-1"
+            className="w-8 h-8 rounded-xl bg-surface-sunken hover:bg-surface text-text-secondary hover:text-heading transition-colors border border-line flex items-center justify-center cursor-pointer"
             title="Hands-free Voice Shopping in English / Hindi"
+            aria-label="Voice Shopping"
           >
-            <Mic className="w-2.5 h-2.5 text-primary" />
-            <span>Voice</span>
+            <Mic className="w-3.5 h-3.5 text-primary" />
           </button>
-          {Boolean(agentContext.lastCategory || agentContext.lastBudget || agentContext.lastQuery) && (
+
+          {/* Settings & Diagnostics Dropdown Toggle */}
+          <button
+            type="button"
+            onClick={() => setSettingsOpen((prev) => !prev)}
+            className={`w-8 h-8 rounded-xl transition-colors border flex items-center justify-center cursor-pointer ${
+              settingsOpen
+                ? 'bg-primary/20 text-primary border-primary/40 shadow-soft-xs'
+                : 'bg-surface-sunken text-text-secondary hover:text-heading hover:bg-surface border-line'
+            }`}
+            title="Agent Settings, Meters & Diagnostic Controls"
+            aria-label="Agent Settings"
+          >
+            <Settings className={`w-3.5 h-3.5 transition-transform duration-200 ${settingsOpen ? 'rotate-45' : ''}`} />
+          </button>
+
+          {/* Close Agent Button */}
+          <button
+            type="button"
+            onClick={() => setIsAgentOpen(false)}
+            className="w-8 h-8 text-text-muted hover:text-heading rounded-xl hover:bg-surface-sunken border border-transparent hover:border-line flex items-center justify-center transition-colors focus-visible:outline-2 focus-visible:outline-focus cursor-pointer"
+            aria-label="Close Agent"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+
+      {/* Collapsible Settings & Diagnostics Panel */}
+      {settingsOpen && (
+        <div className="p-3.5 bg-surface-raised/95 backdrop-blur-md border-b border-line shadow-soft-md space-y-3 animate-fade-in max-h-80 overflow-y-auto">
+          {/* Header of Settings Panel */}
+          <div className="flex items-center justify-between pb-1 border-b border-line/60">
+            <span className="text-xs font-bold text-heading flex items-center gap-1.5">
+              <Settings className="w-3.5 h-3.5 text-primary" />
+              Agent Settings &amp; Diagnostics
+            </span>
+            <span className="text-[10px] text-text-muted font-mono uppercase">
+              {agentMode} MODE
+            </span>
+          </div>
+
+          {/* 1. Operating Mode Switcher Card */}
+          <div className="p-2.5 rounded-xl bg-surface-sunken border border-line flex items-center justify-between gap-3">
+            <div>
+              <div className="text-xs font-semibold text-heading">Operating Mode</div>
+              <div className="text-[10px] text-text-muted leading-tight">
+                {agentMode === 'online'
+                  ? 'Gemini 2.5 Cloud reasoning with verified catalog fallback'
+                  : 'Fast 0ms offline multi-agent heuristics & local catalog'}
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={toggleAgentMode}
+              className={`px-2.5 py-1.5 rounded-xl text-xs font-bold transition-colors border cursor-pointer shrink-0 ${
+                agentMode === 'online'
+                  ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40 hover:bg-emerald-500/30'
+                  : 'bg-amber-500/20 text-amber-400 border-amber-500/40 hover:bg-amber-500/30'
+              }`}
+            >
+              Switch to {agentMode === 'online' ? 'Offline' : 'Online'}
+            </button>
+          </div>
+
+          {/* 2. Meters: Energy & Honesty */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div className="p-2.5 rounded-xl bg-surface-sunken border border-line flex flex-col justify-between">
+              <div className="text-[10px] font-semibold text-text-muted mb-1.5">AI Energy Usage</div>
+              <AIEnergyMeter
+                compact={false}
+                totalSessionWh={totalSessionWh}
+                lastQueryWh={lastQueryWh}
+                queryCount={queryCount}
+              />
+            </div>
+            <div className="p-2.5 rounded-xl bg-surface-sunken border border-line flex flex-col justify-between">
+              <div className="text-[10px] font-semibold text-text-muted mb-1.5">Honesty &amp; Uncertainty</div>
+              <HonestyMeter
+                messages={messages}
+                compact={false}
+              />
+            </div>
+          </div>
+
+          {/* 3. Confidence Brake Slider Control */}
+          <div className="p-2.5 rounded-xl bg-surface-sunken border border-line space-y-1.5">
+            <div className="flex items-center justify-between">
+              <span className="text-xs font-semibold text-heading flex items-center gap-1.5">
+                <ShieldAlert className="w-3.5 h-3.5 text-amber-500" />
+                Confidence Brake Threshold
+              </span>
+              <span className="font-mono text-xs font-bold text-primary">{strictness}%</span>
+            </div>
+            <p className="text-[10px] text-text-muted leading-tight">
+              Declines answers and halts unverified actions when certainty drops below threshold.
+            </p>
+            <input
+              type="range"
+              min="30"
+              max="95"
+              step="5"
+              value={strictness}
+              onChange={(e) => {
+                const val = parseInt(e.target.value, 10);
+                setStrictness(val);
+                setStrictnessThreshold(val);
+              }}
+              className="w-full accent-primary h-1.5 bg-surface rounded-lg cursor-pointer"
+            />
+            <div className="flex justify-between text-[9px] text-text-muted font-mono">
+              <span>Lenient (40%)</span>
+              <span>Strict (75%)</span>
+              <span>Ultra (90%)</span>
+            </div>
+          </div>
+
+          {/* 4. Controls & Quick Actions */}
+          <div className="flex items-center gap-2 flex-wrap pt-1">
+            <button
+              type="button"
+              onClick={() => setShowPriorities((prev) => !prev)}
+              className={`px-2.5 py-1.5 rounded-xl text-xs font-semibold transition-colors border cursor-pointer flex items-center gap-1.5 ${
+                showPriorities
+                  ? 'bg-amber-400 text-stone-950 border-amber-400 font-bold'
+                  : 'bg-surface hover:bg-surface-raised text-text-secondary hover:text-heading border-line'
+              }`}
+            >
+              <Sliders className="w-3 h-3 text-primary" />
+              <span>{showPriorities ? 'Hide Priorities' : 'Adjust Priorities'}</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setMemoryDrawerOpen(true)}
+              className="px-2.5 py-1.5 rounded-xl bg-surface hover:bg-surface-raised text-text-secondary hover:text-heading text-xs font-semibold transition-colors border border-line cursor-pointer flex items-center gap-1.5"
+            >
+              <Brain className="w-3 h-3 text-primary" />
+              <span>Inspect Memory</span>
+            </button>
+
+            {Boolean(agentContext.lastCategory || agentContext.lastBudget || agentContext.lastQuery) && (
+              <button
+                type="button"
+                onClick={() => {
+                  setAgentContext({
+                    lastCategory: null,
+                    lastBudget: null,
+                    lastSort: null,
+                    lastRecipient: null,
+                    lastPackaging: null,
+                    lastResults: [],
+                    lastQuery: null
+                  });
+                  showToast('Context memory cleared', 'info');
+                }}
+                className="px-2.5 py-1.5 rounded-xl bg-surface hover:bg-surface-raised text-text-secondary hover:text-heading text-xs font-semibold transition-colors border border-line cursor-pointer flex items-center gap-1.5"
+              >
+                <RotateCcw className="w-3 h-3 text-amber-500" />
+                <span>Reset Context</span>
+              </button>
+            )}
+
             <button
               type="button"
               onClick={() => {
+                setMessages([
+                  {
+                    id: 'welcome',
+                    sender: 'agent',
+                    text: getWelcomeText(agentMode, lang),
+                    quickChips: true,
+                    timestamp: 'Just now'
+                  }
+                ]);
                 setAgentContext({
                   lastCategory: null,
                   lastBudget: null,
@@ -613,53 +733,16 @@ export default function EcoAgentChat() {
                   lastResults: [],
                   lastQuery: null
                 });
-                showToast('Agent memory cleared', 'info');
+                showToast('Chat history cleared', 'info');
               }}
-              className="px-2 py-1 rounded-lg bg-surface-sunken text-text-secondary text-[10px] font-semibold hover:bg-surface transition-colors border border-line cursor-pointer"
-              title="Clear multi-turn context memory"
+              className="px-2.5 py-1.5 rounded-xl bg-surface hover:bg-danger/10 text-text-secondary hover:text-danger text-xs font-semibold transition-colors border border-line hover:border-danger/30 cursor-pointer flex items-center gap-1.5 ml-auto"
             >
-              Clear context
+              <Trash2 className="w-3 h-3 text-danger" />
+              <span>Clear Chat</span>
             </button>
-          )}
-
-          <button
-            type="button"
-            onClick={() => {
-              setMessages([
-                {
-                  id: 'welcome',
-                  sender: 'agent',
-                  text: "Chat cleared! How can I assist with your sustainable shopping?",
-                  quickChips: true,
-                  timestamp: 'Just now'
-                }
-              ]);
-              setAgentContext({
-                lastCategory: null,
-                lastBudget: null,
-                lastSort: null,
-                lastRecipient: null,
-                lastPackaging: null,
-                lastResults: [],
-                lastQuery: null
-              });
-            }}
-            className="w-8 h-8 text-text-muted hover:text-heading rounded-lg hover:bg-surface-sunken flex items-center justify-center transition-colors focus-visible:outline-2 focus-visible:outline-focus cursor-pointer"
-            title="Clear Chat"
-          >
-            <Trash2 className="w-4 h-4" />
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setIsAgentOpen(false)}
-            className="w-8 h-8 text-text-muted hover:text-heading rounded-lg hover:bg-surface-sunken flex items-center justify-center transition-colors focus-visible:outline-2 focus-visible:outline-focus cursor-pointer"
-            aria-label="Close Agent"
-          >
-            <X className="w-4 h-4" />
-          </button>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Priorities Panel inside Agent */}
       {showPriorities && (

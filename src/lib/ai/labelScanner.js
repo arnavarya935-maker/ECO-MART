@@ -228,9 +228,14 @@ export async function scanProductLabel({
     throw new Error('Image data exceeds safe 3MB limit. Please downscale the image.');
   }
 
-  // 3. Attempt Server-side Vision Transcription via Gemini Proxy
-  try {
-    const controller = new AbortController();
+  // 3. Attempt Server-side Vision Transcription via Gemini Proxy (if online)
+  const isOnline = typeof window !== 'undefined'
+    ? (localStorage.getItem('ecomart_agent_mode') !== 'offline' && (typeof navigator === 'undefined' || navigator.onLine))
+    : true;
+
+  if (isOnline) {
+    try {
+      const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 15000);
 
     const res = await fetch('/api/scan-label', {
@@ -296,6 +301,7 @@ export async function scanProductLabel({
   } catch {
     // API unavailable or timed out; proceed to offline OCR fallback
   }
+}
 
   // 4. Offline Fallback: Lazy-load On-Device Tesseract.js OCR
   // Note: NEVER invent fake claims, ingredients, or scores.
