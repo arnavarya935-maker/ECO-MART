@@ -46,7 +46,7 @@ export default function SignupPage() {
             <Sparkles className="w-3.5 h-3.5 text-primary" /> Start Your Journey
           </span>
           <h1 className="text-3xl font-serif font-bold text-heading tracking-tight">
-            Join EcoMart
+            Join Eco Sense
           </h1>
           <p className="text-xs sm:text-sm text-secondary">
             Track your personal carbon offset & turn shopping into responsible living.

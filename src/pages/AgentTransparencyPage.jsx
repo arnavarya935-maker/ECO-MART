@@ -131,7 +131,7 @@ export default function AgentTransparencyPage() {
               </div>
             </div>
             <p className="text-xs text-secondary leading-relaxed font-sans">
-              EcoMart pairs <strong>Gemini 1.5 Flash</strong> with deterministic rule-based algorithms. Queries are processed server-side through a rate-limited proxy with input sanitization and schema-enforced JSON validation.
+              Eco Sense pairs <strong>Gemini</strong> with deterministic rule-based algorithms. Queries are processed server-side through a rate-limited proxy with input sanitization and schema-enforced JSON validation.
             </p>
             <div className="p-3.5 rounded-2xl bg-surface-sunken border border-line text-xs font-mono space-y-1">
               <div className="flex justify-between">

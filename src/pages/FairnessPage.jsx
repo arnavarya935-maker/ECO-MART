@@ -222,8 +222,8 @@ export default function FairnessPage() {
             </p>
             <p className="text-xs text-secondary leading-relaxed">
               In commercial LLMs, non-English queries often trigger simplified responses or hallucinated regional brands.
-              EcoMart's deterministic guardrails enforce that Hindi, Hinglish, and low-budget queries receive the exact same
-              scientific lifecycle benchmarks (e.g., CPCB plastic rules, FSC certifications, composting timelines).
+              Eco Sense's smart rules enforce that Hindi, Hinglish, and low-budget queries receive the exact same
+              rules and product benchmarks (e.g., plastic rules, FSC certifications, composting timelines).
             </p>
           </div>
 
@@ -235,7 +235,7 @@ export default function FairnessPage() {
             </div>
             <p className="text-text-muted leading-relaxed">
               High semantic consistency does not guarantee absence of subtle stylistic bias. Metrics are calculated against
-              EcoMart's verified 64-SKU catalog and do not account for external commercial marketplace pricing volatility.
+              Eco Sense's sample 64-item catalogue and do not account for external commercial marketplace pricing volatility.
             </p>
           </div>
         </div>

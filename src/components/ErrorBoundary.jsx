@@ -43,7 +43,7 @@ export default class ErrorBoundary extends React.Component {
   handleCopyDiagnostics = () => {
     const { error, errorInfo } = this.state;
     const diagnosticText = [
-      `EcoMart Error Diagnostic:`,
+      `Eco Sense Error Diagnostic:`,
       `Time: ${new Date().toISOString()}`,
       `URL: ${typeof window !== 'undefined' ? window.location.href : 'unknown'}`,
       `User Agent: ${typeof navigator !== 'undefined' ? navigator.userAgent : 'unknown'}`,
@@ -108,8 +108,8 @@ export default class ErrorBoundary extends React.Component {
               </h2>
               <p className="text-xs text-text-secondary leading-relaxed">
                 {isChunkError
-                  ? 'A new version of EcoMart was just published. Reloading will sync your browser with the latest version.'
-                  : "EcoMart encountered an unexpected visual issue. Don't worry — your cart and saved impact data are safely preserved in offline storage."}
+                  ? 'A new version of Eco Sense was just published. Reloading will sync your browser with the latest version.'
+                  : "Eco Sense encountered an unexpected visual issue. Don't worry — your cart and saved impact data are safely preserved in offline storage."}
               </p>
             </div>
 

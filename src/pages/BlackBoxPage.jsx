@@ -285,7 +285,7 @@ export default function BlackBoxPage() {
                     Sources & Scientific Assumptions:
                   </span>
                   <ul className="p-3 rounded-xl bg-surface-sunken border border-line space-y-1 list-disc pl-5 text-text-secondary text-[11px]">
-                    {(selectedLog.sources || ['EcoMart verified lifecycle knowledge base']).map((s, idx) => (
+                    {(selectedLog.sources || ['Eco Sense lifecycle knowledge base']).map((s, idx) => (
                       <li key={idx}>{s}</li>
                     ))}
                   </ul>

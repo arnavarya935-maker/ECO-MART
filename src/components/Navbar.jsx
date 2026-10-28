@@ -128,7 +128,7 @@ export default function Navbar() {
           <Link
             to="/"
             className="flex items-center gap-2.5 group select-none py-1 focus-visible:outline-2 focus-visible:outline-focus rounded-full"
-            aria-label="EcoMart Home"
+            aria-label={lang === 'hi' ? 'इको सेंस होम' : 'Eco Sense Home'}
           >
             <div className="w-9 h-9 rounded-full bg-surface-raised border border-line text-primary flex items-center justify-center font-bold shadow-soft-xs group-hover:scale-105 group-hover:border-primary/50 transition-all duration-200">
               <Leaf className="w-4 h-4 text-primary" />
@@ -136,7 +136,7 @@ export default function Navbar() {
 
             <div className="flex items-baseline gap-1.5">
               <span className="font-heading text-2xl font-bold tracking-tight text-heading">
-                Eco<span className="text-primary italic font-semibold">Mart</span>
+                {lang === 'hi' ? 'इको ' : 'Eco'}<span className="text-primary italic font-semibold">{lang === 'hi' ? 'सेंस' : 'Sense'}</span>
               </span>
               <span className="text-[10px] font-sans font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-surface-accent border border-primary/20 text-primary hidden sm:inline-block">
                 Agent

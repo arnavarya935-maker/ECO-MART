@@ -6,10 +6,9 @@ import {
   Lock,
   FileCheck,
   BarChart,
-  Eye,
   ArrowUpRight
 } from 'lucide-react';
-import { ETHICAL_GUARDRAILS } from '../../lib/ai/guardrailsEngine';
+
 
 const BOARD_RULES = [
   {

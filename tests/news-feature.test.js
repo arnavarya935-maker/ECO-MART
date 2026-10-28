@@ -47,8 +47,8 @@ describe('Phase 3: Eco News Feature Test Suite', () => {
     });
 
     it('strips non-printable ASCII control characters', () => {
-      const withControl = 'Eco\x00Mart\x07 News\x1B';
-      expect(sanitizeText(withControl)).toBe('EcoMart News');
+      const withControl = 'Eco\x00Sense\x07 News\x1B';
+      expect(sanitizeText(withControl)).toBe('EcoSense News');
     });
 
     it('truncates text to specified length ceiling', () => {

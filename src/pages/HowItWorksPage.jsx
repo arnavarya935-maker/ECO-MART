@@ -14,7 +14,7 @@ export default function HowItWorksPage() {
           Methodology & Architecture
         </span>
         <h1 className="text-3xl sm:text-5xl font-serif font-bold text-heading tracking-tight">
-          How EcoMart Agent Works
+          How Eco Sense Agent Works
         </h1>
         <p className="text-sm sm:text-base text-secondary leading-relaxed max-w-xl mx-auto font-normal">
           An in-depth look at our transparent 0-100 Eco-Score Engine, local-first NLP parser,

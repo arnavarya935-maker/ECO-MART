@@ -32,7 +32,7 @@ describe('Online & Offline EcoAgent Modes', () => {
   it('handles conversational greetings gracefully with high confidence', () => {
     const greeting = generateLocalFallbackAnswer('hi', 'en');
     expect(greeting.confidence).toBe('high');
-    expect(greeting.answer).toContain('EcoMart Responsible Shopping Assistant');
+    expect(greeting.answer).toContain('Eco Sense Shopping Assistant');
     expect(greeting.recommended_categories.length).toBeGreaterThan(0);
   });
 

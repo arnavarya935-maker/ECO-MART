@@ -77,7 +77,7 @@ export default function WelcomeModal() {
 
             <div className="space-y-1">
               <h3 className="text-2xl font-serif font-bold text-heading tracking-tight">
-                Welcome to EcoMart
+                Welcome to Eco Sense
               </h3>
               <p className="text-xs font-semibold text-primary">
                 Sustainable shopping made effortless & transparent

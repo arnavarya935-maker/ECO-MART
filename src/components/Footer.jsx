@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Leaf, ShieldCheck, Zap, Mail, CheckCircle2, Award, ArrowUp } from 'lucide-react';
+import { useT } from '../context/I18nContext';
 
 export default function Footer() {
+  const { t, lang } = useT();
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [newsletterSubscribed, setNewsletterSubscribed] = useState(false);
   const [healthInfo, setHealthInfo] = useState({
@@ -74,12 +76,14 @@ export default function Footer() {
                 <Leaf className="w-5 h-5 text-primary" />
               </div>
               <span className="font-serif text-2xl font-bold tracking-tight text-heading">
-                Eco<span className="text-primary italic">Mart</span>
+                {lang === 'hi' ? 'इको ' : 'Eco'}<span className="text-primary italic">{lang === 'hi' ? 'सेंस' : 'Sense'}</span>
               </span>
             </Link>
 
             <p className="text-sm font-sans text-text-secondary max-w-sm leading-relaxed text-pretty">
-              Every item in our collection is audited for life-cycle environmental impact, zero single-use plastics, and verified ethical circularity. Making thoughtful, restorative consumption effortless.
+              {lang === 'hi'
+                ? 'स्कूल प्रोजेक्ट के लिए नमूना उत्पाद। कीमतें और प्रभाव संख्याएं अनुमानित हैं। विचारशील, चक्रीय जीवनशैली को आसान बनाना।'
+                : 'Sample products for a school project. Prices and impact numbers are estimates. Making thoughtful, restorative consumption effortless.'}
             </p>
 
             {/* Trust Marks */}
@@ -241,7 +245,7 @@ export default function Footer() {
         {/* Bottom Bar Info */}
         <div className="mt-14 pt-6 border-t border-line/60 flex flex-col sm:flex-row items-center justify-between text-xs font-sans text-text-muted gap-4">
           <div>
-            © 2026 EcoMart. Mindful, transparent, circular lifestyle.
+            © 2026 {lang === 'hi' ? 'इको सेंस' : 'Eco Sense'}. {lang === 'hi' ? 'नमूना स्कूल प्रोजेक्ट' : 'Sample school project'}.
           </div>
           <div className="flex flex-wrap items-center gap-2 text-heading font-medium">
             <span className={`w-2 h-2 rounded-full ${healthInfo.gemini ? 'bg-primary animate-pulse' : 'bg-amber-400'}`} />
@@ -253,11 +257,11 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Monumental ECOMART Wordmark with Emerald Planet Glow */}
+      {/* Monumental ECO SENSE Wordmark with Emerald Planet Glow */}
       <div className="relative mt-16 md:mt-24 pb-28 md:pb-16 overflow-hidden">
         <div className="relative z-10 overflow-hidden px-[4vw]" aria-hidden="true">
-          <p className="ft-mark text-[clamp(4.2rem,15vw,18rem)]">
-            <span className="ft-char tracking-tighter">ECOMART</span>
+          <p className="ft-mark text-[clamp(3.5rem,12vw,14rem)]">
+            <span className="ft-char tracking-tighter">{lang === 'hi' ? 'इको सेंस' : 'ECO SENSE'}</span>
             <span className="text-primary text-[0.25em] align-super ml-1 font-mono font-bold">®</span>
           </p>
         </div>

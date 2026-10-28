@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Heart, Send } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
-const INITIAL_POSTS = [];
+const _INITIAL_POSTS = [];
 
 export default function CommunityFeed() {
   const { user } = useAuth();

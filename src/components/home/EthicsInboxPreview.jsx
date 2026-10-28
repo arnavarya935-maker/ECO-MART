@@ -2,13 +2,8 @@ import React, { useState, useEffect } from 'react';
 import {
   Inbox,
   AlertTriangle,
-  Flag,
-  CheckCircle2,
-  XCircle,
-  ArrowRight,
-  ShieldAlert
+  ArrowRight
 } from 'lucide-react';
-import { getBlackBoxItems } from '../../lib/ai/blackboxStore';
 
 export default function EthicsInboxPreview() {
   const [alerts, setAlerts] = useState([]);

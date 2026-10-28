@@ -57,6 +57,6 @@ describe('ErrorBoundary Component', () => {
     const html = renderToString(rendered);
 
     expect(html).toContain('App Update in Progress');
-    expect(html).toContain('A new version of EcoMart was just published');
+    expect(html).toContain('A new version of Eco Sense was just published');
   });
 });

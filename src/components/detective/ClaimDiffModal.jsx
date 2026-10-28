@@ -3,11 +3,8 @@ import {
   GitCompare,
   X,
   AlertTriangle,
-  ShieldCheck,
-  Check,
   HelpCircle,
-  Sparkles,
-  ArrowRight
+  Sparkles
 } from 'lucide-react';
 import productsData from '../../data/products.json';
 import { compareProductClaims } from '../../lib/transparencyEngine';

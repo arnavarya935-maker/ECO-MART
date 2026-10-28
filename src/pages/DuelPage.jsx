@@ -71,7 +71,7 @@ export default function DuelPage() {
           Human vs AI Detective Duel
         </h1>
         <p className="text-sm sm:text-base text-secondary max-w-xl mx-auto leading-relaxed">
-          Can you spot deceptive packaging faster than EcoMart's ethical AI? Read the packaging claim, lock in your verdict, and compare your forensic reasoning with the machine.
+          Can you spot misleading claims faster than Eco Sense's AI helper? Read the claim, lock in your verdict, and compare your reasoning with the machine.
         </p>
       </div>
 
@@ -231,7 +231,7 @@ export default function DuelPage() {
             Detective Duel Complete!
           </h2>
           <p className="text-sm text-secondary max-w-md mx-auto">
-            You scored <strong className="text-heading font-black">{userScore} out of {DUEL_CLAIMS.length}</strong>! {userScore >= 4 ? 'You have exceptional forensic skepticism against deceptive marketing.' : 'Deceptive greenwashing tricks many consumers — that is why EcoMart builds AI to prove claims honestly.'}
+            You scored <strong className="text-heading font-black">{userScore} out of {DUEL_CLAIMS.length}</strong>! {userScore >= 4 ? 'You are very good at spotting misleading claims.' : 'Misleading claims can be tricky to spot — that is why Eco Sense builds tools to check claims honestly.'}
           </p>
 
           <div className="flex items-center justify-center gap-3 pt-3">

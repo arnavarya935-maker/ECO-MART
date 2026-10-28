@@ -16,7 +16,7 @@ export const en = {
   // Hero
   'hero.badge': 'Shop with Purpose • Transparent Impact Estimates',
   'hero.title': "Don't just shop. Shop with purpose.",
-  'hero.subtitle': 'EcoMart is a conscious marketplace audited by an intelligent AI Agent. Every choice tracks real lifecycle carbon avoidance, plastic diversion, and water savings.',
+  'hero.subtitle': 'Eco Sense is a conscious marketplace guided by our Eco Agent. Every choice tracks estimated carbon avoided, plastic saved, and water conserved.',
   'hero.exploreCta': 'Explore Sustainable Catalog',
   'hero.agentCta': 'Consult Eco Agent Co-Pilot',
   'hero.statProducts': '24 Audited Products',

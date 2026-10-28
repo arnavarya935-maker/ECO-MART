@@ -940,7 +940,7 @@ export function queryEcoCatalog(allProducts, userQuery, context = null, weights 
     return {
       type: 'educational',
       intent,
-      text: "The EcoMart Eco-Score is an open formula evaluated out of 100 points:\n" +
+      text: "The Eco Sense Eco-Score is an open formula evaluated out of 100 points:\n" +
             "1. Material Integrity (30 pts): Organic, upcycled, and natural materials score highest.\n" +
             "2. Plastic-Free Packaging (20 pts): 100% plastic-free & seed paper get full marks.\n" +
             "3. Carbon Footprint (25 pts): Cradle-to-gate lifecycle CO2 emissions.\n" +

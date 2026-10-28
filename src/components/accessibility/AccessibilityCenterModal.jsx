@@ -1,17 +1,9 @@
 import React from 'react';
 import {
-  Eye,
   Type,
-  Zap,
-  ZapOff,
-  Sun,
   Smile,
-  Volume2,
-  VolumeX,
   X,
-  RotateCcw,
-  Check,
-  ShieldCheck
+  RotateCcw
 } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';
 

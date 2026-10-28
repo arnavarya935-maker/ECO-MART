@@ -293,16 +293,16 @@ export function generateBrandEmailDraft(product, missingItems = []) {
   const body = encodeURIComponent(
 `Dear ${brandName} Team,
 
-I am evaluating the purchase of ${productName} on EcoMart and would appreciate transparency on the following environmental data:
+I am evaluating the purchase of ${productName} on Eco Sense and would appreciate transparency on the following environmental data:
 
 ${missingList}
 
-As a conscientious consumer, I prefer brands that disclose verifiable lifecycle assessments (LCA) and independent certification registries.
+As a conscious shopper, I prefer brands that share clear environmental data and third-party certifications.
 
 Thank you for your commitment to transparent environmental stewardship.
 
 Warm regards,
-An EcoMart Shopper`
+An Eco Sense Shopper`
   );
 
   return `mailto:sustainability@${brandName.toLowerCase().replace(/\s+/g, '')}.com?subject=${subject}&body=${body}`;

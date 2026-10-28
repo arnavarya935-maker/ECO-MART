@@ -218,7 +218,7 @@ export default function OrdersPage() {
                         type="button"
                         onClick={() => {
                           navigator.clipboard?.writeText(
-                            `I avoided ${co2Saved}kg of CO₂ and ${plasticDiverted}g plastic on order ${order.id} with EcoMart! 🌍`
+                            `I avoided ${co2Saved}kg of CO₂ and ${plasticDiverted}g plastic on order ${order.id} with Eco Sense! 🌍`
                           );
                           playSound('click');
                           showToast('Copied impact receipt text to clipboard!', 'success');

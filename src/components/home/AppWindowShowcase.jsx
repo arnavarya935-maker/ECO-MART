@@ -3,12 +3,6 @@ import { Link } from 'react-router-dom';
 import {
   Radar,
   Brain,
-  SlidersHorizontal,
-  ArrowUpRight,
-  ShieldCheck,
-  CheckCircle2,
-  AlertTriangle,
-  Zap,
   Globe2
 } from 'lucide-react';
 import ClaimRadarChart from '../detective/ClaimRadarChart';

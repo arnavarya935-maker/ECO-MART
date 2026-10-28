@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Play, CheckCircle2, XCircle, ShieldCheck, AlertTriangle, RefreshCw, Sparkles, HelpCircle } from 'lucide-react';
+import { Play, CheckCircle2, XCircle, RefreshCw } from 'lucide-react';
 import { evaluateConfidenceBrake } from '../../lib/ai/confidenceBrake';
 import { runMultiAgentPipeline } from '../../lib/multiAgentEngine';
 
@@ -88,7 +88,7 @@ const PROBES = [
 export default function AgentReportCard() {
   const [probeResults, setProbeResults] = useState({});
   const [isRunning, setIsRunning] = useState(false);
-  const [selectedProbe, setSelectedProbe] = useState(null);
+  const [_selectedProbe, setSelectedProbe] = useState(null);
 
   const handleRunAll = async () => {
     setIsRunning(true);

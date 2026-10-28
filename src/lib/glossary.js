@@ -27,7 +27,7 @@ export const GLOSSARY_TERMS = [
     shortDef: 'Full lifecycle assessment from initial raw material extraction to final disposal.',
     fullDef: 'A comprehensive life-cycle assessment (LCA) methodology that accounts for the environmental impacts of a product from the moment raw inputs are extracted (cradle), through production, distribution, customer use, and ultimate landfill, incineration, or recycling (grave).',
     source: 'ISO 14044 Life Cycle Assessment Framework',
-    registryTip: 'EcoMart lifecycle scores are calibrated to cradle-to-grave boundary assumptions.'
+    registryTip: 'Eco Sense lifecycle scores are calibrated to cradle-to-grave boundary assumptions.'
   },
   {
     term: 'Post-Consumer Recycled (PCR)',
@@ -81,7 +81,7 @@ export const GLOSSARY_TERMS = [
     term: 'Food Miles & Freight Proximity',
     category: 'Logistics',
     shortDef: 'Distance goods travel from production center to consumer, impacting transit emissions.',
-    fullDef: 'The distance food, raw materials, or artisan crafts travel from initial extraction/cultivation through manufacturing to the final household destination. EcoMart rewards regional Indian artisan clusters (< 500 km) for low intra-state transit energy.',
+    fullDef: 'The distance food, raw materials, or artisan crafts travel from initial extraction/cultivation through manufacturing to the final household destination. Eco Sense rewards regional Indian artisan clusters (< 500 km) for low intra-state transit energy.',
     source: 'Supply Chain Carbon Accounting Standard',
     registryTip: 'Local surface rail and EV freight emit up to 85% less CO₂e per ton-km than air freight.'
   }

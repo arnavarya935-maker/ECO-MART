@@ -12,11 +12,11 @@ const VERIFIED_FALLBACK_ANSWERS = [
   {
     triggers: ['hi', 'hello', 'hey', 'namaste', 'kaise ho', 'good morning', 'good afternoon', 'good evening', 'greetings', 'help'],
     answer:
-      "Hello! I am your EcoMart Responsible Shopping Assistant. I'm here to help you discover verified sustainable alternatives, eliminate single-use plastics, and audit product footprints across our catalog. What would you like to shop or check today?",
+      "Hello! I am your Eco Sense Shopping Assistant. I'm here to help you find eco-friendly products, avoid single-use plastics, and compare products across our catalog. What would you like to shop or check today?",
     reasoning_summary:
       'Warm conversational greeting welcoming the shopper to conscious shopping choices.',
     sources_or_assumptions: [
-      'EcoMart Responsible AI interaction protocol'
+      'Eco Sense AI interaction protocol'
     ],
     confidence: 'high',
     estimated_energy_wh: 0.02,
@@ -125,7 +125,7 @@ export function generateLocalFallbackAnswer(query, _language = 'en') {
         recommended_categories: item.recommended_categories || [],
         isFallback: true,
         source: 'local_verified_cache',
-        model: 'EcoMart Offline Heuristic Engine'
+        model: 'Eco Sense Offline Engine'
       };
     }
   }
@@ -140,13 +140,13 @@ export function generateLocalFallbackAnswer(query, _language = 'en') {
   if (isValidCatalogMatch) {
     const topItems = matched.slice(0, 3);
     const itemNames = topItems.map((p) => `"${p.name}" (₹${p.price}, EcoScore: ${p.ecoScore || 90})`).join(', ');
-    const answerText = `I found sustainable alternatives from our verified catalog: ${itemNames}. Each eliminates single-use plastics and uses biodegradable or recyclable materials.`;
+    const answerText = `I found good choices from our catalog: ${itemNames}. Each avoids single-use plastics and uses biodegradable or recyclable materials.`;
 
     return {
       answer: answerText,
       reasoning_summary: 'Matched against local catalog using keyword tokens and MCDM sustainability scoring.',
       sources_or_assumptions: [
-        'EcoMart Verified Product Catalog (64 verified SKUs)',
+        'Eco Sense Product Catalog (64 sample items)',
         'Deterministic 0–100 EcoScore Lifecycle Formula'
       ],
       confidence: 'high',
@@ -155,15 +155,15 @@ export function generateLocalFallbackAnswer(query, _language = 'en') {
       recommended_categories: [...new Set(topItems.map((p) => p.category))],
       isFallback: true,
       source: 'local_catalog_engine',
-      model: 'EcoMart Offline Catalog Engine'
+      model: 'Eco Sense Offline Catalog Engine'
     };
   }
 
   return {
-    answer: `I am not sure of a verified catalog match for "${query}". For sustainable shopping: look for 3rd-party certifications (FSC/GOTS), verify plastic-free packaging, and avoid vague claims like "100% eco-friendly". You can explore categories like Kitchen, Personal Care, Home, or Bags!`,
+    answer: `I am not sure of a catalog match for "${query}". For sustainable shopping: look for 3rd-party certifications (FSC/GOTS), verify plastic-free packaging, and avoid vague claims like "100% eco-friendly". You can explore categories like Kitchen, Personal Care, Home, or Bags!`,
     reasoning_summary: 'Query had no direct catalog SKU match. Providing helpful category directions and anti-greenwashing guidance.',
     sources_or_assumptions: [
-      'EcoMart Verified Product Catalog (64 verified SKUs)',
+      'Eco Sense Product Catalog (64 sample items)',
       'Deterministic 0–100 EcoScore Lifecycle Formula (ISO 14040 principles)'
     ],
     confidence: 'low',
@@ -172,7 +172,7 @@ export function generateLocalFallbackAnswer(query, _language = 'en') {
     recommended_categories: ['Kitchen', 'Personal Care', 'Home', 'Bags'],
     isFallback: true,
     source: 'local_catalog_engine',
-    model: 'EcoMart Local Rules Engine'
+    model: 'Eco Sense Smart Rules Engine'
   };
 }
 
@@ -415,7 +415,7 @@ export function generateLocalGreenwashingVerdict(text) {
     estimated_energy_wh: 0.04,
     isFallback: true,
     source: 'local_heuristic_detective',
-    model: 'EcoMart Rule-Based Detective'
+    model: 'Eco Sense Rule-Based Detective'
   };
 }
 

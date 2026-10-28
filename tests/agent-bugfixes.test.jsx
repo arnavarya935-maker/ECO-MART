@@ -53,7 +53,7 @@ describe('EcoAgent Pre-Demo Bug Fixes Verification', () => {
       it(`identifies educational intent for "${q}"`, async () => {
         const res = await sendAgentQuery({ query: q, allProducts: products });
         expect(res.analysis?.intent?.isEducational).toBe(true);
-        expect(res.message).toContain('EcoMart Eco-Score');
+        expect(res.message).toContain('Eco Sense Eco-Score');
         expect(res.message).toContain('Material Integrity');
       });
     }

@@ -630,7 +630,7 @@ export async function handleGreenwashRequest(body, res, req = null) {
     return;
   }
 
-  const systemInstruction = `You are EcoMart's Greenwashing Detective, trained on ISO 14021 environmental claims and FTC Green Guides.
+  const systemInstruction = `You are Eco Sense's Greenwashing Detective, trained on ISO 14021 environmental claims and FTC Green Guides.
 Analyze the user's submitted product packaging text or marketing claim for greenwashing.
 
 ETHICAL DETECTIVE RULES:
@@ -783,7 +783,7 @@ export async function handleScanLabelRequest(body, res, req = null) {
     return;
   }
 
-  const systemInstruction = `You are EcoMart's Product Label Scanner.
+  const systemInstruction = `You are Eco Sense's Product Label Scanner.
 Goal: Transcribe only what is printed on the label accurately.
 SYSTEM MANDATE: Transcribe only text that is visibly printed. Never infer, guess or add facts. Use null for anything not visible or unreadable.
 Certifications are never marked verified.
@@ -932,7 +932,7 @@ export async function handleBarcodeRequest(query = {}, res, req = null) {
     const apiUrl = `https://world.openfoodfacts.org/api/v0/product/${encodeURIComponent(code.trim())}.json`;
     const apiResponse = await fetch(apiUrl, {
       signal: controller.signal,
-      headers: { 'User-Agent': 'EcoMart-Scanner/1.0 (Educational sustainability audit)' }
+      headers: { 'User-Agent': 'EcoSense-Scanner/1.0 (Educational sustainability audit)' }
     });
     clearTimeout(timeout);
 
@@ -1043,7 +1043,7 @@ export async function handleTranscribeRequest(body, res, req = null) {
             system_instruction: {
               parts: [
                 {
-                  text: 'You are an accurate Speech-to-Text Transcriber for EcoMart. Output strictly valid JSON: {"transcript": "exact spoken words here"}. If inaudible or empty, output {"transcript": ""}.'
+                  text: 'You are an accurate Speech-to-Text Transcriber for Eco Sense. Output strictly valid JSON: {"transcript": "exact spoken words here"}. If inaudible or empty, output {"transcript": ""}.'
                 }
               ]
             },

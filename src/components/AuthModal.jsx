@@ -101,7 +101,7 @@ export default function AuthModal() {
         <div className="text-center space-y-2 mb-6">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold border border-primary/20 shadow-soft-xs">
             <Sparkles className="w-3.5 h-3.5 text-primary" />
-            <span>EcoMart Conscious Club</span>
+            <span>Eco Sense Conscious Club</span>
           </div>
           <h2 id="auth-modal-title" className="text-2xl font-serif font-bold text-heading tracking-tight">
             {isSignUp ? 'Create Your Account' : 'Welcome Back'}

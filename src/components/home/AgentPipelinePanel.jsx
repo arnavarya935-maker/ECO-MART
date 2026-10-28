@@ -8,7 +8,6 @@ import {
   CheckCircle2,
   Terminal,
   ShieldCheck,
-  Zap,
   ArrowRight
 } from 'lucide-react';
 import { useTheme } from '../../context/ThemeContext';

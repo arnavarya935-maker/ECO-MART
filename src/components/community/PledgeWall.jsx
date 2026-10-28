@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { HeartHandshake, CheckCircle2, Send } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
-const INITIAL_PLEDGES = [];
+const _INITIAL_PLEDGES = [];
 
 export default function PledgeWall() {
   const { user } = useAuth();

@@ -36,7 +36,7 @@ export default function LoginPage() {
             <Sparkles className="w-3.5 h-3.5 text-primary" /> Welcome Back
           </span>
           <h1 className="text-3xl font-serif font-bold text-heading tracking-tight">
-            Sign In to EcoMart
+            Sign In to Eco Sense
           </h1>
           <p className="text-xs sm:text-sm text-secondary">
             Access your conscious cart, orders, and planetary savings ledger.

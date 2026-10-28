@@ -75,8 +75,8 @@ export default function EcoCheckPage() {
           Eco Check Any Product
         </h1>
         <p className="text-sm font-sans text-secondary mt-2 max-w-2xl leading-relaxed">
-          Evaluating a purchase outside EcoMart? Paste the product description, material list, or brand claims.
-          Our on-device heuristic analyzer detects greenwashing, estimates lifecycle impact, and recommends verified alternatives.
+          Evaluating a purchase outside Eco Sense? Paste the product description, material list, or brand claims.
+          Our smart rules look for misleading claims, estimate harm to nature, and suggest better choices from our catalogue.
         </p>
 
         {/* Search Input Box */}
@@ -242,13 +242,13 @@ export default function EcoCheckPage() {
               />
             )}
 
-            {/* Sustainable Alternatives from EcoMart Catalog */}
+            {/* Better choices from Eco Sense Catalog */}
             <div className="bg-surface-raised border border-line rounded-3xl p-6 shadow-card">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
                 <div>
                   <div className="flex items-center gap-2">
                     <h3 className="font-serif text-lg font-bold text-heading">
-                      Switch & Save: Verified EcoMart Alternatives
+                      Switch & Save: Better Choices from Eco Sense
                     </h3>
                     <span className="text-[10px] font-sans font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-primary-subtle text-primary border border-primary/20">
                       Estimate

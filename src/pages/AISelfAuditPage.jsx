@@ -69,10 +69,10 @@ export default function AISelfAuditPage() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b-2 border-forest-900">
             <div>
               <div className="text-xs font-mono uppercase tracking-widest text-emerald-700 font-bold">
-                EcoMart Responsible AI Systems Verification
+                Eco Sense Responsible AI Systems Check
               </div>
               <h2 className="text-2xl sm:text-3xl font-serif font-bold text-heading mt-1">
-                Automated Session Audit & Verification
+                Automated Session Check & Safety Log
               </h2>
               <div className="flex items-center gap-4 text-xs text-muted mt-2 font-mono">
                 <span>Report ID: {report.reportId}</span>
@@ -280,11 +280,11 @@ export default function AISelfAuditPage() {
           {/* Footer Signature Block */}
           <div className="pt-6 border-t-2 border-line flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs font-mono text-muted">
             <div>
-              <span>EcoMart Algorithmic Transparency &amp; Safety Framework</span>
-              <p className="text-[10px] mt-0.5">100% Deterministic Local Telemetry • Zero PII Retained</p>
+              <span>Eco Sense Algorithmic Transparency &amp; Safety Framework</span>
+              <p className="text-[10px] mt-0.5">Deterministic Local Rules • Zero Personal Data Retained</p>
             </div>
             <div className="text-right">
-              <span>Auditor Stamp: VERIFIED RESPONSIBLE AI</span>
+              <span>Status: RULES CHECK PASSED</span>
             </div>
           </div>
         </div>
