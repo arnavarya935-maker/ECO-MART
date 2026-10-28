@@ -128,6 +128,47 @@ const PROTECTED_TYPO_WORDS = new Set([
   ...CHEAP_KEYWORDS
 ]);
 
+export const OFF_TOPIC_ANSWER =
+  "I am the Eco Sense shopping helper. I can help you find eco-friendly products, compare, plan a basket, or check a claim. What are you looking for?";
+
+export const OFF_TOPIC_CHIPS = [
+  { label: "🎋 Eco kitchen swaps", prompt: "Show me kitchen items" },
+  { label: "🧺 Budget basket under ₹1000", prompt: "Assemble a budget basket under 1000" },
+  { label: "🔍 Check product claim", prompt: "Explain how the eco score is calculated" }
+];
+
+export const COMMON_ENGLISH_WORDS = new Set([
+  'date', 'with', 'will', 'you', 'your', 'yours', 'love', 'marry', 'like', 'look',
+  'joke', 'game', 'play', 'sing', 'song', 'news', 'time', 'what', 'when', 'where',
+  'which', 'this', 'that', 'have', 'give', 'tell', 'from', 'some', 'good', 'great',
+  'nice', 'help', 'call', 'meet', 'talk', 'hear', 'feel', 'read', 'write', 'learn',
+  'book', 'find', 'make', 'want', 'need', 'know', 'think', 'come', 'take', 'were',
+  'been', 'they', 'them', 'their', 'there', 'here', 'into', 'just', 'more', 'most',
+  'very', 'much', 'many', 'such', 'than', 'then', 'also', 'back', 'well', 'even',
+  'only', 'over', 'down', 'away', 'long', 'last', 'next', 'both', 'life', 'year',
+  'part', 'hand', 'place', 'work', 'week', 'point', 'home', 'water', 'about', 'other',
+  'could', 'would', 'should', 'might', 'must', 'weather', 'rain', 'sunny', 'math',
+  'maths', 'solve', 'calculate', 'sister', 'brother', 'mother', 'father', 'mom',
+  'dad', 'friend', 'teacher', 'boss', 'kid', 'person', 'people', 'human', 'world'
+]);
+
+export function isOffTopicQuery(query) {
+  if (!query || typeof query !== 'string') return false;
+  const q = query.toLowerCase().trim();
+
+  const offTopicPatterns = [
+    /\b(date\s+with\s+me|go\s+on\s+a\s+date|marry\s+me|love\s+you|be\s+my\s+(girlfriend|boyfriend|friend|valentine))\b/i,
+    /\b(tell\s+(me\s+)?a\s+joke|make\s+me\s+laugh|funny\s+joke|say\s+something\s+funny)\b/i,
+    /\b(weather|temperature|forecast|raining|rainy|sunny|cloudy)\b/i,
+    /\b(who\s+(are\s+you|made\s+you|created\s+you)|how\s+old\s+are\s+you|what\s+is\s+your\s+name|are\s+you\s+(single|human|real|ai|bot))\b/i,
+    /\b(what\s+is\s+\d+[\s\+\-\*\/]\d+|\bcalculate\s+\d+|\bsolve\s+\d+|\bmaths?\b|2\s*\+\s*2)\b/i,
+    /\b(sing\s+(me\s+)?a\s+song|write\s+(me\s+)?a\s+poem|tell\s+(me\s+)?a\s+story|play\s+a\s+game)\b/i,
+    /\b(cricket\s+score|football\s+score|who\s+won|stock\s+market|bitcoin|crypto)\b/i
+  ];
+
+  return offTopicPatterns.some((pattern) => pattern.test(q));
+}
+
 // Common domain synonyms mapping terms to catalogue words
 export const SYNONYM_MAP = {
   shoe: ['sneaker', 'sneakers', 'shoes', 'footwear'],
@@ -280,8 +321,42 @@ export function levenshtein(a, b) {
 export function parseShoppingIntent(query, context = null) {
   const text = (query || '').toLowerCase().trim();
 
+  if (isOffTopicQuery(query)) {
+    return {
+      rawQuery: query,
+      isOffTopic: true,
+      isCartReview: false,
+      isEducational: false,
+      isGoalPlanning: false,
+      isWhyNot: false,
+      whyNotTarget: null,
+      selectIndex: null,
+      isCheaperFollowUp: false,
+      isGreenerFollowUp: false,
+      maxBudget: null,
+      minBudget: null,
+      category: null,
+      packaging: null,
+      targetGrade: null,
+      recipient: null,
+      isGift: false,
+      sortBy: null,
+      wantsConventional: false,
+      didYouMean: null,
+      typoOriginal: null,
+      clarification: {
+        question: OFF_TOPIC_ANSWER,
+        options: OFF_TOPIC_CHIPS,
+        chips: OFF_TOPIC_CHIPS
+      },
+      keywords: [],
+      explanation: OFF_TOPIC_ANSWER
+    };
+  }
+
   const intent = {
     rawQuery: query,
+    isOffTopic: false,
     isCartReview: false,
     isEducational: false,
     isGoalPlanning: false,
@@ -545,10 +620,13 @@ export function parseShoppingIntent(query, context = null) {
   }
 
   // 15. Typo detection using Levenshtein distance on domain words (Bug 10: distance <= 2, real terms only)
+  // Allowed ONLY when typo is close (distance <= 2) to a real catalogue word, NEVER for ordinary English words.
   for (const w of words) {
     const normW = normalizeWord(w);
     if (
       w.length >= 4 &&
+      !COMMON_ENGLISH_WORDS.has(w) &&
+      !COMMON_ENGLISH_WORDS.has(normW) &&
       !PROTECTED_TYPO_WORDS.has(w) &&
       !PROTECTED_TYPO_WORDS.has(normW) &&
       isNaN(Number(w))
@@ -563,7 +641,8 @@ export function parseShoppingIntent(query, context = null) {
         let minDistance = 3;
         for (const dictWord of KNOWN_DICTIONARY) {
           const d = levenshtein(w, dictWord);
-          if (d <= 2 && d < minDistance) {
+          const maxAllowed = w.length === 4 ? 1 : 2;
+          if (d <= maxAllowed && d < minDistance) {
             minDistance = d;
             bestCandidate = dictWord;
           }
@@ -1369,6 +1448,39 @@ export async function sendAgentQuery(arg1, arg2, arg3, arg4) {
     allProducts = arg2 || [];
     cartItems = arg3 || [];
     context = arg4 || null;
+  }
+
+  // 0. Off-topic check (kind redirect, 3 example chips, no random products or didYouMean)
+  if (isOffTopicQuery(query)) {
+    return {
+      source: 'local-rule-engine',
+      isOffTopic: true,
+      message: OFF_TOPIC_ANSWER,
+      data: [],
+      analysis: {
+        results: [],
+        count: 0,
+        intent: {
+          rawQuery: query,
+          isOffTopic: true,
+          category: null,
+          maxBudget: null
+        }
+      },
+      tradeoffs: null,
+      trace: [
+        { step: 'Understood goal', detail: 'Off-topic or conversational prompt received' },
+        { step: 'Friendly redirect', detail: 'Re-centered user on conscious shopping, comparison, basket planning, or claim checking' }
+      ],
+      basketPlan: null,
+      clarification: {
+        question: OFF_TOPIC_ANSWER,
+        options: OFF_TOPIC_CHIPS,
+        chips: OFF_TOPIC_CHIPS
+      },
+      didYouMean: null,
+      cartReview: null
+    };
   }
 
   // 1. Priority adjustment check

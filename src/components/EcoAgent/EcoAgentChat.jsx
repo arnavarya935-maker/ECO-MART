@@ -427,15 +427,29 @@ export default function EcoAgentChat() {
         agentMsg.data = [];
       }
 
-      setAgentContext((prev) => ({
-        lastCategory: response.analysis?.intent?.category || prev.lastCategory,
-        lastBudget: response.analysis?.intent?.maxBudget || prev.lastBudget,
-        lastSort: response.analysis?.intent?.sortBy || prev.lastSort,
-        lastRecipient: response.analysis?.intent?.recipient || prev.lastRecipient,
-        lastPackaging: response.analysis?.intent?.packaging || prev.lastPackaging,
-        lastResults: agentMsg.data || prev.lastResults,
-        lastQuery: q
-      }));
+      if (!response.isOffTopic && !response.analysis?.intent?.isOffTopic && !aiResult?.isOffTopic) {
+        setAgentContext((prev) => {
+          const intentObj = response.analysis?.intent || {};
+          const isFollowUp = Boolean(
+            intentObj.isCheaperFollowUp ||
+            intentObj.isGreenerFollowUp ||
+            intentObj.isWhyNot ||
+            intentObj.selectIndex !== null ||
+            (intentObj.maxBudget && !intentObj.category && prev.lastCategory) ||
+            (intentObj.category && !intentObj.maxBudget && prev.lastBudget)
+          );
+
+          return {
+            lastCategory: intentObj.category || (isFollowUp ? prev.lastCategory : null),
+            lastBudget: intentObj.maxBudget || (isFollowUp ? prev.lastBudget : null),
+            lastSort: intentObj.sortBy || (isFollowUp ? prev.lastSort : null),
+            lastRecipient: intentObj.recipient || (isFollowUp ? prev.lastRecipient : null),
+            lastPackaging: intentObj.packaging || (isFollowUp ? prev.lastPackaging : null),
+            lastResults: agentMsg.data || (isFollowUp ? prev.lastResults : []),
+            lastQuery: q
+          };
+        });
+      }
 
       setMessages((prev) => [...prev, agentMsg]);
       appendBlackBoxLog({

@@ -4,7 +4,7 @@
  * with robust offline/cached fallback to guarantee deterministic local reliability.
  */
 
-import { queryEcoCatalog, KNOWN_DICTIONARY } from '../ecoAgent.js';
+import { queryEcoCatalog, KNOWN_DICTIONARY, isOffTopicQuery, OFF_TOPIC_ANSWER } from '../ecoAgent.js';
 import productsData from '../../data/products.json';
 
 // Curated verified knowledge cache for common sustainable shopping scenarios
@@ -90,6 +90,22 @@ const VERIFIED_FALLBACK_ANSWERS = [
  * Generate fallback answer using local deterministic engine
  */
 export function generateLocalFallbackAnswer(query, _language = 'en') {
+  if (isOffTopicQuery(query)) {
+    return {
+      answer: OFF_TOPIC_ANSWER,
+      reasoning_summary: 'Friendly redirect to conscious shopping features.',
+      sources_or_assumptions: [],
+      confidence: 'high',
+      estimated_energy_wh: 0,
+      recommended_products: [],
+      recommended_categories: [],
+      isFallback: true,
+      isOffTopic: true,
+      source: 'local_verified_cache',
+      model: 'Built-in helper'
+    };
+  }
+
   const lower = query.toLowerCase();
 
   // 1. Check curated high-confidence answers
@@ -174,6 +190,22 @@ export async function askEcoAgent({ query, language = 'en', context = {}, mode =
       confidence: "low",
       estimated_energy_wh: 0,
       isFallback: true
+    };
+  }
+
+  if (isOffTopicQuery(query)) {
+    return {
+      answer: OFF_TOPIC_ANSWER,
+      reasoning_summary: 'Friendly redirect to conscious shopping features.',
+      sources_or_assumptions: [],
+      confidence: 'high',
+      estimated_energy_wh: 0,
+      recommended_products: [],
+      recommended_categories: [],
+      isFallback: false,
+      isOffTopic: true,
+      source: 'local_verified_cache',
+      model: 'Built-in helper'
     };
   }
 

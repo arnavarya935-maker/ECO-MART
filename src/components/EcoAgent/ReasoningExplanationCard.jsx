@@ -68,17 +68,19 @@ export default function ReasoningExplanationCard({
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="flex-1 flex items-center justify-between py-1.5 px-2.5 rounded-xl bg-surface-sunken hover:bg-surface border border-line text-text-secondary hover:text-heading transition-colors cursor-pointer"
+          className="flex-1 flex flex-wrap items-center justify-between gap-2 py-1.5 px-2.5 rounded-xl bg-surface-sunken hover:bg-surface border border-line text-text-secondary hover:text-heading transition-colors cursor-pointer min-w-0"
           aria-expanded={isOpen}
         >
-          <span className="flex items-center gap-1.5 font-mono text-[11px] font-semibold text-primary">
-            <Brain className="w-3.5 h-3.5" />
-            <span>How did I decide this? · Multi-Agent Trace</span>
-            <span className={`px-2 py-0.5 rounded-full text-[9px] border font-mono ${confidenceBadge.bg}`}>
+          <div className="flex flex-wrap items-center gap-1.5 font-mono text-[11px] font-semibold text-primary min-w-0">
+            <div className="flex items-center gap-1.5 shrink-0">
+              <Brain className="w-3.5 h-3.5" />
+              <span>How did I decide this?</span>
+            </div>
+            <span className={`px-2 py-0.5 rounded-full text-[9px] border font-mono shrink-0 ${confidenceBadge.bg}`}>
               {confidenceBadge.label}
             </span>
-          </span>
-          <span className="flex items-center gap-1 text-[10px] text-text-muted">
+          </div>
+          <span className="flex items-center gap-1 text-[10px] text-text-muted shrink-0 ml-auto">
             <span>{isOpen ? 'Collapse' : 'Inspect'}</span>
             {isOpen ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
           </span>

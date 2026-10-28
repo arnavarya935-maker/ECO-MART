@@ -335,4 +335,45 @@ describe('EcoAgent Pre-Demo Bug Fixes Verification', () => {
       expect(intent.didYouMean).toBeNull();
     });
   });
+
+  describe('Phase 2 Easy Wins: Off-topic redirect and typo limits', () => {
+    it('redirects "will you go on a date with me" politely with 3 example chips, 0 products, and no tote typo', async () => {
+      const res = await sendAgentQuery({
+        query: 'will you go on a date with me',
+        allProducts: products
+      });
+
+      expect(res.message).toBe(
+        'I am the Eco Sense shopping helper. I can help you find eco-friendly products, compare, plan a basket, or check a claim. What are you looking for?'
+      );
+      expect(res.data).toEqual([]);
+      expect(res.didYouMean).toBeNull();
+      expect(res.basketPlan).toBeNull();
+      expect(res.isOffTopic).toBe(true);
+      expect(res.clarification.options.length).toBe(3);
+    });
+
+    it('redirects jokes, weather, and maths questions politely', async () => {
+      const offTopics = ['tell me a joke', 'what is the weather today', 'what is 2+2'];
+      for (const q of offTopics) {
+        const res = await sendAgentQuery({ query: q, allProducts: products });
+        expect(res.isOffTopic).toBe(true);
+        expect(res.data).toEqual([]);
+        expect(res.message).toContain('I am the Eco Sense shopping helper');
+      }
+    });
+
+    it('does not trigger "Did you mean" for ordinary English words like date or weather', () => {
+      const intent1 = parseShoppingIntent('date');
+      expect(intent1.didYouMean).toBeNull();
+
+      const intent2 = parseShoppingIntent('weather');
+      expect(intent2.didYouMean).toBeNull();
+    });
+
+    it('only triggers "Did you mean" for real typos close to catalogue terms', () => {
+      const intent = parseShoppingIntent('tootbrush');
+      expect(intent.didYouMean).toBe('toothbrush');
+    });
+  });
 });
