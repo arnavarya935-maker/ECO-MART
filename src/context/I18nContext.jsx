@@ -10,10 +10,26 @@ const DICTIONARIES = {
   hi
 };
 
-export function I18nProvider({ children }) {
+function getFromDict(dict, key) {
+  if (!dict || !key) return undefined;
+  if (dict[key] !== undefined) return dict[key];
+  const parts = key.split('.');
+  let current = dict;
+  for (const part of parts) {
+    if (current && typeof current === 'object' && part in current) {
+      current = current[part];
+    } else {
+      return undefined;
+    }
+  }
+  return (typeof current === 'string' || typeof current === 'number') ? current : undefined;
+}
+
+export function I18nProvider({ children, defaultLang }) {
   const [lang, setLangState] = useState(() => {
     try {
       if (!FEATURES.HINDI_LANGUAGE) return 'en';
+      if (defaultLang) return defaultLang === 'hi' ? 'hi' : 'en';
       const saved = localStorage.getItem('ecomart_lang');
       return saved === 'hi' ? 'hi' : 'en';
     } catch {
@@ -49,13 +65,13 @@ export function I18nProvider({ children }) {
 
   const t = useCallback((key, fallback) => {
     const dict = DICTIONARIES[lang];
-    if (dict && dict[key] !== undefined) {
-      return dict[key];
-    }
+    const val = getFromDict(dict, key);
+    if (val !== undefined) return val;
+
     // Fallback to English dictionary
-    if (DICTIONARIES.en[key] !== undefined) {
-      return DICTIONARIES.en[key];
-    }
+    const fallbackVal = getFromDict(DICTIONARIES.en, key);
+    if (fallbackVal !== undefined) return fallbackVal;
+
     return fallback !== undefined ? fallback : key;
   }, [lang]);
 
@@ -76,7 +92,10 @@ export function I18nProvider({ children }) {
 export function useI18n() {
   const context = useContext(I18nContext);
   if (!context) {
-    const fallbackT = (key, fallback) => en[key] !== undefined ? en[key] : (fallback !== undefined ? fallback : key);
+    const fallbackT = (key, fallback) => {
+      const val = getFromDict(en, key);
+      return val !== undefined ? val : (fallback !== undefined ? fallback : key);
+    };
     return {
       t: fallbackT,
       lang: 'en',
