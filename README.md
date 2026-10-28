@@ -1,196 +1,156 @@
-# EcoMart — Transparent Sustainable E-Commerce & Agentic Shopping Platform
+# Eco Sense — Shop with Purpose
 
-> *"Shop with clarity. Every claim grounded, every estimate transparent."*
+> A transparent shopping app with an honest AI helper. Built for school competition presentation on 31 October 2026.
 
-EcoMart is a production-grade, local-first sustainable e-commerce web application built with **React 19**, **Vite**, **Tailwind CSS v4 & semantic design tokens**, **React Three Fiber (Three.js)**, **Framer Motion**, and **Recharts**. EcoMart transparently scores products with an open lifecycle formula, suggests cleaner product swaps, detects greenwashing, and provides a multi-agent shopping assistant—all running with zero external CDN dependencies and honest uncertainty boundaries.
+Eco Sense helps everyday shoppers find green alternatives, spot vague claims, and make budget-friendly choices. It works in both **English** and **Hindi (हिंदी)**.
 
 ---
 
-## 🏛️ Architecture Overview
+## ⚡ Quick Start in 3 Commands
 
-```
-                                  ┌──────────────────────────────────────────────┐
-                                  │           EcoMart Client (Browser)          │
-                                  │  - React 19 + Vite + Tailwind CSS v4 Tokens  │
-                                  │  - Local-First Storage (localStorage/IDB)    │
-                                  │  - Service Worker (App Shell + Offline Mode) │
-                                  │  - Deterministic Offline AI Engines          │
-                                  └──────────────────────┬───────────────────────┘
-                                                         │
-                                        API Requests (/api/*)
-                                                         │
-                                                         ▼
-                                  ┌──────────────────────────────────────────────┐
-                                  │      Edge / Serverless Proxy Gateway         │
-                                  │   (server/proxyServer.js & api/*.js)         │
-                                  │  - In-Memory Rate Limiting (30 req/min/IP)   │
-                                  │  - Payload Validation (Max 3MB base64)       │
-                                  │  - Header Injection (x-goog-api-key)         │
-                                  │  - Output Schema Validation & Sanitization   │
-                                  └───────┬──────────────┬──────────────┬────────┘
-                                          │              │              │
-                                          ▼              ▼              ▼
-                                  ┌──────────────┐┌──────────────┐┌──────────────┐
-                                  │Google Gemini ││ GNews /      ││Open Food     │
-                                  │2.5 Flash API ││ NewsData API ││Facts Registry│
-                                  └──────────────┘└──────────────┘└──────────────┘
+```bash
+git clone https://github.com/example/ecomart-agent.git
+cd ecomart-agent
+npm install && npm run dev
 ```
 
-1. **Local-First PWA Architecture**:
-   - Zero external CDN scripts, fonts, or images. 100% self-hosted assets in `public/` and `src/assets/`.
-   - All cart, preference, and agent memory state is local-first (`localStorage`) with a dedicated **Privacy Center** to inspect, export (JSON), or permanently delete data.
-   - Progressive Web App with service worker pre-caching the core application shell and providing offline fallback.
-
-2. **Server-Side API Security & Rate Limiting**:
-   - Zero API keys are ever leaked to client bundles. API keys are injected server-side via `x-goog-api-key`.
-   - Sliding-window rate limiter enforces 30 requests/minute per client IP with `429 Too Many Requests` responses.
-   - Strict payload size ceilings (3MB base64) protect against memory denial-of-service.
-   - Responses are strictly validated and mapped against schema models before reaching the client; raw model payloads are never directly forwarded.
-
-3. **Multi-Provider AI & Offline Fallback**:
-   - Powered by Google Gemini 2.5 Flash (`gemini-2.5-flash`), with deterministic rule-based client fallbacks for all features when offline or unconfigured.
-   - All AI-generated estimates are clearly labeled with uncertainty ranges and assumption notices.
-
-4. **Curated Eco News Adapter**:
-   - Multi-provider news adapter (`/api/news`) supporting GNews and NewsData.
-   - Restricts queries to 7 allowlisted sustainability topics (*Climate, Supply Chain, Policy, Tech, Biodiversity, Energy, Circular Economy*) with an in-memory 1-hour cache.
-
-5. **Open Food Facts Barcode Integration**:
-   - `/api/barcode` queries public product registries for packaging and certification data with a 6-second timeout and sanitization layer.
+Then open `http://localhost:5173` in your browser.
 
 ---
 
-## 🔄 Before vs. After Comparison
+## 🔑 Environment Variables
 
-| Dimension | Before (Initial Codebase) | After (EcoMart Production Upgrade) |
-| :--- | :--- | :--- |
-| **API Security** | API keys passed in URL query strings or exposed client-side; no rate limiting or payload limits. | Server-side gateway with `x-goog-api-key` header injection, 30 req/min sliding-window rate limit, 3MB body limit, and output sanitization. |
-| **Label Scanner** | Hardcoded fake scores, simulated camera scans, fabricated certainty verdicts. | Real canvas downscaling (max 1024px), Tesseract OCR verbatim text transcription, Open Food Facts barcode registry lookups, zero invented scores. |
-| **Eco News Hub** | Missing news feature or static placeholder links. | Production news adapter supporting GNews and NewsData with 7 allowlisted topics, 1-hour caching, and honest empty states. |
-| **Honesty & Copy** | Blanket claims ("100% offline", "Zero Plastic", "Verified Impact"), fake customer reviews, and seeded leaderboard users. | Complete purge of synthetic traction and unverified claims; ISO 14040 open formulas, uncertainty min-max bands, and labeled estimates. |
-| **Codebase Health** | 11 orphaned/dead components, duplicate styling classes, unused state hooks, ad-hoc buttons. | 11 dead components removed; design system components wired (`GlossaryTooltip`, `EmptyState`, `Tabs`, `Chip`, `Skeleton`, `Input`). |
-| **UI Polish & Viewports** | Mobile collisions between floating widgets and bottom nav; sub-12px micro-text (`text-[9px]`); fixed-height button clipping. | Quiet luxury styling with Fraunces & Inter; standard z-index scale; min 12px micro-eyebrows and 14px body; `min-h-[44px]` touch targets. |
-| **Automated Testing** | 75 unit tests with baseline test regressions and missing integration coverage. | **243 passing tests** across 27 suites, including automated forbidden-terms regression test and full route rendering suite. |
-| **Asset & URL Purity** | Inconsistent image assets and unverified links. | 64/64 unique images verified; **0 external URLs** in `src/` or `public/`; Home route JS 182.98 kB (within 200 kB budget). |
+To enable the cloud AI helper, create a `.env` file in the project root:
 
----
-
-## 🧭 How Each Hub Works (Plain-Language Guide)
-
-### 1. Shop Hub (`/shop`)
-The Shop Hub presents a curated catalog of 64 sustainable products with real-time multi-criteria ranking. Shoppers can adjust interactive priority sliders (Price, Carbon, Plastic, Water, Local Distance) to reorder products dynamically, with every card featuring a "Why this rank?" audit popover. When a conventional item is added to the cart, the proactive copilot suggests a cleaner swap and shows the exact environmental delta.
-
-### 2. Agent Hub (`/agent`)
-The Agent Hub provides a transparent multi-agent shopping assistant featuring visible collaboration between Planner, Researcher, Skeptic, and Advisor roles. It can solve constraint-based shopping goals (e.g., "dorm essentials under ₹3,000"), critiquing its own recommendations via Skeptic mode. All conversation context and preference memory are stored locally on-device and can be edited or wiped with one click.
-
-### 3. Truth Lab Hub (`/truth-lab`)
-The Truth Lab is an environmental claims audit center unifying four specialized tools:
-- **Greenwashing Detective**: Analyzes product descriptions against FTC and ASCI regulatory lexicons.
-- **Claim Radar**: Plots marketing statements across 5 independent axes (Vague Wording, Proof, Certification, Specificity, Benchmarking).
-- **Label Scanner (`/scan`)**: Extracts verbatim packaging text via client-side OCR and queries the Open Food Facts barcode registry without storing images.
-- **AI Courtroom (`/courtroom`)**: Simulates a three-role legal debate where a Prosecutor exposes vague claims, a Defender highlights genuine merits, and an impartial Judge delivers an evidentiary verdict.
-
-### 4. Impact Hub (`/impact`)
-The Impact Hub translates abstract environmental metrics into actionable personal accountability. It tracks a live monthly personal carbon budget consumed by cart purchases, visualizes product lifecycle digital twins (from material extraction to second life), and calculates cost-per-use economics against single-use disposables. Shoppers can export a printable Purpose Receipt using EPA/EEA conversion factors.
-
-### 5. Learn Hub (`/learn`)
-The Learn Hub builds long-term sustainability literacy through interactive, engaging storytelling. It features the scroll-driven "Life of a T-Shirt" story mode, verified myth-buster cards, category repair and reuse guides, and an inline glossary for eco terminology. Includes full bilingual support (English and Hindi) with offline typography and accessible high-contrast modes.
-
----
-
-## ⚙️ Environment Variables
-
-EcoMart works out of the box in offline-first mode without any required environment variables. To enable live cloud AI and news providers, create a `.env` or `.env.local` file:
-
-```env
-# -----------------------------------------------------------------------------
-# Google Gemini AI Configuration
-# -----------------------------------------------------------------------------
-# Required for live generative responses; if omitted, EcoMart seamlessly uses
-# verified deterministic offline heuristics.
+```ini
+# Google Gemini API Key from Google AI Studio (free tier)
 GEMINI_API_KEY=your_gemini_api_key_here
 
-# Model identifier (defaults to gemini-2.5-flash)
-GEMINI_MODEL=gemini-2.5-flash
-
-# -----------------------------------------------------------------------------
-# Curated Eco News Configuration
-# -----------------------------------------------------------------------------
-# Supported providers: 'gnews' or 'newsdata'
-NEWS_PROVIDER=gnews
-
-# API key for the selected news provider
-NEWS_API_KEY=your_news_api_key_here
-
-# -----------------------------------------------------------------------------
-# Server Configuration (Optional)
-# -----------------------------------------------------------------------------
-# Port for standalone proxy server (default: 3001)
-PORT=3001
+# Recommended model (check names in Google AI Studio before the event)
+GEMINI_MODEL=gemini-1.5-flash
 ```
+
+> **Important Note for Vercel Deployment:**
+> After adding or changing environment variables in the Vercel dashboard, **you must redeploy** for changes to take effect.
+
+If no API key is provided, the app continues to work smoothly using its built-in rule engine.
 
 ---
 
-## 🎛️ Safety Feature Flags (`src/lib/features.js`)
+## 🩺 How to Verify the Gemini AI Connection
 
-Every key capability is guarded by a boolean flag in `src/lib/features.js` for safe deployment and granular control:
+You can verify whether the AI helper is connected in two easy ways:
 
-| Feature Flag | Default | Description |
-|---|:---:|---|
-| `DECISION_ENGINE` | `true` | Multi-criteria priority-weighted ranking engine |
-| `ECO_CHECK` | `true` | Text paste greenwashing and material analyzer |
-| `PROACTIVE_COPILOT` | `true` | Rate-limited non-blocking sustainable swap nudges |
-| `LIFECYCLE_EXPLORER` | `true` | 5-stage product lifecycle timeline scrubber |
-| `YEAR_AHEAD_REPORT` | `true` | 12-month projection and printable Purpose Report |
-| `FOR_YOU_LEARNING` | `true` | On-device privacy-first personalization row |
-| `HINDI_LANGUAGE` | `true` | Hindi/English bilingual switcher and offline fonts |
-| `AI_COURTROOM` | `true` | Simulated 3-role courtroom debate with objections |
-| `LABEL_SCANNER` | `true` | Verbatim OCR label scanner & barcode registry lookup |
-| `CONFIDENCE_BRAKE` | `true` | Strictness threshold slider & accountable refusal |
-| `ETHICS_DILEMMAS` | `true` | Dilemma cards with explicit algorithmic refusal |
-| `CHOICE_RIPPLE` | `true` | Animated Sankey lifecycle flow with table view |
-| `PRODUCT_TIME_MACHINE` | `true` | Future scenario outcomes (Now / 2030 / 2035) |
-| `AI_SELF_AUDIT` | `true` | Printable session self-audit accountability report |
-| `KIRANA_MODE` | `true` | High-contrast Hindi-first layout with Web Speech |
+1. **In the App:**
+   Open the **Settings** page (`/settings`). Under "AI Helper Status", you will see:
+   - `AI helper: working, 1.2 s` (when Gemini is connected and fast)
+   - `AI helper: not connected - using the built-in helper (NO_API_KEY)` (when running locally without a key)
+
+2. **Via the Health Endpoint:**
+   Visit `http://localhost:5173/api/health` or run:
+   ```bash
+   curl http://localhost:5173/api/health
+   ```
+   Example healthy response:
+   ```json
+   {
+     "status": "working",
+     "model": "gemini-1.5-flash",
+     "latencyMs": 840,
+     "checkedAt": "2026-10-29T01:45:00.000Z"
+   }
+   ```
+   > **Security Guarantee:** The health check never returns your API key or any part of it.
 
 ---
 
-## 🚀 Getting Started & CI Verification
+## 🏛️ How the System Works (2 Layers)
 
-### Prerequisites
-- Node.js 18.0.0 or higher
-- npm 9.0.0 or higher
-
-### Installation & Development
-
-```bash
-# 1. Install dependencies
-npm install
-
-# 2. Start local development server (with built-in API proxy)
-npm run dev
-
-# 3. Open in your browser
-# Default: http://localhost:5173 (or 5174 if 5173 is occupied)
+```
+┌─────────────────────────────────────────────────────────────┐
+│                      LAYER 1: USER'S BROWSER                │
+│  - React 19 + Vite + Tailwind v4                            │
+│  - 64 Products Catalogue (English & Hindi)                  │
+│  - Transparent 5-Pillar EcoScore Math Formula               │
+│  - Built-in Local Helper (Fast, deterministic rules)         │
+│  - Local Cart & Saved Orders in localStorage                │
+└──────────────────────────────┬──────────────────────────────┘
+                               │
+                               │ HTTPS /api/agent (20s total client timeout)
+                               ▼
+┌─────────────────────────────────────────────────────────────┐
+│                 LAYER 2: VERCEL SERVERLESS PROXY            │
+│  - /api/agent & /api/health                                 │
+│  - Keeps GEMINI_API_KEY safe (never sent to browser)        │
+│  - Rate Limiter (30 requests/min per IP)                    │
+│  - Redacts personal data (emails, phone numbers)            │
+│  - 12s primary model timeout, fast fallback to secondary    │
+└──────────────────────────────┬──────────────────────────────┘
+                               │
+                               │ Authenticated API Call (Server-to-Server)
+                               ▼
+┌─────────────────────────────────────────────────────────────┐
+│                     EXTERNAL AI (OPTIONAL)                  │
+│  Google Gemini 1.5 Flash (Google AI Studio)                 │
+└─────────────────────────────────────────────────────────────┘
 ```
 
-### Comprehensive CI Quality Suite
+- **Price & Score Safety Rule:** The cloud model only suggests category names and explains reasoning in plain words. Product prices, EcoScores, and carbon savings ALWAYS come strictly from our verified local catalogue data. If an external model hallucinates a non-existent product or fake price, our proxy automatically drops it.
+
+---
+
+## 🔍 Honest Honesty Audit: What is Real vs Simulated?
+
+To be 100% honest with the competition judges:
+
+| Feature | Status | Details |
+| :--- | :--- | :--- |
+| **Product Catalogue** | **Real** | 64 curated eco-friendly and conventional comparison products with real prices, specs, and materials. |
+| **EcoScore (0-100)** | **Real** | Computed mathematically via an open 5-pillar formula: Materials (30%), Packaging (20%), Carbon (25%), Certifications (15%), Proximity (10%). |
+| **Search & Filters** | **Real** | Full instant text search, price filters, category filters, and sorting. |
+| **Bilingual UI** | **Real** | Complete key parity between English and Hindi (`src/i18n/en.js` & `src/i18n/hi.js`) plus localized product names and descriptions. |
+| **Basket Planner** | **Real** | Multi-choice knapsack algorithm that optimizes items to fit a custom budget while maximizing EcoScore. |
+| **AI Helper Explanations** | **Real** | When `GEMINI_API_KEY` is present, real Gemini calls generate natural explanations; otherwise, the built-in rule helper answers. |
+| **Connection Health Check** | **Real** | Real 5-second health probe to Gemini with 60-second in-memory caching. |
+| **News Feed** | *Curated Demo* | Realistic curated eco-news articles loaded from clean static data (no live paid RSS subscriptions). |
+| **Label Scanner** | *Simulated* | Client-side OCR simulation using standard browser canvas/image processing. |
+| **Barcode Lookup** | *Simulated* | Matches barcodes against our sample catalogue database. |
+| **Payment Gateway** | *Simulated* | Instant mock checkout (UPI, Card, Cash on Delivery) to demonstrate orders and receipts without charging real money. |
+| **Seller Certifications** | *Claimed* | Listed as claimed by the seller in our sample data; our "Truth Lab" audits them for vague buzzwords. |
+
+---
+
+## 🌙 5 Things to Check the Night Before 31 Oct 2026
+
+1. **Verify AI Health:** Open `/settings` and confirm it shows `AI helper: working`. Check `curl http://localhost:5173/api/health`.
+2. **Confirm Gemini Quota:** Log in to [Google AI Studio](https://aistudio.google.com/) and check that your API key is active and within free tier limits.
+3. **Run Code Verification:** Run `npm run verify` in terminal. Confirm:
+   - `0 lint errors`
+   - All tests pass (350+ tests)
+   - Clean production build (`npm run build`)
+4. **Offline Test:** Disconnect Wi-Fi on your demo laptop and browse the store. The Service Worker and built-in local helper should continue answering questions smoothly.
+5. **Screen & Audio Prep:** Test your laptop screen at 100% zoom. Check sound volume if demonstrating text-to-speech voice answers in English or Hindi.
+
+---
+
+## 🛠️ Verification Commands
 
 ```bash
-# Run the complete verification gate:
+# Run lint check (0 errors)
+npm run lint
+
+# Run all 350+ automated unit & integration tests
+npm test
+
+# Run production build
+npm run build
+
+# Run complete verification suite
 npm run verify
 ```
 
-`npm run verify` runs the following automated checks in sequence:
-1. `npm run lint`: Oxlint static analysis across all files (0 errors).
-2. `npm run check`: Image integrity check (64/64 unique images, zero broken assets).
-3. `npm test`: 243 Vitest tests across 27 suites (100% passing).
-4. `npm run build`: Production bundle compilation via Vite.
-5. `npm run check:urls`: Scans `src/` and `public/` for external CDN URLs (0 external URLs).
-6. `npm run bundle:report`: Verifies initial Home JS bundle is under the 200 kB gzipped threshold.
-
 ---
 
-## 📄 License & Attribution
+## 📜 License & Ethics
 
-EcoMart is open-source software built for educational sustainability research and transparent e-commerce design. All conversion factors and impact formulas are grounded in public ISO 14040/14044 lifecycle standards, EPA guidelines, and the Open Food Facts public registry.
+Created for school competition exhibition. Code is open and transparent. Built with purpose, honesty, and simple words.
