@@ -170,3 +170,4 @@
 ### 15. "If a seller claims a certification, does your app blindly trust them?"
 > **Answer:**  
 > *"No. We make it completely clear in our honesty audit and on the product page that certifications in our sample catalogue are 'Claimed by Seller'. Furthermore, our system audits whether those claimed certifications match recognized registry standards. If an unverified seller claims '100% Organic' without a standard body, our Trust Passport highlights it for scrutiny."*
+
