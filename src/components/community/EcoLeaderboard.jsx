@@ -79,7 +79,7 @@ export default function EcoLeaderboard() {
       <div className="p-3.5 rounded-2xl bg-surface-sunken border border-line text-xs text-secondary flex items-start gap-2.5">
         <ShieldCheck className="w-4 h-4 text-primary shrink-0 mt-0.5" />
         <p className="leading-relaxed">
-          <strong className="text-heading">Honesty Guarantee:</strong> EcoMart never invents fake leaderboard competitors or artificial usernames. Every milestone reflects verified local reductions in carbon, plastic, and water.
+          <strong className="text-heading">Demo Notice:</strong> Eco Sense shows personal milestone progression. Milestone values are estimates based on your local orders and swaps.
         </p>
       </div>
 

@@ -8,11 +8,15 @@ import WhyRankPopover from './decision/WhyRankPopover';
 import AIEthicsCard from './decision/AIEthicsCard';
 import { useCart } from '../context/CartContext';
 import { useTheme } from '../context/ThemeContext';
+import { useT } from '../context/I18nContext';
+import { getLocalizedProduct } from '../lib/productsHelper';
 import { playSound } from '../lib/audio';
 
 export default function ProductCard({ product, rankingDetails }) {
   const navigate = useNavigate();
   const { reduceEffects } = useTheme();
+  const { t, lang } = useT();
+  const localizedProduct = getLocalizedProduct(product, lang);
   const {
     addToCart,
     setSelectedProduct,
@@ -78,7 +82,7 @@ export default function ProductCard({ product, rankingDetails }) {
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-surface border-b border-line">
         <ProductImage
           src={product.image}
-          alt={product.name}
+          alt={localizedProduct.name}
           className="w-full h-full group-hover:scale-105 transition-transform duration-500 object-cover"
           category={product.category}
           fallbackIcon={product.icon}
@@ -129,7 +133,7 @@ export default function ProductCard({ product, rankingDetails }) {
             className="inline-flex items-center gap-1.5 text-xs font-sans font-medium px-4 py-2 rounded-xl bg-surface-raised/95 text-heading border border-line hover:bg-surface-sunken shadow-soft-sm transition-all active:scale-95 min-h-[44px] cursor-pointer"
           >
             <Eye className="w-3.5 h-3.5 text-primary" />
-            <span>Quick View</span>
+            <span>{t('common.viewDetails', 'Quick View')}</span>
           </button>
         </div>
       </div>
@@ -142,7 +146,7 @@ export default function ProductCard({ product, rankingDetails }) {
           </h3>
 
           <p className="text-xs font-sans text-secondary mt-1.5 line-clamp-2 leading-relaxed">
-            {product.description}
+            {localizedProduct.description}
           </p>
 
           {/* Environmental metrics & Decision Engine Ranking */}
@@ -163,7 +167,7 @@ export default function ProductCard({ product, rankingDetails }) {
                 title="Inspect EcoScore audit methodology and formula"
               >
                 <Sparkles className="w-3 h-3 text-primary" />
-                Why this score?
+                {t('product.whyScore', 'Why this score?')}
               </button>
               <AIEthicsCard compact={true} product={product} />
               {(rankingDetails || product.rank) && (
@@ -176,7 +180,7 @@ export default function ProductCard({ product, rankingDetails }) {
         {/* Bottom Price & One-Tap Add to Cart */}
         <div className="pt-3 border-t border-line flex items-center justify-between gap-2">
           <div>
-            <div className="text-xs font-sans uppercase font-medium text-muted tracking-wider">Price</div>
+            <div className="text-xs font-sans uppercase font-medium text-muted tracking-wider">{t('shop.price', 'Price')}</div>
             <div className="text-base sm:text-lg font-sans font-bold text-heading">
               ₹{product.price.toLocaleString('en-IN')}
             </div>
@@ -191,12 +195,12 @@ export default function ProductCard({ product, rankingDetails }) {
             {added ? (
               <>
                 <Check className="w-3.5 h-3.5 stroke-[3] text-primary-contrast" />
-                <span>Added</span>
+                <span>{t('common.added', 'Added')}</span>
               </>
             ) : (
               <>
                 <ShoppingBag className="w-3.5 h-3.5 text-primary-contrast" />
-                <span>Add</span>
+                <span>{t('common.addToCart', 'Add')}</span>
               </>
             )}
           </button>

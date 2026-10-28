@@ -111,12 +111,12 @@ export default function Footer() {
             <ul className="space-y-2.5 text-xs font-sans font-medium text-text-secondary">
               <li>
                 <Link to="/shop" className="ln-sweep hover:text-heading transition py-1 inline-block min-h-[32px]">
-                  Sustainable Catalog
+                  {t('nav.shop', 'Shop')}
                 </Link>
               </li>
               <li>
                 <Link to="/transparency" className="ln-sweep hover:text-heading transition py-1 inline-block min-h-[32px]">
-                  Agent Transparency
+                  {t('nav.agent', 'Eco Agent')}
                 </Link>
               </li>
               <li>
@@ -157,7 +157,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link to="/impact" className="ln-sweep hover:text-heading transition py-1 inline-block min-h-[32px]">
-                  Verified Metrics
+                  {t('nav.impact', 'My Impact')}
                 </Link>
               </li>
             </ul>

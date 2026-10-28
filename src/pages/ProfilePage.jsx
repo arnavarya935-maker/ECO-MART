@@ -250,9 +250,9 @@ export default function ProfilePage() {
           >
             <div className="flex items-center justify-between">
               <span className="text-xs font-semibold uppercase tracking-wider text-primary">
-                EcoMart Impact Ledger
+                Eco Sense Impact Ledger
               </span>
-              <span className="text-xs font-medium text-muted">Verified Local</span>
+              <span className="text-xs font-medium text-muted">Local Data</span>
             </div>
 
             <div className="flex items-center gap-3 py-1">
@@ -368,10 +368,10 @@ export default function ProfilePage() {
           <div>
             <div className="flex items-center gap-2 text-heading font-semibold text-sm">
               <Package className="w-4 h-4 text-primary" />
-              <span>Order History & Real-Time Tracking</span>
+              <span>Order History & Status</span>
             </div>
             <p className="text-xs text-muted mt-1">
-              You have {orders.length} order{orders.length !== 1 ? 's' : ''} logged with verified lifecycle carbon receipts.
+              You have {orders.length} order{orders.length !== 1 ? 's' : ''} logged with estimated carbon savings.
             </p>
           </div>
 
@@ -393,7 +393,7 @@ export default function ProfilePage() {
       >
         <div className="space-y-4">
           <p className="text-xs text-secondary font-normal">
-            Select an eco persona. Stored 100% locally on your machine with zero external uploads.
+            Select an eco persona. Stored locally on your device with no cloud uploads.
           </p>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">

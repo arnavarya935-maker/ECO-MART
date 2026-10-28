@@ -5,13 +5,9 @@ import {
   Search,
   Scale,
   Camera,
-  FileCheck,
-  Sparkles,
   ArrowRight,
   ShieldCheck,
-  CheckCircle2,
-  AlertTriangle,
-  RotateCcw
+  CheckCircle2
 } from 'lucide-react';
 import { analyzeExternalProduct } from '../lib/ecoCheck';
 import { useCart } from '../context/CartContext';
@@ -212,7 +208,7 @@ export default function TruthLabPage() {
                   <div className="p-5 rounded-3xl bg-primary/5 border border-primary/25 space-y-2">
                     <div className="flex items-center gap-2 text-primary font-bold text-xs uppercase tracking-wider">
                       <ShieldCheck className="w-4 h-4" />
-                      <span>Verified Green Signals ({analysis.greenSignals.length})</span>
+                      <span>Good Choice Signals ({analysis.greenSignals.length})</span>
                     </div>
                     {analysis.greenSignals.length === 0 ? (
                       <p className="text-xs text-muted">No verifiable third-party certification cited (e.g. <GlossaryTooltip term="GOTS Certified">GOTS</GlossaryTooltip>).</p>

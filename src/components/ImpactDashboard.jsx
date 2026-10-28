@@ -36,7 +36,7 @@ export default function ImpactDashboard({ showHeader = true }) {
     {
       id: 'champion',
       name: 'Eco Champion',
-      description: 'Exceptional Grade A average with 100% plastic-free packaging',
+      description: 'Exceptional Grade A average with Plastic-free packaging',
       icon: '👑',
       unlocked: badges.some((b) => b.id === 'champion')
     }
@@ -51,7 +51,7 @@ export default function ImpactDashboard({ showHeader = true }) {
               <span className="text-xs uppercase font-semibold tracking-wider text-primary bg-primary/10 px-2.5 py-0.5 rounded-full border border-primary/20">
                 Live Environmental Ledger
               </span>
-              <span className="text-xs font-medium text-muted">Real-Time Cart Impact</span>
+              <span className="text-xs font-medium text-muted">Cart Impact (Estimate)</span>
             </div>
             <h2 className="text-2xl font-serif font-bold text-heading mt-1">
               Your Collective Planetary Impact

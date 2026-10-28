@@ -43,7 +43,7 @@ export default function ConfirmationModal() {
           <div className="flex items-center justify-between border-b border-line pb-2.5">
             <div className="flex items-center gap-1.5 font-bold text-xs uppercase tracking-wider text-heading">
               <Sparkles className="w-4 h-4 text-primary" />
-              <span>Official Environmental Impact Receipt</span>
+              <span>Environmental Impact Receipt (Estimate)</span>
             </div>
             <span className="text-xs font-serif font-bold text-primary">
               Score: {impactSaved.averageEcoScore}/100

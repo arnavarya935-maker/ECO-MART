@@ -15,9 +15,13 @@ import ProductScaleVisualModal from './product/ProductScaleVisualModal';
 import ProductPassportQRModal from './product/ProductPassportQRModal';
 import Modal from './ui/Modal';
 import { useCart } from '../context/CartContext';
+import { useT } from '../context/I18nContext';
+import { getLocalizedProduct } from '../lib/productsHelper';
 
 export default function ProductDetailModal({ product, onClose }) {
   const { addToCart, allProducts, getProductReviews, addReview, setIsAgentOpen } = useCart();
+  const { lang } = useT();
+  const localizedProduct = getLocalizedProduct(product, lang);
   const [activeTab, setActiveTab] = useState('overview'); // 'overview' | 'lifecycle' | 'reviews'
   const [quantity, setQuantity] = useState(1);
   const [showFormulaPopover, setShowFormulaPopover] = useState(false);
@@ -37,7 +41,7 @@ export default function ProductDetailModal({ product, onClose }) {
     if (!reviewComment.trim()) return;
     if (addReview) {
       addReview(product.id, {
-        author: reviewerName || 'Verified Eco Shopper',
+        author: reviewerName || 'Community Member',
         rating: newRating,
         comment: reviewComment
       });
@@ -99,7 +103,7 @@ export default function ProductDetailModal({ product, onClose }) {
                   <EcoScoreBadge scoreData={ecoScoreData} product={product} size="lg" />
                   {benchmark && (
                     <span className="text-[11px] font-mono px-2.5 py-1 rounded-full bg-surface-raised border border-line text-heading">
-                      vs {product.category} Avg: <strong className={benchmark.carbonDiffPct <= 0 ? 'text-primary' : 'text-danger'}>{benchmark.carbonDiffPct > 0 ? `+${benchmark.carbonDiffPct}%` : `${benchmark.carbonDiffPct}%`} CO₂e</strong>
+                      vs {product.category} Avg: <strong className={Number(benchmark.carbonDiffPct || 0) <= 0 ? 'text-primary' : 'text-danger'}>{benchmark.carbonDiffPct > 0 ? `+${benchmark.carbonDiffPct}%` : `${benchmark.carbonDiffPct}%`} CO₂e</strong>
                     </span>
                   )}
                 </div>
@@ -112,10 +116,10 @@ export default function ProductDetailModal({ product, onClose }) {
                 </button>
               </div>
               <h2 id="product-modal-title" className="text-2xl font-serif font-bold text-heading leading-tight">
-                {product.name}
+                {localizedProduct.name}
               </h2>
               <p className="text-sm text-secondary mt-2 leading-relaxed">
-                {product.description}
+                {localizedProduct.description}
               </p>
 
               {/* Greenwashing Flag */}
@@ -283,7 +287,7 @@ export default function ProductDetailModal({ product, onClose }) {
                     ))}
                   </div>
                 </div>
-                <span className="text-[10px] text-muted">Listed by seller (sample data) • Check issuer registry for official status</span>
+                <span className="text-[10px] text-muted">Claimed by seller (sample data) • Check issuer registry for official status</span>
               </div>
             )}
           </div>
@@ -381,7 +385,7 @@ export default function ProductDetailModal({ product, onClose }) {
               <div>
                 <h3 className="font-serif font-bold text-sm text-heading flex items-center gap-1.5">
                   <Award className="w-4 h-4 text-primary" />
-                  Verified Eco Reviews ({reviews.length})
+                  Shopper Reviews (Demo data) ({reviews.length})
                 </h3>
                 <span className="text-[11px] text-muted">Real feedback from zero-waste shoppers</span>
               </div>
@@ -442,7 +446,7 @@ export default function ProductDetailModal({ product, onClose }) {
                   type="submit"
                   className="px-4 py-2.5 rounded-xl bg-primary hover:bg-primary-hover text-text-inverted text-xs font-bold shadow-soft-sm transition-colors min-h-[44px] focus-visible:outline-2 focus-visible:outline-focus cursor-pointer"
                 >
-                  Submit Verified Eco Review
+                  Submit Review
                 </button>
               </form>
             )}
@@ -464,7 +468,7 @@ export default function ProductDetailModal({ product, onClose }) {
                         <span>{rev.author}</span>
                         {rev.verifiedEco && (
                           <span className="inline-flex items-center gap-0.5 px-2 py-0.5 rounded-md bg-primary-subtle text-primary text-[10px] font-semibold border border-primary/20">
-                            <CheckCircle className="w-3 h-3 text-primary" /> Verified Eco Buyer
+                            <CheckCircle className="w-3 h-3 text-primary" /> Shopper
                           </span>
                         )}
                       </div>

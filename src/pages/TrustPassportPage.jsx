@@ -11,9 +11,7 @@ import {
   CheckCircle2,
   Wind,
   Droplets,
-  Ban,
-  Sparkles,
-  Info
+  Sparkles
 } from 'lucide-react';
 import productsData from '../data/products.json';
 import { calculateEcoScore, detectGreenwashing } from '../lib/ecoScore';
@@ -98,6 +96,20 @@ export default function TrustPassportPage() {
   }, [id]);
 
   const ecoScoreData = calculateEcoScore(product);
+  const greenwashData = useMemo(() => {
+    const gw = detectGreenwashing(product);
+    if (gw.isGreenwashed) {
+      return {
+        trustScore: Math.max(35, Math.min(65, Math.round((product.ecoScore || 50) * 0.7))),
+        verdict: 'Worth a second look — vague claims'
+      };
+    }
+    const hasCerts = (product.certifications || []).length > 0;
+    return {
+      trustScore: hasCerts ? 95 : 85,
+      verdict: hasCerts ? 'Backed by seller certifications' : 'Clear of suspicious claims'
+    };
+  }, [product]);
   const passportUrl = typeof window !== 'undefined' ? window.location.href : `ecomart-local-passport/${product.id}`;
 
   const handleCopyLink = () => {
@@ -158,14 +170,14 @@ export default function TrustPassportPage() {
                 <ShieldCheck className="w-5 h-5" />
               </span>
               <span className="text-xs font-mono font-bold tracking-widest uppercase text-primary">
-                Official Trust Passport
+                Product Information Sheet (Sample data)
               </span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-serif font-bold text-heading">
               {product.name}
             </h1>
             <p className="text-xs text-muted font-mono">
-              PASSPORT ID: #PASSPORT-{product.id.toUpperCase()}-2026 • ISSUED BY ECOMART ETHICS AUDITOR
+              PASSPORT ID: #PASSPORT-{product.id.toUpperCase()}-2026 • PREPARED BY ECO SENSE HELPER
             </p>
           </div>
 
@@ -255,7 +267,7 @@ export default function TrustPassportPage() {
             <span>Responsible AI Standard: Deterministic local data model. No invented claims.</span>
           </div>
           <span className="font-mono text-xs text-heading">
-            EcoMart Telemetry Engine v2.0
+            Eco Sense Engine
           </span>
         </div>
       </div>

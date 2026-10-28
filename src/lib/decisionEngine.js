@@ -452,6 +452,7 @@ export function compareProductToBenchmark(product, products = []) {
     sampleSize: catBenchmark.sampleSize,
     ecoScoreDelta: prodScore - catBenchmark.avgEcoScore,
     carbonDeltaKg: Number((catBenchmark.avgCarbonKg - prodCarbon).toFixed(2)),
+    carbonDiffPct: catBenchmark.avgCarbonKg > 0 ? Math.round(((prodCarbon - catBenchmark.avgCarbonKg) / catBenchmark.avgCarbonKg) * 100) : 0,
     plasticDeltaGrams: Math.round(catBenchmark.avgPlasticGrams - prodPlastic),
     avgEcoScore: catBenchmark.avgEcoScore,
     avgCarbonKg: catBenchmark.avgCarbonKg,

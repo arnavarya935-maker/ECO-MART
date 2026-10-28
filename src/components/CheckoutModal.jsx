@@ -211,7 +211,7 @@ export default function CheckoutModal() {
                   <span>Plastic-Free Packaging</span>
                 </div>
                 <p className="text-xs text-muted leading-relaxed">
-                  Every parcel is packaged in 100% recycled unbleached kraft cardboard sealed with cornstarch water-activated tape.
+                  Every parcel is packaged in recycled unbleached kraft cardboard sealed with cornstarch water-activated tape.
                 </p>
                 <label className="flex items-center gap-2.5 text-xs font-medium cursor-pointer min-h-[44px]">
                   <input
@@ -259,7 +259,7 @@ export default function CheckoutModal() {
                 {[
                   { id: 'upi', title: 'UPI Instant Pay', desc: 'Google Pay, PhonePe, BHIM (Zero Network Fee)', icon: '📱' },
                   { id: 'card', title: 'Debit / Credit Card', desc: 'Secure 256-bit encrypted simulated gateway', icon: '💳' },
-                  { id: 'cod', title: 'Conscious Cash on Delivery', desc: 'Pay on arrival with verified OTP', icon: '📦' }
+                  { id: 'cod', title: 'Conscious Cash on Delivery', desc: 'Pay on arrival (Cash on Delivery)', icon: '📦' }
                 ].map((pm) => (
                   <label
                     key={pm.id}

@@ -1,17 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  BookOpen,
-  Award,
-  Leaf,
-  HelpCircle,
-  Lightbulb,
   ArrowRight,
   ShieldCheck,
-  CheckCircle2,
-  AlertTriangle,
-  RotateCcw,
-  Sparkles,
   MapPin,
   Wrench,
   Repeat,
@@ -35,54 +26,34 @@ const LEARN_TABS = [
   { id: 'myths', label: 'Myth-Busters' }
 ];
 
-const MYTHS = [
-  {
-    id: 'myth-1',
-    myth: '“Compostable plastics break down safely in standard municipal landfills.”',
-    truth: 'False. Compostable plastics (like PLA) require high-temperature industrial composting facilities (58°C+ with moisture and oxygen). In airtight anaerobic landfills, they break down very slowly and can generate methane gas.',
-    recommendation: 'Check if your municipality has industrial organics collection before purchasing bioplastics.'
-  },
-  {
-    id: 'myth-2',
-    myth: '“Paper bags always have a lower carbon footprint than plastic bags.”',
-    truth: 'Not initially. Producing a kraft paper bag consumes approximately 3x to 4x more energy and water than a thin plastic bag due to tree harvesting and chemical pulping. A paper bag must be reused at least 4 to 8 times to break even on greenhouse emissions.',
-    recommendation: 'Reuse your existing bags as many times as possible, regardless of whether they are paper, jute, or cotton.'
-  },
-  {
-    id: 'myth-3',
-    myth: '“The chasing arrows recycling symbol means the package is 100% recyclable everywhere.”',
-    truth: 'Misleading. The Mobius loop symbol often indicates only the resin identification code (e.g. #7 Other, #3 PVC), not whether your local municipal recycling center actually has equipment to recycle that resin.',
-    recommendation: 'Look for #1 PET and #2 HDPE for high domestic recycling rates; avoid unnumbered mixed multilayer pouches.'
-  }
-];
 
 const CERTS = [
   {
     name: 'GOTS (Global Organic Textile Standard)',
     issuer: 'International Working Group on GOTS',
     covers: 'Organic cotton, linen, silk',
-    guarantee: 'At least 95% certified organic fibers, zero toxic pesticides, fair living wages in manufacturing.',
+    meaning: 'At least 95% certified organic fibers, zero toxic pesticides, fair living wages in manufacturing.',
     registryTip: 'Verify certificate license numbers on the public gots-org.com registry.'
   },
   {
     name: 'FSC (Forest Stewardship Council 100%)',
     issuer: 'Forest Stewardship Council A.C.',
     covers: 'Wood, bamboo, paper, cardboard',
-    guarantee: 'Harvested from responsibly managed forests preventing deforestation and respecting indigenous land rights.',
+    meaning: 'Harvested from responsibly managed forests preventing deforestation and respecting indigenous land rights.',
     registryTip: 'Look for FSC Chain-of-Custody (CoC) code formatted as FSC-C######.'
   },
   {
     name: 'OEKO-TEX Standard 100',
     issuer: 'International Association for Research and Testing in Textile Ecology',
     covers: 'Apparel, towels, bedding',
-    guarantee: 'Every thread, button, and zipper is rigorously tested for over 300 harmful chemical substances.',
+    meaning: 'Every thread, button, and zipper is rigorously tested for over 300 harmful chemical substances.',
     registryTip: 'Verify label check at oeko-tex.com/label-check.'
   },
   {
     name: 'Fair Trade Certified',
     issuer: 'Fairtrade International',
     covers: 'Coffee, cocoa, cotton, handicrafts',
-    guarantee: 'Guaranteed minimum price floor and Community Development Premium paid directly to producers.',
+    meaning: 'Guaranteed minimum price floor and Community Development Premium paid directly to producers.',
     registryTip: 'Protects smallholder farmers from global commodity price crashes.'
   }
 ];
@@ -260,7 +231,7 @@ export default function LearnPage() {
                   Third-Party Eco-Certification Decoder
                 </h3>
                 <p className="text-xs text-secondary mt-1">
-                  Learn what each recognized label guarantees and how to verify certificates against public registries.
+                  Learn what each recognized label means and how to check certificates on public registries.
                 </p>
               </div>
               <button

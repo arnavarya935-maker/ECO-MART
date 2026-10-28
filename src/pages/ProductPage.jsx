@@ -2,6 +2,8 @@ import React, { useState, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import productsData from '../data/products.json';
 import { useCart } from '../context/CartContext';
+import { useT } from '../context/I18nContext';
+import { getLocalizedProduct } from '../lib/productsHelper';
 import { calculateEcoScore, compareProductImpact, detectGreenwashing } from '../lib/ecoScore';
 import ProductGallery from '../components/ProductGallery';
 import EcoScoreBadge from '../components/EcoScoreBadge';
@@ -45,6 +47,7 @@ import {
 
 export default function ProductPage() {
   const { id } = useParams();
+  const { t, lang } = useT();
   const [activeTab, setActiveTab] = useState('lifecycle');
   const navigate = useNavigate();
   const {
@@ -63,9 +66,11 @@ export default function ProductPage() {
   const [isPassportQROpen, setIsPassportQROpen] = useState(false);
 
   // Find product
-  const product = useMemo(() => {
+  const rawProduct = useMemo(() => {
     return productsData.find((p) => p.id === id) || null;
   }, [id]);
+
+  const product = useMemo(() => getLocalizedProduct(rawProduct, lang), [rawProduct, lang]);
 
   // Track recently viewed
   React.useEffect(() => {
@@ -338,7 +343,7 @@ export default function ProductPage() {
                   <div className="flex items-center gap-2">
                     <Sparkles className="w-5 h-5 text-primary" />
                     <h3 className="font-serif text-lg font-bold text-heading tracking-tight">
-                      Lifecycle Impact vs Conventional Choice
+                      Harm to Nature, Start to End (vs Conventional Choice)
                     </h3>
                   </div>
                   <span className="text-[11px] font-sans font-semibold px-2.5 py-1 rounded-full bg-primary-subtle text-primary border border-primary/20">
@@ -438,11 +443,14 @@ export default function ProductPage() {
                 <h1 className="font-serif text-2xl sm:text-3xl font-bold text-heading tracking-tight leading-snug">
                   {product.name}
                 </h1>
+                <div className="px-3.5 py-2 rounded-2xl bg-surface-sunken border border-line text-xs text-text-muted mt-3">
+                  {t('shop.sampleNotice', 'Sample products for a school project. Prices and impact numbers are estimates.')}
+                </div>
                 <div className="mt-3 flex items-baseline gap-3">
                   <span className="text-3xl font-serif font-bold text-heading">₹{product.price}</span>
                   <span className="text-xs font-sans text-muted">Taxes included</span>
                   <span className="text-xs font-sans font-semibold text-primary bg-primary-subtle px-2.5 py-0.5 rounded-md border border-primary/20">
-                    In Stock (Offline Ready)
+                    In Stock
                   </span>
                 </div>
               </div>
@@ -477,7 +485,7 @@ export default function ProductPage() {
                       </div>
                       {benchmark && (
                         <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-surface-raised border border-line text-heading">
-                          vs {product.category} Avg: <strong className={benchmark.carbonDiffPct <= 0 ? 'text-primary' : 'text-danger'}>{benchmark.carbonDiffPct > 0 ? `+${benchmark.carbonDiffPct}%` : `${benchmark.carbonDiffPct}%`} CO₂e</strong>
+                          vs {product.category} Avg: <strong className={Number(benchmark.carbonDiffPct || 0) <= 0 ? 'text-primary' : 'text-danger'}>{benchmark.carbonDiffPct > 0 ? `+${benchmark.carbonDiffPct}%` : `${benchmark.carbonDiffPct}%`} CO₂e</strong>
                         </span>
                       )}
                     </div>

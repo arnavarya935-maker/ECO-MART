@@ -26,7 +26,7 @@ const TRACKING_STAGES = [
   { id: 'placed', title: 'Order Placed', subtitle: 'Plastic-free manifest generated', icon: CheckCircle2 },
   { id: 'packed', title: 'Packed at Hub', subtitle: 'Kraft paper tape & seed cushions', icon: Box },
   { id: 'shipped', title: 'EV Courier Dispatched', subtitle: 'Zero-emission delivery in transit', icon: Truck },
-  { id: 'delivered', title: 'Delivered Consciously', subtitle: 'Handed over in 100% recyclable box', icon: Home }
+  { id: 'delivered', title: 'Delivered Consciously', subtitle: 'Handed over in recyclable box', icon: Home }
 ];
 
 export default function OrdersPage() {
@@ -65,7 +65,7 @@ export default function OrdersPage() {
             Order History & Tracking
           </h1>
           <p className="text-xs sm:text-sm text-secondary mt-1">
-            Every conscious purchase logged with verified lifecycle carbon avoidance and real-time status simulation.
+            Every order logged with estimated carbon savings and status simulation.
           </p>
         </div>
 
@@ -239,22 +239,25 @@ export default function OrdersPage() {
 
                 {/* Ordered Items List */}
                 <div className="divide-y divide-line">
-                  {order.items.map((item, idx) => (
-                    <div key={idx} className="py-2.5 flex items-center justify-between text-xs">
-                      <div className="flex items-center gap-2.5">
-                        <span className="text-xl p-1.5 rounded-lg bg-surface-sunken border border-line">{item.product.icon}</span>
-                        <div>
-                          <span className="font-semibold text-heading">
-                            {item.product.name}
-                          </span>
-                          <span className="text-muted ml-1.5">(x{item.quantity})</span>
+                  {order.items.map((item, idx) => {
+                    const prod = item.product || item;
+                    return (
+                      <div key={idx} className="py-2.5 flex items-center justify-between text-xs">
+                        <div className="flex items-center gap-2.5">
+                          <span className="text-xl p-1.5 rounded-lg bg-surface-sunken border border-line">{prod.icon || '📦'}</span>
+                          <div>
+                            <span className="font-semibold text-heading">
+                              {prod.name}
+                            </span>
+                            <span className="text-muted ml-1.5">(x{item.quantity})</span>
+                          </div>
                         </div>
+                        <span className="font-semibold text-heading">
+                          ₹{((prod.price || 0) * (item.quantity || 1)).toLocaleString('en-IN')}
+                        </span>
                       </div>
-                      <span className="font-semibold text-heading">
-                        ₹{(item.product.price * item.quantity).toLocaleString('en-IN')}
-                      </span>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
 
                 {/* Shipping address & packaging notes */}
@@ -264,7 +267,7 @@ export default function OrdersPage() {
                     <span>Delivering to: {order.shippingAddress || 'Indiranagar, Bengaluru, Karnataka (560038)'}</span>
                   </div>
                   <span className="text-primary font-medium">
-                    100% Recycled Kraft Box • Plastic-Free Sealed
+                    Recycled Kraft Box • Plastic-Free Sealed
                   </span>
                 </div>
               </div>

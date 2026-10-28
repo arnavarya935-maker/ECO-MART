@@ -134,9 +134,9 @@ export default function SwapMyCartModal({ isOpen, onClose }) {
               <div className="w-14 h-14 rounded-2xl bg-primary/10 border border-primary/20 text-primary mx-auto flex items-center justify-center text-2xl shadow-soft-xs">
                 🌱
               </div>
-              <h3 className="font-serif font-bold text-heading text-lg">Your Cart is 100% Eco-Friendly</h3>
+              <h3 className="font-serif font-bold text-heading text-lg">All Items in Cart are Eco Choices</h3>
               <p className="text-xs text-muted max-w-sm mx-auto leading-relaxed">
-                Every single item in your bag meets verified sustainable lifecycle standards. No conventional items detected.
+                Every single item in your bag is an eco-friendly choice based on our data. No conventional items detected.
               </p>
             </div>
           ) : (

@@ -6,6 +6,7 @@ import { calculateEcoScore } from '../lib/ecoScore';
 import { rankProducts } from '../lib/decisionEngine';
 import { FEATURES } from '../lib/features';
 import { useCart } from '../context/CartContext';
+import { useT } from '../context/I18nContext';
 import ProductCard from '../components/ProductCard';
 import PrioritiesPanel from '../components/decision/PrioritiesPanel';
 import ShopFilterBar from '../components/shop/ShopFilterBar';
@@ -24,6 +25,7 @@ import CategoryTiles from '../components/shop/CategoryTiles';
 import { HOUSEHOLD_PROFILES } from '../lib/personaEngine';
 
 export default function ShopPage() {
+  const { t } = useT();
   const [searchParams, setSearchParams] = useSearchParams();
   const { userPriorities } = useCart();
 
@@ -224,7 +226,7 @@ export default function ShopPage() {
           <div>
             <div className="flex items-center gap-2">
               <span className="text-[11px] font-sans font-semibold uppercase tracking-wider text-primary bg-primary-subtle px-2.5 py-0.5 rounded-full border border-primary/20">
-                EcoMart Catalog
+                Eco Sense Catalog
               </span>
               <span className="text-xs font-sans text-muted font-medium">
                 {productsData.length} Products Indexed
@@ -234,8 +236,11 @@ export default function ShopPage() {
               Sustainable Living Catalog
             </h1>
             <p className="font-sans text-xs sm:text-sm text-secondary mt-1">
-              Filter by certified materials, 0–100 lifecycle eco scores, or sort by impact per rupee.
+              Filter by certified materials, 0–100 lifecycle eco scores, or sort by lowest price.
             </p>
+            <div className="mt-2.5 inline-flex items-center gap-2 px-3 py-1 rounded-xl bg-surface-sunken border border-line text-xs text-text-muted">
+              <span>{t('shop.sampleNotice', 'Sample products for a school project. Prices and impact numbers are estimates.')}</span>
+            </div>
           </div>
 
           {/* Action Tools Toolbar */}

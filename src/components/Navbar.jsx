@@ -20,7 +20,6 @@ import {
   Bot,
   Bell,
   Eye,
-  Newspaper,
   Sparkles,
   HelpCircle,
   Lock,
@@ -34,20 +33,20 @@ import UserMenu from './UserMenu';
 import ThemeToggle from './ThemeToggle';
 
 const MORE_LINKS = [
-  { path: '/news', label: 'Eco News Watch', icon: Newspaper, badge: 'Live Updates' },
-  { path: '/courtroom', label: 'AI Courtroom', icon: Swords, badge: 'Mock Trial' },
-  { path: '/dilemmas', label: 'Moral Dilemmas', icon: Scale, badge: 'Ethical Trade-offs' },
-  { path: '/self-audit', label: 'AI Self-Audit', icon: FileCheck, badge: 'Bias & Calibration' },
-  { path: '/blackbox', label: 'BlackBox Audit', icon: ShieldCheck, badge: 'Reasoning Log' },
-  { path: '/fairness', label: 'Fairness Lab', icon: Scale, badge: 'Demographic Parity' },
-  { path: '/duel', label: 'LCA Product Duel', icon: Swords, badge: 'Carbon Face-off' },
-  { path: '/scan', label: 'Label Scanner', icon: Camera, badge: 'Camera OCR' },
-  { path: '/kirana', label: 'Kirana Mode', icon: Store, badge: 'Voice-First Hindi' },
-  { path: '/transform', label: 'Cart Transformer', icon: RefreshCw, badge: 'Knapsack Solver' },
-  { path: '/eco-check', label: 'Eco Check', icon: ShieldCheck, badge: 'Purity Audit' },
-  { path: '/playground', label: 'Decision Playground', icon: Sliders, badge: 'Interactive Weights' },
-  { path: '/transparency', label: 'Agent Transparency', icon: ShieldCheck, badge: 'Multi-Agent Specs' },
-  { path: '/how-it-works', label: 'How It Works', icon: HelpCircle, badge: '5-Pillar Formula' }
+  { path: '/truth-lab', label: 'Truth Lab', desc: 'Compare products and test claims with facts', icon: ShieldCheck },
+  { path: '/courtroom', label: 'AI Courtroom', desc: 'A fun mock trial testing marketing claims with smart rules', icon: Swords },
+  { path: '/dilemmas', label: 'Moral Dilemmas', desc: 'Explore trade-offs between price, carbon, and plastic', icon: Scale },
+  { path: '/self-audit', label: 'AI Self-Audit', desc: 'See tests for fairness and rules used by our helper', icon: FileCheck },
+  { path: '/blackbox', label: 'BlackBox Audit', desc: 'See what our helper thought and how it decided', icon: ShieldCheck },
+  { path: '/fairness', label: 'Fairness Lab', desc: 'Check that recommendations treat all categories fairly', icon: Scale },
+  { path: '/duel', label: 'Product Duel', desc: 'Put two products side by side to compare harm to nature', icon: Swords },
+  { path: '/scan', label: 'Label Scanner', desc: 'Use your camera to read product packaging', icon: Camera },
+  { path: '/kirana', label: 'Kirana Mode', desc: 'Quick voice shopping for everyday household staples', icon: Store },
+  { path: '/playground', label: 'Decision Playground', desc: 'Slide weights to choose what matters most to you', icon: Sliders },
+  { path: '/transparency', label: 'Agent Transparency', desc: 'How our smart rules and cloud helper work together', icon: ShieldCheck },
+  { path: '/how-it-works', label: 'How It Works', desc: 'Simple guide to how we score products and impact', icon: HelpCircle },
+  { path: '/community', label: 'Community', desc: 'See sample pledges and tips from conscious shoppers', icon: Bot },
+  { path: '/tools', label: 'Tools', desc: 'Helpful calculators and starter bundles', icon: RefreshCw }
 ];
 
 export default function Navbar() {
@@ -99,11 +98,12 @@ export default function Navbar() {
 
   const primaryLinks = [
     { path: '/shop', label: t('nav.shop', 'Shop') },
-    { path: '/truth-lab', label: 'Truth Lab' },
-    { path: '/impact', label: 'Impact' },
-    { path: '/tools', label: 'Tools' },
-    { path: '/learn', label: 'Learn' },
-    { path: '/community', label: 'Community' }
+    { path: '/transform', label: t('nav.transform', 'Swap My List') },
+    { path: '/eco-check', label: t('nav.ecoCheck', 'Check a Claim') },
+    { path: '/impact', label: t('nav.impact', 'My Impact') },
+    { path: '/learn', label: t('nav.learn', 'Learn') },
+    { path: '/news', label: t('nav.news', 'News') },
+    { path: '/settings', label: t('nav.settings', 'Settings') }
   ];
 
   const isLinkActive = (path) => {
@@ -214,15 +214,15 @@ export default function Navbar() {
                               : 'text-text hover:bg-surface-sunken hover:text-heading'
                           }`}
                         >
-                          <div className="flex items-center gap-2 truncate">
-                            <Icon className="w-3.5 h-3.5 text-primary shrink-0" />
-                            <span className="truncate">{item.label}</span>
+                          <div className="flex flex-col min-w-0 pr-1">
+                            <div className="flex items-center gap-2 truncate">
+                              <Icon className="w-3.5 h-3.5 text-primary shrink-0" />
+                              <span className="font-medium text-heading truncate">{item.label}</span>
+                            </div>
+                            {item.desc && (
+                              <span className="text-[10px] text-text-muted truncate ml-5.5">{item.desc}</span>
+                            )}
                           </div>
-                          {item.badge && (
-                            <span className="text-[10px] text-text-muted font-normal bg-surface px-1.5 py-0.5 rounded border border-line/70 shrink-0 ml-1 hidden sm:inline-block">
-                              {item.badge}
-                            </span>
-                          )}
                         </Link>
                       );
                     })}
@@ -351,7 +351,7 @@ export default function Navbar() {
             aria-label="Ask Eco Agent Assistant"
           >
             <Sparkles className="w-3.5 h-3.5 text-primary" />
-            <span className="font-sans">Ask Agent</span>
+            <span className="font-sans">{t('nav.agent', 'Eco Agent')}</span>
           </button>
 
           {/* D. Shopping Cart Button */}
@@ -445,10 +445,15 @@ export default function Navbar() {
                     key={item.path}
                     to={item.path}
                     onClick={() => setMobileMenuOpen(false)}
-                    className="p-2.5 rounded-xl bg-surface-raised border border-line text-xs font-sans font-medium flex items-center gap-2 text-heading"
+                    className="p-2 rounded-xl bg-surface-raised border border-line text-xs font-sans font-medium flex flex-col gap-0.5 text-heading"
                   >
-                    <Icon className="w-3.5 h-3.5 text-primary shrink-0" />
-                    <span className="truncate">{item.label}</span>
+                    <div className="flex items-center gap-1.5 font-semibold text-primary truncate">
+                      <Icon className="w-3.5 h-3.5 shrink-0" />
+                      <span className="truncate">{item.label}</span>
+                    </div>
+                    {item.desc && (
+                      <span className="text-[10px] text-text-muted truncate ml-5">{item.desc}</span>
+                    )}
                   </Link>
                 );
               })}
