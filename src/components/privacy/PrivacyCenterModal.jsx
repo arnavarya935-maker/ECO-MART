@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
 import {
-  ShieldCheck,
   X,
   Download,
   Upload,
   Trash2,
-  Lock,
   Eye,
   Server,
-  AlertTriangle,
   CheckCircle2
 } from 'lucide-react';
 

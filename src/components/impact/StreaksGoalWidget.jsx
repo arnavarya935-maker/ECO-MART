@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Flame, Target, Award, Info, CheckCircle2, Lock, ShieldCheck } from 'lucide-react';
+import { Flame, Info, CheckCircle2, Lock, ShieldCheck } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 
 export default function StreaksGoalWidget() {

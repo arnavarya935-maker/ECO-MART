@@ -3,16 +3,10 @@ import { Link } from 'react-router-dom';
 import {
   ShieldCheck,
   Cpu,
-  Brain,
   AlertTriangle,
-  CheckCircle2,
-  Lock,
   ArrowRight,
-  ExternalLink,
-  Sparkles,
   Layers,
-  Terminal,
-  Activity
+  Terminal
 } from 'lucide-react';
 import AgentReportCard from '../components/agent/AgentReportCard';
 import { ETHICAL_GUARDRAILS } from '../lib/ai/guardrailsEngine';

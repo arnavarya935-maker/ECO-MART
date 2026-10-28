@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Coins, TrendingUp, HelpCircle, Sparkles, CheckCircle2 } from 'lucide-react';
+import { Coins, HelpCircle, Sparkles, CheckCircle2 } from 'lucide-react';
 import { calculateCostPerUse } from '../../lib/impactEconomics';
 
 export default function CostPerUseCalculator({ product, className = '' }) {

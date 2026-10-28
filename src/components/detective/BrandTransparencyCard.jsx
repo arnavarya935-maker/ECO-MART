@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
   ShieldCheck,
-  ShieldAlert,
   Check,
   AlertCircle,
   Mail,

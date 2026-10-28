@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import EngineeringHero from '../components/home/EngineeringHero';
 import ScrollProgressBar from '../components/home/ScrollProgressBar';
 import KineticTypeStrips from '../components/home/KineticTypeStrips';
@@ -9,20 +9,22 @@ import PinnedProductJourney from '../components/home/PinnedProductJourney';
 import HorizontalFeatureGallery from '../components/home/HorizontalFeatureGallery';
 import StickyStackedCards from '../components/home/StickyStackedCards';
 import CheckMarquee from '../components/home/CheckMarquee';
-import AppWindowShowcase from '../components/home/AppWindowShowcase';
-import NumberedFeatureCards from '../components/home/NumberedFeatureCards';
-import AgentPipelinePanel from '../components/home/AgentPipelinePanel';
-import GuardrailsBoard from '../components/home/GuardrailsBoard';
-import EthicsInboxPreview from '../components/home/EthicsInboxPreview';
-import InsightsDashboard from '../components/home/InsightsDashboard';
-import ImpactTiers from '../components/home/ImpactTiers';
-import HonestFeedbackSection from '../components/home/HonestFeedbackSection';
-import EditorialFinalCTA from '../components/home/EditorialFinalCTA';
 import SignatureShowcase from '../components/home/SignatureShowcase';
-import ForYouRow from '../components/recommendations/ForYouRow';
-import RecentlyViewedStrip from '../components/RecentlyViewedStrip';
-import ResponsibleAILabsShowcase from '../components/home/ResponsibleAILabsShowcase';
-import RelatedNewsPanel from '../components/news/RelatedNewsPanel';
+
+// Below-the-fold components lazy-loaded for peak initial load performance
+const ResponsibleAILabsShowcase = lazy(() => import('../components/home/ResponsibleAILabsShowcase'));
+const AppWindowShowcase = lazy(() => import('../components/home/AppWindowShowcase'));
+const NumberedFeatureCards = lazy(() => import('../components/home/NumberedFeatureCards'));
+const AgentPipelinePanel = lazy(() => import('../components/home/AgentPipelinePanel'));
+const GuardrailsBoard = lazy(() => import('../components/home/GuardrailsBoard'));
+const EthicsInboxPreview = lazy(() => import('../components/home/EthicsInboxPreview'));
+const InsightsDashboard = lazy(() => import('../components/home/InsightsDashboard'));
+const ForYouRow = lazy(() => import('../components/recommendations/ForYouRow'));
+const RecentlyViewedStrip = lazy(() => import('../components/RecentlyViewedStrip'));
+const ImpactTiers = lazy(() => import('../components/home/ImpactTiers'));
+const HonestFeedbackSection = lazy(() => import('../components/home/HonestFeedbackSection'));
+const EditorialFinalCTA = lazy(() => import('../components/home/EditorialFinalCTA'));
+const RelatedNewsPanel = lazy(() => import('../components/news/RelatedNewsPanel'));
 
 export default function HomePage() {
   return (
@@ -57,54 +59,50 @@ export default function HomePage() {
       {/* 6 & 7. Sticky Stacked Cards & Clip-Path Reveals: Multi-Axis, Lifecycle, Transparency */}
       <StickyStackedCards />
 
-      {/* Flagship Responsible AI Laboratory Showcase (F1-F8) */}
-      <ResponsibleAILabsShowcase />
+      {/* Suspense boundary for below-the-fold features */}
+      <Suspense fallback={<div className="min-h-[100px]" />}>
+        {/* Flagship Responsible AI Laboratory Showcase (F1-F8) */}
+        <ResponsibleAILabsShowcase />
 
-      {/* App-window showcase: Framed mockup built from live EcoMart dashboard components */}
-      <AppWindowShowcase />
+        {/* App-window showcase: Framed mockup built from live EcoMart dashboard components */}
+        <AppWindowShowcase />
 
-      {/* Numbered feature cards (01/02/03) with key stats */}
-      <NumberedFeatureCards />
+        {/* Numbered feature cards (01/02/03) with key stats */}
+        <NumberedFeatureCards />
 
-      {/* Live "Eco Agent pipeline" panel: Orchestrator -> Workers -> Validator + live counters */}
-      <AgentPipelinePanel />
+        {/* Live "Eco Agent pipeline" panel: Orchestrator -> Workers -> Validator + live counters */}
+        <AgentPipelinePanel />
 
-      {/* Guardrails board: 5 rules with status chips Enforced / Monitoring / Blocked */}
-      <GuardrailsBoard />
+        {/* Guardrails board: 5 rules with status chips Enforced / Monitoring / Blocked */}
+        <GuardrailsBoard />
 
-      {/* Ethics Inbox preview: Human-in-the-loop review queue */}
-      <EthicsInboxPreview />
+        {/* Ethics Inbox preview: Human-in-the-loop review queue */}
+        <EthicsInboxPreview />
 
-      {/* Insights dashboard: Stat cards, session energy bar, bar chart, product-vs-check table */}
-      <InsightsDashboard />
+        {/* Insights dashboard: Stat cards, session energy bar, bar chart, product-vs-check table */}
+        <InsightsDashboard />
 
-      {/* Product Catalog Showcase (Preserved live interactive shopping features) */}
-      <div className="py-12 bg-surface border-b border-line">
-        <SignatureShowcase />
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 space-y-6">
-          <ForYouRow />
-          <RecentlyViewedStrip />
+        {/* Product Catalog Showcase (Preserved live interactive shopping features) */}
+        <div className="py-12 bg-surface border-b border-line">
+          <SignatureShowcase />
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 space-y-6">
+            <ForYouRow />
+            <RecentlyViewedStrip />
+          </div>
         </div>
-      </div>
 
-      {/* Impact tiers describing feature scope */}
-      <ImpactTiers />
+        {/* Impact tiers describing feature scope */}
+        <ImpactTiers />
 
-      {/* Feedback section: Local "Share feedback" form + labeled representative scenarios */}
-      <HonestFeedbackSection />
+        {/* Related verified news */}
+        <RelatedNewsPanel />
 
-      {/* In the News strip */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-        <RelatedNewsPanel
-          topic="greenwashing"
-          title="In the News: Sustainability & Consumer Watch"
-          description="Independent reports on corporate green claims, packaging waste laws, and circular supply chains."
-          maxArticles={3}
-        />
-      </div>
+        {/* Honest feedback section with public ratings */}
+        <HonestFeedbackSection />
 
-      {/* Closing CTA */}
-      <EditorialFinalCTA />
+        {/* Final editorial CTA banner */}
+        <EditorialFinalCTA />
+      </Suspense>
     </div>
   );
 }

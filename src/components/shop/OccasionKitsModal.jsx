@@ -5,8 +5,7 @@ import {
   Sparkles,
   ShoppingBag,
   Check,
-  HelpCircle,
-  ArrowRight
+  HelpCircle
 } from 'lucide-react';
 import productsData from '../../data/products.json';
 import { OCCASION_KITS } from '../../lib/personaEngine';

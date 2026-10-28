@@ -3,13 +3,7 @@ import {
   Wifi,
   WifiOff,
   X,
-  CheckCircle2,
-  HardDrive,
-  Download,
-  ShieldCheck,
-  RefreshCw,
-  Cpu,
-  Layers
+  Download
 } from 'lucide-react';
 
 export default function OfflineManagerModal({ isOpen, onClose }) {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Newspaper, ExternalLink, ArrowRight, Sparkles } from 'lucide-react';
+import { Newspaper, ExternalLink, ArrowRight } from 'lucide-react';
 import { getEcoNews } from '../../lib/newsService.js';
 import Skeleton from '../ui/Skeleton';
 

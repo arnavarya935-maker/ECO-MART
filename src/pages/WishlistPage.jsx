@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import { Heart, ShoppingBag, ArrowRight, Share2, Check, Copy, QrCode } from 'lucide-react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Heart, ShoppingBag, Share2, Check, Copy } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import ProductCard from '../components/ProductCard';
 import EmptyState from '../components/ui/EmptyState';

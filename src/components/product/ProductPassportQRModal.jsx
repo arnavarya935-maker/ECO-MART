@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { QrCode, X, Copy, Check, ExternalLink, ShieldCheck } from 'lucide-react';
+import { X, Copy, Check, ShieldCheck } from 'lucide-react';
 
 export default function ProductPassportQRModal({ isOpen, onClose, product }) {
   const [copied, setCopied] = useState(false);

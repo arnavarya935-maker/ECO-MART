@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import {
-  MessageSquare,
   X,
   Send,
   Download,
   CheckCircle2,
-  Trash2,
-  ShieldCheck,
-  AlertCircle
+  Trash2
 } from 'lucide-react';
 
 const CATEGORIES = [

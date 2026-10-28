@@ -5,7 +5,6 @@ import {
   Radar,
   Wind,
   RotateCcw,
-  CheckCircle2,
   Terminal,
   ShieldCheck,
   ArrowRight

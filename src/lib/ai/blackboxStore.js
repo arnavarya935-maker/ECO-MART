@@ -7,7 +7,7 @@
 const STORAGE_KEY = 'ecomart_blackbox_log';
 const MAX_LOG_ENTRIES = 100;
 
-const BASELINE_LOG_ENTRIES = [];
+const _BASELINE_LOG_ENTRIES = [];
 
 let memoryStore = null;
 

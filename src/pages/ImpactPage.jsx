@@ -11,10 +11,10 @@ import EquivalentsTranslatorCard from '../components/impact/EquivalentsTranslato
 import WeeklyEcoReviewModal from '../components/impact/WeeklyEcoReviewModal';
 import StreaksGoalWidget from '../components/impact/StreaksGoalWidget';
 import { useCart } from '../context/CartContext';
-import { Droplets, Ban, Wind, Activity, Sliders, BarChart3, Calendar, Sparkles } from 'lucide-react';
+import { Droplets, Ban, Wind, Activity, Sliders, BarChart3, Calendar } from 'lucide-react';
 
 export default function ImpactPage() {
-  const { setIsAgentOpen, cartItems } = useCart();
+  const { setIsAgentOpen } = useCart();
   const [purposeReportOpen, setPurposeReportOpen] = useState(false);
   const [weeklyReviewOpen, setWeeklyReviewOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('command_center'); // 'command_center' | 'what_if' | 'cart_ledger'

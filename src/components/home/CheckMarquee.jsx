@@ -7,7 +7,6 @@ import {
   Scale,
   ShieldAlert,
   Terminal,
-  Zap,
   CheckCircle2,
   Sliders,
   Gavel,

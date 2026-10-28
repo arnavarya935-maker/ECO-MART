@@ -8,7 +8,7 @@
  */
 
 import { calculateEcoScore } from './ecoScore.js';
-import { rankProducts, calculateProductScore } from './decisionEngine.js';
+import { calculateProductScore } from './decisionEngine.js';
 
 export const AGENT_ROLES = {
   PLANNER: {

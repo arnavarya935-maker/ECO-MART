@@ -1,7 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import {
   CERTIFICATIONS_DATABASE,
-  GREENWASH_LEXICON,
   detectGreenwashPhrases,
   calculateTransparencyScore,
   generateBrandEmailDraft,

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Ruler, X, Smartphone, Coffee, Milk, Laptop, Info, Check } from 'lucide-react';
+import { Ruler, X, Smartphone, Coffee, Milk, Laptop, Info } from 'lucide-react';
 
 const REFERENCE_OBJECTS = [
   {

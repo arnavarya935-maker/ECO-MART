@@ -3,7 +3,6 @@ import {
   MapPin,
   X,
   Recycle,
-  Trash2,
   AlertCircle,
   HelpCircle,
   Sparkles

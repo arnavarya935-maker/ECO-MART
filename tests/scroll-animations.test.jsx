@@ -3,8 +3,7 @@ import {
   clampVelocity,
   computeScrollProgress,
   getStageForProgress,
-  getScenePhase,
-  isReducedMotion
+  getScenePhase
 } from '../src/lib/scrollAnimation';
 
 describe('Scroll Animation Utilities', () => {

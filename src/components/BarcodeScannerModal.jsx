@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Scan, Search, Camera, XCircle, AlertCircle, Sparkles } from 'lucide-react';
+import { Scan, Search, Camera, AlertCircle, Sparkles } from 'lucide-react';
 import { Modal } from './ui/Modal';
 import Button from './ui/Button';
 import Badge from './ui/Badge';

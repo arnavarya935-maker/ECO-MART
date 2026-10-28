@@ -4,9 +4,6 @@ import {
   Square,
   Printer,
   X,
-  ShieldCheck,
-  Sparkles,
-  HelpCircle,
   RotateCcw
 } from 'lucide-react';
 

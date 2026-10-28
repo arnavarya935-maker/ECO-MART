@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import {
-  AlertTriangle,
   CheckCircle2,
-  ExternalLink,
   ChevronDown,
   ChevronUp,
   Sparkles,
-  BookOpen,
-  Filter
+  BookOpen
 } from 'lucide-react';
 
 const DETAILED_MYTHS = [

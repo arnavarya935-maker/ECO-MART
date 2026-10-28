@@ -14,7 +14,7 @@ export function generateAISelfAuditReport(sessionMessages = []) {
   const totalQueries = logs.length;
   const intercepts = logs.filter((l) => l.guardrailStatus === 'intercepted' || l.confidence === 'declined');
   const lowConfidence = logs.filter((l) => l.confidence === 'low' || l.confidence === 'declined');
-  const fallbacks = logs.filter((l) => l.isFallback);
+  const _fallbacks = logs.filter((l) => l.isFallback);
 
   // 1. Uncertainties & Admissions of Incomplete Data
   const uncertaintyAdmissions = logs

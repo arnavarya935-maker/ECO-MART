@@ -112,7 +112,12 @@ export default function EcoAgentChat() {
     const checkVoices = () => {
       try {
         const voices = window.speechSynthesis.getVoices();
-        setHasVoice(Boolean(voices && voices.length > 0));
+        if (lang === 'hi') {
+          const hasHindiVoice = voices.some((v) => v.lang && v.lang.toLowerCase().startsWith('hi'));
+          setHasVoice(hasHindiVoice);
+        } else {
+          setHasVoice(Boolean(voices && voices.length > 0));
+        }
       } catch {
         setHasVoice(false);
       }
@@ -126,7 +131,7 @@ export default function EcoAgentChat() {
         window.speechSynthesis.cancel();
       } catch {}
     };
-  }, []);
+  }, [lang]);
 
   const toggleSpeak = useCallback((msgId, text) => {
     if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
@@ -196,12 +201,12 @@ export default function EcoAgentChat() {
   const getWelcomeText = useCallback((mode, l) => {
     if (l === 'hi') {
       return mode === 'online'
-        ? "👋 नमस्ते! मैं इकोमार्ट का AI शॉपिंग गाइड हूँ (Gemini Cloud)। शून्य-अपशिष्ट उपहार खोजने, बजट बास्केट बनाने या अपने झोले के ऑडिट के लिए मुझसे पूछें।"
-        : "👋 नमस्ते! मैं इकोमार्ट का ऑफ़लाइन शॉपिंग गाइड हूँ। प्लास्टिक-मुक्त रसोई सामान, शून्य-अपशिष्ट उपहार खोजने या बजट बास्केट के लिए मुझसे पूछें।";
+        ? "👋 नमस्ते! मैं इको सेंस का शॉपिंग सहायक हूँ (Gemini)। शून्य-अपशिष्ट उपहार खोजने, बजट बास्केट बनाने या अपने झोले के ऑडिट के लिए मुझसे पूछें।"
+        : "👋 नमस्ते! मैं इको सेंस का इन-बिल्ट सहायक हूँ। प्लास्टिक-मुक्त रसोई सामान, शून्य-अपशिष्ट उपहार खोजने या बजट बास्केट के लिए मुझसे पूछें।";
     }
     return mode === 'online'
-      ? "👋 Welcome to EcoMart! I'm your conscious shopping assistant powered by Gemini Cloud AI. Ask me to find zero-waste gifts, assemble a budget basket, or audit your cart for cleaner swaps."
-      : "👋 Welcome to EcoMart! I'm operating in responsible offline mode. Ask me to find plastic-free kitchen essentials, zero-waste gifts, or click 'Review my cart' below!";
+      ? "👋 Welcome to Eco Sense! I'm your conscious shopping assistant connected to Gemini. Ask me to find zero-waste gifts, assemble a budget basket, or audit your cart for cleaner swaps."
+      : "👋 Welcome to Eco Sense! I'm your built-in helper. Ask me to find plastic-free kitchen essentials, zero-waste gifts, or click 'Review my cart' below!";
   }, []);
 
   const [aiHealth, setAiHealth] = useState(null);
@@ -387,7 +392,7 @@ export default function EcoAgentChat() {
         isFirstResponse: isFirst,
         cartReview: response.cartReview,
         reasoning_summary: aiResult?.reasoning_summary || response.explanation || 'Evaluated across cradle-to-grave sustainability factors.',
-        sources_or_assumptions: aiResult?.sources_or_assumptions || ['EcoMart Verified Catalog (64 SKUs)', 'ISO 14040 Lifecycle Principles'],
+        sources_or_assumptions: aiResult?.sources_or_assumptions || ['Eco Sense Product Catalog (64 sample items)', 'ISO 14040 Lifecycle Principles'],
         confidence: rawConfidence,
         estimated_energy_wh: energy,
         model: isCloudAI ? (aiResult?.model || 'Gemini 3 Flash') : (agentMode === 'online' ? 'Gemini 2.5 Cloud' : 'Multi-Agent Collective (Planner/Researcher/Skeptic/Advisor)'),
@@ -461,7 +466,7 @@ export default function EcoAgentChat() {
         guardrailTriggered: guardrailName,
         guardrailStatus,
         energyEstimateWh: energy,
-        model: isBrakeTriggered ? 'EcoMart Confidence Brake' : agentMsg.model,
+        model: isBrakeTriggered ? 'Eco Sense Confidence Brake' : agentMsg.model,
         sources: isBrakeTriggered ? ['Strictness Policy §4', 'Missing Lab Verification'] : agentMsg.sources_or_assumptions,
         isFallback: agentMsg.isFallback
       });
@@ -1439,13 +1444,13 @@ export default function EcoAgentChat() {
                     msg.reasoning_summary ||
                     (msg.trace && msg.trace.length > 0
                       ? msg.trace.map((t) => t.detail).join(' ')
-                      : 'Evaluated multi-criteria lifecycle impacts (carbon, plastic packaging, water use) and verified credentials against EcoMart catalog.')
+                      : 'Evaluated multi-criteria lifecycle impacts (carbon, plastic packaging, water use) and estimated impacts against Eco Sense catalog.')
                   }
                   sourcesOrAssumptions={
                     msg.sources_or_assumptions && msg.sources_or_assumptions.length > 0
                       ? msg.sources_or_assumptions
                       : [
-                          'EcoMart LCA dataset (cradle-to-grave parameters)',
+                          'Eco Sense sample impact dataset (cradle-to-grave parameters)',
                           'Central Pollution Control Board (CPCB) plastic packaging benchmarks',
                           'Standard municipal recycling and composting specifications'
                         ]

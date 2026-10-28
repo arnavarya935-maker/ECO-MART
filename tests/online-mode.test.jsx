@@ -1,9 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import productsData from '../src/data/products.json';
 import { askEcoAgent, generateLocalFallbackAnswer } from '../src/lib/ai/geminiAdapter';
-import { sendAgentQuery } from '../src/lib/ecoAgent';
 import { runMultiAgentPipeline } from '../src/lib/multiAgentEngine';
-import { calculateProductScore, rankProducts } from '../src/lib/decisionEngine';
+import { calculateProductScore } from '../src/lib/decisionEngine';
 import { evaluateConfidenceBrake } from '../src/lib/ai/confidenceBrake';
 
 describe('Online & Offline EcoAgent Modes', () => {

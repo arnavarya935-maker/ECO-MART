@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { HelpCircle, ExternalLink, ShieldCheck } from 'lucide-react';
+import { HelpCircle, ShieldCheck } from 'lucide-react';
 import { findGlossaryTerm } from '../../lib/glossary';
 
 export default function GlossaryTooltip({ term, children }) {

@@ -2,12 +2,10 @@ import React, { useState, useEffect } from 'react';
 import {
   Bell,
   X,
-  CheckCircle2,
   Sparkles,
   ShieldAlert,
   Calendar,
   Trash2,
-  ExternalLink,
   Info
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';

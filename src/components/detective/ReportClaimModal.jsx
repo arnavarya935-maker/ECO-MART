@@ -6,7 +6,6 @@ import {
   Download,
   Trash2,
   FileText,
-  AlertTriangle,
   HelpCircle,
   Sparkles
 } from 'lucide-react';

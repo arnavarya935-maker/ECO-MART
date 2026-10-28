@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Search, Sparkles, X, Filter } from 'lucide-react';
+import React, { useState } from 'react';
+import { Search, Sparkles, X } from 'lucide-react';
 import { parseIntentSearch } from '../../lib/personaEngine';
 
 export default function IntentSearchInput({ onApplyIntent, className = '' }) {

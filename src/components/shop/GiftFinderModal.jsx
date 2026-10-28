@@ -5,8 +5,7 @@ import {
   Sparkles,
   ShoppingBag,
   Check,
-  HelpCircle,
-  ArrowRight
+  HelpCircle
 } from 'lucide-react';
 import productsData from '../../data/products.json';
 import { recommendGifts } from '../../lib/personaEngine';

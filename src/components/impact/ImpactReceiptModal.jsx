@@ -1,14 +1,11 @@
 import React from 'react';
 import {
-  FileText,
   Printer,
   X,
   CheckCircle2,
   Wind,
   Ban,
-  Droplets,
-  ShieldCheck,
-  QrCode
+  Droplets
 } from 'lucide-react';
 import { translateImpactEquivalents } from '../../lib/impactEconomics';
 

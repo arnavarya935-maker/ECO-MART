@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { RotateCcw, Share2, ArrowRight, Sparkles, Brain, ShieldCheck } from 'lucide-react';
+import { RotateCcw, Share2, ArrowRight, Sparkles, Brain } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { HOUSEHOLD_PROFILES } from '../../lib/personaEngine';
 

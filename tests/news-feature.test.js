@@ -6,7 +6,7 @@ import {
   normalizeArticles,
   fetchEcoNews
 } from '../server/newsAdapter.js';
-import { getEcoNews, summarizeNewsSnippet, NEWS_TOPICS } from '../src/lib/newsService.js';
+import { summarizeNewsSnippet } from '../src/lib/newsService.js';
 
 describe('Phase 3: Eco News Feature Test Suite', () => {
   describe('Server News Adapter - Topic Resolution & Allowlisting', () => {

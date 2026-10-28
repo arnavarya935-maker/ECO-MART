@@ -23,12 +23,7 @@ export default function PersonalCarbonBudgetWidget({ consumedKg = 0, defaultLimi
     } catch {}
   };
 
-  const statusColors = {
-    safe: 'bg-emerald-500 text-emerald-600 dark:text-emerald-400',
-    approaching: 'bg-amber-500 text-amber-600 dark:text-amber-400',
-    exceeded: 'bg-rose-500 text-rose-600 dark:text-rose-400'
-  };
-
+  
   return (
     <div className={`p-4 rounded-3xl bg-surface-raised border border-line shadow-soft-xs space-y-3 text-left ${className}`}>
       {/* Header */}

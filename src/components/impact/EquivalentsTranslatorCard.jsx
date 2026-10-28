@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Wind, Ban, Droplets, Info, HelpCircle, Sparkles } from 'lucide-react';
+import { Wind, Ban, Droplets, HelpCircle, Sparkles } from 'lucide-react';
 import { translateImpactEquivalents } from '../../lib/impactEconomics';
 
 export default function EquivalentsTranslatorCard({ co2Kg = 0, plasticGrams = 0, waterLitres = 0, className = '' }) {

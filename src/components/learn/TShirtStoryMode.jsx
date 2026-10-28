@@ -3,14 +3,12 @@ import {
   Play,
   Pause,
   RotateCcw,
-  Sparkles,
   Info,
   Droplets,
   Wind,
   ShieldCheck,
   ArrowRight,
-  ArrowLeft,
-  ChevronRight
+  ArrowLeft
 } from 'lucide-react';
 
 const STAGES = [
