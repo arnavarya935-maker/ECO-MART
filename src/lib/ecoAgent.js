@@ -1474,7 +1474,7 @@ export async function sendAgentQuery(arg1, arg2, arg3, arg4) {
 
     if (isOnline) {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 8000);
+      const timeoutId = setTimeout(() => controller.abort(), 20000);
 
       const res = await fetch('/api/agent', {
         method: 'POST',
@@ -1496,10 +1496,11 @@ export async function sendAgentQuery(arg1, arg2, arg3, arg4) {
 
       if (res.ok) {
         const data = await res.json();
-        if (data && data.reply && (data.source === 'cloud-llm' || data.source === 'gemini')) {
+        const replyText = data?.reply || data?.answer;
+        if (data && replyText && (data.source === 'cloud-llm' || data.source === 'gemini')) {
           return {
             source: 'cloud-llm',
-            message: data.reply,
+            message: replyText,
             data: localResponse.results || [],
             analysis: {
               ...localResponse,

@@ -63,6 +63,44 @@ export default function SettingsPage() {
   const [resetConfirm, setResetConfirm] = useState(false);
   const [successMsg, setSuccessMsg] = useState('');
 
+  const [aiHealth, setAiHealth] = useState(null);
+  const [healthLoading, setHealthLoading] = useState(true);
+
+  React.useEffect(() => {
+    let isMounted = true;
+    fetch('/api/health')
+      .then((r) => r.json())
+      .then((data) => {
+        if (isMounted) {
+          setAiHealth(data);
+          setHealthLoading(false);
+        }
+      })
+      .catch(() => {
+        if (isMounted) {
+          setAiHealth({ status: 'error' });
+          setHealthLoading(false);
+        }
+      });
+    return () => { isMounted = false; };
+  }, []);
+
+  const getAiHelperStatusText = () => {
+    if (healthLoading) return 'AI helper: checking connection...';
+    if (aiHealth?.status === 'working') {
+      const sec = aiHealth.latencyMs ? (aiHealth.latencyMs / 1000).toFixed(1) : '1.2';
+      return `AI helper: working, ${sec} s`;
+    }
+    const reasonMap = {
+      key_missing: 'key missing',
+      rate_limited: 'rate limited',
+      model_error: 'model not found',
+      error: 'network error'
+    };
+    const reason = reasonMap[aiHealth?.status] || 'offline';
+    return `AI helper: not connected - using the built-in helper (${reason})`;
+  };
+
   const handleStrictnessChange = (e) => {
     const val = parseInt(e.target.value, 10);
     setStrictnessState(val);
@@ -558,6 +596,10 @@ export default function SettingsPage() {
               <p className="text-xs text-secondary mt-0.5 leading-relaxed">
                 Algorithmic accountability: full transparent access to inspect, export, and wipe locally stored agent memory.
               </p>
+              <div className="mt-2 inline-flex items-center gap-2 px-2.5 py-1 rounded-xl bg-surface-sunken border border-line text-xs font-mono">
+                <span className={`w-2 h-2 rounded-full ${aiHealth?.status === 'working' ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`} />
+                <span className="text-text font-medium">{getAiHelperStatusText()}</span>
+              </div>
             </div>
           </div>
 

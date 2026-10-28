@@ -204,6 +204,33 @@ export default function EcoAgentChat() {
       : "👋 Welcome to EcoMart! I'm operating in responsible offline mode. Ask me to find plastic-free kitchen essentials, zero-waste gifts, or click 'Review my cart' below!";
   }, []);
 
+  const [aiHealth, setAiHealth] = useState(null);
+
+  useEffect(() => {
+    let isMounted = true;
+    fetch('/api/health')
+      .then((r) => r.json())
+      .then((data) => {
+        if (isMounted) setAiHealth(data);
+      })
+      .catch(() => {
+        if (isMounted) setAiHealth({ status: 'error' });
+      });
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  const [loadingElapsedSec, setLoadingElapsedSec] = useState(0);
+
+  useEffect(() => {
+    if (!loading) return;
+    const timer = setInterval(() => {
+      setLoadingElapsedSec((prev) => prev + 1);
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [loading]);
+
   const [messages, setMessages] = useState(() => [
     {
       id: 'welcome',
@@ -247,6 +274,7 @@ export default function EcoAgentChat() {
     setMessages((prev) => [...prev, userMsg]);
     setInput('');
     setLoading(true);
+    setLoadingElapsedSec(0);
     playSound('click');
 
     // Cart Transformer list detection (Requirement 6)
@@ -670,11 +698,11 @@ export default function EcoAgentChat() {
             <div>
               <div className="font-sans font-bold text-sm flex items-center gap-1.5 text-heading">
                 <span>Eco Agent</span>
-                <span className={`w-2 h-2 rounded-full ${agentMode === 'online' ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`} />
+                <span className={`w-2 h-2 rounded-full ${agentMode === 'online' && aiHealth?.status === 'working' ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`} />
               </div>
               <div className="text-[10px] text-text-muted font-medium flex items-center gap-1 font-mono uppercase tracking-wider">
-                <span className={agentMode === 'online' ? 'text-emerald-400 font-semibold' : 'text-amber-400 font-semibold'}>
-                  {agentMode === 'online' ? 'Gemini 2.5 Cloud' : 'Local 0ms Engine'}
+                <span className={agentMode === 'online' && aiHealth?.status === 'working' ? 'text-emerald-400 font-semibold' : 'text-amber-400 font-semibold'}>
+                  {agentMode === 'online' && aiHealth?.status === 'working' ? 'Gemini' : 'Built-in helper'}
                 </span>
                 {isExpanded && (
                   <span className="text-text-muted font-normal"> · Workspace View</span>
@@ -690,14 +718,14 @@ export default function EcoAgentChat() {
               type="button"
               onClick={toggleAgentMode}
               className={`px-2.5 py-1 rounded-xl text-[11px] font-semibold transition-all border cursor-pointer flex items-center gap-1.5 shadow-soft-xs ${
-                agentMode === 'online'
+                agentMode === 'online' && aiHealth?.status === 'working'
                   ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/25'
                   : 'bg-amber-500/15 text-amber-400 border-amber-500/30 hover:bg-amber-500/25'
               }`}
-              title="Click to toggle between Online Gemini AI and Offline Local Engine"
+              title="Click to toggle between Online Gemini AI and Built-in helper"
             >
-              <span className={`w-1.5 h-1.5 rounded-full ${agentMode === 'online' ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`} />
-              <span>{agentMode === 'online' ? 'Online' : 'Offline'}</span>
+              <span className={`w-1.5 h-1.5 rounded-full ${agentMode === 'online' && aiHealth?.status === 'working' ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`} />
+              <span>{agentMode === 'online' && aiHealth?.status === 'working' ? 'Gemini' : 'Built-in helper'}</span>
             </button>
 
             {/* Hands-free Voice Shopping */}
@@ -988,10 +1016,18 @@ export default function EcoAgentChat() {
                   : 'bg-surface-raised text-heading border border-line rounded-tl-xs shadow-card'
               }`}
             >
-              {msg.source === 'cloud-llm' && (
-                <div className="flex items-center gap-1 text-[9px] font-semibold text-primary mb-1">
-                  <Sparkles className="w-3 h-3" />
-                  <span>Cloud-enhanced</span>
+              {msg.sender === 'agent' && (
+                <div className="flex items-center gap-1.5 mb-1">
+                  <span
+                    className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-semibold ${
+                      msg.source === 'cloud-llm' || msg.source === 'gemini'
+                        ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30'
+                        : 'bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30'
+                    }`}
+                  >
+                    <Sparkles className="w-2.5 h-2.5" />
+                    <span>{msg.source === 'cloud-llm' || msg.source === 'gemini' ? 'Gemini' : 'Built-in helper'}</span>
+                  </span>
                 </div>
               )}
               <div className="flex items-start justify-between gap-2">
@@ -1440,7 +1476,11 @@ export default function EcoAgentChat() {
                 <span className="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse [animation-delay:150ms]" />
                 <span className="w-1.5 h-1.5 rounded-full bg-primary/70 animate-pulse [animation-delay:300ms]" />
               </div>
-              <span className="text-text-secondary font-medium">Analyzing conscious catalog...</span>
+              <span className="text-text-secondary font-medium">
+                {loadingElapsedSec >= 3
+                  ? `Thinking... (${loadingElapsedSec}s)`
+                  : 'Thinking...'}
+              </span>
             </div>
           </div>
         )}

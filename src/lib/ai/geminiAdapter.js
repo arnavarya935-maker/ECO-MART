@@ -189,7 +189,7 @@ export async function askEcoAgent({ query, language = 'en', context = {}, mode =
 
   try {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 9000);
+    const timeout = setTimeout(() => controller.abort(), 20000);
 
     const res = await fetch('/api/agent', {
       method: 'POST',
@@ -202,29 +202,56 @@ export async function askEcoAgent({ query, language = 'en', context = {}, mode =
 
     if (res.ok) {
       const data = await res.json();
+      if (data && data.source === 'local_fallback') {
+        const fallback = generateLocalFallbackAnswer(query, language);
+        return {
+          ...fallback,
+          fallbackReason: data.reason || 'UNKNOWN'
+        };
+      }
+
       if (data && (data.source === 'gemini' || data.source === 'cloud-llm') && (data.answer || data.reply)) {
         const text = data.answer || data.reply;
         // Enriched with catalog items if relevant
         const catRes = queryEcoCatalog(productsData, query);
         const matched = (Array.isArray(catRes) ? catRes : (catRes?.results || [])).slice(0, 3);
 
+        // Strict verification: product prices, EcoScores and numbers always come from our catalogue code.
+        // If the cloud model returned any products not in our data, drop them.
+        const candidateProducts = Array.isArray(data.recommended_products) && data.recommended_products.length > 0
+          ? data.recommended_products
+          : matched;
+
+        const verifiedProducts = candidateProducts
+          .map((p) => {
+            const catalogItem = productsData.find(
+              (item) => item.id === p.id || item.name.toLowerCase() === (p.name || '').toLowerCase()
+            );
+            if (!catalogItem) return null;
+            return {
+              ...catalogItem
+            };
+          })
+          .filter(Boolean)
+          .slice(0, 3);
+
         return {
           answer: text,
           reasoning_summary: data.reasoning_summary || 'Evaluated via Gemini against environmental impact factors.',
           sources_or_assumptions: Array.isArray(data.sources_or_assumptions)
             ? data.sources_or_assumptions
-            : ['Independent lifecycle analysis', 'Verifiable packaging benchmarks'],
+            : ['Independent lifecycle analysis', 'Packaging benchmarks'],
           confidence: data.confidence || 'high',
           estimated_energy_wh: Number(data.estimated_energy_wh) || 0.12,
-          recommended_products: matched,
+          recommended_products: verifiedProducts,
           isFallback: false,
           source: 'gemini',
-          model: data.model || 'Gemini 3 Flash'
+          model: data.model || 'Gemini'
         };
       }
     }
-  } catch {
-    // Network down, timeout, or backend endpoint offline
+  } catch (_err) {
+    // Network down, timeout (20s), or backend endpoint offline
   }
 
   // Graceful degradation: local verified fallback

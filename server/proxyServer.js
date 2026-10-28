@@ -2,11 +2,17 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 export function getGeminiApiKey() {
-  if (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY !== 'your_gemini_api_key_here') {
-    return process.env.GEMINI_API_KEY;
+  if (process.env.GEMINI_API_KEY !== undefined) {
+    if (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY !== 'your_gemini_api_key_here') {
+      return process.env.GEMINI_API_KEY;
+    }
+    return null;
   }
-  if (process.env.ECO_AGENT_API_KEY && process.env.ECO_AGENT_API_KEY !== 'your_gemini_api_key_here') {
-    return process.env.ECO_AGENT_API_KEY;
+  if (process.env.ECO_AGENT_API_KEY !== undefined) {
+    if (process.env.ECO_AGENT_API_KEY && process.env.ECO_AGENT_API_KEY !== 'your_gemini_api_key_here') {
+      return process.env.ECO_AGENT_API_KEY;
+    }
+    return null;
   }
   try {
     for (const envFileName of ['.env', '.env.local']) {
@@ -26,9 +32,15 @@ export function getGeminiApiKey() {
 }
 
 
+// Check names in Google AI Studio before the event
+export const GEMINI_CONFIG = {
+  defaultModel: 'gemini-1.5-flash',
+  fallbackModels: ['gemini-2.0-flash', 'gemini-1.5-pro']
+};
+
 export function getGeminiModel() {
-  if (process.env.GEMINI_MODEL && process.env.GEMINI_MODEL !== 'gemini-1.5-flash' && process.env.GEMINI_MODEL !== 'gemini-3-flash-preview') {
-    return process.env.GEMINI_MODEL;
+  if (process.env.GEMINI_MODEL && process.env.GEMINI_MODEL !== 'your_gemini_model_here') {
+    return process.env.GEMINI_MODEL.trim();
   }
   try {
     for (const envFileName of ['.env', '.env.local']) {
@@ -36,7 +48,7 @@ export function getGeminiModel() {
       if (fs.existsSync(envPath)) {
         const text = fs.readFileSync(envPath, 'utf-8');
         const match = text.match(/^\s*GEMINI_MODEL\s*=\s*["']?([^"'\r\n]+)["']?/m);
-        if (match && match[1] && match[1] !== 'gemini-1.5-flash' && match[1] !== 'gemini-3-flash-preview') {
+        if (match && match[1] && match[1] !== 'your_gemini_model_here') {
           return match[1].trim();
         }
       }
@@ -44,7 +56,7 @@ export function getGeminiModel() {
   } catch {
     // Ignore fs errors in edge / serverless environments
   }
-  return 'gemini-3.5-flash';
+  return GEMINI_CONFIG.defaultModel;
 }
 
 
@@ -288,6 +300,136 @@ export function sanitizeScanLabelOutput(parsed, modelName = 'gemini-1.5-flash') 
   };
 }
 
+export function sanitizeContext(context) {
+  if (!context || typeof context !== 'object') return {};
+
+  const sensitiveKeyRegex = /^(email|useremail|phone|phonenumber|name|fullname|username|address|userid|id|token|password|auth|secret)$/i;
+  const emailRegex = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g;
+  const phoneRegex = /(?:\+?\d{1,3}[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}/g;
+
+  function cleanVal(val, depth = 0) {
+    if (depth > 4) return undefined;
+    if (typeof val === 'string') {
+      return val
+        .replace(emailRegex, '[redacted]')
+        .replace(phoneRegex, '[redacted]')
+        .slice(0, 500);
+    }
+    if (typeof val === 'number' || typeof val === 'boolean') {
+      return val;
+    }
+    if (Array.isArray(val)) {
+      return val.slice(0, 10).map((item) => cleanVal(item, depth + 1)).filter((x) => x !== undefined);
+    }
+    if (val && typeof val === 'object') {
+      const out = {};
+      for (const [k, v] of Object.entries(val)) {
+        if (sensitiveKeyRegex.test(k)) continue;
+        const cleaned = cleanVal(v, depth + 1);
+        if (cleaned !== undefined) out[k] = cleaned;
+      }
+      return out;
+    }
+    return undefined;
+  }
+
+  return cleanVal(context) || {};
+}
+
+let healthCache = null;
+const HEALTH_CACHE_TTL = 60 * 1000; // 60 seconds
+
+export function resetHealthCacheForTesting() {
+  healthCache = null;
+}
+
+export async function handleHealthRequest(req, res) {
+  const now = Date.now();
+  if (healthCache && (now - healthCache.checkedAt < HEALTH_CACHE_TTL)) {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify(healthCache));
+    return;
+  }
+
+  const apiKey = getGeminiApiKey();
+  if (!apiKey || apiKey === 'your_gemini_api_key_here') {
+    const result = {
+      status: 'key_missing',
+      model: null,
+      latencyMs: null,
+      checkedAt: now
+    };
+    healthCache = result;
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify(result));
+    return;
+  }
+
+  const model = getGeminiModel();
+  const startTime = Date.now();
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 5000);
+
+  try {
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
+    const apiResponse = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-goog-api-key': apiKey
+      },
+      signal: controller.signal,
+      body: JSON.stringify({
+        contents: [
+          {
+            role: 'user',
+            parts: [{ text: 'reply with OK' }]
+          }
+        ],
+        generationConfig: {
+          max_output_tokens: 5,
+          temperature: 0
+        }
+      })
+    });
+    clearTimeout(timeout);
+    const latencyMs = Date.now() - startTime;
+
+    let status = 'working';
+    if (!apiResponse.ok) {
+      if (apiResponse.status === 404) {
+        status = 'model_error';
+      } else if (apiResponse.status === 429) {
+        status = 'rate_limited';
+      } else {
+        status = 'error';
+      }
+    }
+
+    const result = {
+      status,
+      model,
+      latencyMs,
+      checkedAt: Date.now()
+    };
+    healthCache = result;
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify(result));
+  } catch (_err) {
+    clearTimeout(timeout);
+    const latencyMs = Date.now() - startTime;
+    const result = {
+      status: 'error',
+      model,
+      latencyMs,
+      checkedAt: Date.now()
+    };
+    healthCache = result;
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify(result));
+  }
+}
+
 /**
  * Handle Eco Agent chat request to Gemini
  */
@@ -316,51 +458,47 @@ export async function handleAgentRequest(body, res, req = null) {
     res.end(
       JSON.stringify({
         source: 'local_fallback',
-        reason: 'NO_API_KEY_CONFIGURED',
-        message: 'Gemini API key not configured. Running offline verified intelligence fallback.'
+        reason: 'NO_API_KEY'
       })
     );
     return;
   }
 
-  const systemInstruction = `You are EcoMart's Responsible AI Shopping Assistant.
-Your purpose: Guide shoppers toward verified sustainable alternatives, lower lifecycle carbon footprints, and zero-plastic choices.
+  const cleanContext = sanitizeContext(context);
 
-ETHICAL RESPONSIBILITY RULES (STRICT):
+  const systemInstruction = `You are Eco Sense's Responsible AI Shopping Assistant.
+Your purpose: Guide shoppers toward sustainable choices, lower harm to nature, and reduced plastic.
+
+ETHICAL RULES:
 1. Language: Answer in the user's language (English, Hindi, or Hinglish).
-2. Honesty: NEVER invent fake certifications or statistics. If unsure of lifecycle numbers, say "I'm not sure" and state realistic assumptions.
-3. Carbon & Energy: Only cite verified benchmarks (e.g. bamboo absorbs ~35% more CO2 than timber; cotton requires ~2,700L water/shirt; plastic degrades over 450+ years).
-4. Unbiased: State trade-offs honestly (e.g., bamboo cutlery is compostable but requires gentle hand-washing; beeswax wrap cannot be washed in hot water).
+2. Honesty: Never invent fake certificates or statistics. If unsure, say "I'm not sure".
+3. Numbers & Products: You may only suggest broad category names and write friendly explanations. Do not fabricate product prices or EcoScores.
 
 OUTPUT FORMAT:
 You MUST respond with valid JSON matching this exact structure:
 {
-  "answer": "Direct, empathetic answer to the user in their language",
+  "answer": "Direct, friendly answer to the user in simple words",
   "reasoning_summary": "Transparent 2-3 step explanation of how you evaluated the request",
-  "sources_or_assumptions": ["Assumption or standard 1", "Assumption or standard 2"],
+  "sources_or_assumptions": ["Simple assumption or standard 1"],
   "confidence": "high" | "medium" | "low",
   "estimated_energy_wh": 0.12,
   "recommended_categories": ["Kitchen", "Personal Care"],
-  "caveat": "AI estimates are probabilistic. Verify manufacturer certifications on package."
+  "caveat": "AI estimates are rule-based guidelines. Check packaging labels before buying."
 }`;
 
   const userPrompt = `User question: "${query}"
-Context memory: ${JSON.stringify(context)}
+Context memory: ${JSON.stringify(cleanContext)}
 User preferred language: ${language}`;
 
   const primaryModel = getGeminiModel();
-  const modelsToTry = [primaryModel, 'gemini-3.5-flash', 'gemini-3.8-flash'].filter((v, i, a) => a.indexOf(v) === i);
-  let lastErr = null;
-  let success = false;
+  const fallbackModel = GEMINI_CONFIG.fallbackModels.find((m) => m !== primaryModel) || null;
 
-  for (const model of modelsToTry) {
+  async function callGemini(modelName) {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 12000);
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent`;
+
     try {
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 12000);
-
-      // Security: API key transmitted exclusively via x-goog-api-key header, not URL query parameter
-      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
-
       const apiResponse = await fetch(apiUrl, {
         method: 'POST',
         headers: {
@@ -385,61 +523,78 @@ User preferred language: ${language}`;
           }
         })
       });
-
       clearTimeout(timeout);
 
       if (!apiResponse.ok) {
-        const errText = await apiResponse.text().catch(() => '');
-        lastErr = { status: apiResponse.status, details: errText.slice(0, 200) };
-        continue;
+        let reason = 'NETWORK';
+        if (apiResponse.status === 404) reason = 'MODEL_NOT_FOUND';
+        else if (apiResponse.status === 429) reason = 'RATE_LIMITED';
+        else if (apiResponse.status >= 500) reason = 'BAD_RESPONSE';
+        return { ok: false, reason, status: apiResponse.status };
       }
 
-      const data = await apiResponse.json();
-      const rawContent = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+      let data;
+      try {
+        data = await apiResponse.json();
+      } catch {
+        return { ok: false, reason: 'BAD_RESPONSE' };
+      }
 
+      const rawContent = data?.candidates?.[0]?.content?.parts?.[0]?.text;
       if (!rawContent) {
-        lastErr = { status: 200, details: 'Empty response candidate' };
-        continue;
+        return { ok: false, reason: 'BAD_RESPONSE' };
       }
 
       let parsed;
       try {
         parsed = JSON.parse(rawContent);
       } catch {
-        parsed = {
-          answer: rawContent,
-          reasoning_summary: 'Processed directly via Gemini.',
-          sources_or_assumptions: ['Direct model output', 'EcoMart lifecycle index'],
-          confidence: 'medium',
-          estimated_energy_wh: 0.12
-        };
+        return { ok: false, reason: 'BAD_RESPONSE' };
       }
 
-      // Validate and sanitize output against strict schema - NEVER spread raw model output
-      const sanitizedResponse = sanitizeAgentOutput(parsed, model);
-
-      res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify(sanitizedResponse));
-      success = true;
-      break;
+      const sanitizedResponse = sanitizeAgentOutput(parsed, modelName);
+      return { ok: true, data: sanitizedResponse };
     } catch (err) {
-      lastErr = {
-        status: err.name === 'AbortError' ? 408 : 500,
-        details: err.message
-      };
+      clearTimeout(timeout);
+      let reason = 'NETWORK';
+      if (err.name === 'AbortError') {
+        reason = 'TIMEOUT';
+      }
+      return { ok: false, reason };
     }
   }
 
-  if (!success) {
+  // Attempt 1: Primary Model (12s limit)
+  const startPrimary = Date.now();
+  const primaryResult = await callGemini(primaryModel);
+  const primaryElapsed = Date.now() - startPrimary;
+
+  if (primaryResult.ok) {
     res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(
-      JSON.stringify({
-        source: 'local_fallback',
-        reason: lastErr?.status ? `API_HTTP_${lastErr.status}` : 'API_NETWORK_ERROR',
-        details: lastErr?.details || 'Model attempt exhausted'
-      })
-    );
+    res.end(JSON.stringify(primaryResult.data));
+    return;
   }
+
+  let finalReason = primaryResult.reason || 'NETWORK';
+
+  // Only try second model if primary failed quickly (under 3 seconds, for example 404/429)
+  if (primaryElapsed < 3000 && fallbackModel) {
+    const fallbackResult = await callGemini(fallbackModel);
+    if (fallbackResult.ok) {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(fallbackResult.data));
+      return;
+    }
+    finalReason = fallbackResult.reason || finalReason;
+  }
+
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  res.end(
+    JSON.stringify({
+      source: 'local_fallback',
+      reason: finalReason
+    })
+  );
 }
 
 /**
