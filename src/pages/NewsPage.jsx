@@ -111,7 +111,7 @@ export default function NewsPage() {
 
   return (
     <div className="min-h-screen bg-surface py-10 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-6xl mx-auto space-y-8">
+      <div className="max-w-7xl mx-auto space-y-8">
         {/* Navigation Breadcrumb back to Learn */}
         <div className="flex items-center gap-2 text-xs text-text-muted">
           <Link to="/learn" className="hover:text-primary transition flex items-center gap-1">

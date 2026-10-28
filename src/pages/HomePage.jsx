@@ -81,7 +81,7 @@ export default function HomePage() {
       {/* Product Catalog Showcase (Preserved live interactive shopping features) */}
       <div className="py-12 bg-surface border-b border-line">
         <SignatureShowcase />
-        <div className="max-w-6xl mx-auto px-6 md:px-10 mt-6 space-y-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6 space-y-6">
           <ForYouRow />
           <RecentlyViewedStrip />
         </div>
@@ -94,7 +94,7 @@ export default function HomePage() {
       <HonestFeedbackSection />
 
       {/* In the News strip */}
-      <div className="max-w-6xl mx-auto px-6 md:px-10 py-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
         <RelatedNewsPanel
           topic="greenwashing"
           title="In the News: Sustainability & Consumer Watch"

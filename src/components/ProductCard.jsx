@@ -72,7 +72,7 @@ export default function ProductCard({ product, rankingDetails }) {
           : undefined,
         transition: 'transform 0.16s ease-out'
       }}
-      className="group relative flex flex-col justify-between bg-surface-raised rounded-3xl border border-line shadow-card product-card-lift cursor-pointer overflow-hidden select-none isolate"
+      className="group relative flex flex-col justify-between h-full bg-surface-raised rounded-3xl border border-line shadow-card product-card-lift cursor-pointer overflow-hidden select-none isolate"
     >
       {/* Top Graphic Showcase - Image First */}
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-surface border-b border-line">
@@ -137,11 +137,11 @@ export default function ProductCard({ product, rankingDetails }) {
       {/* Product Information Body */}
       <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-3">
         <div>
-          <h3 className="font-serif font-bold text-base leading-snug line-clamp-2 text-heading group-hover:text-primary transition-colors">
+          <h3 className="font-heading font-semibold text-base leading-snug line-clamp-2 text-heading group-hover:text-primary transition-colors">
             {product.name}
           </h3>
 
-          <p className="text-xs font-sans text-muted mt-1 line-clamp-2 leading-relaxed">
+          <p className="text-xs font-sans text-secondary mt-1.5 line-clamp-2 leading-relaxed">
             {product.description}
           </p>
 

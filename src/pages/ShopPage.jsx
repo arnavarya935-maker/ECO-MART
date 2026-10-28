@@ -20,6 +20,7 @@ import GiftFinderModal from '../components/shop/GiftFinderModal';
 import OccasionKitsModal from '../components/shop/OccasionKitsModal';
 import IntentSearchInput from '../components/shop/IntentSearchInput';
 import Chip from '../components/ui/Chip';
+import CategoryTiles from '../components/shop/CategoryTiles';
 import { HOUSEHOLD_PROFILES } from '../lib/personaEngine';
 
 export default function ShopPage() {
@@ -229,7 +230,7 @@ export default function ShopPage() {
                 {productsData.length} Products Indexed
               </span>
             </div>
-            <h1 className="font-serif text-3xl sm:text-4xl font-bold text-heading mt-2 tracking-tight">
+            <h1 className="font-heading text-3xl sm:text-4xl font-extrabold text-heading mt-2 tracking-tight">
               Sustainable Living Catalog
             </h1>
             <p className="font-sans text-xs sm:text-sm text-secondary mt-1">
@@ -281,6 +282,14 @@ export default function ShopPage() {
               onSelectProfile={handleSelectHouseholdProfile}
             />
           </div>
+        </div>
+
+        {/* Department Visual Category Showcase with Real Photos */}
+        <div className="pt-2">
+          <CategoryTiles
+            selectedCategory={categoryParam}
+            onSelectCategory={(cat) => updateQueryParam('category', cat)}
+          />
         </div>
       </div>
 

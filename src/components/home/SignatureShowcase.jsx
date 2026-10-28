@@ -21,7 +21,7 @@ export default function SignatureShowcase() {
       aria-labelledby="signature-heading"
       className="relative bg-surface py-20 md:py-28 border-b border-line"
     >
-      <div className="mx-auto max-w-6xl px-6 md:px-10">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-line pb-8">
           <div>
@@ -32,7 +32,7 @@ export default function SignatureShowcase() {
             </div>
             <h2
               id="signature-heading"
-              className="mt-3 font-sans text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-heading text-balance"
+              className="mt-3 font-heading text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-heading text-balance"
             >
               Engineered alternatives. Zero compromise.
             </h2>

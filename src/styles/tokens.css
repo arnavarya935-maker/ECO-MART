@@ -7,7 +7,7 @@
 /* --------------------------------------------------------------------------
    Local Fonts (bundled via @fontsource-variable packages)
    -------------------------------------------------------------------------- */
-@import "@fontsource-variable/fraunces/index.css";
+@import "@fontsource-variable/plus-jakarta-sans/index.css";
 @import "@fontsource-variable/inter/index.css";
 @import "@fontsource/opendyslexic/index.css";
 
@@ -16,9 +16,10 @@
    -------------------------------------------------------------------------- */
 :root {
   /* Typography Families */
-  --font-display: 'Fraunces Variable', 'Fraunces', Georgia, serif;
+  --font-display: 'Plus Jakarta Sans Variable', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-sans: 'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-serif: var(--font-display);
+  --font-heading: var(--font-display);
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
   /* Fluid Type Scale with clamp() */
@@ -109,8 +110,8 @@
   --color-heading-active:  #051D16;
   --color-text:            #11251E; /* Deep forest-slate body text, WCAG AAA */
   --color-text-primary:    #11251E;
-  --color-text-secondary:  #2E453B; /* Secondary forest-gray, WCAG AA */
-  --color-text-muted:      #4A6357; /* Muted caption text, WCAG AA */
+  --color-text-secondary:  #243D32; /* Secondary forest-gray, WCAG AAA (7:1 contrast) */
+  --color-text-muted:      #365447; /* Muted caption text, WCAG AAA (5.5:1 contrast) */
   --color-text-inverted:   #FFFFFF;
   --color-primary:         #047857; /* Emerald 700 / Forest Emerald */
   --color-primary-hover:   #065F46; /* Emerald 800 */
@@ -221,8 +222,8 @@ html.dark {
   --color-heading-active:  #E2E8E4;
   --color-text:            #F4F7F5;
   --color-text-primary:    #F4F7F5;
-  --color-text-secondary:  #B4C6BD;
-  --color-text-muted:      #889E93;
+  --color-text-secondary:  #C2D4CB; /* Crisp legible secondary in dark mode */
+  --color-text-muted:      #9FB5A9; /* High-contrast caption text in dark mode */
   --color-text-inverted:   #05100B;
   --color-primary:         #10B981;
   --color-primary-hover:   #34D399;
@@ -285,7 +286,7 @@ html.text-size-xlarge {
 html[lang="hi"],
 html.lang-hi {
   --font-sans: 'Noto Sans Devanagari', 'Inter Variable', 'Inter', -apple-system, sans-serif;
-  --font-display: 'Noto Sans Devanagari', 'Fraunces Variable', Georgia, serif;
+  --font-display: 'Noto Sans Devanagari', 'Plus Jakarta Sans Variable', 'Plus Jakarta Sans', sans-serif;
 }
 
 /* --------------------------------------------------------------------------

@@ -122,7 +122,7 @@ export default function Product3DViewer({ product }) {
   const productImage = product.image || (Array.isArray(product.images) && product.images[0]) || `/images/products/${product.id}.jpg`;
 
   return (
-    <div className="relative w-full h-72 sm:h-84 rounded-3xl overflow-hidden bg-surface-sunken border border-line shadow-inner">
+    <div className="relative w-full h-72 sm:h-96 rounded-3xl overflow-hidden bg-surface-sunken border border-line shadow-inner">
       {/* 3D Scene Controls Overlay */}
       <div className="absolute top-3 left-3 right-3 z-10 flex items-center justify-between pointer-events-auto">
         <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-surface/90 backdrop-blur-md border border-line text-[11px] font-semibold text-heading shadow-soft-xs">

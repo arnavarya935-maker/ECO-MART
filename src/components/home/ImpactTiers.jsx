@@ -59,7 +59,7 @@ const TIERS = [
 export default function ImpactTiers() {
   return (
     <section className="py-16 bg-surface border-b border-line" id="tiers">
-      <div className="max-w-6xl mx-auto px-6 md:px-10 space-y-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         <div className="text-center max-w-2xl mx-auto space-y-3">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-raised border border-line text-primary font-mono text-[11px] font-semibold uppercase tracking-wider">
             Verified Circular Scope

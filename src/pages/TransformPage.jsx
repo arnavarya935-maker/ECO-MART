@@ -221,7 +221,7 @@ export default function TransformPage() {
   };
 
   return (
-    <div className="min-h-screen bg-surface text-text py-10 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto space-y-8 animate-fade-in">
+    <div className="min-h-screen bg-surface text-text py-10 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8 animate-fade-in">
       {/* Page Title & Mission Statement */}
       <div className="space-y-3 text-center sm:text-left">
         <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-semibold uppercase tracking-wider">

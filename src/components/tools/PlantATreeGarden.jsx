@@ -98,9 +98,9 @@ export default function PlantATreeGarden() {
           fallbackEmoji={currentStage.emoji}
           fallbackSubtitle="3D virtual grove is paused under Reduce Effects or when WebGL is unavailable. Displaying 2D garden."
           loadingMessage="Growing 3D Virtual Biosphere Canopy..."
-          className="h-80 w-full rounded-3xl overflow-hidden border border-line shadow-soft-sm"
+          className="h-80 sm:h-96 w-full rounded-3xl overflow-hidden"
         >
-          <EcoForest3D score={calculatedScore} co2Saved={co2SavedEstimate} className="h-80 w-full" />
+          <EcoForest3D score={calculatedScore} co2Saved={co2SavedEstimate} className="h-80 sm:h-96 w-full" />
         </Safe3D>
       ) : (
         <div className="p-8 rounded-3xl bg-surface-sunken border border-line relative overflow-hidden">

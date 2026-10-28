@@ -199,7 +199,7 @@ export default function KiranaPage() {
 
   return (
     <div className="min-h-screen bg-sand-50 py-8 px-4 sm:px-6 lg:px-8 text-forest-950 font-sans transition-colors">
-      <div className="max-w-5xl mx-auto space-y-6">
+      <div className="max-w-7xl mx-auto space-y-6">
         {/* Navigation & Kirana Store Header */}
         <div className="bg-surface rounded-3xl p-6 sm:p-8 border-2 border-forest-900 shadow-sm relative overflow-hidden">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">

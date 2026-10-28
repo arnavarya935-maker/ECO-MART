@@ -250,7 +250,7 @@ export default function LeafyGlobe3D({ cartCo2Saved = 0 }) {
         <div className="w-20 h-20 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-4xl shadow-soft-xs mb-3">
           🌍
         </div>
-        <h4 className="font-serif font-bold text-heading text-sm">
+        <h4 className="font-heading font-bold text-heading text-sm">
           Interactive Biosphere (Static Mode)
         </h4>
         <p className="text-xs text-secondary mt-1 max-w-xs font-normal">
@@ -261,8 +261,8 @@ export default function LeafyGlobe3D({ cartCo2Saved = 0 }) {
   }
 
   return (
-    <div className="relative w-full flex flex-col items-center select-none">
-      <div className="relative w-full h-80 sm:h-96 rounded-3xl overflow-hidden bg-gradient-to-b from-primary/10 via-surface-sunken to-surface border border-line shadow-soft-sm">
+    <div className="relative w-full h-full flex flex-col items-center select-none">
+      <div className="relative w-full h-[360px] sm:h-[400px] lg:h-[420px] rounded-2xl overflow-hidden bg-gradient-to-b from-primary/10 via-surface-sunken to-surface border border-line shadow-inner">
         <Canvas
           camera={{ position: [0, 0, 5.8], fov: 45 }}
           gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
@@ -306,7 +306,7 @@ export default function LeafyGlobe3D({ cartCo2Saved = 0 }) {
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-serif font-bold text-xs text-heading">
+              <span className="font-heading font-bold text-xs text-heading">
                 {activePin.name}
               </span>
               <span className="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">

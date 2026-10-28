@@ -16,7 +16,9 @@ import {
   ShieldAlert,
   Brain,
   Settings,
-  RotateCcw
+  RotateCcw,
+  Maximize2,
+  Minimize2
 } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { useT } from '../../context/I18nContext';
@@ -155,6 +157,22 @@ export default function EcoAgentChat() {
   }, [speakingMsgId, lang]);
 
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  useEffect(() => {
+    if (!isAgentOpen) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        if (isExpanded) {
+          setIsExpanded(false);
+        } else {
+          setIsAgentOpen(false);
+        }
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isAgentOpen, isExpanded, setIsAgentOpen]);
   const [addedItemMap, setAddedItemMap] = useState({});
   const [firstAgentAnswerDone, setFirstAgentAnswerDone] = useState(false);
   const [agentContext, setAgentContext] = useState({
@@ -623,85 +641,121 @@ export default function EcoAgentChat() {
   if (!isAgentOpen) return null;
 
   return (
-    <div
-      role="dialog"
-      aria-modal="true"
-      aria-label="Eco Agent Chat Assistant"
-      className="fixed bottom-16 sm:bottom-6 right-2 sm:right-6 z-drawers w-full sm:w-[480px] max-w-[calc(100vw-1rem)] h-[680px] max-h-[calc(100dvh-4.5rem)] bg-surface border border-line rounded-3xl shadow-soft-xl flex flex-col overflow-hidden text-text animate-slide-up"
-    >
-      {/* Top Header Bar - Clean Single-Row */}
-      <div className="px-4 py-3 bg-surface-raised border-b border-line text-heading flex items-center justify-between shadow-soft-xs">
-        <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 flex items-center justify-center shadow-soft-xs">
-            <Sparkles className="w-4 h-4 text-emerald-400" />
+    <>
+      {/* Immersive backdrop when near-fullscreen */}
+      {isExpanded && (
+        <div
+          className="fixed inset-0 bg-black/45 backdrop-blur-xs z-50 animate-fade-in"
+          onClick={() => setIsExpanded(false)}
+          aria-hidden="true"
+        />
+      )}
+
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-label="Eco Agent Chat Assistant"
+        className={`fixed z-drawers bg-surface border border-line rounded-3xl shadow-soft-xl flex flex-col overflow-hidden text-text transition-all duration-300 ease-out ${
+          isExpanded
+            ? 'inset-2 sm:inset-4 md:inset-8 w-auto h-auto'
+            : 'bottom-16 sm:bottom-4 right-2 sm:right-4 w-full sm:w-[540px] md:w-[560px] max-w-[calc(100vw-1rem)] h-[720px] max-h-[calc(100dvh-2.5rem)] animate-slide-up'
+        }`}
+      >
+        {/* Top Header Bar - Clean Single-Row */}
+        <div className="px-4 py-3 bg-surface-raised border-b border-line text-heading flex items-center justify-between shadow-soft-xs">
+          <div className="flex items-center gap-2.5">
+            <div className="w-9 h-9 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 flex items-center justify-center shadow-soft-xs">
+              <Sparkles className="w-4 h-4 text-emerald-400" />
+            </div>
+            <div>
+              <div className="font-sans font-bold text-sm flex items-center gap-1.5 text-heading">
+                <span>Eco Agent</span>
+                <span className={`w-2 h-2 rounded-full ${agentMode === 'online' ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`} />
+              </div>
+              <div className="text-[10px] text-text-muted font-medium flex items-center gap-1 font-mono uppercase tracking-wider">
+                <span className={agentMode === 'online' ? 'text-emerald-400 font-semibold' : 'text-amber-400 font-semibold'}>
+                  {agentMode === 'online' ? 'Gemini 2.5 Cloud' : 'Local 0ms Engine'}
+                </span>
+                {isExpanded && (
+                  <span className="text-text-muted font-normal"> · Workspace View</span>
+                )}
+              </div>
+            </div>
           </div>
-          <div>
-            <div className="font-sans font-bold text-sm flex items-center gap-1.5 text-heading">
-              <span>Eco Agent</span>
-              <span className={`w-2 h-2 rounded-full ${agentMode === 'online' ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`} />
-            </div>
-            <div className="text-[10px] text-text-muted font-medium flex items-center gap-1 font-mono uppercase tracking-wider">
-              <span className={agentMode === 'online' ? 'text-emerald-400 font-semibold' : 'text-amber-400 font-semibold'}>
-                {agentMode === 'online' ? 'Gemini 2.5 Cloud' : 'Local 0ms Engine'}
-              </span>
-            </div>
+
+          {/* Clean Single-Row Actions */}
+          <div className="flex items-center gap-1.5">
+            {/* Quick Mode Toggle Pill */}
+            <button
+              type="button"
+              onClick={toggleAgentMode}
+              className={`px-2.5 py-1 rounded-xl text-[11px] font-semibold transition-all border cursor-pointer flex items-center gap-1.5 shadow-soft-xs ${
+                agentMode === 'online'
+                  ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/25'
+                  : 'bg-amber-500/15 text-amber-400 border-amber-500/30 hover:bg-amber-500/25'
+              }`}
+              title="Click to toggle between Online Gemini AI and Offline Local Engine"
+            >
+              <span className={`w-1.5 h-1.5 rounded-full ${agentMode === 'online' ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`} />
+              <span>{agentMode === 'online' ? 'Online' : 'Offline'}</span>
+            </button>
+
+            {/* Hands-free Voice Shopping */}
+            <button
+              type="button"
+              onClick={() => setVoiceModalOpen(true)}
+              className="w-8 h-8 rounded-xl bg-surface-sunken hover:bg-surface text-text-secondary hover:text-heading transition-colors border border-line flex items-center justify-center cursor-pointer"
+              title="Hands-free Voice Shopping in English / Hindi"
+              aria-label="Voice Shopping"
+            >
+              <Mic className="w-3.5 h-3.5 text-primary" />
+            </button>
+
+            {/* Settings & Diagnostics Dropdown Toggle */}
+            <button
+              type="button"
+              onClick={() => setSettingsOpen((prev) => !prev)}
+              className={`w-8 h-8 rounded-xl transition-colors border flex items-center justify-center cursor-pointer ${
+                settingsOpen
+                  ? 'bg-primary/20 text-primary border-primary/40 shadow-soft-xs'
+                  : 'bg-surface-sunken text-text-secondary hover:text-heading hover:bg-surface border-line'
+              }`}
+              title="Agent Settings, Meters & Diagnostic Controls"
+              aria-label="Agent Settings"
+            >
+              <Settings className={`w-3.5 h-3.5 transition-transform duration-200 ${settingsOpen ? 'rotate-45' : ''}`} />
+            </button>
+
+            {/* Expand / Minimize near-fullscreen toggle */}
+            <button
+              type="button"
+              onClick={() => setIsExpanded((prev) => !prev)}
+              className={`w-8 h-8 rounded-xl transition-colors border flex items-center justify-center cursor-pointer ${
+                isExpanded
+                  ? 'bg-primary/20 text-primary border-primary/40 shadow-soft-xs'
+                  : 'bg-surface-sunken text-text-secondary hover:text-heading hover:bg-surface border-line'
+              }`}
+              title={isExpanded ? 'Restore drawer size' : 'Expand to near-fullscreen'}
+              aria-label={isExpanded ? 'Restore drawer size' : 'Expand to near-fullscreen'}
+            >
+              {isExpanded ? (
+                <Minimize2 className="w-3.5 h-3.5 text-primary" />
+              ) : (
+                <Maximize2 className="w-3.5 h-3.5" />
+              )}
+            </button>
+
+            {/* Close Agent Button */}
+            <button
+              type="button"
+              onClick={() => setIsAgentOpen(false)}
+              className="w-8 h-8 text-text-muted hover:text-heading rounded-xl hover:bg-surface-sunken border border-transparent hover:border-line flex items-center justify-center transition-colors focus-visible:outline-2 focus-visible:outline-focus cursor-pointer"
+              aria-label="Close Agent"
+            >
+              <X className="w-4 h-4" />
+            </button>
           </div>
         </div>
-
-        {/* Clean Single-Row Actions */}
-        <div className="flex items-center gap-1.5">
-          {/* Quick Mode Toggle Pill */}
-          <button
-            type="button"
-            onClick={toggleAgentMode}
-            className={`px-2.5 py-1 rounded-xl text-[11px] font-semibold transition-all border cursor-pointer flex items-center gap-1.5 shadow-soft-xs ${
-              agentMode === 'online'
-                ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/25'
-                : 'bg-amber-500/15 text-amber-400 border-amber-500/30 hover:bg-amber-500/25'
-            }`}
-            title="Click to toggle between Online Gemini AI and Offline Local Engine"
-          >
-            <span className={`w-1.5 h-1.5 rounded-full ${agentMode === 'online' ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`} />
-            <span>{agentMode === 'online' ? 'Online' : 'Offline'}</span>
-          </button>
-
-          {/* Hands-free Voice Shopping */}
-          <button
-            type="button"
-            onClick={() => setVoiceModalOpen(true)}
-            className="w-8 h-8 rounded-xl bg-surface-sunken hover:bg-surface text-text-secondary hover:text-heading transition-colors border border-line flex items-center justify-center cursor-pointer"
-            title="Hands-free Voice Shopping in English / Hindi"
-            aria-label="Voice Shopping"
-          >
-            <Mic className="w-3.5 h-3.5 text-primary" />
-          </button>
-
-          {/* Settings & Diagnostics Dropdown Toggle */}
-          <button
-            type="button"
-            onClick={() => setSettingsOpen((prev) => !prev)}
-            className={`w-8 h-8 rounded-xl transition-colors border flex items-center justify-center cursor-pointer ${
-              settingsOpen
-                ? 'bg-primary/20 text-primary border-primary/40 shadow-soft-xs'
-                : 'bg-surface-sunken text-text-secondary hover:text-heading hover:bg-surface border-line'
-            }`}
-            title="Agent Settings, Meters & Diagnostic Controls"
-            aria-label="Agent Settings"
-          >
-            <Settings className={`w-3.5 h-3.5 transition-transform duration-200 ${settingsOpen ? 'rotate-45' : ''}`} />
-          </button>
-
-          {/* Close Agent Button */}
-          <button
-            type="button"
-            onClick={() => setIsAgentOpen(false)}
-            className="w-8 h-8 text-text-muted hover:text-heading rounded-xl hover:bg-surface-sunken border border-transparent hover:border-line flex items-center justify-center transition-colors focus-visible:outline-2 focus-visible:outline-focus cursor-pointer"
-            aria-label="Close Agent"
-          >
-            <X className="w-4 h-4" />
-          </button>
-        </div>
-      </div>
 
       {/* Collapsible Settings & Diagnostics Panel */}
       {settingsOpen && (
@@ -1541,5 +1595,6 @@ export default function EcoAgentChat() {
         onClose={() => setVoiceModalOpen(false)}
       />
     </div>
+  </>
   );
 }

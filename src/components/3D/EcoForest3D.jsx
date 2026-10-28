@@ -276,7 +276,7 @@ export default function EcoForest3D({ score = 75, co2Saved = 5, className = 'h-7
         <div className="text-6xl mb-2">
           {score >= 85 ? '🌲🌳🌲' : score >= 70 ? '🌳🌲' : '🌱'}
         </div>
-        <div className="text-sm font-serif font-bold text-heading">
+        <div className="text-sm font-heading font-bold text-heading">
           {growthTitle}
         </div>
         <p className="text-xs text-secondary mt-1 font-normal">
