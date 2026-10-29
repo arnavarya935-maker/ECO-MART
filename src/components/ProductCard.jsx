@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ShoppingBag, Eye, Heart, Check, Wind, Ban, Sparkles } from 'lucide-react';
 import { calculateEcoScore } from '../lib/ecoScore';
+import { IMPACT_DATA_NOTE } from '../lib/conversionConstants';
 import EcoScoreBadge from './EcoScoreBadge';
 import ProductImage from './ProductImage';
 import WhyRankPopover from './decision/WhyRankPopover';
@@ -152,11 +153,11 @@ export default function ProductCard({ product, rankingDetails }) {
           {/* Environmental metrics & Decision Engine Ranking */}
           <div className="flex flex-wrap items-center justify-between gap-2 mt-3">
             <div className="flex items-center gap-3 text-xs font-sans text-secondary font-medium">
-              <span className="flex items-center gap-1" title="Carbon footprint">
-                <Wind className="w-3.5 h-3.5 text-primary" /> {product.carbonKg}kg CO₂
+              <span className="flex items-center gap-1" title={`Carbon footprint • ${IMPACT_DATA_NOTE}`}>
+                <Wind className="w-3.5 h-3.5 text-primary" /> {product.carbonKg}kg CO₂ <span className="text-[10px] text-muted">est.</span>
               </span>
-              <span className="flex items-center gap-1" title="Plastic packaging">
-                <Ban className="w-3.5 h-3.5 text-warning" /> {product.plasticGrams}g plastic
+              <span className="flex items-center gap-1" title={`Plastic packaging • ${IMPACT_DATA_NOTE}`}>
+                <Ban className="w-3.5 h-3.5 text-warning" /> {product.plasticGrams}g plastic <span className="text-[10px] text-muted">est.</span>
               </span>
             </div>
             <div className="flex items-center gap-1.5 flex-wrap">

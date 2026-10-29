@@ -7,6 +7,8 @@
  * 4. Tap Water Shower Equivalence: ~65 Litres per standard 8-minute shower (approximate common estimate)
  */
 
+export const IMPACT_DATA_NOTE = 'Estimate (sample data)';
+
 export const CONVERSION_CONSTANTS = {
   // 1 mature tree absorbs ~21.77 kg CO2 per year (approximate)
   KG_CO2_PER_TREE_YEAR: 21.77,

@@ -6,7 +6,7 @@
     "price": 349,
     "icon": "🎋",
     "badge": "Zero Waste Best-Seller",
-    "description": "Handcrafted bamboo fork, spoon, knife, straw, and cleaner in a natural unbleached cotton pouch. Completely biodegradable and lightweight.",
+    "description": "Handcrafted bamboo fork, spoon, knife, straw, and cleaner in a natural unbleached cotton pouch. Plantable Body (natural material) and lightweight.",
     "material": "Organic Bamboo & Cotton",
     "packaging": "plastic-free",
     "carbonKg": 0.35,
@@ -20,7 +20,7 @@
     "isEcoFriendly": true,
     "conventionalAlternativeId": "kit-01-conv",
     "ecoHighlights": [
-      "100% Compostable",
+      "Handle can be composted (check local rules)",
       "Pesticide-Free Bamboo",
       "Plastic-Free Packaging"
     ],
@@ -189,7 +189,7 @@
     "conventionalAlternativeId": "kit-03-conv",
     "ecoHighlights": [
       "Replaces 300+ m of Plastic Cling",
-      "100% Backyard Compostable",
+      "Can be composted at home (check local rules)",
       "Naturally Antibacterial"
     ],
     "imageQuery": "1607344645866-009c320c5ab8",
@@ -274,7 +274,7 @@
     "ecoHighlights": [
       "Lifetime Reusable",
       "Natural Antimicrobial",
-      "100% Infinitely Recyclable"
+      "Can be recycled many times"
     ],
     "imageQuery": "1602143407151-7111542de6e8",
     "photographer": "Bluewater Globe",
@@ -338,7 +338,7 @@
   },
   {
     "id": "care-01",
-    "name": "Compostable Bamboo Toothbrush (Pack of 4)",
+    "name": "Bamboo Toothbrush with Compostable Handle (Pack of 4)",
     "category": "Personal Care",
     "price": 249,
     "icon": "🪥",
@@ -358,7 +358,7 @@
     "conventionalAlternativeId": "care-01-conv",
     "ecoHighlights": [
       "Castor Oil Plant Bristles",
-      "100% Home Compostable Handle",
+      "Bamboo handle can be composted (check local rules)",
       "Plastic-Free Packaging"
     ],
     "imageQuery": "1607613009820-a29f7ab81c04",
@@ -508,12 +508,12 @@
   },
   {
     "id": "care-03",
-    "name": "Zero-Waste Vintage Brass Safety Razor",
+    "name": "Reusable Vintage Brass Safety Razor",
     "category": "Personal Care",
     "price": 599,
     "icon": "🪒",
     "badge": "Built for Decades",
-    "description": "Heavy-duty solid brass double-edge razor with 10 recyclable Swedish steel blades. Never buy disposable cartridge plastic razors again.",
+    "description": "Heavy-duty solid brass double-edge razor with 10 replaceable steel blades. Never buy disposable cartridge plastic razors again.",
     "material": "Solid Machined Brass & Stainless Steel",
     "packaging": "plastic-free",
     "carbonKg": 0.95,
@@ -524,9 +524,9 @@
     "isEcoFriendly": true,
     "conventionalAlternativeId": "care-03-conv",
     "ecoHighlights": [
-      "100% Plastic Free Shave",
+      "Plastic-free Shave",
       "Lifetime Metal Construction",
-      "Recyclable Steel Blades"
+      "Replaceable Steel Blades"
     ],
     "imageQuery": "1508380702597-707c1b00695c",
     "photographer": "Supply",
@@ -595,7 +595,7 @@
     "price": 185,
     "icon": "👄",
     "badge": "Clean Beauty",
-    "description": "Hand-whipped unrefined shea butter, sweet almond oil, and peppermint in an infinitely recyclable push-top aluminum tin. No petroleum jelly.",
+    "description": "Hand-whipped unrefined shea butter, sweet almond oil, and peppermint in an can be recycled many times push-top aluminum tin. No petroleum jelly.",
     "material": "Unrefined Shea Butter & Almond Oil",
     "packaging": "recycled",
     "carbonKg": 0.19,
@@ -609,7 +609,7 @@
     "conventionalAlternativeId": "care-04-conv",
     "ecoHighlights": [
       "No Petroleum Byproducts",
-      "Infinitely Recyclable Tin",
+      "can be recycled many times Tin",
       "Food-Grade Ingredients"
     ],
     "imageQuery": "1608248597359-009772a8c3d2",
@@ -1103,8 +1103,8 @@
     "price": 199,
     "icon": "🖊️",
     "badge": "Plantable Stationery",
-    "description": "Barrels rolled tight from reclaimed waste newspapers, tipped with tomato and coriander seed capsules. Non-toxic ink.",
-    "material": "Reclaimed Discarded Newsprint & Non-Toxic Ink",
+    "description": "Barrels rolled tight from reclaimed waste newspapers, tipped with tomato and coriander seed capsules. water-based ink (seller claim).",
+    "material": "Reclaimed Discarded Newsprint & water-based ink (seller claim)",
     "packaging": "plastic-free",
     "carbonKg": 0.18,
     "waterLitres": 9,
@@ -1115,7 +1115,7 @@
     "conventionalAlternativeId": "stat-02-conv",
     "ecoHighlights": [
       "Repurposed Local Newsprint",
-      "Biodegradable Body",
+      "Plantable Body",
       "Edible Vegetable Seeds"
     ],
     "imageQuery": "1585336261026-41804f877d94",
@@ -1351,7 +1351,7 @@
     "price": 449,
     "icon": "🕯️",
     "badge": "Clean Burn Aromatherapy",
-    "description": "100% natural GMO-free soybean wax infused with Indian lavender and bergamot essential oils, set in an artisan unglazed earthenware vessel.",
+    "description": "Natural GMO-free soybean wax infused with Indian lavender and bergamot essential oils, set in an artisan unglazed earthenware vessel.",
     "material": "Non-GMO Soy Wax, Cotton Wick & Earthen Clay",
     "packaging": "plastic-free",
     "carbonKg": 0.38,
@@ -1518,7 +1518,7 @@
     "icon": "🚪",
     "badge": "100% Biodegradable Fibers",
     "description": "Woven by Kerala coastal coir co-operatives from coconut husk fibers with a natural vulcanised tree latex non-slip backing.",
-    "material": "100% Natural Coconut Coir & Natural Latex",
+    "material": "Natural Coconut Coir & Natural Latex",
     "packaging": "plastic-free",
     "carbonKg": 0.52,
     "waterLitres": 25,
@@ -1684,8 +1684,8 @@
     "price": 399,
     "icon": "👜",
     "badge": "Replace 500+ Polybags",
-    "description": "14oz certified organic ring-spun cotton canvas with reinforced box-stitched handles and interior pocket for keys and bottle. Holds 15kg easily.",
-    "material": "GOTS Certified Heavy Organic Cotton Canvas",
+    "description": "14oz organic (seller claim) ring-spun cotton canvas with reinforced box-stitched handles and interior pocket for keys and bottle. Holds 15kg easily.",
+    "material": "GOTS Organic (Seller Claim) Heavy Organic Cotton Canvas",
     "packaging": "plastic-free",
     "carbonKg": 0.45,
     "waterLitres": 180,
@@ -1699,7 +1699,7 @@
     "ecoHighlights": [
       "Tested to 1000+ Wash & Use Cycles",
       "Plastic-Free Reinforced Stitching",
-      "Chemical-Free Natural Bleach"
+      "free of synthetic additives Natural Bleach"
     ],
     "imageQuery": "1544816155-12df9643f363",
     "photographer": "Kelly Sikkema",
@@ -1769,7 +1769,7 @@
     "icon": "💼",
     "badge": "Golden Fiber Heritage",
     "description": "Dense Bengal woven jute fiber with cotton padding and antique brass hardware. Fits up to 15.6-inch laptops with dedicated accessories slot.",
-    "material": "100% Biodegradable Raw Jute & Brass Metal",
+    "material": "Natural Raw Jute & Brass Metal",
     "packaging": "plastic-free",
     "carbonKg": 0.82,
     "waterLitres": 45,
@@ -1936,7 +1936,7 @@
     "icon": "🥬",
     "badge": "Grocery Zero Waste",
     "description": "Breathable unbleached cotton mesh with tare weight tags and drawstring toggles. Keeps vegetables crisp in refrigerator without plastic condensation.",
-    "material": "100% GOTS Certified Cotton Mesh",
+    "material": "100% GOTS Organic (Seller Claim) Cotton Mesh",
     "packaging": "plastic-free",
     "carbonKg": 0.31,
     "waterLitres": 70,
@@ -2202,7 +2202,7 @@
     "isEcoFriendly": true,
     "conventionalAlternativeId": "out-03-conv",
     "ecoHighlights": [
-      "100% Biodegradable",
+      "Natural",
       "Naturally Antimicrobial Cork",
       "Zero Chemical PVC Smell"
     ],
@@ -2286,7 +2286,7 @@
     "isEcoFriendly": true,
     "conventionalAlternativeId": "out-04-conv",
     "ecoHighlights": [
-      "Non-Toxic Vegetable Waxing",
+      "mild (seller claim) Vegetable Waxing",
       "Pure Organic Cotton",
       "Biodegradable"
     ],
@@ -2370,7 +2370,7 @@
     "isEcoFriendly": true,
     "conventionalAlternativeId": "clean-01-conv",
     "ecoHighlights": [
-      "100% Backyard Compostable Berries",
+      "Can be composted at home (check local rules) Berries",
       "Greywater Safe & River Friendly",
       "Cotton Wash Bag Included"
     ],
@@ -2441,7 +2441,7 @@
     "price": 199,
     "icon": "🧽",
     "badge": "Zero Microplastic Scrubbing",
-    "description": "Naturally dried luffa aegyptiaca gourds stitched with natural cotton thread. Tough on grease yet 100% backyard compostable after use.",
+    "description": "Naturally dried luffa aegyptiaca gourds stitched with natural cotton thread. Tough on grease yet Can be composted at home (check local rules) after use.",
     "material": "Natural Loofah Vine & Coconut Husk Coir",
     "packaging": "plastic-free",
     "carbonKg": 0.16,
@@ -2454,7 +2454,7 @@
     "ecoHighlights": [
       "Plant Grown Dish Scrubber",
       "Zero Microplastics Down the Drain",
-      "100% Home Compostable"
+      "Can be composted at home (check local rules)"
     ],
     "imageQuery": "1584308666744-24d5c474f2ae",
     "photographer": "Sarah Chai",
@@ -2523,7 +2523,7 @@
     "price": 299,
     "icon": "✨",
     "badge": "Dissolve in Tap Water",
-    "description": "Compact effervescent cleaning tablets packed in compostable paper. Drop one in 500ml tap water in any reusable spray bottle.",
+    "description": "Compact effervescent cleaning tablets packed in unbleached paper. Drop one in 500ml tap water in any reusable spray bottle.",
     "material": "Citric Acid, Sodium Bicarbonate & Lemon Essential Oil",
     "packaging": "plastic-free",
     "carbonKg": 0.28,
@@ -2539,7 +2539,7 @@
     "ecoHighlights": [
       "Saves 6 Single-Use Spray Bottles",
       "Zero Shipping of Heavy Water Weight",
-      "100% Biodegradable Ingredients"
+      "Natural Ingredients"
     ],
     "imageQuery": "1584820927498-cfe5211fd8bf",
     "photographer": "Kelly Sikkema",
@@ -2621,7 +2621,7 @@
     "isEcoFriendly": true,
     "conventionalAlternativeId": "clean-04-conv",
     "ecoHighlights": [
-      "Completely Compostable Handle & Bristles",
+      "Compostable beech handle & coir bristles (check local rules)",
       "Terracotta Stand Will Not Trap Odour",
       "Replaces Plastic Scrubber"
     ],
@@ -2705,7 +2705,7 @@
     "isEcoFriendly": true,
     "conventionalAlternativeId": "kit-05-conv",
     "ecoHighlights": [
-      "100% Biodegradable River Clay",
+      "Natural River Clay",
       "Zero Electricity Refrigeration",
       "Artisanal Craft Revival"
     ],
@@ -2871,7 +2871,7 @@
     "isEcoFriendly": true,
     "conventionalAlternativeId": "kit-07-conv",
     "ecoHighlights": [
-      "100% Infinitely Recyclable Steel",
+      "Can be recycled many times Steel",
       "Zero Phthalates & Zero BPA",
       "Leak-Resistant Clasp Architecture"
     ],
@@ -2957,7 +2957,7 @@
     "ecoHighlights": [
       "Natural Phytochemical Antibacterial Agent",
       "Zero Toxic Chemical Varnishes",
-      "100% Home Compostable"
+      "Can be composted at home (check local rules)"
     ],
     "imageQuery": "wooden-spoons",
     "photographer": "Natural Kitchenware",
@@ -3040,7 +3040,7 @@
     "isEcoFriendly": true,
     "conventionalAlternativeId": "care-05-conv",
     "ecoHighlights": [
-      "100% Plant-Based Biodegradable Lather",
+      "Plant-based Lather",
       "Zero Palm Oil & Zero Animal Fat",
       "Recycled Kraft Paper Seed Wrap"
     ],
@@ -3361,7 +3361,7 @@
     "price": 899,
     "icon": "🧺",
     "badge": "Manipur River Reed Weave",
-    "description": "Sturdy multipurpose household storage baskets handwoven by rural artisan collectives in Manipur using dried wild kauna water reed. Lightweight, naturally water-resistant, and completely chemical-free.",
+    "description": "Sturdy multipurpose household storage baskets handwoven by rural artisan collectives in Manipur using dried wild kauna water reed. Lightweight, naturally water-resistant, and free of synthetic coatings.",
     "material": "Wild Kauna River Grass & Water Reed",
     "packaging": "plastic-free",
     "carbonKg": 0.38,
@@ -3446,7 +3446,7 @@
     "icon": "🕯️",
     "badge": "Clean Air Negative Ion Burn",
     "description": "Pure organic Indian beeswax pillar candles hand-rolled around raw braided cotton wicks. Releases negative ions as they burn to neutralise airborne dust and allergens without artificial soot.",
-    "material": "100% Pure Honeycomb Beeswax & Cotton Wick",
+    "material": "Pure Honeycomb Beeswax & Cotton Wick",
     "packaging": "plastic-free",
     "carbonKg": 0.32,
     "waterLitres": 10,
@@ -3628,7 +3628,7 @@
     "ecoHighlights": [
       "Zero Microplastic Shedding Down Sinks",
       "Highly Absorbent Honeycomb Waffle Loom",
-      "Unbleached Chemical-Free Fiber"
+      "Unbleached free of synthetic additives Fiber"
     ],
     "imageQuery": "organic-cotton-dish-towels",
     "photographer": "Organic Textiles",
@@ -3697,8 +3697,8 @@
     "price": 349,
     "icon": "🧽",
     "badge": "Non-Scratch Recyclable Metal",
-    "description": "Woven pure copper mesh scrubbers designed to scour baked-on grime from stainless steel, cast iron, and glass without scratching. Naturally rust-resistant and infinitely recyclable.",
-    "material": "Pure Recyclable Copper Mesh",
+    "description": "Woven pure copper mesh scrubbers designed to scour baked-on grime from stainless steel, cast iron, and glass without scratching. Naturally rust-resistant and can be recycled many times.",
+    "material": "Pure Copper Mesh",
     "packaging": "plastic-free",
     "carbonKg": 0.65,
     "waterLitres": 20,
@@ -3710,7 +3710,7 @@
     "isEcoFriendly": true,
     "conventionalAlternativeId": "clean-05-conv",
     "ecoHighlights": [
-      "100% Recyclable Metal Wire",
+      "Pure Copper Wire",
       "Zero Synthetic Microfibers Down Drains",
       "Rust-Proof and Hygienic"
     ],
@@ -3794,7 +3794,7 @@
     "isEcoFriendly": true,
     "conventionalAlternativeId": "clean-06-conv",
     "ecoHighlights": [
-      "100% Natural Probiotic Enzymes",
+      "Natural Probiotic Enzymes",
       "Purifies Household Drainage & Groundwater",
       "Zero Chlorine, Ammonia or Synthetic Dyes"
     ],
@@ -3865,7 +3865,7 @@
     "price": 299,
     "icon": "🧤",
     "badge": "Plantation Hevea Rubber",
-    "description": "Durable reusable cleaning gloves moulded from 100% natural sustainably tapped Kerala rubber tree sap with textured non-slip palms and comfortable unbleached cotton flock lining.",
+    "description": "Durable reusable cleaning gloves moulded from Natural sustainably tapped Kerala rubber tree sap with textured non-slip palms and comfortable unbleached cotton flock lining.",
     "material": "Recycled Natural Latex & Cotton",
     "packaging": "recycled",
     "carbonKg": 1.85,
@@ -3878,7 +3878,7 @@
     "isEcoFriendly": true,
     "conventionalAlternativeId": "clean-07-conv",
     "ecoHighlights": [
-      "100% Natural Biodegradable Tree Latex",
+      "Natural Tree Latex",
       "Kerala Agro-Forestry Plantation Sourcing",
       "Comfortable Sweat-Absorbing Cotton Interior"
     ],
@@ -4033,7 +4033,7 @@
     "price": 999,
     "icon": "👖",
     "badge": "GOTS Organic Handloom",
-    "description": "Relaxed everyday lounge trousers handwoven by rural artisan weavers from 100% GOTS certified organic Indian cotton. Undyed, breathable, pre-shrunk, and fitted with natural wooden buttons.",
+    "description": "Relaxed everyday lounge trousers handwoven by rural artisan weavers from 100% GOTS organic (seller claim) Indian cotton. Undyed, breathable, pre-shrunk, and fitted with natural wooden buttons.",
     "material": "100% GOTS Organic Cotton",
     "packaging": "plastic-free",
     "carbonKg": 0.42,
@@ -4118,7 +4118,7 @@
     "price": 699,
     "icon": "👛",
     "badge": "Tree-Bark Harvested Vegan Leather",
-    "description": "Slim lightweight pocket card wallet crafted from harvested cork oak bark. Naturally water-resistant, soft to the touch, highly durable, and certified 100% cruelty-free vegan.",
+    "description": "Slim lightweight pocket card wallet crafted from harvested cork oak bark. Naturally water-resistant, soft to the touch, highly durable, and Cruelty-free vegan (seller claim).",
     "material": "Natural Harvested FSC Cork Bark & Cotton",
     "packaging": "recycled",
     "carbonKg": 0.58,
@@ -4287,8 +4287,8 @@
     "price": 850,
     "icon": "🧢",
     "badge": "Pure Linen & Indigo Dye",
-    "description": "Lightweight summer sun visor loomed from 100% natural European flax linen and dyed using authentic fermented Indian indigo vat extracts. Provides UV protection naturally.",
-    "material": "100% Pure Flax Linen & Natural Indigo",
+    "description": "Lightweight summer sun visor loomed from Natural European flax linen and dyed using authentic fermented Indian indigo vat extracts. Provides UV protection naturally.",
+    "material": "Pure Flax Linen & Natural Indigo",
     "packaging": "plastic-free",
     "carbonKg": 0.38,
     "waterLitres": 30,
@@ -4427,7 +4427,7 @@
     "isEcoFriendly": true,
     "conventionalAlternativeId": "stat-06-conv",
     "ecoHighlights": [
-      "FSC Certified Fast-Growing Moso Bamboo",
+      "FSC Bamboo (Seller Claim) Fast-Growing Moso Bamboo",
       "Precision Laser-Carved Measurements",
       "Zero Petrochemical Lacquers"
     ],
@@ -4498,7 +4498,7 @@
     "price": 449,
     "icon": "📁",
     "badge": "100% Post-Consumer Kraft",
-    "description": "Sturdy fold-flat magazine and document file holders manufactured from 100% post-consumer recycled corrugated kraft card. Fully biodegradable and strong enough to hold heavy folders.",
+    "description": "Sturdy fold-flat magazine and document file holders manufactured from Post-consumer recycled corrugated kraft card. sturdy card that holds heavy folders.",
     "material": "Recycled Kraft Corrugated Board",
     "packaging": "recycled",
     "carbonKg": 1.85,
@@ -4511,8 +4511,8 @@
     "isEcoFriendly": true,
     "conventionalAlternativeId": "stat-07-conv",
     "ecoHighlights": [
-      "100% Recycled Post-Consumer Kraft Fibers",
-      "Completely Biodegradable & Recyclable",
+      "Recycled Post-Consumer Kraft Fibers",
+      "Plantable Body (natural material) & Recyclable",
       "Zero Toxic Solvent Adhesives"
     ],
     "imageQuery": "cardboard-file-organizer",
@@ -4711,7 +4711,7 @@
     "icon": "🧺",
     "badge": "Golden Bengal Jute Fiber",
     "description": "Rigid standing grocery shopping basket hand-plaited from dense golden Bengal jute fibers with natural cane wrapped carry handles. Easily holds up to 20kg of market produce.",
-    "material": "100% Natural Golden Bengal Jute & Rattan Cane",
+    "material": "Natural Golden Bengal Jute & Rattan Cane",
     "packaging": "plastic-free",
     "carbonKg": 0.35,
     "waterLitres": 20,
@@ -4936,7 +4936,7 @@
     "ecoHighlights": [
       "Naturally Antibacterial Oligodynamic Action",
       "Seamless Leakproof Single-Metal Pressing",
-      "Infinitely Recyclable Precious Metal"
+      "can be recycled many times Precious Metal"
     ],
     "imageQuery": "copper-water-bottle",
     "photographer": "Indian Metalcraft",
@@ -5104,7 +5104,7 @@
     "ecoHighlights": [
       "100% Upcycled Agricultural Fruit Shell",
       "Naturally Water-Repellent and Mould-Proof",
-      "Backyard Compostable at End of Useful Life"
+      "Can be composted at home (check local rules)"
     ],
     "imageQuery": "coconut-shell-soap-dish",
     "photographer": "Tropical Crafts",

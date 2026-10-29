@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { ShoppingBag, Wind, Droplets, Ban, MapPin, Award, CheckCircle, Sparkles, RefreshCw, QrCode, Ruler } from 'lucide-react';
 import { calculateEcoScore, compareProductImpact, detectGreenwashing } from '../lib/ecoScore';
+import { IMPACT_DATA_NOTE } from '../lib/conversionConstants';
 import { compareProductToBenchmark } from '../lib/decisionEngine';
 import EcoScoreBadge from './EcoScoreBadge';
 import EcoScorePopover from './EcoScorePopover';
@@ -211,11 +212,14 @@ export default function ProductDetailModal({ product, onClose }) {
             <div className="space-y-6">
               {/* Environmental Impact Metrics Grid */}
               <div>
-                <h3 className="text-xs font-bold uppercase tracking-wider text-muted mb-3">
-                  Lifecycle Environmental Footprint
-                </h3>
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="text-xs font-bold uppercase tracking-wider text-muted">
+                    Lifecycle Environmental Footprint
+                  </h3>
+                  <span className="text-[10px] text-muted font-mono">{IMPACT_DATA_NOTE}</span>
+                </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-              <div className="p-3.5 rounded-2xl bg-surface-raised border border-line shadow-soft-sm">
+              <div className="p-3.5 rounded-2xl bg-surface-raised border border-line shadow-soft-sm" title={`Carbon • ${IMPACT_DATA_NOTE}`}>
                 <div className="flex items-center gap-1.5 text-xs text-muted mb-1">
                   <Wind className="w-4 h-4 text-primary" />
                   <span>Carbon</span>
@@ -225,7 +229,7 @@ export default function ProductDetailModal({ product, onClose }) {
                 </div>
               </div>
 
-              <div className="p-3.5 rounded-2xl bg-surface-raised border border-line shadow-soft-sm">
+              <div className="p-3.5 rounded-2xl bg-surface-raised border border-line shadow-soft-sm" title={`Freshwater • ${IMPACT_DATA_NOTE}`}>
                 <div className="flex items-center gap-1.5 text-xs text-muted mb-1">
                   <Droplets className="w-4 h-4 text-secondary" />
                   <span>Freshwater</span>
@@ -235,7 +239,7 @@ export default function ProductDetailModal({ product, onClose }) {
                 </div>
               </div>
 
-              <div className="p-3.5 rounded-2xl bg-surface-raised border border-line shadow-soft-sm">
+              <div className="p-3.5 rounded-2xl bg-surface-raised border border-line shadow-soft-sm" title={`Plastic Waste • ${IMPACT_DATA_NOTE}`}>
                 <div className="flex items-center gap-1.5 text-xs text-muted mb-1">
                   <Ban className="w-4 h-4 text-accent" />
                   <span>Plastic Waste</span>
@@ -245,7 +249,7 @@ export default function ProductDetailModal({ product, onClose }) {
                 </div>
               </div>
 
-              <div className="p-3.5 rounded-2xl bg-surface-raised border border-line shadow-soft-sm">
+              <div className="p-3.5 rounded-2xl bg-surface-raised border border-line shadow-soft-sm" title={`Distance • ${IMPACT_DATA_NOTE}`}>
                 <div className="flex items-center gap-1.5 text-xs text-muted mb-1">
                   <MapPin className="w-4 h-4 text-primary" />
                   <span>Distance</span>
@@ -278,16 +282,19 @@ export default function ProductDetailModal({ product, onClose }) {
                   <span className="text-xs font-bold text-muted uppercase tracking-wider w-24 shrink-0">Certifications:</span>
                   <div className="flex flex-wrap gap-1.5">
                     {product.certifications.map((c, i) => (
-                      <span
+                      <button
                         key={i}
-                        className="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-0.5 rounded-full bg-primary-subtle text-primary border border-primary/20"
+                        type="button"
+                        onClick={() => alert(`Sample seller claim. Always check the official ${c} registry for the real certificate.`)}
+                        title={`Sample seller claim. Always check the official ${c} registry for the real certificate.`}
+                        className="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-0.5 rounded-full bg-primary-subtle text-primary border border-primary/20 hover:underline cursor-pointer"
                       >
                         <Award className="w-3 h-3 text-primary" /> {c}
-                      </span>
+                      </button>
                     ))}
                   </div>
                 </div>
-                <span className="text-[10px] text-muted">Claimed by seller (sample data) • Check issuer registry for official status</span>
+                <span className="text-[10px] text-muted">Claimed by seller (sample data) • Click badge for verification guidance</span>
               </div>
             )}
           </div>

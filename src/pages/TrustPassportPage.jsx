@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import productsData from '../data/products.json';
 import { calculateEcoScore, detectGreenwashing } from '../lib/ecoScore';
+import { IMPACT_DATA_NOTE } from '../lib/conversionConstants';
 import AIEthicsCard from '../components/decision/AIEthicsCard';
 import SecondLifeTab from '../components/lifecycle/SecondLifeTab';
 
@@ -110,7 +111,7 @@ export default function TrustPassportPage() {
       verdict: hasCerts ? 'Backed by seller certifications' : 'Clear of suspicious claims'
     };
   }, [product]);
-  const passportUrl = typeof window !== 'undefined' ? window.location.href : `ecomart-local-passport/${product.id}`;
+  const passportUrl = typeof window !== 'undefined' ? window.location.href : `ecosense-local-passport/${product.id}`;
 
   const handleCopyLink = () => {
     if (typeof navigator !== 'undefined' && navigator.clipboard) {
@@ -227,18 +228,18 @@ export default function TrustPassportPage() {
         </div>
 
         {/* Physical Footprint Strip */}
-        <div className="p-4 rounded-2xl bg-surface-raised border border-line flex flex-wrap items-center justify-around gap-4 text-xs font-mono">
+        <div className="p-4 rounded-2xl bg-surface-raised border border-line flex flex-wrap items-center justify-around gap-4 text-xs font-mono" title={IMPACT_DATA_NOTE}>
           <div className="flex items-center gap-2">
             <Wind className="w-4 h-4 text-primary" />
             <span>CO₂: <strong>{product.carbonKg} kg</strong> (est.)</span>
           </div>
           <div className="flex items-center gap-2">
             <Droplets className="w-4 h-4 text-sky-400" />
-            <span>Water: <strong>{product.waterLitres} Litres</strong></span>
+            <span>Water: <strong>{product.waterLitres} Litres</strong> (est.)</span>
           </div>
           <div className="flex items-center gap-2">
             <Award className="w-4 h-4 text-amber-400" />
-            <span>Origin: <strong>{product.madeInKm} km transit</strong></span>
+            <span>Origin: <strong>{product.madeInKm} km transit</strong> (est.)</span>
           </div>
         </div>
 
