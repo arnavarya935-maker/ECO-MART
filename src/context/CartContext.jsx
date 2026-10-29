@@ -116,16 +116,18 @@ export function CartProvider({ children }) {
       const updated = typeof newWeights === 'function' ? newWeights(prev) : { ...prev, ...newWeights };
       try {
         localStorage.setItem('ecomart_user_priorities', JSON.stringify(updated));
-        if (presetName) {
-          localStorage.setItem('ecomart_active_preset', presetName);
-          setActivePreset(presetName);
-        } else {
-          localStorage.setItem('ecomart_active_preset', 'custom');
-          setActivePreset('custom');
-        }
       } catch {}
       return updated;
     });
+    try {
+      if (presetName) {
+        localStorage.setItem('ecomart_active_preset', presetName);
+        setActivePreset(presetName);
+      } else {
+        localStorage.setItem('ecomart_active_preset', 'custom');
+        setActivePreset('custom');
+      }
+    } catch {}
   }, []);
 
   const applyPriorityPreset = useCallback((presetId) => {

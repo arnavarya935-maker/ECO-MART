@@ -124,6 +124,15 @@ export function AuthProvider({ children }) {
 
   // Sign up locally and in Supabase if configured
   const signup = useCallback(async ({ name, email, password }) => {
+    if (!name || !name.trim()) {
+      throw new Error('Please provide your name.');
+    }
+    if (!email || !email.includes('@')) {
+      throw new Error('Please provide a valid email address.');
+    }
+    if (!password || password.length < 6) {
+      throw new Error('Password must be at least 6 characters long.');
+    }
     const cleanEmail = email.trim().toLowerCase();
 
     // 1. If Supabase is configured, register user in Supabase Auth
@@ -196,6 +205,12 @@ export function AuthProvider({ children }) {
 
   // Log in locally or via Supabase
   const login = useCallback(async ({ email, password }) => {
+    if (!email || !email.includes('@')) {
+      throw new Error('Please provide a valid email address.');
+    }
+    if (!password) {
+      throw new Error('Please enter your password.');
+    }
     const cleanEmail = email.trim().toLowerCase();
 
     // 1. If Supabase is configured, try Supabase login first
