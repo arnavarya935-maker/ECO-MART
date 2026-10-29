@@ -394,7 +394,7 @@ export default function Navbar() {
             <div>
               <div className="text-xs font-bold text-heading">Eco Agent Mode</div>
               <div className="text-[11px] text-text-muted">
-                {agentMode === 'online' ? 'Gemini 2.5 Flash Cloud' : 'Local Deterministic (0ms)'}
+                {agentMode === 'online' ? 'Gemini 2.5 Flash Cloud' : 'Built-in Smart Rules'}
               </div>
             </div>
             <button

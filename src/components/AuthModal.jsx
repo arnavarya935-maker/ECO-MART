@@ -278,7 +278,7 @@ export default function AuthModal() {
               title={
                 isCloudAuthConfigured
                   ? 'Sign in using your Google account'
-                  : 'Google Sign-In requires Supabase or Firebase configuration in .env'
+                  : 'Google sign-in is optional. You can sign in with email or continue as Guest.'
               }
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24">
@@ -302,12 +302,12 @@ export default function AuthModal() {
               <span>
                 {isCloudAuthConfigured
                   ? 'Continue with Google'
-                  : 'Google Sign-In (Needs Auth config)'}
+                  : 'Continue with Google (Optional)'}
               </span>
             </button>
           ) : (
             <div className="py-2.5 px-3 rounded-2xl bg-accent/10 border border-accent/30 text-accent text-[11px] text-center font-medium">
-              ⚡ Local Email and Guest Mode are available.
+              ⚡ Email and Guest access are ready.
             </div>
           )}
 
@@ -317,14 +317,14 @@ export default function AuthModal() {
             onClick={loginAsGuest}
             className="w-full min-h-[44px] py-2.5 px-4 rounded-2xl bg-surface-sunken hover:bg-surface-raised text-secondary font-semibold text-xs border border-line transition-colors flex items-center justify-center gap-1.5 focus-visible:outline-2 focus-visible:outline-focus"
           >
-            <span>Continue as Guest (Local Mode)</span>
+            <span>Continue as Guest</span>
           </button>
         </div>
 
         {/* Local storage privacy notice */}
         <div className="mt-4 text-center">
           <p className="text-[10px] text-muted">
-            🔒 Local accounts are stored securely in browser storage using SHA-256 password hashing.
+            🔒 Your account and data are saved safely right on this device.
           </p>
         </div>
       </div>

@@ -814,7 +814,7 @@ export default function EcoAgentChat() {
               Agent Settings &amp; Diagnostics
             </span>
             <span className="text-[10px] text-text-muted font-mono uppercase">
-              {agentMode} MODE
+              {agentMode === 'online' ? 'Cloud AI' : 'Smart Rules'}
             </span>
           </div>
 
@@ -825,7 +825,7 @@ export default function EcoAgentChat() {
               <div className="text-[10px] text-text-muted leading-tight">
                 {agentMode === 'online'
                   ? 'Gemini 2.5 Cloud reasoning with verified catalog fallback'
-                  : 'Fast smart rule heuristics & local catalog'}
+                  : 'Fast built-in rules & verified catalog'}
               </div>
             </div>
             <button
