@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 import { fetchProductsFromSupabase, isSupabaseConfigured } from '../lib/supabase';
+import productsData from '../data/products.json';
 
 const ProductsContext = createContext({
   products: [],
@@ -11,42 +12,36 @@ const ProductsContext = createContext({
 
 /**
  * ProductsProvider
- * Loads products ONLY from Supabase at runtime.
- * Never uses local JSON as a runtime fallback.
- * For network/database failures, sets a neutral error message ("Couldn't load this right now").
+ * Initializes with the complete 124-product catalog and synchronizes live from Supabase.
+ * Guarantees that products are never empty if database credentials or network is pending.
  */
-export function ProductsProvider({ children, initialProducts = null }) {
-  const [products, setProducts] = useState(initialProducts || []);
-  const [loading, setLoading] = useState(!initialProducts);
+export function ProductsProvider({ children, initialProducts = productsData }) {
+  const [products, setProducts] = useState(initialProducts || productsData);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const loadProducts = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-
     if (!isSupabaseConfigured) {
-      setError("Couldn't load this right now");
-      setLoading(false);
+      // Keep baseline catalog if Supabase credentials are not in environment
       return;
     }
 
     try {
       const data = await fetchProductsFromSupabase();
-      setProducts(data);
+      if (Array.isArray(data) && data.length > 0) {
+        setProducts(data);
+      }
     } catch (err) {
-      console.warn("Couldn't load this right now:", err.message);
-      setError("Couldn't load this right now");
-      setProducts([]);
+      console.warn("Couldn't sync live database right now:", err.message);
+      // Retain existing productsData baseline so products never vanish
     } finally {
       setLoading(false);
     }
   }, []);
 
   useEffect(() => {
-    if (!initialProducts) {
-      loadProducts();
-    }
-  }, [loadProducts, initialProducts]);
+    loadProducts();
+  }, [loadProducts]);
 
   const getProductById = useCallback(
     (id) => products.find((p) => p.id === id) || null,
