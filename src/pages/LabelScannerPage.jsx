@@ -20,10 +20,12 @@ import {
   AlertTriangle,
   Sparkles,
   ArrowRight,
-  FileText
+  FileText,
+  Barcode
 } from 'lucide-react';
 import { scanProductLabel, SAMPLE_LABELS } from '../lib/ai/labelScanner.js';
-import { downscaleImageToJpeg } from '../lib/imageDownscale.js';
+import { downscaleImageForScanner } from '../lib/imageDownscale.js';
+import BarcodeScannerModal from '../components/BarcodeScannerModal.jsx';
 import { auditLabelClaims } from '../lib/claimChecker.js';
 import {
   evaluateNutritionTable,
@@ -62,6 +64,24 @@ export default function LabelScannerPage() {
   const [cameraActive, setCameraActive] = useState(false);
   const [copiedText, setCopiedText] = useState(false);
   const [shopMatchResult, setShopMatchResult] = useState(null);
+  const [isBarcodeScannerOpen, setIsBarcodeScannerOpen] = useState(false);
+
+  const formatFriendlyErrorMessage = (err) => {
+    const msg = (err?.message || String(err || '')).toLowerCase();
+    if (msg.includes('429') || msg.includes('quota') || msg.includes('rate limit') || msg.includes('too many requests')) {
+      return 'The AI scanner is busy right now (rate limit reached). Please wait a moment and try again.';
+    }
+    if (msg.includes('504') || msg.includes('timeout') || msg.includes('aborted')) {
+      return 'The scanner took too long to respond. Please check your internet connection and try again.';
+    }
+    if (msg.includes('api key') || msg.includes('gemini_api_key') || msg.includes('unauthorized') || msg.includes('401')) {
+      return 'The AI vision key is not configured. You can test the scanner with one of the sample labels below!';
+    }
+    if (msg.includes('unreadable') || msg.includes('blurry') || msg.includes('could not read')) {
+      return 'The label text was unreadable. Please make sure your camera is steady, well-lit, and close to the text, then try again.';
+    }
+    return err?.message || 'Something went wrong while reading the label. Please try again.';
+  };
 
   const fileInputRef = useRef(null);
   const videoRef = useRef(null);
@@ -172,9 +192,9 @@ export default function LabelScannerPage() {
 
       setProcessingStatus('Optimizing image for vision model...');
       try {
-        const downscaled = await downscaleImageToJpeg(file, {
-          maxDimension: 1280,
-          quality: 0.82
+        const downscaled = await downscaleImageForScanner(file, {
+          maxDimension: 1024,
+          quality: 0.8
         });
 
         setProcessingStatus('Transcribing printed facts & nutrition via Gemini Vision...');
@@ -186,7 +206,7 @@ export default function LabelScannerPage() {
         setScanResult(result);
         setActiveTab('overview');
       } catch (err) {
-        setError(err.message || 'Failed to scan image. Please ensure the label is clearly illuminated.');
+        setError(formatFriendlyErrorMessage(err));
         setErrorDetails(err.stack || String(err));
       } finally {
         setIsProcessing(false);
@@ -273,9 +293,9 @@ export default function LabelScannerPage() {
     setProcessingStatus('Optimizing capture & reading printed text...');
 
     try {
-      const downscaled = await downscaleImageToJpeg(dataUrl, {
-        maxDimension: 1280,
-        quality: 0.82
+      const downscaled = await downscaleImageForScanner(dataUrl, {
+        maxDimension: 1024,
+        quality: 0.8
       });
 
       const result = await scanProductLabel({
@@ -286,7 +306,7 @@ export default function LabelScannerPage() {
       setScanResult(result);
       setActiveTab('overview');
     } catch (err) {
-      setError(err.message || 'Failed to read photo.');
+      setError(formatFriendlyErrorMessage(err));
       setErrorDetails(err.stack || String(err));
     } finally {
       setIsProcessing(false);
@@ -442,6 +462,17 @@ export default function LabelScannerPage() {
               </div>
             )}
 
+            {/* Barcode Scanner Button */}
+            <button
+              type="button"
+              onClick={() => setIsBarcodeScannerOpen(true)}
+              disabled={isProcessing}
+              className="flex items-center gap-2 px-5 py-3 rounded-2xl bg-surface hover:bg-surface-sunken border border-line text-heading font-medium text-xs sm:text-sm transition cursor-pointer active:scale-98 min-h-[44px]"
+            >
+              <Barcode className="w-4 h-4 text-primary" />
+              <span>Scan Barcode</span>
+            </button>
+
             {(scanResult || imagePreview || error) && (
               <button
                 type="button"
@@ -536,7 +567,14 @@ export default function LabelScannerPage() {
               </div>
             )}
 
-            <div className="pt-2">
+            <div className="pt-2 flex items-center gap-2">
+              <button
+                type="button"
+                onClick={resetScanner}
+                className="px-4 py-2 rounded-xl bg-primary hover:bg-primary-hover text-primary-contrast text-xs font-semibold cursor-pointer shadow-soft-xs"
+              >
+                Try again
+              </button>
               <button
                 type="button"
                 onClick={resetScanner}
@@ -1142,6 +1180,18 @@ export default function LabelScannerPage() {
           </div>
         )}
       </div>
+
+      {/* Barcode Scanner Modal */}
+      {isBarcodeScannerOpen && (
+        <BarcodeScannerModal
+          isOpen={isBarcodeScannerOpen}
+          onClose={() => setIsBarcodeScannerOpen(false)}
+          onSelectProduct={(p) => {
+            setIsBarcodeScannerOpen(false);
+            navigate(`/product/${p.id}`);
+          }}
+        />
+      )}
     </div>
   );
 }

@@ -1152,6 +1152,59 @@ export async function handleTranscribeRequest(body, res, req = null) {
   );
 }
 
+export async function handleBarcodeRequest(code, res) {
+  const barcode = (code || '').trim();
+  if (!barcode || !/^\d{8,14}$/.test(barcode)) {
+    res.writeHead(400, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ error: 'Invalid barcode format. Expected 8-14 numeric digits.' }));
+    return;
+  }
+
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 6000);
+    const offUrl = `https://world.openfoodfacts.org/api/v2/product/${encodeURIComponent(barcode)}.json`;
+    const response = await fetch(offUrl, {
+      signal: controller.signal,
+      headers: {
+        'User-Agent': 'EcoSense - School Competition Project - Version 1.0'
+      }
+    });
+    clearTimeout(timeout);
+
+    if (!response.ok) {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ found: false, barcode, message: 'Product not found in Open Food Facts database.' }));
+      return;
+    }
+
+    const data = await response.json();
+    if (data.status === 1 && data.product) {
+      const p = data.product;
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({
+        found: true,
+        source: 'open_food_facts',
+        barcode,
+        name: p.product_name || p.product_name_en || 'Scanned Packaged Product',
+        brand: p.brands || 'Unknown Brand',
+        packaging: p.packaging || 'Packaged item',
+        ecoGrade: p.ecoscore_grade ? p.ecoscore_grade.toUpperCase() : 'C',
+        nutriscore: p.nutriscore_grade ? p.nutriscore_grade.toUpperCase() : null,
+        imageUrl: p.image_front_url || p.image_url || null,
+        ingredientsText: p.ingredients_text || null
+      }));
+      return;
+    }
+
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ found: false, barcode, message: 'Product not found in Open Food Facts database.' }));
+  } catch {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ found: false, barcode, message: 'Network offline or lookup timed out. You can browse our sample catalogue.' }));
+  }
+}
+
 /**
  * Standalone HTTP server for local development or container deployment
  */
@@ -1179,6 +1232,12 @@ export async function startStandaloneServer(port = Number(process.env.PORT) || 3
         return;
       }
       await handleHealthRequest(req, res);
+      return;
+    }
+
+    if (url === '/api/barcode') {
+      const q = new URL(req.url, `http://localhost:${port}`).searchParams;
+      await handleBarcodeRequest(q.get('code') || '', res);
       return;
     }
 
@@ -1211,6 +1270,8 @@ export async function startStandaloneServer(port = Number(process.env.PORT) || 3
             await handleScanLabelRequest(body, res, req);
           } else if (url === '/api/transcribe') {
             await handleTranscribeRequest(body, res, req);
+          } else if (url === '/api/barcode') {
+            await handleBarcodeRequest(body.code || '', res);
           } else {
             res.writeHead(404, { 'Content-Type': 'application/json' });
             res.end(JSON.stringify({ error: 'Endpoint not found' }));

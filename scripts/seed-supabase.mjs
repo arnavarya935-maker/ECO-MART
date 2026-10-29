@@ -41,9 +41,19 @@ async function seed() {
   const batchSize = 10;
   for (let i = 0; i < products.length; i += batchSize) {
     const batch = products.slice(i, i + batchSize);
-    const { error } = await supabase
+    let payload = batch;
+    let { error } = await supabase
       .from('products')
-      .upsert(batch, { onConflict: 'id' });
+      .upsert(payload, { onConflict: 'id' });
+
+    if (error && error.message && error.message.includes("'barcode'")) {
+      // Remote schema lacks barcode column, strip it for remote sync while keeping local source of truth
+      payload = batch.map(({ barcode, ...rest }) => rest);
+      const retry = await supabase
+        .from('products')
+        .upsert(payload, { onConflict: 'id' });
+      error = retry.error;
+    }
 
     if (error) {
       console.error(`Failed to seed batch ${i / batchSize + 1}:`, error.message);

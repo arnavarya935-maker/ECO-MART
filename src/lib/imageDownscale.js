@@ -125,3 +125,98 @@ export async function downscaleImageToJpeg(imageInput, options = {}) {
     img.src = src;
   });
 }
+
+/**
+ * Downscale image specifically for the label scanner (max 1024px on longest side, WebP, quality 0.8)
+ * Ensures quick mobile uploads that fit under all API payload limits.
+ */
+export async function downscaleImageForScanner(imageInput, options = {}) {
+  const { maxDimension = 1024, quality = 0.8 } = options;
+
+  return new Promise((resolve, reject) => {
+    let src = '';
+    let objectUrlToRevoke = null;
+
+    if (typeof imageInput === 'string') {
+      src = imageInput;
+    } else if (imageInput instanceof Blob || imageInput instanceof File) {
+      if (typeof URL !== 'undefined' && URL.createObjectURL) {
+        objectUrlToRevoke = URL.createObjectURL(imageInput);
+        src = objectUrlToRevoke;
+      }
+    }
+
+    if (!src) {
+      return reject(new Error('Invalid image input provided.'));
+    }
+
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+
+    img.onload = () => {
+      if (objectUrlToRevoke) {
+        URL.revokeObjectURL(objectUrlToRevoke);
+      }
+
+      try {
+        const { width: targetWidth, height: targetHeight } = calculateDownscaledDimensions(
+          img.naturalWidth || img.width,
+          img.naturalHeight || img.height,
+          maxDimension
+        );
+
+        if (typeof document === 'undefined') {
+          return resolve({
+            base64: src,
+            mimeType: 'image/webp',
+            width: targetWidth,
+            height: targetHeight,
+            approxSizeBytes: Math.round((src.length * 3) / 4)
+          });
+        }
+
+        const canvas = document.createElement('canvas');
+        canvas.width = targetWidth;
+        canvas.height = targetHeight;
+        const ctx = canvas.getContext('2d');
+
+        if (!ctx) {
+          throw new Error('Canvas 2D context not available.');
+        }
+
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(0, 0, targetWidth, targetHeight);
+        ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
+
+        let mimeType = 'image/webp';
+        let base64WebP = canvas.toDataURL('image/webp', quality);
+        if (!base64WebP.startsWith('data:image/webp')) {
+          mimeType = 'image/jpeg';
+          base64WebP = canvas.toDataURL('image/jpeg', quality);
+        }
+
+        const base64Data = base64WebP.replace(/^data:image\/[a-zA-Z+]+;base64,/, '');
+        const approxSizeBytes = Math.round((base64Data.length * 3) / 4);
+
+        resolve({
+          base64: base64WebP,
+          mimeType,
+          width: targetWidth,
+          height: targetHeight,
+          approxSizeBytes
+        });
+      } catch (err) {
+        reject(err);
+      }
+    };
+
+    img.onerror = () => {
+      if (objectUrlToRevoke) {
+        URL.revokeObjectURL(objectUrlToRevoke);
+      }
+      reject(new Error('Failed to load image for downscaling.'));
+    };
+
+    img.src = src;
+  });
+}

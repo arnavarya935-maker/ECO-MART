@@ -39,6 +39,7 @@ const TrustPassportPage = lazy(() => import('./pages/TrustPassportPage'));
 const CounterfactualPage = lazy(() => import('./pages/CounterfactualPage'));
 const CourtroomPage = lazy(() => import('./pages/CourtroomPage'));
 const LabelScannerPage = lazy(() => import('./pages/LabelScannerPage'));
+const BarcodeDemoPage = lazy(() => import('./pages/BarcodeDemoPage'));
 const DilemmasPage = lazy(() => import('./pages/DilemmasPage'));
 const AISelfAuditPage = lazy(() => import('./pages/AISelfAuditPage'));
 const KiranaPage = lazy(() => import('./pages/KiranaPage'));
@@ -210,6 +211,7 @@ function AppContent() {
             <Route path="/counterfactual" element={<CounterfactualPage />} />
             <Route path="/courtroom" element={<CourtroomPage />} />
             <Route path="/scan" element={<LabelScannerPage />} />
+            <Route path="/barcodes" element={<BarcodeDemoPage />} />
             <Route path="/scanner" element={<Navigate to="/scan" replace />} />
             <Route path="/dilemmas" element={<DilemmasPage />} />
             <Route path="/self-audit" element={<AISelfAuditPage />} />
