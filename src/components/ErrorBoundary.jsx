@@ -1,5 +1,6 @@
 import React from 'react';
-import { AlertTriangle, RefreshCw, RotateCcw, Copy, Check } from 'lucide-react';
+import { AlertTriangle, RefreshCw, RotateCcw, Copy, Check, Home } from 'lucide-react';
+import { recordErrorBoundaryError, getRecordedErrors } from '../lib/devErrorLog';
 
 export default class ErrorBoundary extends React.Component {
   constructor(props) {
@@ -19,6 +20,7 @@ export default class ErrorBoundary extends React.Component {
 
   componentDidCatch(error, errorInfo) {
     console.error('ErrorBoundary captured error:', error, errorInfo);
+    recordErrorBoundaryError(error, errorInfo);
     this.setState({ errorInfo });
 
     // Detect Vite dynamic import chunk mismatch errors following deployments
@@ -40,8 +42,17 @@ export default class ErrorBoundary extends React.Component {
     }
   }
 
+  handleTryAgain = () => {
+    this.setState({
+      hasError: false,
+      error: null,
+      errorInfo: null
+    });
+  };
+
   handleCopyDiagnostics = () => {
     const { error, errorInfo } = this.state;
+    const recorded = getRecordedErrors();
     const diagnosticText = [
       `Eco Sense Error Diagnostic:`,
       `Time: ${new Date().toISOString()}`,
@@ -50,7 +61,8 @@ export default class ErrorBoundary extends React.Component {
       `Error Name: ${error?.name || 'Error'}`,
       `Error Message: ${error?.message || 'Unknown error'}`,
       `Stack Trace:\n${error?.stack || 'No stack trace available'}`,
-      `Component Stack:\n${errorInfo?.componentStack || 'No component stack'}`
+      `Component Stack:\n${errorInfo?.componentStack || 'No component stack'}`,
+      `Recent Dev Error Log (${recorded.length} entries):\n${recorded.map((r) => `[${r.time}] [${r.type}] [${r.route}] ${r.message}`).join('\n')}`
     ].join('\n\n');
 
     if (navigator?.clipboard?.writeText) {
@@ -90,10 +102,12 @@ export default class ErrorBoundary extends React.Component {
   render() {
     if (this.state.hasError) {
       const { error, copied, isResetting } = this.state;
+      const recorded = getRecordedErrors();
       const isChunkError =
         error?.message?.includes('Failed to fetch dynamically imported module') ||
         error?.message?.includes('Loading chunk') ||
-        error?.name === 'ChunkLoadError';
+        error?.name === 'ChunkLoadError' ||
+        error?.message?.includes('Importing a module script failed');
 
       return (
         <div className="min-h-screen flex items-center justify-center p-6 bg-surface text-heading font-sans">
@@ -108,30 +122,52 @@ export default class ErrorBoundary extends React.Component {
               </h2>
               <p className="text-xs text-text-secondary leading-relaxed">
                 {isChunkError
-                  ? 'A new version of Eco Sense was just published. Reloading will sync your browser with the latest version.'
+                  ? 'A new version of Eco Sense was published. Reloading will sync your browser with the latest version.'
                   : "Eco Sense encountered an unexpected visual issue. Don't worry — your cart and saved impact data are safely preserved on this device."}
               </p>
             </div>
 
+            {/* Actions: friendly Try Again & Home for normal errors; Reload & Reset only for chunk errors */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
-              <button
-                type="button"
-                onClick={() => window.location.reload()}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl bg-primary hover:bg-primary-hover text-primary-contrast font-medium text-xs shadow-soft-sm transition min-h-[44px] cursor-pointer"
-              >
-                <RefreshCw className="w-4 h-4" />
-                <span>Reload Application</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={this.handleHardReset}
-                disabled={isResetting}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-surface-raised hover:bg-surface-sunken border border-line text-heading font-medium text-xs shadow-soft-sm transition min-h-[44px] cursor-pointer disabled:opacity-50"
-              >
-                <RotateCcw className={`w-4 h-4 ${isResetting ? 'animate-spin' : ''}`} />
-                <span>{isResetting ? 'Purging Cache...' : 'Clear Cache & Reset'}</span>
-              </button>
+              {isChunkError ? (
+                <>
+                  <button
+                    type="button"
+                    onClick={() => window.location.reload()}
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl bg-primary hover:bg-primary-hover text-primary-contrast font-medium text-xs shadow-soft-sm transition min-h-[44px] cursor-pointer"
+                  >
+                    <RefreshCw className="w-4 h-4" />
+                    <span>Reload Application</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={this.handleHardReset}
+                    disabled={isResetting}
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-surface-raised hover:bg-surface-sunken border border-line text-heading font-medium text-xs shadow-soft-sm transition min-h-[44px] cursor-pointer disabled:opacity-50"
+                  >
+                    <RotateCcw className={`w-4 h-4 ${isResetting ? 'animate-spin' : ''}`} />
+                    <span>{isResetting ? 'Purging Cache...' : 'Clear Cache & Reset'}</span>
+                  </button>
+                </>
+              ) : (
+                <>
+                  <button
+                    type="button"
+                    onClick={this.handleTryAgain}
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-2xl bg-primary hover:bg-primary-hover text-primary-contrast font-medium text-xs shadow-soft-sm transition min-h-[44px] cursor-pointer"
+                  >
+                    <RefreshCw className="w-4 h-4" />
+                    <span>Try again</span>
+                  </button>
+                  <a
+                    href="/"
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-surface-raised hover:bg-surface-sunken border border-line text-heading font-medium text-xs shadow-soft-sm transition min-h-[44px] cursor-pointer"
+                  >
+                    <Home className="w-4 h-4" />
+                    <span>Go to Home</span>
+                  </a>
+                </>
+              )}
             </div>
 
             {/* Expandable Technical Diagnostics */}
@@ -161,6 +197,21 @@ export default class ErrorBoundary extends React.Component {
                     {error.stack}
                   </pre>
                 )}
+
+                {recorded && recorded.length > 0 && (
+                  <div className="mt-2 pt-2 border-t border-line/60">
+                    <div className="text-[10px] font-mono font-semibold text-text-muted uppercase mb-1">
+                      Recent Recorder Events ({recorded.length})
+                    </div>
+                    <div className="max-h-32 overflow-y-auto space-y-1">
+                      {recorded.slice(0, 10).map((r) => (
+                        <div key={r.id} className="text-[10px] font-mono text-text-muted bg-surface/60 p-1.5 rounded">
+                          <span className="text-primary font-bold">[{r.time}]</span> <span className="text-secondary font-semibold">[{r.type}]</span> <span className="text-text-muted">[{r.route}]</span> {r.message}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             </details>
           </div>
@@ -171,4 +222,5 @@ export default class ErrorBoundary extends React.Component {
     return this.props.children;
   }
 }
+
 

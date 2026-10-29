@@ -40,8 +40,8 @@ describe('ErrorBoundary Component', () => {
     const html = renderToString(rendered);
 
     expect(html).toContain('Something went sideways');
-    expect(html).toContain('Reload Application');
-    expect(html).toContain('Clear Cache &amp; Reset');
+    expect(html).toContain('Try again');
+    expect(html).toContain('Go to Home');
     expect(html).toContain('Diagnostic details');
     expect(html).toContain('Test component crash');
 
@@ -57,6 +57,6 @@ describe('ErrorBoundary Component', () => {
     const html = renderToString(rendered);
 
     expect(html).toContain('App Update in Progress');
-    expect(html).toContain('A new version of Eco Sense was just published');
+    expect(html).toContain('A new version of Eco Sense was published');
   });
 });

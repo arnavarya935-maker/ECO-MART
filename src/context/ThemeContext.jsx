@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 
 const ThemeContext = createContext();
 
@@ -28,9 +28,9 @@ export function ThemeProvider({ children }) {
     } catch {}
   }, [theme]);
 
-  const toggleTheme = () => {
+  const toggleTheme = useCallback(() => {
     setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
-  };
+  }, []);
 
   // Global "Reduce effects" toggle (Rule 5 & Feature 4)
   const [reduceEffects, setReduceEffects] = useState(() => {
@@ -148,37 +148,47 @@ export function ThemeProvider({ children }) {
     } catch {}
   }, []);
 
-  const toggleReduceEffects = () => {
+  const toggleReduceEffects = useCallback(() => {
     setReduceEffects((prev) => !prev);
-  };
+  }, []);
 
-  const toggleKidsMode = () => {
+  const toggleKidsMode = useCallback(() => {
     setKidsMode((prev) => !prev);
-  };
+  }, []);
+
+  const value = useMemo(() => ({
+    theme,
+    isDark: theme === 'dark',
+    setTheme,
+    toggleTheme,
+    reduceEffects,
+    reducedMotion: reduceEffects,
+    toggleReduceEffects,
+    toggleReducedMotion: toggleReduceEffects,
+    setReduceEffects,
+    highContrast,
+    setHighContrast,
+    dyslexicFont,
+    setDyslexicFont,
+    textSize,
+    setTextSize,
+    kidsMode,
+    setKidsMode,
+    toggleKidsMode
+  }), [
+    theme,
+    toggleTheme,
+    reduceEffects,
+    toggleReduceEffects,
+    highContrast,
+    dyslexicFont,
+    textSize,
+    kidsMode,
+    toggleKidsMode
+  ]);
 
   return (
-    <ThemeContext.Provider
-      value={{
-        theme,
-        isDark: theme === 'dark',
-        setTheme,
-        toggleTheme,
-        reduceEffects,
-        reducedMotion: reduceEffects,
-        toggleReduceEffects,
-        toggleReducedMotion: toggleReduceEffects,
-        setReduceEffects,
-        highContrast,
-        setHighContrast,
-        dyslexicFont,
-        setDyslexicFont,
-        textSize,
-        setTextSize,
-        kidsMode,
-        setKidsMode,
-        toggleKidsMode
-      }}
-    >
+    <ThemeContext.Provider value={value}>
       {children}
     </ThemeContext.Provider>
   );

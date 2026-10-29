@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 import productsData from '../data/products.json';
 import { calculateCartImpact } from '../lib/impactCalculator';
 import { getSwapSuggestion } from '../lib/ecoAgent';
@@ -7,6 +7,7 @@ import { FEATURES } from '../lib/features.js';
 import { recordSignal } from '../lib/preferenceModel.js';
 import { fireGreenConfetti } from '../lib/confetti';
 import { DEFAULT_PRIORITIES, PRIORITY_PRESETS } from '../lib/decisionEngine';
+import { playSound } from '../lib/audio';
 
 export { fireGreenConfetti };
 
@@ -311,18 +312,18 @@ export function CartProvider({ children }) {
     return () => document.removeEventListener('mouseleave', handleMouseLeave);
   }, [hasTriggeredExitIntent, cartItems.length, isCartOpen, checkoutModalOpen]);
 
-  const dismissWelcomeModal = () => {
+  const dismissWelcomeModal = useCallback(() => {
     setWelcomeModalOpen(false);
     try {
       localStorage.setItem('ecomart_welcome_seen', 'true');
     } catch {}
-  };
+  }, []);
 
   // Undo removal support
   const [lastRemovedItem, setLastRemovedItem] = useState(null);
 
   // Cart Actions
-  const addToCart = (product, quantity = 1) => {
+  const addToCart = useCallback((product, quantity = 1) => {
     setCartItems((prev) => {
       const existing = prev.find((item) => item.product.id === product.id);
       if (existing) {
@@ -360,9 +361,9 @@ export function CartProvider({ children }) {
       });
       fireGreenConfetti();
     }
-  };
+  }, [copilotMuted, cartItems.length]);
 
-  const removeFromCart = (productId) => {
+  const removeFromCart = useCallback((productId) => {
     const itemToRemove = cartItems.find((item) => item.product.id === productId);
     if (itemToRemove) {
       setLastRemovedItem(itemToRemove);
@@ -381,16 +382,16 @@ export function CartProvider({ children }) {
     } else {
       setCartItems((prev) => prev.filter((item) => item.product.id !== productId));
     }
-  };
+  }, [cartItems, showToast]);
 
-  const undoLastRemoval = () => {
+  const undoLastRemoval = useCallback(() => {
     if (!lastRemovedItem) return;
     setCartItems((prev) => [...prev, lastRemovedItem]);
     showToast(`Restored ${lastRemovedItem.product.name} to cart.`, 'success');
     setLastRemovedItem(null);
-  };
+  }, [lastRemovedItem, showToast]);
 
-  const updateQuantity = (productId, delta) => {
+  const updateQuantity = useCallback((productId, delta) => {
     setCartItems((prev) =>
       prev
         .map((item) => {
@@ -402,7 +403,7 @@ export function CartProvider({ children }) {
         })
         .filter(Boolean)
     );
-  };
+  }, []);
 
   const swapItemInCart = useCallback((targetProductId, newProduct) => {
     setCartItems((prev) => {
@@ -422,7 +423,7 @@ export function CartProvider({ children }) {
     });
   }, []);
 
-  const applySwap = (currentProductId, recommendedProduct) => {
+  const applySwap = useCallback((currentProductId, recommendedProduct) => {
     swapItemInCart(currentProductId, recommendedProduct);
     setActiveSwapAlert(null);
 
@@ -439,16 +440,16 @@ export function CartProvider({ children }) {
         });
       }
     } catch {}
-  };
+  }, [swapItemInCart]);
 
-  const clearCart = () => {
+  const clearCart = useCallback(() => {
     setCartItems([]);
     setActiveSwapAlert(null);
     setAppliedCoupon(null);
-  };
+  }, []);
 
   // Wishlist Actions
-  const toggleWishlist = (product) => {
+  const toggleWishlist = useCallback((product) => {
     setWishlist((prev) => {
       const exists = prev.some((p) => p.id === product.id);
       if (exists) {
@@ -460,19 +461,19 @@ export function CartProvider({ children }) {
         return [...prev, product];
       }
     });
-  };
+  }, [showToast]);
 
-  const isInWishlist = (productId) => {
+  const isInWishlist = useCallback((productId) => {
     return wishlist.some((p) => p.id === productId);
-  };
+  }, [wishlist]);
 
-  const moveWishlistToCart = (product) => {
+  const moveWishlistToCart = useCallback((product) => {
     addToCart(product, 1);
     setWishlist((prev) => prev.filter((p) => p.id !== product.id));
     showToast(`Moved "${product.name}" to cart!`, 'success');
-  };
+  }, [addToCart, showToast]);
 
-  const moveAllWishlistToCart = () => {
+  const moveAllWishlistToCart = useCallback(() => {
     if (wishlist.length === 0) return;
     wishlist.forEach((product) => {
       addToCart(product, 1);
@@ -480,10 +481,10 @@ export function CartProvider({ children }) {
     setWishlist([]);
     showToast(`Moved ${wishlist.length} items from wishlist to cart!`, 'success');
     fireGreenConfetti();
-  };
+  }, [wishlist, addToCart, showToast]);
 
   // Compare Actions
-  const addToCompare = (product) => {
+  const addToCompare = useCallback((product) => {
     setCompareList((prev) => {
       if (prev.some((p) => p.id === product.id)) return prev;
       if (prev.length >= 3) {
@@ -493,15 +494,15 @@ export function CartProvider({ children }) {
       showToast(`Added "${product.name}" to comparison.`, 'info');
       return [...prev, product];
     });
-  };
+  }, [showToast]);
 
-  const removeFromCompare = (productId) => {
+  const removeFromCompare = useCallback((productId) => {
     setCompareList((prev) => prev.filter((p) => p.id !== productId));
-  };
+  }, []);
 
-  const clearCompare = () => {
+  const clearCompare = useCallback(() => {
     setCompareList([]);
-  };
+  }, []);
 
   const trackCategoryBrowsing = useCallback((category) => {
     if (!category) return;
@@ -516,7 +517,7 @@ export function CartProvider({ children }) {
   }, [copilotMuted]);
 
   // Recently Viewed tracker
-  const trackRecentlyViewed = (product) => {
+  const trackRecentlyViewed = useCallback((product) => {
     if (!product) return;
     recordSignal('product_open', { id: product.id, category: product.category });
     setRecentlyViewed((prev) => {
@@ -526,10 +527,10 @@ export function CartProvider({ children }) {
     if (product.category) {
       trackCategoryBrowsing(product.category);
     }
-  };
+  }, [trackCategoryBrowsing]);
 
   // Reviews
-  const addReview = (productId, review) => {
+  const addReview = useCallback((productId, review) => {
     const newRev = {
       id: 'rev-' + Date.now(),
       author: review.author || 'Eco Shopper',
@@ -543,14 +544,18 @@ export function CartProvider({ children }) {
       [productId]: [newRev, ...(prev[productId] || [])]
     }));
     showToast('Thank you! Your verified eco-review has been posted.', 'success');
-  };
+  }, [showToast]);
 
-  const getProductReviews = (productId) => {
+  const getProductReviews = useCallback((productId) => {
     return reviews[productId] || [];
-  };
+  }, [reviews]);
+
+
+  // Aggregated dynamic impact
+  const impact = useMemo(() => calculateCartImpact(cartItems), [cartItems]);
 
   // Order Placement
-  const recordOrder = (orderData) => {
+  const recordOrder = useCallback((orderData) => {
     const newOrder = createNewOrder(orderData, cartItems, impact, appliedCoupon);
 
     setOrders((prev) => [newOrder, ...prev]);
@@ -565,10 +570,10 @@ export function CartProvider({ children }) {
       points: Math.round(orderData.total / 10)
     });
     fireGreenConfetti();
-  };
+  }, [cartItems, impact, appliedCoupon, clearCart]);
 
   // Coupon handling
-  const applyCouponCode = (code) => {
+  const applyCouponCode = useCallback((code) => {
     const upper = code.trim().toUpperCase();
     if (upper === 'EARTH20') {
       setAppliedCoupon({ code: 'EARTH20', discountPercent: 20, description: '20% Earth Day Savings' });
@@ -582,102 +587,159 @@ export function CartProvider({ children }) {
       showToast('Invalid coupon code. Try EARTH20 or ZERO50.', 'info');
       return false;
     }
-  };
+  }, [showToast]);
 
-  const removeCoupon = () => {
+  const removeCoupon = useCallback(() => {
     setAppliedCoupon(null);
-  };
+  }, []);
 
-  // Aggregated dynamic impact
-  const impact = calculateCartImpact(cartItems);
+  const dismissSwapAlert = useCallback(() => setActiveSwapAlert(null), []);
+  const dismissBadge = useCallback(() => setUnlockedBadge(null), []);
+  const dismissExitIntent = useCallback(() => setExitIntentOpen(false), []);
+
+  
+    const contextValue = useMemo(
+    () => ({
+      cartItems,
+      setCartItems,
+      allProducts: productsData,
+      addToCart,
+      removeFromCart,
+      updateQuantity,
+      swapItemInCart,
+      applySwap,
+      clearCart,
+      impact,
+      activeSwapAlert,
+      dismissSwapAlert,
+      isCartOpen,
+      setIsCartOpen,
+      isAgentOpen,
+      setIsAgentOpen,
+      selectedProduct,
+      setSelectedProduct,
+      checkoutModalOpen,
+      setCheckoutModalOpen,
+      orderConfirmation,
+      setOrderConfirmation,
+      toastMessage,
+      toasts,
+      dismissToast,
+      showToast,
+      lastRemovedItem,
+      undoLastRemoval,
+      wishlist,
+      toggleWishlist,
+      isInWishlist,
+      moveWishlistToCart,
+      moveAllWishlistToCart,
+      compareList,
+      addToCompare,
+      removeFromCompare,
+      clearCompare,
+      isCompareOpen,
+      setIsCompareOpen,
+      recentlyViewed,
+      trackRecentlyViewed,
+      addRecentlyViewed: trackRecentlyViewed,
+      reviews,
+      addReview,
+      getProductReviews,
+      orders,
+      recordOrder,
+      appliedCoupon,
+      applyCouponCode,
+      removeCoupon,
+      unlockedBadge,
+      dismissBadge,
+      welcomeModalOpen,
+      dismissWelcomeModal,
+      exitIntentOpen,
+      dismissExitIntent,
+      userPriorities,
+      setUserPriorities: updateUserPriorities,
+      updateUserPriorities,
+      activePreset,
+      applyPriorityPreset,
+      resetPriorities,
+      copilotNudge,
+      setCopilotNudge,
+      dismissCopilotNudge,
+      copilotMuted,
+      toggleCopilotMuted,
+      swapCartItem,
+      trackCategoryBrowsing,
+      agentMode,
+      setAgentMode,
+      toggleAgentMode
+    }),
+    [
+      cartItems,
+      addToCart,
+      removeFromCart,
+      updateQuantity,
+      swapItemInCart,
+      applySwap,
+      clearCart,
+      impact,
+      activeSwapAlert,
+      dismissSwapAlert,
+      isCartOpen,
+      isAgentOpen,
+      selectedProduct,
+      checkoutModalOpen,
+      orderConfirmation,
+      toastMessage,
+      toasts,
+      dismissToast,
+      showToast,
+      lastRemovedItem,
+      undoLastRemoval,
+      wishlist,
+      toggleWishlist,
+      isInWishlist,
+      moveWishlistToCart,
+      moveAllWishlistToCart,
+      compareList,
+      addToCompare,
+      removeFromCompare,
+      clearCompare,
+      isCompareOpen,
+      recentlyViewed,
+      trackRecentlyViewed,
+      reviews,
+      addReview,
+      getProductReviews,
+      orders,
+      recordOrder,
+      appliedCoupon,
+      applyCouponCode,
+      removeCoupon,
+      unlockedBadge,
+      dismissBadge,
+      welcomeModalOpen,
+      dismissWelcomeModal,
+      exitIntentOpen,
+      dismissExitIntent,
+      userPriorities,
+      updateUserPriorities,
+      activePreset,
+      applyPriorityPreset,
+      resetPriorities,
+      copilotNudge,
+      dismissCopilotNudge,
+      copilotMuted,
+      toggleCopilotMuted,
+      swapCartItem,
+      trackCategoryBrowsing,
+      agentMode,
+      setAgentMode,
+      toggleAgentMode
+    ]
+  );
 
   return (
-    <CartContext.Provider
-      value={{
-        cartItems,
-        setCartItems,
-        allProducts: productsData,
-        addToCart,
-        removeFromCart,
-        updateQuantity,
-        swapItemInCart,
-        applySwap,
-        clearCart,
-        impact,
-        activeSwapAlert,
-        dismissSwapAlert: () => setActiveSwapAlert(null),
-        isCartOpen,
-        setIsCartOpen,
-        isAgentOpen,
-        setIsAgentOpen,
-        selectedProduct,
-        setSelectedProduct,
-        checkoutModalOpen,
-        setCheckoutModalOpen,
-        orderConfirmation,
-        setOrderConfirmation,
-        toastMessage,
-        toasts,
-        dismissToast,
-        showToast,
-        lastRemovedItem,
-        undoLastRemoval,
-        // Wishlist
-        wishlist,
-        toggleWishlist,
-        isInWishlist,
-        moveWishlistToCart,
-        moveAllWishlistToCart,
-        // Compare
-        compareList,
-        addToCompare,
-        removeFromCompare,
-        clearCompare,
-        isCompareOpen,
-        setIsCompareOpen,
-        // Recently Viewed
-        recentlyViewed,
-        trackRecentlyViewed,
-        addRecentlyViewed: trackRecentlyViewed,
-        // Reviews
-        reviews,
-        addReview,
-        getProductReviews,
-        // Orders
-        orders,
-        recordOrder,
-        // Coupons
-        appliedCoupon,
-        applyCouponCode,
-        removeCoupon,
-        // Popups & Gamification
-        unlockedBadge,
-        dismissBadge: () => setUnlockedBadge(null),
-        welcomeModalOpen,
-        dismissWelcomeModal,
-        exitIntentOpen,
-        dismissExitIntent: () => setExitIntentOpen(false),
-        // Decision Engine Priorities (Phase 1)
-        userPriorities,
-        setUserPriorities: updateUserPriorities,
-        updateUserPriorities,
-        activePreset,
-        applyPriorityPreset,
-        resetPriorities,
-        // Proactive Copilot (Phase 3)
-        copilotNudge,
-        setCopilotNudge,
-        dismissCopilotNudge,
-        copilotMuted,
-        toggleCopilotMuted,
-        swapCartItem,
-        trackCategoryBrowsing,
-        // AI Agent Online/Offline Mode
-        agentMode,
-        setAgentMode,
-        toggleAgentMode
-      }}
-    >
+    <CartContext.Provider value={contextValue}>
       {children}
     </CartContext.Provider>
   );

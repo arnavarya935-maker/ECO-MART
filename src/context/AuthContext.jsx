@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useMemo } from 'react';
 import { hashPassword, generateSalt } from '../lib/crypto';
 import { isFirebaseConfigured, loginWithFirebaseGoogle } from '../lib/firebase';
 import {
@@ -107,23 +107,23 @@ export function AuthProvider({ children }) {
   }, []);
 
   // Read local users database
-  const getLocalUsers = () => {
+  const getLocalUsers = useCallback(() => {
     try {
       const users = localStorage.getItem('ecomart_users');
       return users ? JSON.parse(users) : [];
     } catch {
       return [];
     }
-  };
+  }, []);
 
-  const saveLocalUsers = (users) => {
+  const saveLocalUsers = useCallback((users) => {
     try {
       localStorage.setItem('ecomart_users', JSON.stringify(users));
     } catch {}
-  };
+  }, []);
 
   // Sign up locally and in Supabase if configured
-  const signup = async ({ name, email, password }) => {
+  const signup = useCallback(async ({ name, email, password }) => {
     const cleanEmail = email.trim().toLowerCase();
 
     // 1. If Supabase is configured, register user in Supabase Auth
@@ -192,10 +192,10 @@ export function AuthProvider({ children }) {
     setCurrentUser(sessionUser);
     setAuthModalOpen(false);
     return sessionUser;
-  };
+  }, [getLocalUsers, saveLocalUsers]);
 
   // Log in locally or via Supabase
-  const login = async ({ email, password }) => {
+  const login = useCallback(async ({ email, password }) => {
     const cleanEmail = email.trim().toLowerCase();
 
     // 1. If Supabase is configured, try Supabase login first
@@ -252,10 +252,10 @@ export function AuthProvider({ children }) {
     setCurrentUser(sessionUser);
     setAuthModalOpen(false);
     return sessionUser;
-  };
+  }, [getLocalUsers]);
 
   // Log in with Google via Supabase or Firebase
-  const loginWithGoogle = async () => {
+  const loginWithGoogle = useCallback(async () => {
     if (isSupabaseConfigured) {
       return await loginWithSupabaseGoogle();
     }
@@ -276,10 +276,10 @@ export function AuthProvider({ children }) {
       return sessionUser;
     }
     throw new Error('Google Sign-in is not configured. Please add Supabase or Firebase keys to .env');
-  };
+  }, []);
 
   // Log in as Guest (local-first session, zero network requirement)
-  const loginAsGuest = () => {
+  const loginAsGuest = useCallback(() => {
     const guestUser = {
       id: `guest-${Date.now()}`,
       name: 'Conscious Explorer',
@@ -293,9 +293,9 @@ export function AuthProvider({ children }) {
     setCurrentUser(guestUser);
     setAuthModalOpen(false);
     return guestUser;
-  };
+  }, []);
 
-  const logout = async () => {
+  const logout = useCallback(async () => {
     if (isSupabaseConfigured) {
       try {
         const client = await getSupabase();
@@ -303,11 +303,11 @@ export function AuthProvider({ children }) {
       } catch {}
     }
     setCurrentUser(null);
-  };
+  }, []);
 
-  const addEcoPoints = (points) => {
-    if (!currentUser) return;
+  const addEcoPoints = useCallback((points) => {
     setCurrentUser((prev) => {
+      if (!prev) return prev;
       const updated = {
         ...prev,
         ecoPoints: (prev.ecoPoints || 0) + points
@@ -322,11 +322,11 @@ export function AuthProvider({ children }) {
       }
       return updated;
     });
-  };
+  }, [getLocalUsers, saveLocalUsers]);
 
-  const updateUserAvatar = (avatar) => {
-    if (!currentUser) return;
+  const updateUserAvatar = useCallback((avatar) => {
     setCurrentUser((prev) => {
+      if (!prev) return prev;
       const updated = { ...prev, avatar };
       if (!prev.isGuest && prev.provider === 'local') {
         const users = getLocalUsers();
@@ -338,35 +338,48 @@ export function AuthProvider({ children }) {
       }
       return updated;
     });
-  };
+  }, [getLocalUsers, saveLocalUsers]);
 
-  const userLevel = calculateEcoLevel(currentUser?.ecoPoints || 0);
+  const userLevel = useMemo(() => calculateEcoLevel(currentUser?.ecoPoints || 0), [currentUser?.ecoPoints]);
   const isCloudAuthConfigured = isSupabaseConfigured || isFirebaseConfigured;
 
+  const value = useMemo(() => ({
+    currentUser,
+    user: currentUser,
+    isAuthenticated: Boolean(currentUser),
+    isGuest: Boolean(currentUser?.isGuest),
+    userLevel,
+    authModalOpen,
+    setAuthModalOpen,
+    authModalMode,
+    setAuthModalMode,
+    signup,
+    login,
+    loginWithGoogle,
+    loginAsGuest,
+    logout,
+    addEcoPoints,
+    updateUserAvatar,
+    isFirebaseConfigured,
+    isSupabaseConfigured,
+    isCloudAuthConfigured
+  }), [
+    currentUser,
+    userLevel,
+    authModalOpen,
+    authModalMode,
+    signup,
+    login,
+    loginWithGoogle,
+    loginAsGuest,
+    logout,
+    addEcoPoints,
+    updateUserAvatar,
+    isCloudAuthConfigured
+  ]);
+
   return (
-    <AuthContext.Provider
-      value={{
-        currentUser,
-        user: currentUser,
-        isAuthenticated: Boolean(currentUser),
-        isGuest: Boolean(currentUser?.isGuest),
-        userLevel,
-        authModalOpen,
-        setAuthModalOpen,
-        authModalMode,
-        setAuthModalMode,
-        signup,
-        login,
-        loginWithGoogle,
-        loginAsGuest,
-        logout,
-        addEcoPoints,
-        updateUserAvatar,
-        isFirebaseConfigured,
-        isSupabaseConfigured,
-        isCloudAuthConfigured
-      }}
-    >
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );
