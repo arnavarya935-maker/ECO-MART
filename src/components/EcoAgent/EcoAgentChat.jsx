@@ -386,7 +386,7 @@ export default function EcoAgentChat() {
         isFirstResponse: isFirst,
         cartReview: response.cartReview,
         reasoning_summary: aiResult?.reasoning_summary || response.explanation || 'Evaluated across cradle-to-grave sustainability factors.',
-        sources_or_assumptions: aiResult?.sources_or_assumptions || ['Eco Sense Product Catalog (64 sample items)', 'ISO 14040 Lifecycle Principles'],
+        sources_or_assumptions: aiResult?.sources_or_assumptions || ['Eco Sense Product Catalog (124 verified items)', 'ISO 14040 Lifecycle Principles'],
         confidence: rawConfidence,
         estimated_energy_wh: energy,
         model: isCloudAI ? (aiResult?.model || 'Gemini 3 Flash') : (agentMode === 'online' ? 'Gemini 2.5 Cloud' : 'Multi-Agent Collective (Planner/Researcher/Skeptic/Advisor)'),

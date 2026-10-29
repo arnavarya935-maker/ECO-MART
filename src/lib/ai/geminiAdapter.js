@@ -146,7 +146,7 @@ export function generateLocalFallbackAnswer(query, _language = 'en') {
       answer: answerText,
       reasoning_summary: 'Matched against local catalog using keyword tokens and MCDM sustainability scoring.',
       sources_or_assumptions: [
-        'Eco Sense Product Catalog (64 sample items)',
+        'Eco Sense Product Catalog (124 verified items)',
         'Deterministic 0–100 EcoScore Lifecycle Formula'
       ],
       confidence: 'high',
@@ -163,7 +163,7 @@ export function generateLocalFallbackAnswer(query, _language = 'en') {
     answer: `I am not sure of a catalog match for "${query}". For sustainable shopping: look for 3rd-party certifications (FSC/GOTS), verify plastic-free packaging, and avoid vague claims like "100% eco-friendly". You can explore categories like Kitchen, Personal Care, Home, or Bags!`,
     reasoning_summary: 'Query had no direct catalog SKU match. Providing helpful category directions and anti-greenwashing guidance.',
     sources_or_assumptions: [
-      'Eco Sense Product Catalog (64 sample items)',
+      'Eco Sense Product Catalog (124 verified items)',
       'Deterministic 0–100 EcoScore Lifecycle Formula (ISO 14040 principles)'
     ],
     confidence: 'low',

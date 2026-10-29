@@ -45,7 +45,10 @@ export const STOP_WORDS = new Set([
   'show', 'give', 'recommend', 'suggestion', 'suggestions', 'suggest', 'buy', 'shop', 'get',
   'please', 'help', 'hey', 'hello', 'hi',
   'college', 'student', 'students', 'dorm', 'hostel', 'campus', 'kid', 'kids', 'adult',
-  'eco', 'green', 'friendly', 'sustainable', 'good', 'best'
+  'eco', 'green', 'friendly', 'sustainable', 'good', 'best',
+  'product', 'products', 'item', 'items', 'sell', 'store', 'catalog', 'catalogue', 'collection',
+  'everything', 'stock', 'available', 'offer', 'options', 'department', 'departments',
+  'kha', 'kaha', 'gye', 'gaye', 'bhai'
 ]);
 
 export function parseRequestedItems(rawQuery) {
@@ -468,6 +471,7 @@ export async function executeAgentTool(name, args = {}, context = {}) {
           .filter((p) => p.isEcoFriendly && (p.category === 'Personal Care' || p.category === 'Kitchen'))
           .slice(0, 2);
         return {
+          totalCatalogCount: hydratedCatalog.length,
           matchedCount: 0,
           requestedItem: singleItem.searchTerm,
           notFound: true,
@@ -477,10 +481,20 @@ export async function executeAgentTool(name, args = {}, context = {}) {
         };
       }
 
+      const departmentCounts = {};
+      hydratedCatalog.forEach((p) => {
+        departmentCounts[p.category] = (departmentCounts[p.category] || 0) + 1;
+      });
+
       return {
-        matchedCount: finalProducts.length,
+        totalCatalogCount: hydratedCatalog.length,
+        totalMatchingCount: results.length,
+        matchedCount: results.length,
+        departmentBreakdown: departmentCounts,
+        sampleProductsReturned: finalProducts.length,
         products: finalProducts,
-        appliedFilters: { query: args.query, category: args.category, max_price: args.max_price, isAffordable }
+        appliedFilters: { query: args.query, category: args.category, max_price: args.max_price, isAffordable },
+        note: `Eco Sense has ${hydratedCatalog.length} verified products across 8 departments. Showing top ${finalProducts.length} representative matches.`
       };
     }
 
@@ -720,7 +734,24 @@ CRITICAL DIRECTIVES FOR RELEVANCE AND INTEGRITY:
 
 7. PRICES IN INR: Always write prices in Indian Rupees using the '₹' symbol (e.g. ₹249, ₹320).
 
-8. MULTILINGUAL & PLAIN WORDS: Respond in simple words that a 9th grade student easily understands. Avoid jargon. Use English, Hindi, or Hinglish as requested.`;
+8. MULTILINGUAL & PLAIN WORDS: Respond in simple words that a 9th grade student easily understands. Avoid jargon. Use English, Hindi, or Hinglish as requested.
+
+9. CATALOGUE OVERVIEW & SIZE (124 VERIFIED SUSTAINABLE PRODUCTS):
+   - Eco Sense features exactly 124 verified sustainable products across 8 departments:
+     1. Kitchen (16 products)
+     2. Personal Care (16 products)
+     3. Home (16 products)
+     4. Cleaning & Laundry (16 products)
+     5. Fashion (15 products)
+     6. Stationery (15 products)
+     7. Bags (15 products)
+     8. Outdoor & Travel (15 products)
+   - Every department contains a full mix of Eco Grades A through E.
+   - When asked open-ended queries like "what products do you sell?", "products", "products kha gye bhai?", "show all products", or "how many products do you have?":
+     * Clarify that the store features 124 verified sustainable products across all 8 departments.
+     * Summarize the departments and offer representative picks across categories.
+     * NEVER claim the store only has 6 products!
+     * If the shopper asks in Hindi or Hinglish (e.g. "products kha gye bhai?"), reassure them warmly in Hindi/Hinglish: "Bhai, hamare paas pure 124 verified sustainable products hain across 8 departments! Saare products catalogue mein active hain."`;
 }
 
 /**

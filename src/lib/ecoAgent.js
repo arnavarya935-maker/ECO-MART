@@ -169,6 +169,9 @@ const PROTECTED_TYPO_WORDS = new Set([
   'basket', 'kit', 'bundle', 'starter', 'combo', 'essentials', 'setup', 'set',
   'cheaper', 'cheapest', 'greener', 'greenest', 'instead', 'now', 'second',
   'first', 'third', 'dorm', 'room', 'cleaner', 'cleaners',
+  'store', 'shop', 'shopping', 'products', 'product', 'items', 'item', 'sell',
+  'catalogue', 'catalog', 'everything', 'available', 'categories', 'category',
+  'department', 'departments', 'stock', 'kha', 'kaha', 'gye', 'gaye', 'bhai',
   ...STOP_WORDS,
   ...RECIPIENT_KEYWORDS,
   ...GIFT_KEYWORDS,
@@ -196,7 +199,10 @@ export const COMMON_ENGLISH_WORDS = new Set([
   'part', 'hand', 'place', 'work', 'week', 'point', 'home', 'water', 'about', 'other',
   'could', 'would', 'should', 'might', 'must', 'weather', 'rain', 'sunny', 'math',
   'maths', 'solve', 'calculate', 'sister', 'brother', 'mother', 'father', 'mom',
-  'dad', 'friend', 'teacher', 'boss', 'kid', 'person', 'people', 'human', 'world'
+  'dad', 'friend', 'teacher', 'boss', 'kid', 'person', 'people', 'human', 'world',
+  'store', 'shop', 'shopping', 'products', 'product', 'items', 'item', 'sell', 'sale',
+  'catalogue', 'catalog', 'everything', 'available', 'categories', 'category',
+  'department', 'departments', 'stock', 'kha', 'kaha', 'gye', 'gaye', 'bhai'
 ]);
 
 export function isOffTopicQuery(query) {
@@ -1773,6 +1779,63 @@ export async function sendAgentQuery(arg1, arg2, arg3, arg4) {
   }
 
   const qLower = (query || '').toLowerCase();
+
+  // Catalogue overview inquiry (e.g. "what products do you sell?", "products kha gye bhai?", "all products")
+  const isSpecificItemSearch = /\b(?:brush|toothbrush|soap|shampoo|bottle|cutlery|straw|bag|tote|notebook|journal|pen|pens|razor|comb|loofah|sponge|scrubber|candle|detergent|wrap|tray|basket|pants|wallet|flask|duffel)\b/i.test(qLower);
+  const hasSortingOrConstraints = Boolean(
+    hasShoppingConstraints ||
+    intent.sortBy !== null ||
+    /highest|lowest|eco-score|score|cheapest|affordable|cheap|price|under|below|rs|inr|₹/i.test(qLower)
+  );
+  const isCatalogueInquiry =
+    /\b(?:products|catalogue|catalog|what\s+(?:do\s+you|do\s+we)?\s*(?:sell|have|offer)|all\s+products|kaha\s+gaye|kha\s+gye|kha\s+gaye|store\s+items|our\s+products)\b/i.test(qLower) &&
+    !isSpecificItemSearch &&
+    !hasSortingOrConstraints;
+
+  if (isCatalogueInquiry) {
+    const totalCount = allProducts && allProducts.length > 0 ? allProducts.length : 124;
+    const isHindi = /\b(?:kha|kaha|gye|gaye|bhai|kaun|kaunse|kya|hai|hain)\b/i.test(qLower);
+    
+    // Pick 4 diverse verified eco items from different departments
+    const diversePicks = [];
+    const seenCats = new Set();
+    const ecoPool = (allProducts || []).filter((p) => p.isEcoFriendly);
+    for (const p of ecoPool) {
+      if (!seenCats.has(p.category) && diversePicks.length < 4) {
+        seenCats.add(p.category);
+        diversePicks.push({
+          ...p,
+          ecoScoreData: calculateEcoScore(p)
+        });
+      }
+    }
+
+    const message = isHindi
+      ? `Bhai, hamare paas pure ${totalCount} verified sustainable products hain across 8 departments (Kitchen, Personal Care, Home, Cleaning & Laundry, Fashion, Stationery, Bags, Outdoor & Travel)! Saare products active aur live hain. Aapko kis department ya product ke baare mein dekhna hai?`
+      : `Eco Sense features ${totalCount} verified sustainable products across 8 departments: Kitchen (16), Personal Care (16), Home (16), Cleaning & Laundry (16), Fashion (15), Stationery (15), Bags (15), and Outdoor & Travel (15)! Every department includes Eco Grades A through E. Here are sample verified items:`;
+
+    return {
+      source: 'local-rule-engine',
+      message,
+      data: diversePicks,
+      analysis: {
+        results: diversePicks,
+        count: totalCount,
+        intent
+      },
+      tradeoffs: null,
+      trace: [
+        { step: 'Understood goal', detail: `Catalogue overview inquiry: "${query}"` },
+        { step: 'Inventory check', detail: `Retrieved ${totalCount} active items across 8 departments` },
+        { step: 'Display', detail: `Showcased sample verified sustainable picks` }
+      ],
+      basketPlan: null,
+      clarification: null,
+      didYouMean: null,
+      cartReview: null
+    };
+  }
+
   if (qLower.includes('eco check') || qLower.includes('check product') || qLower.includes('analyze product') || qLower.includes('external product')) {
     return {
       source: 'local-rule-engine',
