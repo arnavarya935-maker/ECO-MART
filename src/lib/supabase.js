@@ -80,7 +80,64 @@ export async function signupWithSupabaseEmail(name, email, password) {
 }
 
 /**
- * Fetch all products directly from Supabase.
+ * Canonical product mapper from Supabase row to Eco Sense app shape.
+ * Never silently drops a product: provides safe defaults for all optional fields,
+ * and logs a clear console warning for genuinely invalid rows (missing id/name).
+ */
+export function mapSupabaseProduct(row) {
+  if (!row || typeof row !== 'object') {
+    console.warn('[mapSupabaseProduct] Skipping invalid non-object row:', row);
+    return null;
+  }
+
+  if (!row.id || !row.name) {
+    console.warn('[mapSupabaseProduct] Skipping row missing mandatory id or name:', row);
+    return null;
+  }
+
+  const category = (row.category || 'Kitchen').trim();
+  const catSlug = category.toLowerCase().replace(/[\s&_]+/g, '-');
+  const safeId = String(row.id).trim();
+  const defaultImage = `/images/products/${safeId}.jpg`;
+  const fallbackImage = `/images/categories/${catSlug}.svg`;
+  const image = row.image || defaultImage || fallbackImage;
+
+  return {
+    id: safeId,
+    name: String(row.name).trim(),
+    category,
+    price: typeof row.price === 'number' ? row.price : (Number(row.price) >= 0 ? Number(row.price) : 0),
+    icon: row.icon || '🌿',
+    badge: row.badge || '',
+    description: row.description || '',
+    material: row.material || 'Sustainable Material',
+    packaging: row.packaging || 'plastic-free',
+    carbonKg: typeof row.carbonKg === 'number' ? row.carbonKg : (Number(row.carbonKg) || 0.5),
+    waterLitres: typeof row.waterLitres === 'number' ? row.waterLitres : (Number(row.waterLitres) || 50),
+    plasticGrams: typeof row.plasticGrams === 'number' ? row.plasticGrams : (Number(row.plasticGrams) || 0),
+    certifications: Array.isArray(row.certifications) ? row.certifications : [],
+    madeInKm: typeof row.madeInKm === 'number' ? row.madeInKm : (Number(row.madeInKm) || 100),
+    isEcoFriendly: Boolean(row.isEcoFriendly ?? true),
+    conventionalAlternativeId: row.conventionalAlternativeId ? String(row.conventionalAlternativeId).trim() : null,
+    ecoHighlights: Array.isArray(row.ecoHighlights) ? row.ecoHighlights : [],
+    imageQuery: row.imageQuery || '',
+    photographer: row.photographer || '',
+    image,
+    images: Array.isArray(row.images) && row.images.length > 0 ? row.images : [image],
+    photoId: row.photoId || '',
+    alt: row.alt || row.name,
+    lqip: row.lqip || '',
+    imageCredit: row.imageCredit && typeof row.imageCredit === 'object' ? row.imageCredit : {},
+    barcode: row.barcode || '',
+    tags: Array.isArray(row.tags) ? row.tags : [],
+    inStock: row.inStock !== false,
+    rating: typeof row.rating === 'number' ? row.rating : (row.isEcoFriendly ? 4.8 : 4.0),
+    created_at: row.created_at || null
+  };
+}
+
+/**
+ * Fetch all products directly from Supabase and map to canonical product shape.
  * Products load ONLY from Supabase — never fall back to local JSON at runtime.
  */
 export async function fetchProductsFromSupabase({ from = 0, to = 999 } = {}) {
@@ -97,5 +154,8 @@ export async function fetchProductsFromSupabase({ from = 0, to = 999 } = {}) {
   if (error) {
     throw error;
   }
-  return data || [];
+
+  const rawRows = data || [];
+  const mapped = rawRows.map(mapSupabaseProduct).filter(Boolean);
+  return mapped;
 }

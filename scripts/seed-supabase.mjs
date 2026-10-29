@@ -67,6 +67,29 @@ async function seed() {
   }
 
   console.log(`Successfully seeded ${products.length} products into Supabase!`);
+
+  // Verify and report database counts
+  const { data: dbProducts, error: countError } = await supabase
+    .from('products')
+    .select('id, category')
+    .range(0, 999);
+
+  if (countError) {
+    console.error('Error verifying database count:', countError.message);
+  } else {
+    const totalInDb = dbProducts?.length || 0;
+    const countsPerCategory = {};
+    for (const p of dbProducts) {
+      countsPerCategory[p.category] = (countsPerCategory[p.category] || 0) + 1;
+    }
+    console.log(`\n--- DATABASE SEED VERIFICATION REPORT ---`);
+    console.log(`Total Products in Supabase: ${totalInDb}`);
+    console.log(`Category Breakdown in Supabase:`);
+    Object.entries(countsPerCategory).sort().forEach(([cat, count]) => {
+      console.log(`  • ${cat}: ${count} products`);
+    });
+    console.log(`-----------------------------------------\n`);
+  }
 }
 
 seed().catch((err) => {
