@@ -24,11 +24,12 @@ export default function Footer() {
         if (res.ok) {
           const data = await res.json();
           if (isMounted) {
-            if (data.gemini) {
+            const isGeminiWorking = Boolean(data.gemini || data.status === 'working');
+            if (isGeminiWorking) {
               setHealthInfo({
                 operational: true,
                 gemini: true,
-                label: 'All AI systems operational (Gemini 1.5 Flash Connected)'
+                label: `All AI systems operational (${data.model || 'Gemini'} Connected)`
               });
             } else {
               setHealthInfo({

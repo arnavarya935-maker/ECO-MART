@@ -14,7 +14,7 @@ export default function AuthModal() {
     signup,
     loginWithGoogle,
     loginAsGuest,
-    isFirebaseConfigured
+    isCloudAuthConfigured
   } = useAuth();
 
   const isSignUp = authModalMode === 'signup';
@@ -268,17 +268,17 @@ export default function AuthModal() {
           {isOnline ? (
             <button
               type="button"
-              disabled={!isFirebaseConfigured || loading}
+              disabled={!isCloudAuthConfigured || loading}
               onClick={handleGoogleLogin}
               className={`w-full min-h-[44px] py-2.5 px-4 rounded-2xl border text-xs font-semibold flex items-center justify-center gap-2 transition-colors focus-visible:outline-2 focus-visible:outline-focus ${
-                isFirebaseConfigured
-                  ? 'bg-surface border-line hover:bg-surface-sunken text-secondary shadow-soft-xs'
+                isCloudAuthConfigured
+                  ? 'bg-surface border-line hover:bg-surface-sunken text-secondary shadow-soft-xs cursor-pointer'
                   : 'bg-surface-sunken border-line text-muted cursor-not-allowed'
               }`}
               title={
-                isFirebaseConfigured
+                isCloudAuthConfigured
                   ? 'Sign in using your Google account'
-                  : 'Google Sign-In requires Firebase configuration in .env'
+                  : 'Google Sign-In requires Supabase or Firebase configuration in .env'
               }
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24">
@@ -300,9 +300,9 @@ export default function AuthModal() {
                 />
               </svg>
               <span>
-                {isFirebaseConfigured
+                {isCloudAuthConfigured
                   ? 'Continue with Google'
-                  : 'Google Sign-In (Needs Firebase config)'}
+                  : 'Google Sign-In (Needs Auth config)'}
               </span>
             </button>
           ) : (

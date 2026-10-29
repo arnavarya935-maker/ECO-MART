@@ -355,6 +355,7 @@ export async function handleHealthRequest(req, res) {
   if (!apiKey || apiKey === 'your_gemini_api_key_here') {
     const result = {
       status: 'key_missing',
+      gemini: false,
       model: null,
       latencyMs: null,
       checkedAt: now
@@ -408,6 +409,7 @@ export async function handleHealthRequest(req, res) {
 
     const result = {
       status,
+      gemini: status === 'working',
       model,
       latencyMs,
       checkedAt: Date.now()
@@ -420,6 +422,7 @@ export async function handleHealthRequest(req, res) {
     const latencyMs = Date.now() - startTime;
     const result = {
       status: 'error',
+      gemini: false,
       model,
       latencyMs,
       checkedAt: Date.now()

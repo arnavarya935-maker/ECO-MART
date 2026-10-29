@@ -1,6 +1,13 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { hashPassword, generateSalt } from '../lib/crypto';
 import { isFirebaseConfigured, loginWithFirebaseGoogle } from '../lib/firebase';
+import {
+  isSupabaseConfigured,
+  getSupabase,
+  loginWithSupabaseGoogle,
+  loginWithSupabaseEmail,
+  signupWithSupabaseEmail
+} from '../lib/supabase';
 
 const AuthContext = createContext();
 
@@ -34,7 +41,7 @@ export function AuthProvider({ children }) {
   const [authModalOpen, setAuthModalOpen] = useState(false);
   const [authModalMode, setAuthModalMode] = useState('login'); // 'login' | 'signup'
 
-  // Persist session
+  // Persist session locally
   useEffect(() => {
     try {
       if (currentUser) {
@@ -44,6 +51,60 @@ export function AuthProvider({ children }) {
       }
     } catch {}
   }, [currentUser]);
+
+  // Listen to Supabase Auth state changes (OAuth redirects, token refresh)
+  useEffect(() => {
+    if (!isSupabaseConfigured) return;
+    let unsub = null;
+
+    getSupabase().then((client) => {
+      if (!client) return;
+
+      // Check existing Supabase session on startup if no local session exists
+      client.auth.getSession().then(({ data }) => {
+        const session = data?.session;
+        if (session?.user) {
+          const u = session.user;
+          setCurrentUser((prev) => {
+            if (prev) return prev;
+            return {
+              id: u.id,
+              name: u.user_metadata?.full_name || u.user_metadata?.name || u.email?.split('@')[0] || 'Conscious Shopper',
+              email: u.email,
+              isGuest: false,
+              provider: u.app_metadata?.provider || 'supabase',
+              avatar: u.user_metadata?.avatar_url || null,
+              ecoPoints: 150,
+              createdAt: u.created_at || new Date().toISOString()
+            };
+          });
+        }
+      }).catch(() => {});
+
+      const { data: authListener } = client.auth.onAuthStateChange((_event, session) => {
+        if (session?.user) {
+          const u = session.user;
+          setCurrentUser({
+            id: u.id,
+            name: u.user_metadata?.full_name || u.user_metadata?.name || u.email?.split('@')[0] || 'Conscious Shopper',
+            email: u.email,
+            isGuest: false,
+            provider: u.app_metadata?.provider || 'supabase',
+            avatar: u.user_metadata?.avatar_url || null,
+            ecoPoints: 150,
+            createdAt: u.created_at || new Date().toISOString()
+          });
+          setAuthModalOpen(false);
+        }
+      });
+
+      unsub = authListener?.subscription;
+    }).catch(() => {});
+
+    return () => {
+      unsub?.unsubscribe?.();
+    };
+  }, []);
 
   // Read local users database
   const getLocalUsers = () => {
@@ -61,11 +122,39 @@ export function AuthProvider({ children }) {
     } catch {}
   };
 
-  // Sign up locally
+  // Sign up locally and in Supabase if configured
   const signup = async ({ name, email, password }) => {
-    const users = getLocalUsers();
     const cleanEmail = email.trim().toLowerCase();
 
+    // 1. If Supabase is configured, register user in Supabase Auth
+    if (isSupabaseConfigured) {
+      try {
+        const data = await signupWithSupabaseEmail(name, cleanEmail, password);
+        if (data.user) {
+          const sessionUser = {
+            id: data.user.id,
+            name: name.trim(),
+            email: cleanEmail,
+            isGuest: false,
+            provider: 'supabase',
+            avatar: null,
+            ecoPoints: 100,
+            createdAt: data.user.created_at || new Date().toISOString()
+          };
+          setCurrentUser(sessionUser);
+          setAuthModalOpen(false);
+          return sessionUser;
+        }
+      } catch (err) {
+        // If Supabase returned an explicit email collision or validation error, throw it
+        if (err.message && (err.message.includes('already registered') || err.message.includes('invalid'))) {
+          throw err;
+        }
+      }
+    }
+
+    // 2. Local fallback registration
+    const users = getLocalUsers();
     if (users.some((u) => u.email === cleanEmail)) {
       throw new Error('An account with this email address already exists.');
     }
@@ -105,10 +194,39 @@ export function AuthProvider({ children }) {
     return sessionUser;
   };
 
-  // Log in locally
+  // Log in locally or via Supabase
   const login = async ({ email, password }) => {
-    const users = getLocalUsers();
     const cleanEmail = email.trim().toLowerCase();
+
+    // 1. If Supabase is configured, try Supabase login first
+    if (isSupabaseConfigured) {
+      try {
+        const data = await loginWithSupabaseEmail(cleanEmail, password);
+        if (data.user) {
+          const sessionUser = {
+            id: data.user.id,
+            name: data.user.user_metadata?.full_name || data.user.user_metadata?.name || data.user.email?.split('@')[0] || 'Conscious Shopper',
+            email: data.user.email,
+            isGuest: false,
+            provider: 'supabase',
+            avatar: data.user.user_metadata?.avatar_url || null,
+            ecoPoints: 100,
+            createdAt: data.user.created_at || new Date().toISOString()
+          };
+          setCurrentUser(sessionUser);
+          setAuthModalOpen(false);
+          return sessionUser;
+        }
+      } catch (err) {
+        // If password was incorrect or user not in Supabase, fall through to check local account
+        if (err.message && err.message.includes('Invalid login credentials')) {
+          // Check local users before giving up
+        }
+      }
+    }
+
+    // 2. Check local users database
+    const users = getLocalUsers();
     const user = users.find((u) => u.email === cleanEmail);
 
     if (!user) {
@@ -136,22 +254,28 @@ export function AuthProvider({ children }) {
     return sessionUser;
   };
 
-  // Log in with Google via Firebase
+  // Log in with Google via Supabase or Firebase
   const loginWithGoogle = async () => {
-    const firebaseUser = await loginWithFirebaseGoogle();
-    const sessionUser = {
-      id: firebaseUser.uid,
-      name: firebaseUser.displayName || 'Conscious Shopper',
-      email: firebaseUser.email,
-      isGuest: false,
-      provider: 'google',
-      avatar: firebaseUser.photoURL || null,
-      ecoPoints: 150,
-      createdAt: new Date().toISOString()
-    };
-    setCurrentUser(sessionUser);
-    setAuthModalOpen(false);
-    return sessionUser;
+    if (isSupabaseConfigured) {
+      return await loginWithSupabaseGoogle();
+    }
+    if (isFirebaseConfigured) {
+      const firebaseUser = await loginWithFirebaseGoogle();
+      const sessionUser = {
+        id: firebaseUser.uid,
+        name: firebaseUser.displayName || 'Conscious Shopper',
+        email: firebaseUser.email,
+        isGuest: false,
+        provider: 'google',
+        avatar: firebaseUser.photoURL || null,
+        ecoPoints: 150,
+        createdAt: new Date().toISOString()
+      };
+      setCurrentUser(sessionUser);
+      setAuthModalOpen(false);
+      return sessionUser;
+    }
+    throw new Error('Google Sign-in is not configured. Please add Supabase or Firebase keys to .env');
   };
 
   // Log in as Guest (local-first session, zero network requirement)
@@ -171,7 +295,13 @@ export function AuthProvider({ children }) {
     return guestUser;
   };
 
-  const logout = () => {
+  const logout = async () => {
+    if (isSupabaseConfigured) {
+      try {
+        const client = await getSupabase();
+        if (client) await client.auth.signOut();
+      } catch {}
+    }
     setCurrentUser(null);
   };
 
@@ -182,7 +312,6 @@ export function AuthProvider({ children }) {
         ...prev,
         ecoPoints: (prev.ecoPoints || 0) + points
       };
-      // If local user, update in db too
       if (!prev.isGuest && prev.provider === 'local') {
         const users = getLocalUsers();
         const idx = users.findIndex((u) => u.id === prev.id);
@@ -212,6 +341,7 @@ export function AuthProvider({ children }) {
   };
 
   const userLevel = calculateEcoLevel(currentUser?.ecoPoints || 0);
+  const isCloudAuthConfigured = isSupabaseConfigured || isFirebaseConfigured;
 
   return (
     <AuthContext.Provider
@@ -232,7 +362,9 @@ export function AuthProvider({ children }) {
         logout,
         addEcoPoints,
         updateUserAvatar,
-        isFirebaseConfigured
+        isFirebaseConfigured,
+        isSupabaseConfigured,
+        isCloudAuthConfigured
       }}
     >
       {children}
