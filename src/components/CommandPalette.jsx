@@ -29,7 +29,8 @@ import {
   Lock,
   Eye,
   MessageSquare,
-  Newspaper
+  Newspaper,
+  Compass
 } from 'lucide-react';
 import { ECO_GLOSSARY_TERMS } from '../lib/glossary';
 
