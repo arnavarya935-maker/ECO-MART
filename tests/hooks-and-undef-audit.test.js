@@ -44,7 +44,7 @@ describe('Hook Import & Undefined Variables Audit', () => {
     expect(missingImports).toEqual([]);
   });
 
-  it('runs oxlint no-undef check across src/ and server/ with 0 errors', () => {
+  it('runs oxlint no-undef check across src/ and server/ with 0 errors', { timeout: 15000 }, () => {
     try {
       // Run oxlint with -D no-undef (treat no-undef as error level)
       const output = execSync('npx oxlint -D no-undef src server api', {

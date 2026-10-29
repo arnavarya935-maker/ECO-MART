@@ -226,12 +226,13 @@ function apiProxyPlugin() {
           url !== '/api/detect-greenwash' &&
           url !== '/api/scan-label' &&
           url !== '/api/news' &&
-          url !== '/api/transcribe'
+          url !== '/api/transcribe' &&
+          url !== '/api/barcode'
         ) {
           return next();
         }
 
-        const { applyRateLimit, handleAgentRequest, handleGreenwashRequest, handleScanLabelRequest, handleNewsRequest, handleTranscribeRequest, handleHealthRequest } = await import('./server/proxyServer.js');
+        const { applyRateLimit, handleAgentRequest, handleGreenwashRequest, handleScanLabelRequest, handleNewsRequest, handleTranscribeRequest, handleHealthRequest, handleBarcodeRequest } = await import('./server/proxyServer.js');
 
         res.setHeader('Access-Control-Allow-Origin', '*');
         res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -268,6 +269,14 @@ function apiProxyPlugin() {
           return;
         }
 
+        if (url === '/api/barcode') {
+          if (req.method === 'GET') {
+            const queryParams = new URL(req.url, 'http://localhost').searchParams;
+            await handleBarcodeRequest(queryParams.get('code') || '', res);
+            return;
+          }
+        }
+
         if (req.method !== 'POST') {
           res.writeHead(405, { 'Content-Type': 'application/json' });
           res.end(JSON.stringify({ error: 'Method not allowed' }));
@@ -294,6 +303,8 @@ function apiProxyPlugin() {
               await handleScanLabelRequest(body, res, req);
             } else if (url === '/api/transcribe') {
               await handleTranscribeRequest(body, res, req);
+            } else if (url === '/api/barcode') {
+              await handleBarcodeRequest(body.code || '', res);
             }
           } catch {
             res.writeHead(400, { 'Content-Type': 'application/json' });

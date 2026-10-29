@@ -786,8 +786,8 @@ export async function runAgentConversation({
   userPriorities = {},
   messages = [],
   apiKey,
-  modelName = 'gemini-3-flash-preview',
-  fallbackModel = 'gemini-3.5-flash-lite',
+  modelName = 'gemini-3.5-flash',
+  fallbackModel = 'gemini-3.6-flash',
   onEvent = null
 }) {
   const systemInstruction = buildAgentSystemInstruction(context);

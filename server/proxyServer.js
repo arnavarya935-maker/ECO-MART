@@ -5,13 +5,19 @@ import path from 'node:path';
 export function getGeminiApiKey() {
   if (process.env.GEMINI_API_KEY !== undefined) {
     if (process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY !== 'your_gemini_api_key_here') {
-      return process.env.GEMINI_API_KEY;
+      return process.env.GEMINI_API_KEY.trim();
     }
     return null;
   }
   if (process.env.ECO_AGENT_API_KEY !== undefined) {
     if (process.env.ECO_AGENT_API_KEY && process.env.ECO_AGENT_API_KEY !== 'your_gemini_api_key_here') {
-      return process.env.ECO_AGENT_API_KEY;
+      return process.env.ECO_AGENT_API_KEY.trim();
+    }
+    return null;
+  }
+  if (process.env.VITE_GEMINI_API_KEY !== undefined) {
+    if (process.env.VITE_GEMINI_API_KEY && process.env.VITE_GEMINI_API_KEY !== 'your_gemini_api_key_here') {
+      return process.env.VITE_GEMINI_API_KEY.trim();
     }
     return null;
   }
@@ -20,8 +26,8 @@ export function getGeminiApiKey() {
       const envPath = path.resolve(process.cwd(), envFileName);
       if (fs.existsSync(envPath)) {
         const text = fs.readFileSync(envPath, 'utf-8');
-        const match = text.match(/^\s*(?:GEMINI_API_KEY|ECO_AGENT_API_KEY)\s*=\s*["']?([^"'\r\n]+)["']?/m);
-        if (match && match[1] && match[1] !== 'your_gemini_api_key_here') {
+        const match = text.match(/^\s*(?:GEMINI_API_KEY|ECO_AGENT_API_KEY|VITE_GEMINI_API_KEY)\s*=\s*["']?([^"'\r\n]+)["']?/m);
+        if (match && match[1] && !match[1].startsWith('your_')) {
           return match[1].trim();
         }
       }
@@ -32,11 +38,10 @@ export function getGeminiApiKey() {
   return null;
 }
 
-
 // Check names in Google AI Studio before the event
 export const GEMINI_CONFIG = {
-  defaultModel: 'gemini-3-flash-preview',
-  fallbackModels: ['gemini-3.5-flash-lite', 'gemini-2.5-flash']
+  defaultModel: 'gemini-3.5-flash',
+  fallbackModels: ['gemini-3.6-flash', 'gemini-flash-lite-latest', 'gemini-3.5-flash-lite']
 };
 
 export function getGeminiModel() {
@@ -418,7 +423,7 @@ export async function handleHealthRequest(req, res) {
   const model = getGeminiModel();
   const startTime = Date.now();
   const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 5000);
+  const timeout = setTimeout(() => controller.abort(), 12000);
 
   try {
     const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
@@ -482,6 +487,17 @@ export async function handleHealthRequest(req, res) {
   }
 }
 
+function parseSafeBody(body) {
+  if (typeof body === 'string') {
+    try {
+      return JSON.parse(body || '{}');
+    } catch {
+      return {};
+    }
+  }
+  return body || {};
+}
+
 /**
  * Handle Eco Agent chat request to Gemini
  * Multi-turn tool calling grounded in live catalogue with SSE streaming & auto-retry
@@ -489,6 +505,7 @@ export async function handleHealthRequest(req, res) {
 export async function handleAgentRequest(body, res, req = null) {
   if (req && applyRateLimit(req, res)) return;
 
+  const payload = parseSafeBody(body);
   const {
     query,
     language = 'en',
@@ -498,7 +515,7 @@ export async function handleAgentRequest(body, res, req = null) {
     userPriorities = {},
     messages = [],
     stream = false
-  } = body || {};
+  } = payload;
 
   // Input validation
   if (!query || typeof query !== 'string') {
@@ -678,9 +695,11 @@ export async function handleAgentRequest(body, res, req = null) {
 export async function handleGreenwashRequest(body, res, req = null) {
   if (req && applyRateLimit(req, res)) return;
 
-  const { text: claimText, language = 'en' } = body || {};
+  const payload = parseSafeBody(body);
+  const claimText = (payload.text || payload.claimText || payload.claim || '').trim();
+  const language = payload.language || 'en';
 
-  if (!claimText || typeof claimText !== 'string') {
+  if (!claimText) {
     res.writeHead(400, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ error: 'Product text or claim is required.' }));
     return;
@@ -737,68 +756,71 @@ Respond with valid JSON:
   "estimated_energy_wh": 0.11
 }`;
 
-  const model = getGeminiModel();
+  const primaryModel = getGeminiModel();
+  const modelsToTry = [primaryModel, ...GEMINI_CONFIG.fallbackModels.filter((m) => m !== primaryModel)];
 
-  try {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 12000);
+  for (const model of modelsToTry) {
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 12000);
 
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
 
-    const apiResponse = await fetch(apiUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-goog-api-key': apiKey
-      },
-      signal: controller.signal,
-      body: JSON.stringify({
-        system_instruction: {
-          parts: [{ text: systemInstruction }]
+      const apiResponse = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-goog-api-key': apiKey
         },
-        contents: [
-          {
-            role: 'user',
-            parts: [{ text: `Audit this packaging / marketing claim:\n"${claimText}"\nLanguage: ${language}` }]
+        signal: controller.signal,
+        body: JSON.stringify({
+          system_instruction: {
+            parts: [{ text: systemInstruction }]
+          },
+          contents: [
+            {
+              role: 'user',
+              parts: [{ text: `Audit this packaging / marketing claim:\n"${claimText}"\nLanguage: ${language}` }]
+            }
+          ],
+          generationConfig: {
+            response_mime_type: 'application/json',
+            temperature: 0.2,
+            max_output_tokens: 2500
           }
-        ],
-        generationConfig: {
-          response_mime_type: 'application/json',
-          temperature: 0.2,
-          max_output_tokens: 2500
-        }
-      })
-    });
+        })
+      });
 
-    clearTimeout(timeout);
+      clearTimeout(timeout);
 
-    if (!apiResponse.ok) {
+      if (!apiResponse.ok) {
+        continue; // Try next model in cascade
+      }
+
+      const data = await apiResponse.json();
+      const rawContent = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+      if (!rawContent) continue;
+
+      const parsed = JSON.parse(rawContent);
+      const sanitizedResponse = sanitizeGreenwashOutput(parsed, model);
+
       res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ source: 'local_fallback', reason: `API_HTTP_${apiResponse.status}` }));
+      res.end(JSON.stringify(sanitizedResponse));
       return;
+    } catch {
+      // Try next model
     }
-
-    const data = await apiResponse.json();
-    const rawContent = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-
-    if (!rawContent) throw new Error('Empty response from Gemini');
-
-    const parsed = JSON.parse(rawContent);
-
-    // Validate and sanitize output against strict schema - NEVER spread raw model output
-    const sanitizedResponse = sanitizeGreenwashOutput(parsed, model);
-
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify(sanitizedResponse));
-  } catch (err) {
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(
-      JSON.stringify({
-        source: 'local_fallback',
-        reason: err.name === 'AbortError' ? 'API_TIMEOUT' : 'API_NETWORK_ERROR'
-      })
-    );
   }
+
+  // Graceful deterministic fallback
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  res.end(
+    JSON.stringify({
+      source: 'local_fallback',
+      reason: 'AI_MODELS_UNAVAILABLE'
+    })
+  );
 }
 
 /**
@@ -809,7 +831,8 @@ Respond with valid JSON:
 export async function handleScanLabelRequest(body, res, req = null) {
   if (req && applyRateLimit(req, res)) return;
 
-  const { imageBase64, mimeType = 'image/jpeg', language = 'en' } = body || {};
+  const payload = parseSafeBody(body);
+  const { imageBase64, mimeType = 'image/jpeg', language = 'en' } = payload;
 
   // 1. File type validation
   const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
@@ -1006,7 +1029,8 @@ export async function handleNewsRequest(query = {}, res, req = null) {
 export async function handleTranscribeRequest(body, res, req = null) {
   if (req && applyRateLimit(req, res)) return;
 
-  const { audioBase64, mimeType = 'audio/webm', language = 'en' } = body || {};
+  const payload = parseSafeBody(body);
+  const { audioBase64, mimeType = 'audio/webm', language = 'en' } = payload;
 
   if (!audioBase64 || typeof audioBase64 !== 'string') {
     res.writeHead(400, { 'Content-Type': 'application/json' });
