@@ -220,21 +220,15 @@ function apiProxyPlugin() {
     configureServer(server) {
       server.middlewares.use(async (req, res, next) => {
         const url = req.url?.split('?')[0];
-        if (url === '/api/health') {
-          const hasKey = Boolean(process.env.GEMINI_API_KEY && process.env.GEMINI_API_KEY !== 'your_gemini_api_key_here');
-          res.setHeader('Access-Control-Allow-Origin', '*');
-          res.writeHead(200, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify({
-            status: hasKey ? 'operational' : 'degraded',
-            message: hasKey ? 'All AI systems operational' : 'Operating in offline verified fallback mode',
-            provider: 'gemini',
-            offlineFallbackReady: true,
-            timestamp: Date.now()
-          }));
-          return;
-        }
-
-        if (url !== '/api/agent' && url !== '/api/detect-greenwash' && url !== '/api/scan-label' && url !== '/api/news' && url !== '/api/barcode' && url !== '/api/transcribe') {
+        if (
+          url !== '/api/health' &&
+          url !== '/api/agent' &&
+          url !== '/api/detect-greenwash' &&
+          url !== '/api/scan-label' &&
+          url !== '/api/news' &&
+          url !== '/api/barcode' &&
+          url !== '/api/transcribe'
+        ) {
           return next();
         }
 

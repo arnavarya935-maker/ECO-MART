@@ -1122,4 +1122,101 @@ export async function handleTranscribeRequest(body, res, req = null) {
   );
 }
 
+/**
+ * Standalone HTTP server for local development or container deployment
+ */
+export async function startStandaloneServer(port = Number(process.env.PORT) || 3001) {
+  const http = await import('node:http');
+  const server = http.createServer(async (req, res) => {
+    const url = req.url?.split('?')[0];
 
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+    if (req.method === 'OPTIONS') {
+      res.writeHead(204);
+      res.end();
+      return;
+    }
+
+    if (applyRateLimit(req, res)) return;
+
+    if (url === '/api/health') {
+      if (req.method !== 'GET') {
+        res.writeHead(405, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Method not allowed' }));
+        return;
+      }
+      await handleHealthRequest(req, res);
+      return;
+    }
+
+    if (url === '/api/barcode') {
+      if (req.method !== 'GET') {
+        res.writeHead(405, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Method not allowed' }));
+        return;
+      }
+      const q = new URL(req.url, `http://localhost:${port}`).searchParams;
+      await handleBarcodeRequest({ code: q.get('code') || '' }, res, req);
+      return;
+    }
+
+    if (url === '/api/news') {
+      if (req.method !== 'GET') {
+        res.writeHead(405, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'Method not allowed' }));
+        return;
+      }
+      const q = new URL(req.url, `http://localhost:${port}`).searchParams;
+      await handleNewsRequest({ topic: q.get('topic') || q.get('q') || '' }, res, req);
+      return;
+    }
+
+    if (req.method === 'POST') {
+      const maxBodyLength = (url === '/api/scan-label' || url === '/api/transcribe') ? 4.5 * 1024 * 1024 : 100000;
+      let raw = '';
+      req.on('data', (chunk) => {
+        raw += chunk;
+        if (raw.length > maxBodyLength) req.destroy();
+      });
+      req.on('end', async () => {
+        try {
+          const body = JSON.parse(raw || '{}');
+          if (url === '/api/agent') {
+            await handleAgentRequest(body, res, req);
+          } else if (url === '/api/detect-greenwash') {
+            await handleGreenwashRequest(body, res, req);
+          } else if (url === '/api/scan-label') {
+            await handleScanLabelRequest(body, res, req);
+          } else if (url === '/api/transcribe') {
+            await handleTranscribeRequest(body, res, req);
+          } else {
+            res.writeHead(404, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ error: 'Endpoint not found' }));
+          }
+        } catch {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: 'Malformed JSON payload' }));
+        }
+      });
+      return;
+    }
+
+    res.writeHead(404, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ error: 'Not found' }));
+  });
+
+  return new Promise((resolve) => {
+    server.listen(port, () => {
+      console.log(`[Eco Sense Backend] Standalone proxy server listening on http://localhost:${port}`);
+      resolve(server);
+    });
+  });
+}
+
+// Auto-start when executed directly with node
+if (process.argv[1] && process.argv[1].replace(/\\/g, '/').endsWith('server/proxyServer.js')) {
+  startStandaloneServer();
+}
