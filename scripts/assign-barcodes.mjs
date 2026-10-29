@@ -31,3 +31,4 @@ const updated = products.map((p, idx) => {
 
 fs.writeFileSync(productsPath, JSON.stringify(updated, null, 2) + '\n', 'utf8');
 console.log(`Successfully assigned ${assigned} unique, valid EAN-13 barcodes to products in ${productsPath}`);
+

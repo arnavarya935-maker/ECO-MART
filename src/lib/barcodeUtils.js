@@ -155,3 +155,4 @@ export function generateBarcodeSvg(barcode, options = {}) {
     ${textMarkup}
   </svg>`;
 }
+

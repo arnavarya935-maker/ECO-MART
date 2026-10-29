@@ -436,3 +436,4 @@ export default function BarcodeScannerModal({ isOpen, onClose, onSelectProduct }
     </div>
   );
 }
+

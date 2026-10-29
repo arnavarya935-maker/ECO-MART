@@ -61,3 +61,4 @@ results.forEach((r) => {
     console.log(`    ${m.field}: "${m.term}" in snippet: "${m.snippet}"`);
   });
 });
+
