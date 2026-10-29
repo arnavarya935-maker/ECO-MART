@@ -250,7 +250,7 @@ export default function PurposeReportModal({ isOpen, onClose }) {
           <div className="pt-4 border-t border-line flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-[11px] font-sans text-muted">
             <div className="flex items-center gap-1.5 text-primary font-semibold">
               <ShieldCheck className="w-4 h-4" />
-              <span>Audited under EcoMart 5-Pillar Lifecycle Standards</span>
+              <span>Evaluated under Eco Sense 5-Pillar Lifecycle Rules</span>
             </div>
             <div>
               <span>Labelled as <strong>Estimate</strong> • No remote telemetry</span>

@@ -30,7 +30,7 @@ const SCENARIOS = [
       co2Kg: 0.12,
       plasticGrams: 0,
       packaging: 'Unbleached Kraft Paper',
-      badge: 'Verified Sustainable'
+      badge: 'Estimated Sustainable'
     },
     flipBudgetThreshold: 240
   },
@@ -57,7 +57,7 @@ const SCENARIOS = [
       co2Kg: 0.28,
       plasticGrams: 0,
       packaging: 'Recycled Cardboard',
-      badge: 'Verified Sustainable'
+      badge: 'Estimated Sustainable'
     },
     flipBudgetThreshold: 450
   }

@@ -123,7 +123,7 @@ export default function SecondLifeBoardModal({ isOpen, onClose }) {
               <span>About Second Life Exchange</span>
             </div>
             <p className="text-text-secondary leading-relaxed">
-              To guarantee complete consumer privacy, listings are stored exclusively in your local browser sandbox. No phone numbers, payment details, or personal telemetry are transmitted to any cloud servers.
+              To protect consumer privacy, listings are stored exclusively in your local browser sandbox. No phone numbers, payment details, or personal data are transmitted to any cloud servers.
             </p>
           </div>
         )}

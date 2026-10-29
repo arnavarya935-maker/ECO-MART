@@ -84,7 +84,7 @@ export default function LifecycleTimelineScrubber({ product }) {
               Cradle-to-Grave Scrubber
             </span>
             <span className="text-[10px] font-mono text-muted uppercase">
-              ISO 14040 Lifecycle Stages
+              Sample Lifecycle Stages
             </span>
           </div>
           <h3 className="text-lg sm:text-xl font-serif font-bold text-heading">
@@ -216,7 +216,7 @@ export default function LifecycleTimelineScrubber({ product }) {
         {/* Assumptions Label */}
         <div className="flex items-center gap-1.5 text-[10px] font-mono text-muted pt-1">
           <Info className="w-3 h-3 text-primary shrink-0" />
-          <span>Stage Estimate: Audited based on ISO 14040 cradle-to-gate inventory analysis for this category.</span>
+          <span>Stage Estimate: Estimated based on sample category benchmarks.</span>
         </div>
       </div>
     </div>

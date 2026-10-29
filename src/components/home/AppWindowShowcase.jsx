@@ -29,7 +29,7 @@ export default function AppWindowShowcase() {
             An interface engineered for radical transparency
           </h2>
           <p className="text-sm font-sans text-text-secondary leading-relaxed">
-            Every score has a breakdown. Every claim is cross-checked against independent registries. Test the live components directly below.
+            Every score has a breakdown. Test the components directly below.
           </p>
         </div>
 
@@ -43,7 +43,7 @@ export default function AppWindowShowcase() {
               <span className="w-3 h-3 rounded-full bg-amber-500/80 border border-amber-600/40" />
               <span className="w-3 h-3 rounded-full bg-emerald-500/80 border border-emerald-600/40" />
               <span className="ml-3 font-mono text-[11px] text-text-muted hidden sm:inline">
-                ecomart.local/dashboard/live-audit
+                ecosense.local/dashboard/audit
               </span>
             </div>
 
@@ -104,10 +104,10 @@ export default function AppWindowShowcase() {
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-line">
                   <div>
                     <h3 className="font-serif text-lg font-bold text-heading">
-                      Live ISO 14021 Claim Decomposition
+                      Sample Claim Decomposition
                     </h3>
                     <p className="text-xs text-text-secondary">
-                      Compare an unaudited market claim with an EcoMart verified sustainable alternative.
+                      Compare a sample market claim with an Eco Sense sustainable alternative.
                     </p>
                   </div>
                   <Link
@@ -130,7 +130,7 @@ export default function AppWindowShowcase() {
                     }
                   }}
                   claimB={{
-                    label: 'EcoMart Audited Item (Organic Bamboo Brush)',
+                    label: 'Eco Sense Featured Item (Organic Bamboo Brush)',
                     axes: {
                       vague_wording: 94,
                       verifiable_proof: 90,
@@ -169,7 +169,7 @@ export default function AppWindowShowcase() {
 
                   <ReasoningExplanationCard
                     initiallyOpen={true}
-                    reasoningSummary="Recommendation balances plastic packaging elimination against municipal water hardness tolerance. Selected from 12 personal care SKUs with verified palm-oil-free saponification."
+                    reasoningSummary="Recommendation balances plastic packaging elimination against municipal water hardness tolerance. Selected from personal care SKUs with seller-declared palm-oil-free saponification."
                     sourcesOrAssumptions={[
                       "Formula: 100% saponified coconut & olive oils (RSPO certified)",
                       "Packaging: Unbleached post-consumer recycled cardboard (FSC certified)",
@@ -177,7 +177,7 @@ export default function AppWindowShowcase() {
                     ]}
                     confidence="high"
                     estimatedEnergyWh={0.11}
-                    model="Gemini 1.5 Flash (Deterministic Sample)"
+                    model="Sample (no AI call)"
                     messageId="showcase-msg-1"
                     query="Why do you recommend solid shampoo bars?"
                   />

@@ -12,7 +12,7 @@ const MISSION_TOKENS = [
   { text: 'demand', type: 'word' },
   { text: 'blind', type: 'word' },
   { text: 'faith.', type: 'word' },
-  { type: 'icon', icon: ShieldCheck, color: '#10B981', label: 'Verified Shield' },
+  { type: 'icon', icon: ShieldCheck, color: '#10B981', label: 'Integrity Shield' },
   { text: 'Every', type: 'word' },
   { text: 'single', type: 'word' },
   { text: 'claim', type: 'word' },
@@ -25,11 +25,11 @@ const MISSION_TOKENS = [
   { text: 'open', type: 'word' },
   { text: 'algorithms,', type: 'word' },
   { type: 'icon', icon: Scale, color: '#F59E0B', label: 'Balanced Fairness' },
-  { text: 'audited', type: 'word' },
+  { text: 'checked', type: 'word' },
   { text: 'against', type: 'word' },
   { text: 'greenwashing,', type: 'word' },
   { text: 'and', type: 'word' },
-  { text: 'proven', type: 'word' },
+  { text: 'traced', type: 'word' },
   { text: 'from', type: 'word' },
   { text: 'regenerative', type: 'word' },
   { text: 'soil', type: 'word' },
@@ -39,7 +39,7 @@ const MISSION_TOKENS = [
   { text: 'infinite', type: 'word' },
   { text: 'second', type: 'word' },
   { text: 'life.', type: 'word' },
-  { type: 'icon', icon: CheckCircle2, color: '#10B981', label: 'Verified Complete' }
+  { type: 'icon', icon: CheckCircle2, color: '#10B981', label: 'Checked Complete' }
 ];
 
 export default function WordByWordMission() {
@@ -131,11 +131,11 @@ export default function WordByWordMission() {
 
         {/* Screen reader accessible full text */}
         <p className="sr-only">
-          We believe commerce should never demand blind faith. Every single claim in our catalog is deconstructed by open algorithms, audited against greenwashing, and proven from regenerative soil to its infinite second life.
+          We believe commerce should never demand blind faith. Every single item in our catalog is explained by open rules, checked against greenwashing, and traced from natural origins to its second life.
         </p>
 
         <div className="mt-8 text-xs font-mono uppercase tracking-widest text-text-muted">
-          Audited by EcoMart Open Governance Framework
+          Built with Eco Sense Open Transparency Rules
         </div>
       </div>
     </section>

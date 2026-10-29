@@ -100,20 +100,67 @@ describe('Forbidden Terms & Honesty Regression Suite', () => {
     expect(content).toContain('judgeVerdict');
   });
 
-  it('ensures products.json has no blanket unverified claims or fake verified stamps', () => {
-    const productsPath = path.join(srcDir, 'data/products.json');
-    const products = JSON.parse(fs.readFileSync(productsPath, 'utf8'));
+  it('scans all UI files in src/ for unprovable claims (ISO 14040, zero/0% bias, independent registry)', () => {
+    const allowlistPath = path.resolve(__dirname, 'claims-allowlist.json');
+    const allowlist = JSON.parse(fs.readFileSync(allowlistPath, 'utf8'));
+    const allowedFiles = new Set(allowlist.exceptions.map((e) => e.file.replace(/\\/g, '/')));
 
-    for (const product of products) {
-      // Certifications should not be marked verified
-      if (product.certifications) {
-        for (const cert of product.certifications) {
-          expect(cert.toLowerCase()).not.toContain('verified');
+    const forbiddenPhrases = [
+      'iso 14040',
+      'zero bias',
+      '0% bias',
+      '0% sponsored bias',
+      'zero commercial bias',
+      'independent registry'
+    ];
+
+    const violations = [];
+
+    for (const file of files) {
+      const relPath = path.normalize(path.relative(path.resolve(__dirname, '..'), file)).replace(/\\/g, '/');
+      if (allowedFiles.has(relPath)) continue;
+
+      const content = fs.readFileSync(file, 'utf8').toLowerCase();
+      for (const phrase of forbiddenPhrases) {
+        if (content.includes(phrase)) {
+          violations.push({ file: relPath, phrase });
         }
       }
-      // Name and description should not contain blanket fake eco claims
-      expect(product.name.toLowerCase()).not.toContain('100% eco-friendly');
-      expect(product.description.toLowerCase()).not.toContain('100% eco-friendly');
     }
+
+    expect(violations).toEqual([]);
+  });
+
+  it('scans UI components and pages for unprovable "verified" and "audited" words', () => {
+    const allowlistPath = path.resolve(__dirname, 'claims-allowlist.json');
+    const allowlist = JSON.parse(fs.readFileSync(allowlistPath, 'utf8'));
+    const allowedFiles = new Set(allowlist.exceptions.map((e) => e.file.replace(/\\/g, '/')));
+
+    const uiFiles = files.filter((f) => {
+      const norm = f.replace(/\\/g, '/');
+      return norm.includes('/src/components/') || norm.includes('/src/pages/');
+    });
+
+    const violations = [];
+    // We check user-visible text (e.g. inside JSX or strings)
+    for (const file of uiFiles) {
+      const relPath = path.normalize(path.relative(path.resolve(__dirname, '..'), file)).replace(/\\/g, '/');
+      if (allowedFiles.has(relPath)) continue;
+
+      const content = fs.readFileSync(file, 'utf8');
+      // Match word "verified" or "audited" when not preceded by "un" (e.g. unverified) or "not"
+      const verifiedMatches = content.match(/\b(?<!un|not\s)verified\b/gi) || [];
+      const auditedMatches = content.match(/\baudited\b/gi) || [];
+
+      if (verifiedMatches.length > 0 || auditedMatches.length > 0) {
+        violations.push({
+          file: relPath,
+          verified: verifiedMatches.length,
+          audited: auditedMatches.length
+        });
+      }
+    }
+
+    expect(violations).toEqual([]);
   });
 });

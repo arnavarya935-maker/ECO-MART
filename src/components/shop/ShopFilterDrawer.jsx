@@ -157,22 +157,22 @@ export default function ShopFilterDrawer({
             />
             <div className="space-y-0.5 flex-1">
               <div className="flex items-center gap-1.5">
-                <span className="font-semibold text-heading">Eco Certified Only</span>
+                <span className="font-semibold text-heading">Lists a certification (seller claim)</span>
                 <span
                   className="inline-flex text-muted hover:text-heading cursor-help"
-                  title="Only shows products with verified third-party eco-certifications linked to official public registry source URLs."
+                  title="Shows products that list a certification. These are claims by the seller in sample data. Tap a badge to open the issuer's website to check."
                 >
                   <Info className="w-3.5 h-3.5 text-primary" />
                 </span>
               </div>
               <span className="text-[11px] text-muted block leading-tight">
-                Products with verified third-party certifications backed by stored source URLs.
+                Shows products that list a certification. These are claims by the seller in sample data. Tap a badge to open the issuer's website to check.
               </span>
             </div>
           </label>
         </div>
 
-        {/* 5. Specific Third-Party Certification */}
+        {/* 5. Specific Certification */}
         {availableCerts.length > 0 && (
           <div className="space-y-2 pt-3 border-t border-line">
             <span className="font-semibold text-heading text-sm block">Specific Certification Standard</span>

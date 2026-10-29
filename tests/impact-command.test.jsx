@@ -40,7 +40,7 @@ describe('Feature 1 & 2: Impact Command Center & What-If Simulator', () => {
     expect(html).toContain('Greenwashing Trust Score Distribution');
     expect(html).toContain('View as Table');
     expect(html).toContain('Severe Greenwashing Risk');
-    expect(html).toContain('Verified Sustainable');
+    expect(html).toContain('High Trust');
   });
 
   it('renders WhatIfCartSimulator with sliders, delta badges, and 1-tap swap buttons', () => {

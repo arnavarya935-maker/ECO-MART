@@ -94,7 +94,7 @@ export default function HomePage() {
         {/* Impact tiers describing feature scope */}
         <ImpactTiers />
 
-        {/* Related verified news */}
+        {/* Related news */}
         <RelatedNewsPanel />
 
         {/* Honest feedback section with public ratings */}

@@ -173,6 +173,8 @@ export function detectGreenwashPhrases(text) {
   return matches;
 }
 
+export const detectGreenwash = detectGreenwashPhrases;
+
 /**
  * Calculate Brand Transparency Scorecard
  * Measures disclosed lifecycle parameters vs undisclosed gaps.

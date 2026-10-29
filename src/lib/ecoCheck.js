@@ -135,7 +135,7 @@ export function analyzeExternalProduct(text, userPriorities = DEFAULT_PRIORITIES
 
   // Green signals
   if (detectedCerts.length > 0) {
-    greenSignals.push(`Verified third-party certification: ${detectedCerts.map((c) => c.toUpperCase()).join(', ')}`);
+    greenSignals.push(`Listed certification: ${detectedCerts.map((c) => c.toUpperCase()).join(', ')}`);
   }
 
   if (detectedNatural.length > 0) {
@@ -234,7 +234,7 @@ export function analyzeExternalProduct(text, userPriorities = DEFAULT_PRIORITIES
     evidenceReason = 'Grade A (Strong Substantiation): Backed by recognized independent third-party certifications and published lifecycle factors.';
   } else if (detectedCerts.length >= 1 || (detectedNatural.length > 0 && detectedGreenPackaging.length > 0 && !hasPlastic)) {
     evidenceGrade = 'B';
-    evidenceReason = 'Grade B (Moderate Substantiation): Declared renewable material profile with standard low-impact packaging; independent registry lookup advised.';
+    evidenceReason = 'Grade B (Moderate Substantiation): Declared renewable material profile with standard low-impact packaging; seller certification check on issuer site advised.';
   } else if (hasBuzzwords && (hasPlastic || detectedPlasticPackaging.length > 0)) {
     evidenceGrade = 'D';
     evidenceReason = 'Grade D (High Greenwash Risk / Unsubstantiated): Vague buzzwords contradicted by synthetic polymers or non-recyclable packaging.';

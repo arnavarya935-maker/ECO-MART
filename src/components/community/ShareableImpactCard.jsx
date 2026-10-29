@@ -68,7 +68,7 @@ export default function ShareableImpactCard({
 
     ctx.fillStyle = '#9CA3AF';
     ctx.font = '16px sans-serif';
-    ctx.fillText('Verified Circular Consumer Certificate', 50, 200);
+    ctx.fillText('Conscious Consumer Certificate', 50, 200);
 
     // Stat Boxes
     // Stat 1: Plastic
@@ -111,11 +111,11 @@ export default function ShareableImpactCard({
     // Footer note
     ctx.fillStyle = '#6EE7B7';
     ctx.font = 'italic 16px sans-serif';
-    ctx.fillText('🌱 Certified zero-waste metrics calculated via EcoMart transparent lifecycle formulas.', 50, 415);
+    ctx.fillText("🌱 Estimates from Eco Sense's simple formulas.", 50, 415);
 
     ctx.fillStyle = '#9CA3AF';
     ctx.font = '12px sans-serif';
-    ctx.fillText(`Audited date: ${new Date().toLocaleDateString()} • Eco Sense Verified Math`, 50, 445);
+    ctx.fillText(`Generated date: ${new Date().toLocaleDateString()} • Eco Sense Sample Math`, 50, 445);
 
     // Trigger PNG Download
     setTimeout(() => {

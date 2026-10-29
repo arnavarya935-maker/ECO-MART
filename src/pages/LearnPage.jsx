@@ -198,7 +198,7 @@ export default function LearnPage() {
               {
                 title: 'Data Completeness & Confidence',
                 badge: 'Uncertainty Bands',
-                desc: 'Every score carries a transparent confidence band (±4 to ±12 pts). Verified suppliers receive tight margins; material benchmark estimates show truthful wider bands.'
+                desc: 'Every score carries a transparent score range (±4 to ±12 pts). Products listing multiple certifications receive tighter margins; material estimates show truthful wider bands.'
               }
             ].map((pillar, i) => (
               <div

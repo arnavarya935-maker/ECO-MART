@@ -36,7 +36,7 @@ export default function CategoryTiles({
           <div>
             <div className="flex items-center gap-1.5 text-xs font-mono uppercase tracking-wider text-primary font-semibold">
               <Sparkles className="w-3.5 h-3.5 text-primary" />
-              <span>Explore Verified Departments</span>
+              <span>Explore Departments</span>
             </div>
             <h2 className="text-xl sm:text-2xl font-heading font-bold text-heading mt-0.5 tracking-tight">
               Curated by Material Lifecycle

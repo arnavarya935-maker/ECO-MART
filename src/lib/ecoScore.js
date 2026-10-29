@@ -140,7 +140,7 @@ export function calculateEcoScore(product) {
 
   // Grade mapping with semantic theme tokens
   let grade = 'E';
-  let gradeLabel = 'Conventional';
+  let gradeLabel = 'Poor';
   let colorTheme = {
     badge: 'bg-danger/10 text-danger border-danger/30',
     dot: 'bg-danger',
@@ -151,7 +151,7 @@ export function calculateEcoScore(product) {
 
   if (totalScore >= 85) {
     grade = 'A';
-    gradeLabel = 'Exceptional Eco-Standard';
+    gradeLabel = 'Excellent';
     colorTheme = {
       badge: 'bg-primary/10 text-primary border-primary/30',
       dot: 'bg-primary',
@@ -161,7 +161,7 @@ export function calculateEcoScore(product) {
     };
   } else if (totalScore >= 70) {
     grade = 'B';
-    gradeLabel = 'Very Good Sustainable Pick';
+    gradeLabel = 'Good';
     colorTheme = {
       badge: 'bg-accent/10 text-accent border-accent/30',
       dot: 'bg-accent',
@@ -171,7 +171,7 @@ export function calculateEcoScore(product) {
     };
   } else if (totalScore >= 55) {
     grade = 'C';
-    gradeLabel = 'Moderate Environmental Impact';
+    gradeLabel = 'Fair';
     colorTheme = {
       badge: 'bg-warning/10 text-warning border-warning/30',
       dot: 'bg-warning',
@@ -181,7 +181,7 @@ export function calculateEcoScore(product) {
     };
   } else if (totalScore >= 40) {
     grade = 'D';
-    gradeLabel = 'High Resource Intensity';
+    gradeLabel = 'Weak';
     colorTheme = {
       badge: 'bg-warning/10 text-warning border-warning/30',
       dot: 'bg-warning',
@@ -197,10 +197,10 @@ export function calculateEcoScore(product) {
   const minScore = Math.max(0, totalScore - uncertaintyMargin);
   const maxScore = Math.min(100, totalScore + uncertaintyMargin);
   const uncertaintyReason = hasSpecificLca
-    ? 'Narrow ±4 pt margin: Backed by multiple independent third-party certifications and published lifecycle factors.'
+    ? 'Narrow ±4 pt margin: Product lists multiple seller-reported certifications alongside material data.'
     : certCount === 1
-      ? 'Moderate ±7 pt margin: Backed by single claimed certification; batch-level supply chain audit pending.'
-      : 'Broader ±12 pt margin: Derived from general material category benchmarks rather than verified supplier disclosures.';
+      ? 'Moderate ±7 pt margin: Product lists a single seller-reported certification.'
+      : 'Broader ±12 pt margin: Based on category estimates without seller certifications.';
 
   return {
     score: totalScore,
@@ -285,13 +285,13 @@ export function compareProductImpact(greenerProduct, conventionalProduct) {
  * Detects potential greenwashing in a product.
  * Flags products whose name/description use words like eco, green, natural, sustainable,
  * but have no certifications and have a low EcoScore (< 65).
- * Does NOT flag products that have verified third-party certifications.
+ * Does NOT flag products that have listed third-party certifications.
  */
 export function detectGreenwashing(product) {
   if (!product) return { isGreenwashed: false, reason: '' };
 
   const certCount = Array.isArray(product.certifications) ? product.certifications.length : 0;
-  // Well-certified products are verified - never flag
+  // Well-certified products - never flag
   if (certCount >= 1) {
     return { isGreenwashed: false, reason: '' };
   }
@@ -313,7 +313,7 @@ export function detectGreenwashing(product) {
       score,
       buzzwords: foundBuzzwords,
       badgeText: 'Check the claims',
-      reason: `Claims "${foundBuzzwords.slice(0, 2).join(' / ')}" with zero verified certifications and low EcoScore (${score}/100).`
+      reason: `Claims "${foundBuzzwords.slice(0, 2).join(' / ')}" with zero listed certifications and low EcoScore (${score}/100).`
     };
   }
 

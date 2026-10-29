@@ -12,34 +12,34 @@ import { Link } from 'react-router-dom';
 const STACK_CARDS = [
   {
     step: '01',
-    title: 'Multi-Axis Claim Verification',
-    headline: 'We audit marketing claims before products enter the catalog.',
+    title: 'Multi-Axis Claim Check',
+    headline: 'We check marketing claims with simple, clear rules.',
     summary:
-      'Manufacturers must submit verified third-party laboratory test reports, accredited supply-chain chain-of-custody certificates, and standardized lifecycle metrics. If claims are vague, our ISO 14021 engine flags or rejects them.',
+      'We check product descriptions and packaging claims against simple rules. If claims are vague or exaggerated, our claim engine flags them.',
     icon: ShieldCheck,
     accentColor: '#10B981',
     badge: 'Pillar 01 • Claim Integrity',
     bgTint: 'rgba(16, 185, 129, 0.08)',
     stats: [
-      { label: 'Audit Points', val: '24 Independent Criteria' },
-      { label: 'Rejection Rate', val: '31% of Submitted Claims' }
+      { label: 'Check Rules', val: 'Clear environmental criteria' },
+      { label: 'Catalog Focus', val: 'Curated sustainable essentials' }
     ],
     route: '/scan',
     ctaText: 'Explore Claim Detective'
   },
   {
     step: '02',
-    title: 'Full Lifecycle Carbon Accounting',
+    title: 'Lifecycle Impact Accounting',
     headline: 'True impact extends far beyond shipping and packaging.',
     summary:
-      'Every item in EcoMart is quantified across all four lifecycle phases: raw material cultivation, manufacturing energy, intermodal distribution, and end-of-life circular recovery. We provide realistic estimates with transparent assumptions.',
+      'Every item in Eco Sense is estimated across lifecycle phases: raw material, packaging, and travel distance. We provide simple estimates with clear assumptions.',
     icon: RotateCcw,
     accentColor: '#14B8A6',
     badge: 'Pillar 02 • Carbon Accounting',
     bgTint: 'rgba(20, 184, 166, 0.08)',
     stats: [
-      { label: 'Methodology', val: 'ISO 14040 Compliant LCA' },
-      { label: 'End-of-Life', val: '100% Circular Kabadiwala Routing' }
+      { label: 'Methodology', val: 'EcoScore Simple Rules' },
+      { label: 'End-of-Life', val: 'Repair & recycling guides' }
     ],
     route: '/shop',
     ctaText: 'Browse Catalog Metrics'
@@ -49,14 +49,14 @@ const STACK_CARDS = [
     title: 'Radical Model Transparency',
     headline: 'No black boxes. Inspect every token, decision, and bias audit.',
     summary:
-      'EcoMart is built on open governance. Inspect adversarial attack intercepts in our Black Box, review cross-linguistic fairness audits in our Fairness Lab, and explore exact decision threshold boundaries in our Decision Playground.',
+      'Eco Sense is built on open governance. Inspect adversarial attack intercepts in our Black Box, review cross-linguistic fairness tests in our Fairness Lab, and explore exact decision rules in our Decision Playground.',
     icon: Cpu,
     accentColor: '#34D399',
     badge: 'Pillar 03 • AI Governance',
     bgTint: 'rgba(52, 211, 153, 0.08)',
     stats: [
-      { label: 'Linguistic Parity', val: '95% EN / HI / Hinglish' },
-      { label: 'Explainability', val: '100% Chain-of-Thought Visible' }
+      { label: 'Linguistic Parity', val: 'Measured in Fairness Lab' },
+      { label: 'Explainability', val: 'Reasoning Visible' }
     ],
     route: '/self-audit',
     ctaText: 'View AI Self-Audit Report'
@@ -87,10 +87,10 @@ export default function StickyStackedCards() {
             Engineering Pillars
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-medium text-heading tracking-tight">
-            Built on Rigorous Proof, Not Marketing Buzz
+            Built on Clear Rules, Not Marketing Buzz
           </h2>
           <p className="mt-3 text-sm sm:text-base text-text-secondary">
-            Explore the three fundamental architecture principles that guarantee every EcoMart recommendation is reliable, verifiable, and fair.
+            Explore the three design principles that guide our Eco Sense recommendations.
           </p>
         </div>
 

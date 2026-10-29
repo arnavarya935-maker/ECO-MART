@@ -43,7 +43,7 @@ export const CITY_RECYCLING_GUIDES = [
     dryWasteColor: 'Blue Tub (Dry Packaging)',
     sanitaryWasteColor: 'Separate paper wrapped package',
     eWastePolicy: 'GHMC dry resource collection centres in all 30 circles.',
-    specialRules: 'Segregation at source strictly audited for gated communities and apartments.'
+    specialRules: 'Segregation at source strictly checked for gated communities and apartments.'
   },
   {
     city: 'Chennai',

@@ -20,7 +20,7 @@ export default function StreaksGoalWidget() {
   const BADGES = [
     {
       id: 'b1',
-      name: 'Receipt Verified',
+      name: 'Receipt Logged',
       icon: '🧾',
       unlocked: orders.length >= 1,
       rule: 'Complete at least 1 conscious checkout order with an impact receipt.'

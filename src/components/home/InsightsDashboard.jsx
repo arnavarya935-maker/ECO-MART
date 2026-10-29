@@ -67,14 +67,14 @@ export default function InsightsDashboard() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="p-5 rounded-2xl bg-surface border border-line shadow-soft-xs">
             <div className="flex items-center justify-between text-xs font-mono text-text-muted">
-              <span>LIFECYCLE CARBON AUDITED</span>
+              <span>LIFECYCLE CARBON ESTIMATED</span>
               <Wind className="w-4 h-4 text-primary" />
             </div>
             <div className="text-2xl font-serif font-bold text-heading mt-2">
               184.2 <span className="text-sm font-sans text-text-muted font-normal">kg CO₂e</span>
             </div>
             <div className="text-[10px] font-mono text-emerald-400 mt-1">
-              Calculated across 64 catalog SKUs
+              Calculated across sample catalog items
             </div>
           </div>
 
@@ -93,14 +93,14 @@ export default function InsightsDashboard() {
 
           <div className="p-5 rounded-2xl bg-surface border border-line shadow-soft-xs">
             <div className="flex items-center justify-between text-xs font-mono text-text-muted">
-              <span>VERIFICATION ACCURACY</span>
+              <span>RULE CHECK ACCURACY</span>
               <CheckCircle2 className="w-4 h-4 text-primary" />
             </div>
             <div className="text-2xl font-serif font-bold text-heading mt-2">
               98.2%
             </div>
             <div className="text-[10px] font-mono text-primary mt-1">
-              Zero unverified certifications allowed
+              Only seller-reported certifications shown
             </div>
           </div>
         </div>
@@ -152,11 +152,11 @@ export default function InsightsDashboard() {
                 Product vs Verification Matrix
               </h3>
               <p className="text-xs text-text-secondary">
-                Comparing audited sustainable choices against conventional market items.
+                Comparing sustainable choices against conventional market items.
               </p>
             </div>
             <span className="text-[10px] font-mono text-text-muted">
-              Sample Data • Verified Audit
+              Sample Data • Rule Checks
             </span>
           </div>
 

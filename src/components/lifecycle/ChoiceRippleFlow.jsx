@@ -190,7 +190,7 @@ export default function ChoiceRippleFlow({ product = null, _compact = false }) {
                 </div>
               </div>
 
-              {/* Verified Estimates Pill */}
+              {/* Lifecycle Estimates Pill */}
               <div className="flex items-center gap-2 font-mono text-xs">
                 <span className="px-2.5 py-1 rounded-xl bg-surface border border-line text-heading">
                   💨 {activeStage.co2Kg} kg CO₂e <span className="text-[10px] text-muted">(Estimate)</span>
@@ -270,7 +270,7 @@ export default function ChoiceRippleFlow({ product = null, _compact = false }) {
       <div className="text-[11px] text-muted flex items-center justify-between gap-2 pt-2 border-t border-line">
         <span className="flex items-center gap-1">
           <Info className="w-3.5 h-3.5 text-forest-900" />
-          <span>All metrics labeled as Estimates based on CPCB and ISO 14040 lifecycle inventories.</span>
+          <span>All metrics labeled as Estimates based on sample lifecycle data.</span>
         </span>
         <span className="font-mono text-forest-900 font-semibold">
           Cumulative: ~{totalCo2} kg CO₂e

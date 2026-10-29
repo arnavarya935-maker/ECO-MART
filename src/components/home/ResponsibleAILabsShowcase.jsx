@@ -33,7 +33,7 @@ const LABS = [
     route: '/scan',
     accent: 'border-l-4 border-l-emerald-600',
     description:
-      'Upload or capture a label photo. AI Vision extracts claims and audits them against ISO 14021 with an interactive 5-axis Claim Radar.'
+      'Upload or capture a label photo. AI Vision extracts claims and checks them against simple claim rules with an interactive 5-axis Claim Radar.'
   },
   {
     id: 'dilemmas',

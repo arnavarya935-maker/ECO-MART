@@ -18,7 +18,7 @@ export default function ReasoningExplanationCard({
   sourcesOrAssumptions = [],
   confidence = 'high',
   estimatedEnergyWh = 0.12,
-  model = 'Gemini 1.5 Flash',
+  model = 'Gemini',
   isFallback = false,
   messageId,
   query,
@@ -104,7 +104,7 @@ export default function ReasoningExplanationCard({
           <div className="flex items-center justify-between font-serif font-bold text-heading">
             <span className="flex items-center gap-1.5">
               <Sparkles className="w-3.5 h-3.5 text-primary" />
-              How the Multi-Agent Engine Works
+              How the Decision Pipeline Works
             </span>
             <button
               type="button"
@@ -116,8 +116,8 @@ export default function ReasoningExplanationCard({
           </div>
           <p className="text-[11px] text-text-secondary leading-relaxed">
             <strong>Inputs:</strong> Your shopping prompt, catalog specs, and optional local priority weights.<br />
-            <strong>Logic:</strong> Four autonomous agents collaborate sequentially: Planner deconstructs budget limits; Researcher audits cradle-to-gate data; Skeptic identifies omitted facts and greenwash risks; Advisor synthesizes balanced choices.<br />
-            <strong>Data Sources:</strong> Open catalog LCA disclosures and independent registry standards (FSC, GOTS, ISO 14021).<br />
+            <strong>Logic:</strong> A 4-step decision pipeline runs sequentially: Plan budget limits; Research material data; Check omitted facts and claim risks; Advise balanced choices.<br />
+            <strong>Data Sources:</strong> Open catalog sample data and seller-reported certifications (such as FSC, GOTS).<br />
             <strong>Limitations:</strong> Local estimates assume standard lifetime usage. Does not process financial transactions.
           </p>
         </div>
@@ -140,7 +140,7 @@ export default function ReasoningExplanationCard({
             <div className="space-y-2">
               <div className="font-mono text-[10px] uppercase tracking-wider text-text-muted flex items-center gap-1">
                 <Brain className="w-3 h-3 text-primary" />
-                <span>Multi-Agent Collaborative Trace:</span>
+                <span>Decision Pipeline Trace (Plan, Research, Check, Advise):</span>
               </div>
               <div className="grid grid-cols-1 gap-2">
                 {pipelineHandoffs.map((handoff, idx) => (
@@ -281,7 +281,7 @@ export default function ReasoningExplanationCard({
           <div className="pt-2 border-t border-line flex flex-wrap items-center justify-between gap-2 text-[10px]">
             <div className="flex items-center gap-1 text-text-muted">
               <Info className="w-3 h-3 shrink-0" />
-              <span>AI estimates are probabilistic model outputs. Claimed on label, check registry.</span>
+              <span>AI estimates are probabilistic model outputs. Check seller claims on issuer sites.</span>
             </div>
 
             <button

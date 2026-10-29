@@ -132,7 +132,7 @@ export default function ProductPassportQRModal({ isOpen, onClose, product }) {
               Passport ID: {product.id}
             </span>
             <span className="text-[11px] text-muted">
-              Scan with any mobile device to view verified lifecycle data.
+              Scan with any mobile device to view estimated lifecycle data.
             </span>
           </div>
         </div>

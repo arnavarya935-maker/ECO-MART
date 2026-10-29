@@ -26,7 +26,7 @@ export const DUEL_CLAIMS = [
     productName: 'TerraRoot Bamboo Toothbrush',
     isGreenwashing: false,
     aiTrustScore: 94,
-    aiVerdict: 'Verified Legitimate (Trust Score: 94/100)',
+    aiVerdict: 'High Trust Claim (Trust Score: 94/100)',
     groundTruth: 'LEGITIMATE',
     violatesStandard: 'None (Fully Compliant)',
     reasoning:
@@ -43,11 +43,11 @@ export const DUEL_CLAIMS = [
     aiTrustScore: 18,
     aiVerdict: 'Greenwash Flagged (Trust Score: 18/100)',
     groundTruth: 'GREENWASHING',
-    violatesStandard: 'ISO 14021 Comparative Equivalence',
+    violatesStandard: 'Comparative Equivalence Guidance',
     reasoning:
       'False equivalence and exaggerated claims. Washing dishes cannot eliminate a household\'s total carbon emissions. "Non-toxic" and "miracle" are unqualified marketing puffery without safety data sheets (MSDS).',
     flaggedPhrases: ['all-natural', 'miracle', 'eliminate 100% of household carbon footprint'],
-    missingProof: ['Independent lab aquatic toxicity assessment', 'OECD 301B biodegradability test']
+    missingProof: ['Independent aquatic toxicity assessment', 'OECD 301B biodegradability test']
   },
   {
     id: 'duel-04',
@@ -56,7 +56,7 @@ export const DUEL_CLAIMS = [
     productName: 'Artisan Loom Produce Totes',
     isGreenwashing: false,
     aiTrustScore: 92,
-    aiVerdict: 'Verified Legitimate (Trust Score: 92/100)',
+    aiVerdict: 'High Trust Claim (Trust Score: 92/100)',
     groundTruth: 'LEGITIMATE',
     violatesStandard: 'None (Fully Compliant)',
     reasoning:

@@ -18,7 +18,7 @@ const STAGES = [
     location: 'Wardha, Maharashtra',
     subtitle: 'Zero synthetic neurotoxic pesticides, 91% rain-fed agriculture',
     waterUsed: '240 Litres',
-    waterConventional: '2,700 Litres',
+    waterConventional: 'Thousands of Litres (estimates vary)',
     co2Emitted: '0.4 kg CO₂e',
     co2Conventional: '1.8 kg CO₂e',
     chemicals: '0g toxic pesticides',
@@ -46,7 +46,7 @@ const STAGES = [
     id: 3,
     title: 'Fair Atelier Tailoring',
     location: 'Tiruppur, Tamil Nadu',
-    subtitle: 'Worker-owned craft cooperative paying verified living wages',
+    subtitle: 'Worker-owned craft cooperative paying fair living wages',
     waterUsed: '5 Litres',
     waterConventional: '20 Litres',
     co2Emitted: '0.3 kg CO₂e',
@@ -455,7 +455,7 @@ export default function TShirtStoryMode() {
               How are these cradle-to-grave numbers estimated?
             </h4>
             <span className="text-xs font-mono text-muted">
-              ISO 14040 Life Cycle Assessment Methodology
+              Sample Life Cycle Assessment Methodology
             </span>
           </div>
           <p className="leading-relaxed">

@@ -386,10 +386,10 @@ export default function EcoAgentChat() {
         isFirstResponse: isFirst,
         cartReview: response.cartReview,
         reasoning_summary: aiResult?.reasoning_summary || response.explanation || 'Evaluated across cradle-to-grave sustainability factors.',
-        sources_or_assumptions: aiResult?.sources_or_assumptions || ['Eco Sense Product Catalog (124 verified items)', 'ISO 14040 Lifecycle Principles'],
+        sources_or_assumptions: aiResult?.sources_or_assumptions || ['Eco Sense Product Catalog (124 sample items)', 'EcoScore simple rules'],
         confidence: rawConfidence,
         estimated_energy_wh: energy,
-        model: isCloudAI ? (aiResult?.model || 'Gemini 3 Flash') : (agentMode === 'online' ? 'Gemini 2.5 Cloud' : 'Multi-Agent Collective (Planner/Researcher/Skeptic/Advisor)'),
+        model: isCloudAI ? (aiResult?.model || 'Gemini') : '4-step decision pipeline (Plan, Research, Check, Advise)',
         isFallback: !isCloudAI && Boolean(aiResult?.isFallback),
         query: q,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
@@ -488,8 +488,8 @@ export default function EcoAgentChat() {
           source: 'cloud-llm',
           confidence: 'high',
           estimated_energy_wh: 0.05,
-          reasoning_summary: 'Evaluated against verified sustainability criteria.',
-          sources_or_assumptions: ['Verified sustainability dataset'],
+          reasoning_summary: 'Checked against our EcoScore rules.',
+          sources_or_assumptions: ['Sample product dataset'],
           query: q,
           timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         }
@@ -1256,7 +1256,7 @@ export default function EcoAgentChat() {
                     <span className="flex items-center gap-2">
                       <span className="w-5 h-5 rounded-lg bg-surface-accent border border-primary/20 text-primary flex items-center justify-center text-[11px]">🧠</span>
                       <span className="text-xs font-serif font-bold text-heading">How I decided</span>
-                      <span className="text-[10px] text-muted font-normal">({msg.trace.length} verified steps)</span>
+                      <span className="text-[10px] text-muted font-normal">({msg.trace.length} pipeline steps)</span>
                     </span>
                     <span className="text-[10px] text-primary font-semibold underline group-open:no-underline">
                       view trace
@@ -1473,7 +1473,7 @@ export default function EcoAgentChat() {
                   }
                   confidence={msg.confidence || 'high'}
                   estimatedEnergyWh={msg.estimated_energy_wh || 0.12}
-                  model={msg.model || (msg.source === 'cloud-llm' ? 'Gemini 1.5 Flash' : 'Multi-Agent Collective')}
+                  model={msg.model || (msg.source === 'cloud-llm' ? 'Gemini' : '4-step decision pipeline (Plan, Research, Check, Advise)')}
                   isFallback={Boolean(msg.isFallback || msg.source === 'local-fallback' || msg.source === 'local-rules')}
                   messageId={msg.id}
                   query={msg.query || ''}

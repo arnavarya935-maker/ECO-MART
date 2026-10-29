@@ -59,8 +59,8 @@ export function appendBlackBoxLog(entry) {
       guardrailStatus: entry.guardrailStatus || 'held',
       energyEstimateWh: Number(entry.energyEstimateWh || entry.energyWh || entry.estimated_energy_wh || 0.11),
       energyWh: Number(entry.energyEstimateWh || entry.energyWh || entry.estimated_energy_wh || 0.11),
-      model: entry.model || 'Gemini 3 Flash Preview',
-      sources: Array.isArray(entry.sources) ? entry.sources.slice(0, 5) : ['EcoMart Lifecycle Knowledge Base'],
+      model: entry.model || 'Gemini',
+      sources: Array.isArray(entry.sources) ? entry.sources.slice(0, 5) : ['Eco Sense Lifecycle Knowledge Base'],
       isFallback: Boolean(entry.isFallback)
     };
 

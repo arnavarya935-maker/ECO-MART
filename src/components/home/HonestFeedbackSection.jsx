@@ -71,7 +71,7 @@ export default function HonestFeedbackSection() {
           <div className="flex items-center gap-2 text-xs font-mono text-text-muted">
             <AlertCircle className="w-4 h-4 text-primary" />
             <span className="font-semibold uppercase tracking-wider text-heading">
-              Audited AI Behavior Scenarios (Representative Demonstration Data)
+              Tested AI Behavior Scenarios (Representative Demonstration Data)
             </span>
           </div>
 

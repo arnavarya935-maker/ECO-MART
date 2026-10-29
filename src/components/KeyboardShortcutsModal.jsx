@@ -72,7 +72,7 @@ export default function KeyboardShortcutsModal({ isOpen: controlledOpen, onClose
     >
       <div className="space-y-4">
         <p className="text-xs text-muted leading-relaxed font-normal">
-          Navigate EcoMart rapidly without touching your mouse. Press <kbd className="px-1.5 py-0.5 rounded-md bg-surface-sunken border border-line text-heading font-mono font-semibold text-[11px]">?</kbd> anytime to open this guide, or <kbd className="px-1.5 py-0.5 rounded-md bg-surface-sunken border border-line text-heading font-mono font-semibold text-[11px]">Ctrl/Cmd + K</kbd> for the Command Palette.
+          Navigate Eco Sense rapidly without touching your mouse. Press <kbd className="px-1.5 py-0.5 rounded-md bg-surface-sunken border border-line text-heading font-mono font-semibold text-[11px]">?</kbd> anytime to open this guide, or <kbd className="px-1.5 py-0.5 rounded-md bg-surface-sunken border border-line text-heading font-mono font-semibold text-[11px]">Ctrl/Cmd + K</kbd> for the Command Palette.
         </p>
 
         <div className="divide-y divide-line border border-line rounded-2xl overflow-hidden bg-surface shadow-soft-xs">

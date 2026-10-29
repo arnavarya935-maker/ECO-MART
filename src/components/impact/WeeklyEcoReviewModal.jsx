@@ -170,7 +170,7 @@ export default function WeeklyEcoReviewModal({ isOpen, onClose }) {
 
         {/* Footer */}
         <div className="p-4 border-t border-line bg-surface-sunken flex items-center justify-between text-[11px] font-mono text-text-muted">
-          <span>Local browser audit · Zero cloud telemetry</span>
+          <span>Saved in this browser only</span>
           <button
             type="button"
             onClick={onClose}

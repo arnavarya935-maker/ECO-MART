@@ -107,7 +107,7 @@ export default function EngineeringHero() {
             <div className="pt-6 grid grid-cols-3 gap-4 border-t border-line/60 max-w-lg hero-settle [animation-delay:720ms]">
               <div>
                 <div className="font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.18em] text-text-muted">Sample Catalog</div>
-                <div className="mt-1 text-xs sm:text-sm font-semibold text-heading font-mono">{totalCatalog} Audited Items</div>
+                <div className="mt-1 text-xs sm:text-sm font-semibold text-heading font-mono">{totalCatalog} Sample Items</div>
               </div>
               <div>
                 <div className="font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.18em] text-text-muted">Packaging</div>

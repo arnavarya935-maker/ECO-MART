@@ -89,7 +89,7 @@ export default function ClassImpactGarden() {
           <div className="text-2xl font-serif font-black text-heading">
             {collectiveData.swapsDiverted.toLocaleString()}
           </div>
-          <span className="text-[10px] text-muted">Audited items swapped</span>
+          <span className="text-[10px] text-muted">Eco items swapped</span>
         </div>
 
         <div className="p-4 rounded-2xl bg-surface-sunken border border-line text-center">

@@ -109,7 +109,7 @@ export default function BlackBoxPage() {
             <Lock className="w-4 h-4" />
           </div>
           <p className="text-xs text-secondary leading-relaxed">
-            <strong className="text-heading">Zero-PII Telemetry Guarantee:</strong> This local Black Box log records model queries, rule evaluations, and energy estimates only. No passwords, user profiles, cookies, or API keys are ever stored or transmitted.
+            <strong className="text-heading">Zero-PII Telemetry Notice:</strong> This local Black Box log records model queries, rule evaluations, and energy estimates only. No passwords, user profiles, cookies, or API keys are ever stored or transmitted.
           </p>
         </div>
 
@@ -249,7 +249,7 @@ export default function BlackBoxPage() {
               <div className="space-y-4 text-xs">
                 <div>
                   <span className="text-[10px] font-mono font-bold text-muted uppercase block mb-1">
-                    Audited User Query:
+                    Evaluated User Query:
                   </span>
                   <div className="p-3 rounded-xl bg-surface-sunken border border-line font-mono text-heading">
                     {selectedLog.query}

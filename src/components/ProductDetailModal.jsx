@@ -385,9 +385,9 @@ export default function ProductDetailModal({ product, onClose }) {
               <div>
                 <h3 className="font-serif font-bold text-sm text-heading flex items-center gap-1.5">
                   <Award className="w-4 h-4 text-primary" />
-                  Shopper Reviews (Demo data) ({reviews.length})
+                  Your reviews (saved in this browser) ({reviews.length})
                 </h3>
-                <span className="text-[11px] text-muted">Real feedback from zero-waste shoppers</span>
+                <span className="text-[11px] text-muted">Your reviews (saved in this browser)</span>
               </div>
               <button
                 type="button"
@@ -454,7 +454,7 @@ export default function ProductDetailModal({ product, onClose }) {
             {/* Reviews List */}
             {reviews.length === 0 ? (
               <div className="text-center py-4 text-xs text-muted">
-                No reviews yet. Be the first conscious shopper to leave feedback!
+                No reviews yet. Share your experience with this product!
               </div>
             ) : (
               <div className="space-y-3">

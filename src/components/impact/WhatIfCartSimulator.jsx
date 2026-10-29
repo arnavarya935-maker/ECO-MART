@@ -219,7 +219,7 @@ export default function WhatIfCartSimulator() {
       {/* Assumptions Banner */}
       <div className="flex items-center gap-2 text-[11px] text-muted font-mono bg-surface-sunken/60 px-3.5 py-2 rounded-2xl border border-line/40">
         <Info className="w-3.5 h-3.5 text-primary shrink-0" />
-        <span><strong>Calculated Estimate:</strong> Delta measured against standard virgin petroleum extraction & municipal wastewater benchmarks (ISO 14040).</span>
+        <span><strong>Calculated Estimate:</strong> Delta estimated against standard virgin petroleum extraction & municipal wastewater benchmarks.</span>
       </div>
 
       {/* Real-time Dynamic Impact Deltas (Gauges / Cards) */}

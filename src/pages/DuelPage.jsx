@@ -106,7 +106,7 @@ export default function DuelPage() {
             <span>AI Detective</span>
           </div>
           <div className="text-3xl font-serif font-black text-emerald-400">{aiScore}</div>
-          <span className="text-[10px] text-muted">Audited Ground Truth</span>
+          <span className="text-[10px] text-muted">Reference Baseline</span>
         </div>
       </div>
 
@@ -148,7 +148,7 @@ export default function DuelPage() {
                   className="py-4 px-5 rounded-2xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 font-bold text-sm transition-all cursor-pointer flex items-center justify-center gap-2 group shadow-soft-xs"
                 >
                   <ShieldCheck className="w-5 h-5 transition-transform group-hover:scale-110" />
-                  <span>✅ Verified Legitimate (Honest)</span>
+                  <span>✅ High Trust Claim (Honest)</span>
                 </button>
               </div>
             </div>

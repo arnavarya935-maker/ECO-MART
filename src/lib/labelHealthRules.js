@@ -523,9 +523,9 @@ export function buildOverviewSummary({
     for (const ca of claimAudit.claimAudits) {
       if (ca.category === 'supported') {
         goodList.push({
-          title: `Verified Environmental Claim: "${ca.claim}"`,
+          title: `Supported Environmental Claim: "${ca.claim}"`,
           why: ca.reasoning,
-          traceableTo: `Packaging claim verified by visible certification standard`
+          traceableTo: `Packaging claim supported by visible certification standard`
         });
       } else if (ca.category === 'vague') {
         watchOutList.push({

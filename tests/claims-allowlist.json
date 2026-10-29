@@ -1,0 +1,32 @@
+{
+  "exceptions": [
+    {
+      "file": "src/lib/duelEngine.js",
+      "reason": "Educational game with deliberate greenwashing test cases and standard guidance references"
+    },
+    {
+      "file": "src/lib/glossary.js",
+      "reason": "Educational glossary entries defining formal standards and reference benchmarks"
+    },
+    {
+      "file": "src/components/detective/GreenwashingDetectiveModal.jsx",
+      "reason": "Educational sample deceptive inputs provided for testing the greenwashing detector"
+    },
+    {
+      "file": "src/lib/ai/guardrailsEngine.js",
+      "reason": "Safety detector regex rules matching deceptive marketing phrases"
+    },
+    {
+      "file": "src/lib/ecoScore.js",
+      "reason": "Buzzword detection dictionary identifying unverified marketing puffery"
+    },
+    {
+      "file": "src/pages/LearnPage.jsx",
+      "reason": "Educational definition of Fairtrade standards (guaranteed price floor)"
+    },
+    {
+      "file": "src/pages/FairnessPage.jsx",
+      "reason": "Explicit disclaimer that tests do not guarantee complete absence of bias"
+    }
+  ]
+}

@@ -90,7 +90,7 @@ export default function AgentTransparencyPage() {
           { id: 'specs', label: '🧠 Model & System Architecture' },
           { id: 'guardrails', label: '🛡️ Active Guardrails' },
           { id: 'failures', label: '⚠️ Known Failure Boundaries' },
-          { id: 'reportcard', label: '📋 Live Local Report Card' }
+          { id: 'reportcard', label: '📋 Agent Self-Check' }
         ].map((tab) => (
           <button
             key={tab.id}
@@ -150,7 +150,7 @@ export default function AgentTransparencyPage() {
               </div>
               <div>
                 <h3 className="font-serif font-bold text-lg text-heading">
-                  Deterministic Multi-Agent Collective
+                  4-Step Decision Pipeline (Plan, Research, Check, Advise)
                 </h3>
                 <span className="text-[11px] font-mono text-muted">
                   Local Fallback • Instant Response
@@ -158,7 +158,7 @@ export default function AgentTransparencyPage() {
               </div>
             </div>
             <p className="text-xs text-secondary leading-relaxed font-sans">
-              If cloud services are unavailable or network latency exceeds 2.5 seconds, the client activates the <strong>4-Agent Collective</strong> (Planner, Researcher, Skeptic, Advisor) using local catalog indexing and ISO 14040 math.
+              If cloud services are unavailable or network latency exceeds 2.5 seconds, the client activates the <strong>4-step decision pipeline</strong> (Planner, Researcher, Skeptic, Advisor) using local catalog indexing and EcoScore rules.
             </p>
             <div className="space-y-1.5 text-xs">
               <div className="flex items-center gap-2">

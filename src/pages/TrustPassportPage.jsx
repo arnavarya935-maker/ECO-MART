@@ -195,7 +195,7 @@ export default function TrustPassportPage() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="p-4 rounded-2xl bg-surface-sunken border border-line text-center space-y-1">
             <span className="text-xs font-mono text-muted uppercase font-bold block">
-              Audited EcoScore
+              Calculated EcoScore
             </span>
             <div className="text-3xl font-serif font-black text-primary">
               {ecoScoreData.score} <span className="text-xs font-normal text-muted">/ 100</span>

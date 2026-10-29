@@ -1,14 +1,10 @@
 /**
  * Environmental Equivalence Conversion Constants
- * Sources:
- * 1. Tree Carbon Sequestration: ~21.77 kg CO2 / year absorbed by 1 mature urban tree
- *    Source: US EPA Greenhouse Gas Equivalencies / European Environment Agency (EEA) Urban Forestry.
- * 2. Passenger Car Kilometre: ~0.12 kg CO2 / km driven by an average internal combustion engine passenger car
- *    Source: EEA GHG Emission Factors for Transport / IPCC Transport Guidelines.
- * 3. Plastic Bottle Equivalence: 20 grams virgin PET per 500ml single-use water bottle
- *    Source: Ellen MacArthur Foundation New Plastics Economy / ISO 14044 packaging benchmarks.
- * 4. Tap Water Shower Equivalence: ~65 Litres per standard 8-minute shower
- *    Source: WaterSense EPA / Bureau of Indian Standards (BIS) IS 1172.
+ * Note: These conversion multipliers are approximate common estimates used for human-scale illustrations.
+ * 1. Tree Carbon Sequestration: ~21.77 kg CO2 / year absorbed by 1 mature tree (approximate common estimate)
+ * 2. Passenger Car Kilometre: ~0.12 kg CO2 / km driven in an average petrol car (approximate common estimate)
+ * 3. Plastic Bottle Equivalence: ~20 grams virgin plastic per 500ml water bottle (approximate common estimate)
+ * 4. Tap Water Shower Equivalence: ~65 Litres per standard 8-minute shower (approximate common estimate)
  */
 
 export const CONVERSION_CONSTANTS = {

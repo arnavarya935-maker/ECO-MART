@@ -68,7 +68,7 @@ export default function TrustScoreHistogram() {
       },
       {
         range: '81–100',
-        label: 'Verified Sustainable',
+        label: 'High Trust',
         color: 'bg-emerald-500/80 hover:bg-emerald-500',
         border: 'border-emerald-500/30',
         textColor: 'text-emerald-400',
@@ -85,7 +85,7 @@ export default function TrustScoreHistogram() {
       else if (s > 40) idx = 2;
       else if (s > 20) idx = 1;
       bins[idx].count++;
-      bins[idx].claims.push(item.claim || item.text || 'Audited claim');
+      bins[idx].claims.push(item.claim || item.text || 'Sample claim');
     });
 
     const total = all.length || 1;
@@ -108,14 +108,14 @@ export default function TrustScoreHistogram() {
               Integrity Telemetry
             </span>
             <span className="text-[10px] font-mono text-muted uppercase">
-              {totalAudits} Total Packaging Claims Audited
+              {totalAudits} Total Packaging Claims Checked
             </span>
           </div>
           <h3 className="text-xl sm:text-2xl font-serif font-bold text-heading">
             Greenwashing Trust Score Distribution
           </h3>
           <p className="text-xs text-secondary">
-            Histogram of ISO 14021 & FTC compliance scores evaluated by our Greenwashing Detective.
+            Histogram of trust scores evaluated by our Greenwashing Detective simple rules.
           </p>
         </div>
 
@@ -132,7 +132,7 @@ export default function TrustScoreHistogram() {
       {/* Assumptions Label */}
       <div className="flex items-center gap-2 text-[11px] text-muted font-mono bg-surface-sunken/60 px-3 py-1.5 rounded-xl border border-line/40">
         <Info className="w-3.5 h-3.5 text-amber-400 shrink-0" />
-        <span><strong>Sample Dataset & Session Logs:</strong> Aggregates live session audits with the calibrated environmental benchmark corpus.</span>
+        <span><strong>Sample Dataset & Session Logs:</strong> Aggregates session check results with sample benchmark data.</span>
       </div>
 
       {showTable ? (

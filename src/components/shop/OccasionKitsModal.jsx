@@ -198,7 +198,7 @@ export default function OccasionKitsModal({ isOpen, onClose }) {
         {/* Footer Actions */}
         <div className="p-4 border-t border-line bg-surface flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="text-xs text-text-muted">
-            Includes plastic-free consolidated packaging and verified eco materials.
+            Includes plastic-free packaging and sustainable materials.
           </div>
 
           <button

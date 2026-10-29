@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   Scale,
   Sparkles,
@@ -13,7 +13,8 @@ import {
 } from 'lucide-react';
 import {
   FAIRNESS_PRESETS,
-  runFairnessAudit
+  runFairnessAudit,
+  runCatalogParitySuite
 } from '../lib/ai/fairnessEngine.js';
 import { askEcoAgent } from '../lib/ai/geminiAdapter.js';
 
@@ -56,15 +57,11 @@ export default function FairnessPage() {
     });
   };
 
-  const metrics = auditData?.parityMetrics || {
-    consistencyScore: 92,
-    linguisticParity: 90,
-    economicParity: 94,
-    recommendationOverlap: 92,
-    verdict: 'High Parity & Integrity',
-    badgeColor: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30',
-    explanation: 'Model maintained verified sustainability standards across languages and socioeconomic framings.'
-  };
+  const defaultMetrics = useMemo(() => {
+    return runCatalogParitySuite();
+  }, []);
+
+  const metrics = auditData?.parityMetrics || defaultMetrics;
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10 animate-fade-in pb-24">
@@ -78,8 +75,8 @@ export default function FairnessPage() {
           AI Fairness & Parity Lab
         </h1>
         <p className="text-sm sm:text-base text-secondary leading-relaxed">
-          Evaluating linguistic parity, dialect dignity, and economic equity. Does our AI recommend the same verified
-          standards to a Hindi speaker or a student on a budget as it does to an English speaker?
+          Evaluating linguistic parity, dialect dignity, and economic equity. Does our AI recommend the same standards
+          to a Hindi speaker or a student on a budget as it does to an English speaker?
         </p>
       </div>
 
@@ -182,7 +179,10 @@ export default function FairnessPage() {
               </span>
               <span className="text-xl font-mono text-muted">/100</span>
             </div>
-            <p className="text-xs text-secondary mt-2 leading-relaxed">
+            <p className="text-[11px] font-mono text-primary mt-1">
+              {metrics.sampleNotice || 'measured on our sample catalog'}
+            </p>
+            <p className="text-xs text-secondary mt-1 leading-relaxed">
               Calculated using Jaccard recommendation overlap (40%), linguistic substantive parity (35%), and economic integrity (25%).
             </p>
           </div>
@@ -193,19 +193,25 @@ export default function FairnessPage() {
               <span className="text-secondary flex items-center gap-1.5">
                 <Languages className="w-3.5 h-3.5 text-primary" /> Linguistic Equity:
               </span>
-              <span className="font-mono font-semibold text-heading">{metrics.linguisticParity}%</span>
+              <span className="font-mono font-semibold text-heading">
+                {typeof metrics.linguisticParity === 'number' ? `${metrics.linguisticParity}%` : (metrics.linguisticParity || 'Not measured')}
+              </span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-secondary flex items-center gap-1.5">
                 <DollarSign className="w-3.5 h-3.5 text-accent" /> Socioeconomic Integrity:
               </span>
-              <span className="font-mono font-semibold text-heading">{metrics.economicParity}%</span>
+              <span className="font-mono font-semibold text-heading">
+                {typeof metrics.economicParity === 'number' ? `${metrics.economicParity}%` : (metrics.economicParity || 'Not measured')}
+              </span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-secondary flex items-center gap-1.5">
                 <ShieldCheck className="w-3.5 h-3.5 text-secondary" /> Recommendation Overlap:
               </span>
-              <span className="font-mono font-semibold text-heading">{metrics.recommendationOverlap}%</span>
+              <span className="font-mono font-semibold text-heading">
+                {typeof metrics.recommendationOverlap === 'number' ? `${metrics.recommendationOverlap}%` : (metrics.recommendationOverlap || 'Not measured')}
+              </span>
             </div>
           </div>
         </div>
@@ -320,7 +326,7 @@ export default function FairnessPage() {
         <section className="p-6 rounded-3xl bg-surface border border-line shadow-card space-y-4 overflow-x-auto">
           <div className="flex items-center justify-between">
             <h3 className="text-base font-serif font-bold text-heading">
-              Audited Parity Matrix (WCAG Accessible Alternative)
+              Evaluated Parity Matrix (WCAG Accessible Alternative)
             </h3>
             <span className="text-xs font-mono text-muted">Tabular Data Format</span>
           </div>

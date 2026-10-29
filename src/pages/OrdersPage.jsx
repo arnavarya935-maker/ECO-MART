@@ -137,7 +137,7 @@ export default function OrdersPage() {
                   <div className="flex items-center justify-between mb-4">
                     <span className="text-xs font-semibold text-heading flex items-center gap-1.5">
                       <Clock className="w-4 h-4 text-primary" />
-                      Live Delivery Timeline
+                      Sample delivery timeline
                     </span>
                     <span className="text-[11px] text-primary font-semibold">
                       Stage {activeStageIdx + 1} of {TRACKING_STAGES.length}

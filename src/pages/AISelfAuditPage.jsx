@@ -90,7 +90,7 @@ export default function AISelfAuditPage() {
                 <span className="text-sm font-normal text-muted">/100</span>
               </div>
               <span className="text-[10px] text-emerald-700 font-bold block mt-0.5">
-                Verified Evidentiary Standard
+                Evidence Standard
               </span>
             </div>
           </div>
@@ -99,7 +99,7 @@ export default function AISelfAuditPage() {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             <div className="bg-sand-50 p-4 rounded-2xl border border-line">
               <span className="text-[10px] uppercase font-mono font-bold text-muted block">
-                Interactions Audited
+                Interactions Evaluated
               </span>
               <div className="text-2xl font-black text-heading mt-1">
                 {report.sessionSummary.totalInteractionsAudited}
@@ -132,7 +132,7 @@ export default function AISelfAuditPage() {
                 Model Ensemble
               </span>
               <div className="text-xs font-bold text-heading mt-2 font-mono">
-                Gemini 3 Flash + Guardrails
+                Gemini + Guardrails
               </div>
               <span className="text-[10px] text-muted">Local Rule-Engine Backing</span>
             </div>

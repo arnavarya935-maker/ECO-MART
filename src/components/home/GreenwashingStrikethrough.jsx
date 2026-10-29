@@ -44,13 +44,13 @@ export default function GreenwashingStrikethrough() {
         <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono tracking-wider uppercase bg-primary-subtle text-primary border border-primary/20 mb-4">
             <ShieldAlert className="w-3.5 h-3.5 text-primary" />
-            ISO 14021 Claim Auditor
+            Claim Detective (Simple Rules)
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-medium text-heading tracking-tight">
             Watch deceptive marketing unravel in real time.
           </h2>
           <p className="mt-3 text-sm sm:text-base text-text-secondary">
-            Vague buzzwords fail our claim radar. Scroll to inspect how EcoMart flags unsubstantiated greenwashing claims.
+            Vague buzzwords fail our claim radar. Scroll to inspect how Eco Sense flags unsubstantiated greenwashing claims.
           </p>
         </div>
 
@@ -145,7 +145,7 @@ export default function GreenwashingStrikethrough() {
             {/* Accessible screen reader description */}
             <div className="sr-only">
               Example claim: &ldquo;Our daily shampoo is crafted with 100% natural ingredients, rigorously certified eco-friendly, and completely chemical free for guilt-free peace of mind.&rdquo;
-              Audit outcome: Flagged for greenwashing under ISO 14021. Final trust score 18 out of 100.
+              Audit outcome: Flagged for greenwashing under simple claim rules. Final trust score 18 out of 100.
             </div>
 
             {/* Diagnostic Badges Revealed as User Scrubs */}
@@ -164,7 +164,7 @@ export default function GreenwashingStrikethrough() {
                   <span>&quot;100% natural&quot;</span>
                 </div>
                 <p className="text-text-muted">
-                  Vague & unsubstantiated. Omits processing agents and water carrier (ISO 14021 §5.7).
+                  Vague & unsubstantiated. Omits processing agents and water carrier.
                 </p>
               </div>
 
@@ -230,7 +230,7 @@ export default function GreenwashingStrikethrough() {
               <div>
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-semibold text-heading">
-                    Audited Trust Score
+                    Sample Trust Score
                   </span>
                   <span
                     className="inline-block px-2 py-0.5 rounded text-[11px] font-mono font-bold uppercase transition-all duration-200"
@@ -244,8 +244,8 @@ export default function GreenwashingStrikethrough() {
                 </div>
                 <p className="text-xs text-text-secondary mt-1">
                   {scoreProgress > 0.8
-                    ? '3 serious ISO 14021 non-compliance violations detected. Product blocked from recommended tier.'
-                    : 'Scrub further to reveal the verified audit score and compliance breakdown.'}
+                    ? '3 claim issues detected. Product blocked from recommended tier.'
+                    : 'Scrub further to reveal the check score and breakdown.'}
                 </p>
               </div>
             </div>

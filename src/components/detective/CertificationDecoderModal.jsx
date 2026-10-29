@@ -64,7 +64,7 @@ export default function CertificationDecoderModal({ isOpen, onClose }) {
                 </span>
               </div>
               <p className="text-xs text-text-secondary mt-0.5">
-                Demystifying eco seals, what they guarantee, and where their audits stop.
+                Demystifying eco seals, what they claim to cover, and their limits.
               </p>
             </div>
           </div>
@@ -193,7 +193,7 @@ export default function CertificationDecoderModal({ isOpen, onClose }) {
                 <div className="p-3.5 rounded-2xl bg-surface border border-line space-y-1.5">
                   <span className="text-[10px] font-mono uppercase tracking-wider text-text-muted flex items-center gap-1">
                     <CheckCircle2 className="w-3 h-3 text-emerald-500" />
-                    Audited Scope &amp; Core Focus
+                    Certification Scope &amp; Core Focus
                   </span>
                   <p className="text-xs text-heading leading-relaxed">
                     {activeCert.focus}

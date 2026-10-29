@@ -55,7 +55,7 @@ export default function ImpactReceiptModal({ isOpen, onClose, orderData }) {
                 Estimated Impact Receipt
               </h3>
               <div className="text-[10px] font-mono text-text-muted">
-                Order #{orderId} • {orderDate}
+                Sample receipt. No real order is placed. • Order #{orderId}
               </div>
             </div>
           </div>
@@ -171,8 +171,8 @@ export default function ImpactReceiptModal({ isOpen, onClose, orderData }) {
 
             <div className="space-y-3 pt-1">
               {[
-                { title: 'Order Reserved', desc: 'Item allocated in local Bengaluru inventory; zero synthetic packing tape.', time: '0m', done: true },
-                { title: 'Kraft Corrugated Consolidation', desc: 'Multi-item batch packaging in 100% recycled unbleached kraft box.', time: '+2h', done: true },
+                { title: 'Order Reserved', desc: 'Sample order reserved; paper packing tape.', time: '0m', done: true },
+                { title: 'Kraft Corrugated Consolidation', desc: 'Multi-item sample packing in paper box.', time: '+2h', done: true },
                 { title: 'Hub Aggregation Transit', desc: 'Consolidated route dispatch to minimize vehicle km per parcel.', time: '+18h', done: false },
                 { title: 'Electric / Low-Emission Delivery', desc: 'Final-mile allocation via local low-emission delivery fleet.', time: 'Est. Tomorrow', done: false }
               ].map((stage, idx) => (
@@ -211,14 +211,14 @@ export default function ImpactReceiptModal({ isOpen, onClose, orderData }) {
             </div>
             <div className="text-[10px] font-mono text-text-muted flex items-center justify-between pt-1">
               <span>Packaging Type:</span>
-              <span>100% Plastic-Free Consolidated Carton</span>
+              <span>Plastic-Free Consolidated Carton (Sample)</span>
             </div>
           </div>
         </div>
 
         {/* Footer */}
         <div className="p-4 border-t border-line bg-surface-sunken flex items-center justify-between text-[11px] font-mono text-text-muted">
-          <span>EcoMart Zero-Waste Registry</span>
+          <span>Eco Sense Receipt (Sample)</span>
           <button
             type="button"
             onClick={onClose}

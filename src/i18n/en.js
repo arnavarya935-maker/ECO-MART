@@ -249,7 +249,7 @@ export const en = {
   'learn.certifications': 'What Product Labels Mean',
   'learn.certDisclaimer': 'Note: Badges on sample products reflect seller claims, not independent laboratory verification.',
   'learn.sources': 'Sources & References',
-  'learn.sourcesNote': 'Environmental estimates follow widely cited benchmarks from CPCB, ISO 14040 principles, and public research.',
+  'learn.sourcesNote': 'Environmental estimates follow widely cited public research benchmarks and simple sample rules.',
 
   // News Page
   'news.title': 'Eco News Watch',

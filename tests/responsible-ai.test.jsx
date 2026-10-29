@@ -143,15 +143,14 @@ describe('Responsible AI Integration & Graceful Degradation', () => {
   });
 
   describe('6. AI Ethics Card Component', () => {
-    it('declares 0% sponsored bias and shows data lineage factors', () => {
+    it('declares no ads or paid placement and shows data factors', () => {
       const sampleItem = productsData[0];
       const html = renderToString(<AIEthicsCard product={sampleItem} compact={false} />);
 
       expect(html).toContain('AI Ethics');
-      expect(html).toContain('Zero Commercial Bias');
-      expect(html).toContain('Sponsored weight:');
-      expect(html).toContain('0%');
-      expect(html).toContain('Data Lineage:');
+      expect(html).toContain('No Ads or Paid Placement');
+      expect(html).toContain('No ads or paid placement in this project.');
+      expect(html).toContain('Data used:');
     });
 
     it('renders compact clickable chip for product cards', () => {
@@ -159,7 +158,7 @@ describe('Responsible AI Integration & Graceful Degradation', () => {
       const html = renderToString(<AIEthicsCard product={sampleItem} compact={true} />);
 
       expect(html).toContain('AI Ethics:');
-      expect(html).toContain('0% Sponsored Bias');
+      expect(html).toContain('No Ads or Paid Placement');
     });
   });
 });

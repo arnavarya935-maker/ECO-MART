@@ -299,7 +299,7 @@ export default function YearAheadProjection({ onOpenPurposeReport }) {
               12-Month Cumulative Trajectory
             </h3>
             <p className="text-xs font-sans text-secondary">
-              Comparing conventional petrochemical consumption vs audited EcoMart practices over 12 months.
+              Comparing conventional consumption vs sample Eco Sense choices over 12 months.
             </p>
           </div>
 

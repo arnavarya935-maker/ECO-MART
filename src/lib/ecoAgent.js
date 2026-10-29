@@ -768,7 +768,7 @@ export function generateTradeoffs(winner, runnerUp) {
   }
   const certDiff = (winner.certifications?.length || 0) - (runnerUp.certifications?.length || 0);
   if (certDiff > 0) {
-    beats.push(`More verified certifications (+${certDiff})`);
+    beats.push(`More seller-listed certifications (+${certDiff})`);
   }
   if (winner.price < runnerUp.price) {
     beats.push(`Costs ₹${runnerUp.price - winner.price} less`);
@@ -923,9 +923,9 @@ export function planBasket(goal, budget = 1000, allProducts = []) {
     trace: [
       { step: 'Understood goal', detail: `Goal: "${goal}" (Budget: ₹${targetBudget})` },
       { step: 'Constraints identified', detail: `Cross-category diversity across ${targetCategories.join(', ')} with no duplicate product types` },
-      { step: 'Optimization model', detail: 'Knapsack greedy pass on EcoScore per Rupee with diversity constraints' },
+      { step: 'Optimization model', detail: 'Greedy picks pass on EcoScore per Rupee with diversity constraints' },
       { step: 'Curated basket', detail: `${selectedItems.length} items across ${selectedCategories.size} categories totaling ₹${currentCost}` },
-      { step: 'Impact audited', detail: `Lifecycle savings: ${totalCo2Saved.toFixed(1)}kg CO2, ${Math.round(totalPlasticAvoided)}g plastic, ${Math.round(totalWaterSaved)}L water` },
+      { step: 'Impact calculated', detail: `Lifecycle savings: ${totalCo2Saved.toFixed(1)}kg CO2, ${Math.round(totalPlasticAvoided)}g plastic, ${Math.round(totalWaterSaved)}L water` },
       { step: 'Decision', detail: `Assembled balanced basket leaving ₹${targetBudget - currentCost} cushion with ${averageEcoScore}/100 average EcoScore` }
     ],
     explanation: `I crafted a conscious basket of ${selectedItems.length} items across ${selectedCategories.size} categories for ₹${currentCost} (under your ₹${targetBudget} budget), saving ${totalCo2Saved.toFixed(1)}kg CO2e and ${Math.round(totalPlasticAvoided)}g virgin plastic!`
@@ -1150,7 +1150,7 @@ export function queryEcoCatalog(allProducts, userQuery, context = null, weights 
       trace: [
         { step: 'Parsed requested items', detail: `Parsed target items: ${intent.requestedItems.map((it) => it.searchTerm).join(', ')}` },
         { step: 'Relevance-first search', detail: `Searched catalogue separately for each item with relevance threshold >= 35` },
-        { step: 'Audited baseline impact', detail: `Calculated lifecycle savings only where conventional baselines exist` },
+        { step: 'Estimated baseline impact', detail: `Calculated lifecycle savings only where conventional baselines exist` },
         { step: 'Decision', detail: `Selected ${selectedProducts.map((p) => p.name).join(' and ')} (Total: ₹${totalPrice})` }
       ]
     };
@@ -1212,7 +1212,7 @@ export function queryEcoCatalog(allProducts, userQuery, context = null, weights 
             prioritiesSummary,
             trace: [
               { step: 'Understood goal', detail: `User requested cheaper option in ${catName}` },
-              { step: 'Price audit', detail: `Audited ${catPool.length} eco items in ${catName}` },
+              { step: 'Price check', detail: `Checked ${catPool.length} eco items in ${catName}` },
               { step: 'Decision', detail: `Identified ${cheapestInCat.name} (₹${cheapestInCat.price}) as already the cheapest available item` }
             ]
           };
@@ -1383,7 +1383,7 @@ export function queryEcoCatalog(allProducts, userQuery, context = null, weights 
     const reasons = [];
     reasons.push(`Eco-Score: ${p.ecoScoreData.score}/100 (Grade ${p.ecoScoreData.grade})`);
     if (p.packaging === 'plastic-free') reasons.push('100% plastic-free packaging');
-    if (p.certifications && p.certifications.length > 0) reasons.push(`${p.certifications.slice(0, 2).join(' & ')} verified`);
+    if (p.certifications && p.certifications.length > 0) reasons.push(`${p.certifications.slice(0, 2).join(' & ')} (seller claim)`);
     if (p.carbonKg <= 0.5) reasons.push(`Ultra-low footprint of only ${p.carbonKg}kg CO2`);
     if (p.madeInKm <= 150) reasons.push(`Locally produced (${p.madeInKm} km away)`);
     if (intent.maxBudget && p.price <= intent.maxBudget) reasons.push(`Fits budget at ₹${p.price}`);
@@ -1474,7 +1474,7 @@ export function queryEcoCatalog(allProducts, userQuery, context = null, weights 
 
     if (closestOptions.length > 0) {
       topResults = closestOptions;
-      notFoundExplanation = `I couldn't find a ${targetItem} in the catalogue. Here are the closest verified alternatives:`;
+      notFoundExplanation = `I couldn't find a ${targetItem} in the catalogue. Here are the closest sustainable alternatives:`;
     }
   }
 
@@ -1512,7 +1512,7 @@ export function queryEcoCatalog(allProducts, userQuery, context = null, weights 
     {
       step: 'Scored & Ranked',
       detail: intent.sortBy === 'price-asc'
-        ? 'Ranked strictly by price ascending with verified eco-score guarantee'
+        ? 'sorted by price, lowest first'
         : intent.sortBy === 'ecoscore-desc'
           ? 'Ranked strictly by EcoScore descending'
           : 'Ranked by 5-pillar EcoScore + query keyword relevance'
@@ -1811,8 +1811,8 @@ export async function sendAgentQuery(arg1, arg2, arg3, arg4) {
     }
 
     const message = isHindi
-      ? `Bhai, hamare paas pure ${totalCount} verified sustainable products hain across 8 departments (Kitchen, Personal Care, Home, Cleaning & Laundry, Fashion, Stationery, Bags, Outdoor & Travel)! Saare products active aur live hain. Aapko kis department ya product ke baare mein dekhna hai?`
-      : `Eco Sense features ${totalCount} verified sustainable products across 8 departments: Kitchen (16), Personal Care (16), Home (16), Cleaning & Laundry (16), Fashion (15), Stationery (15), Bags (15), and Outdoor & Travel (15)! Every department includes Eco Grades A through E. Here are sample verified items:`;
+      ? `Bhai, hamare paas pure ${totalCount} sustainable products hain across 8 departments (Kitchen, Personal Care, Home, Cleaning & Laundry, Fashion, Stationery, Bags, Outdoor & Travel)! Saare products active aur live hain. Aapko kis department ya product ke baare mein dekhna hai?`
+      : `Eco Sense features ${totalCount} sustainable products across 8 departments: Kitchen (16), Personal Care (16), Home (16), Cleaning & Laundry (16), Fashion (15), Stationery (15), Bags (15), and Outdoor & Travel (15)! Every department includes Eco Grades A through E. Here are sample items:`;
 
     return {
       source: 'local-rule-engine',
@@ -1827,7 +1827,7 @@ export async function sendAgentQuery(arg1, arg2, arg3, arg4) {
       trace: [
         { step: 'Understood goal', detail: `Catalogue overview inquiry: "${query}"` },
         { step: 'Inventory check', detail: `Retrieved ${totalCount} active items across 8 departments` },
-        { step: 'Display', detail: `Showcased sample verified sustainable picks` }
+        { step: 'Display', detail: `Showcased sample sustainable picks` }
       ],
       basketPlan: null,
       clarification: null,
@@ -1839,7 +1839,7 @@ export async function sendAgentQuery(arg1, arg2, arg3, arg4) {
   if (qLower.includes('eco check') || qLower.includes('check product') || qLower.includes('analyze product') || qLower.includes('external product')) {
     return {
       source: 'local-rule-engine',
-      message: "You can evaluate any outside purchase with our on-device Eco Check analyzer! Paste any product description, material list, or packaging claims to audit greenwashing and discover verified alternatives:\n\n👉 Navigate to 'Eco Check' in the top navigation or visit /eco-check directly.",
+      message: "You can evaluate any outside purchase with our on-device Eco Check analyzer! Paste any product description, material list, or packaging claims to check greenwashing and discover sustainable alternatives:\n\n👉 Navigate to 'Eco Check' in the top navigation or visit /eco-check directly.",
       data: (allProducts || []).filter((p) => p.isEcoFriendly).slice(0, 3),
       analysis: null,
       tradeoffs: null,

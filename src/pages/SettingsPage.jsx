@@ -625,7 +625,7 @@ export default function SettingsPage() {
           <div className="p-3 rounded-2xl bg-surface-sunken border border-line space-y-1">
             <div className="font-mono text-[10px] text-text-muted uppercase">2. Active Agent Session Context</div>
             <div className="text-heading font-medium">In-Memory Transient State</div>
-            <div className="text-[11px] text-text-secondary">Last searched category, budget ceiling, and active knapsack filters. Erased on page reload or wipe.</div>
+            <div className="text-[11px] text-text-secondary">Last searched category, budget ceiling, and active greedy filters. Erased on page reload or wipe.</div>
           </div>
 
           <div className="p-3 rounded-2xl bg-surface-sunken border border-line space-y-1">
@@ -635,9 +635,9 @@ export default function SettingsPage() {
           </div>
 
           <div className="p-3 rounded-2xl bg-surface-sunken border border-line space-y-1">
-            <div className="font-mono text-[10px] text-emerald-400 uppercase font-bold">4. Third-Party Tracker Audit</div>
+            <div className="font-mono text-[10px] text-emerald-400 uppercase font-bold">4. Analytics & AI Notice</div>
             <div className="text-heading font-medium">0 Tracking Cookies • 0 Ad Beacons</div>
-            <div className="text-[11px] text-text-secondary">Verified zero third-party telemetry, zero user fingerprinting, and zero external tracking pixels.</div>
+            <div className="text-[11px] text-text-secondary">Eco Sense adds no analytics or ad trackers. Your cart and settings stay in this browser. When you chat or scan a label, the text or photo is sent to Google's Gemini AI to get an answer.</div>
           </div>
         </div>
       </Card>

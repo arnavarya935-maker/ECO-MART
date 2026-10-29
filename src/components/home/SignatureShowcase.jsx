@@ -42,7 +42,7 @@ export default function SignatureShowcase() {
               to="/shop"
               className="font-mono text-xs uppercase tracking-wider text-primary hover:text-primary-hover flex items-center gap-1 transition-colors"
             >
-              <span>Explore All {productsData.filter(p => p.isEcoFriendly).length} Verified Items</span>
+              <span>Explore All {productsData.filter(p => p.isEcoFriendly).length} Sustainable Items</span>
               <ArrowUpRight className="w-3.5 h-3.5" />
             </Link>
           </div>

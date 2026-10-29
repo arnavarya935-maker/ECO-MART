@@ -85,7 +85,7 @@ export default function WelcomeModal() {
             </div>
 
             <p className="text-xs sm:text-sm text-muted leading-relaxed font-normal">
-              Every item in our catalog is audited with an objective 0–100 Eco-Score formula. We track carbon emissions, plastic packaging, and transportation distance down to the exact gram.
+              EcoScore is a simple 0-100 score from our own rules: material (30), packaging (20), carbon estimate (25), certifications listed by the seller (15), travel distance (10). The numbers are sample estimates, not lab measurements.
             </p>
           </div>
         )}

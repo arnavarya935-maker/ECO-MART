@@ -19,7 +19,7 @@ const STAGES = [
     name: 'Make',
     title: 'Regenerative Cultivation & Clean Weaving',
     summary:
-      'Harvested from certified Himalayan hemp and bamboo shoots grown without synthetic fertilizers or petrochemical pesticides.',
+      'Harvested from renewable plant-based fibers grown with low chemical inputs.',
     icon: Factory,
     accentColor: '#10B981',
     bgGlow: 'radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.15) 0%, transparent 70%)',
@@ -37,9 +37,9 @@ const STAGES = [
     id: 'ship',
     stepNumber: '02',
     name: 'Ship',
-    title: 'Electrified Rail & Flat-Pack Kraft Packaging',
+    title: 'Regional Rail & Flat-Pack Paper Packaging',
     summary:
-      'Consolidated freight routed via electrified regional rail lines, packed in 100% unbleached FSC-certified corrugated boxes.',
+      'Consolidated surface transport, packed in unbleached paper boxes.',
     icon: Truck,
     accentColor: '#14B8A6',
     bgGlow: 'radial-gradient(circle at 50% 50%, rgba(20, 184, 166, 0.15) 0%, transparent 70%)',
@@ -65,7 +65,7 @@ const STAGES = [
     bgGlow: 'radial-gradient(circle at 50% 50%, rgba(52, 211, 153, 0.15) 0%, transparent 70%)',
     estimates: [
       { label: 'Water Conserved', value: '~14L Water (Estimate)', note: 'Over lifecycle of refill concentrate' },
-      { label: 'Durability Benchmark', value: '5.2 Years (Estimate)', note: 'Lab stress-tested for 1,800 pumps' }
+      { label: 'Durability Benchmark', value: 'Long-lasting design (estimate)', note: 'Reusable pump mechanism' }
     ],
     details: [
       'Modular pump head with replaceable food-grade gaskets',
@@ -79,12 +79,12 @@ const STAGES = [
     name: 'Second Life',
     title: 'Backyard Composting & Scrap Kabadiwala Recovery',
     summary:
-      'The plant fiber casing decomposes in standard garden soil within 90 days. The aluminum core connects to verified local kabadiwala collection.',
+      'The plant fiber casing decomposes in standard garden soil within 90 days. The aluminum core connects to local kabadiwala collection.',
     icon: RotateCcw,
     accentColor: '#F59E0B',
     bgGlow: 'radial-gradient(circle at 50% 50%, rgba(245, 158, 11, 0.15) 0%, transparent 70%)',
     estimates: [
-      { label: 'Landfill Waste', value: '0% Landfill Waste (Estimate)', note: '100% circular return pathway' },
+      { label: 'Landfill Waste', value: 'Low Landfill Waste (Estimate)', note: 'Circular return pathway' },
       { label: 'Scrap Cash Value', value: '₹45 Recoverable (Estimate)', note: 'Standard Indian scrap yard rate' }
     ],
     details: [
@@ -124,7 +124,7 @@ export default function PinnedProductJourney() {
         <div className="text-center max-w-3xl mx-auto mb-8 sm:mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono tracking-wider uppercase bg-primary-subtle text-primary border border-primary/20 mb-4">
             <Leaf className="w-3.5 h-3.5 text-primary" />
-            Full Lifecycle Transparency
+            Illustration, not a real shipment
           </div>
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-medium text-heading tracking-tight">
             The Pinned Product Journey
@@ -238,7 +238,7 @@ export default function PinnedProductJourney() {
                 ))}
               </div>
 
-              {/* Verified Checklist Details */}
+              {/* Stage Checklist Details */}
               <ul className="space-y-2 pt-2 text-xs sm:text-sm text-text-secondary">
                 {currentStage.details.map((detail, idx) => (
                   <li key={idx} className="flex items-start gap-2.5">
@@ -311,10 +311,10 @@ export default function PinnedProductJourney() {
               {/* Stage Sub-label */}
               <div className="text-center">
                 <span className="text-xs font-mono font-bold tracking-wider uppercase text-heading">
-                  Stage {currentStage.stepNumber} Verified Visual
+                  Stage {currentStage.stepNumber} Sample Illustration
                 </span>
                 <p className="text-[11px] text-text-muted mt-0.5">
-                  Audited under ISO 14040 Life Cycle Assessment
+                  Illustration, not a real shipment
                 </p>
               </div>
             </div>

@@ -169,7 +169,7 @@ export default function HabitLineChart() {
           </span>
         </div>
         <span className="text-[10px] font-mono text-muted">
-          *Labeled Estimate: Standard ISO 14040 cradle-to-gate substitution benchmark.
+          *Labeled Estimate: Sample substitution benchmark.
         </span>
       </div>
 

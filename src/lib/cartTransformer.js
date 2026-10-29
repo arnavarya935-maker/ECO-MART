@@ -424,7 +424,7 @@ export function buildOptionGroups(matchedItems, products = productsData, userPri
         name: item.name,
         qty: item.qty,
         status: 'kept',
-        reason: 'Already a verified sustainable choice in our catalog (Grade A).',
+        reason: 'Already a sustainable choice in our catalog (Grade A).',
         baseline,
         options: []
       });
@@ -638,7 +638,7 @@ function createReasonAndTradeoff(baseline, greener, qty = 1) {
   if (co2Avoided > 0) reasons.push(`diverts ${co2Avoided}kg lifecycle CO₂`);
   if (waterAvoided > 0) reasons.push(`saves ${waterAvoided}L water`);
   if (greener.certifications && greener.certifications.length > 0) {
-    reasons.push(`verified by ${greener.certifications[0]}`);
+    reasons.push(`listing ${greener.certifications[0]} (seller claim)`);
   }
 
   const reason = reasons.length > 0
@@ -664,7 +664,7 @@ function createReasonAndTradeoff(baseline, greener, qty = 1) {
 
 /**
  * 6. transformShoppingList(text, products, userPriorities, customBudget)
- * Main entry point: transforms list text into an audited sustainable cart.
+ * Main entry point: transforms list text into a sustainable cart.
  */
 export function transformShoppingList(
   text,
@@ -890,13 +890,13 @@ export function transformShoppingList(
     {
       step: 2,
       title: 'Matched items to catalogue',
-      detail: `Successfully mapped ${matched.filter((m) => m.status === 'matched').length} items to verified categories (household synonyms & typo checks applied).`,
+      detail: `Successfully mapped ${matched.filter((m) => m.status === 'matched').length} items to matching categories (household synonyms & typo checks applied).`,
       status: 'completed'
     },
     {
       step: 3,
       title: 'Found greener options',
-      detail: `Identified certified sustainable alternatives with strictly higher EcoScores and lifecycle ratings.`,
+      detail: `Identified sustainable alternatives with higher EcoScores and estimated lifecycle ratings.`,
       status: 'completed'
     },
     {

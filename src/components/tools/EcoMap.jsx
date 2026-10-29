@@ -9,7 +9,7 @@ const ARTISAN_REGIONS = [
     coordinates: { x: 42, y: 82 },
     materials: 'Organic GOTS Canvas, Coconut Coir, Brass',
     artisans: 1250,
-    impact: 'Replaces ~35,000 plastic carry bags monthly',
+    impact: 'Replaces single-use plastic carry bags',
     products: ['Organic Fair-Trade Cotton Tote', 'Natural Coir Kitchen Scrubbers']
   },
   {
@@ -19,7 +19,7 @@ const ARTISAN_REGIONS = [
     coordinates: { x: 78, y: 40 },
     materials: 'FSC Moso Bamboo, Cane, Wild Herbal Extracts',
     artisans: 980,
-    impact: 'Diverts 1.2M plastic toothbrushes from landfills',
+    impact: 'Helps replace disposable plastic toothbrushes',
     products: ['Compostable Bamboo Toothbrush', 'Bamboo Cutlery Travel Kit']
   },
   {
@@ -58,12 +58,12 @@ export default function EcoMap() {
             Artisan Origins & Regional Eco Map
           </h3>
           <p className="text-xs sm:text-sm text-secondary mt-0.5">
-            Click any regional cluster to inspect local materials, artisan communities, and audited items. Interactive SVG.
+            Click any regional cluster to inspect local materials and artisan craft hubs. Interactive SVG.
           </p>
         </div>
 
         <div className="text-left sm:text-right text-xs text-secondary">
-          <strong className="text-primary text-sm font-serif font-bold">4,210+</strong> Verified Artisans
+          <strong className="text-primary text-sm font-serif font-bold">Sample</strong> Regional Clusters
         </div>
       </div>
 
@@ -139,7 +139,7 @@ export default function EcoMap() {
 
           <div className="pt-2 border-t border-line">
             <div className="text-[11px] font-semibold text-muted uppercase tracking-wider mb-2">
-              Top Audited Items from this Hub:
+              Top Sustainable Items from this Hub:
             </div>
             <div className="flex flex-wrap gap-1.5">
               {selectedRegion.products.map((pName, idx) => (

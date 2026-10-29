@@ -95,7 +95,7 @@ export function evaluateConfidenceBrake({
   const neededInfo = [
     'Third-party laboratory test report (e.g. ASTM D6400 / EN 13432 for degradation)',
     'Exact percentage breakdown of polymers or composite materials by weight',
-    'Verified certification license number from an accredited registry (FSC, GOTS, ISO)'
+    'Valid certification license number from an accredited registry (FSC, GOTS)'
   ];
 
   if (/plastic|bottle|packaging/i.test(query)) {
@@ -103,14 +103,14 @@ export function evaluateConfidenceBrake({
   }
 
   if (/artisan|cotton|textile|shirt|tote/i.test(query)) {
-    neededInfo.unshift('Direct supply-chain origin and regional artisan fair-wage audit');
+    neededInfo.unshift('Direct supply-chain origin and regional artisan fair-wage documentation');
   }
 
   const refusalMessage = `🛡️ Confidence Brake Engaged: My calculated certainty for this query is ${confidenceScore}%, which is below your strictness threshold of ${strictness}%. 
 
-In accordance with EcoMart's Responsible AI policies, I decline to make assumptions or risk greenwashing without verified lifecycle documentation.
+In accordance with Eco Sense's Responsible AI policies, I decline to make assumptions or risk greenwashing without verified lifecycle documentation.
 
-To provide an auditable assessment, I need:
+To provide an evidence-based assessment, I need:
 ${neededInfo.map((info, idx) => `${idx + 1}. ${info}`).join('\n')}
 
 You can adjust your Strictness threshold in Settings or provide additional packaging data.`;

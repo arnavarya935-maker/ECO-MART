@@ -32,7 +32,7 @@ export const ETHICAL_GUARDRAILS = {
     ruleNumber: 'Rule 4',
     name: 'Scientific & Benchmark Integrity',
     directive: 'The AI must never generate fabricated lifecycle statistics to mislead or deceive consumers.',
-    enforcement: 'Validates quantitative claims against published LCA benchmarks (e.g., bamboo carbon absorption ~35% higher than timber; cotton ~2,700L water/shirt).'
+    enforcement: 'Validates quantitative claims against benchmark estimates (e.g., bamboo carbon absorption vs timber; cotton water footprints vary by study).'
   },
   INPUT_SANITIZATION: {
     id: 'input_sanitization',

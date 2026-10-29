@@ -146,11 +146,9 @@ export default function NewsPage() {
               <div className="flex items-center gap-1 ml-auto text-[11px]">
                 <Clock className="w-3 h-3" />
                 <span>Last updated: {new Date(newsData.lastUpdated).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                {newsData.cached && (
-                  <span className="px-2 py-0.5 rounded-full bg-surface-raised border border-line text-[10px] font-semibold text-primary">
-                    Saved {newsData.savedAt ? formatDate(newsData.savedAt) : 'Cache'}
-                  </span>
-                )}
+                <span className="px-2 py-0.5 rounded-full bg-surface-raised border border-line text-[10px] font-semibold text-primary">
+                  {newsData.cached ? 'Saved articles' : 'Latest'}
+                </span>
               </div>
             )}
           </div>

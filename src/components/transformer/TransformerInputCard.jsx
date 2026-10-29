@@ -108,7 +108,7 @@ export default function TransformerInputCard({
           <span>
             {t(
               'transformer.inputTip',
-              'Tip: Paste items from your grocery receipt or shopping list to calculate verified swaps.'
+              'Tip: Paste items from your grocery receipt or shopping list to calculate sustainable swaps.'
             )}
           </span>
         </p>

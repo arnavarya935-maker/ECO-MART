@@ -265,7 +265,7 @@ export default function PrivacyCenterModal({ isOpen, onClose }) {
 
         {/* Footer */}
         <div className="p-4 bg-surface border-t border-line flex items-center justify-between text-xs text-muted">
-          <span>EcoMart Privacy Guarantee: We never monetize user attention or telemetry.</span>
+          <span>Eco Sense Privacy Notice: We never monetize user attention or personal data.</span>
           <button
             type="button"
             onClick={onClose}

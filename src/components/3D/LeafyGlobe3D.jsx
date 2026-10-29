@@ -29,7 +29,7 @@ const REGIONAL_PINS = [
     lat: 60.5,
     lon: 18.0,
     metric: '94% Circular Recycling',
-    fact: 'Pioneered closed-loop zero-waste deposit systems now adapted by EcoMart fulfilment.'
+    fact: 'Pioneered closed-loop zero-waste deposit systems in European recycling networks.'
   },
   {
     id: 'kenya',

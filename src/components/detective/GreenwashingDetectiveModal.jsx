@@ -24,7 +24,7 @@ const SAMPLE_CLAIMS = [
     claim: 'All natural organic tote bag. Save the earth with completely sustainable pure earth fibers.'
   },
   {
-    label: 'Verified Bamboo Product',
+    label: 'Sample Bamboo Product',
     claim: '100% FSC-Certified Moso Bamboo Cutlery Set. Packaged in unbleached post-consumer recycled kraft paper. Certified biodegradable under ASTM D6400.'
   }
 ];
@@ -92,6 +92,9 @@ export default function GreenwashingDetectiveModal({ isOpen, onClose }) {
               <h2 className="font-serif font-bold text-lg sm:text-xl text-heading">
                 Greenwashing Detective
               </h2>
+              <p className="text-xs text-muted mt-0.5">
+                Uses simple rules inspired by common green-claim guidance (such as ISO 14021 and FTC Green Guides). It is not a legal or lab check.
+              </p>
             </div>
           </div>
 
@@ -155,7 +158,7 @@ export default function GreenwashingDetectiveModal({ isOpen, onClose }) {
               {loading ? (
                 <>
                   <Sparkles className="w-4 h-4 mr-2 animate-spin text-primary-contrast" />
-                  <span>Auditing via ISO 14021 & FTC Standards...</span>
+                  <span>Checking claim against simple rules...</span>
                 </>
               ) : (
                 <>
@@ -314,7 +317,7 @@ export default function GreenwashingDetectiveModal({ isOpen, onClose }) {
 
               {/* Footer Meta */}
               <div className="pt-3 border-t border-line/60 flex items-center justify-between font-mono text-xs text-text-muted">
-                <span>MODEL: {auditResult.model || 'Gemini 2.5 Flash'}</span>
+                <span>MODEL: {auditResult.model || 'Gemini'}</span>
                 <span className="flex items-center gap-1 text-primary">
                   <Zap className="w-3.5 h-3.5 text-primary" />
                   <span>~{auditResult.estimated_energy_wh || 0.11} Wh compute</span>

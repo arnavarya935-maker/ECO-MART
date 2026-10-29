@@ -164,7 +164,7 @@ export default function ShopPage() {
         if (!isPlasticFree) return false;
       }
 
-      // 6. Eco Certified Only (Requires verified certification with stored source URL)
+      // 6. Eco Certified Only (Requires seller-listed certification with stored reference URL)
       if (ecoCertifiedParam) {
         if (!hasVerifiedCertification(product)) {
           return false;
@@ -376,7 +376,7 @@ export default function ShopPage() {
               Sustainable Living Catalog
             </h1>
             <p className="font-sans text-xs sm:text-sm text-secondary mt-1">
-              Filter by verified materials, 0–100 lifecycle eco scores, or sort by lowest price.
+              Filter by materials, 0–100 lifecycle eco scores, or sort by lowest price.
             </p>
             <div className="mt-2.5 inline-flex items-center gap-2 px-3 py-1 rounded-xl bg-surface-sunken border border-line text-xs text-text-muted">
               <span>{t('shop.sampleNotice', 'Sample products for a school project. Prices and impact numbers are estimates.')}</span>

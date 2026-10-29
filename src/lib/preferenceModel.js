@@ -165,7 +165,7 @@ export function getPersonalizedRanking(products, userPriorities = DEFAULT_PRIORI
 
     if (signals.swapsAccepted > 0 && item.plasticGrams === 0) {
       boost += 8;
-      reason = 'Because you chose verified plastic-free swaps';
+      reason = 'Because you chose plastic-free swaps';
     } else if (signals.swapsAccepted > 0 && item.isEcoFriendly) {
       boost += 5;
       reason = 'Recommended based on your green upgrade history';

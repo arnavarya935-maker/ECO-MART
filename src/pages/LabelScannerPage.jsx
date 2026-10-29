@@ -385,7 +385,7 @@ export default function LabelScannerPage() {
           <div className="inline-flex items-center gap-2 text-xs text-text-muted bg-surface-sunken px-3 py-1.5 rounded-xl border border-line">
             <Info className="w-3.5 h-3.5 text-primary shrink-0" />
             <span>
-              <strong>Privacy guarantee:</strong> Photos are processed in transient memory only and never saved to disk.
+              <strong>Privacy notice:</strong> Your photo is sent to Google's Gemini AI to read the label. Eco Sense does not keep it.
             </span>
           </div>
         </div>
@@ -1031,7 +1031,7 @@ export default function LabelScannerPage() {
                   <div className="flex items-center justify-between border-b border-line pb-3">
                     <div>
                       <h3 className="font-serif text-xl font-bold text-heading">Environmental Claims Audit</h3>
-                      <p className="text-xs text-text-muted">Audited by the Greenwashing Detective claim engine.</p>
+                      <p className="text-xs text-text-muted">Checked by the Greenwashing Detective claim engine.</p>
                     </div>
                     {claimAudit && (
                       <span className="px-3 py-1 rounded-xl text-xs font-bold bg-surface-sunken border border-line text-heading">

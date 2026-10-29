@@ -10,9 +10,9 @@ import {
 
 /**
  * AI Ethics Card
- * Transparency manifest for every product recommendation in EcoMart.
+ * Transparency manifest for every product recommendation in Eco Sense.
  * Demonstrates Responsible AI principles:
- * - Algorithmic fairness (0% sponsored bias)
+ * - Algorithmic fairness (no ads or paid placement)
  * - Data lineage (which lifecycle attributes were evaluated)
  * - Transparent recommendation rationale
  */
@@ -37,12 +37,12 @@ export default function AIEthicsCard({
     `Freshwater consumption (${product.waterLitres || 25}L)`,
     `Logistics transport distance (${product.madeInKm || 120}km)`,
     certifications.length > 0
-      ? `Verified 3rd-party certifications (${certifications.join(', ')})`
+      ? `Listed certifications (${certifications.join(', ')})`
       : 'Standardized municipal recycling classification'
   ];
 
   const recommendationRationale = isHighEco
-    ? `Selected by EcoMart Engine for superior EcoScore (${product.ecoScore}/100)${isPlasticFree ? ' and plastic-free packaging' : ''}${isLocal ? ' with low domestic transport emissions' : ''}.`
+    ? `Selected by Eco Sense Engine for high EcoScore (${product.ecoScore}/100)${isPlasticFree ? ' and plastic-free packaging' : ''}${isLocal ? ' with low domestic transport emissions' : ''}.`
     : `Evaluated across lifecycle criteria: EcoScore ${product.ecoScore || 70}/100 with lower carbon intensity than conventional fossil alternatives.`;
 
   if (compact) {
@@ -60,7 +60,7 @@ export default function AIEthicsCard({
         >
           <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
           <span className="font-semibold text-text">AI Ethics:</span>
-          <span className="text-emerald-400 font-bold">0% Sponsored Bias</span>
+          <span className="text-emerald-400 font-bold">No Ads or Paid Placement</span>
         </button>
 
         {showModal && (
@@ -88,7 +88,7 @@ export default function AIEthicsCard({
             <h4 className="font-sans font-bold text-xs text-heading flex items-center gap-1.5">
               <span>AI Ethics & Transparency Card</span>
               <span className="px-1.5 py-0.5 rounded text-xs font-mono font-bold bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 uppercase">
-                Audited
+                Transparent
               </span>
             </h4>
             <div className="text-xs text-text-muted">
@@ -98,7 +98,7 @@ export default function AIEthicsCard({
         </div>
 
         <span className="text-xs font-mono font-bold text-emerald-400 bg-surface-sunken px-2 py-1 rounded-lg border border-line">
-          Zero Commercial Bias
+          No Ads or Paid Placement
         </span>
       </div>
 
@@ -113,32 +113,32 @@ export default function AIEthicsCard({
         </p>
       </div>
 
-      {/* Lineage & Bias Audits */}
+      {/* Lineage & Fairness */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
         <div className="p-2.5 rounded-xl bg-surface-sunken border border-line space-y-1">
           <div className="flex items-center gap-1.5 text-xs font-bold text-text-muted uppercase">
             <Scale className="w-3 h-3 text-emerald-400" />
-            <span>Commercial Bias Audit:</span>
+            <span>Fairness Check:</span>
           </div>
           <div className="text-xs text-heading font-medium flex items-center gap-1">
-            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-            <span>Sponsored weight: <strong>0%</strong> (None)</span>
+            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
+            <span>No ads or paid placement in this project. Ranking uses only the rules shown here.</span>
           </div>
           <p className="text-xs text-text-muted">
-            EcoMart never accepts paid ranking or affiliate bidding.
+            Eco Sense never accepts paid ranking or sponsored placement.
           </p>
         </div>
 
         <div className="p-2.5 rounded-xl bg-surface-sunken border border-line space-y-1">
           <div className="flex items-center gap-1.5 text-xs font-bold text-text-muted uppercase">
             <Database className="w-3 h-3 text-teal-400" />
-            <span>Data Lineage:</span>
+            <span>Data Used:</span>
           </div>
           <div className="text-xs text-heading font-medium">
-            5 verified LCA data vectors
+            Data used: material, packaging, carbon estimate, certifications listed by the seller, distance.
           </div>
           <p className="text-xs text-text-muted">
-            Carbon, water, plastic, logistics, and circularity index.
+            Sample estimates, not lab measurements.
           </p>
         </div>
       </div>
@@ -218,10 +218,10 @@ function AIEthicsModal({
 
           <div className="p-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/25 text-emerald-200 space-y-1">
             <span className="text-xs font-bold text-emerald-300 uppercase tracking-wider block">
-              3. Absence of Commercial Bias
+              3. No Ads or Paid Placement
             </span>
             <p className="text-xs">
-              EcoMart maintains strict separation between vendor onboarding and algorithmic ranking. No supplier can pay to boost a product's EcoScore or recommendation placement.
+              Eco Sense maintains strict separation between vendor onboarding and algorithmic ranking. No supplier can pay to boost a product's EcoScore or recommendation placement.
             </p>
           </div>
         </div>

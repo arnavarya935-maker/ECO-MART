@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import productsData from '../src/data/products.json';
+import { PROBES } from '../src/components/agent/AgentReportCard.jsx';
 import {
   rankProducts,
   DEFAULT_PRIORITIES,
@@ -119,5 +120,30 @@ describe('Phase 1 - Priority-Weighted Decision Engine', () => {
     expect(summary).toContain('Ranking with your priorities:');
     expect(summary).toContain('Plastic 80');
     expect(summary).toContain('Price 40');
+  });
+
+  it('runs all 4 live verification probes in AgentReportCard and confirms they pass against real engine', () => {
+    expect(PROBES.length).toBe(4);
+
+    for (const probe of PROBES) {
+      const result = probe.run();
+      expect(result.passed).toBe(true);
+      expect(result.score).toBeGreaterThan(0);
+      expect(typeof result.observation).toBe('string');
+      expect(result.observation.length).toBeGreaterThan(5);
+    }
+  });
+
+  it('proves that if the claim checker returned no flags, probe 1 WOULD FAIL', () => {
+    const probe1 = PROBES.find((p) => p.id === 'probe-1');
+    expect(probe1).toBeDefined();
+
+    // Pass custom mock checker returning zero flags
+    const mockEmptyChecker = () => [];
+    const failedResult = probe1.run(mockEmptyChecker);
+
+    expect(failedResult.passed).toBe(false);
+    expect(failedResult.score).toBe(0);
+    expect(failedResult.observation).toContain('Failed');
   });
 });

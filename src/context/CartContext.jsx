@@ -23,7 +23,7 @@ function createNewOrder(orderData, cartItems, impact, appliedCoupon) {
     total: orderData.total,
     shippingAddress: orderData.address,
     carbonOffset: orderData.carbonOffset || false,
-    plasticFreePackaging: orderData.plasticFreePackaging || true,
+    plasticFreePackaging: orderData.plasticFreePackaging ?? true,
     impact: impact,
     couponApplied: appliedCoupon
   };
@@ -247,7 +247,7 @@ export function CartProvider({ children }) {
     } catch {}
     showToast(
       mode === 'online'
-        ? '🌐 Online AI Connected (Cloud Gemini 2.5)'
+        ? '🌐 Online AI Connected (Cloud Gemini)'
         : '🌐 Online AI Connected (Cloud Gemini)',
       'info'
     );
@@ -357,7 +357,7 @@ export function CartProvider({ children }) {
     if (cartItems.length === 0) {
       setUnlockedBadge({
         title: 'Green Pioneer',
-        desc: 'Started your journey by adding your first verified sustainable item!',
+        desc: 'Started your journey by adding your first sustainable item!',
         icon: '🌱',
         points: 20
       });
@@ -539,13 +539,13 @@ export function CartProvider({ children }) {
       rating: review.rating || 5,
       comment: review.comment || '',
       date: new Date().toISOString().split('T')[0],
-      verifiedEco: true
+      communityReview: true
     };
     setReviews((prev) => ({
       ...prev,
       [productId]: [newRev, ...(prev[productId] || [])]
     }));
-    showToast('Thank you! Your verified eco-review has been posted.', 'success');
+    showToast('Thank you! Your review has been posted.', 'success');
   }, [showToast]);
 
   const getProductReviews = useCallback((productId) => {

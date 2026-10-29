@@ -158,7 +158,7 @@ export default function EthicsInboxModal({ isOpen, onClose }) {
             {[
               { id: 'all', label: `All Alerts (${alerts.length})` },
               { id: 'pending', label: `Pending Triage (${pendingCount})` },
-              { id: 'resolved', label: 'Audited / Resolved' }
+              { id: 'resolved', label: 'Reviewed / Resolved' }
             ].map((tab) => (
               <button
                 key={tab.id}

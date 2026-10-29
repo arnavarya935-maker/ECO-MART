@@ -11,7 +11,7 @@ const TIERS = [
     summary: 'For conscious individuals looking to verify sustainability claims and replace plastic essentials.',
     features: [
       '5-Axis Claim Radar on sustainable items',
-      '1-Tap Cart Transformer with verified swaps',
+      '1-Tap Cart Transformer with greener swaps',
       'Trust Passport generation with digital QR code',
       'What-If Cart Simulator with live footprint gauges',
       'Personal session carbon and plastic reduction tracking'
@@ -48,7 +48,7 @@ const TIERS = [
       'Append-only local AI telemetry log (Black Box)',
       'Cross-linguistic fairness & neutrality evaluation',
       'Zero-tracking architecture with local-first storage',
-      'Exportable JSON lifecycle audits for verified claims'
+      'Exportable JSON lifecycle logs for checked claims'
     ],
     highlight: false,
     cta: 'Enter AI Courtroom',
@@ -62,13 +62,13 @@ export default function ImpactTiers() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         <div className="text-center max-w-2xl mx-auto space-y-3">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-raised border border-line text-primary font-mono text-[11px] font-semibold uppercase tracking-wider">
-            Verified Circular Scope
+            Circular Scope (Estimate)
           </div>
           <h2 className="font-serif text-3xl sm:text-4xl font-bold text-heading">
-            What You Can Do with EcoMart
+            What You Can Do with Eco Sense
           </h2>
           <p className="text-xs font-sans text-text-secondary leading-relaxed">
-            From single-tap swaps on everyday staples to rigorous multi-agent trials of sustainability claims.
+            From single-tap swaps on everyday staples to simulated trials of sustainability claims.
           </p>
         </div>
 

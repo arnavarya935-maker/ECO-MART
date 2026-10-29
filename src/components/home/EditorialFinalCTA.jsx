@@ -33,7 +33,7 @@ export default function EditorialFinalCTA() {
         </h2>
 
         <p className="mt-5 mx-auto max-w-xl font-sans text-xs sm:text-sm md:text-base text-text-secondary leading-relaxed">
-          Transform your ordinary grocery or household list into a verified zero-waste cart in seconds. Expose hidden footprints, eliminate plastic waste, and calculate circular swaps.
+          Transform your ordinary grocery or household list into a greener cart in seconds. Expose hidden footprints, eliminate plastic waste, and calculate circular swaps.
         </p>
 
         <div className="mt-8 flex flex-wrap items-center justify-center gap-4">

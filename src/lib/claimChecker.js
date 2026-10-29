@@ -110,7 +110,7 @@ export function auditLabelClaims(claims = [], visibleCerts = []) {
   if (vagueCount > 0) {
     reasoning = `Found ${vagueCount} vague marketing phrase(s) without verifiable proofs. Check if independent standards exist.`;
   } else if (supportedCount > 0) {
-    reasoning = `All claims are backed by visible independent certifications (${supportedCount} verified).`;
+    reasoning = `All claims are backed by visible independent certifications (${supportedCount} listed on label).`;
   } else {
     reasoning = `Contains ${unverifiedCount} self-declared environmental statement(s) without printed certification numbers.`;
   }

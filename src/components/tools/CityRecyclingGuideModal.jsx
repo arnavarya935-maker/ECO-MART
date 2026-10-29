@@ -76,7 +76,7 @@ export default function CityRecyclingGuideModal({ isOpen, onClose }) {
               <span>Municipal Solid Waste Norms</span>
             </div>
             <p className="text-text-secondary leading-relaxed">
-              Guidelines are referenced from the Solid Waste Management Rules 2016 and published urban local body mandates (BBMP, BMC, MCD, GCC, GHMC). Data is verified curated guidance and labeled as sample municipal rules.
+              Guidelines are referenced from the Solid Waste Management Rules 2016 and published urban local body mandates (BBMP, BMC, MCD, GCC, GHMC). Data is curated guidance and labeled as sample municipal rules.
             </p>
           </div>
         )}

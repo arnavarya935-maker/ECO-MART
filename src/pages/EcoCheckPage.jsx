@@ -218,7 +218,7 @@ export default function EcoCheckPage() {
                     <span>Green Signals ({analysis.greenSignals.length})</span>
                   </div>
                   {analysis.greenSignals.length === 0 ? (
-                    <p className="text-xs text-muted">No verified certifications or natural materials recognized in input.</p>
+                    <p className="text-xs text-muted">No listed certifications or natural materials recognized in input.</p>
                   ) : (
                     <ul className="space-y-2 text-xs font-sans text-heading">
                       {analysis.greenSignals.map((signal, i) => (
@@ -269,7 +269,7 @@ export default function EcoCheckPage() {
               </div>
 
               {analysis.alternatives.length === 0 ? (
-                <p className="text-xs text-muted py-4">No verified catalogue alternatives found for this specific query.</p>
+                <p className="text-xs text-muted py-4">No catalogue alternatives found for this specific query.</p>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   {analysis.alternatives.map((alt) => (

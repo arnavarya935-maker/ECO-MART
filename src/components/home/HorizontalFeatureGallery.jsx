@@ -29,11 +29,11 @@ const FEATURE_CARDS = [
     title: 'Label Scanner',
     tagline: 'Vision-Powered Packaging Audit',
     description:
-      'Photograph or upload product packaging. Vision AI extracts claims, cross-references ISO 14021 rules, and flags misleading green claims.',
+      'Photograph or upload product packaging. Vision AI extracts claims, checks them against simple claim rules, and flags misleading green claims.',
     icon: Camera,
     badge: 'Vision AI',
     accentColor: '#0F766E',
-    metric: 'Instant OCR • AI Verification'
+    metric: 'Instant OCR • AI Extraction'
   },
   {
     id: 'courtroom',
@@ -65,7 +65,7 @@ const FEATURE_CARDS = [
     title: 'Impact Command Center',
     tagline: 'Real-time Planetary Metrics',
     description:
-      'Live LCA accounting tracking diverted plastics, avoided carbon emissions, and verified circular lifecycle savings.',
+      'LCA accounting tracking diverted plastics, avoided carbon emissions, and estimated savings.',
     icon: Activity,
     badge: 'LCA Intelligence',
     accentColor: '#B45309',

@@ -192,7 +192,7 @@ function executePlannerStep(query, contextProduct) {
     thought: `Deconstructed query into target budget (₹${budget}) across ${categories.length > 0 ? categories.join(', ') : 'all departments'}. Delegating candidate retrieval to Researcher Agent.`,
     summary: matchedTemplate
       ? `Goal Identified: ${matchedTemplate.label} (Max ₹${budget})`
-      : `Shopping Plan: Finding optimal verified options under ₹${budget}`,
+      : `Shopping Plan: Finding optimal options under ₹${budget}`,
     budget,
     categories,
     constraints,
@@ -201,7 +201,7 @@ function executePlannerStep(query, contextProduct) {
 }
 
 /**
- * Researcher Agent: Queries product database, verifies LCA facts & certifications
+ * Researcher Agent: Queries product database, checks LCA estimates & seller declarations
  */
 function executeResearcherStep(plan, allProducts, userPriorities) {
   let candidates = allProducts.filter((p) => p.isEcoFriendly !== false);
@@ -227,11 +227,11 @@ function executeResearcherStep(plan, allProducts, userPriorities) {
 
   scored.sort((a, b) => b.customScore - a.customScore);
 
-  const dataConfidence = scored.every((s) => s.certCount > 0) ? 'High (Third-Party Audited)' : 'Medium (Estimated from Material Disclosures)';
+  const dataConfidence = scored.every((s) => s.certCount > 0) ? 'Higher (Lists Certifications)' : 'Standard (Estimated from Material Disclosures)';
 
   return {
-    thought: `Evaluated ${scored.length} candidates against cradle-to-gate lifecycle data. Audited FSC, GOTS, and ISO 14021 declarations. Data confidence rated: ${dataConfidence}.`,
-    summary: `Verified ${scored.length} sustainable candidate items across ${plan.categories.join(', ') || 'catalog'}.`,
+    thought: `Evaluated ${scored.length} candidates against material and packaging data. Checked seller-reported declarations. Data confidence rated: ${dataConfidence}.`,
+    summary: `Checked ${scored.length} candidate items across ${plan.categories.join(', ') || 'catalog'}.`,
     candidates: scored,
     matchedCategories: plan.categories,
     dataConfidence
@@ -247,7 +247,7 @@ function executeSkepticStep(researcherOutput, _plan) {
   const vulnerabilities = [];
   topCandidates.forEach(({ product, certCount }) => {
     if (certCount === 0) {
-      vulnerabilities.push(`"${product.name}" lacks third-party registry audit link; relies on manufacturer disclosure.`);
+      vulnerabilities.push(`"${product.name}" lists no certifications; relies on seller material disclosure.`);
     }
     if (product.packaging && product.packaging.toLowerCase().includes('compostable')) {
       vulnerabilities.push(`Compostable packaging on "${product.name}" requires municipal or industrial composting facilities; anaerobic landfill breakdown will be slower.`);
@@ -259,14 +259,14 @@ function executeSkepticStep(researcherOutput, _plan) {
     : 'Assumes standard consumer usage duration. If replaced before end-of-life, embodied manufacturing footprint may offset savings.';
 
   const mindChangers = [
-    'Independent third-party laboratory life cycle assessment (LCA) report',
-    'Audited supply chain transportation distance verification',
+    'Third-party laboratory life cycle assessment (LCA) report',
+    'Measured supply chain transportation distance verification',
     'Customer-reported end-of-life degradation proof in home compost'
   ];
 
   return {
-    thought: `Audited top candidates for greenwashing risks. Flagged ${vulnerabilities.length} transparency caveats. Checking durability vs upfront premium tradeoffs.`,
-    summary: `Audit complete: ${vulnerabilities.length === 0 ? 'No critical greenwashing flags found.' : 'Noted ' + vulnerabilities.length + ' life cycle boundary caveats.'}`,
+    thought: `Checked top candidates for greenwashing risks. Flagged ${vulnerabilities.length} transparency caveats. Checking durability vs upfront premium tradeoffs.`,
+    summary: `Evaluation complete: ${vulnerabilities.length === 0 ? 'No critical greenwashing flags found.' : 'Noted ' + vulnerabilities.length + ' life cycle boundary caveats.'}`,
     vulnerabilities,
     selfCritique,
     mindChangers
@@ -329,7 +329,7 @@ function executeAdvisorStep(plan, researcherOutput, _skepticOutput, _cartItems, 
     beats: [
       `Diverts ${basketPlan.savings.plasticSaved}g of single-use plastic packaging`,
       `Prevents ${basketPlan.savings.co2Saved}kg lifecycle greenhouse gas emissions`,
-      `Verified average EcoScore of ${avgEcoScore}/100 across cradle-to-gate pillars`
+      `Calculated average EcoScore of ${avgEcoScore}/100 across cradle-to-gate pillars`
     ],
     givesUp: [
       `Upfront investment of ₹${currentTotal} (₹${Math.max(0, plan.budget - currentTotal)} under ₹${plan.budget} budget)`
@@ -360,7 +360,7 @@ function executeAdvisorStep(plan, researcherOutput, _skepticOutput, _cartItems, 
 
   return {
     thought: `Synthesized balanced solution: ${selectedItems.length} products total ₹${currentTotal} (remaining budget: ₹${Math.max(0, plan.budget - currentTotal)}). Generated tool confirmation cards for user review.`,
-    summary: `Recommended ${selectedItems.length} verified products meeting your ₹${plan.budget} constraint with average EcoScore ${avgEcoScore}/100.`,
+    summary: `Recommended ${selectedItems.length} options meeting your ₹${plan.budget} constraint with average EcoScore ${avgEcoScore}/100.`,
     items: selectedItems,
     basketPlan: plan.isGoalPlan ? basketPlan : null,
     tradeoffs,

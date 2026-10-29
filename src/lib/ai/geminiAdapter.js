@@ -59,7 +59,7 @@ const VERIFIED_FALLBACK_ANSWERS = [
     answer:
       'For a conscious gift under ₹1000, consider pairing an Organic Bamboo Cutlery Travel Set (₹349) with a Recycled Seed Paper Notebook (₹299). Both are crafted by regional artisan clusters with zero plastic packaging.',
     reasoning_summary:
-      'Applied knapsack budget constraint (Max ₹1000) and maximized combined EcoScore (both items Grade A, EcoScore > 92).',
+      'Applied greedy picks budget constraint (Max ₹1000) and maximized combined EcoScore (both items Grade A, EcoScore > 92).',
     sources_or_assumptions: [
       'EcoMart verified artisan catalog dataset',
       'Assumes recipient has access to standard soil/pot for plantable seed paper'
@@ -163,8 +163,8 @@ export function generateLocalFallbackAnswer(query, _language = 'en') {
     answer: `I am not sure of a catalog match for "${query}". For sustainable shopping: look for 3rd-party certifications (FSC/GOTS), verify plastic-free packaging, and avoid vague claims like "100% eco-friendly". You can explore categories like Kitchen, Personal Care, Home, or Bags!`,
     reasoning_summary: 'Query had no direct catalog SKU match. Providing helpful category directions and anti-greenwashing guidance.',
     sources_or_assumptions: [
-      'Eco Sense Product Catalog (124 verified items)',
-      'Deterministic 0–100 EcoScore Lifecycle Formula (ISO 14040 principles)'
+      'Eco Sense Product Catalog (124 sample items)',
+      'EcoScore simple rules (sample estimates)'
     ],
     confidence: 'low',
     estimated_energy_wh: 0.01,
@@ -454,7 +454,7 @@ export async function auditGreenwashingClaim({ text, language = 'en' }) {
           ...data,
           radar_axes: data.radar_axes || computeClaimRadarAxes(text, data),
           isFallback: false,
-          model: data.model || 'Gemini 3 Flash'
+          model: data.model || 'Gemini'
         };
       }
     }

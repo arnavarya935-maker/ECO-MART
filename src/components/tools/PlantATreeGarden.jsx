@@ -57,7 +57,7 @@ export default function PlantATreeGarden() {
             Plant-a-Tree Virtual Grove
           </h3>
           <p className="text-xs sm:text-sm text-secondary mt-0.5 max-w-md">
-            Every sustainable swap, audited checkout, and daily challenge nourishes your tree!
+            Every sustainable swap, completed checkout, and daily challenge nourishes your tree!
           </p>
         </div>
 

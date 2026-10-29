@@ -82,7 +82,7 @@ export default function ClaimDiffModal({ isOpen, onClose, initialProductA = null
               <span>How Claim Diff Works</span>
             </div>
             <p className="text-text-secondary leading-relaxed">
-              We extract marketing claims, product descriptions, and technical specifications for both products. Our lexicon analyzer flags unqualified greenwashing buzzwords while our transparency engine compares verified lifecycle disclosures.
+              We extract marketing claims, product descriptions, and technical specifications for both products. Our lexicon analyzer flags unqualified greenwashing buzzwords while our transparency engine compares disclosed lifecycle data.
             </p>
           </div>
         )}

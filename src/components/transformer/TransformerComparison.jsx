@@ -58,7 +58,7 @@ export default function TransformerComparison({
                   </span>
                 </div>
                 <p className="text-xs text-secondary leading-relaxed">
-                  We could not find a verified match for &ldquo;{item.name}&rdquo; in our sustainable catalogue.
+                  We could not find a matching item for &ldquo;{item.name}&rdquo; in our sustainable catalogue.
                   {item.suggestion && (
                     <span> Did you mean <strong className="text-heading">&ldquo;{item.suggestion}&rdquo;</strong>?</span>
                   )}

@@ -1,6 +1,6 @@
 /**
- * Certification Registry and Source URL Verification Utility
- * Used to verify whether certifications have valid public registry source URLs.
+ * Certification Links & Issuer Websites
+ * Links to official certification issuer websites for reference.
  */
 
 export const CERTIFICATION_REGISTRY = {
@@ -63,7 +63,7 @@ export function getCertificationSourceUrl(cert, product = null) {
 }
 
 /**
- * Checks if a product has at least one verified third-party certification with a stored source URL
+ * Checks if a product has at least one seller-listed certification with a stored reference URL
  */
 export function hasVerifiedCertification(product) {
   if (!product || !Array.isArray(product.certifications) || product.certifications.length === 0) {

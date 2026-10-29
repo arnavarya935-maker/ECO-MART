@@ -54,7 +54,7 @@ export function generateAISelfAuditReport(sessionMessages = []) {
       category: 'Socioeconomic Affordability Bias',
       riskLevel: 'Monitored / Low',
       observation:
-        'Catalog search shows 38% of queries include budget constraints (< ₹500). System successfully applied budget knapsack sorting without prioritizing luxury eco-alternatives.',
+        'Catalog search shows 38% of queries include budget constraints (< ₹500). System successfully applied greedy picks sorting without prioritizing luxury eco-alternatives.',
       action: 'Keep mandatory budget ceiling active across all natural language queries.'
     },
     {
@@ -134,7 +134,7 @@ export function generateAISelfAuditReport(sessionMessages = []) {
       uncertaintyCount: lowConfidence.length,
       overallHonestyScore: honesty.honestyScore || 92,
       totalEnergyWh,
-      modelsAudited: ['Gemini 3 Flash Preview', 'EcoMart Decision Engine', 'Confidence Brake Layer']
+      modelsAudited: ['Gemini', 'Eco Sense Decision Engine', 'Confidence Brake Layer']
     },
     uncertaintyAdmissions,
     biasRisks,

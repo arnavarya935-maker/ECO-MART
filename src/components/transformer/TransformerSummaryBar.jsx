@@ -152,7 +152,7 @@ export default function TransformerSummaryBar({ totals }) {
 
         <div className="text-secondary font-medium flex items-center gap-2">
           <ShieldCheck className="w-4 h-4 text-primary shrink-0" />
-          <span>{itemsSwapped} item(s) upgraded to verified sustainable alternatives</span>
+          <span>{itemsSwapped} item(s) upgraded to sustainable alternatives</span>
         </div>
       </div>
     </div>

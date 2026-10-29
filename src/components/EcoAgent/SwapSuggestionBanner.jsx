@@ -147,7 +147,7 @@ export default function SwapSuggestionBanner() {
               </div>
               <div className="flex items-start gap-1.5 text-secondary">
                 <strong className="text-heading font-semibold shrink-0">Reasoning:</strong>
-                <span>{activeNudge.reasoning || 'Evaluates multi-attribute lifecycle delta to recommend verified low-carbon alternatives.'}</span>
+                <span>{activeNudge.reasoning || 'Evaluates lifecycle estimates to recommend lower-carbon options (estimate).'}</span>
               </div>
             </div>
           )}

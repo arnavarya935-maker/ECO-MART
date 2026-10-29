@@ -34,8 +34,8 @@ const DEFAULT_CHECKLIST = [
   },
   {
     id: 'claims',
-    question: 'Claim Verification',
-    prompt: 'Does the product state specific accredited certification numbers (GOTS, FSC, OEKO-TEX) that can be verified on public registries?',
+    question: 'Certification Check',
+    prompt: 'Does the product state specific accredited certification numbers (GOTS, FSC, OEKO-TEX) that can be checked on issuer websites?',
     category: 'Transparency'
   },
   {

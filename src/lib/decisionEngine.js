@@ -93,7 +93,7 @@ function formatReason(criterion, product) {
       return `Locally sourced (${product.madeInKm ?? 0} km away)`;
     case 'certs': {
       const count = Array.isArray(product.certifications) ? product.certifications.length : 0;
-      return `${count} verified certification${count === 1 ? '' : 's'}`;
+      return `${count} seller-listed certification${count === 1 ? '' : 's'}`;
     }
     case 'ecoScore': {
       const score = typeof product.ecoScore === 'number' ? product.ecoScore : (calculateEcoScore(product)?.score || 50);

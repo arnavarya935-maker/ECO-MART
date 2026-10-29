@@ -53,7 +53,7 @@ export default function ClaimRadarChart({
             5-Axis Environmental Claim Radar
           </div>
           <span className="text-[10px] font-mono text-muted">
-            ISO 14021 Rigor Evaluation (Higher is Better)
+            Claim Rigor Evaluation (simple rules, higher is better)
           </span>
         </div>
 

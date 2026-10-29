@@ -33,7 +33,7 @@ export default function EcoScorePopover({ product, scoreData, onClose }) {
               <span className="text-xs uppercase tracking-wider font-semibold text-primary bg-primary/10 border border-primary/20 px-2.5 py-0.5 rounded-full">
                 Transparent Formula
               </span>
-              <span className="text-xs text-muted">Zero Greenwashing</span>
+              <span className="text-xs text-muted">Clear Rules</span>
             </div>
             <h3 id="ecoscore-popover-title" className="text-xl font-serif font-bold mt-1 text-heading">
               How is this Eco-Score Calculated?
@@ -72,7 +72,7 @@ export default function EcoScorePopover({ product, scoreData, onClose }) {
             <span className={`inline-block px-3 py-1 rounded-full text-xs font-semibold ${colorTheme.badge}`}>
               {gradeLabel}
             </span>
-            <div className="text-xs text-muted mt-1">Multi-factor Lifecycle Assessment</div>
+            <div className="text-xs text-muted mt-1">5-factor estimate</div>
           </div>
         </div>
 
@@ -82,7 +82,7 @@ export default function EcoScorePopover({ product, scoreData, onClose }) {
             <div className="flex items-center justify-between">
               <span className="font-bold text-heading flex items-center gap-1.5">
                 <span className="w-2 h-2 rounded-full bg-primary" />
-                Confidence Band &amp; Provenance
+                Score Range &amp; Source Details
               </span>
               <span className="font-mono font-bold text-primary px-2 py-0.5 rounded-md bg-primary/10 border border-primary/20">
                 {scoreData.uncertaintyBand || `[${scoreData.minScore} - ${scoreData.maxScore}]`} (±{scoreData.uncertaintyMargin} pts)
@@ -153,7 +153,7 @@ export default function EcoScorePopover({ product, scoreData, onClose }) {
         <div className="mt-5 p-3.5 rounded-xl bg-primary/10 border border-primary/20 flex items-start gap-2.5">
           <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" />
           <p className="text-xs text-text leading-relaxed">
-            <strong>Open & Verifiable:</strong> EcoMart scores are mathematically calculated from manufacturer material sheets, certified carbon audits, and local transport coordinates to empower intentional shopping.
+            <strong>EcoScore calculation:</strong> EcoScore is a simple 0-100 score from our own rules: material (30), packaging (20), carbon estimate (25), certifications listed by the seller (15), travel distance (10). The numbers are sample estimates, not lab measurements.
           </p>
         </div>
 

@@ -25,7 +25,7 @@ const SCENES = [
     metric: '~0.18 kg CO₂e (Estimate)',
     metricLabel: 'Embodied Carbon per Unit',
     assumptions:
-      'Estimated under ISO 14040 cradle-to-gate LCA. 78% reduction compared against petrochemical polyester baselines.',
+      'Estimated under cradle-to-gate lifecycle principles. 78% reduction compared against petrochemical polyester baselines.',
     accentColor: '#047857',
     skyColors: {
       light: 'linear-gradient(180deg, #E6F3EC 0%, #F5FBF7 50%, #FAF8F2 100%)',
@@ -75,11 +75,11 @@ const SCENES = [
     mood: 'Regenerative Garden',
     title: 'Backyard Composting & Scrap Kabadiwala Circularity',
     caption:
-      'When its lifespan concludes, the plant-fiber casing naturally decomposes into nutrient-rich garden compost within 90 days. The aluminum core connects directly to verified local kabadiwala recycling.',
-    metric: '100% Circular (Estimate)',
+      'When its lifespan concludes, the plant-fiber casing naturally decomposes into nutrient-rich garden compost within 90 days. The aluminum core connects directly to local kabadiwala recycling.',
+    metric: 'Circular Design (Estimate)',
     metricLabel: 'Landfill Diversion Ratio',
     assumptions:
-      '100% of material mass is classified as home-compostable (ASTM D6400) or indefinitely recyclable alloy (melt point 660°C).',
+      'Material mass is classified as home-compostable or recyclable alloy.',
     accentColor: '#B45309',
     skyColors: {
       light: 'linear-gradient(180deg, #FEF9C3 0%, #E6F3EC 50%, #FAF8F2 100%)',
@@ -524,7 +524,7 @@ export default function EcoJourneyScene() {
                   {activeTooltip === currentStage.id && (
                     <div className="absolute bottom-full left-0 mb-2 w-64 p-3 rounded-2xl bg-surface border border-line shadow-soft-xl text-xs text-text-secondary space-y-1 z-50">
                       <div className="font-mono text-[10px] font-bold text-heading uppercase">
-                        Calculation Basis (ISO 14040)
+                        Calculation Basis (Sample Estimate)
                       </div>
                       <p className="text-[11px] leading-snug">{currentStage.assumptions}</p>
                     </div>

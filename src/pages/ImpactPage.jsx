@@ -24,14 +24,14 @@ export default function ImpactPage() {
       {/* Top Banner */}
       <div className="text-center max-w-3xl mx-auto space-y-3">
         <span className="text-xs font-semibold uppercase tracking-wider text-primary bg-primary/10 border border-primary/20 px-3.5 py-1 rounded-full inline-block">
-          Tangible Planetary Accounting • ISO 14040 Open Formula
+          Tangible Planetary Accounting • Open Estimate Formula
         </span>
         <h1 className="text-3xl sm:text-5xl font-serif font-bold text-heading tracking-tight">
           Impact Command Center & Ledger
         </h1>
         <p className="text-sm sm:text-base text-secondary leading-relaxed max-w-2xl mx-auto">
-          Shopping responsibly shouldn't be an abstract feeling. Every item added or swapped calculates exact
-          grams of plastic diverted, kilograms of CO₂ avoided, and litres of water saved according to ISO 14040.
+          Shopping responsibly shouldn't be an abstract feeling. Every item added or swapped calculates estimated
+          grams of plastic diverted, kilograms of CO₂ avoided, and litres of water saved based on sample benchmarks.
         </p>
 
         {/* Navigation Mode Pill Tabs */}

@@ -159,7 +159,7 @@ export function scoreItemRelevance(p, targetItem) {
 export const AGENT_TOOLS = [
   {
     name: 'search_products',
-    description: 'Search the Eco Sense verified catalogue by keyword, department category, maximum budget in INR (₹), and sustainability filters.',
+    description: 'Search the Eco Sense sustainable catalogue by keyword, department category, maximum budget in INR (₹), and sustainability filters.',
     parameters: {
       type: 'OBJECT',
       properties: {
@@ -185,7 +185,7 @@ export const AGENT_TOOLS = [
         },
         certified_only: {
           type: 'BOOLEAN',
-          description: 'If true, returns only products with verified independent eco-certifications'
+          description: 'If true, returns only products with seller-listed certifications'
         }
       }
     }
@@ -494,7 +494,7 @@ export async function executeAgentTool(name, args = {}, context = {}) {
         sampleProductsReturned: finalProducts.length,
         products: finalProducts,
         appliedFilters: { query: args.query, category: args.category, max_price: args.max_price, isAffordable },
-        note: `Eco Sense has ${hydratedCatalog.length} verified products across 8 departments. Showing top ${finalProducts.length} representative matches.`
+        note: `Eco Sense has ${hydratedCatalog.length} sample products across 8 departments. Showing top ${finalProducts.length} representative matches.`
       };
     }
 
@@ -736,8 +736,8 @@ CRITICAL DIRECTIVES FOR RELEVANCE AND INTEGRITY:
 
 8. MULTILINGUAL & PLAIN WORDS: Respond in simple words that a 9th grade student easily understands. Avoid jargon. Use English, Hindi, or Hinglish as requested.
 
-9. CATALOGUE OVERVIEW & SIZE (124 VERIFIED SUSTAINABLE PRODUCTS):
-   - Eco Sense features exactly 124 verified sustainable products across 8 departments:
+9. CATALOGUE OVERVIEW & SIZE (124 SUSTAINABLE PRODUCTS):
+   - Eco Sense features exactly 124 sustainable products across 8 departments:
      1. Kitchen (16 products)
      2. Personal Care (16 products)
      3. Home (16 products)
@@ -748,10 +748,10 @@ CRITICAL DIRECTIVES FOR RELEVANCE AND INTEGRITY:
      8. Outdoor & Travel (15 products)
    - Every department contains a full mix of Eco Grades A through E.
    - When asked open-ended queries like "what products do you sell?", "products", "products kha gye bhai?", "show all products", or "how many products do you have?":
-     * Clarify that the store features 124 verified sustainable products across all 8 departments.
+     * Clarify that the store features 124 sample sustainable products across all 8 departments.
      * Summarize the departments and offer representative picks across categories.
      * NEVER claim the store only has 6 products!
-     * If the shopper asks in Hindi or Hinglish (e.g. "products kha gye bhai?"), reassure them warmly in Hindi/Hinglish: "Bhai, hamare paas pure 124 verified sustainable products hain across 8 departments! Saare products catalogue mein active hain."`;
+     * If the shopper asks in Hindi or Hinglish (e.g. "products kha gye bhai?"), reassure them warmly in Hindi/Hinglish: "Bhai, hamare paas pure 124 sustainable products hain across 8 departments! Saare products catalogue mein active hain."`;
 }
 
 /**

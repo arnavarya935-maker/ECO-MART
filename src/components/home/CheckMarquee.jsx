@@ -23,7 +23,7 @@ const CHECKS = [
   { label: 'Ethics Dilemmas', icon: Compass, route: '/dilemmas', tag: 'Human Moral Choice' },
   { label: 'AI Self-Audit', icon: FileCheck, route: '/self-audit', tag: 'Auditable Report' },
   { label: 'Desi Kirana Mode', icon: Store, route: '/kirana', tag: 'Voice & High-Contrast' },
-  { label: 'Greenwashing Check', icon: Radar, route: '/shop', tag: 'ISO 14021' },
+  { label: 'Greenwashing Check', icon: Radar, route: '/shop', tag: 'Claim Rules' },
   { label: 'Carbon Estimate', icon: Wind, route: '/impact', tag: 'Lifecycle LCA' },
   { label: 'Second Life Trajectory', icon: RotateCcw, route: '/shop', tag: 'Circular Stewardship' },
   { label: 'Fairness Test', icon: Scale, route: '/fairness', tag: 'Cross-Linguistic Parity' },

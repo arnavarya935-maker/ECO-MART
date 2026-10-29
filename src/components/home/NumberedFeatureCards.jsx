@@ -28,7 +28,7 @@ export default function NumberedFeatureCards() {
       description:
         'Multi-layer safety filters intercept hallucinated standards, unverified buzzwords, and prompt injection attacks before generation reaches the client.',
       stat: `${guardrailsCount} Active Rules`,
-      statLabel: 'Hardware-Verified Defense',
+      statLabel: 'Multi-Tier Defense',
       isEstimate: false,
       route: '/playground',
       icon: ShieldCheck
@@ -38,7 +38,7 @@ export default function NumberedFeatureCards() {
       title: 'Multilingual Equity Parity',
       subtitle: 'Cross-Linguistic Fairness',
       description:
-        'Audited across Hindi (Devanagari), Hinglish, and English queries alongside student budget constraints to ensure parity without luxury bias or discrimination.',
+        'We test whether Hindi, Hinglish and English questions get similar answers across student budgets without luxury bias.',
       stat: '93/100',
       statLabel: 'Sample Data • Audit Benchmark',
       isEstimate: true,

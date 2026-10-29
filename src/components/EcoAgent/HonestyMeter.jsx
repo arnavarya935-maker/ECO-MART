@@ -55,7 +55,7 @@ export function calculateHonestyMetrics(messages = []) {
 
     if (isUncertain) {
       notSureCount += 1;
-      let reason = 'Missing supply-chain verification data';
+      let reason = 'not available in our sample data';
       if (isBrakeRefusal) {
         reason = `Confidence Brake Refusal (Strictness: ${msg.strictnessThreshold || 70}%)`;
       } else if (msg.clarification) {
@@ -336,7 +336,7 @@ export default function HonestyMeter({ messages = [] }) {
               <div>
                 <span className="font-bold block text-primary">Why Admitting Uncertainty Is Mandatory</span>
                 <p className="text-[11px] text-muted mt-0.5 leading-relaxed">
-                  Hallucinating non-existent certifications or inventing cradle-to-grave numbers is a major ethical failure in commercial AI. EcoMart explicitly rewards admitting "I am not sure" whenever empirical supply-chain data is missing.
+                  Hallucinating non-existent certifications or inventing numbers is an ethical failure. Eco Sense explicitly rewards admitting "I am not sure" whenever data is not available in our sample data.
                 </p>
               </div>
             </div>

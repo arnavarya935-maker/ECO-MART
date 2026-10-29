@@ -30,9 +30,9 @@ const CATEGORY_SECOND_LIFE_RULES = {
   Fashion: {
     reuse: 'When garments reach the end of wearable life, cut into cleaning dusters, braided doormats, or cushion filling.',
     repair: 'Patch tears with sashiko stitching; replace loose buttons or zip pulls. Wash cold and sun-dry to preserve organic cotton/linen fibers for twice the lifespan.',
-    dispose: 'Pure 100% unblended organic cotton and jute can be shredded and composted in aerobic soil pits; they turn into nutrient-rich humus within 5 months.',
-    decompositionTime: '3–5 months for 100% organic unblended fibers',
-    conventionalCompare: 'Polyester and nylon fast fashion sheds 700,000 microfibers per wash and persists 200+ years.'
+    dispose: 'Pure unblended organic cotton and jute can be shredded and composted in aerobic soil pits; they break down into humus within 5 months.',
+    decompositionTime: '3–5 months for organic unblended fibers',
+    conventionalCompare: 'Washing synthetic clothes can release many tiny plastic fibres (estimates vary by study).'
   },
   Stationery: {
     reuse: 'Repurpose sturdy notebook covers into greeting cards, bookmarks, or receipt portfolios.',
@@ -116,7 +116,7 @@ export default function SecondLifeTab({ product }) {
               </span>
             </h4>
             <p className="text-xs text-text-secondary mt-1 leading-relaxed">
-              Responsible AI considers product end-of-life before purchase. Here is the verified 3-step circular trajectory for <strong>{product.name}</strong>.
+              Responsible AI considers product end-of-life before purchase. Here is the estimated 3-step circular trajectory for <strong>{product.name}</strong>.
             </p>
           </div>
         </div>
@@ -177,7 +177,7 @@ export default function SecondLifeTab({ product }) {
           <div className="p-3 rounded-xl bg-surface-raised border border-emerald-500/20 space-y-1">
             <div className="flex items-center justify-between">
               <span className="font-bold text-emerald-400">This Product</span>
-              <span className="text-[10px] font-mono text-text-muted">Verified</span>
+              <span className="text-[10px] font-mono text-text-muted">Estimated</span>
             </div>
             <div className="font-serif font-bold text-heading text-sm">
               {categoryRules.decompositionTime}

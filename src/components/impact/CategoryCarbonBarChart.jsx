@@ -130,7 +130,7 @@ export default function CategoryCarbonBarChart() {
       {/* Assumptions Label */}
       <div className="flex items-center gap-2 text-[11px] text-muted font-mono bg-surface-sunken/60 px-3 py-1.5 rounded-xl border border-line/40">
         <Info className="w-3.5 h-3.5 text-primary shrink-0" />
-        <span><strong>Verified Estimate:</strong> Averages computed directly from EcoMart lifecycle product data model (cradle-to-grave ISO 14040 boundary).</span>
+        <span><strong>Estimate:</strong> Averages estimated from our sample product data model.</span>
       </div>
 
       {showTable ? (

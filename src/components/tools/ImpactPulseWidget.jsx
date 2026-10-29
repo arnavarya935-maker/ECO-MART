@@ -94,7 +94,7 @@ export default function ImpactPulseWidget() {
                   </div>
 
                   <div className="text-xs text-secondary leading-snug">
-                    🌱 Your cart averages <strong className="text-heading">Grade {averageGrade}</strong> across {totalItems} audited items.
+                    🌱 Your cart averages <strong className="text-heading">Grade {averageGrade}</strong> across {totalItems} cart items.
                   </div>
                 </>
               ) : (

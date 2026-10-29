@@ -9,7 +9,7 @@ const MILESTONES = [
     title: 'Zero-Waste Starter',
     icon: '🌱',
     reqPoints: 80,
-    desc: 'Adopt your first verified zero-waste swap or plastic-free order',
+    desc: 'Adopt your first recorded swap or plastic-free order',
     impactReq: '100g plastic diverted'
   },
   {
@@ -62,14 +62,14 @@ export default function EcoLeaderboard() {
               Household Milestones
             </span>
             <span className="text-[10px] font-semibold uppercase tracking-wider text-muted bg-surface-sunken border border-line px-2 py-0.5 rounded-full">
-              Local Verification
+              Local Progress
             </span>
           </div>
           <h3 className="text-xl sm:text-2xl font-serif font-bold text-heading mt-2">
             Planetary Progress Milestones
           </h3>
           <p className="text-xs sm:text-sm text-secondary mt-0.5">
-            Real milestone progression based exclusively on your household's orders and verified swaps.
+            Real milestone progression based exclusively on your household's orders and recorded swaps.
           </p>
         </div>
         <Trophy className="w-8 h-8 text-accent shrink-0" />

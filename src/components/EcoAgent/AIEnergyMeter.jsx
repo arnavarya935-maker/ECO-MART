@@ -11,7 +11,8 @@ export default function AIEnergyMeter({
   totalSessionWh = 0.24,
   lastQueryWh = 0.12,
   queryCount = 2,
-  compact = false
+  compact = false,
+  modelName = 'Gemini'
 }) {
   const [showExplainer, setShowExplainer] = useState(false);
 
@@ -67,7 +68,7 @@ export default function AIEnergyMeter({
               </span>
             </div>
             <div className="text-[10px] text-text-muted">
-              Audited inference footprint for responsible AI
+              Estimated inference footprint for responsible AI
             </div>
           </div>
         </div>
@@ -97,7 +98,7 @@ export default function AIEnergyMeter({
           <div className="text-sm font-mono font-bold text-heading">
             ~{lastQueryWh.toFixed(2)} Wh
           </div>
-          <div className="text-[9px] text-text-muted font-mono">Gemini 1.5 Flash</div>
+          <div className="text-[9px] text-text-muted font-mono">{modelName || 'Gemini'}</div>
         </div>
 
         <div className="p-2 rounded-xl bg-surface-sunken border border-line">
@@ -193,13 +194,13 @@ function EnergyExplainerModal({
           <div className="p-3 rounded-2xl bg-surface-raised border border-line flex items-start gap-2.5">
             <Leaf className="w-4 h-4 text-teal-400 shrink-0 mt-0.5" />
             <div>
-              <span className="font-bold text-heading block">EcoMart's Optimization Strategy</span>
+              <span className="font-bold text-heading block">Eco Sense's Optimization Strategy</span>
               <span>
-                To minimize digital carbon waste, EcoMart employs:
+                To minimize digital carbon waste, Eco Sense employs:
               </span>
               <ul className="list-disc pl-4 mt-1 space-y-1 text-[11px]">
-                <li><strong>Local deterministic caching:</strong> repetitive queries run 100% on device with 0 Wh cloud draw.</li>
-                <li><strong>Gemini 1.5 Flash:</strong> chosen specifically for its lightweight parameter footprint compared to 1.5 Pro.</li>
+                <li><strong>Local caching:</strong> repetitive queries run on device with 0 Wh cloud draw.</li>
+                <li><strong>Lightweight parameters:</strong> chosen specifically for a smaller parameter footprint.</li>
                 <li><strong>Hard token limits:</strong> constrained output schemas prevent token bloat.</li>
               </ul>
             </div>
@@ -208,9 +209,9 @@ function EnergyExplainerModal({
           <div className="p-3 rounded-2xl bg-amber-500/10 border border-amber-500/25 text-amber-200 flex items-start gap-2.5">
             <Info className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
             <div>
-              <span className="font-bold text-amber-300 block">Auditing & Labeling Rule</span>
+              <span className="font-bold text-amber-300 block">Estimate Assumption</span>
               <span>
-                All compute values are explicitly declared as <strong>estimates</strong> based on published data center Power Usage Effectiveness (PUE) of 1.15. We never present synthetic estimates as measured laboratory facts.
+                Rough assumption: about 0.12 Wh per 1,000 tokens (estimate). We never present synthetic estimates as measured laboratory facts.
               </span>
             </div>
           </div>

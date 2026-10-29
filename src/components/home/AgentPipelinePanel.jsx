@@ -39,8 +39,8 @@ export default function AgentPipelinePanel() {
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
             <div className="font-mono text-[11px] font-semibold uppercase tracking-wider text-primary flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-              Live Execution Telemetry
+              <span className="w-2 h-2 rounded-full bg-primary" />
+              Steps taken
             </div>
             <h2 className="font-serif text-3xl sm:text-4xl font-bold text-heading mt-1">
               Autonomous Eco Agent pipeline
@@ -67,7 +67,7 @@ export default function AgentPipelinePanel() {
             <div className="text-[11px] font-mono text-text-muted uppercase">Guardrails Held</div>
             <div className="text-2xl font-serif font-bold text-amber-400 mt-1">19 Intercepts</div>
             <div className="text-[10px] font-mono text-text-muted mt-0.5">
-              100% Adversarial Attacks Refused
+              Adversarial Attacks Refused
             </div>
           </div>
 
@@ -75,7 +75,7 @@ export default function AgentPipelinePanel() {
             <div className="text-[11px] font-mono text-text-muted uppercase">Avg Decision Confidence</div>
             <div className="text-2xl font-serif font-bold text-primary mt-1">96.4%</div>
             <div className="text-[10px] font-mono text-primary mt-0.5">
-              Calibrated against ISO 14021
+              Checked against claim rules
             </div>
           </div>
         </div>
@@ -140,7 +140,7 @@ export default function AgentPipelinePanel() {
                 <Terminal className="w-3.5 h-3.5 text-primary" />
                 <span>TERMINAL TELEMETRY FEED (AUTONOMOUS LOG)</span>
               </div>
-              <span className="text-emerald-400 animate-pulse">● LIVE STREAM</span>
+              <span className="text-emerald-400">● EXECUTION LOG</span>
             </div>
 
             <div className="space-y-1 text-[11px]">

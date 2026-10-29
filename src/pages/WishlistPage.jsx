@@ -50,7 +50,7 @@ export default function WishlistPage() {
   };
 
   const handleCopyTextList = () => {
-    const textList = `🌿 My EcoMart Sustainable Wishlist:\n` +
+    const textList = `🌿 My Eco Sense Sustainable Wishlist:\n` +
       wishlist.map((p, idx) => `${idx + 1}. ${p.name} - ₹${p.price} (${p.category})`).join('\n') +
       `\n\nTotal Estimated: ₹${wishlist.reduce((acc, p) => acc + p.price, 0)}`;
     navigator.clipboard?.writeText(textList);
