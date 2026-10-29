@@ -22,8 +22,6 @@
     "@react-three/fiber": "^9.8.1",
     "@supabase/supabase-js": "^2.118.0",
     "@tailwindcss/vite": "^4.3.3",
-    "@zxing/browser": "^0.2.1",
-    "@zxing/library": "^0.23.0",
     "canvas-confetti": "^1.9.4",
     "firebase": "^13.0.0",
     "framer-motion": "^14.1.0",

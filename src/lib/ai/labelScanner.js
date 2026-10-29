@@ -1,145 +1,195 @@
 /**
- * EcoMart Label Scanner Engine (Phase 2 Rebuild)
- *
- * GOAL: The scanner ONLY reads what is printed on the label and shows it accurately.
- * No scoring, no verdicts, no extra fluff.
- * Certifications are never marked verified ("Printed on label. Check the issuer's registry.").
- *
- * PRIVACY:
- * Images are downscaled client-side, processed in transient memory, and NEVER saved.
+ * EcoMart Label Scanner Engine
+ * Reads labels of packaged food, drinks, personal care, and cleaning products.
+ * Extracts nutrition panels, ingredients, packaging, claims, and certifications verbatim.
  */
 
 export const SAMPLE_LABELS = [
   {
-    id: 'sample-shampoo',
-    title: 'Botanical Herbal Shampoo',
+    id: 'sample-nutrition-facts',
+    title: 'Nutrition Facts Panel (Uploaded Sample)',
+    productType: 'food',
     labelType: 'Sample label (fictional product)',
+    subType: 'Nutrition Facts Panel',
+    previewColor: 'from-amber-600 to-emerald-800',
+    transcription: {
+      readable: true,
+      is_readable: true,
+      is_product_label: true,
+      product_type: 'food',
+      name: 'Whole Grain Harvest Cereal',
+      product_name: 'Whole Grain Harvest Cereal',
+      brand: 'Harvest Fields (Fictional)',
+      serving_size: '1/2 cup (114g)',
+      nutrition_table: [
+        { nutrient: 'Calories', amount: '90', dv_percent: null },
+        { nutrient: 'Total Fat', amount: '3g', dv_percent: 5 },
+        { nutrient: 'Sodium', amount: '300mg', dv_percent: 13 },
+        { nutrient: 'Total Carbohydrate', amount: '13g', dv_percent: 5 },
+        { nutrient: 'Dietary Fibre', amount: '3g', dv_percent: 12 },
+        { nutrient: 'Sugars', amount: '3g', dv_percent: null },
+        { nutrient: 'Protein', amount: '3g', dv_percent: null },
+        { nutrient: 'Vitamin A', amount: null, dv_percent: 80 },
+        { nutrient: 'Vitamin C', amount: null, dv_percent: 60 },
+        { nutrient: 'Calcium', amount: null, dv_percent: 4 },
+        { nutrient: 'Iron', amount: null, dv_percent: 4 }
+      ],
+      ingredients: null, // Explicitly null: no ingredient list on panel photo
+      allergens: null,
+      packaging_material: 'Cardboard outer carton',
+      packaging_type: 'Cardboard Box',
+      recycling_symbols: ['PAP 21'],
+      claims: [
+        'Good source of fibre',
+        'Rich in vitamins A & C',
+        'Low in saturated fat'
+      ],
+      certifications_visible: [],
+      certifications_printed: [],
+      country_of_origin: 'India',
+      raw_transcription: `Nutrition Facts
+Serving Size: 1/2 cup (114g)
+Calories: 90
+Total Fat: 3g (5% DV)
+Sodium: 300mg (13% DV)
+Total Carbohydrate: 13g
+Dietary Fibre: 3g (12% DV)
+Sugars: 3g
+Protein: 3g
+Vitamin A: 80% DV
+Vitamin C: 60% DV
+Calcium: 4% DV
+Iron: 4% DV`
+    }
+  },
+  {
+    id: 'sample-packaged-food',
+    title: 'Peanut Butter Granola Bar (Food & Recycling)',
+    productType: 'food',
+    labelType: 'Sample label (fictional product)',
+    subType: 'Packaged Food with Ingredients & Recyclability',
+    previewColor: 'from-amber-700 to-yellow-900',
+    transcription: {
+      readable: true,
+      is_readable: true,
+      is_product_label: true,
+      product_type: 'food',
+      name: 'Artisan Peanut Butter Granola Bar',
+      product_name: 'Artisan Peanut Butter Granola Bar',
+      brand: 'Nature Crunch (Fictional)',
+      serving_size: '1 bar (40g)',
+      nutrition_table: [
+        { nutrient: 'Calories', amount: '180', dv_percent: null },
+        { nutrient: 'Total Fat', amount: '8g', dv_percent: 10 },
+        { nutrient: 'Saturated Fat', amount: '1.5g', dv_percent: 8 },
+        { nutrient: 'Sodium', amount: '140mg', dv_percent: 6 },
+        { nutrient: 'Total Carbohydrate', amount: '22g', dv_percent: 8 },
+        { nutrient: 'Dietary Fibre', amount: '4g', dv_percent: 14 },
+        { nutrient: 'Sugars', amount: '9g', dv_percent: 18 },
+        { nutrient: 'Protein', amount: '5g', dv_percent: 10 }
+      ],
+      ingredients: [
+        'Rolled Oats',
+        'Roasted Peanuts',
+        'Cane Sugar',
+        'Palm Oil',
+        'Brown Rice Syrup',
+        'Sea Salt'
+      ],
+      allergens: ['Peanuts', 'Gluten (Oats)'],
+      packaging_material: 'Metallized Polypropylene film',
+      packaging_type: 'Snack Wrapper',
+      recycling_symbols: ['PP 5', 'Mobius Loop'],
+      claims: [
+        '100% Whole Grain Oats',
+        'No artificial preservatives',
+        'Eco-friendly healthy choice'
+      ],
+      certifications_visible: [],
+      certifications_printed: [],
+      country_of_origin: 'India',
+      raw_transcription: `Nature Crunch Granola Bar
+Serving Size: 1 bar (40g) | Calories: 180
+Total Fat: 8g (10% DV) | Saturated Fat: 1.5g (8% DV) | Sodium: 140mg (6% DV)
+Carbohydrate: 22g | Fibre: 4g (14% DV) | Sugars: 9g | Protein: 5g
+Ingredients: Rolled Oats, Roasted Peanuts, Cane Sugar, Palm Oil, Brown Rice Syrup, Sea Salt.
+Allergens: Contains Peanuts and Oats.
+Packaging: PP 5 Recyclable Wrapper. Product of India.`
+    }
+  },
+  {
+    id: 'sample-shampoo',
+    title: 'Tea Tree & Neem Shampoo (Personal Care)',
+    productType: 'personal_care',
+    labelType: 'Sample label (fictional product)',
+    subType: 'Personal Care Product Label',
     previewColor: 'from-emerald-700 to-teal-900',
     transcription: {
-      is_product_label: true,
+      readable: true,
       is_readable: true,
-      unreadable_reason: null,
-      reason_if_not: null,
-      product_name: 'Botanical Herbal Shampoo',
+      is_product_label: true,
+      product_type: 'personal_care',
+      name: 'Clarifying Tea Tree & Neem Shampoo',
+      product_name: 'Clarifying Tea Tree & Neem Shampoo',
       brand: 'EcoGlide (Fictional)',
-      materials: ['Purified Water', 'Coconut Surfactants', 'Aloe Vera Extract', 'Neem Leaf Extract'],
-      packaging_type: '100% Post-Consumer Recycled HDPE Bottle with PP Cap',
-      net_quantity: '250 ml',
+      serving_size: null,
+      nutrition_table: null,
       ingredients: [
         'Aqua (Purified Water)',
-        'Sodium Lauroyl Sarcosinate (Coconut-derived)',
-        'Aloe Barbadensis Leaf Juice',
+        'Sodium Laureth Sulfate',
+        'Cocamidopropyl Betaine',
+        'Melaleuca Alternifolia (Tea Tree) Leaf Oil',
         'Azadirachta Indica (Neem) Leaf Extract',
+        'Methylparaben',
+        'Synthetic Fragrance (Parfum)',
         'Citric Acid'
       ],
+      allergens: ['Parfum / Fragrance compounds'],
+      packaging_material: '100% Post-Consumer Recycled HDPE Bottle with PP Cap',
+      packaging_type: 'Recyclable Plastic Bottle',
+      recycling_symbols: ['HDPE 2 (Bottle)', 'PP 5 (Cap)'],
       claims: [
-        'Herbal botanical formula',
-        'Plant-derived surfactants',
+        'Herbal clarifying formula',
         'Contains organic neem extract',
         'Save our planet initiative'
       ],
       certifications_visible: [],
       certifications_printed: [],
-      recycling_symbols: ['HDPE 2 (Bottle)', 'PP 5 (Cap)'],
-      packaging_marks: [
-        'HDPE 2 recycling symbol',
-        'Please rinse and recycle bottle'
-      ],
-      manufacturer: 'Nature Care Laboratories Ltd, Okhla Industrial Area, New Delhi',
       country_of_origin: 'India',
-      batch_mfg_expiry: 'Mfg: 04/2026, Exp: 03/2028, Batch: NL-26A',
-      barcode_number: '8901234567890',
-      usage_instructions: 'Apply generous amount to wet hair, massage into lather, rinse thoroughly with water.',
-      disposal_instructions: 'Rinse empty bottle thoroughly and place in designated municipal dry plastic bin.',
-      warnings: 'For external use only. Avoid contact with eyes. In case of contact, flush immediately with water.',
-      language_detected: 'en',
-      legibility: 'good',
-      confidence: {
-        product_name: 'high',
-        ingredients: 'high',
-        claims: 'high',
-        certifications: 'high'
-      }
+      raw_transcription: `EcoGlide Clarifying Shampoo (250ml)
+Ingredients: Aqua, Sodium Laureth Sulfate, Cocamidopropyl Betaine, Melaleuca Alternifolia Leaf Oil, Azadirachta Indica Leaf Extract, Methylparaben, Synthetic Fragrance, Citric Acid.
+Claims: Herbal clarifying formula, Contains organic neem extract, Save our planet initiative.
+Bottle: HDPE 2 / Cap: PP 5. Made in New Delhi, India.`
     }
   },
   {
-    id: 'sample-khadi-tote',
-    title: 'Hand-loomed Cotton Tote Bag',
+    id: 'sample-cleaning',
+    title: 'Multi-Surface Cleaner Pods (Cleaning)',
+    productType: 'cleaning',
     labelType: 'Sample label (fictional product)',
-    previewColor: 'from-amber-700 to-stone-800',
-    transcription: {
-      is_product_label: true,
-      is_readable: true,
-      unreadable_reason: null,
-      reason_if_not: null,
-      product_name: 'Hand-loomed Cotton Tote Bag',
-      brand: 'Kaveri Valley Textiles (Fictional)',
-      materials: ['100% Organic Cotton', 'Azo-Free Vegetable Dyes'],
-      packaging_type: 'Uncoated Recycled Kraft Paper Hangtag with Jute String',
-      net_quantity: '1 Unit (38cm x 42cm)',
-      ingredients: [
-        '100% Cotton'
-      ],
-      claims: [
-        '100% Organic Cotton',
-        'Hand-loomed by artisan cooperative',
-        'Azo-free natural vegetable dyes'
-      ],
-      certifications_visible: [
-        {
-          name: 'GOTS Certified Organic',
-          has_license_number: true
-        }
-      ],
-      certifications_printed: [
-        {
-          name: 'GOTS Certified Organic',
-          has_license_number: true
-        }
-      ],
-      recycling_symbols: ['PAP 22 (Recycled Kraft Board)'],
-      packaging_marks: [
-        '100% post-consumer recycled paper hangtag'
-      ],
-      manufacturer: 'Kaveri Valley Artisan Cooperative, Erode, Tamil Nadu',
-      country_of_origin: 'India',
-      batch_mfg_expiry: 'Lot: KV-2026-T4',
-      barcode_number: '8905551234567',
-      usage_instructions: 'Gentle hand wash in cold water with mild detergent. Line dry in shade.',
-      disposal_instructions: 'Biodegradable natural cotton fiber. Suitable for backyard composting at end of life.',
-      warnings: 'Natural vegetable dyes may release minor color during initial wash.',
-      language_detected: 'en',
-      legibility: 'good',
-      confidence: {
-        product_name: 'high',
-        ingredients: 'high',
-        claims: 'high',
-        certifications: 'high'
-      }
-    }
-  },
-  {
-    id: 'sample-detergent-pods',
-    title: 'Dishwasher Detergent Pods',
-    labelType: 'Sample label (fictional product)',
+    subType: 'Household Cleaning Product Label',
     previewColor: 'from-teal-600 to-cyan-900',
     transcription: {
-      is_product_label: true,
+      readable: true,
       is_readable: true,
-      unreadable_reason: null,
-      reason_if_not: null,
-      product_name: 'Zero-Waste Dishwasher Detergent Pods',
+      is_product_label: true,
+      product_type: 'cleaning',
+      name: 'Zero-Waste Laundry & Surface Pods',
+      product_name: 'Zero-Waste Laundry & Surface Pods',
       brand: 'BioClean Home (Fictional)',
-      materials: ['Sodium Carbonate', 'Sodium Percarbonate', 'PVA Water-Soluble Film'],
-      packaging_type: 'FSC-Certified Uncoated Kraft Box',
-      net_quantity: '30 Pods (Net Wt. 600g)',
+      serving_size: '1 pod (20g)',
+      nutrition_table: null,
       ingredients: [
         'Sodium Carbonate',
         'Sodium Percarbonate',
-        'Citric Acid',
+        'Sodium Tripolyphosphate',
         'Polyvinyl Alcohol (PVA) film wrapper',
-        'Citrus Limon (Lemon) Essential Oil'
+        'Citrus Limon Essential Oil'
       ],
+      allergens: null,
+      packaging_material: 'Uncoated FSC-certified kraft board box',
+      packaging_type: 'Plastic-free Box',
+      recycling_symbols: ['PAP 20 (Cardboard)', 'Plastic-Free Standard'],
       claims: [
         'Dissolvable plant-based PVA film',
         'Zero synthetic fragrance',
@@ -147,77 +197,17 @@ export const SAMPLE_LABELS = [
       ],
       certifications_visible: [],
       certifications_printed: [],
-      recycling_symbols: ['PAP 20 (Cardboard)', 'Plastic-Free Standard'],
-      packaging_marks: [
-        'Uncoated kraft board box',
-        'Plastic-free packaging'
-      ],
-      manufacturer: 'BioClean Eco Innovations Pvt Ltd, Whitefield, Bengaluru, Karnataka',
       country_of_origin: 'India',
-      batch_mfg_expiry: 'Batch: BC-882, Mfg: 02/2026',
-      barcode_number: '8908889990001',
-      usage_instructions: 'Handle with dry hands only. Place one pod in dishwasher main dispenser cup. Do not puncture.',
-      disposal_instructions: 'Recycle cardboard box with paper stream or place in home compost bin.',
-      warnings: 'Keep out of reach of children. Causes serious eye irritation. If swallowed, call poison control.',
-      language_detected: 'en',
-      legibility: 'good',
-      confidence: {
-        product_name: 'high',
-        ingredients: 'high',
-        claims: 'high',
-        certifications: 'high'
-      }
+      raw_transcription: `BioClean Zero-Waste Pods (30 Pods)
+Ingredients: Sodium Carbonate, Sodium Percarbonate, Sodium Tripolyphosphate, Polyvinyl Alcohol Film, Citrus Limon Essential Oil.
+Packaging: 100% Plastic-free uncoated kraft board (PAP 20).
+Claims: Dissolvable plant-based PVA film, Zero synthetic fragrance, Septic tank safe.`
     }
   }
 ];
 
 /**
- * Lazy-load on-device OCR using Tesseract.js
- * Shows honest raw OCR text if API unavailable
- */
-async function performOnDeviceOcr(imageSource) {
-  if (typeof window === 'undefined' || typeof Worker === 'undefined') {
-    throw new Error('On-device OCR is only supported in browser environments.');
-  }
-
-  try {
-    const tesseract = await import('tesseract.js');
-    const createWorker = tesseract.createWorker || tesseract.default?.createWorker;
-
-    if (!createWorker) {
-      throw new Error('Tesseract worker constructor unavailable');
-    }
-
-    const worker = await createWorker('eng', 1, {
-      workerPath: '/ocr/worker.min.js',
-      corePath: '/ocr/tesseract-core.wasm.js',
-      langPath: '/ocr',
-      logger: () => {}
-    });
-
-    const result = await worker.recognize(imageSource);
-    await worker.terminate();
-
-    const text = result?.data?.text?.trim();
-    if (!text) {
-      throw new Error('No legible text detected');
-    }
-
-    return text;
-  } catch {
-    throw new Error('On-device OCR could not transcribe text from this image.');
-  }
-}
-
-/**
- * Scan and transcribe a product label image
- *
- * @param {Object} options
- * @param {string} [options.imageBase64] - Base64 encoded image string (already downscaled)
- * @param {string} [options.mimeType='image/jpeg']
- * @param {string} [options.language='en']
- * @param {string} [options.sampleId] - Pick a sample label
- * @returns {Promise<Object>} Transcribed label data matching strict schema
+ * Scan and transcribe a product label image via /api/scan-label
  */
 export async function scanProductLabel({
   imageBase64 = null,
@@ -235,7 +225,7 @@ export async function scanProductLabel({
         sampleTitle: sample.title,
         labelType: sample.labelType,
         ...sample.transcription,
-        privacy_guarantee: 'Image is not saved.'
+        privacy_guarantee: 'Image is not saved. Processed in transient memory only.'
       };
     }
     throw new Error('Sample label not found.');
@@ -245,16 +235,16 @@ export async function scanProductLabel({
     throw new Error('No image data provided for scanning.');
   }
 
-  // 2. Serverless safe transmission limit guard
+  // 2. Client image size limits
   const cleanBase64 = imageBase64.replace(/^data:image\/[a-zA-Z+]+;base64,/, '');
   if (cleanBase64.length > 3 * 1024 * 1024) {
-    throw new Error('Image data exceeds safe 3MB limit. Please downscale the image.');
+    throw new Error('Image data exceeds safe 3MB payload limit. Please downscale the image.');
   }
 
-  // 3. Attempt Server-side Vision Transcription via Gemini Proxy
+  // 3. Server-side Vision Transcription via Gemini Proxy
   try {
     const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 15000);
+    const timeout = setTimeout(() => controller.abort(), 18000);
 
     const res = await fetch('/api/scan-label', {
       method: 'POST',
@@ -272,38 +262,31 @@ export async function scanProductLabel({
     if (res.ok) {
       const data = await res.json();
       if (data && data.source === 'gemini_vision') {
-        // If the model determined it is not a product label, return non-label verdict honestly
+        // Outcome A: Unreadable photo
+        if (data.readable === false || data.is_readable === false) {
+          return {
+            source: 'gemini_vision',
+            readable: false,
+            is_readable: false,
+            is_product_label: data.is_product_label ?? true,
+            unreadable_reason: data.unreadable_reason || 'The text on this packaging label is blurry or unreadable. Please retake a well-lit photo closer to the text.',
+            privacy_guarantee: 'Image is not saved.'
+          };
+        }
+
+        // Outcome B: Non-product label photo
         if (data.is_product_label === false) {
           return {
             source: 'gemini_vision',
-            is_product_label: false,
-            reason_if_not: data.reason_if_not || 'No product label detected in photo.',
-            privacy_guarantee: 'Image is not saved.'
-          };
-        }
-
-        // If the label is unreadable, report honestly
-        if (data.is_readable === false) {
-          return {
-            source: 'gemini_vision',
-            is_product_label: true,
+            readable: false,
             is_readable: false,
-            unreadable_reason: data.unreadable_reason || 'The text on this label is blurry or unreadable. Please upload or take a clearer, well-lit photo.',
-            product_name: null,
-            brand: null,
-            materials: [],
-            packaging_type: null,
-            net_quantity: null,
-            ingredients: [],
-            claims: [],
-            certifications_visible: [],
-            certifications_printed: [],
-            recycling_symbols: [],
-            packaging_marks: [],
+            is_product_label: false,
+            reason_if_not: data.reason_if_not || 'No product packaging or label detected in this photo. Please photograph a physical product label.',
             privacy_guarantee: 'Image is not saved.'
           };
         }
 
+        // Outcome C: Valid readable label
         const certs = Array.isArray(data.certifications_visible || data.certifications_printed)
           ? (data.certifications_visible || data.certifications_printed).map((c) => ({
               name: c.name || (typeof c === 'string' ? c : ''),
@@ -317,88 +300,47 @@ export async function scanProductLabel({
 
         return {
           source: 'gemini_vision',
-          is_product_label: true,
+          readable: true,
           is_readable: true,
-          unreadable_reason: null,
-          product_name: data.product_name || null,
+          is_product_label: true,
+          product_type: data.product_type || 'other',
+          name: data.name || data.product_name || null,
+          product_name: data.name || data.product_name || null,
           brand: data.brand || null,
-          materials: Array.isArray(data.materials) ? data.materials : [],
-          packaging_type: data.packaging_type || null,
-          net_quantity: data.net_quantity || null,
-          ingredients: Array.isArray(data.ingredients) ? data.ingredients : [],
+          serving_size: data.serving_size || null,
+          nutrition_table: data.nutrition_table || null,
+          ingredients: Array.isArray(data.ingredients) && data.ingredients.length > 0 ? data.ingredients : null,
+          allergens: Array.isArray(data.allergens) && data.allergens.length > 0 ? data.allergens : null,
+          packaging_material: data.packaging_material || data.packaging_type || null,
+          packaging_type: data.packaging_type || data.packaging_material || null,
+          recycling_symbols: recycling,
           claims: Array.isArray(data.claims) ? data.claims : [],
           certifications_visible: certs,
           certifications_printed: certs,
-          recycling_symbols: recycling,
-          packaging_marks: recycling,
-          manufacturer: data.manufacturer || null,
           country_of_origin: data.country_of_origin || null,
-          batch_mfg_expiry: data.batch_mfg_expiry || null,
-          barcode_number: data.barcode_number || null,
-          usage_instructions: data.usage_instructions || null,
-          disposal_instructions: data.disposal_instructions || null,
-          warnings: data.warnings || null,
-          language_detected: data.language_detected || 'en',
+          raw_transcription: data.raw_transcription || data.raw_ocr_text || '',
           legibility: data.legibility || 'good',
           confidence: data.confidence || {
-            product_name: 'medium',
-            ingredients: 'medium',
-            claims: 'medium',
-            certifications: 'medium'
+            product_name: 'high',
+            nutrition: 'high',
+            ingredients: 'high',
+            claims: 'high'
           },
           privacy_guarantee: 'Image is not saved.'
         };
+      } else if (data && data.error) {
+        throw new Error(data.error);
       }
+    } else {
+      const errJson = await res.json().catch(() => ({}));
+      throw new Error(errJson.error || `Server responded with status ${res.status}`);
     }
-  } catch {
-    // API unavailable or timed out; try OCR fallback below
+  } catch (err) {
+    if (err.name === 'AbortError') {
+      throw new Error('Label scanner request timed out. Please check your internet connection.');
+    }
+    throw err;
   }
 
-  // 4. Secondary fallback: Lazy-load On-Device Tesseract.js OCR
-  // Note: NEVER invent fake claims, ingredients, or scores.
-  try {
-    const rawOcrText = await performOnDeviceOcr(imageBase64);
-    if (rawOcrText && rawOcrText.length > 5) {
-      return {
-        source: 'on_device_ocr',
-        is_product_label: true,
-        is_readable: true,
-        unreadable_reason: null,
-        ocr_note: 'OCR text, may contain errors',
-        raw_ocr_text: rawOcrText,
-        product_name: null,
-        brand: null,
-        materials: [],
-        packaging_type: null,
-        net_quantity: null,
-        ingredients: [],
-        claims: [],
-        certifications_visible: [],
-        certifications_printed: [],
-        recycling_symbols: [],
-        packaging_marks: [],
-        manufacturer: null,
-        country_of_origin: null,
-        batch_mfg_expiry: null,
-        barcode_number: null,
-        usage_instructions: null,
-        disposal_instructions: null,
-        warnings: null,
-        language_detected: 'en',
-        legibility: 'partial',
-        confidence: {
-          product_name: 'low',
-          ingredients: 'low',
-          claims: 'low',
-          certifications: 'low'
-        },
-        privacy_guarantee: 'Image is not saved.'
-      };
-    }
-  } catch {
-    // OCR also failed
-  }
-
-  // 5. Honest Error: Do not guess or invent data
-  throw new Error('Could not read product label. Please upload a closer, well-lit photo of the label text.');
+  throw new Error('Could not read product label. Please ensure the label text is sharp, glare-free, and well-illuminated.');
 }

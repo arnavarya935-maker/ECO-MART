@@ -2,7 +2,7 @@
 
 > A transparent shopping app with an honest AI agent. Built with React 19, Vite, and Tailwind v4.
 
-Eco Sense helps everyday shoppers find green alternatives, spot vague marketing claims, scan barcodes and labels, and make budget-friendly choices. It works in both **English** and **Hindi (हिंदी)**.
+Eco Sense helps everyday shoppers find green alternatives, spot vague marketing claims, scan packaging labels to understand health and environmental effects, and make budget-friendly choices. It works in both **English** and **Hindi (हिंदी)**.
 
 ---
 
@@ -64,21 +64,18 @@ The `/contact` page delivers customer and auditor inquiries using:
 
 ---
 
-## 🔍 Barcode & Label Scanner
-
-- **Barcode Scanner (`/scan` or Modal):**
-  - Cross-browser decoding using `@zxing/browser` (EAN-13, EAN-8, UPC-A, UPC-E, Code 128, QR).
-  - Rear camera detection with camera switcher, torch toggle, and live scan frame overlay.
-  - Three-tier lookup cascade:
-    1. Supabase / local catalogue
-    2. Open Food Facts, Open Beauty Facts, Open Products Facts via `/api/barcode` proxy
-    3. Friendly fallback to Label Scanner or manual checksum-validated entry
-  - Rich result view with packaging, ingredients, eco-score breakdown estimate, and greener catalogue alternatives.
+## 🔍 Label Scanner (Health & Environmental Effects)
 
 - **Label Scanner (`/scan`):**
-  - Camera capture or photo upload with client-side downscaling (max 1280px, JPEG quality 0.8).
-  - Transcribes visible packaging text via Gemini Vision (`/api/scan-label`).
-  - Audits printed claims against visible certifications, flags vague buzzwords, and links directly to the Eco Agent.
+  - Reads labels of any packaged food, drinks, personal care, or household cleaning item.
+  - Camera capture or photo upload with client-side resolution validation (minimum 400px on shortest side).
+  - Transcribes visible packaging facts via Gemini Vision (`/api/scan-label`).
+  - **4 Comprehensive Tabs:**
+    1. **Overview:** Plain-language summary with side-by-side "Good" (green) and "Watch out" (amber) cards traceable to printed lines.
+    2. **Health & Nutrition:** Computed in-code evaluation of %DV (≤5% low, 10–19% moderate/good, ≥20% high) flagging sodium and sugars, crediting fibre and vitamins, notable ingredient safety database, and prominent allergen warnings.
+    3. **Environment & Packaging:** Packaging material assessment, recycling symbol explanations, claim integrity auditing, and greener catalogue swaps.
+    4. **Full Text:** Verbatim transcription with one-click copy.
+  - One-click **"Ask Eco Agent about this"** button for deep multimodal conversational follow-ups.
 
 ---
 

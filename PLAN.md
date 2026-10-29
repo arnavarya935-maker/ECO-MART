@@ -50,7 +50,7 @@ This roadmap outlines the complete implementation of all 66 features across 7 se
 - [x] Feature 27: Contextual "Better Alternative" swap recommendations on product modals
 - [x] Feature 28: Dedicated Category Landing views with curated hero highlights
 - [x] Feature 29: Local star ratings and customer review submission
-- [x] Feature 30: Barcode simulation scanner for instant swap identification with manual code entry
+- [x] Feature 30: Label Scanner health and environmental effects explainer with 4 tabs and in-code %DV evaluation
 
 ### Phase 4: Hero and Visual Experience (Features 31–42)
 - [x] Feature 31: Hero section with subtle mint-to-white gradient (`#E8F5EE` to `#FFFFFF`)

@@ -278,20 +278,6 @@ export const AGENT_TOOLS = [
     }
   },
   {
-    name: 'lookup_barcode',
-    description: 'Look up an EAN/UPC product barcode code in the catalogue.',
-    parameters: {
-      type: 'OBJECT',
-      properties: {
-        code: {
-          type: 'STRING',
-          description: 'The barcode number'
-        }
-      },
-      required: ['code']
-    }
-  },
-  {
     name: 'add_to_cart',
     description: 'Trigger a UI action to add a verified product to the shopper\'s live cart.',
     parameters: {
@@ -662,28 +648,6 @@ export async function executeAgentTool(name, args = {}, context = {}) {
         verdict: audit.isGreenwashed ? 'Check the claims (Potential Greenwashing)' : 'Credible or Standard Description',
         flaggedBuzzwords: audit.buzzwords || [],
         details: audit.reason || 'No deceptive buzzwords without certifications detected.'
-      };
-    }
-
-    case 'lookup_barcode': {
-      const code = String(args.code || '').trim();
-      const match = products.find((p) => p.id === code || p.photoId === code);
-      if (match) {
-        return {
-          found: true,
-          product: {
-            id: match.id,
-            name: match.name,
-            price: match.price,
-            packaging: match.packaging,
-            ecoScore: calculateEcoScore(match)?.score ?? 85
-          }
-        };
-      }
-      return {
-        found: false,
-        code,
-        message: 'Barcode not in our local artisanal catalogue. You can describe the product or ask for a swap.'
       };
     }
 

@@ -76,7 +76,7 @@ All routes are declared in [`src/App.jsx`](file:///c:/Users/AYUSH/Desktop/ecomar
 | 14 | `/blackbox` | [`BlackBoxPage.jsx`](file:///c:/Users/AYUSH/Desktop/ecomart%20agent/src/pages/BlackBoxPage.jsx) | Complete transparent audit ledger of all internal AI reasoning steps, confidence brakes, decision factors, and model prompts. |
 | 15 | `/fairness` | [`FairnessPage.jsx`](file:///c:/Users/AYUSH/Desktop/ecomart%20agent/src/pages/FairnessPage.jsx) | Algorithmic fairness sandbox testing recommendation equity across diverse demographic, geographic, and budget persona archetypes. |
 | 16 | `/duel` | [`DuelPage.jsx`](file:///c:/Users/AYUSH/Desktop/ecomart%20agent/src/pages/DuelPage.jsx) | Head-to-head Life Cycle Assessment (LCA) comparison arena between any two products across emissions, water, durability, and end-of-life. |
-| 17 | `/scan` | [`LabelScannerPage.jsx`](file:///c:/Users/AYUSH/Desktop/ecomart%20agent/src/pages/LabelScannerPage.jsx) | Live camera OCR and photo upload scanner powered by Gemini Vision to audit physical product labels, detect deceptive marketing claims, and find green swaps. |
+| 17 | `/scan` | [`LabelScannerPage.jsx`](file:///c:/Users/AYUSH/Desktop/ecomart%20agent/src/pages/LabelScannerPage.jsx) | Product label health and environmental effects explainer with 4 tabs (Overview, Health, Environment, Full Text), in-code %DV nutrition rules, compound database, and claim audit. |
 | 18 | `/scanner` | — | Direct alias route navigating to `/scan`. |
 | 19 | `/kirana` | [`KiranaPage.jsx`](file:///c:/Users/AYUSH/Desktop/ecomart%20agent/src/pages/KiranaPage.jsx) | Voice-first bilingual Hindi/English local Kirana grocery store interface with quick voice chips, instant audio search, and transliteration matching. |
 | 20 | `/playground` | [`PlaygroundPage.jsx`](file:///c:/Users/AYUSH/Desktop/ecomart%20agent/src/pages/PlaygroundPage.jsx) | Interactive decision engine priority weights sandbox tuning multi-criteria rankings. |
@@ -97,13 +97,12 @@ All routes are declared in [`src/App.jsx`](file:///c:/Users/AYUSH/Desktop/ecomar
 
 ## 4. Complete Component Inventory (170 Files Across 23 Folders)
 
-### 4.1 Root Components (`src/components/` — 33 files)
+### 4.1 Root Components (`src/components/` — 32 files)
 1. `AchievementUnlockedModal.jsx` — Pop-up modal celebrating milestone achievements and awarded eco-points.
 2. `AnimatedCounter.jsx` — Smooth numerical easing counter for dynamic metrics and scores.
 3. `ArchitectureDiagram.jsx` — Interactive visual diagram of the multi-agent system architecture.
 4. `AuthModal.jsx` — Modal overlay for sign in / sign up / Google login / guest session.
-5. `BarcodeScannerModal.jsx` — Camera barcode scanning interface for instantaneous product lookup.
-6. `CartDrawer.jsx` — Global slide-out shopping cart with item controls, coupon code, and Swap My Cart.
+5. `CartDrawer.jsx` — Global slide-out shopping cart with item controls, coupon code, and Swap My Cart.
 7. `CheckoutModal.jsx` — Multi-step checkout flow (address, payment method, carbon neutral shipping option).
 8. `CommandPalette.jsx` — Global `Ctrl+K` / `Cmd+K` keyboard shortcut search and command palette.
 9. `ConfirmationModal.jsx` — Post-order receipt modal with environmental savings breakdown.

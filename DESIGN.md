@@ -253,7 +253,7 @@ Every route and dialog is verified across three key widths: **Mobile (390px)**, 
 - [x] `WelcomeModal`: 3-step onboarding questionnaire with eco goal selection chips.
 - [x] `ProductDetailModal`: Quick-view overlay with gallery, metric badges, sticky buy bar, and Lifecycle tab.
 - [x] `ProductCompareModal`: Side-by-side 3-way lifecycle comparison with diff highlighting.
-- [x] `BarcodeScannerModal`: Viewfinder frame, matched eco alternatives, and instant simulation triggers.
+- [x] `LabelScanner`: 4-tab health & environmental effects explainer, in-code %DV calculation, and catalogue swaps.
 - [x] `AchievementUnlockedModal`: Editorial celebration badge with gold/amber accent glow.
 - [x] `ConfirmationModal`: Environmental impact receipt with order summary and social share actions.
 - [x] `ExitIntentModal`: Eco grade recovery offer with 1-click discount application.

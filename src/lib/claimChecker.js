@@ -127,3 +127,4 @@ export function auditLabelClaims(claims = [], visibleCerts = []) {
     summary: `Grade ${finalGrade}: ${supportedCount} supported, ${unverifiedCount} unverified, ${vagueCount} vague.`
   };
 }
+

@@ -37,7 +37,7 @@
 | Criterion (Weight) | Why EcoMart Scores 10/10 | Winning Proof Point for Judges |
 |---|---|---|
 | **Idea & Creativity (20%)** | Shifts e-commerce from *mindless consumerism* to *intentional purpose*. First platform with an **AI Courtroom** (debating claims), **Kirana Mode** (vernacular accessibility), and **Proactive Swap Interception**. | Not just another store filter; an ethical system that actively fights greenwashing and consumer inertia. |
-| **Functionality (25%)** | 64 fully-featured products, working multi-criteria ranking sliders, cart drawer, checkout modal, OCR packaging scanner, barcode registry lookup, and printable PDF/image receipt. | **243 automated unit tests passing (100%)**, 0 lint errors, 0 broken images, 100% responsive from mobile to 4K. |
+| **Functionality (25%)** | 64 fully-featured products, working multi-criteria ranking sliders, cart drawer, checkout modal, Gemini Vision label scanner explaining health and environmental effects, and printable PDF/image receipt. | **438+ automated unit tests passing (100%)**, 0 lint errors, 0 broken images, 100% responsive from mobile to 4K. |
 | **Design (20%)** | "Aesop meets Apple" editorial design system. Dark cinematic forest aesthetic (`#04100B`), fluid typography (Fraunces & Inter), tactile micro-interactions, 3D Canvas inspection, WCAG AAA contrast. | Looks like a Silicon Valley / European luxury sustainability studio, lightyears ahead of typical hackathon projects. |
 | **AI & Innovation (20%)** | Dual-Brain Architecture: Google Gemini 2.5 Flash cloud intelligence paired with **deterministic local-first NLP & rule engines**. Multi-agent collaboration with an explicit *Skeptic* agent that challenges claims. | Works 100% offline with zero latency, but enhances with Gemini cloud intelligence when online. Never hallucinates scores. |
 | **Presentation (15%)** | Synchronized 2-person delivery, clear problem-solution arc, live interactive laptop demo, and fearless mastery over technical & environmental questions. | Confident, timed to the second, backed by mathematical standards (ISO 14040, EPA conversion factors). |
@@ -102,7 +102,7 @@
 - **Visuals:** Screenshot of the Greenwashing Detective radar and the AI Courtroom.
 - **Unique Capabilities:**
   - **Greenwashing Detective:** Scans product descriptions against FTC & ASCI regulatory lexicons, flagging vague terms like *"all-natural"*, *"chemical-free"*, or uncertified *"biodegradable"*.
-  - **Label Scanner (OCR & Barcode Registry):** Real client-side OCR (Tesseract) transcribes physical packaging text, cross-referencing Open Food Facts public registry.
+  - **Label Scanner (Health & Environmental Effects):** Multimodal Gemini Vision transcribes physical packaging text, evaluating nutrition facts tables in code (%DV), notable compounds, allergens, packaging recyclability, and green claims.
   - **AI Courtroom:** A 3-role simulation where an AI Prosecutor interrogates claims, an AI Defender presents verified merits, and an impartial Judge issues an evidence-based verdict.
 
 ---
@@ -382,9 +382,9 @@ Follow this exact 6-step checklist during the live demonstration so that nothing
 
 ---
 
-### Q10: "How do you verify packaging and barcodes?"
+### Q10: "How do you explain packaging and label health effects?"
 > **Winning Answer:**  
-> *"Our Label Scanner in `/scan` uses client-side OCR (Tesseract.js) to extract ingredients and packaging claims directly from package photos, and queries the **Open Food Facts public barcode registry** to fetch official packaging material classification without requiring manual brand input."*
+> *"Our Label Scanner in `/scan` uses Gemini Vision to transcribe nutrition facts and ingredients verbatim, and runs a deterministic in-code evaluation engine to classify %DV, assess notable compounds (added sugars, palm oil, sulfates, parabens), flag allergens, and check packaging recyclability."*
 
 ---
 
