@@ -381,7 +381,7 @@ export default function EcoAgentChat() {
         pipelineHandoffs: multiAgentResult?.pipelineHandoffs || [],
         skepticReport: multiAgentResult?.skepticReport || null,
         proposedActions: multiAgentResult?.proposedActions || [],
-        basketPlan: response.basketPlan || multiAgentResult?.basketPlan,
+        basketPlan: response.basketPlan || (multiAgentResult?.isGoalPlan ? multiAgentResult?.basketPlan : null),
         clarification: response.clarification,
         isFirstResponse: isFirst,
         cartReview: response.cartReview,
@@ -429,23 +429,34 @@ export default function EcoAgentChat() {
       if (!response.isOffTopic && !response.analysis?.intent?.isOffTopic && !aiResult?.isOffTopic) {
         setAgentContext((prev) => {
           const intentObj = response.analysis?.intent || {};
-          const isFollowUp = Boolean(
+          const isExplicitFollowUp = Boolean(
             intentObj.isCheaperFollowUp ||
             intentObj.isGreenerFollowUp ||
             intentObj.isWhyNot ||
             intentObj.selectIndex !== null ||
-            (intentObj.maxBudget && !intentObj.category && prev.lastCategory) ||
-            (intentObj.category && !intentObj.maxBudget && prev.lastBudget)
+            /\b(?:instead|same budget|that budget|previous budget|second option|first option)\b/i.test(q)
           );
 
+          // Category is ONLY kept if explicitly set in this query, or on explicit follow-up
+          const nextCategory = intentObj.category || (isExplicitFollowUp ? prev.lastCategory : null);
+          // Budget is ONLY kept if explicitly specified in this query, or on explicit follow-up
+          const nextBudget = (intentObj.maxBudget !== null && typeof intentObj.maxBudget === 'number')
+            ? intentObj.maxBudget
+            : (isExplicitFollowUp ? prev.lastBudget : null);
+
+          const memoryApplied = isExplicitFollowUp && (prev.lastCategory || prev.lastBudget)
+            ? { category: prev.lastCategory, budget: prev.lastBudget }
+            : null;
+
           return {
-            lastCategory: intentObj.category || (isFollowUp ? prev.lastCategory : null),
-            lastBudget: intentObj.maxBudget || (isFollowUp ? prev.lastBudget : null),
-            lastSort: intentObj.sortBy || (isFollowUp ? prev.lastSort : null),
-            lastRecipient: intentObj.recipient || (isFollowUp ? prev.lastRecipient : null),
-            lastPackaging: intentObj.packaging || (isFollowUp ? prev.lastPackaging : null),
-            lastResults: agentMsg.data || (isFollowUp ? prev.lastResults : []),
-            lastQuery: q
+            lastCategory: nextCategory,
+            lastBudget: nextBudget,
+            lastSort: intentObj.sortBy || (isExplicitFollowUp ? prev.lastSort : null),
+            lastRecipient: intentObj.recipient || (isExplicitFollowUp ? prev.lastRecipient : null),
+            lastPackaging: intentObj.packaging || (isExplicitFollowUp ? prev.lastPackaging : null),
+            lastResults: agentMsg.data || (isExplicitFollowUp ? prev.lastResults : []),
+            lastQuery: q,
+            appliedMemory: memoryApplied
           };
         });
       }
@@ -934,13 +945,42 @@ export default function EcoAgentChat() {
           <div className="flex items-center gap-1.5 truncate">
             <span className="font-semibold text-heading">Memory:</span>
             {agentContext.lastCategory && (
-              <span className="px-1.5 py-0.5 rounded bg-surface-sunken border border-line text-primary font-medium">
-                {agentContext.lastCategory}
+              <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-surface-sunken border border-line text-primary font-medium">
+                <span>{agentContext.lastCategory}</span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setAgentContext((prev) => ({ ...prev, lastCategory: null, appliedMemory: null }));
+                    showToast('Removed category memory', 'info');
+                  }}
+                  className="hover:text-danger font-bold text-xs ml-0.5 leading-none cursor-pointer"
+                  title="Remove category memory"
+                  aria-label="Remove category memory"
+                >
+                  ×
+                </button>
               </span>
             )}
             {agentContext.lastBudget && (
-              <span className="px-1.5 py-0.5 rounded bg-surface-sunken border border-line text-heading font-medium">
-                ≤ ₹{agentContext.lastBudget}
+              <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded bg-surface-sunken border border-line text-heading font-medium">
+                <span>≤ ₹{agentContext.lastBudget}</span>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setAgentContext((prev) => ({ ...prev, lastBudget: null, appliedMemory: null }));
+                    showToast('Removed budget memory', 'info');
+                  }}
+                  className="hover:text-danger font-bold text-xs ml-0.5 leading-none cursor-pointer"
+                  title="Remove budget memory"
+                  aria-label="Remove budget memory"
+                >
+                  ×
+                </button>
+              </span>
+            )}
+            {agentContext.appliedMemory && (
+              <span className="text-[9px] text-emerald-600 dark:text-emerald-400 font-medium ml-1">
+                (Memory applied)
               </span>
             )}
           </div>
@@ -954,7 +994,8 @@ export default function EcoAgentChat() {
                 lastRecipient: null,
                 lastPackaging: null,
                 lastResults: [],
-                lastQuery: null
+                lastQuery: null,
+                appliedMemory: null
               });
               showToast('Memory reset', 'info');
             }}
@@ -1101,6 +1142,31 @@ export default function EcoAgentChat() {
                                 )}
                               </div>
                               <span className="text-xs font-serif font-bold text-primary">₹{prod.price}</span>
+                              {(() => {
+                                let math = prod.impactMath;
+                                if (!math && prod.conventionalAlternativeId && Array.isArray(allProducts)) {
+                                  const conv = allProducts.find((p) => p.id === prod.conventionalAlternativeId);
+                                  if (conv) {
+                                    const co2Saved = Math.max(0, (conv.carbonKg || 0) - (prod.carbonKg || 0)).toFixed(2);
+                                    const plasticSaved = Math.max(0, (conv.plasticGrams || 0) - (prod.plasticGrams || 0));
+                                    math = {
+                                      baselineName: conv.name,
+                                      co2SavedKg: co2Saved,
+                                      plasticSavedGrams: plasticSaved
+                                    };
+                                  }
+                                }
+                                if (math && (Number(math.co2SavedKg) > 0 || math.plasticSavedGrams > 0)) {
+                                  return (
+                                    <div className="text-[10px] text-emerald-700 dark:text-emerald-400 mt-0.5 leading-snug">
+                                      vs {math.baselineName}: {math.co2SavedKg} kg CO2 less
+                                      {math.plasticSavedGrams > 0 ? `, ${math.plasticSavedGrams}g plastic avoided` : ''}{' '}
+                                      <span className="text-[9px] text-muted font-normal">(estimate)</span>
+                                    </div>
+                                  );
+                                }
+                                return null;
+                              })()}
                             </div>
                           </div>
 

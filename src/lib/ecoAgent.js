@@ -1,3 +1,48 @@
+export function scoreItemRelevance(p, targetItem) {
+  const name = (p.name || '').toLowerCase();
+  const desc = (p.description || '').toLowerCase();
+  const highlights = (p.ecoHighlights || []).join(' ').toLowerCase();
+  const cat = (p.category || '').toLowerCase();
+
+  const words = name.split(/[^a-z0-9]+/);
+  const tokens = Array.isArray(targetItem.tokens) && targetItem.tokens.length > 0
+    ? targetItem.tokens
+    : targetItem.searchTerm.toLowerCase().split(/\s+/).filter(Boolean);
+
+  let totalScore = 0;
+  let matchesAll = true;
+
+  for (const token of tokens) {
+    let tokenScore = 0;
+    for (const w of words) {
+      if (w === token) {
+        tokenScore = Math.max(tokenScore, 100);
+      } else if (w === token + 's' || w === token + 'es' || token === w + 's' || token === w + 'es') {
+        tokenScore = Math.max(tokenScore, 95);
+      } else if (w.endsWith(token) && token.length >= 4) {
+        tokenScore = Math.max(tokenScore, 90);
+      } else if (token.endsWith(w) && w.length >= 4) {
+        tokenScore = Math.max(tokenScore, 90);
+      }
+    }
+
+    if (tokenScore === 0) {
+      if (highlights.includes(token)) tokenScore = 40;
+      else if (desc.includes(token)) tokenScore = 35;
+      else if (cat.includes(token)) tokenScore = 20;
+    }
+
+    if (tokenScore === 0) matchesAll = false;
+    totalScore += tokenScore;
+  }
+
+  if (tokens.length > 1 && matchesAll) {
+    totalScore += 50;
+  }
+
+  return totalScore;
+}
+
 import { calculateEcoScore, compareProductImpact, detectGreenwashing } from './ecoScore.js';
 import {
   rankProducts,
@@ -114,7 +159,9 @@ export const STOP_WORDS = new Set([
   'now', 'instead', 'want', 'need', 'i', 'thing', 'things', 'something', 'one', 'ones',
   'like', 'looking', 'look', 'search', 'buy', 'shop', 'explore', 'about', 'most',
   'take', 'bring', 'suggest', 'recommend', 'could', 'would', 'can', 'tell', 'make',
-  'already', 'more', 'also', 'just', 'all'
+  'already', 'more', 'also', 'just', 'all',
+  'am', 'is', 'are', 'was', 'were', 'college', 'student', 'students', 'dorm', 'hostel',
+  'campus', 'kid', 'kids', 'adult', 'person', 'people', 'guy', 'girl', 'man', 'woman'
 ]);
 
 // Protected words that must NEVER be treated as typos or corrected to unrelated words
@@ -392,18 +439,52 @@ export function parseShoppingIntent(query, context = null) {
   }
 
   // 2. Goal-based planning & Budget basket detection
-  // Any query containing basket/kit/bundle/starter/set up/setup/combo/essentials + budget (or "budget basket")
-  const hasBasketTerm = /\b(?:basket|kit|bundle|starter|set\s*up|setup|combo|essentials)\b/i.test(text);
+  const hasBasketTerm = /\b(?:basket|kit|bundle|starter|combo|set\s*up|setup)\b/i.test(text);
   const hasBudgetBasket = /\bbudget\s+basket\b/i.test(text);
-  const hasGoalWord = /dorm|student|zero\s+waste\s+(dorm|room|kit|setup)/i.test(text);
+  const hasGoalWord = /zero\s+waste\s+(dorm|room|kit|setup)/i.test(text);
   const isAssembleBasket = /assemble\s+(?:a\s+)?(?:budget\s+)?basket/i.test(text);
 
-  if (hasBudgetBasket || hasGoalWord || isAssembleBasket || (hasBasketTerm && intent.maxBudget !== null)) {
+  // If specific products are mentioned (e.g. brush, soap, toothbrush, shampoo), it is an item search, NOT a generic basket kit
+  const hasSpecificProduct = /\b(?:brush|toothbrush|soap|shampoo|bottle|cutlery|straw|bag|tote|notebook|journal|pen|pens|razor|comb|loofah|sponge|scrubber|candle|detergent|wrap)\b/i.test(text);
+
+  if (!hasSpecificProduct && (hasBudgetBasket || hasGoalWord || isAssembleBasket || (hasBasketTerm && intent.maxBudget !== null))) {
     intent.isGoalPlanning = true;
     if (!intent.maxBudget) {
       intent.maxBudget = 1000;
     }
   }
+
+  // Detect "affordable" or "cheap" with no number -> sort by price ascending, do NOT invent budget!
+  const isAffordableRequested = /\b(?:affordable|cheap|cheapest|low\s*cost|lowcost|budget-friendly|inexpensive|sasta|sasti)\b/i.test(text);
+  if (isAffordableRequested) {
+    intent.sortBy = "price_asc";
+    intent.isAffordable = true;
+  }
+
+  // Parse multiple requested items (e.g. "brush and soap") - RELEVANCE FIRST
+  let qForItems = text.toLowerCase()
+    .replace(/[,\.\?!]/g, " and ")
+    .replace(/\bas well as\b/g, " and ")
+    .replace(/\bplus\b/g, " and ")
+    .replace(/\balong with\b/g, " and ");
+
+  const rawItemParts = qForItems.split(/\band\b/).map((p) => p.trim()).filter(Boolean);
+  const requestedItems = [];
+
+  for (const part of rawItemParts) {
+    const rawTokens = part.split(/\s+/).filter(Boolean);
+    const itemAffordable = rawTokens.some((t) => ["affordable", "cheap", "cheapest", "budget", "lowcost", "low-cost", "inexpensive", "sasta", "sasti"].includes(t));
+    const cleanTokens = rawTokens.filter((t) => !STOP_WORDS.has(t) && !["affordable", "cheap", "cheapest", "budget", "lowcost", "low-cost", "inexpensive", "sasta", "sasti"].includes(t) && isNaN(Number(t)));
+    if (cleanTokens.length > 0) {
+      requestedItems.push({
+        raw: part,
+        searchTerm: cleanTokens.join(" "),
+        tokens: cleanTokens,
+        isAffordable: itemAffordable || isAffordableRequested
+      });
+    }
+  }
+  intent.requestedItems = requestedItems;
 
   // 3. Selection follow-up: "show me the second one", "second option", "first one"
   if (/second\s+(?:one|option|item)|show\s+(?:me\s+)?(?:the\s+)?second/i.test(text)) {
@@ -526,8 +607,9 @@ export function parseShoppingIntent(query, context = null) {
       intent.category = context.lastCategory;
     }
 
-    // "now for bags" / category change keeping previous budget
-    if (intent.category && !intent.maxBudget && context.lastBudget) {
+    // Only carry over previous budget on explicit transition phrases like "now for <category>", or "same budget"
+    const keepsSameBudget = /^(?:now\s+for|what\s+about|how\s+about)\b/i.test(text) || /\b(?:same budget|that budget|previous budget|same price)\b/i.test(text);
+    if (keepsSameBudget && !intent.maxBudget && context.lastBudget) {
       intent.maxBudget = context.lastBudget;
     }
 
@@ -955,6 +1037,119 @@ export function queryEcoCatalog(allProducts, userQuery, context = null, weights 
     };
   }
 
+  // 5.5 Multi-Item Search (e.g. "brush and soap") - RELEVANCE FIRST
+  if (!intent.isCartReview && intent.requestedItems && intent.requestedItems.length > 1) {
+    const productMap = new Map((allProducts || []).map((p) => [p.id, p]));
+    const hydratedCatalog = (allProducts || []).map((p) => {
+      const scoreData = calculateEcoScore(p);
+      let impactMath = null;
+      if (p.conventionalAlternativeId && productMap.has(p.conventionalAlternativeId)) {
+        const conv = productMap.get(p.conventionalAlternativeId);
+        impactMath = {
+          baselineName: conv.name,
+          baselinePrice: conv.price,
+          co2SavedKg: Math.max(0, (conv.carbonKg || 0) - (p.carbonKg || 0)).toFixed(2),
+          plasticSavedGrams: Math.max(0, (conv.plasticGrams || 0) - (p.plasticGrams || 0))
+        };
+      }
+      return {
+        ...p,
+        ecoScoreData: scoreData,
+        greenwashing: detectGreenwashing(p),
+        impactMath
+      };
+    });
+
+    const itemLines = [];
+    const selectedProducts = [];
+    let totalPrice = 0;
+
+    for (const item of intent.requestedItems) {
+      const matchingCandidates = hydratedCatalog
+        .filter((p) => p.isEcoFriendly)
+        .map((p) => ({
+          product: p,
+          relevance: scoreItemRelevance(p, item)
+        }))
+        .filter((entry) => entry.relevance >= 35);
+
+      matchingCandidates.sort((a, b) => {
+        if (b.relevance !== a.relevance) return b.relevance - a.relevance;
+        if (item.isAffordable || intent.isAffordable || intent.sortBy === 'price-asc') {
+          return a.product.price - b.product.price;
+        }
+        return (b.product.ecoScoreData?.score || 0) - (a.product.ecoScoreData?.score || 0);
+      });
+
+      // Ambiguity: e.g. "brush"
+      const isAmbiguous = item.searchTerm === 'brush' || item.searchTerm === 'brushes';
+      if (isAmbiguous && matchingCandidates.length >= 2) {
+        const toothbrush = matchingCandidates.find((c) => c.product.name.toLowerCase().includes('toothbrush'));
+        const top = toothbrush ? toothbrush.product : matchingCandidates[0].product;
+        selectedProducts.push(top);
+        totalPrice += top.price;
+
+        let mathStr = '';
+        if (top.impactMath && (Number(top.impactMath.co2SavedKg) > 0 || top.impactMath.plasticSavedGrams > 0)) {
+          mathStr = ` (vs ${top.impactMath.baselineName}: ${top.impactMath.co2SavedKg} kg CO2 less, ${top.impactMath.plasticSavedGrams}g plastic avoided - estimate)`;
+        }
+        itemLines.push(`• Brush: ${top.name} — ₹${top.price}${mathStr}`);
+        continue;
+      }
+
+      if (matchingCandidates.length === 0) {
+        // Honest not found + closest real alternatives
+        const alts = hydratedCatalog
+          .filter((p) => p.isEcoFriendly && (p.category === 'Personal Care' || p.category === 'Cleaning & Laundry'))
+          .sort((a, b) => (item.isAffordable || intent.isAffordable ? a.price - b.price : (b.ecoScoreData?.score || 0) - (a.ecoScoreData?.score || 0)))
+          .slice(0, 1);
+
+        const alt = alts[0];
+        if (alt) {
+          selectedProducts.push(alt);
+          totalPrice += alt.price;
+          let mathStr = '';
+          if (alt.impactMath && (Number(alt.impactMath.co2SavedKg) > 0 || alt.impactMath.plasticSavedGrams > 0)) {
+            mathStr = ` (vs ${alt.impactMath.baselineName}: ${alt.impactMath.co2SavedKg} kg CO2 less, ${alt.impactMath.plasticSavedGrams}g plastic avoided - estimate)`;
+          }
+          itemLines.push(`• ${item.searchTerm.charAt(0).toUpperCase() + item.searchTerm.slice(1)}: I couldn't find a ${item.searchTerm} in the catalogue. Closest alternative: ${alt.name} — ₹${alt.price}${mathStr}`);
+        } else {
+          itemLines.push(`• ${item.searchTerm.charAt(0).toUpperCase() + item.searchTerm.slice(1)}: I couldn't find a ${item.searchTerm} in the catalogue.`);
+        }
+      } else {
+        const top = matchingCandidates[0].product;
+        selectedProducts.push(top);
+        totalPrice += top.price;
+        let mathStr = '';
+        if (top.impactMath && (Number(top.impactMath.co2SavedKg) > 0 || top.impactMath.plasticSavedGrams > 0)) {
+          mathStr = ` (vs ${top.impactMath.baselineName}: ${top.impactMath.co2SavedKg} kg CO2 less, ${top.impactMath.plasticSavedGrams}g plastic avoided - estimate)`;
+        }
+        itemLines.push(`• ${item.searchTerm.charAt(0).toUpperCase() + item.searchTerm.slice(1)}: ${top.name} — ₹${top.price}${mathStr}`);
+      }
+    }
+
+    const shortOpening = `Here are the best eco-friendly options for your ${intent.requestedItems.map((it) => it.searchTerm).join(' and ')}:`;
+    const explanation = `${shortOpening}\n${itemLines.join('\n')}\nTotal: ₹${totalPrice}`;
+
+    return {
+      type: 'itemized-results',
+      intent,
+      explanation,
+      results: selectedProducts,
+      count: selectedProducts.length,
+      totalPrice,
+      didYouMean: null,
+      tradeoffs: null,
+      prioritiesSummary,
+      trace: [
+        { step: 'Parsed requested items', detail: `Parsed target items: ${intent.requestedItems.map((it) => it.searchTerm).join(', ')}` },
+        { step: 'Relevance-first search', detail: `Searched catalogue separately for each item with relevance threshold >= 35` },
+        { step: 'Audited baseline impact', detail: `Calculated lifecycle savings only where conventional baselines exist` },
+        { step: 'Decision', detail: `Selected ${selectedProducts.map((p) => p.name).join(' and ')} (Total: ₹${totalPrice})` }
+      ]
+    };
+  }
+
   // 6. Standard Catalog Search & Scoring
   const productsWithScore = (allProducts || []).map((p) => ({
     ...p,
@@ -1091,7 +1286,6 @@ export function queryEcoCatalog(allProducts, userQuery, context = null, weights 
   const isBroadQuery =
     intent.isGift ||
     intent.sortBy === 'ecoscore-desc' ||
-    isCategoryBudgetClosest ||
     searchTerms.length === 0 ||
     (intent.category && searchTerms.every((term) => term === intent.category.toLowerCase() || normalizeWord(term) === intent.category.toLowerCase()));
 
@@ -1250,6 +1444,34 @@ export function queryEcoCatalog(allProducts, userQuery, context = null, weights 
     topResults = topResults.filter((p) => p.price <= intent.maxBudget);
   }
 
+  // If no items matched a specific search term (like soap), offer closest real category alternatives
+  let notFoundExplanation = '';
+  if (topResults.length === 0 && searchTerms.length > 0 && searchTerms.some((t) => t.includes('soap'))) {
+    const targetItem = searchTerms.join(' ');
+    const pool = (allProducts || []).filter((p) => p.isEcoFriendly);
+    let alts = pool.filter((p) => p.id === 'care-02' || p.id === 'clean-01');
+    if (alts.length === 0) {
+      alts = pool.filter((p) => p.category === 'Personal Care' || p.category === 'Cleaning & Laundry');
+    }
+
+    if (intent.sortBy === 'price-asc' || intent.isAffordable) {
+      alts.sort((a, b) => a.price - b.price);
+    } else {
+      alts.sort((a, b) => (b.ecoScore || 85) - (a.ecoScore || 85));
+    }
+
+    const closestOptions = alts.slice(0, 3).map((p) => ({
+      ...p,
+      ecoScoreData: calculateEcoScore(p),
+      isAlternative: true
+    }));
+
+    if (closestOptions.length > 0) {
+      topResults = closestOptions;
+      notFoundExplanation = `I couldn't find a ${targetItem} in the catalogue. Here are the closest verified alternatives:`;
+    }
+  }
+
   // Trade-offs calculation between winner and runner-up
   const tradeoffs = topResults.length >= 2 ? generateTradeoffs(topResults[0], topResults[1]) : null;
 
@@ -1319,9 +1541,9 @@ export function queryEcoCatalog(allProducts, userQuery, context = null, weights 
     type: 'search-results',
     intent,
     isCategoryBudgetClosest,
-    explanation: isCategoryBudgetClosest
+    explanation: notFoundExplanation || (isCategoryBudgetClosest
       ? `${intent.category} items start at ₹${topResults[0]?.price || 349} (${topResults[0]?.name || ''}). Here are the most affordable conscious options closest to your ₹${intent.maxBudget} budget:`
-      : '',
+      : ''),
     didYouMean: intent.didYouMean,
     tradeoffs,
     trace,
@@ -1638,6 +1860,8 @@ export async function sendAgentQuery(arg1, arg2, arg3, arg4) {
 
   if (intent.isEducational) {
     friendlyMessage = localResponse.text;
+  } else if (localResponse.type === 'itemized-results') {
+    friendlyMessage = localResponse.explanation;
   } else if (localResponse.type === 'clarification' && localResponse.clarification) {
     friendlyMessage = localResponse.clarification.question;
   } else if (localResponse.type === 'basket-plan') {

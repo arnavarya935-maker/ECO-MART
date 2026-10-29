@@ -180,6 +180,14 @@ function executePlannerStep(query, contextProduct) {
     ? matchedTemplate.categories
     : detectTargetCategories(query);
 
+  const hasSpecificProduct = /\b(?:brush|toothbrush|soap|shampoo|bottle|cutlery|straw|bag|tote|notebook|journal|pen|pens|razor|comb|loofah|sponge|scrubber|candle|detergent|wrap)\b/i.test(query);
+  const isGoalPlan = !hasSpecificProduct && Boolean(
+    matchedTemplate ||
+    /\b(?:basket|bundle|kit|combo)\b/i.test(query) ||
+    /zero\s+waste\s+(?:dorm|room|kit|setup)/i.test(query) ||
+    /assemble\s+(?:a\s+)?(?:budget\s+)?basket/i.test(query)
+  );
+
   return {
     thought: `Deconstructed query into target budget (₹${budget}) across ${categories.length > 0 ? categories.join(', ') : 'all departments'}. Delegating candidate retrieval to Researcher Agent.`,
     summary: matchedTemplate
@@ -188,7 +196,7 @@ function executePlannerStep(query, contextProduct) {
     budget,
     categories,
     constraints,
-    isGoalPlan: Boolean(matchedTemplate || query.includes('dorm') || query.includes('kitchen') || query.includes('bathroom') || query.includes('setup'))
+    isGoalPlan
   };
 }
 
@@ -354,7 +362,7 @@ function executeAdvisorStep(plan, researcherOutput, _skepticOutput, _cartItems, 
     thought: `Synthesized balanced solution: ${selectedItems.length} products total ₹${currentTotal} (remaining budget: ₹${Math.max(0, plan.budget - currentTotal)}). Generated tool confirmation cards for user review.`,
     summary: `Recommended ${selectedItems.length} verified products meeting your ₹${plan.budget} constraint with average EcoScore ${avgEcoScore}/100.`,
     items: selectedItems,
-    basketPlan,
+    basketPlan: plan.isGoalPlan ? basketPlan : null,
     tradeoffs,
     proposedActions
   };
