@@ -1,5 +1,16 @@
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+const defaultSupabaseUrl = 'https://gtzzrubfhrinpxzbtjde.supabase.co';
+const defaultSupabaseAnonKey = 'sb_publishable_KrJzQOivbwq8Uaex7PNJHA_n6ft0oBt';
+
+const rawUrl = import.meta.env.VITE_SUPABASE_URL;
+const rawAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+const supabaseUrl = (rawUrl && typeof rawUrl === 'string' && rawUrl.startsWith('http') && rawUrl !== 'your_supabase_url_here')
+  ? rawUrl.trim()
+  : defaultSupabaseUrl;
+
+const supabaseAnonKey = (rawAnonKey && typeof rawAnonKey === 'string' && rawAnonKey !== 'your_supabase_anon_key_here')
+  ? rawAnonKey.trim()
+  : defaultSupabaseAnonKey;
 
 export const isSupabaseConfigured = Boolean(
   supabaseUrl &&

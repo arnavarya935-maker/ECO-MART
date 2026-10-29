@@ -95,6 +95,9 @@ export function AuthProvider({ children }) {
             createdAt: u.created_at || new Date().toISOString()
           });
           setAuthModalOpen(false);
+          if (typeof window !== 'undefined' && window.location.hash.includes('access_token')) {
+            window.history.replaceState({}, document.title, window.location.pathname);
+          }
         }
       });
 
