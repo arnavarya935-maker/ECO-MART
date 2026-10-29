@@ -21,7 +21,7 @@ export { auth, googleProvider };
 
 export async function loginWithFirebaseGoogle() {
   if (!isFirebaseConfigured) {
-    throw new Error('Firebase is not configured or offline. Please continue as Guest or use local email login.');
+    throw new Error('Google Sign-In is not configured yet. Please continue as Guest or sign in with email.');
   }
   if (!app) {
     try {
@@ -31,8 +31,8 @@ export async function loginWithFirebaseGoogle() {
       auth = getAuth(app);
       googleProvider = new GoogleAuthProvider();
     } catch (err) {
-      console.warn('Firebase initialization failed (operating in offline fallback mode):', err.message);
-      throw new Error('Firebase is offline or could not be loaded. Please continue as Guest or use local email login.');
+      console.warn('Google Sign-In initialization failed:', err.message);
+      throw new Error('Could not connect to Google Sign-In right now. Please continue as Guest or sign in with email.');
     }
   }
   const { signInWithPopup } = await import('firebase/auth');

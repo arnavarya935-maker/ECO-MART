@@ -49,3 +49,4 @@ CREATE POLICY "Allow anon upsert on products"
   TO anon, authenticated
   USING (true)
   WITH CHECK (true);
+

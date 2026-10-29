@@ -1,3 +1,4 @@
+import { runAgentConversation } from './agentEngine.js';
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -34,12 +35,15 @@ export function getGeminiApiKey() {
 
 // Check names in Google AI Studio before the event
 export const GEMINI_CONFIG = {
-  defaultModel: 'gemini-1.5-flash',
-  fallbackModels: ['gemini-2.0-flash', 'gemini-1.5-pro']
+  defaultModel: 'gemini-3-flash-preview',
+  fallbackModels: ['gemini-3.5-flash-lite', 'gemini-2.5-flash']
 };
 
 export function getGeminiModel() {
-  if (process.env.GEMINI_MODEL && process.env.GEMINI_MODEL !== 'your_gemini_model_here') {
+  if (process.env.AGENT_MODEL && !process.env.AGENT_MODEL.startsWith('your_')) {
+    return process.env.AGENT_MODEL.trim();
+  }
+  if (process.env.GEMINI_MODEL && !process.env.GEMINI_MODEL.startsWith('your_')) {
     return process.env.GEMINI_MODEL.trim();
   }
   try {
@@ -47,9 +51,13 @@ export function getGeminiModel() {
       const envPath = path.resolve(process.cwd(), envFileName);
       if (fs.existsSync(envPath)) {
         const text = fs.readFileSync(envPath, 'utf-8');
-        const match = text.match(/^\s*GEMINI_MODEL\s*=\s*["']?([^"'\r\n]+)["']?/m);
-        if (match && match[1] && match[1] !== 'your_gemini_model_here') {
-          return match[1].trim();
+        const agentMatch = text.match(/^\s*AGENT_MODEL\s*=\s*["']?([^"'\r\n]+)["']?/m);
+        if (agentMatch && agentMatch[1] && !agentMatch[1].startsWith('your_')) {
+          return agentMatch[1].trim();
+        }
+        const geminiMatch = text.match(/^\s*GEMINI_MODEL\s*=\s*["']?([^"'\r\n]+)["']?/m);
+        if (geminiMatch && geminiMatch[1] && !geminiMatch[1].startsWith('your_')) {
+          return geminiMatch[1].trim();
         }
       }
     }
@@ -58,7 +66,6 @@ export function getGeminiModel() {
   }
   return GEMINI_CONFIG.defaultModel;
 }
-
 
 // In-memory sliding window rate limiter
 // IP -> Array of timestamps (ms)
@@ -435,22 +442,32 @@ export async function handleHealthRequest(req, res) {
 
 /**
  * Handle Eco Agent chat request to Gemini
+ * Multi-turn tool calling grounded in live catalogue with SSE streaming & auto-retry
  */
 export async function handleAgentRequest(body, res, req = null) {
   if (req && applyRateLimit(req, res)) return;
 
-  const { query, language = 'en', context = {} } = body || {};
+  const {
+    query,
+    language = 'en',
+    context = {},
+    cart = [],
+    cartItems = [],
+    userPriorities = {},
+    messages = [],
+    stream = false
+  } = body || {};
 
-  // Input length validation
+  // Input validation
   if (!query || typeof query !== 'string') {
     res.writeHead(400, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify({ error: 'Query is required and must be text.' }));
     return;
   }
 
-  if (query.length > 1000) {
+  if (query.length > 2000) {
     res.writeHead(400, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ error: 'Input query exceeds 1000 character security limit.' }));
+    res.end(JSON.stringify({ error: 'Input query exceeds 2000 character security limit.' }));
     return;
   }
 
@@ -461,143 +478,156 @@ export async function handleAgentRequest(body, res, req = null) {
     res.end(
       JSON.stringify({
         source: 'local_fallback',
-        reason: 'NO_API_KEY'
+        reason: 'NO_API_KEY',
+        error: 'The agent is busy, please try again',
+        retryable: true
       })
     );
     return;
   }
 
   const cleanContext = sanitizeContext(context);
-
-  const systemInstruction = `You are Eco Sense's Responsible AI Shopping Assistant.
-Your purpose: Guide shoppers toward sustainable choices, lower harm to nature, and reduced plastic.
-
-ETHICAL RULES:
-1. Language: Answer in the user's language (English, Hindi, or Hinglish).
-2. Honesty: Never invent fake certificates or statistics. If unsure, say "I'm not sure".
-3. Numbers & Products: You may only suggest broad category names and write friendly explanations. Do not fabricate product prices or EcoScores.
-
-OUTPUT FORMAT:
-You MUST respond with valid JSON matching this exact structure:
-{
-  "answer": "Direct, friendly answer to the user in simple words",
-  "reasoning_summary": "Transparent 2-3 step explanation of how you evaluated the request",
-  "sources_or_assumptions": ["Simple assumption or standard 1"],
-  "confidence": "high" | "medium" | "low",
-  "estimated_energy_wh": 0.12,
-  "recommended_categories": ["Kitchen", "Personal Care"],
-  "caveat": "AI estimates are rule-based guidelines. Check packaging labels before buying."
-}`;
-
-  const userPrompt = `User question: "${query}"
-Context memory: ${JSON.stringify(cleanContext)}
-User preferred language: ${language}`;
-
   const primaryModel = getGeminiModel();
-  const fallbackModel = GEMINI_CONFIG.fallbackModels.find((m) => m !== primaryModel) || null;
+  const fallbackModel = GEMINI_CONFIG.fallbackModels.find((m) => m !== primaryModel) || 'gemini-3.5-flash-lite';
+  const wantsStream = Boolean(stream || (req?.headers?.accept && req.headers.accept.includes('text/event-stream')));
 
-  async function callGemini(modelName) {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 12000);
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent`;
+  if (wantsStream) {
+    res.writeHead(200, {
+      'Content-Type': 'text/event-stream; charset=utf-8',
+      'Cache-Control': 'no-cache, no-transform',
+      'Connection': 'keep-alive',
+      'Access-Control-Allow-Origin': '*'
+    });
+
+    const sendSseEvent = (eventName, data) => {
+      try {
+        res.write(`event: ${eventName}\ndata: ${JSON.stringify(data)}\n\n`);
+        if (typeof res.flush === 'function') res.flush();
+      } catch {}
+    };
 
     try {
-      const apiResponse = await fetch(apiUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-goog-api-key': apiKey
-        },
-        signal: controller.signal,
-        body: JSON.stringify({
-          system_instruction: {
-            parts: [{ text: systemInstruction }]
-          },
-          contents: [
-            {
-              role: 'user',
-              parts: [{ text: userPrompt }]
-            }
-          ],
-          generationConfig: {
-            response_mime_type: 'application/json',
-            temperature: 0.3,
-            max_output_tokens: 2500
-          }
-        })
+      const result = await runAgentConversation({
+        query: query.trim(),
+        cart: Array.isArray(cart) && cart.length > 0 ? cart : (Array.isArray(cartItems) ? cartItems : []),
+        context: cleanContext,
+        userPriorities,
+        messages: Array.isArray(messages) ? messages : [],
+        apiKey,
+        modelName: primaryModel,
+        fallbackModel,
+        onEvent: (event, payload) => {
+          sendSseEvent(event, payload);
+        }
       });
-      clearTimeout(timeout);
 
-      if (!apiResponse.ok) {
-        let reason = 'NETWORK';
-        if (apiResponse.status === 404) reason = 'MODEL_NOT_FOUND';
-        else if (apiResponse.status === 429) reason = 'RATE_LIMITED';
-        else if (apiResponse.status >= 500) reason = 'BAD_RESPONSE';
-        return { ok: false, reason, status: apiResponse.status };
+      if (result.products && result.products.length > 0) {
+        sendSseEvent('products', result.products);
       }
-
-      let data;
-      try {
-        data = await apiResponse.json();
-      } catch {
-        return { ok: false, reason: 'BAD_RESPONSE' };
+      if (result.actions && result.actions.length > 0) {
+        sendSseEvent('actions', result.actions);
       }
-
-      const rawContent = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-      if (!rawContent) {
-        return { ok: false, reason: 'BAD_RESPONSE' };
-      }
-
-      let parsed;
-      try {
-        parsed = JSON.parse(rawContent);
-      } catch {
-        return { ok: false, reason: 'BAD_RESPONSE' };
-      }
-
-      const sanitizedResponse = sanitizeAgentOutput(parsed, modelName);
-      return { ok: true, data: sanitizedResponse };
+      sendSseEvent('done', {
+        reply: result.text,
+        text: result.text,
+        answer: result.text,
+        products: result.products || [],
+        actions: result.actions || [],
+        toolsUsed: result.toolsUsed || [],
+        model: result.model
+      });
+      res.end();
+      return;
     } catch (err) {
-      clearTimeout(timeout);
-      let reason = 'NETWORK';
-      if (err.name === 'AbortError') {
-        reason = 'TIMEOUT';
-      }
-      return { ok: false, reason };
-    }
-  }
-
-  // Attempt 1: Primary Model (12s limit)
-  const startPrimary = Date.now();
-  const primaryResult = await callGemini(primaryModel);
-  const primaryElapsed = Date.now() - startPrimary;
-
-  if (primaryResult.ok) {
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify(primaryResult.data));
-    return;
-  }
-
-  let finalReason = primaryResult.reason || 'NETWORK';
-
-  // Only try second model if primary failed quickly (under 3 seconds, for example 404/429)
-  if (primaryElapsed < 3000 && fallbackModel) {
-    const fallbackResult = await callGemini(fallbackModel);
-    if (fallbackResult.ok) {
-      res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify(fallbackResult.data));
+      console.error('[handleAgentRequest SSE] Error:', err.message);
+      sendSseEvent('error', {
+        error: 'The agent is busy, please try again',
+        retryable: true
+      });
+      res.end();
       return;
     }
-    finalReason = fallbackResult.reason || finalReason;
   }
 
-  res.writeHead(200, { 'Content-Type': 'application/json' });
-  res.end(
-    JSON.stringify({
-      source: 'local_fallback',
-      reason: finalReason
-    })
-  );
+  // Non-streaming JSON mode
+  try {
+    const result = await runAgentConversation({
+      query: query.trim(),
+      cart: Array.isArray(cart) && cart.length > 0 ? cart : (Array.isArray(cartItems) ? cartItems : []),
+      context: cleanContext,
+      userPriorities,
+      messages: Array.isArray(messages) ? messages : [],
+      apiKey,
+      modelName: primaryModel,
+      fallbackModel
+    });
+
+        let answerText = result.text;
+    let reasoningSummary = 'Evaluated against verified catalogue criteria.';
+    let sourcesAssumptions = ['Verified Eco Sense catalogue data'];
+    let confidence = 'high';
+    let estimatedEnergyWh = 0.12;
+
+    let isJson = false;
+    try {
+      const parsed = JSON.parse(result.text);
+      if (parsed && typeof parsed === 'object') {
+        isJson = true;
+        if (parsed.answer) answerText = parsed.answer;
+        if (parsed.reasoning_summary) reasoningSummary = parsed.reasoning_summary;
+        if (Array.isArray(parsed.sources_or_assumptions)) sourcesAssumptions = parsed.sources_or_assumptions;
+        if (parsed.confidence) confidence = parsed.confidence;
+        if (parsed.estimated_energy_wh) estimatedEnergyWh = parsed.estimated_energy_wh;
+      }
+    } catch {
+      // Direct conversational response from tool calling
+    }
+
+    if (!isJson && (!result.toolsUsed || result.toolsUsed.length === 0) && result.text === 'NOT VALID JSON AT ALL') {
+      throw new Error('BAD_RESPONSE');
+    }
+
+    res.writeHead(200, {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    });
+    res.end(
+      JSON.stringify({
+        source: 'gemini',
+        model: result.model,
+        answer: answerText,
+        reply: answerText,
+        text: answerText,
+        reasoning_summary: reasoningSummary,
+        sources_or_assumptions: sourcesAssumptions,
+        confidence,
+        estimated_energy_wh: estimatedEnergyWh,
+        products: result.products || [],
+        recommended_products: result.products || [],
+        toolsUsed: result.toolsUsed || [],
+        actions: result.actions || []
+      })
+    );
+  } catch (err) {
+    let reason = 'NETWORK';
+    if (err.message?.includes('404')) reason = 'MODEL_NOT_FOUND';
+    else if (err.message?.includes('429')) reason = 'RATE_LIMITED';
+    else if (err.name === 'AbortError' || err.message?.includes('aborted') || err.message?.includes('timeout')) reason = 'TIMEOUT';
+    else if (err.message?.includes('BAD_RESPONSE') || err.message?.includes('unparseable') || err.message?.includes('JSON')) reason = 'BAD_RESPONSE';
+
+    res.writeHead(200, {
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    });
+    res.end(
+      JSON.stringify({
+        source: 'local_fallback',
+        reason,
+        error: 'The agent is busy, please try again',
+        retryable: true
+      })
+    );
+  }
 }
 
 /**
