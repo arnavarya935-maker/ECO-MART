@@ -13,7 +13,7 @@
  * Low plastic / Plastic-free -> प्लास्टिक कम / बिना प्लास्टिक
  * Harm to nature -> प्रकृति को नुकसान
  * Estimated / Estimate -> अनुमानित
- * Built-in helper / Smart rules -> हमारा इन-बिल्ट सहायक / स्मार्ट नियम
+ * Eco Agent -> हमारा इको एजेंट
  * Good choice -> बेहतर विकल्प
  * View / Inspect -> देखें
  * Where it comes from -> यह कहाँ से आता है
@@ -75,7 +75,7 @@ export const hi = {
   'hero.exploreCta': 'कैटलॉग देखें',
   'hero.agentCta': 'इको एजेंट से पूछें',
   'hero.statProducts': '64 नमूना उत्पाद',
-  'hero.statOffline': 'स्मार्ट नियम + क्लाउड AI',
+  'hero.statOffline': 'क्लाउड AI',
   'hero.statCo2': 'CO₂ बचत (अनुमानित)',
 
   // Home Page
@@ -177,11 +177,11 @@ export const hi = {
   // Eco Agent Chat & Assistant
   'agent.title': 'इको एजेंट',
   'agent.online': 'Gemini',
-  'agent.builtIn': 'हमारा इन-बिल्ट सहायक',
+  'agent.builtIn': 'इको एजेंट',
   'agent.statusWorking': 'AI सहायक: सक्रिय',
-  'agent.statusNotConnected': 'AI सहायक: जुड़ा नहीं है - इन-बिल्ट सहायक चालू है',
+  'agent.statusNotConnected': 'AI सहायक: अभी कनेक्ट नहीं हो सका',
   'agent.welcomeTitle': 'इको एजेंट खरीदारी सहायक',
-  'agent.welcomeSubtitle': 'जागरूक खरीदारी के लिए स्मार्ट नियम और सलाह',
+  'agent.welcomeSubtitle': 'जागरूक खरीदारी के लिए उपयोगी सलाह',
   'agent.greeting': 'नमस्ते! मैं आपका इको सेंस शॉपिंग सहायक हूँ। मैं आपको पर्यावरण-अनुकूल उत्पाद ढूंढने, प्लास्टिक कम करने और हमारे कैटलॉग में उत्पादों की तुलना करने में मदद कर सकता हूँ। आज आप क्या देखना चाहेंगे?',
   'agent.inputPlaceholder': 'किसी उत्पाद, ₹1000 के अंदर उपहार या सबसे सस्ते विकल्प के बारे में पूछें...',
   'agent.thinking': 'सोच रहा हूँ...',
@@ -202,7 +202,7 @@ export const hi = {
   // Swap My List (Cart Transformer)
   'transformer.title': 'मेरी लिस्ट बदलें',
   'transformer.subtitle': 'अपनी खरीदारी सूची पेस्ट करें। हमारा सहायक आपके बजट के अंदर बेहतर पर्यावरण विकल्प खोजेगा।',
-  'transformer.badge': 'स्मार्ट नियम • बजट सॉल्वर',
+  'transformer.badge': 'स्मार्ट ऑप्टिमाइज़र • बजट सॉल्वर',
   'transformer.inputPlaceholder': 'उदा. टूथब्रश, शैम्पू, 2 पानी की बोतलें, नोटबुक, बर्तन धोने का साबुन, ₹1500 के अंदर',
   'transformer.budgetLabel': 'बजट सीमा (वैकल्पिक)',
   'transformer.budgetPlaceholder': '₹ अधिकतम बजट',
@@ -327,7 +327,7 @@ export const hi = {
   'advanced.truthLab.title': 'ट्रुथ लैब (Truth Lab)',
   'advanced.truthLab.desc': 'तथ्यों के आधार पर उत्पादों की तुलना करें और दावों की जांच करें',
   'advanced.courtroom.title': 'AI कोर्टरूम (AI Courtroom)',
-  'advanced.courtroom.desc': 'स्मार्ट नियमों के साथ विपणन दावों का एक मजेदार परीक्षण',
+  'advanced.courtroom.desc': 'तथ्यों के साथ विपणन दावों का एक मजेदार परीक्षण',
   'advanced.dilemmas.title': 'नैतिक दुविधाएं (Moral Dilemmas)',
   'advanced.dilemmas.desc': 'कीमत, कार्बन और प्लास्टिक के बीच के समझौतों को समझें',
   'advanced.selfAudit.title': 'AI निष्पक्षता जांच (AI Self-Audit)',
@@ -345,5 +345,5 @@ export const hi = {
   'advanced.playground.title': 'प्राथमिकता प्लेग्राउंड (Decision Playground)',
   'advanced.playground.desc': 'स्लाइडर चलाकर तय करें कि आपके लिए क्या सबसे ज़रूरी है',
   'advanced.transparency.title': 'सहायक पारदर्शिता (Agent Transparency)',
-  'advanced.transparency.desc': 'हमारे स्मार्ट नियम और क्लाउड सहायक कैसे साथ काम करते हैं'
+  'advanced.transparency.desc': 'हमारा AI और स्कोरिंग मॉडल कैसे काम करता है'
 };

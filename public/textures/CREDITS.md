@@ -1,6 +1,6 @@
 # Textures Attribution & Credits
 
-All 3D textures used in EcoMart are bundled locally in `/public/textures/` to guarantee 100% offline functionality.
+All 3D textures used in Eco Sense are bundled in `/public/textures/` for instant rendering and high performance.
 
 ## 1. NASA Blue Marble & Earth PBR Textures
 - **Folder**: `/public/textures/earth/`

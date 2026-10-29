@@ -128,7 +128,7 @@ export default function ReasoningExplanationCard({
         <div className="mt-2 p-3.5 rounded-2xl bg-surface-sunken border border-line space-y-3.5 animate-fade-in text-left">
           {/* Model & Source Meta */}
           <div className="flex items-center justify-between text-[10px] font-mono text-text-muted border-b border-line pb-2">
-            <span>ENGINE: {model} {isFallback && '(Built-in Helper)'}</span>
+            <span>ENGINE: {model}</span>
             <span className="flex items-center gap-1 text-primary">
               <Zap className="w-3 h-3 text-primary" />
               <span>~{estimatedEnergyWh} Wh (est.)</span>

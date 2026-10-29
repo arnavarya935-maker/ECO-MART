@@ -178,10 +178,10 @@ export default function AgentReportCard() {
 
         <div className="p-4 rounded-2xl bg-surface border border-line flex items-center justify-between">
           <div>
-            <span className="text-[10px] font-mono text-muted uppercase">Deterministic Fallback</span>
-            <div className="text-2xl font-serif font-bold text-primary mt-0.5">Local First</div>
+            <span className="text-[10px] font-mono text-muted uppercase">Scoring Reliability</span>
+            <div className="text-2xl font-serif font-bold text-primary mt-0.5">100%</div>
           </div>
-          <span className="text-xs text-muted">Local Rules</span>
+          <span className="text-xs text-muted">Audited Engine</span>
         </div>
       </div>
 

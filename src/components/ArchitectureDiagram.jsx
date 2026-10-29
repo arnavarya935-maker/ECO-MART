@@ -82,16 +82,15 @@ export default function ArchitectureDiagram() {
       <div className="p-5 rounded-2xl bg-surface-sunken border border-line flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="space-y-1 text-center md:text-left">
           <div className="text-xs font-semibold uppercase tracking-wider text-primary">
-            Smart Rules & Connected AI Layer
+            Connected AI & Verification Engine
           </div>
           <div className="text-xs sm:text-sm text-secondary leading-relaxed font-normal">
-            Eco Sense uses <strong>deterministic local rules</strong> for core scoring, NLP parsing, and swap logic.
-            If a connection exists, it asynchronously calls <code>/api/agent</code> behind a protected <code>try/catch</code> block without ever blocking the UI.
+            Eco Sense uses deterministic eco-scoring formulas for core calculations. For conversational advice and reasoning, it connects to Gemini via a secure server proxy.
           </div>
         </div>
         <div className="flex items-center gap-2 shrink-0">
           <span className="px-3 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-medium border border-primary/20">
-            Smart Rules Active
+            Connected AI Active
           </span>
           <span className="px-3 py-1.5 rounded-full bg-secondary/10 text-secondary text-xs font-medium border border-secondary/20">
             0ms Search Latency

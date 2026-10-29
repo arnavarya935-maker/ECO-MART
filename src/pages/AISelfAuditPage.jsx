@@ -281,7 +281,7 @@ export default function AISelfAuditPage() {
           <div className="pt-6 border-t-2 border-line flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs font-mono text-muted">
             <div>
               <span>Eco Sense Algorithmic Transparency &amp; Safety Framework</span>
-              <p className="text-[10px] mt-0.5">Deterministic Local Rules • Zero Personal Data Retained</p>
+              <p className="text-[10px] mt-0.5">Deterministic Scoring Formulas • Zero Personal Data Retained</p>
             </div>
             <div className="text-right">
               <span>Status: RULES CHECK PASSED</span>

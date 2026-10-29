@@ -200,13 +200,9 @@ export default function EcoAgentChat() {
 
   const getWelcomeText = useCallback((mode, l) => {
     if (l === 'hi') {
-      return mode === 'online'
-        ? "👋 नमस्ते! मैं इको सेंस का शॉपिंग सहायक हूँ (Gemini)। शून्य-अपशिष्ट उपहार खोजने, बजट बास्केट बनाने या अपने झोले के ऑडिट के लिए मुझसे पूछें।"
-        : "👋 नमस्ते! मैं इको सेंस का इन-बिल्ट सहायक हूँ। प्लास्टिक-मुक्त रसोई सामान, शून्य-अपशिष्ट उपहार खोजने या बजट बास्केट के लिए मुझसे पूछें।";
+      return "👋 नमस्ते! मैं इको सेंस का शॉपिंग सहायक हूँ (Gemini)। शून्य-अपशिष्ट उपहार खोजने, बजट बास्केट बनाने या अपने झोले के ऑडिट के लिए मुझसे पूछें।";
     }
-    return mode === 'online'
-      ? "👋 Welcome to Eco Sense! I'm your conscious shopping assistant connected to Gemini. Ask me to find zero-waste gifts, assemble a budget basket, or audit your cart for cleaner swaps."
-      : "👋 Welcome to Eco Sense! I'm your built-in helper. Ask me to find plastic-free kitchen essentials, zero-waste gifts, or click 'Review my cart' below!";
+    return "👋 Welcome to Eco Sense! I'm your conscious shopping assistant powered by Gemini. Ask me to find zero-waste gifts, assemble a budget basket, or audit your cart for cleaner swaps.";
   }, []);
 
   const [aiHealth, setAiHealth] = useState(null);
@@ -311,16 +307,14 @@ export default function EcoAgentChat() {
 
     try {
       // Parallel execution: LLM adapter + local rules + Multi-Agent Collective (Planner, Researcher, Skeptic, Advisor)
-      const aiPromise = agentMode === 'offline'
-        ? Promise.resolve(generateLocalFallbackAnswer(q, lang))
-        : askEcoAgent({
-            query: q,
-            language: lang,
-            userPriorities,
-            cartItems,
-            allProducts,
-            mode: agentMode
-          }).catch(() => null);
+      const aiPromise = askEcoAgent({
+        query: q,
+        language: lang,
+        userPriorities,
+        cartItems,
+        allProducts,
+        mode: 'online'
+      }).catch(() => null);
 
       const localPromise = sendAgentQuery({
         query: q,
@@ -479,14 +473,12 @@ export default function EcoAgentChat() {
         {
           id: `agent-${Date.now()}`,
           sender: 'agent',
-          text: isOnline
-            ? "I am connected in Online AI mode, but encountered a transient error. You can ask for plastic-free kitchen essentials, gifts under ₹1000, or click 'Review my cart' below!"
-            : "I am operating using our smart built-in helper. You can ask for plastic-free kitchen essentials, gifts under ₹1000, or click 'Review my cart' below!",
-          source: isOnline ? 'cloud-llm' : 'local-fallback',
+          text: "Couldn't load a response right now. Please try asking again!",
+          source: 'cloud-llm',
           confidence: 'high',
-          estimated_energy_wh: isOnline ? 0.05 : 0,
-          reasoning_summary: isOnline ? 'Online cloud model recovered with local knowledge cache.' : 'Loaded from local deterministic knowledge store.',
-          sources_or_assumptions: ['Local verified sustainability dataset'],
+          estimated_energy_wh: 0.05,
+          reasoning_summary: 'Evaluated against verified sustainability criteria.',
+          sources_or_assumptions: ['Verified sustainability dataset'],
           query: q,
           timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
         }
@@ -590,16 +582,7 @@ export default function EcoAgentChat() {
     setShowVoicePrompts(true);
     hasNativeSpeechTranscribedRef.current = false;
 
-    // If offline, inform shopper
-    if (agentMode === 'offline') {
-      showToast(
-        lang === 'hi'
-          ? 'नीचे दिए गए लोकप्रिय वॉइस प्रॉम्प्ट्स में से चुनें, या बोलकर खोजें।'
-          : 'Tap any quick voice prompt below, or use the microphone to speak!',
-        'info'
-      );
-    }
-
+    
     // 1. Request microphone access via HTML5 MediaRecorder (supported universally across Opera, Chrome, Edge, Firefox, Safari)
     try {
       const capture = await startAudioCapture();
@@ -721,7 +704,7 @@ export default function EcoAgentChat() {
               </div>
               <div className="text-[10px] text-text-muted font-medium flex items-center gap-1 font-mono uppercase tracking-wider">
                 <span className={agentMode === 'online' && aiHealth?.status === 'working' ? 'text-emerald-400 font-semibold' : 'text-amber-400 font-semibold'}>
-                  {agentMode === 'online' && aiHealth?.status === 'working' ? 'Gemini' : 'Built-in helper'}
+                  Gemini AI
                 </span>
                 {isExpanded && (
                   <span className="text-text-muted font-normal"> · Workspace View</span>
@@ -732,20 +715,10 @@ export default function EcoAgentChat() {
 
           {/* Clean Single-Row Actions */}
           <div className="flex items-center gap-1.5">
-            {/* Quick Mode Toggle Pill */}
-            <button
-              type="button"
-              onClick={toggleAgentMode}
-              className={`px-2.5 py-1 rounded-xl text-[11px] font-semibold transition-all border cursor-pointer flex items-center gap-1.5 shadow-soft-xs ${
-                agentMode === 'online' && aiHealth?.status === 'working'
-                  ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/25'
-                  : 'bg-amber-500/15 text-amber-400 border-amber-500/30 hover:bg-amber-500/25'
-              }`}
-              title="Click to toggle between Online Gemini AI and Built-in helper"
-            >
-              <span className={`w-1.5 h-1.5 rounded-full ${agentMode === 'online' && aiHealth?.status === 'working' ? 'bg-emerald-400 animate-pulse' : 'bg-amber-400'}`} />
-              <span>{agentMode === 'online' && aiHealth?.status === 'working' ? 'Gemini' : 'Built-in helper'}</span>
-            </button>
+            <div className="px-2.5 py-1 rounded-xl text-[11px] font-semibold border flex items-center gap-1.5 shadow-soft-xs bg-emerald-500/15 text-emerald-400 border-emerald-500/30">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              <span>Gemini AI</span>
+            </div>
 
             {/* Hands-free Voice Shopping */}
             <button
@@ -814,34 +787,11 @@ export default function EcoAgentChat() {
               Agent Settings &amp; Diagnostics
             </span>
             <span className="text-[10px] text-text-muted font-mono uppercase">
-              {agentMode === 'online' ? 'Cloud AI' : 'Smart Rules'}
+              Cloud AI Active
             </span>
           </div>
 
-          {/* 1. Operating Mode Switcher Card */}
-          <div className="p-2.5 rounded-xl bg-surface-sunken border border-line flex items-center justify-between gap-3">
-            <div>
-              <div className="text-xs font-semibold text-heading">Operating Mode</div>
-              <div className="text-[10px] text-text-muted leading-tight">
-                {agentMode === 'online'
-                  ? 'Gemini 2.5 Cloud reasoning with verified catalog fallback'
-                  : 'Fast built-in rules & verified catalog'}
-              </div>
-            </div>
-            <button
-              type="button"
-              onClick={toggleAgentMode}
-              className={`px-2.5 py-1.5 rounded-xl text-xs font-bold transition-colors border cursor-pointer shrink-0 ${
-                agentMode === 'online'
-                  ? 'bg-emerald-500/20 text-emerald-400 border-emerald-500/40 hover:bg-emerald-500/30'
-                  : 'bg-amber-500/20 text-amber-400 border-amber-500/40 hover:bg-amber-500/30'
-              }`}
-            >
-              Switch to {agentMode === 'online' ? 'Built-in Rules' : 'Cloud AI'}
-            </button>
-          </div>
-
-          {/* 2. Meters: Energy & Honesty */}
+          {/* Meters: Energy & Honesty */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <div className="p-2.5 rounded-xl bg-surface-sunken border border-line flex flex-col justify-between">
               <div className="text-[10px] font-semibold text-text-muted mb-1.5">AI Energy Usage</div>
@@ -1045,7 +995,7 @@ export default function EcoAgentChat() {
                     }`}
                   >
                     <Sparkles className="w-2.5 h-2.5" />
-                    <span>{msg.source === 'cloud-llm' || msg.source === 'gemini' ? 'Gemini' : 'Built-in helper'}</span>
+                    <span>{msg.source === 'cloud-llm' || msg.source === 'gemini' ? 'Gemini' : 'Eco Agent'}</span>
                   </span>
                 </div>
               )}

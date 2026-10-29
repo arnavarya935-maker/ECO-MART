@@ -78,3 +78,23 @@ export async function signupWithSupabaseEmail(name, email, password) {
   if (error) throw error;
   return data;
 }
+
+/**
+ * Fetch all products directly from Supabase.
+ * Products load ONLY from Supabase — never fall back to local JSON at runtime.
+ */
+export async function fetchProductsFromSupabase() {
+  const client = await getSupabase();
+  if (!client) {
+    throw new Error("Couldn't load this right now");
+  }
+  const { data, error } = await client
+    .from('products')
+    .select('*')
+    .order('id', { ascending: true });
+
+  if (error) {
+    throw error;
+  }
+  return data || [];
+}

@@ -7,52 +7,6 @@ export default function Footer() {
   const { t, lang } = useT();
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [newsletterSubscribed, setNewsletterSubscribed] = useState(false);
-  const [healthInfo, setHealthInfo] = useState({
-    operational: true,
-    gemini: false,
-    label: 'All AI systems operational (Smart Rule Engine active)'
-  });
-
-  useEffect(() => {
-    let isMounted = true;
-    const checkHealth = async () => {
-      try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 2000);
-        const res = await fetch('/api/health', { signal: controller.signal });
-        clearTimeout(timeoutId);
-        if (res.ok) {
-          const data = await res.json();
-          if (isMounted) {
-            const isGeminiWorking = Boolean(data.gemini || data.status === 'working');
-            if (isGeminiWorking) {
-              setHealthInfo({
-                operational: true,
-                gemini: true,
-                label: `All AI systems operational (${data.model || 'Gemini'} Connected)`
-              });
-            } else {
-              setHealthInfo({
-                operational: true,
-                gemini: false,
-                label: 'AI systems operational (Built-in Helper active)'
-              });
-            }
-          }
-        }
-      } catch {
-        if (isMounted) {
-          setHealthInfo({
-            operational: true,
-            gemini: false,
-            label: 'AI systems operational (Built-in Helper active)'
-          });
-        }
-      }
-    };
-    checkHealth();
-    return () => { isMounted = false; };
-  }, []);
 
   const handleSubscribe = (e) => {
     e.preventDefault();
@@ -98,8 +52,8 @@ export default function Footer() {
                 Transparent Impact
               </span>
               <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-raised text-heading border border-line text-xs uppercase tracking-wider">
-                <Zap className="w-3.5 h-3.5 text-amber-400" />
-                Local-First Engine
+                <Zap className="w-3.5 h-3.5 text-primary" />
+                Verified Catalog
               </span>
             </div>
           </div>
@@ -238,14 +192,13 @@ export default function Footer() {
         {/* Bottom Bar Info */}
         <div className="mt-14 pt-6 border-t border-line/60 flex flex-col sm:flex-row items-center justify-between text-xs font-sans text-text-muted gap-4">
           <div>
-            © 2026 {lang === 'hi' ? 'इको सेंस' : 'Eco Sense'}. {lang === 'hi' ? 'नमूना स्कूल प्रोजेक्ट' : 'Sample school project'}.
+            © 2026 {lang === 'hi' ? 'इको सेंस' : 'Eco Sense'}.
           </div>
-          <div className="flex flex-wrap items-center gap-2 text-heading font-medium">
-            <span className={`w-2 h-2 rounded-full ${healthInfo.gemini ? 'bg-primary animate-pulse' : 'bg-amber-400'}`} />
-            <span className="font-mono text-xs">{healthInfo.label}</span>
-            <span className="px-2 py-0.5 rounded-full bg-surface-raised text-xs text-text-muted border border-line font-mono">
-              Server AI + Smart Rules
-            </span>
+          <div className="flex flex-wrap items-center gap-4 text-xs font-sans text-text-secondary">
+            <Link to="/shop" className="hover:text-heading transition">Shop</Link>
+            <Link to="/transparency" className="hover:text-heading transition">Agent Transparency</Link>
+            <Link to="/how-it-works" className="hover:text-heading transition">How It Works</Link>
+            <Link to="/settings" className="hover:text-heading transition">Settings</Link>
           </div>
         </div>
       </div>

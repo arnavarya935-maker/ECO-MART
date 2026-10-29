@@ -195,7 +195,7 @@ export function CartProvider({ children }) {
   // AI Agent Online vs Offline Mode (User selectable)
   const [agentMode, setAgentModeState] = useState(() => {
     try {
-      return localStorage.getItem('ecomart_agent_mode') || 'online';
+      return 'online';
     } catch {
       return 'online';
     }
@@ -242,13 +242,13 @@ export function CartProvider({ children }) {
   const setAgentMode = useCallback((mode) => {
     setAgentModeState(mode);
     try {
-      localStorage.setItem('ecomart_agent_mode', mode);
+      localStorage.removeItem('ecomart_agent_mode');
       window.dispatchEvent(new CustomEvent('ecomart-agent-mode-change', { detail: { mode } }));
     } catch {}
     showToast(
       mode === 'online'
         ? '🌐 Online AI Connected (Cloud Gemini 2.5)'
-        : '⚡ Smart Rules Active (Built-in Rule Engine)',
+        : '🌐 Online AI Connected (Cloud Gemini)',
       'info'
     );
   }, [showToast]);

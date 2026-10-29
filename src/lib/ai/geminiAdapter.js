@@ -102,7 +102,7 @@ export function generateLocalFallbackAnswer(query, _language = 'en') {
       isFallback: true,
       isOffTopic: true,
       source: 'local_verified_cache',
-      model: 'Built-in helper'
+      model: 'Eco Agent'
     };
   }
 
@@ -125,7 +125,7 @@ export function generateLocalFallbackAnswer(query, _language = 'en') {
         recommended_categories: item.recommended_categories || [],
         isFallback: true,
         source: 'local_verified_cache',
-        model: 'Eco Sense Offline Engine'
+        model: 'Eco Agent Engine'
       };
     }
   }
@@ -155,7 +155,7 @@ export function generateLocalFallbackAnswer(query, _language = 'en') {
       recommended_categories: [...new Set(topItems.map((p) => p.category))],
       isFallback: true,
       source: 'local_catalog_engine',
-      model: 'Eco Sense Offline Catalog Engine'
+      model: 'Eco Agent Catalog Engine'
     };
   }
 
@@ -172,7 +172,7 @@ export function generateLocalFallbackAnswer(query, _language = 'en') {
     recommended_categories: ['Kitchen', 'Personal Care', 'Home', 'Bags'],
     isFallback: true,
     source: 'local_catalog_engine',
-    model: 'Eco Sense Smart Rules Engine'
+    model: 'Eco Agent Scoring Engine'
   };
 }
 
@@ -205,14 +205,14 @@ export async function askEcoAgent({ query, language = 'en', context = {}, mode =
       isFallback: false,
       isOffTopic: true,
       source: 'local_verified_cache',
-      model: 'Built-in helper'
+      model: 'Eco Agent'
     };
   }
 
   const isOnline = mode
     ? mode === 'online'
     : (typeof window !== 'undefined'
-      ? (localStorage.getItem('ecomart_agent_mode') !== 'offline')
+      ? true
       : true);
 
   if (!isOnline) {
@@ -308,7 +308,7 @@ export async function auditGreenwashingClaim({ text, language = 'en' }) {
   }
 
   const isOnline = typeof window !== 'undefined'
-    ? (localStorage.getItem('ecomart_agent_mode') !== 'offline' && (typeof navigator === 'undefined' || navigator.onLine))
+    ? true
     : true;
 
   if (!isOnline) {

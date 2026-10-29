@@ -76,7 +76,7 @@ export default function EcoCheckPage() {
         </h1>
         <p className="text-sm font-sans text-secondary mt-2 max-w-2xl leading-relaxed">
           Evaluating a purchase outside Eco Sense? Paste the product description, material list, or brand claims.
-          Our smart rules look for misleading claims, estimate harm to nature, and suggest better choices from our catalogue.
+          Our claim checkers look for misleading claims, estimate harm to nature, and suggest better choices from our catalogue.
         </p>
 
         {/* Search Input Box */}

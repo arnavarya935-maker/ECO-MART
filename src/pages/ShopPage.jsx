@@ -1,7 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { TrendingUp, Gift, Package } from 'lucide-react';
-import productsData from '../data/products.json';
+import { useProducts } from '../context/ProductsContext';
 import { calculateEcoScore } from '../lib/ecoScore';
 import { rankProducts } from '../lib/decisionEngine';
 import { FEATURES } from '../lib/features';
@@ -28,6 +28,7 @@ export default function ShopPage() {
   const { t } = useT();
   const [searchParams, setSearchParams] = useSearchParams();
   const { userPriorities } = useCart();
+  const { products, loading, error, retry } = useProducts();
 
   // URL-driven query states
   const categoryParam = searchParams.get('category') || 'All';
@@ -49,12 +50,12 @@ export default function ShopPage() {
 
   // Extract all categories & certifications
   const categories = useMemo(() => {
-    return [...new Set(productsData.map((p) => p.category))].sort();
+    return [...new Set(products.map((p) => p.category))].sort();
   }, []);
 
   const availableCerts = useMemo(() => {
     const certs = new Set();
-    productsData.forEach((p) => {
+    products.forEach((p) => {
       if (Array.isArray(p.certifications)) {
         p.certifications.forEach((c) => certs.add(c));
       }
@@ -63,7 +64,7 @@ export default function ShopPage() {
   }, []);
 
   const maxPriceLimit = useMemo(() => {
-    return Math.max(...productsData.map((p) => p.price), 2500);
+    return Math.max(...products.map((p) => p.price), 2500);
   }, []);
 
   // Update URL search parameters
@@ -81,7 +82,7 @@ export default function ShopPage() {
   const filteredProducts = useMemo(() => {
     const q = queryParam.trim().toLowerCase();
 
-    return productsData.filter((product) => {
+    return products.filter((product) => {
       // 1. Search Query
       if (q) {
         const matchesName = product.name.toLowerCase().includes(q);
@@ -229,7 +230,7 @@ export default function ShopPage() {
                 Eco Sense Catalog
               </span>
               <span className="text-xs font-sans text-muted font-medium">
-                {productsData.length} Products Indexed
+                {products.length} Products Indexed
               </span>
             </div>
             <h1 className="font-heading text-3xl sm:text-4xl font-extrabold text-heading mt-2 tracking-tight">
@@ -439,7 +440,7 @@ export default function ShopPage() {
       <TradeoffExplorerModal
         isOpen={isTradeoffModalOpen}
         onClose={() => setIsTradeoffModalOpen(false)}
-        products={productsData}
+        products={products}
       />
 
       {/* Feature 25: Curated Gift Finder Modal */}

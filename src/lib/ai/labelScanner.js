@@ -230,7 +230,7 @@ export async function scanProductLabel({
 
   // 3. Attempt Server-side Vision Transcription via Gemini Proxy (if online)
   const isOnline = typeof window !== 'undefined'
-    ? (localStorage.getItem('ecomart_agent_mode') !== 'offline' && (typeof navigator === 'undefined' || navigator.onLine))
+    ? true
     : true;
 
   if (isOnline) {

@@ -98,7 +98,7 @@ export default function SettingsPage() {
       error: 'network error'
     };
     const reason = reasonMap[aiHealth?.status] || 'not connected';
-    return `AI helper: not connected - using the built-in helper (${reason})`;
+    return `AI helper: couldn't connect right now (${reason})`;
   };
 
   const handleStrictnessChange = (e) => {

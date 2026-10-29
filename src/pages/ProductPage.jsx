@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import productsData from '../data/products.json';
+import { useProducts } from '../context/ProductsContext';
 import { useCart } from '../context/CartContext';
 import { useT } from '../context/I18nContext';
 import { getLocalizedProduct } from '../lib/productsHelper';
@@ -47,6 +47,7 @@ import {
 
 export default function ProductPage() {
   const { id } = useParams();
+  const { products, loading, error, retry, getProductById } = useProducts();
   const { t, lang } = useT();
   const [activeTab, setActiveTab] = useState('lifecycle');
   const navigate = useNavigate();
@@ -66,9 +67,7 @@ export default function ProductPage() {
   const [isPassportQROpen, setIsPassportQROpen] = useState(false);
 
   // Find product
-  const rawProduct = useMemo(() => {
-    return productsData.find((p) => p.id === id) || null;
-  }, [id]);
+  const rawProduct = useMemo(() => getProductById(id), [id, getProductById]);
 
   const product = useMemo(() => getLocalizedProduct(rawProduct, lang), [rawProduct, lang]);
 
@@ -92,7 +91,7 @@ export default function ProductPage() {
   // Conventional or eco swap comparison
   const swapComparison = useMemo(() => {
     if (!product || !product.conventionalAlternativeId) return null;
-    const altProduct = productsData.find((p) => p.id === product.conventionalAlternativeId);
+    const altProduct = products.find((p) => p.id === product.conventionalAlternativeId);
     if (!altProduct) return null;
 
     const eco = product.isEcoFriendly ? product : altProduct;
@@ -106,13 +105,38 @@ export default function ProductPage() {
   // Related products
   const relatedProducts = useMemo(() => {
     if (!product) return [];
-    return productsData
+    return products
       .filter((p) => p.category === product.category && p.id !== product.id && p.isEcoFriendly)
       .slice(0, 3);
   }, [product]);
 
   // Greenwashing check
   const greenwashing = useMemo(() => detectGreenwashing(product), [product]);
+
+    if (error && !rawProduct) {
+    return (
+      <div className="max-w-4xl mx-auto px-4 py-24 text-center space-y-4">
+        <p className="text-base font-semibold text-heading">Couldn't load this right now</p>
+        <button
+          onClick={retry}
+          className="px-5 py-2.5 rounded-2xl bg-primary text-primary-contrast font-bold text-sm shadow-soft-sm hover:shadow-soft-md transition-all cursor-pointer"
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
+
+  if (loading && !rawProduct) {
+    return (
+      <div className="max-w-4xl mx-auto px-4 py-24 text-center space-y-4">
+        <div className="animate-pulse space-y-4">
+          <div className="h-8 bg-surface-raised rounded-2xl w-1/3 mx-auto border border-line" />
+          <div className="h-64 bg-surface-raised rounded-3xl border border-line" />
+        </div>
+      </div>
+    );
+  }
 
   if (!product) {
     return (

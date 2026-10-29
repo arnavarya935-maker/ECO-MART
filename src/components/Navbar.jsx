@@ -34,7 +34,7 @@ import ThemeToggle from './ThemeToggle';
 
 const MORE_LINKS = [
   { path: '/truth-lab', label: 'Truth Lab', desc: 'Compare products and test claims with facts', icon: ShieldCheck },
-  { path: '/courtroom', label: 'AI Courtroom', desc: 'A fun mock trial testing marketing claims with smart rules', icon: Swords },
+  { path: '/courtroom', label: 'AI Courtroom', desc: 'A fun mock trial testing marketing claims with facts', icon: Swords },
   { path: '/dilemmas', label: 'Moral Dilemmas', desc: 'Explore trade-offs between price, carbon, and plastic', icon: Scale },
   { path: '/self-audit', label: 'AI Self-Audit', desc: 'See tests for fairness and rules used by our helper', icon: FileCheck },
   { path: '/blackbox', label: 'BlackBox Audit', desc: 'See what our helper thought and how it decided', icon: ShieldCheck },
@@ -43,7 +43,7 @@ const MORE_LINKS = [
   { path: '/scan', label: 'Label Scanner', desc: 'Use your camera to read product packaging', icon: Camera },
   { path: '/kirana', label: 'Kirana Mode', desc: 'Quick voice shopping for everyday household staples', icon: Store },
   { path: '/playground', label: 'Decision Playground', desc: 'Slide weights to choose what matters most to you', icon: Sliders },
-  { path: '/transparency', label: 'Agent Transparency', desc: 'How our smart rules and cloud helper work together', icon: ShieldCheck },
+  { path: '/transparency', label: 'Agent Transparency', desc: 'How our AI helper and score models work together', icon: ShieldCheck },
   { path: '/how-it-works', label: 'How It Works', desc: 'Simple guide to how we score products and impact', icon: HelpCircle },
   { path: '/community', label: 'Community', desc: 'See sample pledges and tips from conscious shoppers', icon: Bot },
   { path: '/tools', label: 'Tools', desc: 'Helpful calculators and starter bundles', icon: RefreshCw }
@@ -231,25 +231,6 @@ export default function Navbar() {
 
                 {/* Preferences & Quick Toggles Sub-bar */}
                 <div className="pt-2.5 border-t border-line/70 flex items-center justify-between gap-2 flex-wrap bg-surface-sunken/40 -mx-4 -mb-4 p-3 rounded-b-3xl">
-                  {/* AI Mode Selector */}
-                  <button
-                    type="button"
-                    onClick={toggleAgentMode}
-                    className={`flex items-center gap-1.5 px-3 py-1 rounded-full border text-xs font-sans font-semibold transition cursor-pointer select-none ${
-                      agentMode === 'online'
-                        ? 'bg-primary/10 border-primary/30 text-primary hover:bg-primary/20'
-                        : 'bg-amber-500/10 border-amber-500/30 text-amber-600 dark:text-amber-400 hover:bg-amber-500/20'
-                    }`}
-                    title="Toggle Gemini Cloud AI vs Built-in Smart Rules"
-                  >
-                    {agentMode === 'online' ? (
-                      <Wifi className="w-3 h-3 text-primary" />
-                    ) : (
-                      <WifiOff className="w-3 h-3 text-amber-500" />
-                    )}
-                    <span>{agentMode === 'online' ? 'Cloud AI' : 'Smart Rules'}</span>
-                  </button>
-
                   {/* Dark Mode Toggle */}
                   <div className="flex items-center gap-1">
                     <ThemeToggle />
@@ -389,26 +370,18 @@ export default function Navbar() {
       {/* Mobile Drawer (Clean, non-cramped slide-down menu) */}
       {mobileMenuOpen && (
         <div className="lg:hidden fixed inset-x-0 top-18 bg-surface/98 backdrop-blur-2xl border-b border-line shadow-soft-lg p-5 space-y-4 max-h-[85vh] overflow-y-auto z-40 animate-slide-down">
-          {/* Mobile AI Mode & Quick Settings Bar */}
+          {/* Mobile AI Status Bar */}
           <div className="p-3 rounded-2xl bg-surface-sunken border border-line flex items-center justify-between">
             <div>
-              <div className="text-xs font-bold text-heading">Eco Agent Mode</div>
+              <div className="text-xs font-bold text-heading">Eco Agent</div>
               <div className="text-[11px] text-text-muted">
-                {agentMode === 'online' ? 'Gemini 2.5 Flash Cloud' : 'Built-in Smart Rules'}
+                Gemini Cloud AI Connected
               </div>
             </div>
-            <button
-              type="button"
-              onClick={toggleAgentMode}
-              className={`px-3 py-1.5 rounded-full text-xs font-semibold border flex items-center gap-1.5 cursor-pointer ${
-                agentMode === 'online'
-                  ? 'bg-primary text-primary-contrast border-primary shadow-soft-xs'
-                  : 'bg-amber-500 text-white border-amber-600'
-              }`}
-            >
-              <span className="w-2 h-2 rounded-full bg-white" />
-              <span>{agentMode === 'online' ? 'Cloud AI' : 'Smart Rules'}</span>
-            </button>
+            <div className="px-3 py-1 rounded-full text-xs font-semibold bg-primary/10 text-primary border border-primary/20 flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+              <span>Connected</span>
+            </div>
           </div>
 
           {/* Mobile Primary Navigation Links */}

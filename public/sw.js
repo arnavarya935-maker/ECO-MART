@@ -1,5 +1,5 @@
 // Local-First Service Worker for EcoMart
-const CACHE_NAME = 'ecomart-offline-v4';
+const CACHE_NAME = 'ecomart-app-v4';
 const OFFLINE_FALLBACK = '/offline.html';
 
 // Precache ONLY the App Shell

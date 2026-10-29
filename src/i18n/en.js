@@ -55,7 +55,7 @@ export const en = {
   'hero.exploreCta': 'Explore Catalog',
   'hero.agentCta': 'Ask Eco Agent',
   'hero.statProducts': '64 Sample Products',
-  'hero.statOffline': 'Smart Rules + Cloud AI',
+  'hero.statOffline': 'Connected Cloud AI',
   'hero.statCo2': 'CO₂ Saved (Estimated)',
 
   // Home Page
@@ -157,11 +157,11 @@ export const en = {
   // Eco Agent Chat & Assistant
   'agent.title': 'Eco Agent',
   'agent.online': 'Gemini',
-  'agent.builtIn': 'Built-in helper',
+  'agent.builtIn': 'Eco Agent',
   'agent.statusWorking': 'AI helper: working',
-  'agent.statusNotConnected': 'AI helper: not connected - using the built-in helper',
+  'agent.statusNotConnected': "AI helper: couldn't connect right now",
   'agent.welcomeTitle': 'Eco Agent Shopping Helper',
-  'agent.welcomeSubtitle': 'Smart rules & helpful advice for conscious shopping',
+  'agent.welcomeSubtitle': 'Helpful advice for conscious shopping',
   'agent.greeting': "Hello! I am your Eco Sense Shopping Assistant. I'm here to help you find eco-friendly products, avoid single-use plastics, and compare products across our catalog. What would you like to shop or check today?",
   'agent.inputPlaceholder': 'Ask for a product, gift under ₹1000, or cheapest option...',
   'agent.thinking': 'Thinking...',
@@ -182,7 +182,7 @@ export const en = {
   // Swap My List (Cart Transformer)
   'transformer.title': 'Swap My List',
   'transformer.subtitle': 'Paste your shopping list. Our helper finds better choices that fit your budget.',
-  'transformer.badge': 'Smart Rules • Budget Solver',
+  'transformer.badge': 'List Optimizer • Budget Solver',
   'transformer.inputPlaceholder': 'e.g. toothbrush, shampoo, 2 water bottles, notebook, dish soap under ₹1500',
   'transformer.budgetLabel': 'Budget Limit (optional)',
   'transformer.budgetPlaceholder': '₹ Max Budget',
@@ -307,7 +307,7 @@ export const en = {
   'advanced.truthLab.title': 'Truth Lab',
   'advanced.truthLab.desc': 'Compare products and test claims with facts',
   'advanced.courtroom.title': 'AI Courtroom',
-  'advanced.courtroom.desc': 'A fun mock trial testing marketing claims with smart rules',
+  'advanced.courtroom.desc': 'A fun mock trial testing marketing claims with facts',
   'advanced.dilemmas.title': 'Moral Dilemmas',
   'advanced.dilemmas.desc': 'Explore trade-offs between price, carbon, and plastic',
   'advanced.selfAudit.title': 'AI Self-Audit',
@@ -325,5 +325,5 @@ export const en = {
   'advanced.playground.title': 'Decision Playground',
   'advanced.playground.desc': 'Slide weights to choose what matters most to you',
   'advanced.transparency.title': 'Agent Transparency',
-  'advanced.transparency.desc': 'How our smart rules and cloud helper work together'
+  'advanced.transparency.desc': 'How our AI helper and score models work together'
 };

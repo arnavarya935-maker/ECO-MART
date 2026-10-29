@@ -15,6 +15,7 @@ import { ThemeProvider, useTheme } from '../src/context/ThemeContext.jsx';
 import { I18nProvider } from '../src/context/I18nContext.jsx';
 import { AuthProvider, useAuth } from '../src/context/AuthContext.jsx';
 import { CartProvider, useCart } from '../src/context/CartContext.jsx';
+import { ProductsProvider } from '../src/context/ProductsContext.jsx';
 
 // Pages
 import HomePage from '../src/pages/HomePage.jsx';
@@ -124,9 +125,11 @@ function renderWithProviders(element, { route = '/', lang = 'en' } = {}) {
       <ThemeProvider>
         <I18nProvider defaultLang={lang}>
           <AuthProvider>
-            <CartProvider>
-              {element}
-            </CartProvider>
+            <ProductsProvider initialProducts={productsData}>
+              <CartProvider>
+                {element}
+              </CartProvider>
+            </ProductsProvider>
           </AuthProvider>
         </I18nProvider>
       </ThemeProvider>

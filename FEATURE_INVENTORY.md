@@ -238,10 +238,7 @@ All routes are declared in [`src/App.jsx`](file:///c:/Users/AYUSH/Desktop/ecomar
 ### 4.15 Notifications (`src/components/notifications/` — 1 file)
 1. `NotificationCenterModal.jsx` — In-app notification center for restock alerts, milestone badges, and swaps.
 
-### 4.16 Offline (`src/components/offline/` — 1 file)
-1. `OfflineManagerModal.jsx` — Service worker cache controller managing pre-cached catalog data.
-
-### 4.17 Privacy (`src/components/privacy/` — 1 file)
+### 4.16 Privacy (`src/components/privacy/` — 1 file)
 1. `PrivacyCenterModal.jsx` — Privacy management center with local data wipe and zero-third-party tracking pledge.
 
 ### 4.18 Product Specialized (`src/components/product/` — 2 files)

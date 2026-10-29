@@ -222,7 +222,7 @@ export default function FairnessPage() {
             </p>
             <p className="text-xs text-secondary leading-relaxed">
               In commercial LLMs, non-English queries often trigger simplified responses or hallucinated regional brands.
-              Eco Sense's smart rules enforce that Hindi, Hinglish, and low-budget queries receive the exact same
+              Eco Sense's fairness guardrails enforce that Hindi, Hinglish, and low-budget queries receive the exact same
               rules and product benchmarks (e.g., plastic rules, FSC certifications, composting timelines).
             </p>
           </div>

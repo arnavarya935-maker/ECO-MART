@@ -3,6 +3,7 @@ import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
 import { I18nProvider } from './context/I18nContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { ProductsProvider } from './context/ProductsContext';
 import { CartProvider, useCart } from './context/CartContext';
 import ErrorBoundary from './components/ErrorBoundary';
 import ScrollToTop from './components/ScrollToTop';
@@ -378,11 +379,13 @@ export default function App() {
       <ThemeProvider>
         <I18nProvider>
           <AuthProvider>
-            <CartProvider>
-              <HashRouter>
-                <AppContent />
-              </HashRouter>
-            </CartProvider>
+            <ProductsProvider>
+              <CartProvider>
+                <HashRouter>
+                  <AppContent />
+                </HashRouter>
+              </CartProvider>
+            </ProductsProvider>
           </AuthProvider>
         </I18nProvider>
       </ThemeProvider>

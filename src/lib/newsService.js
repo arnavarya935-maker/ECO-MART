@@ -74,7 +74,7 @@ export async function summarizeNewsSnippet({ title, snippet }) {
   }
 
   const isOnline = typeof window !== 'undefined'
-    ? (localStorage.getItem('ecomart_agent_mode') !== 'offline' && (typeof navigator === 'undefined' || navigator.onLine !== false))
+    ? true
     : true;
 
   if (isOnline) {
