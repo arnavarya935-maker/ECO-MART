@@ -159,13 +159,13 @@ export function sanitizeAgentOutput(parsed, modelName = 'gemini-1.5-flash') {
     return {
       source: 'gemini',
       model: modelName,
-      answer: 'Response format could not be verified.',
+      answer: 'Response format could not be processed.',
       reasoning_summary: 'Output validation check completed.',
       sources_or_assumptions: [],
       confidence: 'low',
       estimated_energy_wh: 0.12,
       recommended_categories: [],
-      caveat: 'AI estimates are probabilistic. Verify manufacturer certifications on package.'
+      caveat: 'AI estimates are sample figures. Check seller claims on package.'
     };
   }
 
@@ -180,7 +180,7 @@ export function sanitizeAgentOutput(parsed, modelName = 'gemini-1.5-flash') {
     confidence,
     estimated_energy_wh: sanitizeNumber(parsed.estimated_energy_wh, 0.12, 0.01, 10.0),
     recommended_categories: sanitizeStringArray(parsed.recommended_categories, 8, 100),
-    caveat: sanitizeString(parsed.caveat, 500, 'AI estimates are probabilistic. Verify manufacturer certifications on package.')
+    caveat: sanitizeString(parsed.caveat, 500, 'AI estimates are sample figures. Check seller claims on package.')
   };
 }
 
@@ -605,8 +605,8 @@ export async function handleAgentRequest(body, res, req = null) {
     });
 
         let answerText = result.text;
-    let reasoningSummary = 'Evaluated against verified catalogue criteria.';
-    let sourcesAssumptions = ['Verified Eco Sense catalogue data'];
+    let reasoningSummary = 'Evaluated against our catalogue rules.';
+    let sourcesAssumptions = ['Eco Sense catalogue data (sample estimates)'];
     let confidence = 'high';
     let estimatedEnergyWh = 0.12;
 
@@ -705,20 +705,20 @@ export async function handleGreenwashRequest(body, res, req = null) {
     return;
   }
 
-  const systemInstruction = `You are Eco Sense's Greenwashing Detective, trained on ISO 14021 environmental claims and FTC Green Guides.
+  const systemInstruction = `You are Eco Sense's Greenwashing Detective, using simple rules inspired by common green-claim guidance (such as ISO 14021 and FTC Green Guides). It is not a legal or lab check.
 Analyze the user's submitted product packaging text or marketing claim for greenwashing.
 
 ETHICAL DETECTIVE RULES:
 1. Identify vague, unqualified buzzwords (e.g., "100% natural", "eco-friendly", "pure green", "ocean plastic" without certified chain-of-custody).
-2. Point out missing proofs (e.g., absence of FSC, USDA Organic, GOTS, ISO certification number, or compostability lab standard ASTM D6400).
-3. Compute an objective Trust Score from 0 to 100 (0 = egregious greenwashing / deceptive; 100 = fully transparent with third-party verifiable audit).
+2. Point out missing proofs (e.g., absence of FSC, USDA Organic, GOTS, certification numbers, or compostability lab standards).
+3. Compute an objective Trust Score from 0 to 100 (0 = high greenwashing risk; 100 = transparent with listed seller proofs).
 4. Deliver an impartial, plain-language verdict.
 
 OUTPUT FORMAT:
 Respond with valid JSON:
 {
   "trust_score": 35,
-  "verdict": "High Greenwashing Risk" | "Plausible but Unverified" | "Verified Sustainable",
+  "verdict": "High Greenwashing Risk" | "Plausible but Unverified" | "High Trust",
   "plain_verdict_explanation": "Concise 2-3 sentence detective verdict.",
   "flagged_phrases": [
     {

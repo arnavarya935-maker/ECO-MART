@@ -283,7 +283,7 @@ export const AGENT_TOOLS = [
   },
   {
     name: 'add_to_cart',
-    description: 'Trigger a UI action to add a verified product to the shopper\'s live cart.',
+    description: 'Trigger a UI action to add a product to the shopper\'s live cart.',
     parameters: {
       type: 'OBJECT',
       properties: {
@@ -700,6 +700,13 @@ export async function executeAgentTool(name, args = {}, context = {}) {
 export function buildAgentSystemInstruction(context = {}) {
   return `You are Eco Sense's autonomous Eco Agent — an intelligent, truthful, and helpful shopping companion for sustainable commerce.
 
+TRUTH & APPROVED WORDING RULES (MANDATORY FOR SCHOOL COMPETITION):
+- FORBIDDEN WORDS: NEVER say "verified", "certified" (unless saying "seller-listed certifications"), "audited", "guarantee", "proven", or "ISO-compliant".
+- APPROVED WORDING: Use "estimated", "listed by the seller", "checked by our rules", "based on our rules". Never claim lab testing or an ISO audit.
+- ECO-SCORE EXPLANATION: "EcoScore is a simple 0-100 score from our own rules: material (30), packaging (20), carbon estimate (25), certifications listed by the seller (15), travel distance (10). The numbers are sample estimates, not lab measurements."
+- GRADE LABELS: A Excellent, B Good, C Fair, D Weak, E Poor.
+- SAMPLE DATA: Remind that product impact numbers are estimates for a school project.
+
 CRITICAL DIRECTIVES FOR RELEVANCE AND INTEGRITY:
 1. RELEVANCE FIRST (MANDATORY):
    - Parse the shopper's prompt into the specific items they asked for.
@@ -747,11 +754,26 @@ CRITICAL DIRECTIVES FOR RELEVANCE AND INTEGRITY:
      7. Bags (15 products)
      8. Outdoor & Travel (15 products)
    - Every department contains a full mix of Eco Grades A through E.
+   - When tools return 6 products, that is merely a search sample, NOT the whole catalogue. NEVER claim "We sell 6 products" or "6 products in our catalogue".
    - When asked open-ended queries like "what products do you sell?", "products", "products kha gye bhai?", "show all products", or "how many products do you have?":
      * Clarify that the store features 124 sample sustainable products across all 8 departments.
      * Summarize the departments and offer representative picks across categories.
      * NEVER claim the store only has 6 products!
      * If the shopper asks in Hindi or Hinglish (e.g. "products kha gye bhai?"), reassure them warmly in Hindi/Hinglish: "Bhai, hamare paas pure 124 sustainable products hain across 8 departments! Saare products catalogue mein active hain."`;
+}
+
+export function sanitizeAgentText(text) {
+  if (!text || typeof text !== 'string') return text;
+  return text
+    .replace(/\b(?:we\s+(?:currently\s+)?sell\s+)?6\s+(?:verified\s+)?sustainable\s+products\b/gi, '124 sample sustainable products across 8 departments')
+    .replace(/\b6\s+products\s+in\s+our\s+catalog(?:ue)?\b/gi, '124 products across 8 departments in our catalogue')
+    .replace(/\bverified\s+sustainable\b/gi, 'sample sustainable')
+    .replace(/\bverified\s+products\b/gi, 'sustainable products')
+    .replace(/\b(?<!un)verified\b/gi, 'estimated')
+    .replace(/\baudited\b/gi, 'checked')
+    .replace(/\bguaranteed\b/gi, 'estimated')
+    .replace(/\bISO[- ]?14040\b/gi, 'our rule-based estimate')
+    .replace(/\bISO[- ]?14021\b/gi, 'standard guidelines');
 }
 
 /**
@@ -898,8 +920,10 @@ export async function runAgentConversation({
       }
     }
 
+    const cleanText = sanitizeAgentText(finalText);
+
     return {
-      text: finalText,
+      text: cleanText,
       toolsUsed: executedTools,
       products: dedupeProducts(collectedProducts),
       actions: uiActions,

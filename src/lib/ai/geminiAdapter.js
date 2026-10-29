@@ -61,7 +61,7 @@ const VERIFIED_FALLBACK_ANSWERS = [
     reasoning_summary:
       'Applied greedy picks budget constraint (Max ₹1000) and maximized combined EcoScore (both items Grade A, EcoScore > 92).',
     sources_or_assumptions: [
-      'EcoMart verified artisan catalog dataset',
+      'Eco Sense artisan catalog dataset (sample estimates)',
       'Assumes recipient has access to standard soil/pot for plantable seed paper'
     ],
     confidence: 'high',
@@ -146,8 +146,8 @@ export function generateLocalFallbackAnswer(query, _language = 'en') {
       answer: answerText,
       reasoning_summary: 'Matched against local catalog using keyword tokens and MCDM sustainability scoring.',
       sources_or_assumptions: [
-        'Eco Sense Product Catalog (124 verified items)',
-        'Deterministic 0–100 EcoScore Lifecycle Formula'
+        'Eco Sense Product Catalog (124 sample items)',
+        'EcoScore simple rules (sample estimates)'
       ],
       confidence: 'high',
       estimated_energy_wh: 0.01,
@@ -160,7 +160,7 @@ export function generateLocalFallbackAnswer(query, _language = 'en') {
   }
 
   return {
-    answer: `I am not sure of a catalog match for "${query}". For sustainable shopping: look for 3rd-party certifications (FSC/GOTS), verify plastic-free packaging, and avoid vague claims like "100% eco-friendly". You can explore categories like Kitchen, Personal Care, Home, or Bags!`,
+    answer: `I am not sure of a catalog match for "${query}". For sustainable shopping: look for 3rd-party certifications (FSC/GOTS), check plastic-free packaging, and avoid vague claims like "100% eco-friendly". You can explore categories like Kitchen, Personal Care, Home, or Bags!`,
     reasoning_summary: 'Query had no direct catalog SKU match. Providing helpful category directions and anti-greenwashing guidance.',
     sources_or_assumptions: [
       'Eco Sense Product Catalog (124 sample items)',
@@ -179,7 +179,7 @@ export function generateLocalFallbackAnswer(query, _language = 'en') {
 
 /**
  * Main Eco Agent Query Dispatcher
- * Calls the secure backend proxy (/api/agent), falling back gracefully to local verified intelligence.
+ * Calls the secure backend proxy (/api/agent), falling back gracefully to local rule intelligence.
  */
 export async function askEcoAgent({
   query,
@@ -329,8 +329,8 @@ export async function askEcoAgent({
         actions: collectedActions,
         toolsUsed: collectedTools,
         confidence: 'high',
-        reasoning_summary: 'Evaluated against verified catalogue criteria.',
-        sources_or_assumptions: ['Verified Eco Sense catalogue data'],
+        reasoning_summary: 'Evaluated against our catalogue rules.',
+        sources_or_assumptions: ['Eco Sense catalogue data (sample estimates)'],
         estimated_energy_wh: 0.12,
         isFallback: false,
         source: 'gemini',
@@ -371,10 +371,10 @@ export async function askEcoAgent({
         answer: answerText,
         reply: answerText,
         text: answerText,
-        reasoning_summary: data.reasoning_summary || 'Evaluated against verified catalogue criteria.',
+        reasoning_summary: data.reasoning_summary || 'Evaluated against our catalogue rules.',
         sources_or_assumptions: Array.isArray(data.sources_or_assumptions)
           ? data.sources_or_assumptions
-          : ['Verified Eco Sense catalogue data'],
+          : ['Eco Sense catalogue data (sample estimates)'],
         confidence: data.confidence || 'high',
         estimated_energy_wh: Number(data.estimated_energy_wh) || 0.12,
         products,

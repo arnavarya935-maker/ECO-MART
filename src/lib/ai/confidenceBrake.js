@@ -108,7 +108,7 @@ export function evaluateConfidenceBrake({
 
   const refusalMessage = `🛡️ Confidence Brake Engaged: My calculated certainty for this query is ${confidenceScore}%, which is below your strictness threshold of ${strictness}%. 
 
-In accordance with Eco Sense's Responsible AI policies, I decline to make assumptions or risk greenwashing without verified lifecycle documentation.
+In accordance with Eco Sense's Responsible AI policies, I decline to make assumptions or risk greenwashing without seller lifecycle documentation.
 
 To provide an evidence-based assessment, I need:
 ${neededInfo.map((info, idx) => `${idx + 1}. ${info}`).join('\n')}

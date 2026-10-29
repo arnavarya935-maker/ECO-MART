@@ -326,6 +326,7 @@ function executeAdvisorStep(plan, researcherOutput, _skepticOutput, _cartItems, 
 
   const tradeoffs = {
     winnerName: selectedItems.map((p) => p.name).slice(0, 2).join(' + ') + (selectedItems.length > 2 ? ` (+${selectedItems.length - 2} more)` : ''),
+    runnerUpName: selectedItems[1]?.name || 'conventional alternatives',
     beats: [
       `Diverts ${basketPlan.savings.plasticSaved}g of single-use plastic packaging`,
       `Prevents ${basketPlan.savings.co2Saved}kg lifecycle greenhouse gas emissions`,
