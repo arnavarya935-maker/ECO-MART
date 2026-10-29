@@ -24,7 +24,8 @@ import {
   HelpCircle,
   Lock,
   Wifi,
-  WifiOff
+  WifiOff,
+  Mail
 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useT } from '../context/I18nContext';
@@ -46,7 +47,8 @@ const MORE_LINKS = [
   { path: '/transparency', label: 'Agent Transparency', desc: 'How our AI helper and score models work together', icon: ShieldCheck },
   { path: '/how-it-works', label: 'How It Works', desc: 'Simple guide to how we score products and impact', icon: HelpCircle },
   { path: '/community', label: 'Community', desc: 'See sample pledges and tips from conscious shoppers', icon: Bot },
-  { path: '/tools', label: 'Tools', desc: 'Helpful calculators and starter bundles', icon: RefreshCw }
+  { path: '/tools', label: 'Tools', desc: 'Helpful calculators and starter bundles', icon: RefreshCw },
+  { path: '/contact', label: 'Contact Us', desc: 'Send us questions, suggestions or feedback', icon: Mail }
 ];
 
 export default function Navbar() {
@@ -448,6 +450,13 @@ export default function Navbar() {
               )}
             </div>
             <div className="flex items-center gap-2">
+              <Link
+                to="/contact"
+                onClick={() => setMobileMenuOpen(false)}
+                className="px-2 py-1 text-xs hover:text-heading"
+              >
+                Contact
+              </Link>
               <button
                 type="button"
                 onClick={() => {

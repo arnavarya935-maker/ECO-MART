@@ -240,13 +240,18 @@ export function sanitizeScanLabelOutput(parsed, modelName = 'gemini-1.5-flash') 
       source: 'gemini_vision',
       model: modelName,
       is_product_label: false,
-      reason_if_not: 'Could not parse response structure.',
+      is_readable: false,
+      unreadable_reason: 'Could not parse response structure.',
       product_name: null,
       brand: null,
+      materials: [],
+      packaging_type: null,
       net_quantity: null,
       ingredients: [],
       claims: [],
+      certifications_visible: [],
       certifications_printed: [],
+      recycling_symbols: [],
       packaging_marks: [],
       manufacturer: null,
       country_of_origin: null,
@@ -263,8 +268,8 @@ export function sanitizeScanLabelOutput(parsed, modelName = 'gemini-1.5-flash') 
 
   const is_product_label = Boolean(parsed.is_product_label ?? true);
 
-  const certifications_printed = Array.isArray(parsed.certifications_printed)
-    ? parsed.certifications_printed
+  const certifications_printed = Array.isArray(parsed.certifications_visible || parsed.certifications_printed)
+    ? (parsed.certifications_visible || parsed.certifications_printed)
         .slice(0, 20)
         .map((c) => {
           if (typeof c === 'string') {
@@ -279,19 +284,26 @@ export function sanitizeScanLabelOutput(parsed, modelName = 'gemini-1.5-flash') 
     : [];
 
   const legibility = ['good', 'partial', 'poor'].includes(parsed.legibility) ? parsed.legibility : 'good';
+  const is_readable = Boolean(parsed.is_readable ?? (legibility !== 'poor'));
 
   return {
     source: 'gemini_vision',
     model: modelName,
     is_product_label,
+    is_readable,
+    unreadable_reason: is_readable ? null : sanitizeString(parsed.unreadable_reason, 300, 'The text on this label is blurry or unreadable. Please upload or take a clearer photo.'),
     reason_if_not: is_product_label ? null : sanitizeString(parsed.reason_if_not, 300, 'No product label detected.'),
     product_name: sanitizeString(parsed.product_name, 200, null),
     brand: sanitizeString(parsed.brand, 200, null),
+    materials: sanitizeStringArray(parsed.materials, 20, 100),
+    packaging_type: sanitizeString(parsed.packaging_type, 150, null),
     net_quantity: sanitizeString(parsed.net_quantity, 100, null),
     ingredients: sanitizeStringArray(parsed.ingredients, 100, 200),
     claims: sanitizeStringArray(parsed.claims, 30, 200),
+    certifications_visible: certifications_printed,
     certifications_printed,
-    packaging_marks: sanitizeStringArray(parsed.packaging_marks, 20, 200),
+    recycling_symbols: sanitizeStringArray(parsed.recycling_symbols || parsed.packaging_marks, 20, 100),
+    packaging_marks: sanitizeStringArray(parsed.packaging_marks || parsed.recycling_symbols, 20, 200),
     manufacturer: sanitizeString(parsed.manufacturer, 300, null),
     country_of_origin: sanitizeString(parsed.country_of_origin, 100, null),
     batch_mfg_expiry: sanitizeString(parsed.batch_mfg_expiry, 200, null),
@@ -810,7 +822,7 @@ export async function handleScanLabelRequest(body, res, req = null) {
       JSON.stringify({
         source: 'local_fallback',
         reason: 'NO_API_KEY_CONFIGURED',
-        message: 'No API key configured. Offline label scanner fallback active.'
+        message: 'No API key configured. Please configure GEMINI_API_KEY.'
       })
     );
     return;
@@ -819,21 +831,28 @@ export async function handleScanLabelRequest(body, res, req = null) {
   const systemInstruction = `You are Eco Sense's Product Label Scanner.
 Goal: Transcribe only what is printed on the label accurately.
 SYSTEM MANDATE: Transcribe only text that is visibly printed. Never infer, guess or add facts. Use null for anything not visible or unreadable.
-Certifications are never marked verified.
+If the text is unreadable or blurry, set "is_readable": false and provide "unreadable_reason": "The text on this label is blurry or unreadable. Please upload or take a clearer, well-lit photo."
+Never guess. Certifications are never marked verified.
 
 OUTPUT SCHEMA (STRICT JSON):
 {
   "is_product_label": boolean,
+  "is_readable": boolean,
+  "unreadable_reason": string or null,
   "reason_if_not": string or null,
   "product_name": string or null,
   "brand": string or null,
-  "net_quantity": string or null,
+  "materials": [string],
+  "packaging_type": string or null,
   "ingredients": [string],
   "claims": [string],
+  "certifications_visible": [{"name": string, "has_license_number": boolean}],
   "certifications_printed": [{"name": string, "has_license_number": boolean}],
+  "recycling_symbols": [string],
   "packaging_marks": [string],
-  "manufacturer": string or null,
   "country_of_origin": string or null,
+  "net_quantity": string or null,
+  "manufacturer": string or null,
   "batch_mfg_expiry": string or null,
   "barcode_number": string or null,
   "usage_instructions": string or null,
@@ -945,8 +964,12 @@ export async function handleNewsRequest(query = {}, res, req = null) {
   res.end(JSON.stringify(result));
 }
 
+// In-memory barcode response cache (TTL: 24 hours)
+const barcodeCache = new Map();
+const BARCODE_CACHE_TTL = 24 * 60 * 60 * 1000;
+
 /**
- * Handle Barcode Lookup against Open Food Facts public database
+ * Handle Barcode Lookup across Open Food Facts, Open Beauty Facts & Open Products Facts
  */
 export async function handleBarcodeRequest(query = {}, res, req = null) {
   if (req && applyRateLimit(req, res)) return;
@@ -958,49 +981,79 @@ export async function handleBarcodeRequest(query = {}, res, req = null) {
     return;
   }
 
-  try {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 6000);
+  const cleanCode = code.trim();
+  res.setHeader('Access-Control-Allow-Origin', '*');
 
-    const apiUrl = `https://world.openfoodfacts.org/api/v0/product/${encodeURIComponent(code.trim())}.json`;
-    const apiResponse = await fetch(apiUrl, {
-      signal: controller.signal,
-      headers: { 'User-Agent': 'EcoSense-Scanner/1.0 (Educational sustainability audit)' }
+  // Check cache
+  const cached = barcodeCache.get(cleanCode);
+  if (cached && Date.now() - cached.timestamp < BARCODE_CACHE_TTL) {
+    res.writeHead(200, {
+      'Content-Type': 'application/json',
+      'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=86400'
     });
-    clearTimeout(timeout);
-
-    if (apiResponse.ok) {
-      const data = await apiResponse.json();
-      if (data && data.status === 1 && data.product) {
-        res.writeHead(200, {
-          'Content-Type': 'application/json',
-          'Cache-Control': 'public, s-maxage=86400'
-        });
-        res.end(
-          JSON.stringify({
-            found: true,
-            source: 'Open Food Facts (Public Registry)',
-            product_name: sanitizeString(data.product.product_name, 200, null),
-            brand: sanitizeString(data.product.brands, 150, null),
-            ingredients_text: sanitizeString(data.product.ingredients_text, 1000, null),
-            packaging: sanitizeString(data.product.packaging, 300, null),
-            ecoscore_grade: sanitizeString(data.product.ecoscore_grade, 10, null)
-          })
-        );
-        return;
-      }
-    }
-  } catch {
-    // Network failure or timeout
+    res.end(JSON.stringify(cached.data));
+    return;
   }
 
+  const registries = [
+    { name: 'Open Food Facts', url: `https://world.openfoodfacts.org/api/v0/product/${encodeURIComponent(cleanCode)}.json` },
+    { name: 'Open Beauty Facts', url: `https://world.openbeautyfacts.org/api/v0/product/${encodeURIComponent(cleanCode)}.json` },
+    { name: 'Open Products Facts', url: `https://world.openproductsfacts.org/api/v0/product/${encodeURIComponent(cleanCode)}.json` }
+  ];
+
+  const userAgent = 'EcoSense - Web - Version 2.0 - https://ecosense.org (Educational sustainability audit)';
+
+  for (const registry of registries) {
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 4000);
+
+      const apiResponse = await fetch(registry.url, {
+        signal: controller.signal,
+        headers: { 'User-Agent': userAgent }
+      });
+      clearTimeout(timeout);
+
+      if (apiResponse.ok) {
+        const data = await apiResponse.json();
+        if (data && data.status === 1 && data.product) {
+          const p = data.product;
+          const result = {
+            found: true,
+            source: registry.name,
+            code: cleanCode,
+            product_name: sanitizeString(p.product_name || p.product_name_en || p.generic_name || p.brands || 'Product', 200, null),
+            brand: sanitizeString(p.brands || p.brand_owner || '', 150, null),
+            image: sanitizeString(p.image_url || p.image_front_url || p.image_small_url || '', 500, null),
+            ingredients_text: sanitizeString(p.ingredients_text || p.ingredients_text_en || '', 1000, null),
+            packaging: sanitizeString(p.packaging || p.packaging_text || '', 300, null),
+            ecoscore_grade: sanitizeString(p.ecoscore_grade || '', 10, null),
+            ecoscore_score: typeof p.ecoscore_score === 'number' ? p.ecoscore_score : null,
+            categories: sanitizeString(p.categories || '', 200, null)
+          };
+
+          barcodeCache.set(cleanCode, { timestamp: Date.now(), data: result });
+
+          res.writeHead(200, {
+            'Content-Type': 'application/json',
+            'Cache-Control': 'public, s-maxage=86400, stale-while-revalidate=86400'
+          });
+          res.end(JSON.stringify(result));
+          return;
+        }
+      }
+    } catch {
+      // Continue to next registry
+    }
+  }
+
+  const notFound = {
+    found: false,
+    code: cleanCode,
+    message: `Barcode "${cleanCode}" was not found in Open Food Facts, Open Beauty Facts, or Open Products Facts registries.`
+  };
   res.writeHead(200, { 'Content-Type': 'application/json' });
-  res.end(
-    JSON.stringify({
-      found: false,
-      message: 'Barcode not found in Open Food Facts registry.'
-    })
-  );
+  res.end(JSON.stringify(notFound));
 }
 
 /**

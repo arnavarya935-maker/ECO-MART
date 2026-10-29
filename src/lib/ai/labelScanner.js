@@ -17,9 +17,13 @@ export const SAMPLE_LABELS = [
     previewColor: 'from-emerald-700 to-teal-900',
     transcription: {
       is_product_label: true,
+      is_readable: true,
+      unreadable_reason: null,
       reason_if_not: null,
       product_name: 'Botanical Herbal Shampoo',
       brand: 'EcoGlide (Fictional)',
+      materials: ['Purified Water', 'Coconut Surfactants', 'Aloe Vera Extract', 'Neem Leaf Extract'],
+      packaging_type: '100% Post-Consumer Recycled HDPE Bottle with PP Cap',
       net_quantity: '250 ml',
       ingredients: [
         'Aqua (Purified Water)',
@@ -34,7 +38,9 @@ export const SAMPLE_LABELS = [
         'Contains organic neem extract',
         'Save our planet initiative'
       ],
+      certifications_visible: [],
       certifications_printed: [],
+      recycling_symbols: ['HDPE 2 (Bottle)', 'PP 5 (Cap)'],
       packaging_marks: [
         'HDPE 2 recycling symbol',
         'Please rinse and recycle bottle'
@@ -63,9 +69,13 @@ export const SAMPLE_LABELS = [
     previewColor: 'from-amber-700 to-stone-800',
     transcription: {
       is_product_label: true,
+      is_readable: true,
+      unreadable_reason: null,
       reason_if_not: null,
       product_name: 'Hand-loomed Cotton Tote Bag',
       brand: 'Kaveri Valley Textiles (Fictional)',
+      materials: ['100% Organic Cotton', 'Azo-Free Vegetable Dyes'],
+      packaging_type: 'Uncoated Recycled Kraft Paper Hangtag with Jute String',
       net_quantity: '1 Unit (38cm x 42cm)',
       ingredients: [
         '100% Cotton'
@@ -75,12 +85,19 @@ export const SAMPLE_LABELS = [
         'Hand-loomed by artisan cooperative',
         'Azo-free natural vegetable dyes'
       ],
+      certifications_visible: [
+        {
+          name: 'GOTS Certified Organic',
+          has_license_number: true
+        }
+      ],
       certifications_printed: [
         {
           name: 'GOTS Certified Organic',
           has_license_number: true
         }
       ],
+      recycling_symbols: ['PAP 22 (Recycled Kraft Board)'],
       packaging_marks: [
         '100% post-consumer recycled paper hangtag'
       ],
@@ -108,9 +125,13 @@ export const SAMPLE_LABELS = [
     previewColor: 'from-teal-600 to-cyan-900',
     transcription: {
       is_product_label: true,
+      is_readable: true,
+      unreadable_reason: null,
       reason_if_not: null,
       product_name: 'Zero-Waste Dishwasher Detergent Pods',
       brand: 'BioClean Home (Fictional)',
+      materials: ['Sodium Carbonate', 'Sodium Percarbonate', 'PVA Water-Soluble Film'],
+      packaging_type: 'FSC-Certified Uncoated Kraft Box',
       net_quantity: '30 Pods (Net Wt. 600g)',
       ingredients: [
         'Sodium Carbonate',
@@ -124,7 +145,9 @@ export const SAMPLE_LABELS = [
         'Zero synthetic fragrance',
         'Septic tank safe'
       ],
+      certifications_visible: [],
       certifications_printed: [],
+      recycling_symbols: ['PAP 20 (Cardboard)', 'Plastic-Free Standard'],
       packaging_marks: [
         'Uncoated kraft board box',
         'Plastic-free packaging'
@@ -150,7 +173,7 @@ export const SAMPLE_LABELS = [
 
 /**
  * Lazy-load on-device OCR using Tesseract.js
- * Shows honest raw OCR text if offline or API unavailable
+ * Shows honest raw OCR text if API unavailable
  */
 async function performOnDeviceOcr(imageSource) {
   if (typeof window === 'undefined' || typeof Worker === 'undefined') {
@@ -193,7 +216,7 @@ async function performOnDeviceOcr(imageSource) {
  * @param {string} [options.imageBase64] - Base64 encoded image string (already downscaled)
  * @param {string} [options.mimeType='image/jpeg']
  * @param {string} [options.language='en']
- * @param {string} [options.sampleId] - Pick an offline sample label
+ * @param {string} [options.sampleId] - Pick a sample label
  * @returns {Promise<Object>} Transcribed label data matching strict schema
  */
 export async function scanProductLabel({
@@ -202,7 +225,7 @@ export async function scanProductLabel({
   language = 'en',
   sampleId = null
 }) {
-  // 1. Direct offline sample selection
+  // 1. Direct sample selection
   if (sampleId) {
     const sample = SAMPLE_LABELS.find((s) => s.id === sampleId);
     if (sample) {
@@ -228,14 +251,9 @@ export async function scanProductLabel({
     throw new Error('Image data exceeds safe 3MB limit. Please downscale the image.');
   }
 
-  // 3. Attempt Server-side Vision Transcription via Gemini Proxy (if online)
-  const isOnline = typeof window !== 'undefined'
-    ? true
-    : true;
-
-  if (isOnline) {
-    try {
-      const controller = new AbortController();
+  // 3. Attempt Server-side Vision Transcription via Gemini Proxy
+  try {
+    const controller = new AbortController();
     const timeout = setTimeout(() => controller.abort(), 15000);
 
     const res = await fetch('/api/scan-label', {
@@ -264,21 +282,55 @@ export async function scanProductLabel({
           };
         }
 
+        // If the label is unreadable, report honestly
+        if (data.is_readable === false) {
+          return {
+            source: 'gemini_vision',
+            is_product_label: true,
+            is_readable: false,
+            unreadable_reason: data.unreadable_reason || 'The text on this label is blurry or unreadable. Please upload or take a clearer, well-lit photo.',
+            product_name: null,
+            brand: null,
+            materials: [],
+            packaging_type: null,
+            net_quantity: null,
+            ingredients: [],
+            claims: [],
+            certifications_visible: [],
+            certifications_printed: [],
+            recycling_symbols: [],
+            packaging_marks: [],
+            privacy_guarantee: 'Image is not saved.'
+          };
+        }
+
+        const certs = Array.isArray(data.certifications_visible || data.certifications_printed)
+          ? (data.certifications_visible || data.certifications_printed).map((c) => ({
+              name: c.name || (typeof c === 'string' ? c : ''),
+              has_license_number: Boolean(c.has_license_number)
+            }))
+          : [];
+
+        const recycling = Array.isArray(data.recycling_symbols || data.packaging_marks)
+          ? (data.recycling_symbols || data.packaging_marks)
+          : [];
+
         return {
           source: 'gemini_vision',
           is_product_label: true,
+          is_readable: true,
+          unreadable_reason: null,
           product_name: data.product_name || null,
           brand: data.brand || null,
+          materials: Array.isArray(data.materials) ? data.materials : [],
+          packaging_type: data.packaging_type || null,
           net_quantity: data.net_quantity || null,
           ingredients: Array.isArray(data.ingredients) ? data.ingredients : [],
           claims: Array.isArray(data.claims) ? data.claims : [],
-          certifications_printed: Array.isArray(data.certifications_printed)
-            ? data.certifications_printed.map((c) => ({
-                name: c.name || (typeof c === 'string' ? c : ''),
-                has_license_number: Boolean(c.has_license_number)
-              }))
-            : [],
-          packaging_marks: Array.isArray(data.packaging_marks) ? data.packaging_marks : [],
+          certifications_visible: certs,
+          certifications_printed: certs,
+          recycling_symbols: recycling,
+          packaging_marks: recycling,
           manufacturer: data.manufacturer || null,
           country_of_origin: data.country_of_origin || null,
           batch_mfg_expiry: data.batch_mfg_expiry || null,
@@ -299,11 +351,10 @@ export async function scanProductLabel({
       }
     }
   } catch {
-    // API unavailable or timed out; proceed to offline OCR fallback
+    // API unavailable or timed out; try OCR fallback below
   }
-}
 
-  // 4. Offline Fallback: Lazy-load On-Device Tesseract.js OCR
+  // 4. Secondary fallback: Lazy-load On-Device Tesseract.js OCR
   // Note: NEVER invent fake claims, ingredients, or scores.
   try {
     const rawOcrText = await performOnDeviceOcr(imageBase64);
@@ -311,14 +362,20 @@ export async function scanProductLabel({
       return {
         source: 'on_device_ocr',
         is_product_label: true,
+        is_readable: true,
+        unreadable_reason: null,
         ocr_note: 'OCR text, may contain errors',
         raw_ocr_text: rawOcrText,
         product_name: null,
         brand: null,
+        materials: [],
+        packaging_type: null,
         net_quantity: null,
         ingredients: [],
         claims: [],
+        certifications_visible: [],
         certifications_printed: [],
+        recycling_symbols: [],
         packaging_marks: [],
         manufacturer: null,
         country_of_origin: null,

@@ -75,6 +75,11 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link to="/contact" className="ln-sweep hover:text-heading transition py-1 inline-block min-h-[32px]">
+                  Contact Us
+                </Link>
+              </li>
+              <li>
                 <button
                   type="button"
                   onClick={() => window.dispatchEvent(new CustomEvent('open-privacy-center'))}

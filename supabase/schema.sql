@@ -1,4 +1,4 @@
--- Eco Sense: Supabase Products Table Schema
+-- Eco Sense: Supabase Products Table & Contact Messages Schema
 -- Run this in your Supabase Dashboard -> SQL Editor
 
 CREATE TABLE IF NOT EXISTS public.products (
@@ -27,10 +27,14 @@ CREATE TABLE IF NOT EXISTS public.products (
   "alt" TEXT,
   "lqip" TEXT,
   "imageCredit" JSONB DEFAULT '{}'::jsonb,
+  "barcode" TEXT,
   "created_at" TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Enable Row Level Security (RLS)
+-- Ensure barcode column exists if products table was created earlier
+ALTER TABLE public.products ADD COLUMN IF NOT EXISTS "barcode" TEXT;
+
+-- Enable Row Level Security (RLS) on products
 ALTER TABLE public.products ENABLE ROW LEVEL SECURITY;
 
 -- Allow public read access (for anon key and authenticated users)
@@ -50,3 +54,25 @@ CREATE POLICY "Allow anon upsert on products"
   USING (true)
   WITH CHECK (true);
 
+-- =========================================================
+-- Contact Messages Table (for /contact submissions)
+-- =========================================================
+CREATE TABLE IF NOT EXISTS public.contact_messages (
+  "id" UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  "name" TEXT NOT NULL,
+  "email" TEXT NOT NULL,
+  "subject" TEXT NOT NULL,
+  "message" TEXT NOT NULL,
+  "created_at" TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Enable Row Level Security (RLS) on contact_messages
+ALTER TABLE public.contact_messages ENABLE ROW LEVEL SECURITY;
+
+-- Allow anon and authenticated users to submit contact messages (insert-only)
+DROP POLICY IF EXISTS "Allow anon insert on contact_messages" ON public.contact_messages;
+CREATE POLICY "Allow anon insert on contact_messages"
+  ON public.contact_messages
+  FOR INSERT
+  TO anon, authenticated
+  WITH CHECK (true);

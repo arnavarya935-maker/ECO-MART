@@ -46,6 +46,7 @@ const TruthLabPage = lazy(() => import('./pages/TruthLabPage'));
 const LearnPage = lazy(() => import('./pages/LearnPage'));
 const NewsPage = lazy(() => import('./pages/NewsPage'));
 const AgentTransparencyPage = lazy(() => import('./pages/AgentTransparencyPage'));
+const ContactPage = lazy(() => import('./pages/ContactPage'));
 const NotFoundPage = lazy(() => import('./pages/NotFoundPage'));
 
 // Widgets, Modals and Drawers - Lazy loaded on demand
@@ -218,6 +219,7 @@ function AppContent() {
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/transparency" element={<AgentTransparencyPage />} />
             <Route path="/orders" element={<OrdersPage />} />
+            <Route path="/contact" element={<ContactPage />} />
             <Route path="/settings" element={<SettingsPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />

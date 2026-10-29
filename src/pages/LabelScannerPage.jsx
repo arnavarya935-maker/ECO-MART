@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Scan,
@@ -11,10 +11,14 @@ import {
   FileText,
   RotateCcw,
   Info,
-  Newspaper
+  Newspaper,
+  CheckCircle2,
+  HelpCircle,
+  Bot
 } from 'lucide-react';
 import { scanProductLabel, SAMPLE_LABELS } from '../lib/ai/labelScanner.js';
 import { downscaleImageToJpeg } from '../lib/imageDownscale.js';
+import { auditLabelClaims } from '../lib/claimChecker.js';
 import BarcodeScannerModal from '../components/BarcodeScannerModal.jsx';
 import { useCart } from '../context/CartContext';
 import productsData from '../data/products.json';
@@ -38,7 +42,14 @@ export default function LabelScannerPage() {
   const videoRef = useRef(null);
   const streamRef = useRef(null);
 
-  // Handle local image file upload with client-side downscaling
+  // Compute claim integrity audit using the claim checker engine
+  const claimAudit = useMemo(() => {
+    if (!scanResult?.claims || scanResult.claims.length === 0) return null;
+    const certs = scanResult.certifications_visible || scanResult.certifications_printed || [];
+    return auditLabelClaims(scanResult.claims, certs);
+  }, [scanResult]);
+
+  // Handle local image file upload with client-side downscaling (max 1280px, JPEG quality 0.8)
   const handleFileChange = async (e) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -52,13 +63,12 @@ export default function LabelScannerPage() {
     setSelectedSample(null);
     setShopMatchResult(null);
     setIsProcessing(true);
-    setProcessingStatus('Downscaling image & stripping EXIF metadata...');
+    setProcessingStatus('Downscaling image & optimizing (max 1280px)...');
 
     try {
-      // Client-side downscaling: max 1600px long edge, JPEG 0.82, target < 1.5MB
       const downscaled = await downscaleImageToJpeg(file, {
-        maxDimension: 1600,
-        quality: 0.82
+        maxDimension: 1280,
+        quality: 0.8
       });
 
       setImagePreview(downscaled.base64);
@@ -112,6 +122,8 @@ export default function LabelScannerPage() {
     const lines = [];
     if (result.product_name) lines.push(`Product: ${result.product_name}`);
     if (result.brand) lines.push(`Brand: ${result.brand}`);
+    if (result.materials?.length) lines.push(`Materials: ${result.materials.join(', ')}`);
+    if (result.packaging_type) lines.push(`Packaging: ${result.packaging_type}`);
     if (result.net_quantity) lines.push(`Net Quantity: ${result.net_quantity}`);
     if (result.ingredients?.length) lines.push(`Ingredients: ${result.ingredients.join(', ')}`);
     if (result.claims?.length) lines.push(`Claims: ${result.claims.join(' | ')}`);
@@ -120,7 +132,7 @@ export default function LabelScannerPage() {
         `Certifications: ${result.certifications_printed.map((c) => c.name).join(', ')}`
       );
     }
-    if (result.packaging_marks?.length) lines.push(`Packaging: ${result.packaging_marks.join(', ')}`);
+    if (result.recycling_symbols?.length) lines.push(`Recycling: ${result.recycling_symbols.join(', ')}`);
     if (result.manufacturer) lines.push(`Manufacturer: ${result.manufacturer}`);
     if (result.batch_mfg_expiry) lines.push(`Batch/Dates: ${result.batch_mfg_expiry}`);
     if (result.barcode_number) lines.push(`Barcode: ${result.barcode_number}`);
@@ -164,16 +176,16 @@ export default function LabelScannerPage() {
     canvas.height = videoRef.current.videoHeight || 720;
     const ctx = canvas.getContext('2d');
     ctx.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
-    const dataUrl = canvas.toDataURL('image/jpeg', 0.9);
+    const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
 
     stopCamera();
     setIsProcessing(true);
-    setProcessingStatus('Downscaling capture & optimizing...');
+    setProcessingStatus('Downscaling capture & optimizing (max 1280px)...');
 
     try {
       const downscaled = await downscaleImageToJpeg(dataUrl, {
-        maxDimension: 1600,
-        quality: 0.82
+        maxDimension: 1280,
+        quality: 0.8
       });
 
       setImagePreview(downscaled.base64);
@@ -208,10 +220,25 @@ export default function LabelScannerPage() {
   // Action Button 1: Check these claims with Greenwashing Detective
   const handleCheckClaims = () => {
     const claimsText = (scanResult?.claims || []).join('. ') || scanResult?.product_name || rawTextEdit;
-    // Dispatch event to open Greenwashing Detective modal with prefilled claims
     window.dispatchEvent(
       new CustomEvent('open-greenwashing-detective', {
         detail: { prefillClaim: claimsText }
+      })
+    );
+  };
+
+  // Ask Eco Agent about the extracted claims
+  const handleAskEcoAgentAboutClaims = () => {
+    const claimsStr = (scanResult?.claims || []).join('; ');
+    const query = `Can you audit the sustainability claims from the label of ${scanResult?.product_name || 'this product'}? The label claims: "${claimsStr}". Integrity grade: ${claimAudit?.finalGrade || 'C'}: ${claimAudit?.reasoning || ''}`;
+    window.dispatchEvent(
+      new CustomEvent('ecomart-open-chat', {
+        detail: { initialQuery: query }
+      })
+    );
+    window.dispatchEvent(
+      new CustomEvent('ecomart-agent-query', {
+        detail: { query }
       })
     );
   };
@@ -231,7 +258,8 @@ export default function LabelScannerPage() {
         pName.includes(queryTerm) ||
         (cleanBrand && pName.includes(cleanBrand)) ||
         (queryTerm && pCategory.includes(queryTerm)) ||
-        (scanResult.ingredients && scanResult.ingredients.some((i) => pMaterial.includes(i.toLowerCase())))
+        (scanResult.ingredients && scanResult.ingredients.some((i) => pMaterial.includes(i.toLowerCase()))) ||
+        (scanResult.materials && scanResult.materials.some((m) => pMaterial.includes(m.toLowerCase())))
       );
     });
 
@@ -285,14 +313,13 @@ export default function LabelScannerPage() {
             Label Scanner
           </h1>
           <p className="text-sm sm:text-base text-secondary max-w-3xl leading-relaxed">
-            Transcribes visibly printed text from product packaging. No scoring, no verdicts, no extra fluff.
-            Everything displayed is what is printed on the physical label.
+            Transcribes visibly printed text from packaging, audits sustainability claims against visible certifications, and detects vague buzzwords.
           </p>
 
           <div className="inline-flex items-center gap-2 text-xs text-text-muted bg-surface-sunken px-3 py-1.5 rounded-xl border border-line">
             <Info className="w-3.5 h-3.5 text-primary shrink-0" />
             <span>
-              <strong>Privacy guarantee:</strong> Image is not saved. Images are downscaled client-side and processed in volatile RAM only.
+              <strong>Privacy guarantee:</strong> Image is not saved. Images are downscaled client-side to 1280px and processed in volatile RAM only.
             </span>
           </div>
         </div>
@@ -424,6 +451,28 @@ export default function LabelScannerPage() {
           </div>
         )}
 
+        {/* Unreadable Label Rejection Card */}
+        {scanResult && scanResult.is_readable === false && (
+          <div className="p-8 rounded-3xl bg-surface-raised border border-amber-500/30 text-center space-y-4">
+            <div className="w-12 h-12 rounded-full bg-amber-500/10 text-amber-600 flex items-center justify-center mx-auto">
+              <AlertCircle className="w-6 h-6" />
+            </div>
+            <div className="space-y-1.5">
+              <h3 className="font-serif font-bold text-xl text-heading">Label Text Unreadable</h3>
+              <p className="text-xs sm:text-sm text-secondary max-w-md mx-auto">
+                {scanResult.unreadable_reason || 'The text on this packaging label is blurry or unreadable. Please upload or take a clearer, well-lit photo.'}
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={resetScanner}
+              className="px-5 py-2.5 rounded-xl bg-surface-sunken hover:bg-surface border border-line text-xs font-semibold text-heading transition cursor-pointer"
+            >
+              Try Another Photo
+            </button>
+          </div>
+        )}
+
         {/* Non-Label Rejection Card */}
         {scanResult && scanResult.is_product_label === false && (
           <div className="p-8 rounded-3xl bg-surface-raised border border-amber-500/30 text-center space-y-4">
@@ -450,7 +499,7 @@ export default function LabelScannerPage() {
         )}
 
         {/* Successful Label Transcription View */}
-        {scanResult && scanResult.is_product_label !== false && (
+        {scanResult && scanResult.is_product_label !== false && scanResult.is_readable !== false && (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             {/* Left Column: Uploaded Image View & Raw Text Box */}
             <div className="lg:col-span-5 space-y-5">
@@ -492,7 +541,7 @@ export default function LabelScannerPage() {
               </div>
             </div>
 
-            {/* Right Column: "What the label says" Structured Card */}
+            {/* Right Column: Structured Card */}
             <div className="lg:col-span-7 space-y-6">
               <div className="p-6 sm:p-8 rounded-3xl bg-surface-raised border border-line shadow-soft-sm space-y-6">
                 {/* Header info */}
@@ -508,7 +557,7 @@ export default function LabelScannerPage() {
                   </div>
                 </div>
 
-                {/* 1. Product Overview Group */}
+                {/* 1. Product Identity */}
                 {(scanResult.product_name || scanResult.brand || scanResult.net_quantity || scanResult.barcode_number || scanResult.country_of_origin) && (
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
@@ -551,7 +600,54 @@ export default function LabelScannerPage() {
                   </div>
                 )}
 
-                {/* 2. Ingredients Group */}
+                {/* 2. Materials & Packaging */}
+                {(scanResult.materials?.length > 0 || scanResult.packaging_type || scanResult.recycling_symbols?.length > 0 || scanResult.packaging_marks?.length > 0) && (
+                  <div className="space-y-2">
+                    <span className="text-xs font-bold uppercase tracking-wider text-text-muted">
+                      Materials & Packaging
+                    </span>
+                    <div className="p-4 rounded-2xl bg-surface border border-line space-y-3">
+                      {scanResult.packaging_type && (
+                        <div className="text-xs">
+                          <span className="text-text-muted">Packaging Format: </span>
+                          <span className="font-medium text-heading">{scanResult.packaging_type}</span>
+                        </div>
+                      )}
+                      {scanResult.materials && scanResult.materials.length > 0 && (
+                        <div className="space-y-1.5">
+                          <div className="text-[11px] font-medium text-text-muted">Materials:</div>
+                          <div className="flex flex-wrap gap-1.5">
+                            {scanResult.materials.map((mat, i) => (
+                              <span
+                                key={i}
+                                className="px-2.5 py-1 rounded-xl bg-surface-sunken border border-line text-xs font-medium text-heading"
+                              >
+                                {mat}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                      {(scanResult.recycling_symbols?.length > 0 || scanResult.packaging_marks?.length > 0) && (
+                        <div className="space-y-1.5">
+                          <div className="text-[11px] font-medium text-text-muted">Recycling & Packaging Marks:</div>
+                          <div className="flex flex-wrap gap-1.5">
+                            {(scanResult.recycling_symbols || scanResult.packaging_marks).map((pm, i) => (
+                              <span
+                                key={i}
+                                className="px-2.5 py-1 rounded-xl bg-surface-sunken border border-line text-xs font-medium text-heading"
+                              >
+                                {pm}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* 3. Ingredients */}
                 {scanResult.ingredients && scanResult.ingredients.length > 0 && (
                   <div className="space-y-2">
                     <div className="flex items-center justify-between">
@@ -575,38 +671,99 @@ export default function LabelScannerPage() {
                   </div>
                 )}
 
-                {/* 3. Claims Group */}
+                {/* 4. Claims & Claim Integrity Audit */}
                 {scanResult.claims && scanResult.claims.length > 0 && (
-                  <div className="space-y-2">
+                  <div className="space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-bold uppercase tracking-wider text-text-muted">
-                        Claims (verbatim phrases)
+                        Environmental Claims Audit
                       </span>
                       {renderConfidenceDot(scanResult.confidence?.claims)}
                     </div>
-                    <div className="p-4 rounded-2xl bg-surface border border-line space-y-2">
-                      {scanResult.claims.map((claim, i) => (
-                        <div key={i} className="flex items-start gap-2 text-xs text-heading">
-                          <span className="text-primary font-bold">•</span>
-                          <span className="italic">"{claim}"</span>
+
+                    {/* Overall Claim Audit Grade Card */}
+                    {claimAudit && (
+                      <div className="p-4 rounded-2xl bg-surface-sunken border border-line space-y-3">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2.5">
+                            <span
+                              className={`w-9 h-9 rounded-xl flex items-center justify-center font-serif font-black text-lg ${
+                                claimAudit.finalGrade === 'A'
+                                  ? 'bg-emerald-500/20 text-emerald-600 border border-emerald-500/30'
+                                  : claimAudit.finalGrade === 'B'
+                                  ? 'bg-blue-500/20 text-blue-600 border border-blue-500/30'
+                                  : claimAudit.finalGrade === 'C'
+                                  ? 'bg-amber-500/20 text-amber-600 border border-amber-500/30'
+                                  : 'bg-rose-500/20 text-rose-600 border border-rose-500/30'
+                              }`}
+                            >
+                              {claimAudit.finalGrade}
+                            </span>
+                            <div>
+                              <div className="text-xs font-bold text-heading">Claim Integrity Grade</div>
+                              <div className="text-[11px] text-text-muted">
+                                {claimAudit.supportedCount} backed by certs • {claimAudit.vagueCount} vague • {claimAudit.unverifiedCount} unverified
+                              </div>
+                            </div>
+                          </div>
+
+                          <button
+                            type="button"
+                            onClick={handleAskEcoAgentAboutClaims}
+                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-primary text-primary-contrast text-xs font-semibold hover:bg-primary-hover transition cursor-pointer active:scale-95"
+                          >
+                            <Bot className="w-3.5 h-3.5" />
+                            <span>Ask Eco Agent</span>
+                          </button>
+                        </div>
+                        <p className="text-xs text-secondary leading-relaxed">{claimAudit.reasoning}</p>
+                      </div>
+                    )}
+
+                    {/* Claims list with individual verdicts */}
+                    <div className="p-4 rounded-2xl bg-surface border border-line space-y-3">
+                      {claimAudit?.claimAudits?.map((audit, i) => (
+                        <div key={i} className="space-y-1 pb-3 border-b border-line last:border-b-0 last:pb-0">
+                          <div className="flex items-start justify-between gap-2">
+                            <span className="text-xs font-medium text-heading italic">"{audit.claim}"</span>
+                            <span
+                              className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-[11px] font-semibold shrink-0 ${
+                                audit.category === 'supported'
+                                  ? 'bg-emerald-500/15 text-emerald-700'
+                                  : audit.category === 'vague'
+                                  ? 'bg-amber-500/15 text-amber-700'
+                                  : 'bg-slate-500/15 text-slate-700'
+                              }`}
+                            >
+                              {audit.category === 'supported' ? (
+                                <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                              ) : audit.category === 'vague' ? (
+                                <AlertCircle className="w-3 h-3 text-amber-600" />
+                              ) : (
+                                <HelpCircle className="w-3 h-3 text-slate-600" />
+                              )}
+                              <span>{audit.verdict}</span>
+                            </span>
+                          </div>
+                          <div className="text-[11px] text-text-muted pl-1">{audit.reasoning}</div>
                         </div>
                       ))}
                     </div>
                   </div>
                 )}
 
-                {/* 4. Certifications Printed Group */}
+                {/* 5. Certifications Printed / Visible */}
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-bold uppercase tracking-wider text-text-muted">
-                      Certifications Printed
+                      Certifications Visible on Packaging
                     </span>
                     {renderConfidenceDot(scanResult.confidence?.certifications)}
                   </div>
                   <div className="p-4 rounded-2xl bg-surface border border-line space-y-3">
-                    {scanResult.certifications_printed && scanResult.certifications_printed.length > 0 ? (
+                    {(scanResult.certifications_visible || scanResult.certifications_printed)?.length > 0 ? (
                       <div className="space-y-2">
-                        {scanResult.certifications_printed.map((cert, i) => (
+                        {(scanResult.certifications_visible || scanResult.certifications_printed).map((cert, i) => (
                           <div key={i} className="flex items-center justify-between text-xs">
                             <span className="font-semibold text-heading">{cert.name}</span>
                             <span className="text-[11px] text-text-muted">
@@ -626,27 +783,6 @@ export default function LabelScannerPage() {
                     </div>
                   </div>
                 </div>
-
-                {/* 5. Packaging Marks Group */}
-                {scanResult.packaging_marks && scanResult.packaging_marks.length > 0 && (
-                  <div className="space-y-2">
-                    <span className="text-xs font-bold uppercase tracking-wider text-text-muted">
-                      Packaging Marks & Recycling Symbols
-                    </span>
-                    <div className="p-4 rounded-2xl bg-surface border border-line">
-                      <div className="flex flex-wrap gap-2">
-                        {scanResult.packaging_marks.map((pm, i) => (
-                          <span
-                            key={i}
-                            className="px-2.5 py-1 rounded-xl bg-surface-sunken border border-line text-xs font-medium text-heading"
-                          >
-                            {pm}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                )}
 
                 {/* 6. Manufacturer and Dates Group */}
                 {(scanResult.manufacturer || scanResult.batch_mfg_expiry) && (
@@ -700,7 +836,7 @@ export default function LabelScannerPage() {
                   </div>
                 )}
 
-                {/* Three Action Buttons */}
+                {/* Action Buttons */}
                 <div className="pt-4 border-t border-line flex flex-wrap gap-3">
                   <button
                     type="button"
