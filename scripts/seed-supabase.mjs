@@ -36,19 +36,24 @@ async function seed() {
   const productsPath = path.resolve(__dirname, '../src/data/products.json');
   const products = JSON.parse(fs.readFileSync(productsPath, 'utf8'));
 
-  console.log(`Seeding ${products.length} products into Supabase "products" table...`);
+  console.log(`Seeding ${products.length} products into Supabase "products" table in batches...`);
 
-  const { error } = await supabase
-    .from('products')
-    .upsert(products, { onConflict: 'id' });
+  const batchSize = 10;
+  for (let i = 0; i < products.length; i += batchSize) {
+    const batch = products.slice(i, i + batchSize);
+    const { error } = await supabase
+      .from('products')
+      .upsert(batch, { onConflict: 'id' });
 
-  if (error) {
-    console.error('Failed to seed products into Supabase:', error.message);
-    if (error.code === 'PGRST205' || error.message.includes('not find the table')) {
-      console.error('\nNOTE: The "products" table does not exist yet.');
-      console.error('Please open your Supabase Dashboard -> SQL Editor, run the SQL script in "supabase/schema.sql", and run this seed script again!\n');
+    if (error) {
+      console.error(`Failed to seed batch ${i / batchSize + 1}:`, error.message);
+      if (error.code === 'PGRST205' || error.message.includes('not find the table')) {
+        console.error('\nNOTE: The "products" table does not exist yet.');
+        console.error('Please open your Supabase Dashboard -> SQL Editor, run the SQL script in "supabase/schema.sql", and run this seed script again!\n');
+      }
+      process.exit(1);
     }
-    process.exit(1);
+    console.log(`  Seeded items ${i + 1} to ${Math.min(i + batchSize, products.length)}`);
   }
 
   console.log(`Successfully seeded ${products.length} products into Supabase!`);

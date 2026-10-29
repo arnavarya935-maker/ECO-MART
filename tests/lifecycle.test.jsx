@@ -7,7 +7,7 @@ import { ThemeProvider } from '../src/context/ThemeContext';
 
 describe('Phase 4 - Product Lifecycle Explorer', () => {
   it('renders the 5-stage timeline for every catalog product without crashing', () => {
-    expect(productsData.length).toBe(64);
+    expect(productsData.length).toBe(124);
 
     for (const product of productsData) {
       const html = renderToString(

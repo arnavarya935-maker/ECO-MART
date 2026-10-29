@@ -13,7 +13,25 @@ const allowedPatterns = [
   'https://www.w3.org/2000/svg',
   'https://unsplash.com',
   'https://pixabay.com/users/',
-  'https://pixabay.com/photos/'
+  'https://pixabay.com/photos/',
+  'https://api.web3forms.com',
+  // Official certification registries for verified eco-certifications
+  'https://fsc.org',
+  'https://global-standard.org',
+  'https://www.usda.gov',
+  'https://www.biopreferred.gov',
+  'https://www.fairtrade.net',
+  'https://www.oeko-tex.com',
+  'https://www.bcorporation.net',
+  'https://www.peta.org',
+  'https://www.leapingbunny.org',
+  'http://silkmarkindia.com',
+  'http://coirboard.gov.in',
+  'https://jutemarkindia.gov.in',
+  'https://www.craftmark.org',
+  'https://rohs.guide',
+  'https://www.iso.org',
+  'https://www.climateneutral.org'
 ];
 
 const urlRegex = /https?:\/\/[^\s"'`<>]+/g;

@@ -566,3 +566,4 @@ function generatePlainSummary(type, name, goodCount, watchCount) {
   }
   return `Transcription of visible printed text from packaging.`;
 }
+

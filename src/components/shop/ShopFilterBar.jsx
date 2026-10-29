@@ -1,19 +1,24 @@
 import React from 'react';
 import { Search, SlidersHorizontal, ArrowUpDown, X } from 'lucide-react';
 import { useT } from '../../context/I18nContext';
+import { CATEGORIES, findCategory } from '../../data/categories.js';
 
 export default function ShopFilterBar({
   searchQuery,
   onSearchChange,
   category,
   onCategoryChange,
-  categories,
+  categoryCounts = {},
+  totalCount = 0,
   sortBy,
   onSortChange,
   onOpenMobileFilters,
   activeFilterCount
 }) {
   const { t } = useT();
+  const currentCategoryObj = findCategory(category);
+  const currentCatId = currentCategoryObj?.id || 'all';
+
   return (
     <div className="sticky top-18 z-30 bg-surface/95 backdrop-blur-md py-3.5 border-b border-line transition-colors">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
@@ -43,17 +48,22 @@ export default function ShopFilterBar({
         <div className="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0">
           {/* Category Dropdown */}
           <select
-            value={category}
+            value={currentCatId}
             onChange={(e) => onCategoryChange(e.target.value)}
             className="px-3.5 py-2 min-h-[44px] rounded-2xl bg-surface-raised border border-line text-xs font-sans font-medium text-heading focus-visible:outline-2 focus-visible:outline-focus cursor-pointer shadow-soft-sm"
             aria-label="Filter by category"
           >
-            <option value="All">{t('shop.allCategories', 'All Categories')} ({categories.length})</option>
-            {categories.map((cat) => (
-              <option key={cat} value={cat}>
-                {cat}
-              </option>
-            ))}
+            <option value="all">
+              {t('shop.allCategories', 'All Categories')} ({totalCount})
+            </option>
+            {CATEGORIES.map((cat) => {
+              const count = categoryCounts[cat.id] ?? 0;
+              return (
+                <option key={cat.id} value={cat.id}>
+                  {cat.label} ({count})
+                </option>
+              );
+            })}
           </select>
 
           {/* Sort Selector */}
@@ -74,7 +84,7 @@ export default function ShopFilterBar({
             </select>
           </div>
 
-          {/* Mobile Filter Drawer Button */}
+          {/* Filter Drawer Button */}
           <button
             type="button"
             onClick={onOpenMobileFilters}
@@ -93,4 +103,3 @@ export default function ShopFilterBar({
     </div>
   );
 }
-

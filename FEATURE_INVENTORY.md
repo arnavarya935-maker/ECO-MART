@@ -9,19 +9,19 @@
 
 ## 1. Product Categories & Product Counts
 
-The catalog is sourced from [`src/data/products.json`](file:///c:/Users/AYUSH/Desktop/ecomart%20agent/src/data/products.json) with **64 total products** evenly distributed across **8 distinct categories** (8 products per category: 4 sustainable eco-friendly items and 4 conventional target items for swap simulations).
+The catalog is sourced from [`src/data/products.json`](file:///c:/Users/AYUSH/Desktop/ecomart%20agent/src/data/products.json) and synced live with Supabase with **124 total products** distributed across **8 distinct categories** with a full mix of Eco Grades A through E in every department:
 
-| # | Product Category | Total Products | Eco-Friendly Items | Conventional Items (Swap Targets) |
-|---|---|:---:|:---:|:---:|
-| 1 | **Kitchen** | 8 | 4 | 4 |
-| 2 | **Personal Care** | 8 | 4 | 4 |
-| 3 | **Fashion** | 8 | 4 | 4 |
-| 4 | **Stationery** | 8 | 4 | 4 |
-| 5 | **Home** | 8 | 4 | 4 |
-| 6 | **Bags** | 8 | 4 | 4 |
-| 7 | **Outdoor & Travel** | 8 | 4 | 4 |
-| 8 | **Cleaning & Laundry** | 8 | 4 | 4 |
-| **Total** | **8 Categories** | **64 Products** | **32 Eco Items** | **32 Conventional Items** |
+| # | Product Category | Total Products | Eco-Friendly Items | Conventional Items (Swap Targets) | Eco Grades Present |
+|---|---|:---:|:---:|:---:|:---:|
+| 1 | **Kitchen** | 16 | 9 | 7 | A, B, C, D, E |
+| 2 | **Personal Care** | 16 | 9 | 7 | A, B, C, D, E |
+| 3 | **Home** | 16 | 9 | 7 | A, B, C, D, E |
+| 4 | **Cleaning & Laundry** | 16 | 9 | 7 | A, B, C, D, E |
+| 5 | **Fashion** | 15 | 8 | 7 | A, B, C, D, E |
+| 6 | **Stationery** | 15 | 8 | 7 | A, B, C, D, E |
+| 7 | **Bags** | 15 | 8 | 7 | A, B, C, D, E |
+| 8 | **Outdoor & Travel** | 15 | 8 | 7 | A, B, C, D, E |
+| **Total** | **8 Categories** | **124 Products** | **68 Items** | **56 Items** | **A to E in All** |
 
 ---
 
@@ -313,6 +313,9 @@ All routes are declared in [`src/App.jsx`](file:///c:/Users/AYUSH/Desktop/ecomar
 
 ## 5. Verification Status
 
-- **Automated Tests:** 36 test files, **438 tests passing (100%)**.
+- **Automated Tests:** 39 test files, **475 tests passing (100%)**.
 - **Oxlint:** 0 errors.
-- **Home Route Initial Bundle:** 196.36 kB gzipped (within 200.00 kB budget).
+- **Catalogue & Images:** Exactly 124 products across 8 categories (16, 16, 16, 16, 15, 15, 15, 15). 100% of products have unique images (1,364 image files including 9 responsive variants, alt, LQIP blur, and photo credit), passing `npm run check:images` and `npm run check:data`.
+- **Database:** All 124 products live in Supabase and seeded via `npm run seed:products`.
+- **Offline Purity:** 0 external URLs in `src/` or `public/` (passing `npm run check:urls`).
+- **Home Route Initial Bundle:** 225.05 kB gzipped (within 250.00 kB budget for 124 products).

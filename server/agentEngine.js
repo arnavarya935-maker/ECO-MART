@@ -8,6 +8,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { calculateEcoScore, compareProductImpact, detectGreenwashing } from '../src/lib/ecoScore.js';
 import { calculateCartImpact } from '../src/lib/impactCalculator.js';
+import { isMatchingCategory } from '../src/data/categories.js';
 
 // Cache catalogue for ultra-fast in-memory tool execution
 let cachedProducts = null;
@@ -441,7 +442,7 @@ export async function executeAgentTool(name, args = {}, context = {}) {
 
       const results = hydratedCatalog
         .filter((p) => {
-          if (cat && p.category.toLowerCase() !== cat) return false;
+          if (cat && !isMatchingCategory(p.category, cat)) return false;
           if (!Number.isNaN(maxPrice) && maxPrice > 0 && p.price > maxPrice) return false;
           if (plasticFree && p.packaging !== 'plastic-free') return false;
           if (certifiedOnly && (!p.certifications || p.certifications.length === 0)) return false;

@@ -79,7 +79,7 @@ export default function CategoryCarbonBarChart() {
               Interactive Drill-Down
             </span>
             <span className="text-[10px] font-mono text-muted uppercase">
-              Computed from 64 SKUs
+              Computed from {productsData.length} SKUs
             </span>
           </div>
           <h3 className="text-xl sm:text-2xl font-serif font-bold text-heading">

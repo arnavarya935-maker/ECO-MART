@@ -163,10 +163,12 @@ describe('EcoAgent Pre-Demo Bug Fixes Verification', () => {
 
       function getMainNoun(name) {
         const n = name.toLowerCase();
+        if (n.includes('travel duffel') || n.includes('travel soap')) return 'travel';
+        if (n.includes('dishwashing')) return 'dishwashing';
         if (n.includes('cutlery')) return 'cutlery';
         if (n.includes('bowl')) return 'bowls';
         if (n.includes('wrap')) return 'wraps';
-        if (n.includes('copper bottle')) return 'bottle';
+        if (n.includes('bottle')) return 'bottle';
         if (n.includes('toothbrush')) return 'toothbrush';
         if (n.includes('shampoo')) return 'shampoo';
         if (n.includes('razor')) return 'razor';
@@ -193,6 +195,32 @@ describe('EcoAgent Pre-Demo Bug Fixes Verification', () => {
         if (n.includes('scrubber') || n.includes('loofah')) return 'loofah';
         if (n.includes('cleaner')) return 'cleaner';
         if (n.includes('toilet brush')) return 'brush';
+        if (n.includes('jug')) return 'jug';
+        if (n.includes('skillet')) return 'skillet';
+        if (n.includes('tiffin')) return 'tiffin';
+        if (n.includes('spoon')) return 'spoon';
+        if (n.includes('bathing bar') || n.includes('bar')) return 'soap';
+        if (n.includes('comb')) return 'comb';
+        if (n.includes('deodorant') || n.includes('stone')) return 'deodorant';
+        if (n.includes('tooth powder') || n.includes('powder')) return 'powder';
+        if (n.includes('basket')) return 'basket';
+        if (n.includes('vase')) return 'vase';
+        if (n.includes('towel')) return 'towel';
+        if (n.includes('scouring') || n.includes('pad')) return 'pad';
+        if (n.includes('glove')) return 'gloves';
+        if (n.includes('pant') || n.includes('trouser')) return 'pants';
+        if (n.includes('wallet')) return 'wallet';
+        if (n.includes('apron')) return 'apron';
+        if (n.includes('visor') || n.includes('hat')) return 'hat';
+        if (n.includes('sketchbook')) return 'sketchbook';
+        if (n.includes('holder') || n.includes('ruler')) return 'holder';
+        if (n.includes('organiser') || n.includes('file')) return 'file';
+        if (n.includes('sling')) return 'sling';
+        if (n.includes('pouch')) return 'pouch';
+        if (n.includes('backpack')) return 'backpack';
+        if (n.includes('flask')) return 'flask';
+        if (n.includes('dish')) return 'dish';
+        if (n.includes('torch')) return 'torch';
         return name.split(' ')[0];
       }
 

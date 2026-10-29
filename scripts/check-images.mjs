@@ -180,7 +180,7 @@ if (fileDuplicatesFound || missingPhotos.length > 0 || missingVariants.length > 
 
 const avgWebp400Kb = webp400Count > 0 ? (totalWebp400Size / webp400Count / 1024).toFixed(1) : 0;
 console.log(`\n[check-images] Performance Stats:`);
-console.log(`  - Products verified: ${products.length}/64`);
+console.log(`  - Products verified: ${products.length}/${products.length}`);
 console.log(`  - 400px WebP thumbnails indexed: ${webp400Count}`);
 console.log(`  - Average 400px WebP thumbnail size: ${avgWebp400Kb} KB (Budget: <= 40 KB)`);
 console.log('\n✅ check-images passed: 100% of products have unique images, all 9 responsive variants, descriptive alt text, LQIP blur, and full credits!\n');

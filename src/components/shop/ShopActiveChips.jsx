@@ -1,30 +1,42 @@
 import React from 'react';
 import { X, RotateCcw } from 'lucide-react';
+import { findCategory } from '../../data/categories.js';
 
 export default function ShopActiveChips({
-  category,
+  category = 'all',
   onClearCategory,
   priceRange,
-  maxPriceLimit,
+  maxPriceLimit = 3000,
   onResetPrice,
-  selectedGrade,
+  selectedGrade = 'all',
   onClearGrade,
-  onlyPlasticFree,
+  onlyPlasticFree = false,
   onTogglePlasticFree,
-  onlyEcoFriendly,
-  onToggleEcoFriendly,
-  searchQuery,
+  ecoCertifiedOnly = false,
+  onToggleEcoCertified,
+  selectedCert = 'all',
+  onClearCert,
+  selectedMaterial = 'all',
+  onClearMaterial,
+  selectedSeason = 'all',
+  onClearSeason,
+  minRating = 0,
+  onClearRating,
+  inStockOnly = false,
+  onToggleInStock,
+  searchQuery = '',
   onClearSearch,
-  sortBy,
+  sortBy = 'featured',
   onResetSort,
   onClearAll
 }) {
   const chips = [];
 
-  if (category && category !== 'All') {
+  const catObj = findCategory(category);
+  if (catObj && catObj.id !== 'all') {
     chips.push({
-      id: 'cat',
-      label: `Category: ${category}`,
+      id: 'category',
+      label: `Department: ${catObj.label}`,
       onClear: onClearCategory
     });
   }
@@ -37,7 +49,7 @@ export default function ShopActiveChips({
     });
   }
 
-  if (priceRange < maxPriceLimit) {
+  if (priceRange && priceRange < maxPriceLimit) {
     chips.push({
       id: 'price',
       label: `Under ₹${priceRange}`,
@@ -45,10 +57,10 @@ export default function ShopActiveChips({
     });
   }
 
-  if (selectedGrade && selectedGrade !== 'All') {
+  if (selectedGrade && selectedGrade.toLowerCase() !== 'all') {
     chips.push({
       id: 'grade',
-      label: `Grade ${selectedGrade}`,
+      label: `Grade ${selectedGrade.toUpperCase()}`,
       onClear: onClearGrade
     });
   }
@@ -61,18 +73,71 @@ export default function ShopActiveChips({
     });
   }
 
-  if (onlyEcoFriendly) {
+  if (ecoCertifiedOnly) {
     chips.push({
-      id: 'eco',
+      id: 'eco-certified',
       label: 'Eco Certified Only',
-      onClear: onToggleEcoFriendly
+      onClear: onToggleEcoCertified
     });
   }
 
-  if (sortBy === 'impact-rupee') {
+  if (selectedCert && selectedCert !== 'all') {
     chips.push({
-      id: 'sort-impact',
-      label: 'Sorted: Impact / Rupee',
+      id: 'cert',
+      label: `Cert: ${selectedCert}`,
+      onClear: onClearCert
+    });
+  }
+
+  if (selectedMaterial && selectedMaterial !== 'all') {
+    chips.push({
+      id: 'material',
+      label: `Material: ${selectedMaterial}`,
+      onClear: onClearMaterial
+    });
+  }
+
+  if (selectedSeason && selectedSeason.toLowerCase() !== 'all') {
+    const seasonLabels = {
+      monsoon: 'Monsoon Essentials',
+      summer: 'Summer Zero-Waste',
+      festive: 'Festive Gifting',
+      winter: 'Winter Care'
+    };
+    chips.push({
+      id: 'season',
+      label: `Season: ${seasonLabels[selectedSeason.toLowerCase()] || selectedSeason}`,
+      onClear: onClearSeason
+    });
+  }
+
+  if (minRating > 0) {
+    chips.push({
+      id: 'rating',
+      label: `★ ${minRating}+ Stars`,
+      onClear: onClearRating
+    });
+  }
+
+  if (inStockOnly) {
+    chips.push({
+      id: 'instock',
+      label: 'In Stock Only',
+      onClear: onToggleInStock
+    });
+  }
+
+  if (sortBy && sortBy !== 'featured') {
+    const sortLabels = {
+      'impact-rupee': 'Sorted: Impact / Rupee',
+      'eco-desc': 'Sorted: Highest Eco-Score',
+      'price-asc': 'Sorted: Price Low to High',
+      'price-desc': 'Sorted: Price High to Low',
+      'carbon-asc': 'Sorted: Lowest Carbon'
+    };
+    chips.push({
+      id: 'sort',
+      label: sortLabels[sortBy] || `Sorted: ${sortBy}`,
       onClear: onResetSort
     });
   }
@@ -94,10 +159,10 @@ export default function ShopActiveChips({
           <button
             type="button"
             onClick={chip.onClear}
-            className="p-1 rounded-full hover:bg-primary/20 transition text-primary cursor-pointer min-w-[24px] min-h-[24px] flex items-center justify-center"
+            className="p-1 rounded-full hover:bg-primary/20 transition text-primary cursor-pointer min-w-[20px] min-h-[20px] flex items-center justify-center"
             aria-label={`Clear filter ${chip.label}`}
           >
-            <X className="w-3.5 h-3.5" />
+            <X className="w-3 h-3" />
           </button>
         </span>
       ))}
@@ -105,12 +170,11 @@ export default function ShopActiveChips({
       <button
         type="button"
         onClick={onClearAll}
-        className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-sans font-medium text-muted hover:text-danger transition cursor-pointer min-h-[32px]"
+        className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-surface-raised hover:bg-surface-sunken border border-line text-text-muted hover:text-heading text-xs font-semibold transition cursor-pointer ml-auto"
       >
-        <RotateCcw className="w-3.5 h-3.5" />
-        <span>Reset All</span>
+        <RotateCcw className="w-3 h-3" />
+        <span>Reset All ({chips.length})</span>
       </button>
     </div>
   );
 }
-

@@ -1,74 +1,31 @@
 import React from 'react';
-import productsData from '../../data/products.json';
+import { CATEGORIES, isMatchingCategory, findCategory } from '../../data/categories.js';
 import { ArrowRight, Sparkles, Check } from 'lucide-react';
 
-const CATEGORY_META = {
-  Kitchen: {
-    image: '/images/products/kit-01-400.webp',
-    fallbackJpg: '/images/products/kit-01.jpg',
-    tagline: 'Zero-waste culinary essentials',
-    badge: 'Plastic-Free'
-  },
-  'Personal Care': {
-    image: '/images/products/care-01-400.webp',
-    fallbackJpg: '/images/products/care-01.jpg',
-    tagline: 'Clean, toxin-free self-care',
-    badge: '100% Organic'
-  },
-  Fashion: {
-    image: '/images/products/fash-01-400.webp',
-    fallbackJpg: '/images/products/fash-01.jpg',
-    tagline: 'Circular, regenerative apparel',
-    badge: 'GOTS Certified'
-  },
-  Stationery: {
-    image: '/images/products/stat-01-400.webp',
-    fallbackJpg: '/images/products/stat-01.jpg',
-    tagline: 'Plantable & post-consumer tools',
-    badge: 'Tree-Free'
-  },
-  Home: {
-    image: '/images/products/home-01-400.webp',
-    fallbackJpg: '/images/products/home-01.jpg',
-    tagline: 'Artisanal sustainable living',
-    badge: 'Low Carbon'
-  },
-  Bags: {
-    image: '/images/products/bag-01-400.webp',
-    fallbackJpg: '/images/products/bag-01.jpg',
-    tagline: 'Heavy-duty natural fiber totes',
-    badge: 'Biodegradable'
-  },
-  'Outdoor & Travel': {
-    image: '/images/products/out-01-400.webp',
-    fallbackJpg: '/images/products/out-01.jpg',
-    tagline: 'Durable gear built for reuse',
-    badge: 'Closed-Loop'
-  },
-  'Cleaning & Laundry': {
-    image: '/images/products/clean-01-400.webp',
-    fallbackJpg: '/images/products/clean-01.jpg',
-    tagline: 'Greywater-safe plant detergents',
-    badge: 'Zero Petrochemicals'
-  }
-};
-
 export default function CategoryTiles({
-  selectedCategory = 'All',
+  selectedCategory = 'all',
   onSelectCategory,
-  showTitle = true
+  showTitle = true,
+  products = []
 }) {
-  // Extract categories dynamically from data to ensure 100% fidelity
-  const categories = Object.keys(CATEGORY_META);
+  const currentCategoryObj = findCategory(selectedCategory);
+  const currentId = currentCategoryObj?.id || 'all';
 
-  const getCount = (cat) => {
-    return productsData.filter((p) => p.category === cat).length;
+  const getCategoryStats = (category) => {
+    const list = products.filter((p) => isMatchingCategory(p.category, category.id));
+    const total = list.length;
+    if (total === 0) {
+      return { count: 0, badge: category.badge };
+    }
+    const plasticFreeCount = list.filter((p) => p.packaging === 'plastic-free' || p.plasticGrams === 0).length;
+    const plasticFreePercent = Math.round((plasticFreeCount / total) * 100);
+    const badge = `${plasticFreePercent}% Plastic-Free`;
+    return { count: total, badge };
   };
 
-  const handleTileClick = (cat) => {
+  const handleTileClick = (category) => {
     if (onSelectCategory) {
-      // Toggle if already selected, otherwise set
-      onSelectCategory(selectedCategory === cat ? 'All' : cat);
+      onSelectCategory(currentId === category.id ? 'all' : category.id);
     }
   };
 
@@ -85,13 +42,13 @@ export default function CategoryTiles({
               Curated by Material Lifecycle
             </h2>
           </div>
-          {selectedCategory !== 'All' && (
+          {currentId !== 'all' && (
             <button
               type="button"
-              onClick={() => onSelectCategory && onSelectCategory('All')}
+              onClick={() => onSelectCategory && onSelectCategory('all')}
               className="text-xs font-sans font-medium text-primary hover:underline cursor-pointer flex items-center gap-1"
             >
-              <span>Reset filter ({selectedCategory})</span>
+              <span>Reset filter ({currentCategoryObj?.label || selectedCategory})</span>
               <ArrowRight className="w-3 h-3" />
             </button>
           )}
@@ -100,14 +57,13 @@ export default function CategoryTiles({
 
       {/* Responsive Horizontal Scroll / Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3 sm:gap-3.5">
-        {categories.map((cat) => {
-          const isSelected = selectedCategory === cat;
-          const meta = CATEGORY_META[cat];
-          const count = getCount(cat);
+        {CATEGORIES.map((cat) => {
+          const isSelected = currentId === cat.id;
+          const { count, badge } = getCategoryStats(cat);
 
           return (
             <button
-              key={cat}
+              key={cat.id}
               type="button"
               onClick={() => handleTileClick(cat)}
               aria-pressed={isSelected}
@@ -117,19 +73,19 @@ export default function CategoryTiles({
                   : 'border-line hover:border-primary/40 hover:shadow-soft-sm'
               }`}
             >
-              {/* Real Product Photography Background */}
+              {/* Product Photography Background */}
               <div className="absolute inset-0 bg-surface-sunken overflow-hidden">
                 <img
-                  src={meta.image}
-                  alt={cat}
+                  src={cat.image}
+                  alt={cat.label}
                   loading="lazy"
                   decoding="async"
                   width="400"
                   height="400"
                   className="w-full h-full object-cover object-center group-hover:scale-108 transition-transform duration-500 ease-out"
                   onError={(e) => {
-                    if (e.currentTarget.src && e.currentTarget.src.endsWith('.webp')) {
-                      e.currentTarget.src = meta.fallbackJpg;
+                    if (e.currentTarget.src && e.currentTarget.src.endsWith('.webp') && cat.fallbackJpg) {
+                      e.currentTarget.src = cat.fallbackJpg;
                     }
                   }}
                 />
@@ -143,7 +99,7 @@ export default function CategoryTiles({
               {/* Top Meta Tag & Selection Tick */}
               <div className="relative z-10 flex items-center justify-between w-full mb-auto">
                 <span className="text-[10px] font-mono uppercase tracking-wider px-2 py-0.5 rounded-full bg-white/20 backdrop-blur-md text-white font-medium border border-white/20 shadow-2xs">
-                  {meta.badge}
+                  {badge}
                 </span>
                 {isSelected && (
                   <span className="w-5 h-5 rounded-full bg-primary text-white flex items-center justify-center shadow-soft-xs">
@@ -155,7 +111,7 @@ export default function CategoryTiles({
               {/* Bottom Title & Counter */}
               <div className="relative z-10 pt-2">
                 <h3 className="font-heading font-bold text-xs sm:text-sm text-white leading-tight tracking-tight drop-shadow-xs">
-                  {cat}
+                  {cat.label}
                 </h3>
                 <p className="text-[11px] font-sans text-white/80 mt-0.5 font-medium flex items-center gap-1">
                   <span>{count} products</span>

@@ -83,7 +83,7 @@ export async function signupWithSupabaseEmail(name, email, password) {
  * Fetch all products directly from Supabase.
  * Products load ONLY from Supabase — never fall back to local JSON at runtime.
  */
-export async function fetchProductsFromSupabase() {
+export async function fetchProductsFromSupabase({ from = 0, to = 999 } = {}) {
   const client = await getSupabase();
   if (!client) {
     throw new Error("Couldn't load this right now");
@@ -91,6 +91,7 @@ export async function fetchProductsFromSupabase() {
   const { data, error } = await client
     .from('products')
     .select('*')
+    .range(from, to)
     .order('id', { ascending: true });
 
   if (error) {

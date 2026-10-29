@@ -20,7 +20,7 @@ describe('Feature 1 & 2: Impact Command Center & What-If Simulator', () => {
     const html = renderWithProviders(<CategoryCarbonBarChart />);
     expect(html).toContain('Lifecycle Impact by Product Category');
     expect(html).toContain('View as Table');
-    expect(html).toContain('Computed from 64 SKUs');
+    expect(html).toMatch(/Computed from.*?124.*?SKUs/);
     expect(html).toContain('CO₂e');
     expect(html).toContain('Plastic');
     expect(html).toContain('Water');
