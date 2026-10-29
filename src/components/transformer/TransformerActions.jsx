@@ -51,13 +51,13 @@ export default function TransformerActions({
     });
 
     const summaryText = [
-      '🌱 My EcoMart Sustainable Cart:',
+      '🌱 My Eco Sense Sustainable Basket:',
       ...listLines,
       `\nTotal: ₹${totals?.priceAfter || 0}`,
       `Plastic Avoided: ${totals?.plasticSaved || 0}g`,
       `CO₂ Diverted: ${totals?.co2Saved || 0}kg`,
       `Purpose Score: ${totals?.purposeScoreAfter || 0}/100`,
-      '\nCalculated offline on EcoMart — Shop with Purpose.'
+      '\nCalculated on Eco Sense — Shop with Purpose.'
     ].join('\n');
 
     try {

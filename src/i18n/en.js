@@ -255,14 +255,14 @@ export const en = {
   'news.title': 'Eco News Watch',
   'news.subtitle': 'Headlines and short snippets about sustainability, recycling, and consumer watch.',
   'news.sourceNote': 'News headlines via external provider. Shows headline, source, and date only.',
-  'news.offlineNote': 'Showing saved offline headlines.',
+  'news.offlineNote': 'Showing saved headlines.',
   'news.readOriginal': 'Read full article on original site',
 
   // Settings Page
   'settings.title': 'Settings & Accessibility',
   'settings.subtitle': 'Customize language, display, sounds, and local data.',
   'settings.language': 'Language / भाषा',
-  'settings.languageDesc': 'Switch between English and सरल हिंदी with local offline fonts',
+  'settings.languageDesc': 'Switch between English and सरल हिंदी with local fonts',
   'settings.theme': 'Theme',
   'settings.themeDark': 'Dark (Default)',
   'settings.themeLight': 'Light (Sand)',

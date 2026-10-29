@@ -152,12 +152,12 @@ export default function HowItWorksPage() {
           <div className="flex items-center gap-2">
             <ShieldCheck className="w-5 h-5 text-accent" />
             <h3 className="font-serif font-bold text-base sm:text-lg text-heading">
-              Offline First with Optional LLM Layer
+              Smart Rule Engine with Connected AI Helper
             </h3>
           </div>
           <p className="text-xs text-secondary leading-relaxed font-normal">
-            Every feature works <strong className="text-heading">completely offline</strong> without internet connectivity.
-            If a connection exists and a backend LLM responds at <code className="text-primary font-mono">/api/agent</code>, the agent
+            Every feature is powered by <strong className="text-heading">instant smart rules</strong> for zero latency and constant reliability.
+            When connected and a backend LLM responds at <code className="text-primary font-mono">/api/agent</code>, the agent
             phrases responses more conversationally; otherwise, it seamlessly returns instant rule-based matches.
           </p>
           <div className="p-3.5 rounded-2xl bg-surface-sunken border border-line text-primary text-[11px] font-mono shadow-soft-xs">

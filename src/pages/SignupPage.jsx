@@ -57,7 +57,7 @@ export default function SignupPage() {
         <div className="p-3.5 rounded-2xl bg-primary/10 border border-primary/20 text-xs text-text flex items-start gap-2.5">
           <Lock className="w-4 h-4 text-primary shrink-0 mt-0.5" />
           <div className="leading-snug">
-            <span className="font-semibold text-heading">Offline Privacy Notice:</span> Accounts are stored safely and solely on this device (offline local storage). No account or profile data is ever uploaded to external servers.
+            <span className="font-semibold text-heading">Privacy Notice:</span> Accounts are stored safely and solely on this device in private storage. No account or profile data is ever uploaded to external servers.
           </div>
         </div>
 

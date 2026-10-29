@@ -10,7 +10,7 @@ export default function Footer() {
   const [healthInfo, setHealthInfo] = useState({
     operational: true,
     gemini: false,
-    label: 'All AI systems operational (Deterministic Offline Sandbox)'
+    label: 'All AI systems operational (Smart Rule Engine active)'
   });
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export default function Footer() {
               setHealthInfo({
                 operational: true,
                 gemini: false,
-                label: 'AI systems in Offline Sandbox (Local Fallback Operational)'
+                label: 'AI systems operational (Built-in Helper active)'
               });
             }
           }
@@ -45,7 +45,7 @@ export default function Footer() {
           setHealthInfo({
             operational: true,
             gemini: false,
-            label: 'AI systems in Offline Mode (Deterministic Local Fallback)'
+            label: 'AI systems operational (Built-in Helper active)'
           });
         }
       }
@@ -129,15 +129,7 @@ export default function Footer() {
                   Privacy Center &amp; Data
                 </button>
               </li>
-              <li>
-                <button
-                  type="button"
-                  onClick={() => window.dispatchEvent(new CustomEvent('open-offline-manager'))}
-                  className="ln-sweep hover:text-heading transition py-1 inline-block min-h-[32px] text-left cursor-pointer"
-                >
-                  Offline Purity Manager
-                </button>
-              </li>
+
               <li>
                 <button
                   type="button"
@@ -252,7 +244,7 @@ export default function Footer() {
             <span className={`w-2 h-2 rounded-full ${healthInfo.gemini ? 'bg-primary animate-pulse' : 'bg-amber-400'}`} />
             <span className="font-mono text-xs">{healthInfo.label}</span>
             <span className="px-2 py-0.5 rounded-full bg-surface-raised text-xs text-text-muted border border-line font-mono">
-              Server AI + Offline Fallback
+              Server AI + Smart Rules
             </span>
           </div>
         </div>

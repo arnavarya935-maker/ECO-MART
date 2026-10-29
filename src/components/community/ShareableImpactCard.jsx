@@ -115,7 +115,7 @@ export default function ShareableImpactCard({
 
     ctx.fillStyle = '#9CA3AF';
     ctx.font = '12px sans-serif';
-    ctx.fillText(`Audited date: ${new Date().toLocaleDateString()} • Fully Offline Certified`, 50, 445);
+    ctx.fillText(`Audited date: ${new Date().toLocaleDateString()} • Eco Sense Verified Math`, 50, 445);
 
     // Trigger PNG Download
     setTimeout(() => {
@@ -132,7 +132,7 @@ export default function ShareableImpactCard({
     <div className="p-6 sm:p-8 rounded-3xl bg-surface border border-line shadow-soft-sm max-w-2xl mx-auto space-y-6">
       <div className="border-b border-line pb-4">
         <span className="text-xs font-semibold uppercase tracking-wider text-primary bg-primary/10 border border-primary/20 px-2.5 py-1 rounded-full">
-          Offline Export
+          Instant Export
         </span>
         <h3 className="text-xl sm:text-2xl font-serif font-bold text-heading mt-2">
           Shareable Impact Certificate

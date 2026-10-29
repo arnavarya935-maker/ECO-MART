@@ -33,7 +33,7 @@ const FEATURE_CARDS = [
     icon: Camera,
     badge: 'Vision AI',
     accentColor: '#0F766E',
-    metric: 'Instant OCR • Offline Fallbacks'
+    metric: 'Instant OCR • Smart Rules'
   },
   {
     id: 'courtroom',

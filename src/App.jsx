@@ -66,7 +66,6 @@ const LeafParticles = lazy(() => import('./components/LeafParticles'));
 const GreenwashingDetectiveModal = lazy(() => import('./components/detective/GreenwashingDetectiveModal'));
 const EthicsInboxModal = lazy(() => import('./components/decision/EthicsInboxModal'));
 const PrivacyCenterModal = lazy(() => import('./components/privacy/PrivacyCenterModal'));
-const OfflineManagerModal = lazy(() => import('./components/offline/OfflineManagerModal'));
 const AccessibilityCenterModal = lazy(() => import('./components/accessibility/AccessibilityCenterModal'));
 const NotificationCenterModal = lazy(() => import('./components/notifications/NotificationCenterModal'));
 const FeedbackInboxModal = lazy(() => import('./components/feedback/FeedbackInboxModal'));
@@ -109,7 +108,6 @@ function AppContent() {
   const [greenwashingModalOpen, setGreenwashingModalOpen] = useState(false);
   const [ethicsInboxOpen, setEthicsInboxOpen] = useState(false);
   const [privacyCenterOpen, setPrivacyCenterOpen] = useState(false);
-  const [offlineManagerOpen, setOfflineManagerOpen] = useState(false);
   const [accessibilityCenterOpen, setAccessibilityCenterOpen] = useState(false);
   const [notificationCenterOpen, setNotificationCenterOpen] = useState(false);
   const [feedbackInboxOpen, setFeedbackInboxOpen] = useState(false);
@@ -134,7 +132,6 @@ function AppContent() {
     const handleGreenwashingToggle = () => setGreenwashingModalOpen(true);
     const handleEthicsInboxToggle = () => setEthicsInboxOpen(true);
     const handlePrivacyToggle = () => setPrivacyCenterOpen(true);
-    const handleOfflineToggle = () => setOfflineManagerOpen(true);
     const handleAccessibilityToggle = () => setAccessibilityCenterOpen(true);
     const handleNotificationToggle = () => setNotificationCenterOpen(true);
     const handleFeedbackToggle = () => setFeedbackInboxOpen(true);
@@ -144,7 +141,6 @@ function AppContent() {
     window.addEventListener('open-greenwashing-detective', handleGreenwashingToggle);
     window.addEventListener('open-ethics-inbox', handleEthicsInboxToggle);
     window.addEventListener('open-privacy-center', handlePrivacyToggle);
-    window.addEventListener('open-offline-manager', handleOfflineToggle);
     window.addEventListener('open-accessibility-center', handleAccessibilityToggle);
     window.addEventListener('open-notification-center', handleNotificationToggle);
     window.addEventListener('open-feedback-inbox', handleFeedbackToggle);
@@ -155,7 +151,6 @@ function AppContent() {
       window.removeEventListener('open-greenwashing-detective', handleGreenwashingToggle);
       window.removeEventListener('open-ethics-inbox', handleEthicsInboxToggle);
       window.removeEventListener('open-privacy-center', handlePrivacyToggle);
-      window.removeEventListener('open-offline-manager', handleOfflineToggle);
       window.removeEventListener('open-accessibility-center', handleAccessibilityToggle);
       window.removeEventListener('open-notification-center', handleNotificationToggle);
       window.removeEventListener('open-feedback-inbox', handleFeedbackToggle);
@@ -334,13 +329,6 @@ function AppContent() {
       {privacyCenterOpen && (
         <Suspense fallback={null}>
           <PrivacyCenterModal isOpen={privacyCenterOpen} onClose={() => setPrivacyCenterOpen(false)} />
-        </Suspense>
-      )}
-
-      {/* Tier 3: Offline Manager Modal */}
-      {offlineManagerOpen && (
-        <Suspense fallback={null}>
-          <OfflineManagerModal isOpen={offlineManagerOpen} onClose={() => setOfflineManagerOpen(false)} />
         </Suspense>
       )}
 

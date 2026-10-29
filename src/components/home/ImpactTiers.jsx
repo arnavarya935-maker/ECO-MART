@@ -12,7 +12,7 @@ const TIERS = [
     features: [
       '5-Axis Claim Radar on sustainable items',
       '1-Tap Cart Transformer with verified swaps',
-      'Trust Passport generation with offline QR code',
+      'Trust Passport generation with digital QR code',
       'What-If Cart Simulator with live footprint gauges',
       'Personal session carbon and plastic reduction tracking'
     ],

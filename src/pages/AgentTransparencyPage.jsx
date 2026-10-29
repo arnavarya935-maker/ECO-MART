@@ -153,12 +153,12 @@ export default function AgentTransparencyPage() {
                   Deterministic Multi-Agent Collective
                 </h3>
                 <span className="text-[11px] font-mono text-muted">
-                  Local Fallback • Zero Network Needed
+                  Local Fallback • Instant Response
                 </span>
               </div>
             </div>
             <p className="text-xs text-secondary leading-relaxed font-sans">
-              If offline or if network latency exceeds 2.5 seconds, the client activates the <strong>4-Agent Collective</strong> (Planner, Researcher, Skeptic, Advisor) using local catalog indexing and ISO 14040 math.
+              If cloud services are unavailable or network latency exceeds 2.5 seconds, the client activates the <strong>4-Agent Collective</strong> (Planner, Researcher, Skeptic, Advisor) using local catalog indexing and ISO 14040 math.
             </p>
             <div className="space-y-1.5 text-xs">
               <div className="flex items-center gap-2">

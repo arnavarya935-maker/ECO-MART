@@ -118,7 +118,7 @@ export default function AuthModal() {
           <div className="mb-4 p-3 rounded-2xl bg-primary/10 border border-primary/20 text-xs text-text flex items-start gap-2.5">
             <Lock className="w-4 h-4 text-primary shrink-0 mt-0.5" />
             <div className="leading-snug">
-              <span className="font-bold">Device Storage Notice:</span> Accounts are stored solely and safely on this device (offline local storage). No profile data is ever uploaded to external servers.
+              <span className="font-bold">Device Storage Notice:</span> Accounts are stored solely and safely on this device. No profile data is ever uploaded to external servers.
             </div>
           </div>
         )}
@@ -307,11 +307,11 @@ export default function AuthModal() {
             </button>
           ) : (
             <div className="py-2.5 px-3 rounded-2xl bg-accent/10 border border-accent/30 text-accent text-[11px] text-center font-medium">
-              ⚡ Google Sign-In hidden while offline. Local Email and Guest Mode work offline!
+              ⚡ Local Email and Guest Mode are available.
             </div>
           )}
 
-          {/* Continue as Guest Button (Instant Offline Access) */}
+          {/* Continue as Guest Button (Instant Access) */}
           <button
             type="button"
             onClick={loginAsGuest}
@@ -321,7 +321,7 @@ export default function AuthModal() {
           </button>
         </div>
 
-        {/* Offline notice */}
+        {/* Local storage privacy notice */}
         <div className="mt-4 text-center">
           <p className="text-[10px] text-muted">
             🔒 Local accounts are stored securely in browser storage using SHA-256 password hashing.

@@ -36,7 +36,7 @@ export default function EngineeringHero() {
             <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
             <span className="hidden sm:inline">AUTONOMOUS ECO AGENT ·</span> VERIFIABLE CIRCULAR COMMERCE
           </span>
-          <span className="text-primary font-bold">SERVER AI + OFFLINE FALLBACK</span>
+          <span className="text-primary font-bold">SERVER AI + SMART RULES</span>
         </div>
 
         {/* Hero Grid: Typography on Left, Biosphere Visualizer on Right */}
@@ -70,7 +70,7 @@ export default function EngineeringHero() {
             </h1>
 
             <p className="max-w-[48ch] font-sans text-sm sm:text-base leading-[1.65] text-text-secondary text-pretty hero-settle [animation-delay:480ms]">
-              An AI shopping assistant that exposes its reasoning, verifies certifications, detects greenwashing, and measures lifecycle impact—engineered with verifiable ethical guardrails, powered by a server AI proxy with an offline fallback.
+              An AI shopping assistant that exposes its reasoning, verifies certifications, detects greenwashing, and measures lifecycle impact—engineered with verifiable ethical guardrails, powered by a server AI proxy with smart rules.
             </p>
 
             {/* CTAs: Liquid Pill Buttons */}
@@ -115,7 +115,7 @@ export default function EngineeringHero() {
               </div>
               <div>
                 <div className="font-mono text-[9px] sm:text-[10px] uppercase tracking-[0.18em] text-text-muted">Architecture</div>
-                <div className="mt-1 text-xs sm:text-sm font-semibold text-heading font-mono">API + Offline Mode</div>
+                <div className="mt-1 text-xs sm:text-sm font-semibold text-heading font-mono">Cloud AI + Smart Rules</div>
               </div>
             </div>
           </div>

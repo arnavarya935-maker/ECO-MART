@@ -162,7 +162,7 @@ export default function CourtroomPage() {
           {/* Quick Preset Selector Chips */}
           <div className="mt-6 pt-6 border-t border-line/60">
             <span className="text-xs font-semibold uppercase tracking-wider text-muted block mb-3">
-              Cached Example Trials (Offline Available):
+              Featured Example Trials:
             </span>
             <div className="flex flex-wrap gap-2">
               {CACHED_DEBATES.map((deb) => (

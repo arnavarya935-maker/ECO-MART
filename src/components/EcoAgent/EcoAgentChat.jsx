@@ -481,7 +481,7 @@ export default function EcoAgentChat() {
           sender: 'agent',
           text: isOnline
             ? "I am connected in Online AI mode, but encountered a transient error. You can ask for plastic-free kitchen essentials, gifts under ₹1000, or click 'Review my cart' below!"
-            : "I am operating in responsible offline mode. You can ask for plastic-free kitchen essentials, gifts under ₹1000, or click 'Review my cart' below!",
+            : "I am operating using our smart built-in helper. You can ask for plastic-free kitchen essentials, gifts under ₹1000, or click 'Review my cart' below!",
           source: isOnline ? 'cloud-llm' : 'local-fallback',
           confidence: 'high',
           estimated_energy_wh: isOnline ? 0.05 : 0,
@@ -594,8 +594,8 @@ export default function EcoAgentChat() {
     if (agentMode === 'offline') {
       showToast(
         lang === 'hi'
-          ? 'ऑफ़लाइन मोड: नीचे दिए गए लोकप्रिय वॉइस प्रॉम्प्ट्स में से चुनें, या ऑनलाइन AI ऑन करें।'
-          : 'Offline Mode: Tap any quick voice prompt below, or switch to Online for AI audio transcription!',
+          ? 'नीचे दिए गए लोकप्रिय वॉइस प्रॉम्प्ट्स में से चुनें, या बोलकर खोजें।'
+          : 'Tap any quick voice prompt below, or use the microphone to speak!',
         'info'
       );
     }
@@ -825,7 +825,7 @@ export default function EcoAgentChat() {
               <div className="text-[10px] text-text-muted leading-tight">
                 {agentMode === 'online'
                   ? 'Gemini 2.5 Cloud reasoning with verified catalog fallback'
-                  : 'Fast 0ms offline multi-agent heuristics & local catalog'}
+                  : 'Fast smart rule heuristics & local catalog'}
               </div>
             </div>
             <button
@@ -837,7 +837,7 @@ export default function EcoAgentChat() {
                   : 'bg-amber-500/20 text-amber-400 border-amber-500/40 hover:bg-amber-500/30'
               }`}
             >
-              Switch to {agentMode === 'online' ? 'Offline' : 'Online'}
+              Switch to {agentMode === 'online' ? 'Built-in Rules' : 'Cloud AI'}
             </button>
           </div>
 

@@ -97,7 +97,7 @@ export default function SettingsPage() {
       model_error: 'model not found',
       error: 'network error'
     };
-    const reason = reasonMap[aiHealth?.status] || 'offline';
+    const reason = reasonMap[aiHealth?.status] || 'not connected';
     return `AI helper: not connected - using the built-in helper (${reason})`;
   };
 
@@ -168,8 +168,8 @@ export default function SettingsPage() {
           </h1>
           <p className="text-xs sm:text-sm text-secondary mt-1">
             {lang === 'hi'
-              ? 'इंटरफ़ेस भाषा, दृश्य एर्गोनॉमिक्स, ऑडियो और ऑफ़लाइन प्राथमिकताओं को कॉन्फ़िगर करें।'
-              : 'Configure visual ergonomics, accessibility, audio cues, and offline device storage.'}
+              ? 'इंटरफ़ेस भाषा, दृश्य एर्गोनॉमिक्स, ऑडियो और डिवाइस प्राथमिकताओं को कॉन्फ़िगर करें।'
+              : 'Configure visual ergonomics, accessibility, audio cues, and local device storage.'}
           </p>
         </div>
 
@@ -194,7 +194,7 @@ export default function SettingsPage() {
                   {t('settings.language', 'Language / भाषा')}
                 </h3>
                 <p className="text-[11px] text-muted font-normal">
-                  {t('settings.languageDesc', 'Toggle bilingual interface with local offline font support')}
+                  {t('settings.languageDesc', 'Toggle bilingual interface with local typography support')}
                 </p>
               </div>
             </div>

@@ -48,7 +48,7 @@ export default function AgentPipelinePanel() {
           </div>
           <div className="flex items-center gap-2 text-xs font-mono text-text-muted">
             <span className="px-2.5 py-1 rounded-full bg-surface-raised border border-line text-emerald-400 font-semibold">
-              Deterministic Offline Cache
+              Deterministic Rule Engine
             </span>
           </div>
         </div>

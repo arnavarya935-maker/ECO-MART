@@ -27,7 +27,6 @@ import {
   FileCheck,
   BookOpen,
   Lock,
-  Wifi,
   Eye,
   MessageSquare,
   Newspaper
@@ -389,21 +388,9 @@ export default function CommandPalette({ isOpen: controlledOpen, onClose: contro
       title: 'Privacy Center & Data Export',
       subtitle: 'Inspect local storage inventory, export JSON backup, or wipe local data',
       icon: Lock,
-      group: 'Privacy & Offline',
+      group: 'Privacy & Data',
       perform: () => {
         window.dispatchEvent(new CustomEvent('open-privacy-center'));
-        handleClose();
-      }
-    },
-    {
-      id: 'action-offline',
-      type: 'action',
-      title: 'Offline Capabilities Manager',
-      subtitle: 'View offline operational matrix and PWA installation status',
-      icon: Wifi,
-      group: 'Privacy & Offline',
-      perform: () => {
-        window.dispatchEvent(new CustomEvent('open-offline-manager'));
         handleClose();
       }
     },

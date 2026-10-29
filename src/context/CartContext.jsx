@@ -245,7 +245,7 @@ export function CartProvider({ children }) {
     showToast(
       mode === 'online'
         ? '🌐 Online AI Connected (Cloud Gemini 2.5)'
-        : '⚡ Offline Mode Active (Local-First Heuristics)',
+        : '⚡ Smart Rules Active (Built-in Rule Engine)',
       'info'
     );
   }, [showToast]);

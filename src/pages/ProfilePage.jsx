@@ -135,7 +135,7 @@ export default function ProfilePage() {
               )}
             </div>
             <p className="text-xs text-primary-contrast/80 mt-0.5 font-normal">
-              {currentUser?.email || 'Offline Guest Session'}
+              {currentUser?.email || 'Guest Session'}
             </p>
             <div className="flex items-center gap-3 mt-2 text-xs font-medium text-primary-contrast/90">
               <span className="flex items-center gap-1">

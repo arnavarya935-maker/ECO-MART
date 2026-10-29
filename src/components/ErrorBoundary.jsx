@@ -109,7 +109,7 @@ export default class ErrorBoundary extends React.Component {
               <p className="text-xs text-text-secondary leading-relaxed">
                 {isChunkError
                   ? 'A new version of Eco Sense was just published. Reloading will sync your browser with the latest version.'
-                  : "Eco Sense encountered an unexpected visual issue. Don't worry — your cart and saved impact data are safely preserved in offline storage."}
+                  : "Eco Sense encountered an unexpected visual issue. Don't worry — your cart and saved impact data are safely preserved on this device."}
               </p>
             </div>
 

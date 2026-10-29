@@ -58,7 +58,7 @@ export default function EcoMap() {
             Artisan Origins & Regional Eco Map
           </h3>
           <p className="text-xs sm:text-sm text-secondary mt-0.5">
-            Click any regional cluster to inspect local materials, artisan communities, and audited items. Fully offline SVG.
+            Click any regional cluster to inspect local materials, artisan communities, and audited items. Interactive SVG.
           </p>
         </div>
 
@@ -68,12 +68,12 @@ export default function EcoMap() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
-        {/* Offline Interactive Bundled SVG Map */}
+        {/* Interactive Bundled SVG Map */}
         <div className="md:col-span-7 relative bg-surface-sunken p-6 rounded-3xl border border-line flex items-center justify-center">
           <svg
             viewBox="0 0 100 100"
             className="w-full max-w-[340px] h-auto drop-shadow-soft-sm"
-            aria-label="Offline interactive map of Indian artisan craft regions"
+            aria-label="Interactive map of Indian artisan craft regions"
           >
             {/* Abstract stylised contour map */}
             <path

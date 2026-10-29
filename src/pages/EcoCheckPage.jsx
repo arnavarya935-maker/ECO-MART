@@ -69,7 +69,7 @@ export default function EcoCheckPage() {
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-6">
         <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-primary-subtle text-primary border border-primary/20 mb-3">
           <Sparkles className="w-3.5 h-3.5" />
-          <span>Real-World Offline AI Tool</span>
+          <span>Real-World Smart AI Tool</span>
         </div>
         <h1 className="font-serif text-3xl sm:text-4xl font-bold text-heading tracking-tight">
           Eco Check Any Product

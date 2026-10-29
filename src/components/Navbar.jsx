@@ -240,14 +240,14 @@ export default function Navbar() {
                         ? 'bg-primary/10 border-primary/30 text-primary hover:bg-primary/20'
                         : 'bg-amber-500/10 border-amber-500/30 text-amber-600 dark:text-amber-400 hover:bg-amber-500/20'
                     }`}
-                    title="Toggle Gemini Cloud AI vs Local Offline Heuristics"
+                    title="Toggle Gemini Cloud AI vs Built-in Smart Rules"
                   >
                     {agentMode === 'online' ? (
                       <Wifi className="w-3 h-3 text-primary" />
                     ) : (
                       <WifiOff className="w-3 h-3 text-amber-500" />
                     )}
-                    <span>{agentMode === 'online' ? 'Online AI' : 'Offline AI'}</span>
+                    <span>{agentMode === 'online' ? 'Cloud AI' : 'Smart Rules'}</span>
                   </button>
 
                   {/* Dark Mode Toggle */}
@@ -407,7 +407,7 @@ export default function Navbar() {
               }`}
             >
               <span className="w-2 h-2 rounded-full bg-white" />
-              <span>{agentMode === 'online' ? 'Online' : 'Offline'}</span>
+              <span>{agentMode === 'online' ? 'Cloud AI' : 'Smart Rules'}</span>
             </button>
           </div>
 
