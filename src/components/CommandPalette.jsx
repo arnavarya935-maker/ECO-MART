@@ -406,14 +406,24 @@ export default function CommandPalette({ isOpen: controlledOpen, onClose: contro
       return actions.slice(0, 10).map((a) => ({ ...a, group: a.group || 'Quick Actions' }));
     }
 
-    // 1. Match products
+    // 1. Match products (targeted multi-token AND matching)
+    const tokens = q.toLowerCase().split(/\s+/).filter(Boolean);
     const matchingProducts = productsData
       .filter((p) => {
-        return (
-          p.name.toLowerCase().includes(q) ||
-          p.category.toLowerCase().includes(q) ||
-          (p.material || '').toLowerCase().includes(q)
-        );
+        const name = (p.name || '').toLowerCase();
+        const cat = (p.category || '').toLowerCase();
+        const mat = (p.material || '').toLowerCase();
+        const tags = (Array.isArray(p.tags) ? p.tags : []).map((t) => t.toLowerCase()).join(' ');
+        const searchableText = `${name} ${cat} ${mat} ${tags}`;
+        return tokens.every((token) => searchableText.includes(token));
+      })
+      .sort((a, b) => {
+        const aName = (a.name || '').toLowerCase();
+        const bName = (b.name || '').toLowerCase();
+        const aExact = aName.includes(q) ? 1 : 0;
+        const bExact = bName.includes(q) ? 1 : 0;
+        if (aExact !== bExact) return bExact - aExact;
+        return (b.isEcoFriendly ? 1 : 0) - (a.isEcoFriendly ? 1 : 0);
       })
       .slice(0, 5)
       .map((p) => ({

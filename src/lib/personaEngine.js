@@ -151,11 +151,12 @@ export function parseIntentSearch(rawQuery) {
 
   // 4. Detect categories
   const categoryKeywords = {
-    'Kitchen': ['kitchen', 'cooking', 'cutlery', 'dish', 'sponge'],
-    'Personal Care': ['bath', 'shampoo', 'soap', 'toothbrush', 'care', 'dental'],
-    'Home & Living': ['home', 'living', 'candle', 'decor', 'cleaner'],
-    'Apparel': ['apparel', 'clothing', 'shirt', 't-shirt', 'wear'],
-    'Accessories': ['accessory', 'bag', 'tote', 'wallet', 'backpack']
+    'Kitchen': ['kitchen', 'kitchenware', 'cookware'],
+    'Personal Care': ['personal care', 'dental care', 'bath & body', 'toiletries'],
+    'Home & Living': ['home & living', 'home and living', 'home decor'],
+    'Apparel': ['apparel', 'clothing', 'fashion'],
+    'Accessories': ['accessories', 'lifestyle accessories'],
+    'Stationery': ['stationery', 'office supplies']
   };
 
   for (const [catName, keywords] of Object.entries(categoryKeywords)) {

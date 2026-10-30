@@ -128,14 +128,19 @@ export default function ShopPage() {
     const q = queryParam.trim().toLowerCase();
 
     return products.filter((product) => {
-      // 1. Search Query
+      // 1. Search Query (targeted multi-token AND matching)
       if (q) {
-        const matchesName = (product.name || '').toLowerCase().includes(q);
-        const matchesCat = (product.category || '').toLowerCase().includes(q);
-        const matchesMat = (product.material || '').toLowerCase().includes(q);
-        const matchesDesc = (product.description || '').toLowerCase().includes(q);
-        const matchesTags = Array.isArray(product.tags) && product.tags.some((t) => t.toLowerCase().includes(q));
-        if (!matchesName && !matchesCat && !matchesMat && !matchesDesc && !matchesTags) {
+        const tokens = q.toLowerCase().split(/\s+/).filter(Boolean);
+        const name = (product.name || '').toLowerCase();
+        const cat = (product.category || '').toLowerCase();
+        const mat = (product.material || '').toLowerCase();
+        const desc = (product.description || '').toLowerCase();
+        const tags = (Array.isArray(product.tags) ? product.tags : []).map((t) => t.toLowerCase());
+        const searchableText = `${name} ${cat} ${mat} ${tags.join(' ')} ${desc}`;
+
+        // Every search token must match somewhere in the product (strict targeted results)
+        const allTokensMatch = tokens.every((token) => searchableText.includes(token));
+        if (!allTokensMatch) {
           return false;
         }
       }
@@ -280,13 +285,38 @@ export default function ShopPage() {
       case 'priorities':
       case 'featured':
       default:
+        // When user searched for specific terms, prioritize exact and direct name matches first
+        if (queryParam.trim()) {
+          const qLower = queryParam.trim().toLowerCase();
+          const tokens = qLower.split(/\s+/).filter(Boolean);
+          return list.sort((a, b) => {
+            const aName = (a.name || '').toLowerCase();
+            const bName = (b.name || '').toLowerCase();
+
+            // 1. Exact full query in name (highest priority)
+            const aExact = aName.includes(qLower) ? 1 : 0;
+            const bExact = bName.includes(qLower) ? 1 : 0;
+            if (aExact !== bExact) return bExact - aExact;
+
+            // 2. Count tokens appearing directly in product name
+            const aNameTokens = tokens.filter((t) => aName.includes(t)).length;
+            const bNameTokens = tokens.filter((t) => bName.includes(t)).length;
+            if (aNameTokens !== bNameTokens) return bNameTokens - aNameTokens;
+
+            // 3. Eco-friendly priority
+            if (a.isEcoFriendly !== b.isEcoFriendly) {
+              return (b.isEcoFriendly ? 1 : 0) - (a.isEcoFriendly ? 1 : 0);
+            }
+            return 0;
+          });
+        }
         if (FEATURES.DECISION_ENGINE) {
           // Re-rank candidate list based on user priorities weights; never filters items out
           return rankProducts(list, userPriorities, {});
         }
         return list.sort((a, b) => (b.isEcoFriendly ? 1 : 0) - (a.isEcoFriendly ? 1 : 0));
     }
-  }, [filteredProducts, sortParam, userPriorities]);
+  }, [filteredProducts, sortParam, userPriorities, queryParam]);
 
   // Pagination calculation (24 per page)
   const totalCount = sortedProducts.length;

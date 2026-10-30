@@ -140,10 +140,9 @@ export function rankProducts(products, weights = DEFAULT_PRIORITIES, constraints
     }
     if (constraints.searchQuery) {
       const q = constraints.searchQuery.toLowerCase().trim();
-      const match =
-        p.name.toLowerCase().includes(q) ||
-        (p.category && p.category.toLowerCase().includes(q)) ||
-        (p.material && p.material.toLowerCase().includes(q));
+      const tokens = q.split(/\s+/).filter(Boolean);
+      const text = `${p.name} ${p.category || ''} ${p.material || ''}`.toLowerCase();
+      const match = tokens.every((token) => text.includes(token));
       if (!match) return false;
     }
     return true;
