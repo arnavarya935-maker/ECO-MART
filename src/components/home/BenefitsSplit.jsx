@@ -48,7 +48,7 @@ export default function BenefitsSplit() {
     },
     {
       title: 'Dignified Artisan Partnerships',
-      desc: 'Fair living wages paid directly to verified ethical rural craft cooperatives.',
+      desc: 'Fair living wages paid directly to certified ethical rural craft cooperatives.',
       icon: Users
     },
     {

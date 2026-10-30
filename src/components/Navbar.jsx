@@ -294,7 +294,7 @@ export default function Navbar() {
                         All Sustainable Categories
                       </h4>
                       <p className="text-[11px] text-text-muted">
-                        Cradle-to-gate verified essentials for everyday mindful living.
+                        Cradle-to-gate certified essentials for everyday mindful living.
                       </p>
                     </div>
                     <Link

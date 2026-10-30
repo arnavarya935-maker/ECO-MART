@@ -45,7 +45,7 @@ export default function WhoWeAre() {
       tagline: t('whoWeAre.mission_tagline', 'Algorithmic Transparency'),
       body: t(
         'whoWeAre.mission_body',
-        'To demystify greenwashing through open-access cradle-to-gate impact scoring, verified plastic-free catalogs, and automated one-click cart transformations.'
+        'To demystify greenwashing through open-access cradle-to-gate impact scoring, certified plastic-free catalogs, and automated one-click cart transformations.'
       )
     }
   ];
