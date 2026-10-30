@@ -68,3 +68,17 @@ All product photographs in EcoMart are obtained from free-license photography so
 | `clean-03-conv` | Pre-Diluted Liquid Glass Cleaner Spray (500ml Bottle) |  (Unsplash) | `photo-1585670210693-e7fdd16b142e` | `/images/products/clean-03-conv.jpg` |
 | `clean-04` | Artisan Beech Wood Toilet Brush with Coconut Coir Bristles |  (Unsplash) | `photo-1584308666744-24d5c474f2ae` | `/images/products/clean-04.jpg` |
 | `clean-04-conv` | Plastic Toilet Brush & Polypropylene Caddy Set |  (Unsplash) | `photo-1585670210693-e7fdd16b142e` | `/images/products/clean-04-conv.jpg` |
+
+## Needs a Better Photo (Placeholder SVG Active)
+
+The following products currently display on-brand vector SVG placeholders because available stock photos did not accurately match the product description:
+
+- **`bag-01`** — *Heavyweight Organic Cotton Canvas Market Tote* (Bags): Tote bag photo shows clothes rack / wall hanging background. Using `bag-01.svg`.
+- **`clean-01`** — *Organic Soapnut Berries Laundry Wash (500g Bag)* (Cleaning & Laundry): Soapnut cleaner shows edible nuts (almonds/hazelnuts) instead of soapberries. Using `clean-01.svg`.
+- **`clean-02`** — *Natural Loofah & Coconut Coir Dish Scrubber (Pack of 4)* (Cleaning & Laundry): Dish scrubber shows cutlery/torch/party background or sea bath sponge instead of coir scrubber. Using `clean-02.svg`.
+- **`clean-02-conv`** — *Synthetic Polyurethane Yellow-Green Sponges (Pack of 6)* (Cleaning & Laundry): Reuses synthetic laundry powder tub photo for sponge/caddy/glass cleaner. Using `clean-02-conv.svg`.
+- **`clean-03`** — *Plant-Based Concentrated Multi-Surface Cleaner Tabs (Pack of 6)* (Cleaning & Laundry): Surface cleaner tabs shows blue 2kg powder container / surgical gloves. Using `clean-03.svg`.
+- **`clean-03-conv`** — *Pre-Diluted Liquid Glass Cleaner Spray (500ml Bottle)* (Cleaning & Laundry): Reuses synthetic laundry powder tub photo for sponge/caddy/glass cleaner. Using `clean-03-conv.svg`.
+- **`clean-04`** — *Artisan Beech Wood Toilet Brush with Coconut Coir Bristles* (Cleaning & Laundry): Dish scrubber shows cutlery/torch/party background or sea bath sponge instead of coir scrubber. Using `clean-04.svg`.
+- **`clean-04-conv`** — *Plastic Toilet Brush & Polypropylene Caddy Set* (Cleaning & Laundry): Reuses synthetic laundry powder tub photo for sponge/caddy/glass cleaner. Using `clean-04-conv.svg`.
+- **`out-07`** — *Natural Coconut Shell Travel Soap Dish with Drainage Holes* (Outdoor & Travel): Soap dish shows bread photo instead of coconut shell holder. Using `out-07.svg`.
