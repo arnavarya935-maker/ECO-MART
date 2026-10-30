@@ -1,5 +1,5 @@
-const defaultSupabaseUrl = 'https://gtzzrubfhrinpxzbtjde.supabase.co';
-const defaultSupabaseAnonKey = 'sb_publishable_KrJzQOivbwq8Uaex7PNJHA_n6ft0oBt';
+const defaultSupabaseUrl = 'https://whrcgknnxkfmrnpmjyrm.supabase.co';
+const defaultSupabaseAnonKey = 'sb_publishable_jPgE14w6iF-UJgdwhd0q5w_Clj-qPrO';
 
 const rawUrl = import.meta.env.VITE_SUPABASE_URL;
 const rawAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
