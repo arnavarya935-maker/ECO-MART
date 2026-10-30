@@ -52,8 +52,6 @@ function GithubIcon(props) {
 export default function Footer() {
   const { lang } = useT();
   const { setIsAgentOpen } = useCart();
-  const { theme } = useTheme();
-  const isDark = theme === 'dark';
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [newsletterSubscribed, setNewsletterSubscribed] = useState(false);
 
@@ -71,9 +69,36 @@ export default function Footer() {
 
   return (
     <>
-      <footer className="relative isolate overflow-hidden mt-16 sm:mt-20 border-t border-line bg-surface text-text-secondary transition-colors">
-        <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-16">
-          {/* Responsive 4-Column Grid: 4 cols desktop, 2 cols tablet, 1 col mobile */}
+      {/* Organic Wave Curve Transition into Deep Forest Footer */}
+      <div className="w-full overflow-hidden leading-none select-none pointer-events-none -mb-1 mt-16 sm:mt-24">
+        <svg
+          viewBox="0 0 1440 96"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-full h-12 sm:h-16 lg:h-24 block text-[#072418] fill-current"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M0,96 C240,32 540,8 840,40 C1080,66 1280,88 1440,96 L1440,96 L0,96 Z"
+          />
+          <path
+            d="M0,96 C240,32 540,8 840,40 C1080,66 1280,88 1440,96"
+            stroke="rgba(52, 211, 153, 0.35)"
+            strokeWidth="2"
+            fill="none"
+          />
+        </svg>
+      </div>
+
+      <footer className="relative isolate overflow-hidden bg-gradient-to-b from-[#072418] via-[#051A11] to-[#030E09] text-emerald-100/90 transition-colors">
+        {/* Soft Ambient Radial Emerald Glow */}
+        <div
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_-10%,rgba(16,185,129,0.18),transparent)]"
+          aria-hidden="true"
+        />
+
+        <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-14 pb-4">
+          {/* Responsive 4-Column Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10">
             {/* Column 1: Brand & Manifesto */}
             <div className="space-y-4">
@@ -83,7 +108,7 @@ export default function Footer() {
                 aria-label="EcoSense Home"
               >
                 <img
-                  src={isDark ? '/images/logo-dark.png' : '/images/logo.png'}
+                  src="/images/logo-dark.png"
                   alt="EcoSense - Shop with purpose"
                   width="140"
                   height="43"
@@ -91,7 +116,7 @@ export default function Footer() {
                 />
               </Link>
 
-              <p className="text-[13px] leading-[1.4] font-sans text-text-secondary max-w-sm">
+              <p className="text-[13px] leading-[1.5] font-sans text-emerald-100/75 max-w-sm">
                 {lang === 'hi'
                   ? 'स्कूल प्रोजेक्ट और जागरूक समुदाय के लिए नमूना उत्पाद। विचारशील, शून्य-अपशिष्ट जीवनशैली को सहज बनाना।'
                   : 'An open-source eco-shopping platform and academic initiative. Making thoughtful, circular living effortless with transparent lifecycle scoring.'}
@@ -99,10 +124,10 @@ export default function Footer() {
 
               {/* Social Icons */}
               <div className="pt-2">
-                <span className="text-[11px] font-mono uppercase tracking-wider text-text-muted block mb-2.5">
+                <span className="text-[11px] font-mono uppercase tracking-wider text-emerald-300/80 block mb-2.5">
                   Follow Our Movement
                 </span>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2.5">
                   {[
                     { label: 'Instagram', icon: InstagramIcon, href: '#instagram' },
                     { label: 'Twitter', icon: TwitterIcon, href: '#twitter' },
@@ -115,9 +140,9 @@ export default function Footer() {
                         key={s.label}
                         href={s.href}
                         aria-label={`Visit our ${s.label} profile`}
-                        className="w-8 h-8 rounded-full border border-line bg-surface-raised hover:bg-surface-accent text-text-secondary hover:text-primary transition flex items-center justify-center cursor-pointer shadow-soft-xs min-h-[36px] min-w-[36px]"
+                        className="w-9 h-9 rounded-full border border-white/10 bg-white/5 hover:bg-emerald-500/20 hover:border-emerald-400/40 text-emerald-200 hover:text-white transition-all flex items-center justify-center cursor-pointer shadow-soft-xs min-h-[36px] min-w-[36px]"
                       >
-                        <Icon className="w-3.5 h-3.5" />
+                        <Icon className="w-4 h-4" />
                       </a>
                     );
                   })}
@@ -125,28 +150,28 @@ export default function Footer() {
               </div>
             </div>
 
-            {/* Column 2: Quick Links */}
+            {/* Column 2: Trust & Legal */}
             <div className="space-y-4">
-              <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-text-muted">
+              <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-emerald-400">
                 Trust &amp; Legal
               </p>
-              <ul className="space-y-2 text-[13px] leading-[1.4] font-sans text-text-secondary">
+              <ul className="space-y-2 text-[13px] leading-[1.5] font-sans text-emerald-100/75">
                 <li>
                   <button
                     type="button"
                     onClick={() => window.dispatchEvent(new CustomEvent('open-privacy-center'))}
-                    className="hover:text-heading transition py-1 text-left cursor-pointer"
+                    className="hover:text-emerald-300 hover:translate-x-0.5 transition-all py-1 text-left cursor-pointer"
                   >
                     Privacy Policy &amp; Data Rights
                   </button>
                 </li>
                 <li>
-                  <Link to="/how-it-works" className="hover:text-heading transition py-1 inline-block">
+                  <Link to="/how-it-works" className="hover:text-emerald-300 hover:translate-x-0.5 transition-all py-1 inline-block">
                     Terms of Service &amp; Fair Use
                   </Link>
                 </li>
                 <li>
-                  <Link to="/contact" className="hover:text-heading transition py-1 inline-block">
+                  <Link to="/contact" className="hover:text-emerald-300 hover:translate-x-0.5 transition-all py-1 inline-block">
                     Refund &amp; Return Policy
                   </Link>
                 </li>
@@ -154,7 +179,7 @@ export default function Footer() {
                   <button
                     type="button"
                     onClick={() => window.dispatchEvent(new CustomEvent('open-accessibility-center'))}
-                    className="hover:text-heading transition py-1 text-left cursor-pointer"
+                    className="hover:text-emerald-300 hover:translate-x-0.5 transition-all py-1 text-left cursor-pointer"
                   >
                     Accessibility Center &amp; WCAG AA
                   </button>
@@ -163,7 +188,7 @@ export default function Footer() {
                   <button
                     type="button"
                     onClick={() => window.dispatchEvent(new CustomEvent('open-feedback-inbox'))}
-                    className="hover:text-heading transition py-1 text-left cursor-pointer"
+                    className="hover:text-emerald-300 hover:translate-x-0.5 transition-all py-1 text-left cursor-pointer"
                   >
                     Community Feedback &amp; Suggestions
                   </button>
@@ -173,22 +198,22 @@ export default function Footer() {
 
             {/* Column 3: Contact Block */}
             <div className="space-y-4">
-              <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-text-muted">
+              <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-emerald-400">
                 Contact &amp; Origin
               </p>
-              <div className="space-y-3 text-[13px] leading-[1.4] text-text-secondary">
+              <div className="space-y-3 text-[13px] leading-[1.5] text-emerald-100/75">
                 <div className="flex items-start gap-2.5">
-                  <MapPin className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                  <MapPin className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                   <span>Bangalore, Karnataka, India</span>
                 </div>
                 <div className="flex items-start gap-2.5">
-                  <Mail className="w-4 h-4 text-primary shrink-0 mt-0.5" />
-                  <a href="mailto:contact@ecomart.eco" className="hover:underline">
-                    contact@ecomart.eco
+                  <Mail className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+                  <a href="mailto:contact@ecosense.eco" className="hover:text-emerald-300 hover:underline">
+                    contact@ecosense.eco
                   </a>
                 </div>
                 <div className="flex items-start gap-2.5">
-                  <Clock className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                  <Clock className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
                   <span>Mon–Fri: 9:00 AM – 6:00 PM IST</span>
                 </div>
               </div>
@@ -197,45 +222,45 @@ export default function Footer() {
             {/* Column 4: Newsletter Signup */}
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-text-muted">
+                <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-emerald-400">
                   Stay Conscious
                 </p>
                 <button
                   type="button"
                   onClick={scrollToTop}
                   aria-label="Back to top"
-                  className="w-9 h-9 rounded-full border border-line bg-surface-raised flex items-center justify-center text-text-muted hover:text-heading hover:border-primary/50 transition cursor-pointer shadow-soft-xs min-h-[36px] min-w-[36px]"
+                  className="w-9 h-9 rounded-full border border-white/15 bg-white/5 hover:bg-emerald-500/20 hover:border-emerald-400/40 flex items-center justify-center text-emerald-300 hover:text-white transition cursor-pointer shadow-soft-xs min-h-[36px] min-w-[36px]"
                   title="Scroll to top"
                 >
                   <ArrowUp className="w-4 h-4" />
                 </button>
               </div>
 
-              <p className="text-[13px] leading-[1.4] text-text-secondary">
+              <p className="text-[13px] leading-[1.5] text-emerald-100/75">
                 Receive our bi-weekly dispatch on zero-waste packaging, ingredient transparency, and new artisan additions.
               </p>
 
               {newsletterSubscribed ? (
-                <div className="flex items-center gap-2 p-3 rounded-2xl bg-surface-accent border border-primary/20 text-heading text-[13px] leading-[1.4] font-medium">
-                  <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
+                <div className="flex items-center gap-2 p-3 rounded-2xl bg-emerald-500/20 border border-emerald-400/30 text-white text-[13px] leading-[1.4] font-medium">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                   <span>You are subscribed! Thank you.</span>
                 </div>
               ) : (
                 <form onSubmit={handleSubscribe} className="space-y-2.5">
                   <div className="relative">
-                    <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
+                    <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-emerald-300/60" />
                     <input
                       type="email"
                       required
                       placeholder="Enter your email"
                       value={newsletterEmail}
                       onChange={(e) => setNewsletterEmail(e.target.value)}
-                      className="w-full pl-10 pr-3 py-2.5 min-h-[44px] text-[13px] leading-[1.4] font-sans bg-surface-raised rounded-xl border border-line focus:outline-2 focus:outline-focus text-text placeholder:text-text-muted"
+                      className="w-full pl-10 pr-3 py-2.5 min-h-[44px] text-[13px] leading-[1.4] font-sans bg-white/10 rounded-xl border border-white/20 focus:outline-2 focus:outline-emerald-400 text-white placeholder:text-emerald-200/50"
                     />
                   </div>
                   <button
                     type="submit"
-                    className="w-full py-2.5 min-h-[44px] px-4 rounded-xl bg-primary hover:bg-primary-hover text-white text-[13px] font-mono font-semibold uppercase tracking-wider transition cursor-pointer shadow-soft-xs"
+                    className="w-full py-2.5 min-h-[44px] px-4 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-forest-950 text-[13px] font-mono font-bold uppercase tracking-wider transition cursor-pointer shadow-soft-sm hover:shadow-soft-md"
                   >
                     Join Newsletter
                   </button>
@@ -245,24 +270,24 @@ export default function Footer() {
           </div>
 
           {/* Bottom Copyright Row */}
-          <div className="mt-12 pt-6 border-t border-line/60 flex flex-col sm:flex-row items-center justify-between text-[13px] leading-[1.4] font-sans text-text-muted gap-4">
+          <div className="mt-12 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-[13px] leading-[1.4] font-sans text-emerald-200/60 gap-4">
             <div>
               © 2026 {lang === 'hi' ? 'इको सेंस' : 'EcoSense'} Project. All rights reserved.
             </div>
-            <div className="flex flex-wrap items-center gap-4 text-[13px] font-sans text-text-secondary">
-              <Link to="/shop" className="hover:text-heading transition py-1">Shop</Link>
-              <Link to="/truth-lab" className="hover:text-heading transition py-1">Truth Lab</Link>
-              <Link to="/how-it-works" className="hover:text-heading transition py-1">How It Works</Link>
-              <Link to="/settings" className="hover:text-heading transition py-1">Settings</Link>
+            <div className="flex flex-wrap items-center gap-4 text-[13px] font-sans text-emerald-100/70">
+              <Link to="/shop" className="hover:text-emerald-300 transition py-1">Shop</Link>
+              <Link to="/truth-lab" className="hover:text-emerald-300 transition py-1">Truth Lab</Link>
+              <Link to="/how-it-works" className="hover:text-emerald-300 transition py-1">How It Works</Link>
+              <Link to="/settings" className="hover:text-emerald-300 transition py-1">Settings</Link>
             </div>
           </div>
         </div>
 
-        {/* Fully Contained & Visible Watermark (Responsive & Non-Overlapping) */}
-        <div className="w-full overflow-hidden select-none pointer-events-none mt-8 pb-10 text-center px-4" aria-hidden="true">
-          <p className="font-mono text-[clamp(2.5rem,9.5vw,9rem)] font-bold tracking-tight text-text-muted/10 leading-none truncate">
-            <span>ECOMART</span>
-            <span className="text-[0.25em] align-super text-primary/30">®</span>
+        {/* Large EcoSense Low-Contrast Wordmark */}
+        <div className="w-full overflow-hidden select-none pointer-events-none mt-6 pb-8 text-center px-4" aria-hidden="true">
+          <p className="font-sans font-black tracking-tight text-[clamp(2.8rem,11vw,11.5rem)] text-white/[0.04] leading-none uppercase truncate">
+            <span>ECOSENSE</span>
+            <span className="text-[0.25em] align-super text-emerald-400/30 ml-2">®</span>
           </p>
         </div>
       </footer>
@@ -272,8 +297,8 @@ export default function Footer() {
         <button
           type="button"
           onClick={() => setIsAgentOpen(true)}
-          className="group flex items-center gap-2.5 px-4 py-3 min-h-[44px] rounded-full bg-primary hover:bg-primary-hover text-white shadow-soft-lg hover:shadow-soft-xl transition-all cursor-pointer focus-visible:outline-2 focus-visible:outline-focus"
-          aria-label="Open EcoMart Chat & Instant Assistance"
+          className="group flex items-center gap-2.5 px-4 py-3 min-h-[44px] rounded-full bg-emerald-600 hover:bg-emerald-500 text-white shadow-soft-lg hover:shadow-soft-xl transition-all cursor-pointer focus-visible:outline-2 focus-visible:outline-focus border border-emerald-400/30"
+          aria-label="Open EcoSense Chat & Instant Assistance"
         >
           <MessageCircle className="w-4 h-4 text-white" />
           <span className="text-[13px] font-semibold font-sans tracking-wide">
