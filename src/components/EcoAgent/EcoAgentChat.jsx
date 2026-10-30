@@ -23,7 +23,7 @@ import {
 import { useCart } from '../../context/CartContext';
 import { useT } from '../../context/I18nContext';
 import { FEATURES } from '../../lib/features';
-import { sendAgentQuery } from '../../lib/ecoAgent';
+import { sendAgentQuery, generateTradeoffs } from '../../lib/ecoAgent';
 import { runMultiAgentPipeline } from '../../lib/multiAgentEngine';
 import { askEcoAgent, generateLocalFallbackAnswer } from '../../lib/ai/geminiAdapter';
 import { playSound } from '../../lib/audio';
@@ -375,11 +375,45 @@ export default function EcoAgentChat() {
           .replace(vRegex, 'estimated');
       }
 
-      const finalData = Array.isArray(response.data) && response.data.length > 0
-        ? response.data
-        : (multiAgentResult?.items && multiAgentResult.items.length > 0
-            ? multiAgentResult.items
-            : (response.data?.results || aiResult?.recommended_products || []));
+      const activeBasketPlan = response.basketPlan || (multiAgentResult?.isGoalPlan ? multiAgentResult?.basketPlan : null);
+
+      const finalData = (activeBasketPlan?.items && activeBasketPlan.items.length > 0)
+        ? activeBasketPlan.items
+        : (Array.isArray(response.data) && response.data.length > 0
+            ? response.data
+            : (multiAgentResult?.items && multiAgentResult.items.length > 0
+                ? multiAgentResult.items
+                : (response.data?.results || aiResult?.recommended_products || [])));
+
+      let finalTradeoffs = isCatalogInquiry ? null : (response.tradeoffs || multiAgentResult?.tradeoffs);
+
+      if (activeBasketPlan) {
+        // One source of truth: compute tradeoff box directly from the basketPlan object
+        const bTotal = activeBasketPlan.totalPrice;
+        const bBudget = activeBasketPlan.budget;
+        const bGap = Math.max(0, bBudget - bTotal);
+        const bCo2 = activeBasketPlan.savings?.co2Saved ?? 0;
+        const bPlastic = activeBasketPlan.savings?.plasticSaved ?? 0;
+        const item1 = finalData[0] || (activeBasketPlan.items && activeBasketPlan.items[0]);
+        const item2 = finalData[1] || (activeBasketPlan.items && activeBasketPlan.items[1]);
+
+        finalTradeoffs = {
+          isBasket: true,
+          winnerName: item1?.name || 'Curated Basket',
+          runnerUpName: item2?.name || null,
+          beats: [
+            `Diverts ${bPlastic}g of single-use plastic packaging`,
+            `Prevents ${bCo2}kg lifecycle greenhouse gas emissions`,
+            `Calculated average EcoScore of ${activeBasketPlan.averageEcoScore}/100 across our rules`
+          ],
+          givesUp: [
+            `Upfront investment of ₹${bTotal} (₹${bGap} under ₹${bBudget} budget)`
+          ]
+        };
+      } else if (finalData && finalData.length >= 2) {
+        // Single search: ensure "Why #1 won" compares actual first listed product with actual runner-up
+        finalTradeoffs = generateTradeoffs(finalData[0], finalData[1]);
+      }
 
       const rawConfidence = (finalData && finalData.length > 0)
         ? 'high'
@@ -392,12 +426,12 @@ export default function EcoAgentChat() {
         source: isCloudAI ? 'cloud-llm' : (response.source || 'multi-agent-collective'),
         data: finalData,
         didYouMean: response.didYouMean,
-        tradeoffs: isCatalogInquiry ? null : (response.tradeoffs || multiAgentResult?.tradeoffs),
+        tradeoffs: finalTradeoffs,
         trace: response.trace || [],
         pipelineHandoffs: multiAgentResult?.pipelineHandoffs || [],
         skepticReport: multiAgentResult?.skepticReport || null,
         proposedActions: multiAgentResult?.proposedActions || [],
-        basketPlan: response.basketPlan || (multiAgentResult?.isGoalPlan ? multiAgentResult?.basketPlan : null),
+        basketPlan: activeBasketPlan,
         clarification: response.clarification,
         isFirstResponse: isFirst,
         cartReview: response.cartReview,

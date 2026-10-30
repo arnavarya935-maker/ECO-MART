@@ -108,6 +108,29 @@ describe('Phase 1 & 2 - Eco Agent Parsing and Intelligence', () => {
     expect(plan.trace.length).toBe(6);
   });
 
+  // 5b. Basket numbers and tradeoff consistency (single source of truth)
+  it('for a basket query, the total shown in the summary equals the total used in the trade-off text, and the CO2 figures match', async () => {
+    const res = await sendAgentQuery('college student, personal kit gift under 3000', productsData);
+    expect(res.basketPlan).toBeDefined();
+    expect(res.tradeoffs).toBeDefined();
+
+    const basketTotal = res.basketPlan.totalPrice;
+    const basketCo2 = res.basketPlan.savings.co2Saved;
+
+    // Check that tradeoff text uses the exact same total and CO2 numbers
+    const upfrontText = res.tradeoffs.givesUp.find((t) => t.includes('Upfront investment'));
+    expect(upfrontText).toContain(`₹${basketTotal}`);
+
+    const co2Text = res.tradeoffs.beats.find((t) => t.includes('lifecycle greenhouse gas emissions'));
+    expect(co2Text).toContain(`${basketCo2}kg`);
+
+    // Winner matches first product, runner-up matches second product
+    if (res.basketPlan.items.length >= 2) {
+      expect(res.tradeoffs.winnerName).toBe(res.basketPlan.items[0].name);
+      expect(res.tradeoffs.runnerUpName).toBe(res.basketPlan.items[1].name);
+    }
+  });
+
   // 6. Visible reasoning trace and trade-offs
   it('generates transparent 6-step reasoning trace and trade-off comparison', () => {
     const response = queryEcoCatalog(productsData, 'plastic-free kitchen under 1000');

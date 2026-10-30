@@ -915,6 +915,19 @@ export function planBasket(goal, budget = 1000, allProducts = []) {
     results: selectedItems,
     count: selectedItems.length,
     averageEcoScore,
+    tradeoffs: {
+      isBasket: true,
+      winnerName: selectedItems.length > 0 ? selectedItems[0].name : 'Curated Basket',
+      runnerUpName: selectedItems.length > 1 ? selectedItems[1].name : null,
+      beats: [
+        `Diverts ${Math.round(totalPlasticAvoided)}g of single-use plastic packaging`,
+        `Prevents ${Number(totalCo2Saved.toFixed(2))}kg lifecycle greenhouse gas emissions`,
+        `Calculated average EcoScore of ${averageEcoScore}/100 across our rules`
+      ],
+      givesUp: [
+        `Upfront investment of ₹${currentCost} (₹${Math.max(0, targetBudget - currentCost)} under ₹${targetBudget} budget)`
+      ]
+    },
     savings: {
       co2Saved: Number(totalCo2Saved.toFixed(2)),
       plasticSaved: Math.round(totalPlasticAvoided),

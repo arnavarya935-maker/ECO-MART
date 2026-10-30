@@ -325,12 +325,13 @@ function executeAdvisorStep(plan, researcherOutput, _skepticOutput, _cartItems, 
   };
 
   const tradeoffs = {
-    winnerName: selectedItems.map((p) => p.name).slice(0, 2).join(' + ') + (selectedItems.length > 2 ? ` (+${selectedItems.length - 2} more)` : ''),
-    runnerUpName: selectedItems[1]?.name || 'conventional alternatives',
+    isBasket: plan.isGoalPlan,
+    winnerName: selectedItems[0]?.name || 'Curated Basket',
+    runnerUpName: selectedItems[1]?.name || null,
     beats: [
       `Diverts ${basketPlan.savings.plasticSaved}g of single-use plastic packaging`,
       `Prevents ${basketPlan.savings.co2Saved}kg lifecycle greenhouse gas emissions`,
-      `Calculated average EcoScore of ${avgEcoScore}/100 across cradle-to-gate pillars`
+      `Calculated average EcoScore of ${avgEcoScore}/100 across our rules`
     ],
     givesUp: [
       `Upfront investment of ₹${currentTotal} (₹${Math.max(0, plan.budget - currentTotal)} under ₹${plan.budget} budget)`
