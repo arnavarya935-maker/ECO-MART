@@ -11,10 +11,10 @@ export default function WhoWeAre() {
   const motionProps = reduceEffects
     ? {}
     : {
-        initial: { opacity: 0, y: 24 },
+        initial: { opacity: 0, y: 16 },
         whileInView: { opacity: 1, y: 0 },
         viewport: { once: true },
-        transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
+        transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] }
       };
 
   const cards = [
@@ -51,7 +51,7 @@ export default function WhoWeAre() {
   ];
 
   return (
-    <section className="py-16 sm:py-24 border-b border-line/60 bg-surface">
+    <section className="py-12 sm:py-16 lg:py-20 border-b border-line/60 bg-surface">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Leaf-icon divider */}
         <div className="flex items-center justify-center gap-4 mb-8">
@@ -88,14 +88,14 @@ export default function WhoWeAre() {
                   initial: { opacity: 0, y: 20 },
                   whileInView: { opacity: 1, y: 0 },
                   viewport: { once: true },
-                  transition: { duration: 0.6, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }
+                  transition: { duration: 0.4, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }
                 };
 
             return (
               <motion.div
                 key={card.id}
                 {...cardMotion}
-                className="p-7 sm:p-8 rounded-3xl bg-surface-raised border border-line/80 hover:border-primary/40 shadow-soft-sm hover:shadow-soft-md transition-all space-y-4 group"
+                className="p-7 sm:p-8 rounded-3xl bg-surface-raised border border-line/80 hover:border-primary/40 shadow-soft-sm hover:shadow-soft-lg hover:-translate-y-0.5 transition-all space-y-4 group"
               >
                 <div className="w-12 h-12 rounded-2xl bg-surface-accent border border-primary/20 text-primary flex items-center justify-center group-hover:scale-105 transition-transform duration-200">
                   <Icon className="w-6 h-6" />

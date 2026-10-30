@@ -1,6 +1,16 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ShoppingBag, Eye, Heart, Check, Wind, Ban, Sparkles } from 'lucide-react';
+import {
+  ShoppingBag,
+  Eye,
+  Heart,
+  Check,
+  Wind,
+  Ban,
+  Sparkles,
+  ChevronDown
+} from 'lucide-react';
+import { motion } from 'framer-motion';
 import { calculateEcoScore } from '../lib/ecoScore';
 import { IMPACT_DATA_NOTE } from '../lib/conversionConstants';
 import EcoScoreBadge from './EcoScoreBadge';
@@ -27,6 +37,7 @@ export default function ProductCard({ product, rankingDetails }) {
   } = useCart();
 
   const [added, setAdded] = useState(false);
+  const [showEcoSpecs, setShowEcoSpecs] = useState(false);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const ecoScoreData = calculateEcoScore(product);
   const isFavorited = isInWishlist ? isInWishlist(product.id) : false;
@@ -66,8 +77,18 @@ export default function ProductCard({ product, rankingDetails }) {
     setTimeout(() => setAdded(false), 1400);
   };
 
+  const motionProps = reduceEffects
+    ? {}
+    : {
+        initial: { opacity: 0, y: 16 },
+        whileInView: { opacity: 1, y: 0 },
+        viewport: { once: true, margin: '-20px' },
+        transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] }
+      };
+
   return (
-    <div
+    <motion.div
+      {...motionProps}
       onClick={handleCardClick}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
@@ -77,7 +98,7 @@ export default function ProductCard({ product, rankingDetails }) {
           : undefined,
         transition: 'transform 0.16s ease-out'
       }}
-      className="group relative flex flex-col justify-between h-full bg-surface-raised rounded-3xl border border-line shadow-card product-card-lift cursor-pointer overflow-hidden select-none isolate"
+      className="group relative flex flex-col justify-between h-full bg-surface-raised rounded-3xl border border-line shadow-card hover:shadow-soft-lg product-card-lift cursor-pointer overflow-hidden select-none isolate transition-shadow duration-200"
     >
       {/* Top Graphic Showcase - Image First */}
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-surface border-b border-line">
@@ -91,11 +112,11 @@ export default function ProductCard({ product, rankingDetails }) {
 
         {/* Top Left Badges */}
         <div className="absolute top-3 left-3 flex flex-col gap-1 items-start z-2 pointer-events-none">
-          <span className="text-xs font-sans font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full bg-surface-raised/95 text-heading border border-line backdrop-blur-xs shadow-2xs">
+          <span className="text-[13px] leading-[1.4] font-sans font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full bg-surface-raised/95 text-heading border border-line backdrop-blur-xs shadow-2xs">
             {product.category}
           </span>
           {isHighImpactPerRupee && (
-            <span className="text-xs font-sans font-semibold px-2 py-0.5 rounded-full bg-surface-accent text-primary border border-primary/20 backdrop-blur-xs shadow-2xs flex items-center gap-1">
+            <span className="text-[13px] leading-[1.4] font-sans font-semibold px-2.5 py-0.5 rounded-full bg-surface-accent text-primary border border-primary/20 backdrop-blur-xs shadow-2xs flex items-center gap-1">
               <Sparkles className="w-2.5 h-2.5 text-primary" /> High Impact / ₹
             </span>
           )}
@@ -131,7 +152,7 @@ export default function ProductCard({ product, rankingDetails }) {
           <button
             type="button"
             onClick={handleQuickView}
-            className="inline-flex items-center gap-1.5 text-xs font-sans font-medium px-4 py-2 rounded-xl bg-surface-raised/95 text-heading border border-line hover:bg-surface-sunken shadow-soft-sm transition-all active:scale-95 min-h-[44px] cursor-pointer"
+            className="inline-flex items-center gap-1.5 text-[13px] leading-[1.4] font-sans font-semibold px-4 py-2.5 rounded-xl bg-surface-raised/95 text-heading border border-line hover:bg-surface-sunken shadow-soft-sm transition-all active:scale-95 min-h-[44px] cursor-pointer"
           >
             <Eye className="w-3.5 h-3.5 text-primary" />
             <span>{t('common.viewDetails', 'Quick View')}</span>
@@ -140,49 +161,24 @@ export default function ProductCard({ product, rankingDetails }) {
       </div>
 
       {/* Product Information Body */}
-      <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-3">
-        <div>
-          <h3 className="font-heading font-semibold text-base leading-snug line-clamp-2 text-heading group-hover:text-primary transition-colors">
-            {product.name}
+      <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-3.5">
+        <div className="space-y-1.5">
+          <h3 className="font-heading font-semibold text-base sm:text-[17px] leading-[1.4] line-clamp-2 text-heading group-hover:text-primary transition-colors">
+            {localizedProduct.name || product.name}
           </h3>
 
-          <p className="text-xs font-sans text-secondary mt-1.5 line-clamp-2 leading-relaxed">
-            {localizedProduct.description}
+          <p className="text-[13px] leading-[1.4] font-sans text-text-secondary line-clamp-2">
+            {localizedProduct.description || product.description}
           </p>
-
-          {/* Environmental metrics & Decision Engine Ranking */}
-          <div className="flex flex-wrap items-center justify-between gap-2 mt-3">
-            <div className="flex items-center gap-3 text-xs font-sans text-secondary font-medium">
-              <span className="flex items-center gap-1" title={`Carbon footprint • ${IMPACT_DATA_NOTE}`}>
-                <Wind className="w-3.5 h-3.5 text-primary" /> {product.carbonKg}kg CO₂ <span className="text-[10px] text-muted">est.</span>
-              </span>
-              <span className="flex items-center gap-1" title={`Plastic packaging • ${IMPACT_DATA_NOTE}`}>
-                <Ban className="w-3.5 h-3.5 text-warning" /> {product.plasticGrams}g plastic <span className="text-[10px] text-muted">est.</span>
-              </span>
-            </div>
-            <div className="flex items-center gap-1.5 flex-wrap">
-              <button
-                type="button"
-                onClick={handleQuickView}
-                className="text-xs font-sans font-semibold text-primary hover:underline flex items-center gap-1 cursor-pointer min-h-[32px]"
-                title="Inspect EcoScore audit methodology and formula"
-              >
-                <Sparkles className="w-3 h-3 text-primary" />
-                {t('product.whyScore', 'Why this score?')}
-              </button>
-              <AIEthicsCard compact={true} product={product} />
-              {(rankingDetails || product.rank) && (
-                <WhyRankPopover rankingDetails={rankingDetails || (product.rank ? product : null)} />
-              )}
-            </div>
-          </div>
         </div>
 
-        {/* Bottom Price & One-Tap Add to Cart */}
-        <div className="pt-3 border-t border-line flex items-center justify-between gap-2">
+        {/* Primary Row: Price & One-Tap Add to Cart */}
+        <div className="pt-3 border-t border-line flex items-center justify-between gap-3">
           <div>
-            <div className="text-xs font-sans uppercase font-medium text-muted tracking-wider">{t('shop.price', 'Price')}</div>
-            <div className="text-base sm:text-lg font-sans font-bold text-heading">
+            <div className="text-[13px] leading-[1.4] font-sans font-medium text-text-muted">
+              {t('shop.price', 'Price')}
+            </div>
+            <div className="text-lg sm:text-xl font-sans font-bold text-heading leading-[1.4]">
               ₹{product.price.toLocaleString('en-IN')}
             </div>
           </div>
@@ -190,24 +186,73 @@ export default function ProductCard({ product, rankingDetails }) {
           <button
             type="button"
             onClick={handleAddToCart}
-            className="flex items-center gap-1.5 px-4 py-2 min-h-[44px] rounded-xl bg-primary hover:bg-primary-hover text-primary-contrast font-sans font-semibold text-xs shadow-soft-sm transition-all cursor-pointer active:scale-95"
+            className="flex items-center justify-center gap-1.5 px-4 py-2.5 min-h-[44px] rounded-xl bg-primary hover:bg-primary-hover text-white font-sans font-semibold text-[13px] leading-[1.4] shadow-soft-sm hover:shadow-soft-md transition-all cursor-pointer active:scale-95 shrink-0"
             aria-label="Add to cart"
           >
             {added ? (
               <>
-                <Check className="w-3.5 h-3.5 stroke-[3] text-primary-contrast" />
+                <Check className="w-4 h-4 stroke-[3] text-white" />
                 <span>{t('common.added', 'Added')}</span>
               </>
             ) : (
               <>
-                <ShoppingBag className="w-3.5 h-3.5 text-primary-contrast" />
+                <ShoppingBag className="w-4 h-4 text-white" />
                 <span>{t('common.addToCart', 'Add')}</span>
               </>
             )}
           </button>
         </div>
+
+        {/* Secondary Details: Collapsible/Expandable Eco Specs Drawer */}
+        <div className="pt-2 border-t border-line/60">
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowEcoSpecs(!showEcoSpecs);
+            }}
+            className="w-full flex items-center justify-between text-[13px] leading-[1.4] font-semibold text-text-secondary hover:text-primary transition py-2 min-h-[44px] cursor-pointer rounded-lg focus-visible:outline-2 focus-visible:outline-focus"
+            aria-expanded={showEcoSpecs}
+          >
+            <span className="flex items-center gap-1.5">
+              <Sparkles className="w-3.5 h-3.5 text-primary" />
+              <span>{showEcoSpecs ? 'Hide Eco Metrics' : 'View Eco Metrics & Carbon'}</span>
+            </span>
+            <ChevronDown className={`w-4 h-4 text-text-muted transition-transform duration-200 ${showEcoSpecs ? 'rotate-180' : ''}`} />
+          </button>
+
+          {showEcoSpecs && (
+            <div
+              className="pt-2.5 pb-1 space-y-2.5 border-t border-line/40 text-[13px] leading-[1.4]"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="flex flex-wrap items-center gap-3 font-sans text-text-secondary font-medium">
+                <span className="flex items-center gap-1.5" title={`Carbon footprint • ${IMPACT_DATA_NOTE}`}>
+                  <Wind className="w-3.5 h-3.5 text-primary" /> {product.carbonKg}kg CO₂ <span className="text-text-muted text-xs">est.</span>
+                </span>
+                <span className="flex items-center gap-1.5" title={`Plastic packaging • ${IMPACT_DATA_NOTE}`}>
+                  <Ban className="w-3.5 h-3.5 text-warning" /> {product.plasticGrams}g plastic <span className="text-text-muted text-xs">est.</span>
+                </span>
+              </div>
+              <div className="flex items-center gap-2 flex-wrap pt-1">
+                <button
+                  type="button"
+                  onClick={handleQuickView}
+                  className="text-[13px] leading-[1.4] font-sans font-semibold text-primary hover:underline flex items-center gap-1 cursor-pointer min-h-[44px]"
+                  title="Inspect EcoScore audit methodology and formula"
+                >
+                  <Sparkles className="w-3.5 h-3.5 text-primary" />
+                  {t('product.whyScore', 'Why this score?')}
+                </button>
+                <AIEthicsCard compact={true} product={product} />
+                {(rankingDetails || product.rank) && (
+                  <WhyRankPopover rankingDetails={rankingDetails || (product.rank ? product : null)} />
+                )}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
-

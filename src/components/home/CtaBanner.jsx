@@ -25,14 +25,14 @@ export default function CtaBanner() {
   const motionProps = reduceEffects
     ? {}
     : {
-        initial: { opacity: 0, y: 24 },
+        initial: { opacity: 0, y: 16 },
         whileInView: { opacity: 1, y: 0 },
         viewport: { once: true },
-        transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
+        transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] }
       };
 
   return (
-    <section className="relative overflow-hidden py-20 sm:py-28 my-4 border-y border-line">
+    <section className="relative overflow-hidden py-14 sm:py-20 my-4 border-y border-line">
       {/* Background Image with Dark Nature Backdrop */}
       <div className="absolute inset-0 z-0">
         <img

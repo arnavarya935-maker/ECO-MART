@@ -12,10 +12,10 @@ export default function FromTheBlog() {
   const motionProps = reduceEffects
     ? {}
     : {
-        initial: { opacity: 0, y: 24 },
+        initial: { opacity: 0, y: 16 },
         whileInView: { opacity: 1, y: 0 },
         viewport: { once: true },
-        transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
+        transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] }
       };
 
   const articles = [
@@ -52,7 +52,7 @@ export default function FromTheBlog() {
   ];
 
   return (
-    <section className="py-16 sm:py-24 border-b border-line/60 bg-surface">
+    <section className="py-12 sm:py-16 lg:py-20 border-b border-line/60 bg-surface">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header Row */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12">
@@ -87,14 +87,14 @@ export default function FromTheBlog() {
                   initial: { opacity: 0, y: 20 },
                   whileInView: { opacity: 1, y: 0 },
                   viewport: { once: true },
-                  transition: { duration: 0.6, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }
+                  transition: { duration: 0.4, delay: idx * 0.1, ease: [0.22, 1, 0.36, 1] }
                 };
 
             return (
               <motion.article
                 key={art.id}
                 {...cardMotion}
-                className="rounded-3xl bg-surface-raised border border-line/80 hover:border-primary/40 shadow-soft-xs hover:shadow-soft-md transition-all overflow-hidden flex flex-col group"
+                className="rounded-3xl bg-surface-raised border border-line/80 hover:border-primary/40 shadow-soft-xs hover:shadow-soft-lg hover:-translate-y-0.5 transition-all overflow-hidden flex flex-col group"
               >
                 {/* Thumbnail */}
                 <div className="relative aspect-[16/10] overflow-hidden bg-surface-sunken">

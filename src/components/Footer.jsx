@@ -71,11 +71,12 @@ export default function Footer() {
 
   return (
     <>
-      <footer className="relative isolate overflow-hidden mt-20 border-t border-line bg-surface text-text-secondary transition-colors">
-        <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
-            {/* Column 1: Brand & Manifesto (4 cols) */}
-            <div className="lg:col-span-4 space-y-4">
+      <footer className="relative isolate overflow-hidden mt-16 sm:mt-20 border-t border-line bg-surface text-text-secondary transition-colors">
+        <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-16">
+          {/* Responsive 4-Column Grid: 4 cols desktop, 2 cols tablet, 1 col mobile */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10">
+            {/* Column 1: Brand & Manifesto */}
+            <div className="space-y-4">
               <Link
                 to="/"
                 className="inline-flex items-center gap-2.5 group select-none py-1 focus-visible:outline-2 focus-visible:outline-focus rounded-xl"
@@ -90,7 +91,7 @@ export default function Footer() {
                 />
               </Link>
 
-              <p className="text-xs sm:text-sm font-sans text-text-secondary max-w-sm leading-relaxed">
+              <p className="text-[13px] leading-[1.4] font-sans text-text-secondary max-w-sm">
                 {lang === 'hi'
                   ? 'स्कूल प्रोजेक्ट और जागरूक समुदाय के लिए नमूना उत्पाद। विचारशील, शून्य-अपशिष्ट जीवनशैली को सहज बनाना।'
                   : 'An open-source eco-shopping platform and academic initiative. Making thoughtful, circular living effortless with transparent lifecycle scoring.'}
@@ -114,7 +115,7 @@ export default function Footer() {
                         key={s.label}
                         href={s.href}
                         aria-label={`Visit our ${s.label} profile`}
-                        className="w-8 h-8 rounded-full border border-line bg-surface-raised hover:bg-surface-accent text-text-secondary hover:text-primary transition flex items-center justify-center cursor-pointer shadow-soft-xs"
+                        className="w-8 h-8 rounded-full border border-line bg-surface-raised hover:bg-surface-accent text-text-secondary hover:text-primary transition flex items-center justify-center cursor-pointer shadow-soft-xs min-h-[36px] min-w-[36px]"
                       >
                         <Icon className="w-3.5 h-3.5" />
                       </a>
@@ -124,12 +125,12 @@ export default function Footer() {
               </div>
             </div>
 
-            {/* Column 2: Quick Links (3 cols) */}
-            <div className="lg:col-span-3 space-y-4">
+            {/* Column 2: Quick Links */}
+            <div className="space-y-4">
               <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-text-muted">
                 Trust &amp; Legal
               </p>
-              <ul className="space-y-2 text-xs font-sans text-text-secondary">
+              <ul className="space-y-2 text-[13px] leading-[1.4] font-sans text-text-secondary">
                 <li>
                   <button
                     type="button"
@@ -170,31 +171,31 @@ export default function Footer() {
               </ul>
             </div>
 
-            {/* Column 3: Contact Block (2 cols) */}
-            <div className="lg:col-span-2 space-y-3">
+            {/* Column 3: Contact Block */}
+            <div className="space-y-4">
               <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-text-muted">
                 Contact &amp; Origin
               </p>
-              <div className="space-y-2.5 text-xs text-text-secondary leading-relaxed">
-                <div className="flex items-start gap-2">
-                  <MapPin className="w-3.5 h-3.5 text-primary shrink-0 mt-0.5" />
+              <div className="space-y-3 text-[13px] leading-[1.4] text-text-secondary">
+                <div className="flex items-start gap-2.5">
+                  <MapPin className="w-4 h-4 text-primary shrink-0 mt-0.5" />
                   <span>Bangalore, Karnataka, India</span>
                 </div>
-                <div className="flex items-start gap-2">
-                  <Mail className="w-3.5 h-3.5 text-primary shrink-0 mt-0.5" />
+                <div className="flex items-start gap-2.5">
+                  <Mail className="w-4 h-4 text-primary shrink-0 mt-0.5" />
                   <a href="mailto:contact@ecomart.eco" className="hover:underline">
                     contact@ecomart.eco
                   </a>
                 </div>
-                <div className="flex items-start gap-2">
-                  <Clock className="w-3.5 h-3.5 text-primary shrink-0 mt-0.5" />
+                <div className="flex items-start gap-2.5">
+                  <Clock className="w-4 h-4 text-primary shrink-0 mt-0.5" />
                   <span>Mon–Fri: 9:00 AM – 6:00 PM IST</span>
                 </div>
               </div>
             </div>
 
-            {/* Column 4: Newsletter Signup (3 cols) */}
-            <div className="lg:col-span-3 space-y-4">
+            {/* Column 4: Newsletter Signup */}
+            <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <p className="font-mono text-xs font-semibold uppercase tracking-[0.18em] text-text-muted">
                   Stay Conscious
@@ -203,24 +204,24 @@ export default function Footer() {
                   type="button"
                   onClick={scrollToTop}
                   aria-label="Back to top"
-                  className="w-8 h-8 rounded-full border border-line bg-surface-raised flex items-center justify-center text-text-muted hover:text-heading hover:border-primary/50 transition cursor-pointer shadow-soft-xs"
+                  className="w-9 h-9 rounded-full border border-line bg-surface-raised flex items-center justify-center text-text-muted hover:text-heading hover:border-primary/50 transition cursor-pointer shadow-soft-xs min-h-[36px] min-w-[36px]"
                   title="Scroll to top"
                 >
-                  <ArrowUp className="w-3.5 h-3.5" />
+                  <ArrowUp className="w-4 h-4" />
                 </button>
               </div>
 
-              <p className="text-xs text-text-secondary leading-relaxed">
+              <p className="text-[13px] leading-[1.4] text-text-secondary">
                 Receive our bi-weekly dispatch on zero-waste packaging, ingredient transparency, and new artisan additions.
               </p>
 
               {newsletterSubscribed ? (
-                <div className="flex items-center gap-2 p-3 rounded-2xl bg-surface-accent border border-primary/20 text-heading text-xs font-medium">
+                <div className="flex items-center gap-2 p-3 rounded-2xl bg-surface-accent border border-primary/20 text-heading text-[13px] leading-[1.4] font-medium">
                   <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />
                   <span>You are subscribed! Thank you.</span>
                 </div>
               ) : (
-                <form onSubmit={handleSubscribe} className="space-y-2">
+                <form onSubmit={handleSubscribe} className="space-y-2.5">
                   <div className="relative">
                     <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-text-muted" />
                     <input
@@ -229,12 +230,12 @@ export default function Footer() {
                       placeholder="Enter your email"
                       value={newsletterEmail}
                       onChange={(e) => setNewsletterEmail(e.target.value)}
-                      className="w-full pl-10 pr-3 py-2.5 min-h-[44px] text-xs font-sans bg-surface-raised rounded-xl border border-line focus:outline-2 focus:outline-focus text-text placeholder:text-text-muted"
+                      className="w-full pl-10 pr-3 py-2.5 min-h-[44px] text-[13px] leading-[1.4] font-sans bg-surface-raised rounded-xl border border-line focus:outline-2 focus:outline-focus text-text placeholder:text-text-muted"
                     />
                   </div>
                   <button
                     type="submit"
-                    className="w-full py-2.5 min-h-[44px] px-4 rounded-xl bg-primary hover:bg-primary-hover text-white text-xs font-mono font-semibold uppercase tracking-wider transition cursor-pointer shadow-soft-xs"
+                    className="w-full py-2.5 min-h-[44px] px-4 rounded-xl bg-primary hover:bg-primary-hover text-white text-[13px] font-mono font-semibold uppercase tracking-wider transition cursor-pointer shadow-soft-xs"
                   >
                     Join Newsletter
                   </button>
@@ -244,27 +245,25 @@ export default function Footer() {
           </div>
 
           {/* Bottom Copyright Row */}
-          <div className="mt-12 pt-6 border-t border-line/60 flex flex-col sm:flex-row items-center justify-between text-xs font-sans text-text-muted gap-4">
+          <div className="mt-12 pt-6 border-t border-line/60 flex flex-col sm:flex-row items-center justify-between text-[13px] leading-[1.4] font-sans text-text-muted gap-4">
             <div>
               © 2026 {lang === 'hi' ? 'इको सेंस' : 'EcoSense'} Project. All rights reserved.
             </div>
-            <div className="flex flex-wrap items-center gap-4 text-xs font-sans text-text-secondary">
-              <Link to="/shop" className="hover:text-heading transition">Shop</Link>
-              <Link to="/truth-lab" className="hover:text-heading transition">Truth Lab</Link>
-              <Link to="/how-it-works" className="hover:text-heading transition">How It Works</Link>
-              <Link to="/settings" className="hover:text-heading transition">Settings</Link>
+            <div className="flex flex-wrap items-center gap-4 text-[13px] font-sans text-text-secondary">
+              <Link to="/shop" className="hover:text-heading transition py-1">Shop</Link>
+              <Link to="/truth-lab" className="hover:text-heading transition py-1">Truth Lab</Link>
+              <Link to="/how-it-works" className="hover:text-heading transition py-1">How It Works</Link>
+              <Link to="/settings" className="hover:text-heading transition py-1">Settings</Link>
             </div>
           </div>
         </div>
 
-        {/* Large low-contrast "ECOMART®" wordmark */}
-        <div className="relative mt-12 sm:mt-16 pb-16 overflow-hidden select-none pointer-events-none" aria-hidden="true">
-          <div className="text-center px-4">
-            <p className="font-mono text-[clamp(3.5rem,14vw,14rem)] font-bold tracking-tighter text-text-muted/10 leading-none">
-              <span>ECOMART</span>
-              <span className="text-[0.25em] align-super text-primary/30">®</span>
-            </p>
-          </div>
+        {/* Fully Contained & Visible Watermark (Responsive & Non-Overlapping) */}
+        <div className="w-full overflow-hidden select-none pointer-events-none mt-8 pb-10 text-center px-4" aria-hidden="true">
+          <p className="font-mono text-[clamp(2.5rem,9.5vw,9rem)] font-bold tracking-tight text-text-muted/10 leading-none truncate">
+            <span>ECOMART</span>
+            <span className="text-[0.25em] align-super text-primary/30">®</span>
+          </p>
         </div>
       </footer>
 
@@ -273,11 +272,11 @@ export default function Footer() {
         <button
           type="button"
           onClick={() => setIsAgentOpen(true)}
-          className="group flex items-center gap-2.5 px-4 py-3 rounded-full bg-primary hover:bg-primary-hover text-white shadow-soft-lg hover:shadow-soft-xl transition-all cursor-pointer focus-visible:outline-2 focus-visible:outline-focus"
+          className="group flex items-center gap-2.5 px-4 py-3 min-h-[44px] rounded-full bg-primary hover:bg-primary-hover text-white shadow-soft-lg hover:shadow-soft-xl transition-all cursor-pointer focus-visible:outline-2 focus-visible:outline-focus"
           aria-label="Open EcoMart Chat & Instant Assistance"
         >
           <MessageCircle className="w-4 h-4 text-white" />
-          <span className="text-xs font-semibold font-sans tracking-wide">
+          <span className="text-[13px] font-semibold font-sans tracking-wide">
             Chat with Eco Agent
           </span>
         </button>

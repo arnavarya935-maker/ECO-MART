@@ -56,10 +56,10 @@ export default function ImpactCounters() {
   const motionProps = reduceEffects
     ? {}
     : {
-        initial: { opacity: 0, y: 24 },
+        initial: { opacity: 0, y: 16 },
         whileInView: { opacity: 1, y: 0 },
         viewport: { once: true },
-        transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
+        transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] }
       };
 
   const counters = [
@@ -90,7 +90,7 @@ export default function ImpactCounters() {
   ];
 
   return (
-    <section ref={sectionRef} className="py-16 sm:py-24 border-b border-line/60 bg-surface-accent/25">
+    <section ref={sectionRef} className="py-12 sm:py-16 lg:py-20 border-b border-line/60 bg-surface-accent/25">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div {...motionProps} className="text-center max-w-2xl mx-auto mb-12 space-y-3">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-mono font-semibold">

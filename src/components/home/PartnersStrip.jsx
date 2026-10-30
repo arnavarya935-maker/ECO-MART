@@ -14,7 +14,7 @@ export default function PartnersStrip() {
         initial: { opacity: 0, y: 16 },
         whileInView: { opacity: 1, y: 0 },
         viewport: { once: true },
-        transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
+        transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] }
       };
 
   const partnerSlots = [
@@ -26,7 +26,7 @@ export default function PartnersStrip() {
   ];
 
   return (
-    <section className="py-12 sm:py-16 border-b border-line/60 bg-surface">
+    <section className="py-10 sm:py-14 lg:py-16 border-b border-line/60 bg-surface">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div {...motionProps} className="text-center space-y-2 mb-8">
           <p className="text-xs font-mono uppercase tracking-[0.2em] text-text-muted font-semibold">

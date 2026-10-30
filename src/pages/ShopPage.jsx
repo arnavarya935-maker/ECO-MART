@@ -609,20 +609,20 @@ export default function ShopPage() {
 
             {/* Pagination Controls */}
             {totalPages > 1 && (
-              <div className="pt-8 border-t border-line flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-sans">
+              <div className="pt-8 border-t border-line flex flex-col sm:flex-row items-center justify-between gap-4 text-[13px] leading-[1.4] font-sans">
                 <div className="text-text-muted">
                   Page <strong className="text-heading font-semibold">{currentPage}</strong> of{' '}
                   <strong className="text-heading font-semibold">{totalPages}</strong> ({totalCount} total items)
                 </div>
 
-                <div className="flex items-center gap-1.5">
+                <div className="flex items-center gap-1.5 flex-wrap">
                   <button
                     type="button"
                     onClick={() => handlePageChange(currentPage - 1)}
                     disabled={currentPage <= 1}
-                    className="flex items-center gap-1 px-3 py-2 rounded-xl bg-surface-raised border border-line text-heading hover:bg-surface-sunken disabled:opacity-40 disabled:cursor-not-allowed transition cursor-pointer"
+                    className="flex items-center gap-1.5 px-3.5 py-2.5 min-h-[44px] rounded-xl bg-surface-raised border border-line text-heading hover:bg-surface-sunken disabled:opacity-40 disabled:cursor-not-allowed transition cursor-pointer font-medium"
                   >
-                    <ChevronLeft className="w-3.5 h-3.5" />
+                    <ChevronLeft className="w-4 h-4" />
                     <span>Previous</span>
                   </button>
 
@@ -633,7 +633,7 @@ export default function ShopPage() {
                         key={pNum}
                         type="button"
                         onClick={() => handlePageChange(pNum)}
-                        className={`w-9 h-9 rounded-xl font-semibold border transition cursor-pointer ${
+                        className={`min-h-[44px] min-w-[44px] px-2 rounded-xl font-semibold border transition cursor-pointer flex items-center justify-center ${
                           currentPage === pNum
                             ? 'bg-primary text-text-inverted border-primary shadow-soft-xs'
                             : 'bg-surface-raised border-line text-heading hover:bg-surface-sunken'
@@ -648,10 +648,10 @@ export default function ShopPage() {
                     type="button"
                     onClick={() => handlePageChange(currentPage + 1)}
                     disabled={currentPage >= totalPages}
-                    className="flex items-center gap-1 px-3 py-2 rounded-xl bg-surface-raised border border-line text-heading hover:bg-surface-sunken disabled:opacity-40 disabled:cursor-not-allowed transition cursor-pointer"
+                    className="flex items-center gap-1.5 px-3.5 py-2.5 min-h-[44px] rounded-xl bg-surface-raised border border-line text-heading hover:bg-surface-sunken disabled:opacity-40 disabled:cursor-not-allowed transition cursor-pointer font-medium"
                   >
                     <span>Next</span>
-                    <ChevronRight className="w-3.5 h-3.5" />
+                    <ChevronRight className="w-4 h-4" />
                   </button>
                 </div>
               </div>

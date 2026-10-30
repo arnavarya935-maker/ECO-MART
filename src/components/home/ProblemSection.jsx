@@ -12,10 +12,10 @@ export default function ProblemSection() {
   const motionProps = reduceEffects
     ? {}
     : {
-        initial: { opacity: 0, y: 24 },
+        initial: { opacity: 0, y: 16 },
         whileInView: { opacity: 1, y: 0 },
         viewport: { once: true },
-        transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
+        transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] }
       };
 
   const outcomes = [
@@ -40,7 +40,7 @@ export default function ProblemSection() {
   ];
 
   return (
-    <section className="py-16 sm:py-24 border-b border-line/60 bg-surface">
+    <section className="py-12 sm:py-16 lg:py-20 border-b border-line/60 bg-surface">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* Left Column: Heading & Outcomes */}

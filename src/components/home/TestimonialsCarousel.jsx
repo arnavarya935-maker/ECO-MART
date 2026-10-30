@@ -72,15 +72,15 @@ export default function TestimonialsCarousel() {
   const motionProps = reduceEffects
     ? {}
     : {
-        initial: { opacity: 0, y: 24 },
+        initial: { opacity: 0, y: 16 },
         whileInView: { opacity: 1, y: 0 },
         viewport: { once: true },
-        transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }
+        transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] }
       };
 
   return (
     <section
-      className="py-16 sm:py-24 border-b border-line/60 bg-surface"
+      className="py-12 sm:py-16 lg:py-20 border-b border-line/60 bg-surface"
       role="region"
       aria-roledescription="carousel"
       aria-label="Community Testimonials"
