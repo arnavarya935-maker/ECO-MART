@@ -213,14 +213,14 @@ export default function VoiceShoppingModal({ isOpen, onClose }) {
             <div>
               <div className="flex items-center gap-2">
                 <h3 className="font-serif font-bold text-base text-heading">
-                  Hinglish &amp; Hindi Voice Shopping
+                  Voice Shopping Assistant
                 </h3>
                 <span className="text-xs font-mono px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
                   Web Speech STT/TTS
                 </span>
               </div>
               <p className="text-xs text-text-secondary mt-0.5">
-                Speak naturally in conversational Hindi or English to discover items.
+                Speak naturally to discover sustainable items.
               </p>
             </div>
           </div>
@@ -258,28 +258,9 @@ export default function VoiceShoppingModal({ isOpen, onClose }) {
           </div>
         )}
 
-        {/* Language & Sound Toolbar */}
+        {/* Sound Toolbar */}
         <div className="p-3 border-b border-line bg-surface flex items-center justify-between">
-          <div className="flex items-center gap-1 bg-surface-sunken rounded-xl p-0.5 border border-line text-xs font-mono">
-            <button
-              type="button"
-              onClick={() => setLang('hinglish')}
-              className={`px-3 py-1 rounded-lg transition cursor-pointer ${
-                lang === 'hinglish' ? 'bg-primary text-white font-bold' : 'text-text-muted hover:text-heading'
-              }`}
-            >
-              Hinglish / EN
-            </button>
-            <button
-              type="button"
-              onClick={() => setLang('hindi')}
-              className={`px-3 py-1 rounded-lg transition cursor-pointer ${
-                lang === 'hindi' ? 'bg-primary text-white font-bold' : 'text-text-muted hover:text-heading'
-              }`}
-            >
-              हिंदी (Hindi)
-            </button>
-          </div>
+          <span className="text-xs text-text-muted font-sans">Tap microphone or click a sample prompt</span>
 
           <button
             type="button"

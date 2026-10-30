@@ -181,57 +181,6 @@ export default function SettingsPage() {
         )}
       </div>
 
-      {/* Phase 7: Bilingual Language Switcher Card */}
-      {FEATURES.HINDI_LANGUAGE && (
-        <Card clean={true} className="space-y-4 bg-surface border border-line shadow-soft-sm rounded-3xl p-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-surface-sunken border border-line flex items-center justify-center text-heading">
-                <Globe className="w-5 h-5 text-primary" />
-              </div>
-              <div>
-                <h3 className="font-serif font-bold text-base text-heading">
-                  {t('settings.language', 'Language / भाषा')}
-                </h3>
-                <p className="text-[11px] text-muted font-normal">
-                  {t('settings.languageDesc', 'Toggle bilingual interface with local typography support')}
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => {
-                  setLang('en');
-                  showFeedback('Language switched to English');
-                }}
-                className={`px-4 py-2 rounded-full text-xs font-semibold border transition cursor-pointer min-h-[44px] ${
-                  lang === 'en'
-                    ? 'bg-primary text-primary-contrast border-primary shadow-soft-xs'
-                    : 'bg-surface-sunken hover:bg-surface text-secondary border-line'
-                }`}
-              >
-                English
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setLang('hi');
-                  showFeedback('भाषा हिंदी पर सेट की गई (Hindi Activated)');
-                }}
-                className={`px-4 py-2 rounded-full text-xs font-semibold border transition cursor-pointer min-h-[44px] ${
-                  lang === 'hi'
-                    ? 'bg-primary text-primary-contrast border-primary shadow-soft-xs'
-                    : 'bg-surface-sunken hover:bg-surface text-secondary border-line'
-                }`}
-              >
-                हिंदी (Hindi)
-              </button>
-            </div>
-          </div>
-        </Card>
-      )}
-
       {/* Theme Appearance: Dark / Light Mode */}
       <Card clean={true} className="space-y-4 bg-surface border border-line shadow-soft-sm rounded-3xl p-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">

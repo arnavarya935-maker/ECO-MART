@@ -229,8 +229,8 @@ export default function CommandPalette({ isOpen: controlledOpen, onClose: contro
     {
       id: 'action-kirana',
       type: 'action',
-      title: 'Desi Kirana Mode (किराना मोड)',
-      subtitle: 'Simplified high-contrast Hindi-first layout with Web Speech voice input/output',
+      title: 'Desi Kirana Mode',
+      subtitle: 'Simplified high-contrast local staple shopping layout with voice input',
       icon: Store,
       perform: () => {
         navigate('/kirana');

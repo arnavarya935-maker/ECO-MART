@@ -786,7 +786,7 @@ export default function EcoAgentChat() {
               type="button"
               onClick={() => setVoiceModalOpen(true)}
               className="w-8 h-8 rounded-xl bg-surface-sunken hover:bg-surface text-text-secondary hover:text-heading transition-colors border border-line flex items-center justify-center cursor-pointer"
-              title="Hands-free Voice Shopping in English / Hindi"
+              title="Hands-free Voice Shopping"
               aria-label="Voice Shopping"
             >
               <Mic className="w-3.5 h-3.5 text-primary" />
@@ -1674,7 +1674,7 @@ export default function EcoAgentChat() {
               ? 'bg-rose-500/20 border-rose-500 text-rose-500 animate-pulse ring-2 ring-rose-500/30'
               : 'bg-surface-sunken border-line text-muted hover:text-heading hover:bg-surface'
           }`}
-          title={isListening ? 'Listening... click to stop' : 'Voice-to-Text (Speak in English or Hindi)'}
+          title={isListening ? 'Listening... click to stop' : 'Voice-to-Text (Click to speak)'}
           aria-label={isListening ? 'Stop listening' : 'Start voice-to-text input'}
         >
           {isListening ? <MicOff className="w-4 h-4 text-rose-500" /> : <Mic className="w-4 h-4 text-primary" />}

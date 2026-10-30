@@ -29,7 +29,7 @@ const TIERS = [
     features: [
       'Camera-based Label Scanner with claim verification',
       'Kirana Mode for Indian unpackaged bulk staples',
-      'Multilingual interface support (English & Hindi)',
+      'Plain-language breakdown for all recommendations',
       'Smart refill tracking and local artisan discovery',
       'Custom eco-priority weighting in decision engine'
     ],

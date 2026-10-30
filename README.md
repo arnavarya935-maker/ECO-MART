@@ -2,14 +2,14 @@
 
 > A transparent shopping app with an honest AI agent. Built with React 19, Vite, and Tailwind v4.
 
-Eco Sense helps everyday shoppers find green alternatives, spot vague marketing claims, scan packaging labels to understand health and environmental effects, and make budget-friendly choices. It works in both **English** and **Hindi (हिंदी)**.
+Eco Sense helps everyday shoppers find green alternatives, spot vague marketing claims, scan packaging labels to understand health and environmental effects, and make budget-friendly choices. It features 124 sample sustainable products across 8 departments, presented in English only.
 
 ---
 
 ## ⚡ Quick Start
 
 ```bash
-git clone https://github.com/example/ecomart-agent.git
+git clone https://github.com/<your-username>/<your-repo-name>.git
 cd ecomart-agent
 npm install
 npm run dev
@@ -49,7 +49,7 @@ VITE_WEB3FORMS_KEY=your_web3forms_key_here
 1. Open your [Supabase Dashboard](https://supabase.com/dashboard).
 2. Go to the **SQL Editor** tab.
 3. Paste the contents of `supabase/schema.sql` and click **Run**.
-4. To populate the catalogue with 64 products, run:
+4. To populate the catalogue with 124 products, run:
    ```bash
    node scripts/seed-supabase.mjs
    ```
