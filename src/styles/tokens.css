@@ -9,6 +9,7 @@
    -------------------------------------------------------------------------- */
 @import "@fontsource-variable/plus-jakarta-sans/index.css";
 @import "@fontsource-variable/inter/index.css";
+@import "@fontsource-variable/fraunces/index.css";
 @import "@fontsource/opendyslexic/index.css";
 
 /* --------------------------------------------------------------------------
@@ -18,7 +19,7 @@
   /* Typography Families */
   --font-display: 'Plus Jakarta Sans Variable', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-sans: 'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-serif: var(--font-display);
+  --font-serif: 'Fraunces Variable', 'Fraunces', Georgia, serif;
   --font-heading: var(--font-display);
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
