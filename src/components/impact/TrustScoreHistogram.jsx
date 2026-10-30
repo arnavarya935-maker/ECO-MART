@@ -210,7 +210,7 @@ export default function TrustScoreHistogram() {
 
           <div className="flex items-center justify-between text-[11px] font-mono text-muted px-2 pt-2 border-t border-line/50">
             <span>0 = Deceptive / Fictitious Claims</span>
-            <span>100 = Rigorous 3rd-Party Lab Certified</span>
+            <span>100 = Highest score based on our rules</span>
           </div>
         </div>
       )}

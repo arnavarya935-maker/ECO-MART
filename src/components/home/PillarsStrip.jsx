@@ -35,9 +35,9 @@ export default function PillarsStrip() {
     {
       id: 'certified',
       icon: ShieldCheck,
-      badge: 'Third-Party Audits',
-      title: t('pillars.certified_title', 'Certified Standards'),
-      desc: t('pillars.certified_desc', 'Transparent USDA Organic, GOTS, and FSC credentials backing every product claim.')
+      badge: 'Seller-Listed',
+      title: t('pillars.certified_title', 'Listed Standards'),
+      desc: t('pillars.certified_desc', 'USDA Organic, GOTS, and FSC standards listed by sellers on packaging.')
     }
   ];
 

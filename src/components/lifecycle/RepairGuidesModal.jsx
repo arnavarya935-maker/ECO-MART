@@ -163,7 +163,7 @@ export default function RepairGuidesModal({ isOpen, onClose }) {
 
         {/* Footer */}
         <div className="p-4 border-t border-line bg-surface-sunken flex items-center justify-between text-[11px] font-mono text-text-muted">
-          <span>EcoMart Right to Repair Program</span>
+          <span>Eco Sense Right to Repair Guide</span>
           <button
             type="button"
             onClick={onClose}

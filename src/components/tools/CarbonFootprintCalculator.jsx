@@ -236,10 +236,10 @@ export default function CarbonFootprintCalculator() {
 
           <div className="p-4 rounded-2xl bg-surface border border-primary/20 text-xs text-text space-y-1">
             <div className="font-semibold text-primary flex items-center gap-1.5">
-              <Leaf className="w-4 h-4 text-primary" /> EcoMart Reduction Impact:
+              <Leaf className="w-4 h-4 text-primary" /> Eco Sense Reduction Impact:
             </div>
             <p className="text-[11px] leading-relaxed text-secondary">
-              By replacing single-use items with EcoMart zero-waste alternatives, you immediately shave ~420 kg CO₂ and eliminate ~18kg of plastic waste per year!
+              By replacing single-use items with Eco Sense zero-waste alternatives, you immediately shave ~420 kg CO₂ and eliminate ~18kg of plastic waste per year!
             </p>
           </div>
         </div>

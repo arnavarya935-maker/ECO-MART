@@ -200,7 +200,7 @@ export default function GreenwashingStrikethrough() {
                   <span>&quot;chemical free&quot;</span>
                 </div>
                 <p className="text-text-muted">
-                  Scientifically meaningless. Water and plants are chemical compounds.
+                  Factually meaningless. Water and plants are chemical compounds.
                 </p>
               </div>
             </div>

@@ -20,16 +20,14 @@ export default function EditorialFinalCTA() {
       <div className="relative z-10 mx-auto max-w-4xl px-6 md:px-10 text-center">
         <div className="inline-flex items-center gap-2 font-mono text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.22em] text-primary">
           <Sparkles className="w-3.5 h-3.5" />
-          <span>AUTONOMOUS ECO AGENT · ZERO GREENWASHING</span>
+          <span>AUTONOMOUS ECO AGENT · NO VAGUE CLAIMS</span>
         </div>
 
         <h2
           id="cta-heading"
           className="mt-6 font-sans text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-heading text-balance leading-[1.08]"
         >
-          {lang === 'hi'
-            ? 'अपनी खरीदारी को पर्यावरण-अनुकूल बनाएं।'
-            : 'Make every purchase a vote for a restored planet.'}
+          Make every purchase a vote for a restored planet.
         </h2>
 
         <p className="mt-5 mx-auto max-w-xl font-sans text-xs sm:text-sm md:text-base text-text-secondary leading-relaxed">
@@ -59,7 +57,7 @@ export default function EditorialFinalCTA() {
         <div className="mt-12 pt-8 border-t border-line/60 flex flex-wrap items-center justify-center gap-6 sm:gap-10 font-mono text-[10px] sm:text-[11px] text-text-muted uppercase tracking-wider">
           <span>100% PLASTIC-FREE PACKAGING</span>
           <span>·</span>
-          <span>FSC & USDA CERTIFIED</span>
+          <span>FSC & USDA LISTED</span>
           <span>·</span>
           <span>ZERO CLOUD TRACKING</span>
         </div>

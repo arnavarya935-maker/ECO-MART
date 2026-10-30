@@ -87,13 +87,13 @@ export default function HowItWorksPage() {
           {/* Pillar 4 */}
           <div className="p-5 rounded-2xl bg-surface-sunken border border-line space-y-2">
             <div className="flex items-center justify-between font-semibold">
-              <span className="text-sm text-heading">4. Third-Party Certifications</span>
+              <span className="text-sm text-heading">4. Certifications Listed by Seller</span>
               <span className="px-2.5 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20 text-[11px]">
                 Weight: 15%
               </span>
             </div>
             <p className="text-secondary leading-relaxed font-normal">
-              Awards points based on verifiable rigorous eco-standards:
+              Awards points based on eco-standards listed on packaging:
               GOTS Organic, FSC Certified, Fair Trade, Zero Waste Assured, and PETA Vegan.
             </p>
           </div>

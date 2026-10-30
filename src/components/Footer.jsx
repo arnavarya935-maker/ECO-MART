@@ -298,7 +298,7 @@ export default function Footer() {
           type="button"
           onClick={() => setIsAgentOpen(true)}
           className="group flex items-center gap-2.5 px-4 py-3 min-h-[44px] rounded-full bg-emerald-600 hover:bg-emerald-500 text-white shadow-soft-lg hover:shadow-soft-xl transition-all cursor-pointer focus-visible:outline-2 focus-visible:outline-focus border border-emerald-400/30"
-          aria-label="Open EcoSense Chat & Instant Assistance"
+          aria-label="Open Eco Sense Chat & Instant Assistance"
         >
           <MessageCircle className="w-4 h-4 text-white" />
           <span className="text-[13px] font-semibold font-sans tracking-wide">

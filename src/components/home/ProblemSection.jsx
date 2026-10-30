@@ -95,7 +95,7 @@ export default function ProblemSection() {
                 to="/how-it-works"
                 className="inline-flex items-center gap-2 text-xs font-bold text-primary hover:text-primary-hover transition group"
               >
-                <span>See how EcoMart scores every claim with open algorithms</span>
+                <span>See how Eco Sense scores every claim with our own rules</span>
                 <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
               </Link>
             </div>

@@ -80,7 +80,7 @@ export default function GreenTechHero({ onRequestAuditWithData }) {
                   <Trash2 className="w-4 h-4 text-[#0F3D2E]" />
                 </div>
                 <div>
-                  <div className="text-xs font-bold text-[#0F3D2E]">Zero-Waste Certified</div>
+                  <div className="text-xs font-bold text-[#0F3D2E]">Zero-Waste Standard</div>
                   <div className="text-[10px] text-[#2C3E50]/75">Closed-loop diversion</div>
                 </div>
               </div>

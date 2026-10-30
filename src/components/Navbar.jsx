@@ -366,7 +366,7 @@ export default function Navbar() {
                     <BookOpen className="w-4 h-4 text-primary" />
                     <div>
                       <div className="font-semibold">Brand Story & Mission</div>
-                      <div className="text-[10px] text-text-muted">Why we built EcoMart</div>
+                      <div className="text-[10px] text-text-muted">Why we built Eco Sense</div>
                     </div>
                   </Link>
                   <Link

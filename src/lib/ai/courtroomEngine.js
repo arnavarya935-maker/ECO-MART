@@ -242,7 +242,7 @@ export const CACHED_DEBATES = [
       role: 'Prosecutor',
       speaker: 'Counsel for Planetary Integrity',
       avatar: '⚖️',
-      summary: 'Scientifically nonsensical "Zero Chemical" claim hides polyvinyl alcohol (PVA).',
+      summary: 'Misleading "Zero Chemical" claim hides polyvinyl alcohol (PVA).',
       points: [
         'Everything in the physical universe is composed of chemicals, including water and salt. "Chemical-free" is banned by consumer safety boards worldwide as fear-based misleading marketing.',
         'Laundry sheets rely on Polyvinyl Alcohol (PVA/PVOH) polymer binder to form a dissolvable sheet. While water-soluble, PVA requires specialized wastewater microbes to fully mineralize.',
@@ -294,7 +294,7 @@ export const CACHED_DEBATES = [
       verdict: 'Plausible Innovation with Deceptive Copy',
       verdictClass: 'text-amber-600 bg-amber-500/10 border-amber-500/30',
       reasoning:
-        'The waterless, plastic-free format represents a genuine breakthrough in cleaning logistics and plastic jug diversion. However, the claim "Zero Chemical" is scientifically illiterate, patronizing to consumers, and conceals the presence of functional synthetic polymers like PVA.',
+        'The waterless, plastic-free format represents a genuine breakthrough in cleaning logistics and plastic jug diversion. However, the claim "Zero Chemical" is factually misleading, patronizing to consumers, and conceals the presence of functional synthetic polymers like PVA.',
       remedies: [
         'Immediately strike "Zero Chemical" from all branding.',
         'Rebrand as "Concentrated Waterless Laundry Sheets in Plastic-Free Box".',

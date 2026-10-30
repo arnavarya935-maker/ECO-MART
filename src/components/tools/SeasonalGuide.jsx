@@ -97,7 +97,7 @@ export default function SeasonalGuide() {
 
         <div className="space-y-2 pt-2 border-t border-line">
           <div className="text-xs font-semibold text-heading uppercase tracking-wider">
-            🛍️ Recommended EcoMart Lifestyle Swaps:
+            🛍️ Recommended Eco Sense Lifestyle Swaps:
           </div>
           <div className="flex flex-wrap gap-1.5">
             {activeSeason.ecoPicks.map((pick, idx) => (

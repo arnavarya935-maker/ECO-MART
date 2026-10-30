@@ -26,7 +26,7 @@ export default function KineticTypeStrips() {
       aria-label="Verification Principles"
     >
       <h2 className="sr-only">
-        EcoMart Core Principles: Verify, Trust, and Prove
+        Eco Sense Core Principles: Honest, Simple, and Helpful
       </h2>
 
       {/* Cinematic Left & Right Vignette Masks */}

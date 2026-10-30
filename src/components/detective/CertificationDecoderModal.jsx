@@ -98,7 +98,7 @@ export default function CertificationDecoderModal({ isOpen, onClose }) {
               <span>About the Certification Registry Framework</span>
             </div>
             <p className="text-text-secondary leading-relaxed">
-              <strong>Honesty Standard:</strong> Certifications displayed on EcoMart products reflect manufacturer package claims. EcoMart does not issue certifications. We display official third-party registry links so you can verify active license numbers directly with issuers.
+              <strong>Honesty Standard:</strong> Certifications shown on Eco Sense products are listed by the seller on their package. Eco Sense does not give certifications. We show third-party website links so you can check license numbers directly with issuers.
             </p>
           </div>
         )}

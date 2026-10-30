@@ -37,7 +37,7 @@ export default function PurposeReportModal({ isOpen, onClose }) {
         backgroundColor: '#FAF9F6'
       });
       const link = document.createElement('a');
-      link.download = `EcoMart-Purpose-Report.png`;
+      link.download = `EcoSense-Purpose-Report.png`;
       link.href = dataUrl;
       link.click();
     } catch {
@@ -116,7 +116,7 @@ export default function PurposeReportModal({ isOpen, onClose }) {
               <div className="flex items-center gap-2">
                 <span className="text-xl">🌱</span>
                 <span className="font-serif font-bold text-xl tracking-tight text-heading">
-                  EcoMart
+                  Eco Sense
                 </span>
                 <span className="text-[10px] font-sans font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-primary-subtle text-primary border border-primary/20">
                   Purpose Ledger

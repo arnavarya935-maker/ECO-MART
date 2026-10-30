@@ -116,7 +116,7 @@ export const GREENWASH_LEXICON = [
   {
     pattern: /\b(chemical[- ]free|zero\s*chemicals|no\s*chemicals)\b/i,
     term: 'Chemical Free',
-    category: 'Scientifically Impossible',
+    category: 'Factually Impossible',
     severity: 'high',
     reason: 'All matter (water, oxygen, plant cellulose) consists of chemical compounds. Misleads consumers on hazard risks.',
     regulatoryStandard: 'Advertising Standards Council of India'

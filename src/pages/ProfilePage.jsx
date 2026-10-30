@@ -95,7 +95,7 @@ export default function ProfilePage() {
       playSound('click');
       const dataUrl = await toPng(shareCardRef.current, { quality: 0.95 });
       const link = document.createElement('a');
-      link.download = `ecomart-impact-${currentUser?.name?.replace(/\s+/g, '-').toLowerCase() || 'explorer'}.png`;
+      link.download = `ecosense-impact-${currentUser?.name?.replace(/\s+/g, '-').toLowerCase() || 'explorer'}.png`;
       link.href = dataUrl;
       link.click();
       playSound('success');

@@ -62,7 +62,7 @@ export default function FromTheBlog() {
               <span>{t('blog.eyebrow', 'Knowledge & Insights')}</span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-sans font-bold text-heading tracking-tight">
-              From the EcoMart Journal
+              From the Eco Sense Journal
             </h2>
             <p className="text-sm font-sans text-text-secondary">
               Field dispatches, scientific breakdowns, and zero-waste guides for informed everyday living.

@@ -12,7 +12,7 @@ const DETAILED_MYTHS = [
     id: 'myth-bioplastic',
     category: 'Packaging',
     myth: '“Compostable plastics break down safely in standard municipal landfills.”',
-    verdict: 'Scientifically False',
+    verdict: 'Factually False',
     scientificTruth:
       'Compostable bioplastics (such as polylactic acid / PLA) require high-temperature industrial composting environments (58°C+, high humidity, and continuous aeration). In airtight anaerobic municipal landfills, they decompose extremely slowly over decades and produce potent methane greenhouse gas instead of harmless humus.',
     source: 'Federal Trade Commission (FTC) Green Guides § 260.7 & UNEP Bioplastics Assessment',

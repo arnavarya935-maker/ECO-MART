@@ -378,7 +378,7 @@ export default function YearAheadProjection({ onOpenPurposeReport }) {
                     metricView === 'carbon' ? 'ecoMartCarbon' :
                     metricView === 'plastic' ? 'ecoMartPlastic' : 'ecoMartCost'
                   }
-                  name="EcoMart Path"
+                  name="Eco Sense Path"
                   stroke="var(--color-primary)"
                   strokeWidth={2}
                   fillOpacity={1}
@@ -392,12 +392,12 @@ export default function YearAheadProjection({ onOpenPurposeReport }) {
         {/* Accessible Alternative Table for Screen Readers & High Accessibility */}
         <div className="sr-only">
           <table>
-            <caption>Monthly 12-Month Projection Comparing Conventional Path vs EcoMart Path</caption>
+            <caption>Monthly 12-Month Projection Comparing Conventional Path vs Eco Sense Path</caption>
             <thead>
               <tr>
                 <th>Month</th>
                 <th>Conventional Path</th>
-                <th>EcoMart Path</th>
+                <th>Eco Sense Path</th>
               </tr>
             </thead>
             <tbody>
@@ -416,7 +416,7 @@ export default function YearAheadProjection({ onOpenPurposeReport }) {
         <div className="flex flex-wrap items-center justify-center gap-6 text-xs font-sans pt-1">
           <div className="flex items-center gap-2">
             <span className="w-3 h-3 rounded-full bg-primary" />
-            <span className="font-semibold text-heading">EcoMart Path (Sustainable)</span>
+            <span className="font-semibold text-heading">Eco Sense Path (Sustainable)</span>
           </div>
           <div className="flex items-center gap-2">
             <span className="w-3 h-3 rounded-full bg-accent" />

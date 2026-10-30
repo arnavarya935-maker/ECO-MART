@@ -485,7 +485,7 @@ export function generateLocalGreenwashingVerdict(text) {
     },
     {
       regex: /\b(chemical[\s-]*free)\b/i,
-      issue: 'Scientifically misleading: all matter is chemical. Used to instill fear without specifying banned ingredients.'
+      issue: 'Factually misleading: all matter is chemical. Used to instill fear without specifying banned ingredients.'
     },
     {
       regex: /\b(zero[\s-]*harm|clean[\s-]*planet)\b/i,

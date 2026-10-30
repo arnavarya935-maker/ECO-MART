@@ -101,7 +101,7 @@ export default function ImpactCounters() {
             Real metrics, real materials, zero hypothetical math.
           </h2>
           <p className="text-sm sm:text-base font-sans text-text-secondary leading-relaxed">
-            Every score on EcoMart originates from our catalog database in{' '}
+            Every score on Eco Sense comes from our catalog database in{' '}
             <code className="text-primary font-mono text-xs">src/data/products.json</code> and open lifecycle algorithms.
           </p>
         </motion.div>

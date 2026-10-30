@@ -63,7 +63,7 @@ export default function WordByWordMission() {
         {/* Subtle Pill Tag */}
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono tracking-wider uppercase bg-primary-subtle text-primary border border-primary/20 mb-8">
           <Sparkles className="w-3.5 h-3.5 text-primary" />
-          The EcoMart Manifesto
+          The Eco Sense Manifesto
         </div>
 
         {/* Word-by-word scrubbed paragraph */}

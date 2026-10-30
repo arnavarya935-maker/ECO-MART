@@ -25,7 +25,7 @@ export default function WhoWeAre() {
       tagline: t('whoWeAre.who_tagline', 'Conscious Commerce Initiative'),
       body: t(
         'whoWeAre.who_body',
-        'EcoMart is a student-led sustainability initiative and open-source platform. We combine objective lifecycle math with everyday consumer goods to bring scientific clarity to mindful households.'
+        'Eco Sense is a student-led sustainability initiative and school project. We combine simple lifecycle math with everyday consumer goods to bring clear reasons to mindful households.'
       )
     },
     {
@@ -45,7 +45,7 @@ export default function WhoWeAre() {
       tagline: t('whoWeAre.mission_tagline', 'Algorithmic Transparency'),
       body: t(
         'whoWeAre.mission_body',
-        'To demystify greenwashing through open-access cradle-to-gate impact scoring, certified plastic-free catalogs, and automated one-click cart transformations.'
+        'To spot vague green claims through open-access impact scoring, plastic-free catalogs, and automated one-click cart transformations.'
       )
     }
   ];
@@ -73,7 +73,7 @@ export default function WhoWeAre() {
           <p className="text-sm sm:text-base font-sans text-text-secondary leading-relaxed">
             {t(
               'whoWeAre.subline',
-              'We believe true sustainability requires neither compromise nor blind faith. Here is why we built EcoMart.'
+              'We believe true sustainability requires clear reasons and honesty. Here is why we built Eco Sense.'
             )}
           </p>
         </motion.div>

@@ -178,11 +178,11 @@ export default function LearnPage() {
                 )
               },
               {
-                title: '4. Third-Party Certifications (15%)',
+                title: '4. Certifications Listed by Seller (15%)',
                 badge: '15 Pts Max',
                 desc: (
                   <span>
-                    Validates independent audits (<GlossaryTooltip term="FSC 100% Certified">FSC</GlossaryTooltip>, <GlossaryTooltip term="GOTS Certified">GOTS</GlossaryTooltip>, Fair Trade, Leaping Bunny). Self-declarations receive zero points in this category to prevent greenwashing.
+                    Validates standards listed by the seller (<GlossaryTooltip term="FSC 100% Certified">FSC</GlossaryTooltip>, <GlossaryTooltip term="GOTS Certified">GOTS</GlossaryTooltip>, Fair Trade, Leaping Bunny). Self-declarations receive zero points in this category.
                   </span>
                 )
               },

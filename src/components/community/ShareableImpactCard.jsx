@@ -55,7 +55,7 @@ export default function ShareableImpactCard({
     // Brand Header
     ctx.fillStyle = '#10B981';
     ctx.font = 'bold 28px sans-serif';
-    ctx.fillText('EcoMart • Official Environmental Ledger', 50, 70);
+    ctx.fillText('Eco Sense • Estimated Impact', 50, 70);
 
     ctx.fillStyle = '#A7F3D0';
     ctx.font = '16px sans-serif';
@@ -121,7 +121,7 @@ export default function ShareableImpactCard({
     setTimeout(() => {
       const dataUrl = canvas.toDataURL('image/png');
       const a = document.createElement('a');
-      a.download = `ecomart-impact-${userName.toLowerCase().replace(/\s+/g, '-')}.png`;
+      a.download = `ecosense-impact-${userName.toLowerCase().replace(/\s+/g, '-')}.png`;
       a.href = dataUrl;
       a.click();
       setDownloading(false);
@@ -146,7 +146,7 @@ export default function ShareableImpactCard({
       <div className="p-6 sm:p-8 rounded-3xl bg-primary text-primary-contrast border border-primary shadow-soft-md space-y-6 relative overflow-hidden">
         <div className="flex items-center justify-between border-b border-primary-contrast/20 pb-4">
           <div>
-            <div className="text-xs font-semibold uppercase tracking-wider text-primary-contrast/80">EcoMart Certified</div>
+            <div className="text-xs font-semibold uppercase tracking-wider text-primary-contrast/80">Eco Sense Estimate</div>
             <div className="text-lg font-serif font-bold text-primary-contrast mt-0.5">{userName}</div>
           </div>
           <span className="text-xs px-3 py-1 rounded-full bg-primary-contrast/15 text-primary-contrast font-medium border border-primary-contrast/30">

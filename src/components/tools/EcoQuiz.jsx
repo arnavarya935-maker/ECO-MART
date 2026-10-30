@@ -142,7 +142,7 @@ export default function EcoQuiz() {
   };
 
   const handleShare = () => {
-    const shareText = `I scored ${scorePercent}% on the EcoMart Sustainability Quiz (${isAdvancedBranch ? 'Advanced' : 'Standard'} Adaptive Track)! Level: ${tier.title}. Audit your habits at EcoMart!`;
+    const shareText = `I scored ${scorePercent}% on the Eco Sense Sustainability Quiz (${isAdvancedBranch ? 'Advanced' : 'Standard'} Adaptive Track)! Level: ${tier.title}. Check your habits at Eco Sense!`;
     if (navigator.clipboard) {
       navigator.clipboard.writeText(shareText);
       setCopied(true);

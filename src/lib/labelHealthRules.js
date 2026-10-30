@@ -52,7 +52,7 @@ const NOTABLE_INGREDIENTS = [
     name: 'Monosodium Glutamate (MSG)',
     whatItIs: 'The sodium salt of glutamic acid, an amino acid responsible for savory umami flavor.',
     possibleGoodEffect: 'Enhances savory flavor depth while allowing a 30% reduction in added dietary sodium.',
-    possibleConcern: 'A small subset of consumers report mild transient flushing or headaches (scientifically debated).',
+    possibleConcern: 'A small subset of consumers report mild transient flushing or headaches (often debated).',
     whoShouldBeCareful: 'Individuals with self-reported MSG sensitivity; factor into overall sodium tallies.',
     evidenceLevel: 'debated'
   },
