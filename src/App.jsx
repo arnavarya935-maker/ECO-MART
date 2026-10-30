@@ -25,8 +25,6 @@ const TransformPage = lazy(() => import('./pages/TransformPage'));
 const EcoCheckPage = lazy(() => import('./pages/EcoCheckPage'));
 const CommunityPage = lazy(() => import('./pages/CommunityPage'));
 const ImpactPage = lazy(() => import('./pages/ImpactPage'));
-const FairnessPage = lazy(() => import('./pages/FairnessPage'));
-const PlaygroundPage = lazy(() => import('./pages/PlaygroundPage'));
 const HowItWorksPage = lazy(() => import('./pages/HowItWorksPage'));
 const WishlistPage = lazy(() => import('./pages/WishlistPage'));
 const ProfilePage = lazy(() => import('./pages/ProfilePage'));
@@ -34,7 +32,6 @@ const OrdersPage = lazy(() => import('./pages/OrdersPage'));
 const SettingsPage = lazy(() => import('./pages/SettingsPage'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
 const SignupPage = lazy(() => import('./pages/SignupPage'));
-const DuelPage = lazy(() => import('./pages/DuelPage'));
 const TrustPassportPage = lazy(() => import('./pages/TrustPassportPage'));
 const CounterfactualPage = lazy(() => import('./pages/CounterfactualPage'));
 const CourtroomPage = lazy(() => import('./pages/CourtroomPage'));
@@ -204,10 +201,10 @@ function AppContent() {
             <Route path="/tools" element={<ToolsPage />} />
             <Route path="/community" element={<Navigate to="/" replace />} />
             <Route path="/impact" element={<ImpactPage />} />
-            <Route path="/fairness" element={<FairnessPage />} />
-            <Route path="/playground" element={<PlaygroundPage />} />
+            <Route path="/fairness" element={<Navigate to="/" replace />} />
+            <Route path="/playground" element={<Navigate to="/" replace />} />
             <Route path="/blackbox" element={<Navigate to="/" replace />} />
-            <Route path="/duel" element={<DuelPage />} />
+            <Route path="/duel" element={<Navigate to="/" replace />} />
             <Route path="/passport/:id" element={<TrustPassportPage />} />
             <Route path="/counterfactual" element={<CounterfactualPage />} />
             <Route path="/courtroom" element={<CourtroomPage />} />

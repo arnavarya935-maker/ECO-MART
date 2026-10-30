@@ -48,18 +48,6 @@ const FEATURE_CARDS = [
     metric: '3 AI Roles • Real-time Objections'
   },
   {
-    id: 'fairness',
-    route: '/fairness',
-    title: 'Fairness Lab',
-    tagline: 'Cross-Linguistic Parity & Equity',
-    description:
-      'Audits recommendation parity across English, Hindi (Devanagari), Hinglish, and student vs affluent consumer personas.',
-    icon: Scale,
-    badge: 'Bias & Equity',
-    accentColor: '#34D399',
-    metric: 'Jaccard Parity: 93/100'
-  },
-  {
     id: 'impact',
     route: '/impact',
     title: 'Impact Command Center',

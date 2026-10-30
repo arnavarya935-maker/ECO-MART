@@ -18,7 +18,7 @@ const ProductsContext = createContext({
 export function ProductsProvider({ children, initialProducts = productsData }) {
   const [products, setProducts] = useState(initialProducts || productsData);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error] = useState(null);
 
   const loadProducts = useCallback(async () => {
     if (!isSupabaseConfigured) {

@@ -17,8 +17,6 @@ import TransformPage from '../src/pages/TransformPage.jsx';
 import EcoCheckPage from '../src/pages/EcoCheckPage.jsx';
 import CommunityPage from '../src/pages/CommunityPage.jsx';
 import ImpactPage from '../src/pages/ImpactPage.jsx';
-import FairnessPage from '../src/pages/FairnessPage.jsx';
-import PlaygroundPage from '../src/pages/PlaygroundPage.jsx';
 import HowItWorksPage from '../src/pages/HowItWorksPage.jsx';
 import WishlistPage from '../src/pages/WishlistPage.jsx';
 import ProfilePage from '../src/pages/ProfilePage.jsx';
@@ -26,7 +24,6 @@ import OrdersPage from '../src/pages/OrdersPage.jsx';
 import SettingsPage from '../src/pages/SettingsPage.jsx';
 import LoginPage from '../src/pages/LoginPage.jsx';
 import SignupPage from '../src/pages/SignupPage.jsx';
-import DuelPage from '../src/pages/DuelPage.jsx';
 import TrustPassportPage from '../src/pages/TrustPassportPage.jsx';
 import CounterfactualPage from '../src/pages/CounterfactualPage.jsx';
 import CourtroomPage from '../src/pages/CourtroomPage.jsx';
@@ -74,10 +71,7 @@ const routesToTest = [
   { path: '/tools', component: ToolsPage },
   { path: '/community', component: CommunityPage },
   { path: '/impact', component: ImpactPage },
-  { path: '/fairness', component: FairnessPage },
-  { path: '/playground', component: PlaygroundPage },
   { path: '/blackbox', component: () => React.createElement(Navigate, { to: '/', replace: true }) },
-  { path: '/duel', component: DuelPage },
   { path: '/passport/kit-01', routePattern: '/passport/:id', component: TrustPassportPage },
   { path: '/counterfactual', component: CounterfactualPage },
   { path: '/courtroom', component: CourtroomPage },

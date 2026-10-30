@@ -19,7 +19,6 @@ import {
   Settings,
   X,
   Terminal,
-  Swords,
   Sliders,
   Inbox,
   Gavel,
@@ -147,39 +146,6 @@ export default function CommandPalette({ isOpen: controlledOpen, onClose: contro
       icon: Sparkles,
       perform: () => {
         navigate('/transform');
-        handleClose();
-      }
-    },
-    {
-      id: 'action-fairness-lab',
-      type: 'action',
-      title: 'Fairness Lab: Linguistic & Socioeconomic Parity',
-      subtitle: 'Audit consistency across English, Hindi, Hinglish and budget personas',
-      icon: Sparkles,
-      perform: () => {
-        navigate('/fairness');
-        handleClose();
-      }
-    },
-    {
-      id: 'action-playground',
-      type: 'action',
-      title: 'Break the AI Playground: Adversarial Testing',
-      subtitle: 'Test 5 ethical guardrails against jailbreaks and fake ISO inventions',
-      icon: Sparkles,
-      perform: () => {
-        navigate('/playground');
-        handleClose();
-      }
-    },
-    {
-      id: 'action-duel',
-      type: 'action',
-      title: 'Human vs AI Duel',
-      subtitle: 'Test your greenwashing detection instincts against the calibrated AI benchmark',
-      icon: Swords,
-      perform: () => {
-        navigate('/duel');
         handleClose();
       }
     },

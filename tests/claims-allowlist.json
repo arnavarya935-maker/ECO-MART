@@ -1,10 +1,6 @@
 {
   "exceptions": [
     {
-      "file": "src/lib/duelEngine.js",
-      "reason": "Educational game with deliberate greenwashing test cases and standard guidance references"
-    },
-    {
       "file": "src/lib/glossary.js",
       "reason": "Educational glossary entries defining formal standards and reference benchmarks"
     },
@@ -23,11 +19,6 @@
     {
       "file": "src/pages/LearnPage.jsx",
       "reason": "Educational definition of Fairtrade standards (guaranteed price floor)"
-    },
-    {
-      "file": "src/pages/FairnessPage.jsx",
-      "reason": "Explicit disclaimer that tests do not guarantee complete absence of bias"
     }
   ]
 }
-

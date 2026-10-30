@@ -21,7 +21,7 @@ const REPRESENTATIVE_SCENARIOS = [
     title: 'Cross-Linguistic Fairness Parity',
     quote:
       'Queries in Hindi (Devanagari) received the same calibrated advice as English queries without steering non-English speakers toward inferior options or inflated pricing.',
-    tag: 'Fairness Lab'
+    tag: 'Multilingual AI'
   }
 ];
 

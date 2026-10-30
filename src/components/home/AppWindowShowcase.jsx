@@ -83,18 +83,7 @@ export default function AppWindowShowcase() {
               <span>Explainable AI &amp; ELI10</span>
             </button>
 
-            <button
-              type="button"
-              onClick={() => setActiveTab('fairness')}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-sans font-semibold transition cursor-pointer flex items-center gap-1.5 ${
-                activeTab === 'fairness'
-                  ? 'bg-surface-raised text-heading shadow-soft-xs border border-line'
-                  : 'text-text-muted hover:text-heading'
-              }`}
-            >
-              <Globe2 className="w-3.5 h-3.5 text-primary" />
-              <span>Fairness Parity Matrix</span>
-            </button>
+            
           </div>
 
           {/* Window Content Pane */}

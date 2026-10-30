@@ -333,16 +333,10 @@ export const hi = {
   'advanced.dilemmas.desc': 'कीमत, कार्बन और प्लास्टिक के बीच के समझौतों को समझें',
   'advanced.selfAudit.title': 'AI निष्पक्षता जांच (AI Self-Audit)',
   'advanced.selfAudit.desc': 'हमारे सहायक के नियमों और निष्पक्षता की जांच देखें',
-  'advanced.fairness.title': 'फेयरनेस लैब (Fairness Lab)',
-  'advanced.fairness.desc': 'जांचें कि सिफारिशें सभी श्रेणियों के साथ निष्पक्ष हैं',
-  'advanced.duel.title': 'उत्पाद तुलना (Product Duel)',
-  'advanced.duel.desc': 'प्रकृति को होने वाले नुकसान की तुलना के लिए दो उत्पाद आमने-सामने रखें',
   'advanced.scan.title': 'लेबल स्कैनर (Label Scanner)',
   'advanced.scan.desc': 'पैकेजिंग पढ़ने के लिए अपने कैमरे का उपयोग करें',
   'advanced.kirana.title': 'किराना मोड (Kirana Mode)',
   'advanced.kirana.desc': 'रोज़मर्रा के घरेलू सामान के लिए तेज़ आवाज़-आधारित खरीदारी',
-  'advanced.playground.title': 'प्राथमिकता प्लेग्राउंड (Decision Playground)',
-  'advanced.playground.desc': 'स्लाइडर चलाकर तय करें कि आपके लिए क्या सबसे ज़रूरी है',
   'advanced.transparency.title': 'सहायक पारदर्शिता (Agent Transparency)',
   'advanced.transparency.desc': 'हमारा AI और स्कोरिंग मॉडल कैसे काम करता है'
 };

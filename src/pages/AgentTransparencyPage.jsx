@@ -67,10 +67,10 @@ export default function AgentTransparencyPage() {
 
         <div className="flex items-center gap-2 self-start sm:self-auto">
           <Link
-            to="/fairness"
+            to="/self-audit"
             className="px-4 py-2 rounded-xl bg-primary text-primary-contrast hover:bg-primary-hover text-xs font-semibold shadow-soft-xs transition-colors inline-flex items-center gap-1.5"
           >
-            <span>Fairness Parity Lab</span>
+            <span>AI Self-Audit</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>

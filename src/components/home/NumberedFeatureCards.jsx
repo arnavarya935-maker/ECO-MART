@@ -30,19 +30,18 @@ export default function NumberedFeatureCards() {
       stat: `${guardrailsCount} Active Rules`,
       statLabel: 'Multi-Tier Defense',
       isEstimate: false,
-      route: '/playground',
+      route: '/self-audit',
       icon: ShieldCheck
     },
     {
       num: '03',
-      title: 'Multilingual Equity Parity',
-      subtitle: 'Cross-Linguistic Fairness',
-      description:
-        'We test whether Hindi, Hinglish and English questions get similar answers across student budgets without luxury bias.',
+      title: 'Dialectical Argument Verification',
+      subtitle: 'Evidentiary Deliberation',
+      description: 'Inspect our multi-agent trial arena where greenwashing claims undergo rigorous prosecution, defense, and judicial verdicts.',
       stat: '93/100',
       statLabel: 'Sample Data • Audit Benchmark',
       isEstimate: true,
-      route: '/fairness',
+      route: '/courtroom',
       icon: Scale
     }
   ];

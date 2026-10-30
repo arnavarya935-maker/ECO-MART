@@ -4,8 +4,6 @@ import {
   Radar,
   Wind,
   RotateCcw,
-  Scale,
-  ShieldAlert,
   CheckCircle2,
   Sliders,
   Gavel,
@@ -25,8 +23,6 @@ const CHECKS = [
   { label: 'Greenwashing Check', icon: Radar, route: '/shop', tag: 'Claim Rules' },
   { label: 'Carbon Estimate', icon: Wind, route: '/impact', tag: 'Lifecycle LCA' },
   { label: 'Second Life Trajectory', icon: RotateCcw, route: '/shop', tag: 'Circular Stewardship' },
-  { label: 'Fairness Test', icon: Scale, route: '/fairness', tag: 'Cross-Linguistic Parity' },
-  { label: 'Guardrail Safety Test', icon: ShieldAlert, route: '/playground', tag: 'Multi-Tier Intercept' },
   { label: 'Counterfactual Flip Test', icon: Sliders, route: '/counterfactual', tag: 'Boundary Simulator' }
 ];
 

@@ -72,10 +72,10 @@ export default function GuardrailsBoard() {
             </h2>
           </div>
           <Link
-            to="/playground"
+            to="/self-audit"
             className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-surface-raised border border-primary/30 text-primary hover:bg-primary/10 text-xs font-mono font-semibold transition cursor-pointer"
           >
-            <span>Launch Adversarial Playground</span>
+            <span>Launch AI Self-Audit & Guardrails</span>
             <ArrowUpRight className="w-3.5 h-3.5" />
           </Link>
         </div>

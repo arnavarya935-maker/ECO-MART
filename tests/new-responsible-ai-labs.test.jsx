@@ -5,10 +5,6 @@ import {
   clearBlackBox,
   exportBlackBoxJSON
 } from '../src/lib/ai/blackboxStore';
-import {
-  DUEL_CLAIMS,
-  evaluateDuelGuess
-} from '../src/lib/duelEngine';
 
 describe('AI Black Box Store (Append-Only Telemetry)', () => {
   beforeEach(() => {
@@ -77,33 +73,3 @@ describe('AI Black Box Store (Append-Only Telemetry)', () => {
   });
 });
 
-describe('Human vs AI Duel Benchmark Engine', () => {
-  it('contains curated labeled claim datasets for deception testing', () => {
-    expect(Array.isArray(DUEL_CLAIMS)).toBe(true);
-    expect(DUEL_CLAIMS.length).toBeGreaterThanOrEqual(4);
-
-    DUEL_CLAIMS.forEach((claim) => {
-      expect(claim).toHaveProperty('id');
-      expect(claim).toHaveProperty('statement');
-      expect(claim).toHaveProperty('isGreenwashing');
-      expect(claim).toHaveProperty('aiTrustScore');
-      expect(claim).toHaveProperty('reasoning');
-      expect(claim).toHaveProperty('violatesStandard');
-    });
-  });
-
-  it('evaluates user guess accurately against labeled ground truth', () => {
-    const deceptiveClaim = DUEL_CLAIMS.find((c) => c.isGreenwashing);
-    expect(deceptiveClaim).toBeDefined();
-
-    // User correctly flags deceptive claim
-    const correctResult = evaluateDuelGuess(deceptiveClaim.id, 'yes');
-    expect(correctResult.userAgreesWithTruth).toBe(true);
-    expect(correctResult.pointsEarned).toBe(100);
-
-    // User incorrectly accepts deceptive claim
-    const incorrectResult = evaluateDuelGuess(deceptiveClaim.id, 'no');
-    expect(incorrectResult.userAgreesWithTruth).toBe(false);
-    expect(incorrectResult.pointsEarned).toBe(0);
-  });
-});

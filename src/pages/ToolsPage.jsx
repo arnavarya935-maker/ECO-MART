@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import {
   Sparkles, Calculator, MapPin, Flame, Target, IndianRupee,
   Recycle, Calendar, BookOpen, Droplets, TreePine, ShoppingBag,
-  FileSearch, Scale, Bug
+  FileSearch, ShieldCheck
 } from 'lucide-react';
 import EcoQuiz from '../components/tools/EcoQuiz';
 import CarbonFootprintCalculator from '../components/tools/CarbonFootprintCalculator';
@@ -106,78 +106,28 @@ export default function ToolsPage() {
           </button>
         </div>
 
-        <div className="p-5 rounded-3xl bg-surface-raised border border-line shadow-card flex flex-col justify-between gap-4">
+        <div className="p-5 rounded-3xl bg-teal-500/10 border border-teal-500/30 shadow-card flex flex-col justify-between gap-4">
           <div className="flex items-start gap-3.5">
-            <div className="w-11 h-11 rounded-2xl bg-surface-sunken border border-line flex items-center justify-center text-primary shrink-0">
-              <Sparkles className="w-5 h-5" />
+            <div className="w-11 h-11 rounded-2xl bg-teal-500/15 border border-teal-500/30 flex items-center justify-center text-teal-400 shrink-0">
+              <ShieldCheck className="w-5 h-5 text-teal-400" />
             </div>
             <div>
               <div className="flex items-center gap-1.5 flex-wrap">
                 <h2 className="font-serif text-base font-bold text-heading">Eco Check</h2>
-                <span className="text-[9px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-primary-subtle text-primary border border-primary/20">
-                  Heuristic
+                <span className="text-[9px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-teal-400/20 text-teal-300 border border-teal-400/30">
+                  Verifier
                 </span>
               </div>
               <p className="text-xs text-secondary mt-1">
-                Paste external product text to score item lifecycle and discover greener alternatives.
+                Verify manufacturer sustainability claims, test certifications, and score product integrity.
               </p>
             </div>
           </div>
           <Link
             to="/eco-check"
-            className="w-full py-2.5 px-4 rounded-xl bg-surface hover:bg-surface-sunken text-heading border border-line text-xs font-semibold text-center transition shadow-soft-sm cursor-pointer whitespace-nowrap active:scale-98"
-          >
-            Open Eco Check →
-          </Link>
-        </div>
-
-        <div className="p-5 rounded-3xl bg-surface-raised border border-line shadow-card flex flex-col justify-between gap-4">
-          <div className="flex items-start gap-3.5">
-            <div className="w-11 h-11 rounded-2xl bg-teal-500/10 border border-teal-500/20 flex items-center justify-center text-teal-400 shrink-0">
-              <Scale className="w-5 h-5 text-teal-400" />
-            </div>
-            <div>
-              <div className="flex items-center gap-1.5 flex-wrap">
-                <h2 className="font-serif text-base font-bold text-heading">Fairness Lab</h2>
-                <span className="text-[9px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-teal-500/20 text-teal-300 border border-teal-500/30">
-                  Parity Audit
-                </span>
-              </div>
-              <p className="text-xs text-secondary mt-1">
-                Evaluate linguistic equity across Hindi, Hinglish, English, and student budget personas.
-              </p>
-            </div>
-          </div>
-          <Link
-            to="/fairness"
             className="w-full py-2.5 px-4 rounded-xl bg-teal-600 hover:bg-teal-500 text-white text-xs font-semibold text-center transition shadow-soft-sm cursor-pointer whitespace-nowrap"
           >
-            Open Fairness Lab →
-          </Link>
-        </div>
-
-        <div className="p-5 rounded-3xl bg-surface-raised border border-line shadow-card flex flex-col justify-between gap-4">
-          <div className="flex items-start gap-3.5">
-            <div className="w-11 h-11 rounded-2xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-400 shrink-0">
-              <Bug className="w-5 h-5 text-red-400" />
-            </div>
-            <div>
-              <div className="flex items-center gap-1.5 flex-wrap">
-                <h2 className="font-serif text-base font-bold text-heading">Break the AI</h2>
-                <span className="text-[9px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-red-500/20 text-red-300 border border-red-500/30">
-                  Safety Sandbox
-                </span>
-              </div>
-              <p className="text-xs text-secondary mt-1">
-                Launch adversarial jailbreaks & fake certification attacks to test 5 ethical guardrails.
-              </p>
-            </div>
-          </div>
-          <Link
-            to="/playground"
-            className="w-full py-2.5 px-4 rounded-xl bg-red-600/90 hover:bg-red-600 text-white text-xs font-semibold text-center transition shadow-soft-sm cursor-pointer whitespace-nowrap"
-          >
-            Launch AI Sandbox →
+            Launch Eco Check →
           </Link>
         </div>
       </div>

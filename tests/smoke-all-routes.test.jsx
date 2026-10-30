@@ -18,8 +18,6 @@ import TransformPage from '../src/pages/TransformPage.jsx';
 import EcoCheckPage from '../src/pages/EcoCheckPage.jsx';
 import CommunityPage from '../src/pages/CommunityPage.jsx';
 import ImpactPage from '../src/pages/ImpactPage.jsx';
-import FairnessPage from '../src/pages/FairnessPage.jsx';
-import PlaygroundPage from '../src/pages/PlaygroundPage.jsx';
 import HowItWorksPage from '../src/pages/HowItWorksPage.jsx';
 import WishlistPage from '../src/pages/WishlistPage.jsx';
 import ProfilePage from '../src/pages/ProfilePage.jsx';
@@ -27,7 +25,6 @@ import OrdersPage from '../src/pages/OrdersPage.jsx';
 import SettingsPage from '../src/pages/SettingsPage.jsx';
 import LoginPage from '../src/pages/LoginPage.jsx';
 import SignupPage from '../src/pages/SignupPage.jsx';
-import DuelPage from '../src/pages/DuelPage.jsx';
 import TrustPassportPage from '../src/pages/TrustPassportPage.jsx';
 import CounterfactualPage from '../src/pages/CounterfactualPage.jsx';
 import CourtroomPage from '../src/pages/CourtroomPage.jsx';
@@ -55,10 +52,7 @@ const allRoutes = [
   { name: 'Tools (/tools)', path: '/tools', component: ToolsPage },
   { name: 'Community (/community)', path: '/community', component: CommunityPage },
   { name: 'Impact (/impact)', path: '/impact', component: ImpactPage },
-  { name: 'Fairness (/fairness)', path: '/fairness', component: FairnessPage },
-  { name: 'Playground (/playground)', path: '/playground', component: PlaygroundPage },
   { name: 'BlackBox (/blackbox -> /)', path: '/blackbox', component: () => <Navigate to="/" replace /> },
-  { name: 'Duel (/duel)', path: '/duel', component: DuelPage },
   { name: 'Trust Passport (/passport/kit-01)', path: '/passport/kit-01', pattern: '/passport/:id', component: TrustPassportPage },
   { name: 'Counterfactual (/counterfactual)', path: '/counterfactual', component: CounterfactualPage },
   { name: 'Courtroom (/courtroom)', path: '/courtroom', component: CourtroomPage },

@@ -175,10 +175,10 @@ export default function AgentPipelinePanel() {
             </Link>
 
             <Link
-              to="/playground"
+              to="/self-audit"
               className="text-text-muted hover:text-heading flex items-center gap-1.5"
             >
-              <span>Test Guardrail Triggers in AI Sandbox →</span>
+              <span>Test Guardrail Triggers in Self-Audit →</span>
             </Link>
           </div>
         </div>

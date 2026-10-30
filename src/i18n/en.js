@@ -313,16 +313,10 @@ export const en = {
   'advanced.dilemmas.desc': 'Explore trade-offs between price, carbon, and plastic',
   'advanced.selfAudit.title': 'AI Self-Audit',
   'advanced.selfAudit.desc': 'See tests for fairness and rules used by our helper',
-  'advanced.fairness.title': 'Fairness Lab',
-  'advanced.fairness.desc': 'Check that recommendations treat all categories fairly',
-  'advanced.duel.title': 'Product Duel',
-  'advanced.duel.desc': 'Put two products side by side to compare harm to nature',
   'advanced.scan.title': 'Label Scanner',
   'advanced.scan.desc': 'Use your camera to read product packaging',
   'advanced.kirana.title': 'Kirana Mode',
   'advanced.kirana.desc': 'Quick voice shopping for everyday household staples',
-  'advanced.playground.title': 'Decision Playground',
-  'advanced.playground.desc': 'Slide weights to choose what matters most to you',
   'advanced.transparency.title': 'Agent Transparency',
   'advanced.transparency.desc': 'How our AI helper and score models work together'
 };

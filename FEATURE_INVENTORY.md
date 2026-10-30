@@ -37,11 +37,8 @@ The "More" dropdown in [`src/components/Navbar.jsx`](file:///c:/Users/AYUSH/Desk
 | 3 | **Moral Dilemmas** | `/dilemmas` | `Scale` | Explore trade-offs between price, carbon, and plastic |
 | 4 | **AI Self-Audit** | `/self-audit` | `FileCheck` | See tests for fairness and rules used by our helper |
 | 5 | **BlackBox Audit** | `/blackbox` | `ShieldCheck` | See what our helper thought and how it decided |
-| 6 | **Fairness Lab** | `/fairness` | `Scale` | Check that recommendations treat all categories fairly |
-| 7 | **Product Duel** | `/duel` | `Swords` | Put two products side by side to compare harm to nature |
 | 8 | **Label Scanner** | `/scan` | `Camera` | Use your camera to read product packaging |
 | 9 | **Kirana Mode** | `/kirana` | `Store` | Quick voice shopping for everyday household staples |
-| 10 | **Decision Playground** | `/playground` | `Sliders` | Slide weights to choose what matters most to you |
 | 11 | **Agent Transparency** | `/transparency` | `ShieldCheck` | How our smart rules and cloud helper work together |
 | 12 | **How It Works** | `/how-it-works` | `HelpCircle` | Simple guide to how we score products and impact |
 | 13 | **Community** | `/community` | `Bot` | See sample pledges and tips from conscious shoppers |
@@ -74,12 +71,9 @@ All routes are declared in [`src/App.jsx`](file:///c:/Users/AYUSH/Desktop/ecomar
 | 12 | `/dilemmas` | [`DilemmasPage.jsx`](file:///c:/Users/AYUSH/Desktop/ecomart%20agent/src/pages/DilemmasPage.jsx) | Moral Machine ethical decision simulator: complex environmental trade-offs (e.g. glass vs plastic, carbon vs water vs local livelihoods), multi-agent debate, user voting. |
 | 13 | `/self-audit` | [`AISelfAuditPage.jsx`](file:///c:/Users/AYUSH/Desktop/ecomart%20agent/src/pages/AISelfAuditPage.jsx) | Autonomous AI self-audit dashboard: automated test suites measuring recommendation bias, hallucinations, score calibration, and guideline compliance. |
 | 14 | `/blackbox` | [`BlackBoxPage.jsx`](file:///c:/Users/AYUSH/Desktop/ecomart%20agent/src/pages/BlackBoxPage.jsx) | Complete transparent audit ledger of all internal AI reasoning steps, confidence brakes, decision factors, and model prompts. |
-| 15 | `/fairness` | [`FairnessPage.jsx`](file:///c:/Users/AYUSH/Desktop/ecomart%20agent/src/pages/FairnessPage.jsx) | Algorithmic fairness sandbox testing recommendation equity across diverse demographic, geographic, and budget persona archetypes. |
-| 16 | `/duel` | [`DuelPage.jsx`](file:///c:/Users/AYUSH/Desktop/ecomart%20agent/src/pages/DuelPage.jsx) | Head-to-head Life Cycle Assessment (LCA) comparison arena between any two products across emissions, water, durability, and end-of-life. |
 | 17 | `/scan` | [`LabelScannerPage.jsx`](file:///c:/Users/AYUSH/Desktop/ecomart%20agent/src/pages/LabelScannerPage.jsx) | Product label health and environmental effects explainer with 4 tabs (Overview, Health, Environment, Full Text), in-code %DV nutrition rules, compound database, and claim audit. |
 | 18 | `/scanner` | — | Direct alias route navigating to `/scan`. |
 | 19 | `/kirana` | [`KiranaPage.jsx`](file:///c:/Users/AYUSH/Desktop/ecomart%20agent/src/pages/KiranaPage.jsx) | Voice-first bilingual Hindi/English local Kirana grocery store interface with quick voice chips, instant audio search, and transliteration matching. |
-| 20 | `/playground` | [`PlaygroundPage.jsx`](file:///c:/Users/AYUSH/Desktop/ecomart%20agent/src/pages/PlaygroundPage.jsx) | Interactive decision engine priority weights sandbox tuning multi-criteria rankings. |
 | 21 | `/transparency` | [`AgentTransparencyPage.jsx`](file:///c:/Users/AYUSH/Desktop/ecomart%20agent/src/pages/AgentTransparencyPage.jsx) | Full architectural transparency documentation disclosing multi-agent orchestration, guardrails, fallback cascades, and model configurations. |
 | 22 | `/how-it-works` | [`HowItWorksPage.jsx`](file:///c:/Users/AYUSH/Desktop/ecomart%20agent/src/pages/HowItWorksPage.jsx) | Step-by-step visual explanation of the 5-pillar EcoScore calculation formula, lifecycle evaluation, and sustainable commerce mission. |
 | 23 | `/community` | [`CommunityPage.jsx`](file:///c:/Users/AYUSH/Desktop/ecomart%20agent/src/pages/CommunityPage.jsx) | Community pledge wall with interactive commitments, live regional eco-leaderboard, community activity feed, newsletter subscription, shareable impact cards. |
@@ -197,7 +191,7 @@ All routes are declared in [`src/App.jsx`](file:///c:/Users/AYUSH/Desktop/ecomar
 15. `KineticTypeStrips.jsx` — Diagonal kinetic typography animation ribbons.
 16. `NumberedFeatureCards.jsx` — Grid of numbered feature highlights.
 17. `PinnedProductJourney.jsx` — Scroll-driven pinned journey tracking raw material to doorstep.
-18. `ResponsibleAILabsShowcase.jsx` — Cards linking directly to Courtroom, Dilemmas, Self-Audit, and Duel.
+18. `ResponsibleAILabsShowcase.jsx` — Cards linking directly to Courtroom, Dilemmas, and Self-Audit.
 19. `ScrollProgressBar.jsx` — Minimal top progress bar indicating scroll depth.
 20. `SignatureShowcase.jsx` — Curated showcase of flagship zero-waste products.
 21. `StickyStackedCards.jsx` — Scroll-stacked cards explaining the 5 pillars.
