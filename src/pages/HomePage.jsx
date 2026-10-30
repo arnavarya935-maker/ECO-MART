@@ -1,3 +1,5 @@
+import { isFeatureEnabled } from '../lib/features';
+import CinematicHome from '../components/cinematic/CinematicHome';
 import React, { lazy, Suspense } from 'react';
 import EngineeringHero from '../components/home/EngineeringHero';
 import ScrollProgressBar from '../components/home/ScrollProgressBar';
@@ -26,7 +28,7 @@ const HonestFeedbackSection = lazy(() => import('../components/home/HonestFeedba
 const EditorialFinalCTA = lazy(() => import('../components/home/EditorialFinalCTA'));
 const RelatedNewsPanel = lazy(() => import('../components/news/RelatedNewsPanel'));
 
-export default function HomePage() {
+function LegacyHomePage() {
   return (
     <div className="w-full bg-surface antialiased">
       {/* 8. Scroll Progress Bar & Floating Quick-Nav */}
@@ -105,4 +107,12 @@ export default function HomePage() {
       </Suspense>
     </div>
   );
+}
+
+
+export default function HomePage() {
+  if (isFeatureEnabled('cinematicLanding')) {
+    return <CinematicHome />;
+  }
+  return <LegacyHomePage />;
 }

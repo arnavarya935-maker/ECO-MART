@@ -48,8 +48,8 @@ export const FEATURES = {
   customCursor: true,
   GRAIN_OVERLAY: true,
   grainOverlay: true,
-  CINEMATIC_LANDING: false,
-  cinematicLanding: false,
+  CINEMATIC_LANDING: true,
+  cinematicLanding: true,
   CINEMATIC_SCENE: false,
   cinematicScene: false
 };

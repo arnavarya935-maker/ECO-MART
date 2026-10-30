@@ -35,10 +35,15 @@ describe('Tier 1: Cinematic Design Shell Test Suite', () => {
   beforeEach(() => {
     // Reset flags to Tier 1 default
     FEATURES.CINEMATIC_SHELL = true;
+    FEATURES.cinematicShell = true;
     FEATURES.CUSTOM_CURSOR = true;
+    FEATURES.customCursor = true;
     FEATURES.GRAIN_OVERLAY = true;
+    FEATURES.grainOverlay = true;
     FEATURES.CINEMATIC_LANDING = false;
+    FEATURES.cinematicLanding = false;
     FEATURES.CINEMATIC_SCENE = false;
+    FEATURES.cinematicScene = false;
 
     // Ensure reduceEffects is false in test environment
     try {
