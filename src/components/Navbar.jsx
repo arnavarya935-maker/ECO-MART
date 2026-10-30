@@ -145,7 +145,7 @@ export default function Navbar() {
                 height="43"
                 className="h-10 sm:h-11 w-auto object-contain transition-transform duration-200 group-hover:scale-105 hidden dark:block"
               />
-              <span className="hidden sm:inline-flex text-[10px] font-sans font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-surface-accent border border-primary/20 text-primary">
+              <span className="hidden sm:inline-flex text-[10px] font-sans font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-forest-900/10 border border-forest-900/25 text-forest-900">
                 Nature-Led
               </span>
             </Link>
