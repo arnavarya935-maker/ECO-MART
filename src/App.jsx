@@ -200,7 +200,7 @@ function AppContent() {
             <Route path="/eco-check" element={<EcoCheckPage />} />
             <Route path="/product/:id" element={<ProductPage />} />
             <Route path="/tools" element={<ToolsPage />} />
-            <Route path="/community" element={<CommunityPage />} />
+            <Route path="/community" element={<Navigate to="/" replace />} />
             <Route path="/impact" element={<ImpactPage />} />
             <Route path="/fairness" element={<FairnessPage />} />
             <Route path="/playground" element={<PlaygroundPage />} />
@@ -218,7 +218,7 @@ function AppContent() {
             <Route path="/how-it-works" element={<HowItWorksPage />} />
             <Route path="/wishlist" element={<WishlistPage />} />
             <Route path="/profile" element={<ProfilePage />} />
-            <Route path="/transparency" element={<AgentTransparencyPage />} />
+            <Route path="/transparency" element={<Navigate to="/" replace />} />
             <Route path="/orders" element={<OrdersPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/settings" element={<SettingsPage />} />

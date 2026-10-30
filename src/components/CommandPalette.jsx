@@ -316,17 +316,6 @@ export default function CommandPalette({ isOpen: controlledOpen, onClose: contro
       }
     },
     {
-      id: 'nav-community',
-      type: 'navigation',
-      title: 'Go to Collective Community',
-      subtitle: 'Conscious leaderboards and pledge wall',
-      icon: Users,
-      perform: () => {
-        navigate('/community');
-        handleClose();
-      }
-    },
-    {
       id: 'nav-wishlist',
       type: 'navigation',
       title: 'View Saved Wishlist',
@@ -357,18 +346,6 @@ export default function CommandPalette({ isOpen: controlledOpen, onClose: contro
       group: 'Pages & Navigation',
       perform: () => {
         navigate('/settings');
-        handleClose();
-      }
-    },
-    {
-      id: 'nav-transparency',
-      type: 'navigation',
-      title: 'Agent Transparency & Safety Report',
-      subtitle: 'Model specifications, guardrails, and automated report card',
-      icon: FileCheck,
-      group: 'Pages & Navigation',
-      perform: () => {
-        navigate('/transparency');
         handleClose();
       }
     },
