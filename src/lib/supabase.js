@@ -4,8 +4,13 @@ const defaultSupabaseAnonKey = 'sb_publishable_KrJzQOivbwq8Uaex7PNJHA_n6ft0oBt';
 const rawUrl = import.meta.env.VITE_SUPABASE_URL;
 const rawAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
+function cleanSupabaseUrl(url) {
+  if (!url || typeof url !== 'string') return '';
+  return url.trim().replace(/\/+$/, '').replace(/\/rest\/v1\/?$/i, '').replace(/\/auth\/v1\/?$/i, '').replace(/\/+$/, '');
+}
+
 const supabaseUrl = (rawUrl && typeof rawUrl === 'string' && rawUrl.startsWith('http') && rawUrl !== 'your_supabase_url_here')
-  ? rawUrl.trim()
+  ? cleanSupabaseUrl(rawUrl)
   : defaultSupabaseUrl;
 
 const supabaseAnonKey = (rawAnonKey && typeof rawAnonKey === 'string' && rawAnonKey !== 'your_supabase_anon_key_here')
