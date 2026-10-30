@@ -42,7 +42,6 @@ const MORE_LINKS = [
   { path: '/scan', label: 'Label Scanner', desc: 'Use your camera to read product packaging', icon: Camera },
   { path: '/kirana', label: 'Kirana Mode', desc: 'Quick voice shopping for everyday household staples', icon: Store },
   { path: '/playground', label: 'Decision Playground', desc: 'Slide weights to choose what matters most to you', icon: Sliders },
-  { path: '/transparency', label: 'Agent Transparency', desc: 'How our AI helper and score models work together', icon: ShieldCheck },
   { path: '/how-it-works', label: 'How It Works', desc: 'Simple guide to how we score products and impact', icon: HelpCircle },
   { path: '/community', label: 'Community', desc: 'See sample pledges and tips from conscious shoppers', icon: Bot },
   { path: '/tools', label: 'Tools', desc: 'Helpful calculators and starter bundles', icon: RefreshCw },

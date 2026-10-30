@@ -167,10 +167,10 @@ export default function AgentPipelinePanel() {
 
           <div className="flex items-center justify-between text-xs font-mono pt-2">
             <Link
-              to="/transparency"
+              to="/self-audit"
               className="text-primary hover:underline flex items-center gap-1.5 font-semibold"
             >
-              <span>Inspect Transparency Breakdown</span>
+              <span>Inspect Algorithmic Self-Audit</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
 

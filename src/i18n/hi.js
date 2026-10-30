@@ -342,6 +342,4 @@ export const hi = {
   'advanced.kirana.desc': 'रोज़मर्रा के घरेलू सामान के लिए तेज़ आवाज़-आधारित खरीदारी',
   'advanced.playground.title': 'प्राथमिकता प्लेग्राउंड (Decision Playground)',
   'advanced.playground.desc': 'स्लाइडर चलाकर तय करें कि आपके लिए क्या सबसे ज़रूरी है',
-  'advanced.transparency.title': 'सहायक पारदर्शिता (Agent Transparency)',
-  'advanced.transparency.desc': 'हमारा AI और स्कोरिंग मॉडल कैसे काम करता है'
 };

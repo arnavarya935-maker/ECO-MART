@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ShieldCheck, Zap, Mail, CheckCircle2, Award, ArrowUp } from 'lucide-react';
 import { useT } from '../context/I18nContext';
+import { useCart } from '../context/CartContext';
 
 export default function Footer() {
   const { t, lang } = useT();
+  const { setIsAgentOpen } = useCart();
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [newsletterSubscribed, setNewsletterSubscribed] = useState(false);
 
@@ -78,9 +80,13 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link to="/transparency" className="ln-sweep hover:text-heading transition py-1 inline-block min-h-[32px]">
+                <button
+                  type="button"
+                  onClick={() => setIsAgentOpen(true)}
+                  className="ln-sweep hover:text-heading transition py-1 inline-block min-h-[32px] text-left cursor-pointer"
+                >
                   {t('nav.agent', 'Eco Agent')}
-                </Link>
+                </button>
               </li>
               <li>
                 <Link to="/contact" className="ln-sweep hover:text-heading transition py-1 inline-block min-h-[32px]">
@@ -209,7 +215,7 @@ export default function Footer() {
           </div>
           <div className="flex flex-wrap items-center gap-4 text-xs font-sans text-text-secondary">
             <Link to="/shop" className="hover:text-heading transition">Shop</Link>
-            <Link to="/transparency" className="hover:text-heading transition">Agent Transparency</Link>
+            <Link to="/truth-lab" className="hover:text-heading transition">Truth Lab</Link>
             <Link to="/how-it-works" className="hover:text-heading transition">How It Works</Link>
             <Link to="/settings" className="hover:text-heading transition">Settings</Link>
           </div>

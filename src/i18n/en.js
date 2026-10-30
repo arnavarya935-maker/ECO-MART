@@ -322,6 +322,4 @@ export const en = {
   'advanced.kirana.desc': 'Quick voice shopping for everyday household staples',
   'advanced.playground.title': 'Decision Playground',
   'advanced.playground.desc': 'Slide weights to choose what matters most to you',
-  'advanced.transparency.title': 'Agent Transparency',
-  'advanced.transparency.desc': 'How our AI helper and score models work together'
 };

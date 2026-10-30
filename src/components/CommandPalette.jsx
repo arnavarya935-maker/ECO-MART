@@ -361,18 +361,6 @@ export default function CommandPalette({ isOpen: controlledOpen, onClose: contro
       }
     },
     {
-      id: 'nav-transparency',
-      type: 'navigation',
-      title: 'Agent Transparency & Safety Report',
-      subtitle: 'Model specifications, guardrails, and automated report card',
-      icon: FileCheck,
-      group: 'Pages & Navigation',
-      perform: () => {
-        navigate('/transparency');
-        handleClose();
-      }
-    },
-    {
       id: 'action-privacy',
       type: 'action',
       title: 'Privacy Center & Data Export',

@@ -37,7 +37,6 @@ import KiranaPage from '../src/pages/KiranaPage.jsx';
 import TruthLabPage from '../src/pages/TruthLabPage.jsx';
 import LearnPage from '../src/pages/LearnPage.jsx';
 import NewsPage from '../src/pages/NewsPage.jsx';
-import AgentTransparencyPage from '../src/pages/AgentTransparencyPage.jsx';
 import NotFoundPage from '../src/pages/NotFoundPage.jsx';
 
 // Polyfill window & localStorage for Node run
@@ -89,7 +88,7 @@ const routesToTest = [
   { path: '/how-it-works', component: HowItWorksPage },
   { path: '/wishlist', component: WishlistPage },
   { path: '/profile', component: ProfilePage },
-  { path: '/transparency', component: AgentTransparencyPage },
+  { path: '/transparency', component: () => React.createElement(Navigate, { to: '/', replace: true }) },
   { path: '/orders', component: OrdersPage },
   { path: '/settings', component: SettingsPage },
   { path: '/login', component: LoginPage },

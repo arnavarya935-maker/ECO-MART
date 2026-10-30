@@ -38,7 +38,6 @@ import KiranaPage from '../src/pages/KiranaPage.jsx';
 import TruthLabPage from '../src/pages/TruthLabPage.jsx';
 import LearnPage from '../src/pages/LearnPage.jsx';
 import NewsPage from '../src/pages/NewsPage.jsx';
-import AgentTransparencyPage from '../src/pages/AgentTransparencyPage.jsx';
 import NotFoundPage from '../src/pages/NotFoundPage.jsx';
 
 const allRoutes = [
@@ -70,7 +69,7 @@ const allRoutes = [
   { name: 'How It Works (/how-it-works)', path: '/how-it-works', component: HowItWorksPage },
   { name: 'Wishlist (/wishlist)', path: '/wishlist', component: WishlistPage },
   { name: 'Profile (/profile)', path: '/profile', component: ProfilePage },
-  { name: 'Transparency (/transparency)', path: '/transparency', component: AgentTransparencyPage },
+  { name: 'Transparency (/transparency -> /)', path: '/transparency', component: () => <Navigate to="/" replace /> },
   { name: 'Orders (/orders)', path: '/orders', component: OrdersPage },
   { name: 'Settings (/settings)', path: '/settings', component: SettingsPage },
   { name: 'Login (/login)', path: '/login', component: LoginPage },
@@ -117,7 +116,7 @@ describe('Phase 7: Full Route Smoke Suite (English & Hindi)', () => {
             console.error = originalError;
 
             expect(consoleErrors).toHaveLength(0);
-            if (route.path === '/scanner' || route.path === '/blackbox') {
+            if (route.path === '/scanner' || route.path === '/blackbox' || route.path === '/transparency') {
               expect(html.length).toBeGreaterThanOrEqual(0);
             } else {
               expect(html.length).toBeGreaterThan(50);
