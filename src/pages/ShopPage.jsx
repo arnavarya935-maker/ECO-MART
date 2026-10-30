@@ -573,8 +573,8 @@ export default function ShopPage() {
           </div>
         )}
 
-        {/* Personalized For You Row */}
-        {FEATURES.FOR_YOU_LEARNING && (
+        {/* Personalized For You Row - only when browsing default shop without search query */}
+        {FEATURES.FOR_YOU_LEARNING && !queryParam.trim() && categoryParam === 'all' && (
           <div className="mb-10">
             <ForYouRow />
           </div>
