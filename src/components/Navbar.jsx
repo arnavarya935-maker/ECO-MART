@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import {
   ShoppingBag,
-  Leaf,
   Search,
   Heart,
   Globe,
@@ -129,21 +128,26 @@ export default function Navbar() {
         <div className="flex items-center shrink-0">
           <Link
             to="/"
-            className="flex items-center gap-2.5 group select-none py-1 focus-visible:outline-2 focus-visible:outline-focus rounded-full"
+            className="flex items-center gap-2.5 group select-none py-1 focus-visible:outline-2 focus-visible:outline-focus rounded-2xl"
             aria-label={lang === 'hi' ? 'इको सेंस होम' : 'Eco Sense Home'}
           >
-            <div className="w-9 h-9 rounded-full bg-surface-raised border border-line text-primary flex items-center justify-center font-bold shadow-soft-xs group-hover:scale-105 group-hover:border-primary/50 transition-all duration-200">
-              <Leaf className="w-4 h-4 text-primary" />
-            </div>
-
-            <div className="flex items-baseline gap-1.5">
-              <span className="font-heading text-2xl font-bold tracking-tight text-heading">
-                {lang === 'hi' ? 'इको ' : 'Eco'}<span className="text-primary italic font-semibold">{lang === 'hi' ? 'सेंस' : 'Sense'}</span>
-              </span>
-              <span className="text-[10px] font-sans font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-surface-accent border border-primary/20 text-primary hidden sm:inline-block">
-                Agent
-              </span>
-            </div>
+            <img
+              src="/images/logo.png"
+              alt="EcoSense - Shop with sense. Shop with purpose."
+              width="140"
+              height="43"
+              className="h-10 sm:h-11 w-auto object-contain transition-transform duration-200 group-hover:scale-105 dark:hidden"
+            />
+            <img
+              src="/images/logo-dark.png"
+              alt="EcoSense - Shop with sense. Shop with purpose."
+              width="140"
+              height="43"
+              className="h-10 sm:h-11 w-auto object-contain transition-transform duration-200 group-hover:scale-105 hidden dark:block"
+            />
+            <span className="text-[10px] font-sans font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-surface-accent border border-primary/20 text-primary hidden md:inline-block">
+              Agent
+            </span>
           </Link>
         </div>
 

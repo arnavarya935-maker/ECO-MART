@@ -15,6 +15,7 @@ const allowedPatterns = [
   'https://pixabay.com/users/',
   'https://pixabay.com/photos/',
   'https://api.web3forms.com',
+  'https://gtzzrubfhrinpxzbtjde.supabase.co',
   // Official certification registries for verified eco-certifications
   'https://fsc.org',
   'https://global-standard.org',

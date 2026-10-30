@@ -84,6 +84,22 @@ export default function AuthModal() {
       <div>
         {/* Brand Header */}
         <div className="text-center space-y-2 mb-6">
+          <div className="flex justify-center mb-3">
+            <img
+              src="/images/logo.png"
+              alt="EcoSense"
+              width="132"
+              height="41"
+              className="h-9 w-auto object-contain dark:hidden"
+            />
+            <img
+              src="/images/logo-dark.png"
+              alt="EcoSense"
+              width="132"
+              height="41"
+              className="h-9 w-auto object-contain hidden dark:block"
+            />
+          </div>
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold border border-primary/20 shadow-soft-xs">
             <Sparkles className="w-3.5 h-3.5 text-primary" />
             <span>Eco Sense Conscious Club</span>

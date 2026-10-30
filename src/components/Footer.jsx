@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Leaf, ShieldCheck, Zap, Mail, CheckCircle2, Award, ArrowUp } from 'lucide-react';
+import { ShieldCheck, Zap, Mail, CheckCircle2, Award, ArrowUp } from 'lucide-react';
 import { useT } from '../context/I18nContext';
 
 export default function Footer() {
@@ -26,13 +26,21 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-x-8 gap-y-12">
           {/* Brand & Manifesto (5 cols on md) */}
           <div className="md:col-span-5 space-y-5">
-            <Link to="/" className="inline-flex items-center gap-3 group focus-visible:outline-2 focus-visible:outline-focus rounded-xl">
-              <div className="w-10 h-10 rounded-2xl bg-surface-raised border border-line text-primary flex items-center justify-center font-bold shadow-soft-sm group-hover:scale-105 transition-transform duration-200">
-                <Leaf className="w-5 h-5 text-primary" />
-              </div>
-              <span className="font-serif text-2xl font-bold tracking-tight text-heading">
-                {lang === 'hi' ? 'इको ' : 'Eco'}<span className="text-primary italic">{lang === 'hi' ? 'सेंस' : 'Sense'}</span>
-              </span>
+            <Link to="/" className="inline-flex items-center gap-3 group focus-visible:outline-2 focus-visible:outline-focus rounded-xl" aria-label="EcoSense Home">
+              <img
+                src="/images/logo.png"
+                alt="EcoSense - Shop with sense. Shop with purpose."
+                width="150"
+                height="46"
+                className="h-11 sm:h-12 w-auto object-contain transition-transform duration-200 group-hover:scale-105 dark:hidden"
+              />
+              <img
+                src="/images/logo-dark.png"
+                alt="EcoSense - Shop with sense. Shop with purpose."
+                width="150"
+                height="46"
+                className="h-11 sm:h-12 w-auto object-contain transition-transform duration-200 group-hover:scale-105 hidden dark:block"
+              />
             </Link>
 
             <p className="text-sm font-sans text-text-secondary max-w-sm leading-relaxed text-pretty">
@@ -197,7 +205,7 @@ export default function Footer() {
         {/* Bottom Bar Info */}
         <div className="mt-14 pt-6 border-t border-line/60 flex flex-col sm:flex-row items-center justify-between text-xs font-sans text-text-muted gap-4">
           <div>
-            © 2026 {lang === 'hi' ? 'इको सेंस' : 'Eco Sense'}.
+            © 2026 {lang === 'hi' ? 'इको सेंस' : 'EcoSense'}.
           </div>
           <div className="flex flex-wrap items-center gap-4 text-xs font-sans text-text-secondary">
             <Link to="/shop" className="hover:text-heading transition">Shop</Link>
