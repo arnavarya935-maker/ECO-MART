@@ -51,7 +51,7 @@ export default function CtaBanner() {
         <motion.div {...motionProps} className="space-y-4">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-mono font-medium">
             <Tag className="w-3.5 h-3.5 text-primary" />
-            <span>Welcome Offer · New Shoppers</span>
+            <span>Sample Order · School Project</span>
           </div>
 
           <h2 className="text-3xl sm:text-5xl font-serif font-bold text-white tracking-tight leading-tight text-balance">
@@ -66,7 +66,7 @@ export default function CtaBanner() {
           {/* Coupon Code Line with Click-to-Copy */}
           <div className="pt-2">
             <div className="inline-flex items-center gap-3 p-2 pl-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs sm:text-sm">
-              <span>Use voucher for 20% off your initial swap:</span>
+              <span>Try sample voucher code:</span>
               <button
                 type="button"
                 onClick={copyCoupon}

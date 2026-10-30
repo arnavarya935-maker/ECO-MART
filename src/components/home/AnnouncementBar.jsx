@@ -32,7 +32,7 @@ export default function AnnouncementBar() {
         <div className="flex-1 flex items-center justify-center gap-2">
           <Sparkles className="w-3.5 h-3.5 text-emerald-300 shrink-0" aria-hidden="true" />
           <span className="font-semibold tracking-wide text-white/95 text-[12px] sm:text-[13px]">
-            {t('home.announcement', 'Free shipping over ₹499 · Shop with purpose')}
+            {t('home.announcement', 'Demo store: sample products and prices. Shop with purpose.')}
           </span>
         </div>
         <button

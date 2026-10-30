@@ -64,7 +64,7 @@ export default function Hero() {
             {/* Tagline Eyebrow */}
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-raised border border-line text-xs font-mono font-medium text-text-secondary shadow-soft-xs">
               <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
-              <span>{t('hero.eyebrow', 'Nature-Led Conscious Commerce · Est. 2026')}</span>
+              <span>{t('hero.eyebrow', 'Conscious shopping · School project 2026')}</span>
             </div>
 
             {/* Brand Tagline & Headline Block */}
@@ -90,7 +90,7 @@ export default function Hero() {
             <p className="text-base sm:text-lg font-sans text-text-secondary max-w-xl leading-relaxed">
               {t(
                 'hero.subline',
-                'Discover scientifically scored, plastic-conscious home and personal staples. Certified materials, transparent lifecycles, zero greenwashing.'
+                'Find greener home and personal products with a simple 0-100 score from our own rules. Clear reasons for every pick. No vague green claims.'
               )}
             </p>
 

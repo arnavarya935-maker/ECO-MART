@@ -38,10 +38,7 @@ export default function CartDrawer() {
 
   if (!isCartOpen) return null;
 
-  // Free delivery threshold: ₹999
-  const FREE_DELIVERY_THRESHOLD = 999;
-  const progressPercent = Math.min(100, Math.round((impact.totalPrice / FREE_DELIVERY_THRESHOLD) * 100));
-  const remainingForFree = Math.max(0, FREE_DELIVERY_THRESHOLD - impact.totalPrice);
+
 
   const cartTitle = (
     <div className="flex items-center gap-2.5">
@@ -67,22 +64,10 @@ export default function CartDrawer() {
         className="bg-surface"
       >
 
-            {/* Free Delivery & Impact Goal Progress Bar */}
-            <div className="px-5 py-3.5 bg-surface-raised border-b border-line font-sans">
-              <div className="flex items-center justify-between text-xs mb-1.5">
-                <span className="font-medium text-secondary">
-                  {remainingForFree > 0
-                    ? `Add ₹${remainingForFree} for FREE Carbon-Neutral Delivery`
-                    : '🎉 FREE Carbon-Neutral Delivery Unlocked!'}
-                </span>
-                <span className="font-bold text-primary">{progressPercent}%</span>
-              </div>
-              <div className="w-full h-2 rounded-full bg-surface-sunken overflow-hidden">
-                <div
-                  className="h-full bg-primary transition-all duration-500 rounded-full"
-                  style={{ width: `${progressPercent}%` }}
-                />
-              </div>
+            {/* Demo Notice Strip */}
+            <div className="px-5 py-2.5 bg-surface-raised border-b border-line font-sans flex items-center justify-between text-xs text-text-muted">
+              <span>Demo store · Sample products & prices</span>
+              <span className="font-mono text-primary font-medium">Estimated Impact</span>
             </div>
 
             {/* "Swap My Cart" Trigger Strip */}
