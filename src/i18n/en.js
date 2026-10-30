@@ -49,6 +49,7 @@ export const en = {
   'common.rupees': '₹',
 
   // Hero Section
+  'hero.tagline': 'Shop with sense, shop with purpose',
   'hero.badge': 'Shop with Purpose • Estimated Impact',
   'hero.title': "Don't just shop. Shop with purpose.",
   'hero.subtitle': 'Eco Sense is a conscious shopping assistant. Every choice tracks estimated carbon avoided, plastic saved, and water conserved.',

@@ -52,14 +52,24 @@ export default function Hero() {
               <span>{t('hero.eyebrow', 'Nature-Led Conscious Commerce · Est. 2026')}</span>
             </div>
 
-            {/* Headline with italic Fraunces serif accent word */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-sans font-bold text-heading tracking-tight leading-[1.08] text-balance">
-              Everyday living,{' '}
-              <span className="font-serif italic font-normal text-primary underline decoration-primary/30 decoration-wavy decoration-1 underline-offset-8">
-                naturally
-              </span>{' '}
-              restorative.
-            </h1>
+            {/* Brand Tagline & Headline Block */}
+            <div className="space-y-3 sm:space-y-4">
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" aria-hidden="true" />
+                <p className="font-serif italic text-lg sm:text-xl md:text-2xl font-semibold tracking-wide bg-gradient-to-r from-forest-900 via-emerald-600 to-teal-600 dark:from-emerald-300 dark:via-emerald-400 dark:to-teal-300 bg-clip-text text-transparent">
+                  {t('hero.tagline', 'Shop with sense, shop with purpose')}
+                </p>
+              </div>
+
+              {/* Headline with italic Fraunces serif accent word */}
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-sans font-bold text-heading tracking-tight leading-[1.08] text-balance">
+                Everyday living,{' '}
+                <span className="font-serif italic font-normal text-primary underline decoration-primary/30 decoration-wavy decoration-1 underline-offset-8">
+                  naturally
+                </span>{' '}
+                restorative.
+              </h1>
+            </div>
 
             {/* Subline */}
             <p className="text-base sm:text-lg font-sans text-text-secondary max-w-xl leading-relaxed">
