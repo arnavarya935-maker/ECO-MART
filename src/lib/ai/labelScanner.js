@@ -262,31 +262,6 @@ export async function scanProductLabel({
     if (res.ok) {
       const data = await res.json();
       if (data && data.source === 'gemini_vision') {
-        // Outcome A: Unreadable photo
-        if (data.readable === false || data.is_readable === false) {
-          return {
-            source: 'gemini_vision',
-            readable: false,
-            is_readable: false,
-            is_product_label: data.is_product_label ?? true,
-            unreadable_reason: data.unreadable_reason || 'The text on this packaging label is blurry or unreadable. Please retake a well-lit photo closer to the text.',
-            privacy_guarantee: 'Image is not saved.'
-          };
-        }
-
-        // Outcome B: Non-product label photo
-        if (data.is_product_label === false) {
-          return {
-            source: 'gemini_vision',
-            readable: false,
-            is_readable: false,
-            is_product_label: false,
-            reason_if_not: data.reason_if_not || 'No product packaging or label detected in this photo. Please photograph a physical product label.',
-            privacy_guarantee: 'Image is not saved.'
-          };
-        }
-
-        // Outcome C: Valid readable label
         const certs = Array.isArray(data.certifications_visible || data.certifications_printed)
           ? (data.certifications_visible || data.certifications_printed).map((c) => ({
               name: c.name || (typeof c === 'string' ? c : ''),
@@ -298,6 +273,40 @@ export async function scanProductLabel({
           ? (data.recycling_symbols || data.packaging_marks)
           : [];
 
+        const hasExtractedText = Boolean(
+          (data.raw_transcription && data.raw_transcription.trim().length > 10) ||
+          (Array.isArray(data.ingredients) && data.ingredients.length > 0) ||
+          (Array.isArray(data.nutrition_table) && data.nutrition_table.length > 0) ||
+          data.name ||
+          data.product_name ||
+          (Array.isArray(data.claims) && data.claims.length > 0)
+        );
+
+        // Outcome A: Unreadable photo (only when zero legible text could be extracted)
+        if ((data.readable === false || data.is_readable === false) && !hasExtractedText) {
+          return {
+            source: 'gemini_vision',
+            readable: false,
+            is_readable: false,
+            is_product_label: data.is_product_label ?? true,
+            unreadable_reason: data.unreadable_reason || 'The text on this packaging label is blurry or unreadable. Please retake a well-lit photo closer to the text.',
+            privacy_guarantee: 'Image is not saved.'
+          };
+        }
+
+        // Outcome B: Non-product label photo
+        if (data.is_product_label === false && !hasExtractedText) {
+          return {
+            source: 'gemini_vision',
+            readable: false,
+            is_readable: false,
+            is_product_label: false,
+            reason_if_not: data.reason_if_not || 'No product packaging or label detected in this photo. Please photograph a physical product label.',
+            privacy_guarantee: 'Image is not saved.'
+          };
+        }
+
+        // Outcome C: Valid readable label (or partial label with extracted text)
         return {
           source: 'gemini_vision',
           readable: true,
@@ -328,6 +337,21 @@ export async function scanProductLabel({
           },
           privacy_guarantee: 'Image is not saved.'
         };
+      } else if (data && data.source === 'local_fallback') {
+        const reason = data.reason || '';
+        if (reason === 'NO_API_KEY_CONFIGURED') {
+          throw new Error('AI Vision is running in offline mode. Please test with one of the sample labels below!');
+        }
+        if (reason.includes('429')) {
+          throw new Error('The AI vision service reached its temporary request limit. Please wait a moment and try again, or test with a sample label below.');
+        }
+        if (reason.includes('503')) {
+          throw new Error('The AI vision service is currently experiencing peak traffic. Please try again in a few seconds or test a sample label.');
+        }
+        if (reason === 'API_TIMEOUT') {
+          throw new Error('The scanner request timed out while analyzing the label. Please check your internet connection.');
+        }
+        throw new Error(`The AI scanner service is temporarily unavailable (${reason}). Please try again or test a sample label.`);
       } else if (data && data.error) {
         throw new Error(data.error);
       }

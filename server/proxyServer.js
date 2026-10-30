@@ -40,8 +40,8 @@ export function getGeminiApiKey() {
 
 // Check names in Google AI Studio before the event
 export const GEMINI_CONFIG = {
-  defaultModel: 'gemini-3.5-flash',
-  fallbackModels: ['gemini-3.6-flash', 'gemini-flash-lite-latest', 'gemini-3.5-flash-lite']
+  defaultModel: 'gemini-3.5-flash-lite',
+  fallbackModels: ['gemini-flash-lite-latest', 'gemini-3.1-flash-lite', 'gemini-3.8-flash', 'gemini-3.5-flash', 'gemini-3.6-flash']
 };
 
 export function getGeminiModel() {
@@ -884,13 +884,16 @@ export async function handleScanLabelRequest(body, res, req = null) {
   const systemInstruction = `You are Eco Sense's Product Label Scanner that extracts printed facts for health and environmental effect analysis.
 Goal: Transcribe only what is physically printed on the product label with 100% fidelity.
 SYSTEM MANDATE: Transcribe only text that is visibly printed. Never infer, guess or hallucinate.
+- Set "readable": true whenever there is ANY readable printed text on the packaging or product label (including product name, brand, ingredients, directions, nutrition facts, packaging type, recycling symbols, or claims).
+- Do not reject an image as unreadable just because it is a close-up, cropped, or partially framed.
+- Only set "readable": false if the image is completely pitch black, totally blurry beyond recognition, or contains zero decipherable letters.
 - If no ingredient list is printed on the photo, return "ingredients": null (NOT an empty list, NOT made up items).
-- If the image is unreadable (too blurry, cut off, too low-res, or not a product packaging label), set "readable": false and provide "unreadable_reason" explaining why.
 - For packaged food/drinks, extract the full nutrition facts table with per-serving amounts and %DV.
 - Extract any visible allergens (e.g. peanuts, milk, soy, gluten).
 - Extract packaging material and recycling symbols (e.g. PET 1, HDPE 2, PP 5, Mobius Loop).
 - Extract environmental claims and visibly printed certifications.
 - Certifications are never marked verified without visible license IDs.
+- Always transcribe all visible text verbatim into "raw_transcription".
 
 OUTPUT SCHEMA (STRICT JSON):
 {
@@ -927,83 +930,99 @@ OUTPUT SCHEMA (STRICT JSON):
   }
 }`;
 
-  const model = getGeminiModel();
+  const primaryModel = getGeminiModel();
+  const modelsToTry = [
+    primaryModel,
+    'gemini-3.5-flash-lite',
+    'gemini-flash-lite-latest',
+    'gemini-3.1-flash-lite',
+    'gemini-3.8-flash',
+    ...GEMINI_CONFIG.fallbackModels
+  ].filter((m, i, arr) => m && arr.indexOf(m) === i);
 
-  try {
-    const controller = new AbortController();
-    const timeout = setTimeout(() => controller.abort(), 15000);
+  let lastErrorStatus = null;
+  let lastErrorName = null;
 
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
+  for (const model of modelsToTry) {
+    try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 12000);
 
-    const apiResponse = await fetch(apiUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-goog-api-key': apiKey
-      },
-      signal: controller.signal,
-      body: JSON.stringify({
-        system_instruction: {
-          parts: [{ text: systemInstruction }]
+      const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
+
+      const apiResponse = await fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-goog-api-key': apiKey
         },
-        contents: [
-          {
-            role: 'user',
-            parts: [
-              {
-                text: `Scan and transcribe the printed text on this product label. Language: ${language}`
-              },
-              {
-                inline_data: {
-                  mime_type: mimeType,
-                  data: cleanBase64
+        signal: controller.signal,
+        body: JSON.stringify({
+          system_instruction: {
+            parts: [{ text: systemInstruction }]
+          },
+          contents: [
+            {
+              role: 'user',
+              parts: [
+                {
+                  text: `Scan and transcribe the printed text on this product label. Language: ${language}`
+                },
+                {
+                  inline_data: {
+                    mime_type: mimeType,
+                    data: cleanBase64
+                  }
                 }
-              }
-            ]
+              ]
+            }
+          ],
+          generationConfig: {
+            response_mime_type: 'application/json',
+            temperature: 0.0,
+            max_output_tokens: 3000
           }
-        ],
-        generationConfig: {
-          response_mime_type: 'application/json',
-          temperature: 0.0,
-          max_output_tokens: 3000
-        }
-      })
-    });
-
-    clearTimeout(timeout);
-
-    if (!apiResponse.ok) {
-      res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.end(
-        JSON.stringify({
-          source: 'local_fallback',
-          reason: `API_HTTP_${apiResponse.status}`
         })
-      );
+      });
+
+      clearTimeout(timeout);
+
+      if (!apiResponse.ok) {
+        lastErrorStatus = apiResponse.status;
+        console.warn(`[scanLabel] Model ${model} returned status ${apiResponse.status}, retrying fallback...`);
+        continue;
+      }
+
+      const data = await apiResponse.json();
+      const rawContent = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+      if (!rawContent) {
+        console.warn(`[scanLabel] Model ${model} returned empty content, retrying fallback...`);
+        continue;
+      }
+
+      const parsed = JSON.parse(rawContent);
+
+      // Validate and sanitize output against strict schema - NEVER spread raw model output
+      const sanitizedResponse = sanitizeScanLabelOutput(parsed, model);
+
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(sanitizedResponse));
       return;
+    } catch (err) {
+      lastErrorName = err.name;
+      console.warn(`[scanLabel] Model ${model} failed: ${err.message}, retrying fallback...`);
     }
-
-    const data = await apiResponse.json();
-    const rawContent = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-
-    if (!rawContent) throw new Error('Empty response from Gemini Vision');
-
-    const parsed = JSON.parse(rawContent);
-
-    // Validate and sanitize output against strict schema - NEVER spread raw model output
-    const sanitizedResponse = sanitizeScanLabelOutput(parsed, model);
-
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify(sanitizedResponse));
-  } catch (err) {
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(
-      JSON.stringify({
-        source: 'local_fallback',
-        reason: err.name === 'AbortError' ? 'API_TIMEOUT' : 'API_NETWORK_ERROR'
-      })
-    );
   }
+
+  // All candidate models exhausted
+  res.writeHead(200, { 'Content-Type': 'application/json' });
+  res.end(
+    JSON.stringify({
+      source: 'local_fallback',
+      reason: lastErrorStatus ? `API_HTTP_${lastErrorStatus}` : (lastErrorName === 'AbortError' ? 'API_TIMEOUT' : 'API_NETWORK_ERROR')
+    })
+  );
 }
 
 /**

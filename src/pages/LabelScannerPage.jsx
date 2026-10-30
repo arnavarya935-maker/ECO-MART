@@ -69,15 +69,18 @@ export default function LabelScannerPage() {
   const formatFriendlyErrorMessage = (err) => {
     const msg = (err?.message || String(err || '')).toLowerCase();
     if (msg.includes('429') || msg.includes('quota') || msg.includes('rate limit') || msg.includes('too many requests')) {
-      return 'The AI scanner is busy right now (rate limit reached). Please wait a moment and try again.';
+      return 'The AI scanner is busy right now (rate limit reached). Please wait a moment and try again, or test with a sample label below.';
     }
-    if (msg.includes('504') || msg.includes('timeout') || msg.includes('aborted')) {
+    if (msg.includes('503') || msg.includes('peak demand') || msg.includes('peak traffic') || msg.includes('temporarily unavailable')) {
+      return 'The AI vision service is currently experiencing peak traffic. Please try again in a moment or test with a sample label below.';
+    }
+    if (msg.includes('504') || msg.includes('timeout') || msg.includes('aborted') || msg.includes('timed out')) {
       return 'The scanner took too long to respond. Please check your internet connection and try again.';
     }
-    if (msg.includes('api key') || msg.includes('gemini_api_key') || msg.includes('unauthorized') || msg.includes('401')) {
+    if (msg.includes('api key') || msg.includes('gemini_api_key') || msg.includes('unauthorized') || msg.includes('401') || msg.includes('not configured')) {
       return 'The AI vision key is not configured. You can test the scanner with one of the sample labels below!';
     }
-    if (msg.includes('unreadable') || msg.includes('blurry') || msg.includes('could not read')) {
+    if (msg.includes('unreadable') || msg.includes('blurry')) {
       return 'The label text was unreadable. Please make sure your camera is steady, well-lit, and close to the text, then try again.';
     }
     return err?.message || 'Something went wrong while reading the label. Please try again.';
@@ -142,12 +145,13 @@ export default function LabelScannerPage() {
       const img = new Image();
       img.onload = () => {
         const shortest = Math.min(img.naturalWidth, img.naturalHeight);
-        if (shortest < 400) {
+        // Only block corrupted or impossibly tiny icons (< 120px)
+        if (shortest < 120 && shortest > 0) {
           resolve({
             valid: false,
             width: img.naturalWidth,
             height: img.naturalHeight,
-            message: `The photo is too low-resolution (${img.naturalWidth}×${img.naturalHeight}px). The shortest side must be at least 400px so small label text and %DV can be read accurately.`
+            message: `The photo is too small (${img.naturalWidth}×${img.naturalHeight}px) to read printed label text. Please provide an image with at least 120px on the shortest side.`
           });
         } else {
           resolve({ valid: true, width: img.naturalWidth, height: img.naturalHeight });
@@ -193,8 +197,8 @@ export default function LabelScannerPage() {
       setProcessingStatus('Optimizing image for vision model...');
       try {
         const downscaled = await downscaleImageForScanner(file, {
-          maxDimension: 1024,
-          quality: 0.8
+          maxDimension: 1600,
+          quality: 0.88
         });
 
         setProcessingStatus('Transcribing printed facts & nutrition via Gemini Vision...');
@@ -294,8 +298,8 @@ export default function LabelScannerPage() {
 
     try {
       const downscaled = await downscaleImageForScanner(dataUrl, {
-        maxDimension: 1024,
-        quality: 0.8
+        maxDimension: 1600,
+        quality: 0.88
       });
 
       const result = await scanProductLabel({
@@ -533,7 +537,7 @@ export default function LabelScannerPage() {
             <div className="flex items-start gap-3 text-danger">
               <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
               <div className="space-y-1">
-                <div className="font-serif font-bold text-base text-heading">Image Quality or Processing Notice</div>
+                <div className="font-serif font-bold text-base text-heading">{error && (error.toLowerCase().includes('resolution') || error.toLowerCase().includes('blurry') || error.toLowerCase().includes('small')) ? 'Image Quality Notice' : 'Scanner Notice'}</div>
                 <div className="text-xs sm:text-sm text-secondary">{error}</div>
               </div>
             </div>
