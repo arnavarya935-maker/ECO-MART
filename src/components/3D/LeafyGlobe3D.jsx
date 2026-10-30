@@ -12,40 +12,40 @@ const REGIONAL_PINS = [
     name: 'India & South Asia',
     lat: 21.0,
     lon: 78.9,
-    metric: '3.4M Tons Diverted',
-    fact: 'Indigenous bamboo, neem, and jute crafts replace 120M single-use plastic items annually.'
+    metric: 'Illustrative Example',
+    fact: 'Illustrative model: Traditional bamboo, neem, and jute crafts provide zero-plastic alternatives across regional markets.'
   },
   {
     id: 'amazon',
     name: 'Amazon Rainforest',
     lat: -3.5,
     lon: -60.0,
-    metric: '20% Planet Oxygen',
-    fact: 'Sustainable wild-harvested rubber and açai agroforestry preserve ancient canopy trees.'
+    metric: 'Illustrative Example',
+    fact: 'Illustrative model: Sustainable wild-harvested botanical agroforestry protects ancient canopy biodiversity from deforestation.'
   },
   {
     id: 'nordics',
     name: 'Scandinavia',
     lat: 60.5,
     lon: 18.0,
-    metric: '94% Circular Recycling',
-    fact: 'Pioneered closed-loop zero-waste deposit systems in European recycling networks.'
+    metric: 'Illustrative Example',
+    fact: 'Illustrative model: High-participation deposit-return schemes demonstrate scalable closed-loop packaging reclamation.'
   },
   {
     id: 'kenya',
     name: 'East Africa',
     lat: -0.2,
     lon: 37.8,
-    metric: 'Single-Use Bags Avoided',
-    fact: 'Strictest single-use bans enabled sisal and banana-fiber reusable totes across markets.'
+    metric: 'Illustrative Example',
+    fact: 'Illustrative model: Community-driven natural sisal and banana-fiber weaving cooperatives replace single-use plastic bags.'
   },
   {
     id: 'pacific',
     name: 'Pacific Biosphere',
     lat: 28.0,
     lon: -150.0,
-    metric: 'Ocean Plastic Shield',
-    fact: 'Every plastic-free product swapped diverts an average of 145g of ocean-bound waste.'
+    metric: 'Illustrative Example',
+    fact: 'Illustrative model: Substituting non-plastic home staples reduces cumulative synthetic debris leakage into marine biospheres.'
   }
 ];
 
@@ -84,7 +84,7 @@ function EarthSphere({ onSelectPin, activePinId, scrollY = 0, cartCo2Saved = 0 }
   // Atmosphere shifts greener as user saves more CO2 in cart (Feature 26)
   const atmosphereColor = useMemo(() => {
     const greenFactor = Math.min(1, cartCo2Saved / 10);
-    const color = new THREE.Color('#38BDF8');
+    const color = new THREE.Color('#059669');
     const greenColor = new THREE.Color('#10B981');
     return color.lerp(greenColor, greenFactor);
   }, [cartCo2Saved]);
@@ -162,7 +162,7 @@ function EarthSphere({ onSelectPin, activePinId, scrollY = 0, cartCo2Saved = 0 }
         <meshBasicMaterial
           color={atmosphereColor}
           transparent
-          opacity={0.15}
+          opacity={0.32}
           side={THREE.BackSide}
           blending={THREE.AdditiveBlending}
         />
@@ -220,7 +220,17 @@ function GlobeShadow() {
   );
 }
 
-export default function LeafyGlobe3D({ cartCo2Saved = 0 }) {
+export default function LeafyGlobe3D({ cartCo2Saved = 0, className = 'w-full h-full' }) {
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    const handleVisibility = () => {
+      setIsVisible(document.visibilityState === 'visible');
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+    return () => document.removeEventListener('visibilitychange', handleVisibility);
+  }, []);
   const { reduceEffects } = useTheme();
   const [activePin, setActivePin] = useState(REGIONAL_PINS[0]);
   const [hasWebGL] = useState(() => {
@@ -261,10 +271,14 @@ export default function LeafyGlobe3D({ cartCo2Saved = 0 }) {
   }
 
   return (
-    <div className="relative w-full h-full flex flex-col items-center select-none">
-      <div className="relative w-full h-[360px] sm:h-[400px] lg:h-[420px] rounded-2xl overflow-hidden bg-gradient-to-b from-primary/10 via-surface-sunken to-surface border border-line shadow-inner">
+    <div className="relative w-full h-full flex flex-col items-center select-none" role="region" aria-label="Interactive 3D Biosphere Globe">
+      {/* Soft emerald radial glow behind globe on cream canvas */}
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(16,185,129,0.18)_0%,rgba(5,150,105,0.06)_45%,transparent_70%)]" aria-hidden="true" />
+      <div className="relative w-full h-full overflow-hidden">
         <Canvas
           camera={{ position: [0, 0, 5.8], fov: 45 }}
+          dpr={[1, 1.5]}
+          frameloop={isVisible ? 'always' : 'never'}
           gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
         >
           <ambientLight intensity={1.2} />
@@ -285,7 +299,9 @@ export default function LeafyGlobe3D({ cartCo2Saved = 0 }) {
           <OrbitControls
             enableZoom={false}
             enablePan={false}
-            rotateSpeed={0.5}
+            autoRotate={true}
+            autoRotateSpeed={0.8}
+            rotateSpeed={0.6}
             dampingFactor={0.06}
             enableDamping={true}
           />
@@ -298,25 +314,35 @@ export default function LeafyGlobe3D({ cartCo2Saved = 0 }) {
         </div>
       </div>
 
-      {/* Active Pin Info Card */}
+      {/* Floating Active Pin Tooltip (positioned gracefully near top) */}
       {activePin && (
-        <div className="w-full mt-3 p-3.5 rounded-2xl bg-surface border border-line shadow-soft-sm flex items-start gap-3 text-left">
-          <div className="p-2 rounded-xl bg-primary/10 text-primary border border-primary/20 shrink-0 mt-0.5">
-            <MapPin className="w-4 h-4 text-primary" />
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="font-heading font-bold text-xs text-heading">
-                {activePin.name}
-              </span>
-              <span className="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">
-                {activePin.metric}
-              </span>
+        <div className="absolute top-12 inset-x-4 p-3 rounded-2xl bg-surface/95 backdrop-blur-md border border-line shadow-soft-md flex items-start justify-between gap-3 text-left z-20 animate-fade-in pointer-events-auto">
+          <div className="flex items-start gap-2.5">
+            <div className="p-1.5 rounded-xl bg-primary/10 text-primary border border-primary/20 shrink-0 mt-0.5">
+              <MapPin className="w-3.5 h-3.5 text-primary" />
             </div>
-            <p className="text-xs text-secondary mt-0.5 leading-relaxed font-normal">
-              {activePin.fact}
-            </p>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="font-heading font-bold text-xs text-heading">
+                  {activePin.name}
+                </span>
+                <span className="text-[9px] font-semibold uppercase px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">
+                  {activePin.metric}
+                </span>
+              </div>
+              <p className="text-[11px] text-secondary mt-0.5 leading-relaxed font-normal">
+                {activePin.fact}
+              </p>
+            </div>
           </div>
+          <button
+            type="button"
+            onClick={() => setActivePin(null)}
+            className="p-1 rounded-full text-text-muted hover:text-heading cursor-pointer text-xs shrink-0"
+            aria-label="Close tooltip"
+          >
+            ✕
+          </button>
         </div>
       )}
     </div>

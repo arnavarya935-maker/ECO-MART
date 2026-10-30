@@ -4,26 +4,41 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Utensils, Sparkles, Home, ShieldCheck } from 'lucide-react';
 import { useT } from '../../context/I18nContext';
 import { useTheme } from '../../context/ThemeContext';
+import { useCart } from '../../context/CartContext';
+import Safe3D from '../3D/Safe3D';
 import LeafParticles from '../LeafParticles';
+
+const LeafyGlobe3D = React.lazy(() => import('../3D/LeafyGlobe3D'));
+
+function HeroGlobeSkeleton() {
+  return (
+    <div className="w-full h-full flex flex-col items-center justify-center bg-surface-sunken/40 animate-pulse select-none" aria-hidden="true">
+      <div className="w-48 h-48 sm:w-56 sm:h-56 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center">
+        <span className="text-4xl select-none opacity-40">🌍</span>
+      </div>
+      <div className="mt-4 h-2.5 w-32 rounded-full bg-primary/15" />
+    </div>
+  );
+}
 
 export default function Hero() {
   const { t } = useT();
   const { reduceEffects } = useTheme();
+  const { impact } = useCart();
+  const cartCo2Saved = parseFloat(impact?.co2Saved) || 0;
 
-  const [canPlayVideo, setCanPlayVideo] = useState(false);
+  const [isMobileScreen, setIsMobileScreen] = useState(() => {
+    return typeof window !== 'undefined' ? window.innerWidth < 640 : false;
+  });
 
   useEffect(() => {
-    // Check constraints: screens >= 640px, no reduced motion, and no Save-Data
-    const isSaveData = navigator?.connection?.saveData === true;
-    const isWideEnough = typeof window !== 'undefined' && window.innerWidth >= 640;
-    const prefersReducedMotion = typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    if (!reduceEffects && !prefersReducedMotion && !isSaveData && isWideEnough) {
-      setCanPlayVideo(true);
-    } else {
-      setCanPlayVideo(false);
-    }
-  }, [reduceEffects]);
+    if (typeof window === 'undefined') return;
+    const handleResize = () => {
+      setIsMobileScreen(window.innerWidth < 640);
+    };
+    window.addEventListener('resize', handleResize, { passive: true });
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const categoryPills = [
     { id: 'kitchen', label: t('category.kitchen', 'Kitchen'), icon: Utensils, desc: 'Zero-waste' },
@@ -130,63 +145,45 @@ export default function Hero() {
             </div>
           </motion.div>
 
-          {/* Right Column: Visual Product / Lifestyle Card with Floating Leaves & Optional Video Slot */}
+          {/* Right Column: Interactive 3D Biosphere Globe with Safe3D Fallback */}
           <motion.div
             {...motionProps}
             className="lg:col-span-5 relative"
           >
             <div className="relative rounded-3xl overflow-hidden border border-line bg-surface-raised shadow-soft-lg aspect-[4/5] sm:aspect-square lg:aspect-[4/5] flex items-center justify-center group">
-              {/* Optional Background Looping Video Slot */}
-              {canPlayVideo && (
-                <video
-                  muted
-                  loop
-                  playsInline
-                  autoPlay
-                  preload="metadata"
-                  poster="/images/products/kit-01-800.webp"
-                  className="absolute inset-0 w-full h-full object-cover z-0 opacity-90 hidden"
-                  onError={(e) => {
-                    // Fall back to poster image seamlessly
-                    e.currentTarget.style.display = 'none';
-                  }}
-                >
-                  <source src="/videos/hero-nature.webm" type="video/webm" />
-                  <source src="/videos/hero-nature.mp4" type="video/mp4" />
-                </video>
-              )}
+              <Safe3D
+                autoLoad
+                fullCover
+                forceFallback={isMobileScreen}
+                fallbackImage="/images/products/kit-01-800.webp"
+                fallbackTitle="Interactive 3D Biosphere"
+                className="h-full w-full"
+              >
+                <React.Suspense fallback={<HeroGlobeSkeleton />}>
+                  <LeafyGlobe3D cartCo2Saved={cartCo2Saved} />
+                </React.Suspense>
+              </Safe3D>
 
-              {/* High-Resolution Hero Nature Image */}
-              <img
-                src="/images/products/kit-01-800.webp"
-                alt="Natural bamboo and coconut fiber conscious tableware"
-                width="800"
-                height="800"
-                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                loading="eager"
-              />
-
-              {/* Soft Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
-
-              {/* Floating Leaf Particles in card */}
+              {/* Floating Leaf Particles in card frame */}
               <LeafParticles />
 
-              {/* Bottom Card Floating Trust Badge */}
-              <div className="absolute bottom-5 inset-x-5 p-4 rounded-2xl bg-surface/92 backdrop-blur-md border border-line shadow-soft-md flex items-center justify-between gap-3">
-                <div className="space-y-0.5">
-                  <div className="text-xs font-bold text-heading">
-                    Zero-Waste Living Kit
+              {/* Bottom Card Floating Trust Badge & Live Planet Impact */}
+              <div className="absolute bottom-5 inset-x-5 p-4 rounded-2xl bg-surface/92 backdrop-blur-md border border-line shadow-soft-md flex items-center justify-between gap-3 z-10 pointer-events-auto">
+                <div className="space-y-0.5 min-w-0">
+                  <div className="text-xs font-bold text-heading truncate">
+                    {t('hero.impact_title', 'Your Planet Impact')}
                   </div>
-                  <div className="text-[11px] text-text-muted font-mono">
-                    Grade A · 100% Compostable
+                  <div className="text-[11px] text-text-muted font-mono truncate">
+                    {cartCo2Saved > 0
+                      ? `${cartCo2Saved.toFixed(2)} kg CO₂ avoided in cart`
+                      : t('hero.impact_live_prompt', 'Add zero-waste swaps to track live CO₂ avoided')}
                   </div>
                 </div>
                 <Link
-                  to="/shop?category=kitchen"
-                  className="px-3 py-1.5 rounded-full bg-primary text-white text-xs font-medium hover:bg-primary-hover transition shrink-0"
+                  to="/shop"
+                  className="px-3.5 py-1.5 rounded-full bg-primary text-white text-xs font-semibold hover:bg-primary-hover transition shrink-0 shadow-soft-xs cursor-pointer min-h-[34px] flex items-center justify-center"
                 >
-                  View Swaps
+                  {t('hero.view_swaps', 'View Swaps')}
                 </Link>
               </div>
             </div>

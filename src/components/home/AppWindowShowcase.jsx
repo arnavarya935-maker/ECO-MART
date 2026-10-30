@@ -3,8 +3,7 @@ import { Link } from 'react-router-dom';
 import {
   Radar,
   Brain,
-  Globe2
-} from 'lucide-react';
+  } from 'lucide-react';
 import ClaimRadarChart from '../detective/ClaimRadarChart';
 import ReasoningExplanationCard from '../EcoAgent/ReasoningExplanationCard';
 
@@ -174,61 +173,7 @@ export default function AppWindowShowcase() {
               </div>
             )}
 
-            {activeTab === 'fairness' && (
-              <div className="space-y-6">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-line">
-                  <div>
-                    <h3 className="font-serif text-lg font-bold text-heading">
-                      Cross-Linguistic Parity &amp; Equity Audit
-                    </h3>
-                    <p className="text-xs text-text-secondary">
-                      Verifying that non-English queries and low-budget personas receive equally honest, non-predatory advice.
-                    </p>
-                  </div>
-                  <Link
-                    to="/fairness"
-                    className="inline-flex items-center gap-1 text-xs font-mono text-primary font-bold hover:underline"
-                  >
-                    Launch Full Fairness Lab →
-                  </Link>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="p-4 rounded-2xl bg-surface-sunken border border-line space-y-2">
-                    <div className="flex items-center justify-between text-xs">
-                      <span className="font-bold text-heading">English Persona</span>
-                      <span className="text-[10px] font-mono text-primary font-bold">Base Benchmark</span>
-                    </div>
-                    <p className="text-xs text-text-muted italic">&ldquo;Zero waste kitchen essentials&rdquo;</p>
-                    <div className="text-[11px] text-text-secondary pt-1 border-t border-line/60">
-                      Recommendation: Coconut scrub pad (₹79), Steel containers (₹349).
-                    </div>
-                  </div>
-
-                  <div className="p-4 rounded-2xl bg-surface-sunken border border-line space-y-2">
-                    <div className="flex items-center justify-between text-xs">
-                      <span className="font-bold text-heading">Hindi (Devanagari)</span>
-                      <span className="text-[10px] font-mono text-emerald-400 font-bold">95% Parity</span>
-                    </div>
-                    <p className="text-xs text-text-muted italic">&ldquo;किचन के लिए शून्य-अपशिष्ट विकल्प&rdquo;</p>
-                    <div className="text-[11px] text-text-secondary pt-1 border-t border-line/60">
-                      Recommendation: नारियल फाइबर स्क्रबर (₹79), स्टील डिब्बे (₹349).
-                    </div>
-                  </div>
-
-                  <div className="p-4 rounded-2xl bg-surface-sunken border border-line space-y-2">
-                    <div className="flex items-center justify-between text-xs">
-                      <span className="font-bold text-heading">Student Persona</span>
-                      <span className="text-[10px] font-mono text-amber-400 font-bold">91% Parity</span>
-                    </div>
-                    <p className="text-xs text-text-muted italic">&ldquo;Hostel room zero waste on tight budget&rdquo;</p>
-                    <div className="text-[11px] text-text-secondary pt-1 border-t border-line/60">
-                      Recommendation: Multi-use coconut scrub (₹79), DIY repurposing advice.
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
+            
           </div>
         </div>
       </div>

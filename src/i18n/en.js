@@ -50,6 +50,9 @@ export const en = {
 
   // Hero Section
   'hero.tagline': 'Shop with sense, shop with purpose',
+  'hero.impact_title': 'Your Planet Impact',
+  'hero.impact_live_prompt': 'Add zero-waste swaps to track live CO₂ avoided',
+  'hero.view_swaps': 'View Swaps',
   'hero.badge': 'Shop with Purpose • Estimated Impact',
   'hero.title': "Don't just shop. Shop with purpose.",
   'hero.subtitle': 'Eco Sense is a conscious shopping assistant. Every choice tracks estimated carbon avoided, plastic saved, and water conserved.',

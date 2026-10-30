@@ -10,7 +10,9 @@ export default function Safe3D({
   fallbackImage = null,
   loadingMessage = 'Loading 3D Visualizer...',
   className = 'h-80 w-full',
-  autoLoad = false
+  autoLoad = false,
+  fullCover = false,
+  forceFallback = false
 }) {
   const { reduceEffects } = useTheme();
   const [hasWebGL] = useState(() => {
@@ -31,7 +33,26 @@ export default function Safe3D({
     return () => clearTimeout(timer);
   }, [activated]);
 
-  if (reduceEffects || !hasWebGL) {
+  if (reduceEffects || !hasWebGL || forceFallback) {
+    if (fallbackImage && fullCover) {
+      return (
+        <div
+          className={`relative overflow-hidden w-full h-full flex items-center justify-center ${className}`}
+          role="region"
+          aria-label={`${fallbackTitle} (2D Static Fallback)`}
+        >
+          <img
+            src={fallbackImage}
+            alt={fallbackTitle}
+            width="800"
+            height="800"
+            className="w-full h-full object-cover"
+            loading="eager"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
+        </div>
+      );
+    }
     return (
       <div
         className={`flex flex-col items-center justify-center p-6 text-center rounded-3xl bg-gradient-to-br from-surface-accent via-surface-sunken to-surface-raised border border-primary/20 shadow-xs ${className}`}
