@@ -37,6 +37,7 @@ const MORE_LINKS = [
   { path: '/dilemmas', label: 'Moral Dilemmas', desc: 'Explore trade-offs between price, carbon, and plastic', icon: Scale },
   { path: '/self-audit', label: 'AI Self-Audit', desc: 'See tests for fairness and rules used by our helper', icon: FileCheck },
   { path: '/scan', label: 'Label Scanner', desc: 'Use your camera to read product packaging', icon: Camera },
+  { path: '/transform', label: 'Swap My List', desc: 'Paste your shopping list to find greener alternatives', icon: RefreshCw },
   { path: '/kirana', label: 'Kirana Mode', desc: 'Quick voice shopping for everyday household staples', icon: Store },
   { path: '/how-it-works', label: 'How It Works', desc: 'Simple guide to how we score products and impact', icon: HelpCircle },
   { path: '/tools', label: 'Tools', desc: 'Helpful calculators and starter bundles', icon: RefreshCw },
@@ -453,8 +454,8 @@ export default function Navbar() {
                   >
                     <RefreshCw className="w-4 h-4 text-primary" />
                     <div>
-                      <div className="font-semibold">Swap My Cart</div>
-                      <div className="text-[10px] text-text-muted">Greener alternative finder</div>
+                      <div className="font-semibold">Swap My List</div>
+                      <div className="text-[10px] text-text-muted">Paste your list & find greener swaps</div>
                     </div>
                   </Link>
                 </div>
@@ -573,6 +574,7 @@ export default function Navbar() {
             {[
               { path: '/', label: 'Home' },
               { path: '/shop', label: 'Shop Catalog' },
+              { path: '/transform', label: 'Swap My List' },
               { path: '/how-it-works', label: 'About & Brand Story' },
               { path: '/learn', label: 'Learn & Blog' },
               { path: '/impact', label: 'My Impact' },
