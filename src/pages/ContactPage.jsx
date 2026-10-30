@@ -347,7 +347,7 @@ export default function ContactPage() {
                   rows={5}
                   value={formData.message}
                   onChange={handleChange}
-                  placeholder="Share details, questions, or links to green claims you would like us to audit..."
+                  placeholder="Share details, questions, or links to green claims you want us to look at..."
                   disabled={status === 'submitting'}
                   className={`w-full p-4 rounded-2xl bg-surface border text-xs sm:text-sm text-heading placeholder:text-text-muted focus:outline-2 focus:outline-focus transition leading-relaxed ${
                     formErrors.message ? 'border-danger' : 'border-line'
@@ -362,7 +362,7 @@ export default function ContactPage() {
               <div className="pt-2 flex items-center justify-between gap-4">
                 <div className="inline-flex items-center gap-1.5 text-[11px] text-text-muted">
                   <ShieldCheck className="w-3.5 h-3.5 text-primary" />
-                  <span>Submissions are encrypted and never sold.</span>
+                  <span>We only use your message to reply to you.</span>
                 </div>
 
                 <button
