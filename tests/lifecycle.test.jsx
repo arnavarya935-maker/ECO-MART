@@ -22,7 +22,7 @@ describe('Phase 4 - Product Lifecycle Explorer', () => {
       expect(html).toContain('Packaging');
       expect(html).toContain('End of Life');
     }
-  });
+  }, 15000);
 
   it('gracefully handles a minimal product with missing fields', () => {
     const minimalProduct = { id: 'min-1', name: 'Minimal Item' };

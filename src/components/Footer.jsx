@@ -8,9 +8,7 @@ import {
   MapPin,
   Clock
 } from 'lucide-react';
-import { useT } from '../context/I18nContext';
 import { useCart } from '../context/CartContext';
-import { useTheme } from '../context/ThemeContext';
 
 function InstagramIcon(props) {
   return (
@@ -50,7 +48,6 @@ function GithubIcon(props) {
 }
 
 export default function Footer() {
-  const { lang } = useT();
   const { setIsAgentOpen } = useCart();
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [newsletterSubscribed, setNewsletterSubscribed] = useState(false);
@@ -105,11 +102,11 @@ export default function Footer() {
               <Link
                 to="/"
                 className="inline-flex items-center gap-2.5 group select-none py-1 focus-visible:outline-2 focus-visible:outline-focus rounded-xl"
-                aria-label="EcoSense Home"
+                aria-label="Eco Sense Home"
               >
                 <img
                   src="/images/logo-dark.png"
-                  alt="EcoSense - Shop with purpose"
+                  alt="Eco Sense - Shop with purpose"
                   width="140"
                   height="43"
                   className="h-10 sm:h-11 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
@@ -117,9 +114,7 @@ export default function Footer() {
               </Link>
 
               <p className="text-[13px] leading-[1.5] font-sans text-emerald-100/75 max-w-sm">
-                {lang === 'hi'
-                  ? 'स्कूल प्रोजेक्ट और जागरूक समुदाय के लिए नमूना उत्पाद। विचारशील, शून्य-अपशिष्ट जीवनशैली को सहज बनाना।'
-                  : 'An open-source eco-shopping platform and academic initiative. Making thoughtful, circular living effortless with transparent lifecycle scoring.'}
+                An open-source eco-shopping platform and academic initiative. Making thoughtful, circular living effortless with transparent lifecycle scoring.
               </p>
 
               {/* Social Icons */}
@@ -272,7 +267,7 @@ export default function Footer() {
           {/* Bottom Copyright Row */}
           <div className="mt-12 pt-6 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between text-[13px] leading-[1.4] font-sans text-emerald-200/60 gap-4">
             <div>
-              © 2026 {lang === 'hi' ? 'इको सेंस' : 'EcoSense'} Project. All rights reserved.
+              © 2026 Eco Sense Project. All rights reserved.
             </div>
             <div className="flex flex-wrap items-center gap-4 text-[13px] font-sans text-emerald-100/70">
               <Link to="/shop" className="hover:text-emerald-300 transition py-1">Shop</Link>
@@ -283,10 +278,10 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Large EcoSense Low-Contrast Wordmark */}
+        {/* Large Eco Sense Low-Contrast Wordmark */}
         <div className="w-full overflow-hidden select-none pointer-events-none mt-6 pb-8 text-center px-4" aria-hidden="true">
           <p className="font-sans font-black tracking-tight text-[clamp(2.8rem,11vw,11.5rem)] text-white/[0.04] leading-none uppercase truncate">
-            <span>ECOSENSE</span>
+            <span>ECO SENSE</span>
             <span className="text-[0.25em] align-super text-emerald-400/30 ml-2">®</span>
           </p>
         </div>
