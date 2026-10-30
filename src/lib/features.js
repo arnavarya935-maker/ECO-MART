@@ -22,7 +22,7 @@ export const FEATURES = {
   FOR_YOU_LEARNING: true,
 
   // Phase 7: Hindi / English bilingual toggle with offline font
-  HINDI_LANGUAGE: true,
+  HINDI_LANGUAGE: false,
 
   // Phase 8: Offline Speech Synthesis (read aloud)
   SPEECH_SYNTHESIS: true,
