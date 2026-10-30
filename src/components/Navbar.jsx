@@ -26,6 +26,7 @@ import {
 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useT } from '../context/I18nContext';
+import { useTheme } from '../context/ThemeContext';
 import { FEATURES } from '../lib/features';
 import { CATEGORIES } from '../data/categories';
 import UserMenu from './UserMenu';
@@ -50,6 +51,8 @@ export default function Navbar() {
   const location = useLocation();
   const { impact, setIsCartOpen, setIsAgentOpen, wishlist } = useCart();
   const { t, lang, toggleLanguage } = useT();
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
   const currentPath = location.pathname;
 
   const [isScrolled, setIsScrolled] = useState(false);
@@ -132,18 +135,11 @@ export default function Navbar() {
               aria-label={lang === 'hi' ? 'इको सेंस होम' : 'EcoSense Home'}
             >
               <img
-                src="/images/logo.png"
+                src={isDark ? '/images/logo-dark.png' : '/images/logo.png'}
                 alt="EcoSense - Shop with purpose"
                 width="140"
                 height="43"
-                className="h-10 sm:h-11 w-auto object-contain transition-transform duration-200 group-hover:scale-105 dark:hidden"
-              />
-              <img
-                src="/images/logo-dark.png"
-                alt="EcoSense - Shop with purpose"
-                width="140"
-                height="43"
-                className="h-10 sm:h-11 w-auto object-contain transition-transform duration-200 group-hover:scale-105 hidden dark:block"
+                className="h-10 sm:h-11 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
               />
               <span className="hidden sm:inline-flex text-[10px] font-sans font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-forest-900/10 border border-forest-900/25 text-forest-900">
                 Nature-Led

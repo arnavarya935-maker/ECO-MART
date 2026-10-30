@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { useT } from '../context/I18nContext';
 import { useCart } from '../context/CartContext';
+import { useTheme } from '../context/ThemeContext';
 
 function InstagramIcon(props) {
   return (
@@ -51,6 +52,8 @@ function GithubIcon(props) {
 export default function Footer() {
   const { lang } = useT();
   const { setIsAgentOpen } = useCart();
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [newsletterSubscribed, setNewsletterSubscribed] = useState(false);
 
@@ -79,18 +82,11 @@ export default function Footer() {
                 aria-label="EcoSense Home"
               >
                 <img
-                  src="/images/logo.png"
+                  src={isDark ? '/images/logo-dark.png' : '/images/logo.png'}
                   alt="EcoSense - Shop with purpose"
                   width="140"
                   height="43"
-                  className="h-10 sm:h-11 w-auto object-contain transition-transform duration-200 group-hover:scale-105 dark:hidden"
-                />
-                <img
-                  src="/images/logo-dark.png"
-                  alt="EcoSense - Shop with purpose"
-                  width="140"
-                  height="43"
-                  className="h-10 sm:h-11 w-auto object-contain transition-transform duration-200 group-hover:scale-105 hidden dark:block"
+                  className="h-10 sm:h-11 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
                 />
               </Link>
 

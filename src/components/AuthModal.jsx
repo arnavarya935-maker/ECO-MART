@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Eye, EyeOff, Sparkles, User, Mail, Lock, AlertCircle, ArrowRight } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 import { calculatePasswordStrength } from '../lib/crypto';
 import { Modal } from './ui/Modal';
 
@@ -18,6 +19,8 @@ export default function AuthModal() {
   } = useAuth();
 
   const isSignUp = authModalMode === 'signup';
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -86,18 +89,11 @@ export default function AuthModal() {
         <div className="text-center space-y-2 mb-6">
           <div className="flex justify-center mb-3">
             <img
-              src="/images/logo.png"
+              src={isDark ? '/images/logo-dark.png' : '/images/logo.png'}
               alt="EcoSense"
               width="132"
               height="41"
-              className="h-9 w-auto object-contain dark:hidden"
-            />
-            <img
-              src="/images/logo-dark.png"
-              alt="EcoSense"
-              width="132"
-              height="41"
-              className="h-9 w-auto object-contain hidden dark:block"
+              className="h-9 w-auto object-contain"
             />
           </div>
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-semibold border border-primary/20 shadow-soft-xs">
