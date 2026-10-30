@@ -1,5 +1,7 @@
 import React, { lazy, Suspense, useState } from 'react';
 import { ChevronDown, Sliders } from 'lucide-react';
+import { useTheme } from '../../context/ThemeContext';
+import { isFeatureEnabled } from '../../lib/features';
 import LayeredCanvasBackground from './LayeredCanvasBackground';
 import ChapterRail from './ChapterRail';
 import CinematicHero from './CinematicHero';
@@ -7,6 +9,9 @@ import CinematicStory from './CinematicStory';
 import CinematicMosaic from './CinematicMosaic';
 import CinematicAtlas from './CinematicAtlas';
 import CinematicClosing from './CinematicClosing';
+
+// Lazy-loaded 3D Live Scene (Tier 3)
+const Cinematic3DWorld = lazy(() => import('./Cinematic3DWorld'));
 
 // Lazy-loaded extended playgrounds for below-the-fold inspection
 const ResponsibleAILabsShowcase = lazy(() => import('../home/ResponsibleAILabsShowcase'));
@@ -16,11 +21,24 @@ const RecentlyViewedStrip = lazy(() => import('../RecentlyViewedStrip'));
 
 export default function CinematicHome() {
   const [showExtendedLabs, setShowExtendedLabs] = useState(false);
+  const { reduceEffects, judgeMode, highContrast } = useTheme();
+
+  const is3DActive =
+    isFeatureEnabled('cinematicScene') &&
+    !reduceEffects &&
+    !judgeMode &&
+    !highContrast;
 
   return (
     <div className="relative w-full antialiased text-text selection:bg-primary/20 selection:text-heading overflow-x-hidden">
-      {/* 1. Atmospheric Non-WebGL Background (Layered Radial Gradients & Silhouettes) */}
-      <LayeredCanvasBackground />
+      {/* 1. Atmospheric Background: Tier 3 3D World with graceful fallback to Tier 2 Layered Canvas */}
+      {is3DActive ? (
+        <Suspense fallback={<LayeredCanvasBackground />}>
+          <Cinematic3DWorld fallback={<LayeredCanvasBackground />} />
+        </Suspense>
+      ) : (
+        <LayeredCanvasBackground />
+      )}
 
       {/* 2. Desktop Right-Aligned Chapter Navigation Rail */}
       <ChapterRail />

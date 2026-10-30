@@ -9,6 +9,7 @@ import { calculateCartImpact } from '../src/lib/impactCalculator.js';
 import { transformShoppingList } from '../src/lib/cartTransformer.js';
 import { detectGreenwashing } from '../src/lib/ecoScore.js';
 import { getStrictnessThreshold, setStrictnessThreshold } from '../src/lib/ai/confidenceBrake.js';
+import { FEATURES } from '../src/lib/features.js';
 
 // Context Providers
 import { ThemeProvider, useTheme } from '../src/context/ThemeContext.jsx';
@@ -506,4 +507,43 @@ describe('Comprehensive Route Smoke & Quality Suite', () => {
       });
     });
   });
+
+  describe('Part F: Cinematic Flag Combinations & Theme Variations Smoke Audit', () => {
+    const flagConfigs = [
+      { name: 'All Cinematic Flags ON (Tiers 1, 2, 3)', shell: true, landing: true, scene: true },
+      { name: 'Tier 1 & 2 ON, Tier 3 OFF', shell: true, landing: true, scene: false },
+      { name: 'Tier 1 ON, Tiers 2 & 3 OFF', shell: true, landing: false, scene: false },
+      { name: 'All Cinematic Flags OFF (Legacy Mode)', shell: false, landing: false, scene: false }
+    ];
+
+    flagConfigs.forEach((config) => {
+      ['en', 'hi'].forEach((lang) => {
+        ['dark', 'light'].forEach((theme) => {
+          it(`renders HomePage cleanly under ${config.name} (${lang}, ${theme} theme)`, () => {
+            FEATURES.CINEMATIC_SHELL = config.shell;
+            FEATURES.cinematicShell = config.shell;
+            FEATURES.CINEMATIC_LANDING = config.landing;
+            FEATURES.cinematicLanding = config.landing;
+            FEATURES.CINEMATIC_SCENE = config.scene;
+            FEATURES.cinematicScene = config.scene;
+
+            globalThis.localStorage.setItem('ecomart_theme', theme);
+            globalThis.localStorage.setItem('ecomart_theme_v2', theme);
+
+            const html = renderWithProviders(
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+              </Routes>,
+              { route: '/', lang }
+            );
+
+            expect(html).not.toMatch(/\bundefined\b/);
+            expect(html).not.toMatch(/\bNaN\b/);
+            expect(html.length).toBeGreaterThan(500);
+          });
+        });
+      });
+    });
+  });
+
 });

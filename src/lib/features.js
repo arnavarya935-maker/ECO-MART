@@ -50,8 +50,8 @@ export const FEATURES = {
   grainOverlay: true,
   CINEMATIC_LANDING: true,
   cinematicLanding: true,
-  CINEMATIC_SCENE: false,
-  cinematicScene: false
+  CINEMATIC_SCENE: true,
+  cinematicScene: true
 };
 
 /**

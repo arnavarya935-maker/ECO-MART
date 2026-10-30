@@ -224,6 +224,16 @@ export default function CinematicHero() {
           </RevealMotion>
         </div>
       </div>
+
+      {/* Hero word: the letters "ECO SENSE" rise from behind the grass when the page loads */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none select-none overflow-hidden absolute -bottom-6 left-1/2 -translate-x-1/2 w-full text-center -z-10 opacity-10 dark:opacity-15"
+      >
+        <span className="font-display font-black text-[clamp(3.5rem,14vw,12rem)] tracking-widest text-heading leading-none uppercase inline-block transition-transform duration-1000 ease-out will-change-transform">
+          Eco Sense
+        </span>
+      </div>
     </section>
   );
 }
