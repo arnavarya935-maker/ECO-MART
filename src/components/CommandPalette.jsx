@@ -173,17 +173,6 @@ export default function CommandPalette({ isOpen: controlledOpen, onClose: contro
       }
     },
     {
-      id: 'action-blackbox',
-      type: 'action',
-      title: 'AI Black Box Telemetry Log',
-      subtitle: 'Inspect append-only interaction audit trail, confidence, energy estimates, and JSON export',
-      icon: Terminal,
-      perform: () => {
-        navigate('/blackbox');
-        handleClose();
-      }
-    },
-    {
       id: 'action-duel',
       type: 'action',
       title: 'Human vs AI Duel',

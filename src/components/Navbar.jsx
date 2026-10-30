@@ -37,7 +37,6 @@ const MORE_LINKS = [
   { path: '/courtroom', label: 'AI Courtroom', desc: 'A fun mock trial testing marketing claims with facts', icon: Swords },
   { path: '/dilemmas', label: 'Moral Dilemmas', desc: 'Explore trade-offs between price, carbon, and plastic', icon: Scale },
   { path: '/self-audit', label: 'AI Self-Audit', desc: 'See tests for fairness and rules used by our helper', icon: FileCheck },
-  { path: '/blackbox', label: 'BlackBox Audit', desc: 'See what our helper thought and how it decided', icon: ShieldCheck },
   { path: '/fairness', label: 'Fairness Lab', desc: 'Check that recommendations treat all categories fairly', icon: Scale },
   { path: '/duel', label: 'Product Duel', desc: 'Put two products side by side to compare harm to nature', icon: Swords },
   { path: '/scan', label: 'Label Scanner', desc: 'Use your camera to read product packaging', icon: Camera },

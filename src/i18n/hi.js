@@ -332,8 +332,6 @@ export const hi = {
   'advanced.dilemmas.desc': 'कीमत, कार्बन और प्लास्टिक के बीच के समझौतों को समझें',
   'advanced.selfAudit.title': 'AI निष्पक्षता जांच (AI Self-Audit)',
   'advanced.selfAudit.desc': 'हमारे सहायक के नियमों और निष्पक्षता की जांच देखें',
-  'advanced.blackbox.title': 'ब्लैकबॉक्स ऑडिट (BlackBox Audit)',
-  'advanced.blackbox.desc': 'देखें कि हमारे सहायक ने क्या सोचा और कैसे निर्णय लिया',
   'advanced.fairness.title': 'फेयरनेस लैब (Fairness Lab)',
   'advanced.fairness.desc': 'जांचें कि सिफारिशें सभी श्रेणियों के साथ निष्पक्ष हैं',
   'advanced.duel.title': 'उत्पाद तुलना (Product Duel)',

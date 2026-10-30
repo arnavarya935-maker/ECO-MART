@@ -113,7 +113,7 @@ export default function HonestFeedbackSection() {
                 Submit Deliberation Feedback
               </h3>
               <p className="text-xs text-text-secondary">
-                Saved locally to browser storage for review in the AI Black Box and Ethics Inbox.
+                Saved locally to browser storage for review in the Ethics Inbox.
               </p>
             </div>
           </div>

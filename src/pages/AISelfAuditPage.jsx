@@ -37,7 +37,7 @@ export default function AISelfAuditPage() {
                 AI Self-Audit Session Report
               </h1>
               <p className="text-muted mt-2 text-sm sm:text-base max-w-2xl">
-                Real-time algorithmic self-accountability report synthesized directly from the Black Box Telemetry Store and Honesty Meter metrics.
+                Real-time algorithmic self-accountability report synthesized directly from local audit logs and Honesty Meter metrics.
               </p>
             </div>
 
@@ -46,7 +46,7 @@ export default function AISelfAuditPage() {
                 type="button"
                 onClick={refreshReport}
                 className="p-2.5 rounded-xl border border-line bg-surface-raised hover:bg-sand-100 text-heading transition cursor-pointer text-xs font-semibold inline-flex items-center gap-1.5"
-                title="Refresh from Black Box telemetry"
+                title="Refresh from audit metrics"
               >
                 <RefreshCw className="w-3.5 h-3.5" />
                 <span>Refresh</span>
@@ -104,7 +104,7 @@ export default function AISelfAuditPage() {
               <div className="text-2xl font-black text-heading mt-1">
                 {report.sessionSummary.totalInteractionsAudited}
               </div>
-              <span className="text-[11px] text-muted">Logged to Black Box</span>
+              <span className="text-[11px] text-muted">Logged to Audit Trail</span>
             </div>
 
             <div className="bg-sand-50 p-4 rounded-2xl border border-line">

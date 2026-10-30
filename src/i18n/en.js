@@ -312,8 +312,6 @@ export const en = {
   'advanced.dilemmas.desc': 'Explore trade-offs between price, carbon, and plastic',
   'advanced.selfAudit.title': 'AI Self-Audit',
   'advanced.selfAudit.desc': 'See tests for fairness and rules used by our helper',
-  'advanced.blackbox.title': 'BlackBox Audit',
-  'advanced.blackbox.desc': 'See what our helper thought and how it decided',
   'advanced.fairness.title': 'Fairness Lab',
   'advanced.fairness.desc': 'Check that recommendations treat all categories fairly',
   'advanced.duel.title': 'Product Duel',

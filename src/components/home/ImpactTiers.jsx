@@ -45,7 +45,7 @@ const TIERS = [
     summary: 'For researchers, sustainability auditors, and community members demanding rigorous proof.',
     features: [
       'Simulated AI Courtroom trials for greenwashing claims',
-      'Append-only local AI telemetry log (Black Box)',
+      'Transparent AI self-audit & ethics oversight',
       'Cross-linguistic fairness & neutrality evaluation',
       'Zero-tracking architecture with local-first storage',
       'Exportable JSON lifecycle logs for checked claims'

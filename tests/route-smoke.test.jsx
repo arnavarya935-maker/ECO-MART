@@ -35,7 +35,6 @@ import OrdersPage from '../src/pages/OrdersPage.jsx';
 import SettingsPage from '../src/pages/SettingsPage.jsx';
 import LoginPage from '../src/pages/LoginPage.jsx';
 import SignupPage from '../src/pages/SignupPage.jsx';
-import BlackBoxPage from '../src/pages/BlackBoxPage.jsx';
 import DuelPage from '../src/pages/DuelPage.jsx';
 import TrustPassportPage from '../src/pages/TrustPassportPage.jsx';
 import CounterfactualPage from '../src/pages/CounterfactualPage.jsx';
@@ -97,7 +96,7 @@ const allRoutes = [
   { name: 'Impact (/impact)', path: '/impact', component: ImpactPage },
   { name: 'Fairness (/fairness)', path: '/fairness', component: FairnessPage },
   { name: 'Playground (/playground)', path: '/playground', component: PlaygroundPage },
-  { name: 'BlackBox (/blackbox)', path: '/blackbox', component: BlackBoxPage },
+  { name: 'BlackBox (/blackbox -> /)', path: '/blackbox', component: () => <Navigate to="/" replace /> },
   { name: 'Duel (/duel)', path: '/duel', component: DuelPage },
   { name: 'Trust Passport (/passport/kit-01)', path: '/passport/kit-01', pattern: '/passport/:id', component: TrustPassportPage },
   { name: 'Counterfactual (/counterfactual)', path: '/counterfactual', component: CounterfactualPage },

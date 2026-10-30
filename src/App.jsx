@@ -33,7 +33,6 @@ const OrdersPage = lazy(() => import('./pages/OrdersPage'));
 const SettingsPage = lazy(() => import('./pages/SettingsPage'));
 const LoginPage = lazy(() => import('./pages/LoginPage'));
 const SignupPage = lazy(() => import('./pages/SignupPage'));
-const BlackBoxPage = lazy(() => import('./pages/BlackBoxPage'));
 const DuelPage = lazy(() => import('./pages/DuelPage'));
 const TrustPassportPage = lazy(() => import('./pages/TrustPassportPage'));
 const CounterfactualPage = lazy(() => import('./pages/CounterfactualPage'));
@@ -205,7 +204,7 @@ function AppContent() {
             <Route path="/impact" element={<ImpactPage />} />
             <Route path="/fairness" element={<FairnessPage />} />
             <Route path="/playground" element={<PlaygroundPage />} />
-            <Route path="/blackbox" element={<BlackBoxPage />} />
+            <Route path="/blackbox" element={<Navigate to="/" replace />} />
             <Route path="/duel" element={<DuelPage />} />
             <Route path="/passport/:id" element={<TrustPassportPage />} />
             <Route path="/counterfactual" element={<CounterfactualPage />} />

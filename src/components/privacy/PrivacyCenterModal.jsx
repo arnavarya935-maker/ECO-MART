@@ -145,7 +145,7 @@ export default function PrivacyCenterModal({ isOpen, onClose }) {
                 { title: 'Cart & Wishlist', key: 'ecomart_cart / ecomart_wishlist', where: '100% on device', note: 'Never shared with any remote ad networks.' },
                 { title: 'Personal Priorities', key: 'ecomart_user_priorities', where: '100% on device', note: 'Weights for price vs carbon vs plastic.' },
                 { title: 'Reported Claims', key: 'ecomart_reported_claims', where: '100% on device', note: 'Your local audit log of misleading packaging.' },
-                { title: 'Agent Black Box Log', key: 'ecomart_blackbox_log', where: '100% on device', note: 'Local telemetry on model latency & energy.' }
+                { title: 'Offline Application State', key: 'ecomart_local_state', where: '100% on device', note: 'Local cache for offline reliability.' }
               ].map((item, idx) => (
                 <div key={idx} className="p-3.5 rounded-2xl bg-surface border border-line space-y-1">
                   <div className="font-bold text-heading">{item.title}</div>

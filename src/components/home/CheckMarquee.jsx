@@ -6,7 +6,6 @@ import {
   RotateCcw,
   Scale,
   ShieldAlert,
-  Terminal,
   CheckCircle2,
   Sliders,
   Gavel,
@@ -28,7 +27,6 @@ const CHECKS = [
   { label: 'Second Life Trajectory', icon: RotateCcw, route: '/shop', tag: 'Circular Stewardship' },
   { label: 'Fairness Test', icon: Scale, route: '/fairness', tag: 'Cross-Linguistic Parity' },
   { label: 'Guardrail Safety Test', icon: ShieldAlert, route: '/playground', tag: 'Multi-Tier Intercept' },
-  { label: 'Zero-PII Black Box', icon: Terminal, route: '/blackbox', tag: 'Tamper-Evident' },
   { label: 'Counterfactual Flip Test', icon: Sliders, route: '/counterfactual', tag: 'Boundary Simulator' }
 ];
 

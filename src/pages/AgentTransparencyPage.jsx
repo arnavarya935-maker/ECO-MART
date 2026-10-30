@@ -5,8 +5,7 @@ import {
   Cpu,
   AlertTriangle,
   ArrowRight,
-  Layers,
-  Terminal
+  Layers
 } from 'lucide-react';
 import AgentReportCard from '../components/agent/AgentReportCard';
 import { ETHICAL_GUARDRAILS } from '../lib/ai/guardrailsEngine';
@@ -67,13 +66,6 @@ export default function AgentTransparencyPage() {
         </div>
 
         <div className="flex items-center gap-2 self-start sm:self-auto">
-          <Link
-            to="/blackbox"
-            className="px-4 py-2 rounded-xl bg-surface-raised hover:bg-surface border border-line text-heading text-xs font-semibold shadow-soft-xs transition-colors inline-flex items-center gap-1.5"
-          >
-            <Terminal className="w-3.5 h-3.5 text-primary" />
-            <span>Black Box Telemetry</span>
-          </Link>
           <Link
             to="/fairness"
             className="px-4 py-2 rounded-xl bg-primary text-primary-contrast hover:bg-primary-hover text-xs font-semibold shadow-soft-xs transition-colors inline-flex items-center gap-1.5"

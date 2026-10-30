@@ -55,7 +55,7 @@ const LABS = [
     route: '/self-audit',
     accent: 'border-l-4 border-l-forest-900',
     description:
-      'Synthesizes Black Box telemetry into an auditable session report detailing uncertainties, bias risks, and model improvements.'
+      'Synthesizes audit telemetry into an auditable session report detailing uncertainties, bias risks, and model improvements.'
   },
   {
     id: 'kirana',

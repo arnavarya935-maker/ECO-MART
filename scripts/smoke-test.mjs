@@ -26,7 +26,6 @@ import OrdersPage from '../src/pages/OrdersPage.jsx';
 import SettingsPage from '../src/pages/SettingsPage.jsx';
 import LoginPage from '../src/pages/LoginPage.jsx';
 import SignupPage from '../src/pages/SignupPage.jsx';
-import BlackBoxPage from '../src/pages/BlackBoxPage.jsx';
 import DuelPage from '../src/pages/DuelPage.jsx';
 import TrustPassportPage from '../src/pages/TrustPassportPage.jsx';
 import CounterfactualPage from '../src/pages/CounterfactualPage.jsx';
@@ -77,7 +76,7 @@ const routesToTest = [
   { path: '/impact', component: ImpactPage },
   { path: '/fairness', component: FairnessPage },
   { path: '/playground', component: PlaygroundPage },
-  { path: '/blackbox', component: BlackBoxPage },
+  { path: '/blackbox', component: () => React.createElement(Navigate, { to: '/', replace: true }) },
   { path: '/duel', component: DuelPage },
   { path: '/passport/kit-01', routePattern: '/passport/:id', component: TrustPassportPage },
   { path: '/counterfactual', component: CounterfactualPage },

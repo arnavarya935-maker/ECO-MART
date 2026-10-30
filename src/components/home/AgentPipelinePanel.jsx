@@ -18,7 +18,7 @@ const TELEMETRY_LOGS = [
   '[CARBON-ESTIMATOR] Computing cradle-to-gate LCA deltas vs conventional items... DONE',
   '[SECOND-LIFE] Circular trajectory calculated: Moso bamboo 120-day soil compost',
   '[JSON-VALIDATOR] Output schema conformant { answer, confidence: "high", energyWh: 0.09 }',
-  '[TELEMETRY] Query finished in 48ms. Written to append-only Black Box store.'
+  '[TELEMETRY] Query finished in 48ms. Deterministic audit completed.'
 ];
 
 export default function AgentPipelinePanel() {
@@ -167,10 +167,10 @@ export default function AgentPipelinePanel() {
 
           <div className="flex items-center justify-between text-xs font-mono pt-2">
             <Link
-              to="/blackbox"
+              to="/transparency"
               className="text-primary hover:underline flex items-center gap-1.5 font-semibold"
             >
-              <span>Inspect Full Tamper-Evident Black Box Log</span>
+              <span>Inspect Transparency Breakdown</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
 

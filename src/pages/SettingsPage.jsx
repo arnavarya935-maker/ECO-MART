@@ -534,7 +534,7 @@ export default function SettingsPage() {
             </Badge>
           </div>
           <p className="text-xs text-secondary leading-relaxed font-normal">
-            When Eco Agent certainty falls below this threshold, it refuses to guess, details exactly what lifecycle documentation is missing, and logs the interception in the Black Box and Honesty Meter.
+            When Eco Agent certainty falls below this threshold, it refuses to guess, details exactly what lifecycle documentation is missing, and logs the interception in the Honesty Meter.
           </p>
           <div className="space-y-2 pt-2">
             <div className="flex justify-between text-xs font-mono text-muted">

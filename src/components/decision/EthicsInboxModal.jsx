@@ -268,7 +268,7 @@ export default function EthicsInboxModal({ isOpen, onClose }) {
         <div className="p-3.5 bg-surface-raised border-t border-line flex items-center justify-between text-xs text-muted">
           <span className="flex items-center gap-1 text-[11px]">
             <Info className="w-3.5 h-3.5 text-primary" />
-            Backed by append-only Black Box audit store
+            Backed by append-only local audit store
           </span>
           <button
             type="button"

@@ -49,7 +49,7 @@ const STACK_CARDS = [
     title: 'Radical Model Transparency',
     headline: 'No black boxes. Inspect every token, decision, and bias audit.',
     summary:
-      'Eco Sense is built on open governance. Inspect adversarial attack intercepts in our Black Box, review cross-linguistic fairness tests in our Fairness Lab, and explore exact decision rules in our Decision Playground.',
+      'Eco Sense is built on open governance. Inspect adversarial attack intercepts in our AI Self-Audit, review cross-linguistic fairness tests in our Fairness Lab, and explore exact decision rules in our Decision Playground.',
     icon: Cpu,
     accentColor: '#34D399',
     badge: 'Pillar 03 • AI Governance',
