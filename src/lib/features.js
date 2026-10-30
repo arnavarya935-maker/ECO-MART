@@ -39,7 +39,19 @@ export const FEATURES = {
   CHOICE_RIPPLE: true,
   PRODUCT_TIME_MACHINE: true,
   AI_SELF_AUDIT: true,
-  KIRANA_MODE: true
+  KIRANA_MODE: true,
+
+  // Cinematic Overhaul Flags (Tier 1-3)
+  CINEMATIC_SHELL: true,
+  cinematicShell: true,
+  CUSTOM_CURSOR: true,
+  customCursor: true,
+  GRAIN_OVERLAY: true,
+  grainOverlay: true,
+  CINEMATIC_LANDING: false,
+  cinematicLanding: false,
+  CINEMATIC_SCENE: false,
+  cinematicScene: false
 };
 
 /**

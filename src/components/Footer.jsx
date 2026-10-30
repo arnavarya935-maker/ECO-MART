@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom';
 import { ShieldCheck, Zap, Mail, CheckCircle2, Award, ArrowUp } from 'lucide-react';
 import { useT } from '../context/I18nContext';
 import { useCart } from '../context/CartContext';
+import { isFeatureEnabled } from '../lib/features';
+import CinematicFooter from './cinematic/CinematicFooter';
 
-export default function Footer() {
+function LegacyFooter() {
   const { t, lang } = useT();
   const { setIsAgentOpen } = useCart();
   const [newsletterEmail, setNewsletterEmail] = useState('');
@@ -239,3 +241,11 @@ export default function Footer() {
   );
 }
 
+
+
+export default function Footer() {
+  if (isFeatureEnabled('cinematicShell')) {
+    return <CinematicFooter />;
+  }
+  return <LegacyFooter />;
+}

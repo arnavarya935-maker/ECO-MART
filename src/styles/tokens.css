@@ -207,23 +207,24 @@
    Dark Theme Preset (Persisted Dark Mode Toggle)
    -------------------------------------------------------------------------- */
 html.dark {
-  --color-surface:         #05100B; /* Deep forest-black canvas */
-  --color-surface-raised:  #0D1C16; /* Raised surface card / panel */
-  --color-surface-sunken:  #030A07; /* Deep sunken surface */
-  --color-surface-accent:  #112A20; /* Subtle dark emerald highlight */
-  --color-surface-highlight:#163529;
-  --color-line:            rgba(255, 255, 255, 0.08);
-  --color-line-subtle:     rgba(255, 255, 255, 0.05);
-  --color-border:          rgba(255, 255, 255, 0.08);
-  --color-border-subtle:   rgba(255, 255, 255, 0.05);
+  --color-surface:         #05100B; /* Deep forest-black canvas (#04100B - #07140F) */
+  --color-surface-raised:  #0A1B14; /* Raised surface card / panel */
+  --color-surface-sunken:  #030805; /* Deep sunken surface */
+  --color-surface-accent:  #0F251C; /* Subtle dark emerald highlight */
+  --color-surface-highlight:#143024;
+  --color-packshot:        #0E2218; /* Soft lighter panel for product packshots */
+  --color-line:            rgba(223, 231, 224, 0.09);
+  --color-line-subtle:     rgba(223, 231, 224, 0.05);
+  --color-border:          rgba(223, 231, 224, 0.09);
+  --color-border-subtle:   rgba(223, 231, 224, 0.05);
   --color-border-focus:    #10B981;
-  --color-heading:         #F4F7F5;
+  --color-heading:         #DFE7E0; /* Bone pale warm-white */
   --color-heading-hover:   #FFFFFF;
-  --color-heading-active:  #E2E8E4;
-  --color-text:            #F4F7F5;
-  --color-text-primary:    #F4F7F5;
-  --color-text-secondary:  #C2D4CB; /* Crisp legible secondary in dark mode */
-  --color-text-muted:      #9FB5A9; /* High-contrast caption text in dark mode */
+  --color-heading-active:  #CBD7CE;
+  --color-text:            #DFE7E0; /* Bone */
+  --color-text-primary:    #DFE7E0;
+  --color-text-secondary:  #9FB5A9; /* Muted grey-green, 6.2:1 contrast */
+  --color-text-muted:      #839E91; /* 4.6:1 contrast (WCAG AA compliant) */
   --color-text-inverted:   #05100B;
   --color-primary:         #10B981;
   --color-primary-hover:   #34D399;

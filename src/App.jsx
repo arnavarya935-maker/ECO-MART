@@ -9,6 +9,12 @@ import ErrorBoundary from './components/ErrorBoundary';
 import ScrollToTop from './components/ScrollToTop';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import { isFeatureEnabled } from './lib/features';
+import VignetteOverlay from './components/cinematic/VignetteOverlay';
+import GrainOverlay from './components/cinematic/GrainOverlay';
+import CustomCursor from './components/cinematic/CustomCursor';
+import FirstVisitPreloader from './components/cinematic/FirstVisitPreloader';
+import BackToTop from './components/cinematic/BackToTop';
 import MobileBottomTabs from './components/MobileBottomTabs';
 import OfflineDetector from './components/OfflineDetector';
 import SwapSuggestionBanner from './components/EcoAgent/SwapSuggestionBanner';
@@ -166,19 +172,26 @@ function AppContent() {
       {/* Offline Status Banner */}
       <OfflineDetector />
 
-      {/* Floating Leaf Particles (Skipped entirely when Reduce effects is on) */}
-      {!reduceEffects && (
+      {/* Floating Leaf Particles (Yields to cinematic shell when active) */}
+      {!reduceEffects && !isFeatureEnabled('cinematicShell') && (
         <Suspense fallback={null}>
           <LeafParticles />
         </Suspense>
       )}
 
-      {/* Cursor Parallax Glow (Skipped entirely when Reduce effects is on) */}
-      {!reduceEffects && (
+      {/* Cursor Parallax Glow (Yields to cinematic shell when active) */}
+      {!reduceEffects && !isFeatureEnabled('cinematicShell') && (
         <Suspense fallback={null}>
           <CursorGlow />
         </Suspense>
       )}
+
+      {/* Cinematic Shell Overlays (Tier 1) */}
+      <VignetteOverlay />
+      <GrainOverlay />
+      <CustomCursor />
+      <FirstVisitPreloader />
+      <BackToTop />
 
       {/* Top Proactive Swap Alert Banner */}
       <SwapSuggestionBanner />

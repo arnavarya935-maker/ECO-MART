@@ -28,7 +28,8 @@ import {
 } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useT } from '../context/I18nContext';
-import { FEATURES } from '../lib/features';
+import { FEATURES, isFeatureEnabled } from '../lib/features';
+import CinematicNavbar from './cinematic/CinematicNavbar';
 import UserMenu from './UserMenu';
 import ThemeToggle from './ThemeToggle';
 
@@ -48,7 +49,7 @@ const MORE_LINKS = [
   { path: '/contact', label: 'Contact Us', desc: 'Send us questions, suggestions or feedback', icon: Mail }
 ];
 
-export default function Navbar() {
+function LegacyNavbar() {
   const location = useLocation();
   const { impact, setIsCartOpen, setIsAgentOpen, wishlist, agentMode, toggleAgentMode } = useCart();
   const { t, lang, toggleLanguage } = useT();
@@ -485,4 +486,12 @@ export default function Navbar() {
       )}
     </header>
   );
+}
+
+
+export default function Navbar() {
+  if (isFeatureEnabled('cinematicShell')) {
+    return <CinematicNavbar />;
+  }
+  return <LegacyNavbar />;
 }

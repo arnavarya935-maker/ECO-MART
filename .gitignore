@@ -28,3 +28,7 @@ scripts/out/
 *.njsproj
 *.sln
 *.sw?
+
+# Reference design (keep out of build and git)
+_reference/
+
