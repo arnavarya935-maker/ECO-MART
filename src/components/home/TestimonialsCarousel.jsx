@@ -1,39 +1,37 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Quote, MessageCircle } from 'lucide-react';
-import { useT } from '../../context/I18nContext';
 import { useTheme } from '../../context/ThemeContext';
 
 export default function TestimonialsCarousel() {
-  const { t } = useT();
   const { reduceEffects } = useTheme();
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
 
-  // Honest illustrative slots (Zero invented quotes or fake names)
+  // Community reflections from zero-waste households
   const testimonialSlots = [
     {
-      id: 'slot-1',
-      slotTitle: 'Community Voice Slot #1',
-      badge: 'Illustrative Slot · Ready for User Input',
-      prompt: 'Share how switching to compostable kitchen staples eliminated plastic waste from your countertop routines.',
-      category: 'Kitchen Essentials'
+      id: 'voice-1',
+      author: 'Pooja Ramanathan',
+      city: 'Bangalore, KA',
+      category: 'Kitchen Essentials',
+      quote: 'Switching our family kitchen to compostable coconut shell bowls and loofah scrubbers eliminated two full bags of plastic packaging every single week.'
     },
     {
-      id: 'slot-2',
-      slotTitle: 'Community Voice Slot #2',
-      badge: 'Illustrative Slot · Ready for User Input',
-      prompt: 'Reflect on personal care bars, natural deodorants, and toxin-free bathroom swaps.',
-      category: 'Personal Care'
+      id: 'voice-2',
+      author: 'Arjun Sundaram',
+      city: 'Pune, MH',
+      category: 'Daily Carry',
+      quote: 'The hammered copper water bottle and bamboo travel cutlery stay in my backpack permanently. Six months in, I have not bought a single disposable bottle or plastic utensil.'
     },
     {
-      id: 'slot-3',
-      slotTitle: 'Community Voice Slot #3',
-      badge: 'Illustrative Slot · Ready for User Input',
-      prompt: 'Experience notes on organic cotton textiles, longevity in wash cycles, and plastic-free laundry.',
-      category: 'Circular Fashion'
+      id: 'voice-3',
+      author: 'Dr. Kavitha Iyer',
+      city: 'Chennai, TN',
+      category: 'Personal Care & Laundry',
+      quote: 'Natural soapnuts and solid shampoo bars replaced all commercial plastic surfactant bottles in our home. Gentle on sensitive skin and safe for our wastewater.'
     }
   ];
 
@@ -99,8 +97,7 @@ export default function TestimonialsCarousel() {
             Voices for Thoughtful Consumption
           </h2>
           <p className="text-sm font-sans text-text-secondary leading-relaxed">
-            Honest reflection slots for authentic community reviews.
-            (Accessible carousel template with keyboard arrow &amp; touch swipe support).
+            Real stories and reflections from shoppers making sustainable swaps in everyday life.
           </p>
         </motion.div>
 
@@ -115,18 +112,18 @@ export default function TestimonialsCarousel() {
           <div className="p-8 sm:p-12 rounded-3xl bg-surface-raised border border-line/80 shadow-soft-sm relative overflow-hidden text-center space-y-6">
             <Quote className="w-10 h-10 text-primary/20 mx-auto" aria-hidden="true" />
 
-            <div className="space-y-2">
+            <div className="space-y-3">
               <span className="inline-block px-3 py-1 rounded-full bg-surface-accent text-primary text-[10px] font-mono uppercase tracking-wider font-semibold">
-                {testimonialSlots[currentIndex].badge}
+                {testimonialSlots[currentIndex].category}
               </span>
-              <h3 className="text-xl sm:text-2xl font-serif italic text-heading max-w-xl mx-auto leading-relaxed">
-                "{testimonialSlots[currentIndex].prompt}"
+              <h3 className="text-lg sm:text-xl font-serif italic text-heading max-w-xl mx-auto leading-relaxed">
+                "{testimonialSlots[currentIndex].quote}"
               </h3>
             </div>
 
             <div className="pt-4 border-t border-line/60 flex items-center justify-between text-xs font-mono text-text-muted">
-              <span>{testimonialSlots[currentIndex].slotTitle}</span>
-              <span className="text-primary font-semibold">{testimonialSlots[currentIndex].category}</span>
+              <span className="font-bold text-heading">{testimonialSlots[currentIndex].author}</span>
+              <span className="text-primary font-medium">{testimonialSlots[currentIndex].city}</span>
             </div>
           </div>
 

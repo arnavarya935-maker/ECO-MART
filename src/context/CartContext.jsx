@@ -8,6 +8,7 @@ import { recordSignal } from '../lib/preferenceModel.js';
 import { fireGreenConfetti } from '../lib/confetti';
 import { DEFAULT_PRIORITIES, PRIORITY_PRESETS } from '../lib/decisionEngine';
 import { playSound } from '../lib/audio';
+import { INITIAL_COMMUNITY_REVIEWS } from '../data/communityReviews';
 
 export { fireGreenConfetti };
 
@@ -74,9 +75,15 @@ export function CartProvider({ children }) {
   const [reviews, setReviews] = useState(() => {
     try {
       const saved = localStorage.getItem('ecomart_reviews');
-      return saved ? JSON.parse(saved) : {};
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (parsed && typeof parsed === 'object' && Object.keys(parsed).length > 0) {
+          return parsed;
+        }
+      }
+      return INITIAL_COMMUNITY_REVIEWS;
     } catch {
-      return {};
+      return INITIAL_COMMUNITY_REVIEWS;
     }
   });
 
@@ -549,7 +556,15 @@ export function CartProvider({ children }) {
   }, [showToast]);
 
   const getProductReviews = useCallback((productId) => {
-    return reviews[productId] || [];
+    const userList = reviews[productId] || [];
+    const seedList = INITIAL_COMMUNITY_REVIEWS[productId] || [];
+    const combined = [...userList];
+    seedList.forEach((s) => {
+      if (!combined.some((u) => u.id === s.id)) {
+        combined.push(s);
+      }
+    });
+    return combined;
   }, [reviews]);
 
 

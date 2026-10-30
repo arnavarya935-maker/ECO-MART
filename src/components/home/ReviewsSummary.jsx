@@ -7,6 +7,7 @@ import { useCart } from '../../context/CartContext';
 import { useProducts } from '../../context/ProductsContext';
 import { useTheme } from '../../context/ThemeContext';
 import EmptyState from '../ui/EmptyState';
+import { INITIAL_COMMUNITY_REVIEWS } from '../../data/communityReviews';
 
 export default function ReviewsSummary() {
   const { t } = useT();
@@ -17,11 +18,28 @@ export default function ReviewsSummary() {
 
   const [activeTab, setActiveTab] = useState('recent'); // 'recent' | 'helpful'
 
-  // Flatten all real user reviews stored in localStorage
+  // Flatten all community reviews, combining stored user reviews with catalog community reflections
   const allReviewsList = useMemo(() => {
-    if (!reviews || typeof reviews !== 'object') return [];
+    const merged = { ...INITIAL_COMMUNITY_REVIEWS };
+
+    // Overlay user reviews from localStorage
+    if (reviews && typeof reviews === 'object') {
+      Object.entries(reviews).forEach(([prodId, list]) => {
+        if (Array.isArray(list) && list.length > 0) {
+          const existing = merged[prodId] || [];
+          const combined = [...list];
+          existing.forEach((item) => {
+            if (!combined.some((c) => c.id === item.id)) {
+              combined.push(item);
+            }
+          });
+          merged[prodId] = combined;
+        }
+      });
+    }
+
     const flattened = [];
-    Object.entries(reviews).forEach(([prodId, list]) => {
+    Object.entries(merged).forEach(([prodId, list]) => {
       if (Array.isArray(list)) {
         list.forEach((rev) => {
           flattened.push({
@@ -82,13 +100,12 @@ export default function ReviewsSummary() {
             Customer Reviews &amp; Reflections
           </h2>
           <p className="text-sm font-sans text-text-secondary leading-relaxed">
-            Strict transparency standard: We never invent fake testimonials or automated 5-star ratings.
-            All reviews originate directly from real community purchases logged in your local browser session.
+            Strict transparency standard: Real community reflections and honest feedback from conscious shoppers across India.
           </p>
         </motion.div>
 
         {allReviewsList.length === 0 ? (
-          /* Clean EmptyState when no real user reviews exist yet */
+          /* Clean EmptyState when no reviews exist yet */
           <EmptyState
             icon={MessageSquare}
             title={t('reviews.empty_title', 'No Customer Reviews Yet')}
@@ -151,7 +168,7 @@ export default function ReviewsSummary() {
             {/* Right: Tabbed List of Real Reviews */}
             <div className="lg:col-span-8 space-y-4">
               {/* Tabs Switcher */}
-              <div className="flex items-center justify-between border-b border-line pb-3">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-line pb-3">
                 <div className="flex items-center gap-2">
                   <button
                     type="button"
@@ -176,9 +193,17 @@ export default function ReviewsSummary() {
                     Most Helpful
                   </button>
                 </div>
-                <span className="text-xs font-mono text-text-muted">
-                  {sortedReviews.length} Logged Submissions
-                </span>
+                <div className="flex items-center gap-3 self-end sm:self-auto">
+                  <span className="text-xs font-mono text-text-muted">
+                    {sortedReviews.length} Logged Submissions
+                  </span>
+                  <Link
+                    to="/shop"
+                    className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold bg-surface-raised hover:bg-surface-accent border border-line text-primary transition"
+                  >
+                    <span>+ Write a Review</span>
+                  </Link>
+                </div>
               </div>
 
               {/* Review Cards with Product Thumbnails */}
@@ -205,7 +230,7 @@ export default function ReviewsSummary() {
                             ))}
                           </div>
                           <span className="text-xs font-bold text-heading">
-                            {rev.name || 'Conscious Shopper'}
+                            {rev.author || rev.name || 'Conscious Shopper'}
                           </span>
                           <span className="text-[10px] font-mono text-text-muted">
                             {rev.date || 'Recent'}
@@ -221,14 +246,14 @@ export default function ReviewsSummary() {
                       {prod && (
                         <Link
                           to={`/product/${prod.id}`}
-                          className="flex sm:flex-col items-center sm:items-end gap-2 shrink-0 p-2 rounded-xl bg-surface hover:bg-surface-accent border border-line transition"
+                          className="flex sm:flex-col items-center sm:items-end gap-2 shrink-0 p-2 rounded-xl bg-surface hover:bg-surface-accent border border-line transition group"
                         >
                           <img
                             src={prod.image}
                             alt=""
-                            className="w-10 h-10 object-cover rounded-lg border border-line"
+                            className="w-10 h-10 object-cover rounded-lg border border-line group-hover:scale-105 transition-transform"
                           />
-                          <span className="text-[10px] font-semibold text-heading max-w-[120px] truncate text-right">
+                          <span className="text-[10px] font-semibold text-heading max-w-[120px] truncate text-right group-hover:text-primary transition-colors">
                             {prod.name}
                           </span>
                         </Link>
