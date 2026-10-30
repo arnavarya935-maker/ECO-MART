@@ -105,3 +105,4 @@ export default function GreenTechFooter({ onRequestAudit }) {
     </footer>
   );
 }
+

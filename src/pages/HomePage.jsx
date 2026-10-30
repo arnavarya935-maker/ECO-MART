@@ -1,64 +1,56 @@
-import React, { useState } from 'react';
-import GreenTechNav from '../components/greentech/GreenTechNav';
-import GreenTechHero from '../components/greentech/GreenTechHero';
-import CoreServicesGrid from '../components/greentech/CoreServicesGrid';
-import GreenImpactDashboard from '../components/greentech/GreenImpactDashboard';
-import MultiStepBookingEngine from '../components/greentech/MultiStepBookingEngine';
-import GreenTechFooter from '../components/greentech/GreenTechFooter';
+import React, { Suspense, lazy } from 'react';
+import Hero from '../components/home/Hero';
+import WhoWeAre from '../components/home/WhoWeAre';
+import BenefitsSplit from '../components/home/BenefitsSplit';
+import PillarsStrip from '../components/home/PillarsStrip';
+import ProblemSection from '../components/home/ProblemSection';
+import ImpactCounters from '../components/home/ImpactCounters';
+
+// Code-split below-the-fold sections to preserve initial home route performance budget (<250 kB gzipped)
+const FromTheBlog = lazy(() => import('../components/home/FromTheBlog'));
+const ReviewsSummary = lazy(() => import('../components/home/ReviewsSummary'));
+const PartnersStrip = lazy(() => import('../components/home/PartnersStrip'));
+const TestimonialsCarousel = lazy(() => import('../components/home/TestimonialsCarousel'));
+const CtaBanner = lazy(() => import('../components/home/CtaBanner'));
 
 export default function HomePage() {
-  const [isBookingOpen, setIsBookingOpen] = useState(false);
-  const [bookingPrefill, setBookingPrefill] = useState({});
-
-  const handleOpenBooking = (initialData = {}) => {
-    setBookingPrefill(initialData);
-    setIsBookingOpen(true);
-  };
-
-  const handleSelectService = (service) => {
-    setBookingPrefill({
-      services: [service.id]
-    });
-    setIsBookingOpen(true);
-  };
-
   return (
-    <div className="min-h-screen bg-[#F8F9FA] text-[#2C3E50] antialiased selection:bg-[#2ECC71]/30 selection:text-[#0F3D2E]">
-      {/* 1. Sticky Global Frosted Navigation */}
-      <GreenTechNav
-        onRequestAudit={() => handleOpenBooking({})}
-        onOpenDashboard={() => {
-          const el = document.getElementById('impact-dashboard');
-          if (el) el.scrollIntoView({ behavior: 'smooth' });
-        }}
-      />
+    <div className="w-full bg-surface antialiased transition-colors">
+      {/* 3. Hero Section with Fraunces Highlight & Leaf Particles */}
+      <Hero />
 
-      <main>
-        {/* 2. Hero Section: Split-Screen with Typographic Value Proposition & Green Impact Estimator */}
-        <GreenTechHero
-          onRequestAuditWithData={(data) => handleOpenBooking(data)}
-        />
+      {/* 4. Who We Are: Leaf Divider & 3 Purpose Cards */}
+      <WhoWeAre />
 
-        {/* 3. Core Services Grid: 3-Column Dynamic Cards with Expandable Eco-Specs */}
-        <CoreServicesGrid
-          onSelectService={handleSelectService}
-        />
+      {/* 5. Benefits Split: Environmental vs. Social & Health Checklists */}
+      <BenefitsSplit />
 
-        {/* 4. Interactive Green Impact Dashboard: Live Telemetry & Vector Spline Charts */}
-        <GreenImpactDashboard />
-      </main>
+      {/* 6. Pillars Strip: Botanical, Compostable, and Certified Credentials */}
+      <PillarsStrip />
 
-      {/* 5. Editorial-Grade SaaS Footer */}
-      <GreenTechFooter
-        onRequestAudit={() => handleOpenBooking({})}
-      />
+      {/* 7. Problem Section: Plastic Proliferation & Unchecked Greenwashing */}
+      <ProblemSection />
 
-      {/* 6. Seamless Multi-Step Booking Engine Wizard (Modal & Mobile Bottom-Sheet) */}
-      <MultiStepBookingEngine
-        isOpen={isBookingOpen}
-        onClose={() => setIsBookingOpen(false)}
-        initialData={bookingPrefill}
-      />
+      {/* 8. Impact Counters: Animated Live Catalog Data & SDG Indicators */}
+      <ImpactCounters />
+
+      {/* Below-the-fold sections with graceful loading */}
+      <Suspense fallback={<div className="min-h-[200px]" />}>
+        {/* 9. From The Blog: Field Reporting & Science Guides */}
+        <FromTheBlog />
+
+        {/* 10. Reviews Summary: Real Customer Submissions & Star Breakdown */}
+        <ReviewsSummary />
+
+        {/* 11. Partners Strip: Marquee Placeholder Slots */}
+        <PartnersStrip />
+
+        {/* 12. Testimonials Carousel: Accessible Keyboard & Touch Swipe Carousel */}
+        <TestimonialsCarousel />
+
+        {/* 13. Call-to-Action Banner: Coupon Offer & Account Creation */}
+        <CtaBanner />
+      </Suspense>
     </div>
   );
 }

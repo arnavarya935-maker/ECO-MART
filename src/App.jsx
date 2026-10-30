@@ -11,6 +11,7 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import MobileBottomTabs from './components/MobileBottomTabs';
 import OfflineDetector from './components/OfflineDetector';
+import AnnouncementBar from './components/home/AnnouncementBar';
 import SwapSuggestionBanner from './components/EcoAgent/SwapSuggestionBanner';
 import ImpactPulseWidget from './components/tools/ImpactPulseWidget';
 import Toast from './components/ui/Toast';
@@ -182,6 +183,7 @@ function AppContent() {
       )}
 
       {/* Top Proactive Swap Alert Banner */}
+      <AnnouncementBar />
       <SwapSuggestionBanner />
 
       {/* Main Navigation */}

@@ -1,16 +1,17 @@
 import React, { useState, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Star, MessageSquare, ShieldCheck, ThumbsUp } from 'lucide-react';
+import { Star, MessageSquare, ShieldCheck } from 'lucide-react';
 import { useT } from '../../context/I18nContext';
 import { useCart } from '../../context/CartContext';
+import { useProducts } from '../../context/ProductsContext';
 import { useTheme } from '../../context/ThemeContext';
 import EmptyState from '../ui/EmptyState';
-import productsData from '../../data/products.json';
 
 export default function ReviewsSummary() {
   const { t } = useT();
   const { reviews } = useCart();
+  const { products } = useProducts();
   const { reduceEffects } = useTheme();
   const navigate = useNavigate();
 
@@ -58,7 +59,7 @@ export default function ReviewsSummary() {
     return list.sort((a, b) => (b.helpfulCount || 0) - (a.helpfulCount || 0));
   }, [allReviewsList, activeTab]);
 
-  const pMap = useMemo(() => new Map(productsData.map((p) => [p.id, p])), []);
+  const pMap = useMemo(() => new Map((products || []).map((p) => [p.id, p])), [products]);
 
   const motionProps = reduceEffects
     ? {}

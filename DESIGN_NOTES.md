@@ -50,3 +50,27 @@ In accordance with competition guideline 6 (Originality), **zero source code, SV
    - Under `html.reduced-motion` and `prefers-reduced-motion`, all transforms and pulses turn off instantly.
    - Under `html.high-contrast`, all glow gradients are removed and borders are boosted to pure solid lines.
    - Text contrast on all surfaces exceeds WCAG AA ($\ge 4.5:1$ for body, $\ge 3:1$ for large headings).
+
+
+---
+
+## 3. Clean Nature-Led Eco-Commerce Architecture (kleangreenindia.com structural inspiration)
+
+The clean, light, nature-led homepage layout is inspired by the rhythm, structure, and editorial feel of `kleangreenindia.com`. In accordance with competition guidelines, **the layout is inspired by, not copied from, the reference**. Zero source code, images, logos, copy, testimonials, reviews, or statistics were copied. All content and metrics originate directly from EcoMart's own product catalog and open scoring algorithms.
+
+### Section Sequence & Design Token Implementation
+
+1. **`AnnouncementBar.jsx`**: Thin dismissible banner above the header (`bg-surface-accent`, `border-line`, `text-heading`), highlighting free shipping incentives with session storage persistence.
+2. **`Navbar.jsx` (Global Header)**: Logo left, center search bar with `⌘K` trigger, right cart badge and UserMenu. Primary navigation featuring rich Shop Category Mega-Menu, About, Learn/Blog, Impact dropdown, and Contact, with a mobile slide-in drawer.
+3. **`Hero.jsx`**: Large display headline utilizing local `@fontsource-variable/fraunces` for an italic serif highlight, subline, "Discover More" primary CTA, 3 category pill cards, and lifestyle packshot with floating leaf particles (`LeafParticles.jsx`) and optional responsive video slot (`/public/videos`).
+4. **`WhoWeAre.jsx`**: Botanical leaf-icon divider and 3 distinct purpose cards ("Who Are We", "Our Vision", "Our Mission").
+5. **`BenefitsSplit.jsx`**: 2-column comparative checklist evaluating Planetary Environmental Benefits vs. Human Health & Social Benefits.
+6. **`PillarsStrip.jsx`**: 3 verified-term-safe credential badges (*Organic Ingredients*, *Compostable Materials*, *Certified Standards*).
+7. **`ProblemSection.jsx`**: "The Problem" eyebrow, bold heading, 3 quantified bullet outcomes on plastic proliferation and greenwashing, paired with a local photo illustration.
+8. **`ImpactCounters.jsx`**: Three large animated count-up numbers derived directly from `src/data/products.json` (water saved, CO₂e avoided, catalog items scored), aligned with UN SDG 12 & 13.
+9. **`FromTheBlog.jsx`**: 3 journal cards with local photography, read times, and links to `/learn` and `/news`.
+10. **`ReviewsSummary.jsx`**: Aggregate star rating, 5-star distribution bars, and tab switcher; renders an accessible `EmptyState` when 0 local reviews are present to guarantee zero fake data.
+11. **`PartnersStrip.jsx`**: "Incubated at & Supported by" logo strip with clean placeholder slots and semantic titles ready for user-supplied SVGs.
+12. **`TestimonialsCarousel.jsx`**: Accessible carousel with keyboard arrow keys and touch swipe support, featuring honest community reflection slots.
+13. **`CtaBanner.jsx`**: Full-width nature image background with dark contrast overlay, click-to-copy `PURPOSE20` voucher, and account registration CTA.
+14. **`Footer.jsx`**: Newsletter signup, social icons, quick legal links, contact block, monumental low-contrast `ECOMART®` wordmark, and bottom-right floating quick-action chat button.

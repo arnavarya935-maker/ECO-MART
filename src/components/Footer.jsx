@@ -6,8 +6,7 @@ import {
   ArrowUp,
   MessageCircle,
   MapPin,
-  Clock,
-  ShieldCheck
+  Clock
 } from 'lucide-react';
 import { useT } from '../context/I18nContext';
 import { useCart } from '../context/CartContext';
@@ -50,7 +49,7 @@ function GithubIcon(props) {
 }
 
 export default function Footer() {
-  const { t, lang } = useT();
+  const { lang } = useT();
   const { setIsAgentOpen } = useCart();
   const [newsletterEmail, setNewsletterEmail] = useState('');
   const [newsletterSubscribed, setNewsletterSubscribed] = useState(false);
@@ -108,18 +107,16 @@ export default function Footer() {
                 </span>
                 <div className="flex items-center gap-2">
                   {[
-                    { label: 'Instagram', icon: InstagramIcon, href: 'https://instagram.com' },
-                    { label: 'Twitter', icon: TwitterIcon, href: 'https://twitter.com' },
-                    { label: 'LinkedIn', icon: LinkedinIcon, href: 'https://linkedin.com' },
-                    { label: 'GitHub', icon: GithubIcon, href: 'https://github.com/arnavarya935-maker/ECO-MART' }
+                    { label: 'Instagram', icon: InstagramIcon, href: '#instagram' },
+                    { label: 'Twitter', icon: TwitterIcon, href: '#twitter' },
+                    { label: 'LinkedIn', icon: LinkedinIcon, href: '#linkedin' },
+                    { label: 'GitHub', icon: GithubIcon, href: '#github' }
                   ].map((s) => {
                     const Icon = s.icon;
                     return (
                       <a
                         key={s.label}
                         href={s.href}
-                        target="_blank"
-                        rel="noreferrer noopener"
                         aria-label={`Visit our ${s.label} profile`}
                         className="w-8 h-8 rounded-full border border-line bg-surface-raised hover:bg-surface-accent text-text-secondary hover:text-primary transition flex items-center justify-center cursor-pointer shadow-soft-xs"
                       >
