@@ -468,3 +468,213 @@ export function calculateProductScore(product, weights = DEFAULT_PRIORITIES) {
   return res[0]?.score ?? (calculateEcoScore(product)?.score || 50);
 }
 
+
+
+/**
+ * Priority Query Detection & Deterministic Code-Ranking Architecture
+ */
+export const PRIORITY_PHRASES = {
+  lowest_carbon: /\b(?:lowest\s+carbon|cut\s+carbon|least\s+carbon|min(?:imize)?\s+carbon|low\s+carbon|lowest\s+co2)\b/i,
+  save_money: /\b(?:save\s+money|cheapest|cheapest\s+first|cheap|lowest\s+price|budget\s+friendly|sasta|most\s+affordable|affordable)\b/i,
+  cut_plastic: /\b(?:cut\s+plastic|least\s+plastic|zero\s+plastic|lowest\s+plastic|reduce\s+plastic)\b/i
+};
+
+export function detectPriorityPhrase(query) {
+  if (!query || typeof query !== 'string') return null;
+  const q = query.toLowerCase();
+  if (PRIORITY_PHRASES.lowest_carbon.test(q)) return 'lowest_carbon';
+  if (PRIORITY_PHRASES.save_money.test(q)) return 'save_money';
+  if (PRIORITY_PHRASES.cut_plastic.test(q)) return 'cut_plastic';
+  return null;
+}
+
+export const PRODUCT_NOUN_FAMILIES = {
+  bottle: ['bottle', 'flask', 'jug', 'tumbler', 'thermos', 'canteen', 'pitcher'],
+  flask: ['bottle', 'flask', 'jug', 'tumbler', 'thermos', 'canteen', 'pitcher'],
+  jug: ['bottle', 'flask', 'jug', 'tumbler', 'thermos', 'canteen', 'pitcher'],
+  tumbler: ['bottle', 'flask', 'jug', 'tumbler', 'thermos', 'canteen', 'pitcher'],
+  thermos: ['bottle', 'flask', 'jug', 'tumbler', 'thermos', 'canteen', 'pitcher'],
+  water: ['bottle', 'flask', 'jug', 'tumbler', 'thermos', 'canteen', 'pitcher'],
+  toothbrush: ['toothbrush'],
+  brush: ['toothbrush', 'brush', 'scrubber'],
+  cutlery: ['cutlery', 'fork', 'spoon', 'knife', 'utensil'],
+  tote: ['tote', 'bag', 'backpack', 'duffel'],
+  bag: ['bag', 'tote', 'backpack', 'duffel'],
+  backpack: ['backpack', 'bag', 'duffel'],
+  soap: ['soap', 'cleanser'],
+  shampoo: ['shampoo'],
+  candle: ['candle', 'candles', 'taper'],
+  notebook: ['notebook', 'journal', 'diary'],
+  journal: ['journal', 'notebook', 'diary'],
+  pen: ['pen', 'fountain pen'],
+  razor: ['razor'],
+  comb: ['comb'],
+  loofah: ['loofah', 'sponge', 'scrubber'],
+  scrubber: ['scrubber', 'sponge', 'loofah'],
+  straw: ['straw', 'straws'],
+  shirt: ['shirt', 't-shirt', 'tee', 'kurta'],
+  tshirt: ['t-shirt', 'shirt', 'tee']
+};
+
+export function extractRequestedNoun(query) {
+  if (!query || typeof query !== 'string') return '';
+  let q = query.toLowerCase()
+    .replace(PRIORITY_PHRASES.lowest_carbon, ' ')
+    .replace(PRIORITY_PHRASES.save_money, ' ')
+    .replace(PRIORITY_PHRASES.cut_plastic, ' ')
+    .replace(/[,\.\?!;\-\_]/g, ' ')
+    .trim();
+
+  const words = q.split(/\s+/).filter(Boolean);
+  const fillers = new Set([
+    'i', 'want', 'need', 'show', 'me', 'find', 'a', 'an', 'the', 'please', 'for', 'with', 'in',
+    'and', 'option', 'options', 'product', 'products', 'item', 'items', 'best', 'good', 'recommend',
+    'suggestion', 'suggestions', 'buy', 'get', 'shop', 'which', 'what', 'give', 'top'
+  ]);
+  return words.filter((w) => !fillers.has(w)).join(' ');
+}
+
+export function filterProductsByRequestedType(catalog, query) {
+  const nounPhrase = extractRequestedNoun(query);
+  if (!nounPhrase || !Array.isArray(catalog)) return [];
+  const tokens = nounPhrase.split(/\s+/).filter(Boolean);
+
+  let synonyms = [];
+  for (const t of tokens) {
+    if (PRODUCT_NOUN_FAMILIES[t]) {
+      synonyms.push(...PRODUCT_NOUN_FAMILIES[t]);
+    }
+  }
+  if (synonyms.length === 0) synonyms = tokens;
+  synonyms = Array.from(new Set(synonyms));
+
+  return catalog.filter((p) => {
+    if (!p.isEcoFriendly) return false;
+    const nameLower = (p.name || '').toLowerCase();
+    const catLower = (p.category || '').toLowerCase();
+    return synonyms.some((syn) => {
+      return nameLower.includes(syn) || catLower.includes(syn);
+    });
+  });
+}
+
+export function computePriorityRanking(catalog, query) {
+  const priority = detectPriorityPhrase(query);
+  if (!priority) return null;
+  const filtered = filterProductsByRequestedType(catalog, query);
+  if (filtered.length === 0) return null;
+
+  const sorted = [...filtered];
+  if (priority === 'lowest_carbon') {
+    sorted.sort((a, b) => {
+      const cA = Number(a.carbonKg ?? 999);
+      const cB = Number(b.carbonKg ?? 999);
+      if (cA !== cB) return cA - cB;
+      return (Number(a.price ?? 0)) - (Number(b.price ?? 0));
+    });
+  } else if (priority === 'save_money') {
+    sorted.sort((a, b) => {
+      const pA = Number(a.price ?? 99999);
+      const pB = Number(b.price ?? 99999);
+      if (pA !== pB) return pA - pB;
+      return (Number(a.carbonKg ?? 999)) - (Number(b.carbonKg ?? 999));
+    });
+  } else if (priority === 'cut_plastic') {
+    sorted.sort((a, b) => {
+      const plA = Number(a.plasticGrams ?? 999);
+      const plB = Number(b.plasticGrams ?? 999);
+      if (plA !== plB) return plA - plB;
+      const cA = Number(a.carbonKg ?? 999);
+      const cB = Number(b.carbonKg ?? 999);
+      if (cA !== cB) return cA - cB;
+      return (Number(a.price ?? 0)) - (Number(b.price ?? 0));
+    });
+  }
+
+  const noun = extractRequestedNoun(query);
+  return {
+    priority,
+    noun,
+    products: sorted,
+    winner: sorted[0],
+    runnerUp: sorted.length >= 2 ? sorted[1] : null
+  };
+}
+
+export function generatePriorityTradeoffs(winner, runnerUp, priority) {
+  if (!winner || !runnerUp) return null;
+
+  const beats = [];
+  const givesUp = [];
+
+  const priceDiff = (runnerUp.price || 0) - (winner.price || 0);
+  const carbonDiff = Number(((runnerUp.carbonKg || 0) - (winner.carbonKg || 0)).toFixed(2));
+  const plasticDiff = (runnerUp.plasticGrams || 0) - (winner.plasticGrams || 0);
+  const scoreDiff = (winner.ecoScore || 0) - (runnerUp.ecoScore || 0);
+
+  if (priority === 'save_money') {
+    if (priceDiff > 0) {
+      beats.push(`Costs ₹${priceDiff} less (₹${winner.price} vs ₹${runnerUp.price})`);
+    } else {
+      beats.push(`Best budget pick at ₹${winner.price}`);
+    }
+    if (carbonDiff > 0.01) {
+      beats.push(`Lower carbon footprint (-${carbonDiff} kg CO2e)`);
+    }
+    if (plasticDiff > 0) {
+      beats.push(`Avoids ${plasticDiff}g plastic`);
+    }
+  } else if (priority === 'lowest_carbon') {
+    if (carbonDiff > 0.01) {
+      beats.push(`Lower CO2 footprint (-${carbonDiff} kg CO2e: ${winner.carbonKg}kg vs ${runnerUp.carbonKg}kg)`);
+    } else {
+      beats.push(`Lowest carbon footprint in category (${winner.carbonKg} kg CO2e)`);
+    }
+    if (priceDiff > 0) {
+      beats.push(`Costs ₹${priceDiff} less`);
+    } else if (priceDiff < 0) {
+      givesUp.push(`Costs ₹${Math.abs(priceDiff)} more upfront than runner-up`);
+    }
+    if (plasticDiff > 0) {
+      beats.push(`Avoids ${plasticDiff}g plastic`);
+    }
+  } else if (priority === 'cut_plastic') {
+    if (plasticDiff > 0) {
+      beats.push(`Diverts ${plasticDiff}g plastic`);
+    } else {
+      beats.push(`Plastic-free packaging (0g plastic)`);
+    }
+    if (carbonDiff > 0.01) {
+      beats.push(`Lower carbon footprint (-${carbonDiff} kg CO2e)`);
+    }
+    if (priceDiff > 0) {
+      beats.push(`Costs ₹${priceDiff} less`);
+    } else if (priceDiff < 0) {
+      givesUp.push(`Costs ₹${Math.abs(priceDiff)} more upfront than runner-up`);
+    }
+  } else {
+    if (scoreDiff > 0) beats.push(`Higher EcoScore (+${scoreDiff} pts)`);
+    if (priceDiff > 0) beats.push(`Costs ₹${priceDiff} less`);
+    else if (priceDiff < 0) givesUp.push(`Costs ₹${Math.abs(priceDiff)} more upfront`);
+    if (carbonDiff > 0.01) beats.push(`Lower CO2 footprint (-${carbonDiff} kg CO2e)`);
+  }
+
+  if (beats.length === 0) {
+    beats.push(`Superior match for your ${priority ? priority.replace('_', ' ') : 'requested'} priority`);
+  }
+
+  return {
+    winnerName: winner.name,
+    runnerUpName: runnerUp.name,
+    beats,
+    givesUp: givesUp.length > 0 ? givesUp : ['Requires slightly higher upfront investment for lifetime durability']
+  };
+}
+
+export function stripStrayAsterisks(text) {
+  if (!text || typeof text !== 'string') return text;
+  return text
+    .replace(/\*\*([^*]+)\*\*/g, '$1')
+    .replace(/\*([^*]+)\*/g, '$1')
+    .replace(/\*/g, '');
+}

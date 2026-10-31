@@ -4,7 +4,7 @@
  * with robust offline/cached fallback to guarantee deterministic local reliability.
  */
 
-import { queryEcoCatalog, KNOWN_DICTIONARY, isOffTopicQuery, OFF_TOPIC_ANSWER } from '../ecoAgent.js';
+import { queryEcoCatalog, KNOWN_DICTIONARY, isOffTopicQuery, OFF_TOPIC_ANSWER, stripStrayAsterisks } from '../ecoAgent.js';
 import productsData from '../../data/products.json';
 
 // Curated verified knowledge cache for common sustainable shopping scenarios
@@ -270,6 +270,7 @@ export async function askEcoAgent({
       let collectedProducts = [];
       let collectedActions = [];
       let collectedTools = [];
+      let collectedTradeoffs = null;
 
       while (true) {
         const { done, value } = await reader.read();
@@ -306,6 +307,7 @@ export async function askEcoAgent({
                 if (payload.products) collectedProducts = payload.products;
                 if (payload.actions) collectedActions = payload.actions;
                 if (payload.toolsUsed) collectedTools = payload.toolsUsed;
+                if (payload.tradeoffs) collectedTradeoffs = payload.tradeoffs;
               } else if (currentEvent === 'error') {
                 return {
                   error: payload.error || 'The agent is busy, please try again',
@@ -326,6 +328,7 @@ export async function askEcoAgent({
         text: collectedText,
         products: collectedProducts,
         recommended_products: collectedProducts,
+        tradeoffs: collectedTradeoffs,
         actions: collectedActions,
         toolsUsed: collectedTools,
         confidence: 'high',
@@ -364,7 +367,7 @@ export async function askEcoAgent({
         };
       }
 
-      const answerText = data.text || data.reply || data.answer || '';
+      const answerText = stripStrayAsterisks(data.text || data.reply || data.answer || '');
       const products = data.products || data.recommended_products || [];
 
       return {
@@ -379,6 +382,7 @@ export async function askEcoAgent({
         estimated_energy_wh: Number(data.estimated_energy_wh) || 0.12,
         products,
         recommended_products: products,
+        tradeoffs: data.tradeoffs || null,
         toolsUsed: data.toolsUsed || [],
         actions: data.actions || [],
         isFallback: false,

@@ -23,7 +23,7 @@ import {
 import { useCart } from '../../context/CartContext';
 import { useT } from '../../context/I18nContext';
 import { FEATURES } from '../../lib/features';
-import { sendAgentQuery, generateTradeoffs } from '../../lib/ecoAgent';
+import { sendAgentQuery, generateTradeoffs, stripStrayAsterisks } from '../../lib/ecoAgent';
 import { runMultiAgentPipeline } from '../../lib/multiAgentEngine';
 import { askEcoAgent, generateLocalFallbackAnswer } from '../../lib/ai/geminiAdapter';
 import { playSound } from '../../lib/audio';
@@ -373,6 +373,7 @@ export default function EcoAgentChat() {
         replyText = replyText
           .replace(sixProdsRegex, '124 sample sustainable products across 8 departments')
           .replace(vRegex, 'estimated');
+        replyText = stripStrayAsterisks(replyText);
       }
 
       const activeBasketPlan = response.basketPlan || (multiAgentResult?.isGoalPlan ? multiAgentResult?.basketPlan : null);
@@ -410,9 +411,17 @@ export default function EcoAgentChat() {
             `Upfront investment of ₹${bTotal} (₹${bGap} under ₹${bBudget} budget)`
           ]
         };
-      } else if (finalData && finalData.length >= 2) {
+      } else if (!finalData || finalData.length < 2) {
+        // If fewer than 2 relevant products exist, hide comparison box
+        finalTradeoffs = null;
+      } else if (response.tradeoffs) {
+        // Priority query or explicit engine tradeoffs
+        finalTradeoffs = response.tradeoffs;
+      } else if (finalData.length >= 2) {
         // Single search: ensure "Why #1 won" compares actual first listed product with actual runner-up
         finalTradeoffs = generateTradeoffs(finalData[0], finalData[1]);
+      } else {
+        finalTradeoffs = null;
       }
 
       const rawConfidence = (finalData && finalData.length > 0)
@@ -1091,11 +1100,11 @@ export default function EcoAgentChat() {
                 </div>
               )}
               <div className="flex items-start justify-between gap-2">
-                <div className="leading-relaxed font-normal whitespace-pre-wrap flex-1">{msg.text}</div>
+                <div className="leading-relaxed font-normal whitespace-pre-wrap flex-1">{stripStrayAsterisks(msg.text)}</div>
                 {msg.sender === 'agent' && FEATURES.SPEECH_SYNTHESIS && hasVoice && (
                   <button
                     type="button"
-                    onClick={() => toggleSpeak(msg.id, msg.text)}
+                    onClick={() => toggleSpeak(msg.id, stripStrayAsterisks(msg.text))}
                     className="p-1 rounded-lg text-muted hover:text-primary transition shrink-0 cursor-pointer"
                     title={speakingMsgId === msg.id ? 'Stop read-aloud' : 'Read aloud'}
                     aria-label={speakingMsgId === msg.id ? 'Stop read-aloud' : 'Read aloud'}

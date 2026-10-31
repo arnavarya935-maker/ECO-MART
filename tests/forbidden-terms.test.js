@@ -36,6 +36,25 @@ describe('Forbidden Terms & Honesty Regression Suite', () => {
     expect(offending).toEqual([]);
   });
 
+  it('scans all files in src/ for "Seeded sample", "1428", "842.6", and "100% plastic-free" and finds zero occurrences', () => {
+    const forbiddenPhrases = [
+      'seeded sample',
+      '1428',
+      '842.6',
+      '100% plastic-free'
+    ];
+    const violations = [];
+    for (const file of files) {
+      const content = fs.readFileSync(file, 'utf8').toLowerCase();
+      for (const phrase of forbiddenPhrases) {
+        if (content.includes(phrase)) {
+          violations.push({ file: path.relative(srcDir, file), phrase });
+        }
+      }
+    }
+    expect(violations).toEqual([]);
+  });
+
   it('scans all files in src/ for "offline-native" and finds zero occurrences', () => {
     const offending = [];
     for (const file of files) {
@@ -47,6 +66,25 @@ describe('Forbidden Terms & Honesty Regression Suite', () => {
     expect(offending).toEqual([]);
   });
 
+  it('scans all files in src/ for "Seeded sample", "1428", "842.6", and "100% plastic-free" and finds zero occurrences', () => {
+    const forbiddenPhrases = [
+      'seeded sample',
+      '1428',
+      '842.6',
+      '100% plastic-free'
+    ];
+    const violations = [];
+    for (const file of files) {
+      const content = fs.readFileSync(file, 'utf8').toLowerCase();
+      for (const phrase of forbiddenPhrases) {
+        if (content.includes(phrase)) {
+          violations.push({ file: path.relative(srcDir, file), phrase });
+        }
+      }
+    }
+    expect(violations).toEqual([]);
+  });
+
   it('scans all files in src/ for "Technophilia" and finds zero occurrences', () => {
     const offending = [];
     for (const file of files) {
@@ -56,6 +94,25 @@ describe('Forbidden Terms & Honesty Regression Suite', () => {
       }
     }
     expect(offending).toEqual([]);
+  });
+
+  it('scans all files in src/ for "Seeded sample", "1428", "842.6", and "100% plastic-free" and finds zero occurrences', () => {
+    const forbiddenPhrases = [
+      'seeded sample',
+      '1428',
+      '842.6',
+      '100% plastic-free'
+    ];
+    const violations = [];
+    for (const file of files) {
+      const content = fs.readFileSync(file, 'utf8').toLowerCase();
+      for (const phrase of forbiddenPhrases) {
+        if (content.includes(phrase)) {
+          violations.push({ file: path.relative(srcDir, file), phrase });
+        }
+      }
+    }
+    expect(violations).toEqual([]);
   });
 
   it('scans all files in src/ for "Verified Impact" and finds zero occurrences', () => {
@@ -81,6 +138,25 @@ describe('Forbidden Terms & Honesty Regression Suite', () => {
       const fileContent = fs.readFileSync(file, 'utf8').toLowerCase();
       for (const phrase of forbiddenPhrases) {
         if (fileContent.includes(phrase)) {
+          violations.push({ file: path.relative(srcDir, file), phrase });
+        }
+      }
+    }
+    expect(violations).toEqual([]);
+  });
+
+  it('scans all files in src/ for "Seeded sample", "1428", "842.6", and "100% plastic-free" and finds zero occurrences', () => {
+    const forbiddenPhrases = [
+      'seeded sample',
+      '1428',
+      '842.6',
+      '100% plastic-free'
+    ];
+    const violations = [];
+    for (const file of files) {
+      const content = fs.readFileSync(file, 'utf8').toLowerCase();
+      for (const phrase of forbiddenPhrases) {
+        if (content.includes(phrase)) {
           violations.push({ file: path.relative(srcDir, file), phrase });
         }
       }

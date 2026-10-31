@@ -48,7 +48,10 @@ import {
   rankProducts,
   parsePriorityIntent,
   formatPrioritiesSummary,
-  DEFAULT_PRIORITIES
+  DEFAULT_PRIORITIES,
+  computePriorityRanking,
+  generatePriorityTradeoffs,
+  stripStrayAsterisks
 } from './decisionEngine.js';
 
 /**
@@ -469,6 +472,9 @@ export function parseShoppingIntent(query, context = null) {
 
   // Parse multiple requested items (e.g. "brush and soap") - RELEVANCE FIRST
   let qForItems = text.toLowerCase()
+    .replace(/\b(?:lowest\s+carbon|cut\s+carbon|least\s+carbon|min(?:imize)?\s+carbon|low\s+carbon|lowest\s+co2)\b/gi, ' ')
+    .replace(/\b(?:save\s+money|cheapest|cheapest\s+first|cheap|lowest\s+price|budget\s+friendly|sasta|most\s+affordable|affordable)\b/gi, ' ')
+    .replace(/\b(?:cut\s+plastic|least\s+plastic|zero\s+plastic|plastic\s+free|no\s+plastic|lowest\s+plastic|reduce\s+plastic)\b/gi, ' ')
     .replace(/[,\.\?!]/g, " and ")
     .replace(/\bas well as\b/g, " and ")
     .replace(/\bplus\b/g, " and ")
@@ -1681,14 +1687,24 @@ export async function sendAgentQuery(arg1, arg2, arg3, arg4) {
 
   if (typeof arg1 === 'object' && arg1 !== null && 'query' in arg1) {
     query = arg1.query;
-    cartItems = arg1.cartItems || [];
-    allProducts = arg1.allProducts || [];
+    cartItems = Array.isArray(arg1.cartItems) ? arg1.cartItems : [];
+    allProducts = Array.isArray(arg1.allProducts) ? arg1.allProducts : [];
     context = arg1.context || null;
   } else {
     query = arg1;
-    allProducts = arg2 || [];
-    cartItems = arg3 || [];
-    context = arg4 || null;
+    if (Array.isArray(arg2)) {
+      allProducts = arg2;
+      cartItems = Array.isArray(arg3) ? arg3 : [];
+      context = arg4 || null;
+    } else if (Array.isArray(arg4)) {
+      allProducts = arg4;
+      cartItems = Array.isArray(arg3) ? arg3 : [];
+      context = arg2 || null;
+    } else {
+      allProducts = Array.isArray(arg3) ? arg3 : [];
+      cartItems = [];
+      context = arg2 || null;
+    }
   }
 
   // 0. Off-topic check (kind redirect, 3 example chips, no random products or didYouMean)
@@ -1719,6 +1735,51 @@ export async function sendAgentQuery(arg1, arg2, arg3, arg4) {
         options: OFF_TOPIC_CHIPS,
         chips: OFF_TOPIC_CHIPS
       },
+      didYouMean: null,
+      cartReview: null
+    };
+  }
+
+  // 0.5 Deterministic Priority Ranking (lowest carbon, save money / cheapest, cut plastic)
+  const priorityResult = computePriorityRanking(allProducts, query);
+  if (priorityResult) {
+    const { priority, products: rankedProducts, winner, runnerUp } = priorityResult;
+    const tradeoffs = runnerUp ? generatePriorityTradeoffs(winner, runnerUp, priority) : null;
+
+    let message = '';
+    if (priority === 'lowest_carbon') {
+      message = `Here are the top sustainable ${priorityResult.noun || 'options'} ranked by lowest carbon footprint:\n` +
+        rankedProducts.map((p, idx) => `${idx + 1}. ${p.name} — ₹${p.price} (${p.carbonKg} kg CO2e)`).join('\n');
+    } else if (priority === 'save_money') {
+      message = `Here are the top sustainable ${priorityResult.noun || 'options'} ranked by lowest price:\n` +
+        rankedProducts.map((p, idx) => `${idx + 1}. ${p.name} — ₹${p.price} (${p.carbonKg} kg CO2e)`).join('\n');
+    } else {
+      message = `Here are the top sustainable ${priorityResult.noun || 'options'} ranked to eliminate plastic:\n` +
+        rankedProducts.map((p, idx) => `${idx + 1}. ${p.name} — ${p.plasticGrams}g plastic, ₹${p.price} (${p.carbonKg} kg CO2e)`).join('\n');
+    }
+
+    return {
+      source: 'local-rule-engine',
+      message: stripStrayAsterisks(message),
+      data: rankedProducts,
+      analysis: {
+        results: rankedProducts,
+        count: rankedProducts.length,
+        intent: {
+          rawQuery: query,
+          priority,
+          noun: priorityResult.noun
+        }
+      },
+      tradeoffs,
+      trace: [
+        { step: 'Understood goal', detail: `Priority query detected: ${priority.replace('_', ' ')} for "${priorityResult.noun}"` },
+        { step: 'Filtered by type', detail: `Matched ${rankedProducts.length} relevant eco product(s) using name and category` },
+        { step: 'Sorted in code', detail: `Ranked strictly by ${priority === 'lowest_carbon' ? 'carbonKg' : priority === 'save_money' ? 'price' : 'plasticGrams'} ascending` },
+        { step: 'Decision', detail: `Ranked #${1} ${winner.name} as top recommendation` }
+      ],
+      basketPlan: null,
+      clarification: null,
       didYouMean: null,
       cartReview: null
     };
@@ -2008,3 +2069,12 @@ export async function sendAgentQuery(arg1, arg2, arg3, arg4) {
     newPriorities: priorityAdjustment || null
   };
 }
+
+export {
+  computePriorityRanking,
+  detectPriorityPhrase,
+  extractRequestedNoun,
+  filterProductsByRequestedType,
+  generatePriorityTradeoffs,
+  stripStrayAsterisks
+} from './decisionEngine.js';

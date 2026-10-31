@@ -9,6 +9,12 @@ import path from 'node:path';
 import { calculateEcoScore, compareProductImpact, detectGreenwashing } from '../src/lib/ecoScore.js';
 import { calculateCartImpact } from '../src/lib/impactCalculator.js';
 import { isMatchingCategory } from '../src/data/categories.js';
+import {
+  detectPriorityPhrase,
+  computePriorityRanking,
+  generatePriorityTradeoffs,
+  stripStrayAsterisks
+} from '../src/lib/decisionEngine.js';
 
 // Cache catalogue for ultra-fast in-memory tool execution
 let cachedProducts = null;
@@ -54,6 +60,9 @@ export const STOP_WORDS = new Set([
 export function parseRequestedItems(rawQuery) {
   if (!rawQuery || typeof rawQuery !== 'string') return [];
   let q = rawQuery.toLowerCase()
+    .replace(/\b(?:lowest\s+carbon|cut\s+carbon|least\s+carbon|min(?:imize)?\s+carbon|low\s+carbon|lowest\s+co2)\b/gi, ' ')
+    .replace(/\b(?:save\s+money|cheapest|cheapest\s+first|cheap|lowest\s+price|budget\s+friendly|sasta|most\s+affordable|affordable)\b/gi, ' ')
+    .replace(/\b(?:cut\s+plastic|least\s+plastic|zero\s+plastic|plastic\s+free|no\s+plastic|lowest\s+plastic|reduce\s+plastic)\b/gi, ' ')
     .replace(/[,\.\?!]/g, ' and ')
     .replace(/\bas well as\b/g, ' and ')
     .replace(/\bplus\b/g, ' and ')
@@ -764,7 +773,7 @@ CRITICAL DIRECTIVES FOR RELEVANCE AND INTEGRITY:
 
 export function sanitizeAgentText(text) {
   if (!text || typeof text !== 'string') return text;
-  return text
+  const cleaned = text
     .replace(/\b(?:we\s+(?:currently\s+)?sell\s+)?6\s+(?:verified\s+)?sustainable\s+products\b/gi, '124 sample sustainable products across 8 departments')
     .replace(/\b6\s+products\s+in\s+our\s+catalog(?:ue)?\b/gi, '124 products across 8 departments in our catalogue')
     .replace(/\bverified\s+sustainable\b/gi, 'sample sustainable')
@@ -774,6 +783,7 @@ export function sanitizeAgentText(text) {
     .replace(/\bguaranteed\b/gi, 'estimated')
     .replace(/\bISO[- ]?14040\b/gi, 'our rule-based estimate')
     .replace(/\bISO[- ]?14021\b/gi, 'standard guidelines');
+  return stripStrayAsterisks(cleaned);
 }
 
 /**
@@ -810,6 +820,17 @@ export async function runAgentConversation({
     role: 'user',
     parts: [{ text: `${contextNote}\n\nShopper Query: ${query}` }]
   });
+
+  const priorityResult = computePriorityRanking(loadCatalog(), query);
+  if (priorityResult) {
+    const priorityNote = `[MANDATORY DETERMINISTIC PRIORITY RANKING IN CODE]:\nThe shopper specifically asked for ${priorityResult.priority.replace('_', ' ')}: "${query}".\nThe catalogue has been deterministically filtered to "${priorityResult.noun}" and ranked by our exact rules in CODE:\n` +
+      priorityResult.products.map((p, idx) => `${idx + 1}. ${p.name} (ID: ${p.id}, Price: ₹${p.price}, Carbon: ${p.carbonKg}kg CO2, Plastic: ${p.plasticGrams}g)`).join('\n') +
+      `\n\nPresent EXACTLY this order.\n#1 MUST be ${priorityResult.winner.name}.\nOnly recommend these exact products. NEVER include products of any other category or type.`;
+    conversationContents.push({
+      role: 'user',
+      parts: [{ text: priorityNote }]
+    });
+  }
 
   const toolsPayload = [
     {
@@ -920,12 +941,33 @@ export async function runAgentConversation({
       }
     }
 
+    if (priorityResult) {
+      collectedProducts = priorityResult.products;
+      if (!finalText || finalText.trim().length === 0) {
+        if (priorityResult.priority === 'lowest_carbon') {
+          finalText = `Here are the top sustainable ${priorityResult.noun || 'options'} ranked by lowest carbon footprint:\n` +
+            priorityResult.products.map((p, idx) => `${idx + 1}. ${p.name} — ₹${p.price} (${p.carbonKg} kg CO2e)`).join('\n');
+        } else if (priorityResult.priority === 'save_money') {
+          finalText = `Here are the top sustainable ${priorityResult.noun || 'options'} ranked by lowest price:\n` +
+            priorityResult.products.map((p, idx) => `${idx + 1}. ${p.name} — ₹${p.price} (${p.carbonKg} kg CO2e)`).join('\n');
+        } else {
+          finalText = `Here are the top sustainable ${priorityResult.noun || 'options'} ranked to eliminate plastic:\n` +
+            priorityResult.products.map((p, idx) => `${idx + 1}. ${p.name} — ${p.plasticGrams}g plastic, ₹${p.price} (${p.carbonKg} kg CO2e)`).join('\n');
+        }
+      }
+    }
+
     const cleanText = sanitizeAgentText(finalText);
+
+    const finalTradeoffs = priorityResult
+      ? (priorityResult.runnerUp ? generatePriorityTradeoffs(priorityResult.winner, priorityResult.runnerUp, priorityResult.priority) : null)
+      : null;
 
     return {
       text: cleanText,
       toolsUsed: executedTools,
-      products: dedupeProducts(collectedProducts),
+      products: priorityResult ? priorityResult.products : dedupeProducts(collectedProducts),
+      tradeoffs: finalTradeoffs,
       actions: uiActions,
       model: activeModel
     };

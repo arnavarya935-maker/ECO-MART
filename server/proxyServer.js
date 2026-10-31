@@ -593,6 +593,7 @@ export async function handleAgentRequest(body, res, req = null) {
         products: result.products || [],
         actions: result.actions || [],
         toolsUsed: result.toolsUsed || [],
+        tradeoffs: result.tradeoffs || null,
         model: result.model
       });
       res.end();
@@ -664,6 +665,7 @@ export async function handleAgentRequest(body, res, req = null) {
         products: result.products || [],
         recommended_products: result.products || [],
         toolsUsed: result.toolsUsed || [],
+        tradeoffs: result.tradeoffs || null,
         actions: result.actions || []
       })
     );

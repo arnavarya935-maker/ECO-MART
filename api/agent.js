@@ -3,6 +3,9 @@
  * Uses the EcoMart Responsible AI Proxy handler with rate limiting
  */
 import { handleAgentRequest, applyRateLimit } from '../server/proxyServer.js';
+import { computePriorityRanking, detectPriorityPhrase, filterProductsByRequestedType } from '../src/lib/decisionEngine.js';
+
+export { computePriorityRanking, detectPriorityPhrase, filterProductsByRequestedType };
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
