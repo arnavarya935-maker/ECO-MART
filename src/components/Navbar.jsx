@@ -129,11 +129,11 @@ export default function Navbar() {
             <Link
               to="/"
               className="flex items-center gap-2 group select-none py-1 focus-visible:outline-2 focus-visible:outline-focus rounded-xl"
-              aria-label={lang === 'hi' ? 'इको सेंस होम' : 'EcoSense Home'}
+              aria-label={lang === 'hi' ? 'इको सेंस होम' : 'Eco Sense Home'}
             >
               <img
                 src={isDark ? '/images/logo-dark.png' : '/images/logo.png'}
-                alt="EcoSense - Shop with purpose"
+                alt="Eco Sense - Shop with purpose"
                 width="140"
                 height="43"
                 className="h-10 sm:h-11 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
@@ -287,7 +287,7 @@ export default function Navbar() {
                         All Sustainable Categories
                       </h4>
                       <p className="text-[11px] text-text-muted">
-                        Cradle-to-gate certified essentials for everyday mindful living.
+                        Everyday conscious essentials for mindful living.
                       </p>
                     </div>
                     <Link

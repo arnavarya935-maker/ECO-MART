@@ -152,15 +152,15 @@ export default function AppWindowShowcase() {
 
                 <div className="p-5 rounded-2xl bg-surface-sunken border border-line space-y-4">
                   <div className="text-xs text-heading font-medium">
-                    &ldquo;Solid castile shampoo bars eliminate 100% of single-use plastic bottles and avoid shipping 80% water weight by volume. However, cold-water hair rinsing may require an adjustment period for hard-water households.&rdquo;
+                    &ldquo;Solid castile shampoo bars replace single-use plastic bottles and avoid shipping 80% water weight by volume. However, cold-water hair rinsing may require an adjustment period for hard-water households.&rdquo;
                   </div>
 
                   <ReasoningExplanationCard
                     initiallyOpen={true}
                     reasoningSummary="Recommendation balances plastic packaging elimination against municipal water hardness tolerance. Selected from personal care SKUs with seller-declared palm-oil-free saponification."
                     sourcesOrAssumptions={[
-                      "Formula: 100% saponified coconut & olive oils (RSPO certified)",
-                      "Packaging: Unbleached post-consumer recycled cardboard (FSC certified)",
+                      "Formula: Saponified coconut & olive oils (RSPO listed)",
+                      "Packaging: Unbleached post-consumer recycled cardboard (FSC listed)",
                       "Water Saved: ~750ml municipal water avoided in manufacturing formulation"
                     ]}
                     confidence="high"

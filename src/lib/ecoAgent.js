@@ -764,7 +764,7 @@ export function generateTradeoffs(winner, runnerUp) {
     beats.push(`Lower CO2 footprint (-${co2Diff.toFixed(2)} kg CO2e)`);
   }
   if (winner.packaging === 'plastic-free' && runnerUp.packaging !== 'plastic-free') {
-    beats.push('100% plastic-free packaging (vs non-zero plastic packaging)');
+    beats.push('Plastic-free packaging (vs non-zero plastic packaging)');
   }
   const certDiff = (winner.certifications?.length || 0) - (runnerUp.certifications?.length || 0);
   if (certDiff > 0) {
@@ -1015,7 +1015,7 @@ export function queryEcoCatalog(allProducts, userQuery, context = null, weights 
         reasons.push(`Emits more CO2e (${candidate.carbonKg}kg vs ${topPrevious.carbonKg}kg)`);
       }
       if (candidate.packaging !== 'plastic-free' && topPrevious.packaging === 'plastic-free') {
-        reasons.push('Does not offer 100% plastic-free packaging');
+        reasons.push('Does not offer plastic-free packaging');
       }
 
       return {
@@ -1043,7 +1043,7 @@ export function queryEcoCatalog(allProducts, userQuery, context = null, weights 
       intent,
       text: "The Eco Sense Eco-Score is an open formula evaluated out of 100 points:\n" +
             "1. Material Integrity (30 pts): Organic, upcycled, and natural materials score highest.\n" +
-            "2. Plastic-Free Packaging (20 pts): 100% plastic-free & seed paper get full marks.\n" +
+            "2. Plastic-Free Packaging (20 pts): Plastic-free & seed paper get full marks.\n" +
             "3. Carbon Footprint (25 pts): Cradle-to-gate lifecycle CO2 emissions.\n" +
             "4. Certifications (15 pts): GOTS Organic, FSC, Fair Trade, Zero Waste standards.\n" +
             "5. Sourcing Proximity (10 pts): Hyperlocal regional craft reduces transport mileage.\n\n" +
@@ -1395,7 +1395,7 @@ export function queryEcoCatalog(allProducts, userQuery, context = null, weights 
     // Build transparent reasoning
     const reasons = [];
     reasons.push(`Eco-Score: ${p.ecoScoreData.score}/100 (Grade ${p.ecoScoreData.grade})`);
-    if (p.packaging === 'plastic-free') reasons.push('100% plastic-free packaging');
+    if (p.packaging === 'plastic-free') reasons.push('Plastic-free packaging');
     if (p.certifications && p.certifications.length > 0) reasons.push(`${p.certifications.slice(0, 2).join(' & ')} (seller claim)`);
     if (p.carbonKg <= 0.5) reasons.push(`Ultra-low footprint of only ${p.carbonKg}kg CO2`);
     if (p.madeInKm <= 150) reasons.push(`Locally produced (${p.madeInKm} km away)`);
@@ -1510,7 +1510,7 @@ export function queryEcoCatalog(allProducts, userQuery, context = null, weights 
       detail: [
         intent.category ? `Category: ${intent.category}` : 'All categories',
         intent.maxBudget ? `Budget <= ₹${intent.maxBudget}` : null,
-        intent.packaging ? 'Packaging: 100% plastic-free' : null,
+        intent.packaging ? 'Packaging: plastic-free' : null,
         intent.sortBy === 'price-asc' ? 'Sort: Lowest price first' : intent.sortBy === 'ecoscore-desc' ? 'Sort: Highest EcoScore first' : 'Sort: Priority-weighted MCDM'
       ].filter(Boolean).join(' • ')
     },
@@ -1964,7 +1964,7 @@ export async function sendAgentQuery(arg1, arg2, arg3, arg4) {
     const filters = [];
     if (intent.category) filters.push(`in ${intent.category}`);
     if (intent.maxBudget) filters.push(`under ₹${intent.maxBudget}`);
-    if (intent.packaging) filters.push('100% plastic-free');
+    if (intent.packaging) filters.push('plastic-free packaging');
     if (intent.sortBy === 'price-asc') filters.push('lowest price first');
     if (intent.sortBy === 'ecoscore-desc') filters.push('highest EcoScore first');
     const filterDesc = filters.length > 0 ? ` (${filters.join(', ')})` : '';

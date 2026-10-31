@@ -112,7 +112,7 @@ export default function BrandTransparencyCard({ product, className = '' }) {
           <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1 scrollbar-thin">
             {scorecard.missing.length === 0 ? (
               <div className="text-xs text-emerald-600 dark:text-emerald-400 font-medium">
-                100% complete lifecycle transparency. No omitted metrics!
+                Complete lifecycle disclosure. No omitted metrics!
               </div>
             ) : (
               scorecard.missing.map((item) => (

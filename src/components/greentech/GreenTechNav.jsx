@@ -36,11 +36,11 @@ export default function GreenTechNav({ onRequestAudit, onOpenDashboard }) {
           <Link
             to="/"
             className="flex items-center gap-2.5 select-none focus-visible:outline-2 focus-visible:outline-[#2ECC71] rounded-xl"
-            aria-label="EcoSense Platform Home"
+            aria-label="Eco Sense Platform Home"
           >
             <img
               src="/images/logo.png"
-              alt="EcoSense - Green Cleaning & Waste Management"
+              alt="Eco Sense - Green Cleaning & Waste Management"
               width="135"
               height="40"
               className="h-9 sm:h-10 w-auto object-contain"

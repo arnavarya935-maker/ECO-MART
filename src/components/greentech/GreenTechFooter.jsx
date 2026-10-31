@@ -95,7 +95,7 @@ export default function GreenTechFooter({ onRequestAudit }) {
         {/* Bottom Bar: Copyright & School Notice */}
         <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] text-white/60">
           <div>
-            &copy; {currentYear} EcoSense Platform. All rights reserved.
+            &copy; {currentYear} Eco Sense Platform. All rights reserved.
           </div>
           <div className="text-center sm:text-right">
             Sample products and metrics for a school project. Prices and impact numbers are estimates.

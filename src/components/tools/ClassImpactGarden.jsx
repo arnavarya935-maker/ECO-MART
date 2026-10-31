@@ -26,11 +26,11 @@ export default function ClassImpactGarden() {
       if (saved) return JSON.parse(saved);
     } catch {}
     return {
-      swapsDiverted: 1428,
-      kgCo2Saved: 842.6,
-      plasticGramsAvoided: 38420,
-      freshwaterSavedLitres: 12480,
-      treesPlanted: 24
+      swapsDiverted: 0,
+      kgCo2Saved: 0,
+      plasticGramsAvoided: 0,
+      freshwaterSavedLitres: 0,
+      treesPlanted: 0
     };
   });
 
@@ -75,9 +75,16 @@ export default function ClassImpactGarden() {
 
         <div className="flex items-center gap-1.5 self-start sm:self-auto px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 text-xs font-semibold">
           <Lock className="w-3.5 h-3.5" />
-          <span>Zero PII / 100% Anonymous</span>
+          <span>Saved on this device only</span>
         </div>
       </div>
+
+      {/* Honest Empty State when no local contributions exist yet */}
+      {collectiveData.swapsDiverted === 0 && (
+        <div className="p-4 rounded-2xl bg-surface-sunken border border-dashed border-line text-center text-xs sm:text-sm text-secondary font-medium">
+          🌱 No class swaps yet. Add the first one.
+        </div>
+      )}
 
       {/* Aggregate Metrics Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -147,7 +154,7 @@ export default function ClassImpactGarden() {
               <div className="flex items-center justify-between">
                 <span className="text-lg">🌳</span>
                 <span className="text-xs font-mono font-bold px-1.5 py-0.5 rounded-full bg-primary/10 text-primary">
-                  ×{tree.count}
+                  ×{collectiveData.treesPlanted > 0 ? tree.count : 0}
                 </span>
               </div>
               <div>
@@ -192,11 +199,11 @@ export default function ClassImpactGarden() {
         </button>
       </div>
 
-      {/* Privacy Guarantee */}
+      {/* Privacy Notice */}
       <div className="flex items-start gap-2.5 p-3.5 rounded-2xl bg-surface-sunken border border-line text-xs text-muted text-left">
         <ShieldCheck className="w-4 h-4 text-primary shrink-0 mt-0.5" />
         <p className="leading-relaxed">
-          <strong className="text-heading">Responsible AI & Privacy Notice:</strong> This collective challenge only persists anonymous numeric counters in client localStorage. No usernames, roll numbers, IP addresses, or device fingerprints are ever captured.
+          <strong className="text-heading">Responsible AI & Privacy Notice:</strong> Saved on this device only. This collective challenge only persists anonymous numeric counters in client localStorage. No usernames, roll numbers, IP addresses, or device fingerprints are ever captured.
         </p>
       </div>
     </div>

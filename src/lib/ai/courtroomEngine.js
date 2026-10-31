@@ -184,11 +184,11 @@ export const CACHED_DEBATES = [
       role: 'Defender',
       speaker: 'Counsel for Brand Innovation',
       avatar: '🛡️',
-      summary: 'Zero synthetic sulfates (SLS/SLES), zero microplastics, and 100% plastic-free packaging.',
+      summary: 'Zero synthetic sulfates (SLS/SLES), zero microplastics, and plastic-free packaging.',
       points: [
         'Cold-pressed neem and coconut oils are locally sourced from rural self-help artisan cooperatives in Tamil Nadu, minimizing transit miles.',
         'Zero liquid water is shipped (unlike liquid body washes that are 85% water in HDPE plastic bottles).',
-        'Paper box is 100% post-consumer unbleached kraft board, fully compostable and recyclable.'
+        'Paper box is post-consumer unbleached kraft board, fully compostable and recyclable.'
       ],
       evidenceCited: ['Local Artisan Cooperative Sourcing Manifest', 'Zero Microplastic Formulation']
     },

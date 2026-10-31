@@ -142,7 +142,7 @@ export default function ShopFilterDrawer({
               className="w-4 h-4 rounded text-primary focus:ring-focus accent-primary cursor-pointer"
             />
             <div>
-              <span className="font-semibold text-heading block">100% Zero-Plastic Packaging</span>
+              <span className="font-semibold text-heading block">Plastic-Free Packaging</span>
               <span className="text-[11px] text-muted">Biodegradable paper, glass, or cotton only</span>
             </div>
           </label>

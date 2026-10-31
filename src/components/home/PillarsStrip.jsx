@@ -21,14 +21,14 @@ export default function PillarsStrip() {
     {
       id: 'organic',
       icon: Sprout,
-      badge: '100% Botanical',
+      badge: 'Botanical Formulas',
       title: t('pillars.organic_title', 'Organic Ingredients'),
       desc: t('pillars.organic_desc', 'Bio-based harvests free from synthetic pesticides, parabens, and dyes.')
     },
     {
       id: 'compostable',
       icon: RefreshCw,
-      badge: 'Zero Microplastics',
+      badge: 'No Added Microplastics',
       title: t('pillars.compostable_title', 'Compostable Materials'),
       desc: t('pillars.compostable_desc', 'Biodegradable bamboo, coconut coir, and paper breaking down in 90–180 days.')
     },

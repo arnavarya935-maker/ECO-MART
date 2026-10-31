@@ -173,7 +173,7 @@ export default function LearnPage() {
                 badge: '20 Pts Max',
                 desc: (
                   <span>
-                    Rewards 100% paperboard, seed paper, tin, and compostable packaging (<GlossaryTooltip term="Biodegradable vs Compostable">compostable vs biodegradable</GlossaryTooltip>). Heavily penalizes virgin blister packs and plastic wrap that outlast the product itself.
+                    Rewards paperboard, seed paper, tin, and compostable packaging (<GlossaryTooltip term="Biodegradable vs Compostable">compostable vs biodegradable</GlossaryTooltip>). Heavily penalizes virgin blister packs and plastic wrap that outlast the product itself.
                   </span>
                 )
               },
@@ -259,7 +259,7 @@ export default function LearnPage() {
                     </span>
                   </div>
 
-                  <p className="text-xs text-secondary leading-relaxed font-sans">{c.guarantee}</p>
+                  <p className="text-xs text-secondary leading-relaxed font-sans">{c.meaning}</p>
 
                   <div className="p-3 rounded-2xl bg-surface-sunken border border-line text-[11px] text-primary font-medium flex items-center gap-1.5">
                     <ShieldCheck className="w-4 h-4 shrink-0" />

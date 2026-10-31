@@ -28,7 +28,7 @@ const VERIFIED_FALLBACK_ANSWERS = [
     answer:
       'Swapping a petroleum plastic toothbrush for an FSC-certified organic bamboo toothbrush avoids ~80g of plastic per year. Moso bamboo degrades in backyard compost in ~180 days, whereas polypropylene plastic persists for over 450 years shedding microplastics.',
     reasoning_summary:
-      'Evaluated cradle-to-grave raw extraction (Moso bamboo vs petroleum cracking) and backyard compostability standards. Prioritized 100% plastic-free packaging.',
+      'Evaluated cradle-to-grave raw extraction (Moso bamboo vs petroleum cracking) and backyard compostability standards. Prioritized plastic-free packaging.',
     sources_or_assumptions: [
       'Central Pollution Control Board (CPCB) plastic packaging benchmarks',
       'FSC Certification Standard for sustainable bamboo harvesting',

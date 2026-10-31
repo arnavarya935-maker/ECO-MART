@@ -188,10 +188,10 @@ export default function AgentReportCard() {
 
         <div className="p-4 rounded-2xl bg-surface border border-line flex items-center justify-between">
           <div>
-            <span className="text-[10px] font-mono text-muted uppercase">Scoring Reliability</span>
-            <div className="text-2xl font-serif font-bold text-primary mt-0.5">100%</div>
+            <span className="text-[10px] font-mono text-muted uppercase">Scoring Method</span>
+            <div className="text-2xl font-serif font-bold text-primary mt-0.5">Rules-Based</div>
           </div>
-          <span className="text-xs text-muted">Rule-based</span>
+          <span className="text-xs text-muted">Deterministic formulas</span>
         </div>
       </div>
 

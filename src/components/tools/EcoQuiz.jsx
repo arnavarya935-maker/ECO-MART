@@ -21,7 +21,7 @@ const BASE_QUESTIONS = [
     options: [
       { text: 'Plastic handle toothbrush replaced every 3 months', points: 0 },
       { text: 'Electric toothbrush with replaceable plastic heads', points: 15 },
-      { text: '100% compostable FSC bamboo toothbrush with plant bristles', points: 30 }
+      { text: 'Compostable FSC bamboo toothbrush with plant bristles', points: 30 }
     ]
   }
 ];

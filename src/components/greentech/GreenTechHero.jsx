@@ -70,7 +70,7 @@ export default function GreenTechHero({ onRequestAuditWithData }) {
                   <Sparkles className="w-4 h-4 text-[#0F3D2E]" />
                 </div>
                 <div>
-                  <div className="text-xs font-bold text-[#0F3D2E]">100% Non-Toxic</div>
+                  <div className="text-xs font-bold text-[#0F3D2E]">Non-Toxic Formulas</div>
                   <div className="text-[10px] text-[#2C3E50]/75">Plant-derived botanical</div>
                 </div>
               </div>

@@ -99,7 +99,7 @@ export default function ImpactPulseWidget() {
                 </>
               ) : (
                 <div className="py-2 text-xs text-text-secondary leading-relaxed bg-surface-sunken p-2.5 rounded-xl border border-line">
-                  Your cart is empty. Add eco-certified products to see your calculated plastic diversion, CO₂ savings, and water preservation estimates.
+                  Your cart is empty. Add sustainable products to see your calculated plastic diversion, CO₂ savings, and water preservation estimates.
                 </div>
               )}
 

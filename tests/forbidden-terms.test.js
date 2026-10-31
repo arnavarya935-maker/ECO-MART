@@ -69,6 +69,25 @@ describe('Forbidden Terms & Honesty Regression Suite', () => {
     expect(offending).toEqual([]);
   });
 
+  it('scans all files in src/ for "Seeded sample", "1428", "842.6", and "100% plastic-free" and finds zero occurrences', () => {
+    const forbiddenPhrases = [
+      'seeded sample',
+      '1428',
+      '842.6',
+      '100% plastic-free'
+    ];
+    const violations = [];
+    for (const file of files) {
+      const fileContent = fs.readFileSync(file, 'utf8').toLowerCase();
+      for (const phrase of forbiddenPhrases) {
+        if (fileContent.includes(phrase)) {
+          violations.push({ file: path.relative(srcDir, file), phrase });
+        }
+      }
+    }
+    expect(violations).toEqual([]);
+  });
+
   it('scans all UI files for demo mode and competition wording and finds zero occurrences', () => {
     const offendingDemo = [];
     const offendingComp = [];

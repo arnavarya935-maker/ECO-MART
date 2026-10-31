@@ -6,7 +6,7 @@ const COMPLIANCE_TIERS = [
     id: 'essential',
     name: 'Essential Eco',
     badge: 'Baseline Clean',
-    desc: '100% bio-based botanical formulas, 80%+ solid waste diversion, standard VOC mitigation.',
+    desc: 'Bio-based botanical formulas, 80%+ solid waste diversion, standard VOC mitigation.',
     rate: 'Standard'
   },
   {

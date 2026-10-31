@@ -55,7 +55,7 @@ export default function EditorialFinalCTA() {
 
         {/* Small Trust Metrics */}
         <div className="mt-12 pt-8 border-t border-line/60 flex flex-wrap items-center justify-center gap-6 sm:gap-10 font-mono text-[10px] sm:text-[11px] text-text-muted uppercase tracking-wider">
-          <span>100% PLASTIC-FREE PACKAGING</span>
+          <span>PACKAGING DETAILS SHOWN FOR EVERY PRODUCT</span>
           <span>·</span>
           <span>FSC & USDA LISTED</span>
           <span>·</span>

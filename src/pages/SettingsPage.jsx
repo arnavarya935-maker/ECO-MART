@@ -580,7 +580,7 @@ export default function SettingsPage() {
           <div className="p-3 rounded-2xl bg-surface-sunken border border-line space-y-1">
             <div className="font-mono text-[10px] text-text-muted uppercase">3. Reported Inaccuracies & Audits</div>
             <div className="text-heading font-medium">Stored Locally ('ecomart_reported_answers')</div>
-            <div className="text-[11px] text-text-secondary">User feedback on hallucinations or wrong lifecycle facts, kept 100% on device for local review.</div>
+            <div className="text-[11px] text-text-secondary">User feedback on hallucinations or wrong lifecycle facts, kept on this device for local review.</div>
           </div>
 
           <div className="p-3 rounded-2xl bg-surface-sunken border border-line space-y-1">

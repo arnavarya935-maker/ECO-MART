@@ -73,11 +73,11 @@ export default function ForYouRow({ title = 'Personalized For You', className = 
         </div>
       </div>
 
-      {/* Privacy Guarantee Strip */}
+      {/* Privacy Strip */}
       <div className="flex items-center gap-2 p-2.5 px-3.5 rounded-2xl bg-surface-sunken border border-line text-[11px] font-sans text-muted">
         <ShieldCheck className="w-4 h-4 text-primary shrink-0" />
         <span>
-          <strong>100% On-Device Learning:</strong> Your browsing history, category views and swap selections never leave this browser. Zero cloud telemetry.
+          <strong>On-Device Learning:</strong> Your browsing history, category views and swap selections never leave this browser. No external tracking.
         </span>
       </div>
 

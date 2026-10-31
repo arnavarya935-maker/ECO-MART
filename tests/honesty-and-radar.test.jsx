@@ -93,7 +93,7 @@ describe('Feature 9: Class Impact Garden', () => {
   it('renders anonymous collective school garden without personal identifiers', () => {
     const html = renderToString(<ClassImpactGarden />);
     expect(html).toContain('Class Impact Garden');
-    expect(html).toContain('Zero PII / 100% Anonymous');
+    expect(html).toContain('Saved on this device only');
     expect(html).toContain('Collective Indigenous Canopy');
   });
 });

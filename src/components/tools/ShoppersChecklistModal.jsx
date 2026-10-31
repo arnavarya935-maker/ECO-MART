@@ -23,7 +23,7 @@ const DEFAULT_CHECKLIST = [
   {
     id: 'packaging',
     question: 'Packaging Elimination',
-    prompt: 'Is the packaging 100% plastic-free (kraft paperboard, metal tin, or home compostable) without bubble wrap?',
+    prompt: 'Is the packaging plastic-free (kraft paperboard, metal tin, or home compostable) without bubble wrap?',
     category: 'Packaging'
   },
   {

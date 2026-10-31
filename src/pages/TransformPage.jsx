@@ -198,7 +198,7 @@ export default function TransformPage() {
       item.before = conv;
       item.after = eco;
       item.name = selectedChip;
-      item.reason = `Upgraded ${selectedChip} to certified eco alternative.`;
+      item.reason = `Upgraded ${selectedChip} to eco alternative.`;
       item.tradeoff = `₹${(eco.price - conv.price) * (item.qty || 1)} delta`;
       item.alternatives = (matched.greenerIds || [])
         .map((id) => productsData.find((p) => p.id === id))

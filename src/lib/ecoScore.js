@@ -61,7 +61,7 @@ export function calculateEcoScore(product) {
   let packagingExplanation = 'Virgin single-use plastic packaging';
   if (product.packaging === 'plastic-free') {
     packagingScore = 20;
-    packagingExplanation = '100% plastic-free, biodegradable / plant seed packaging';
+    packagingExplanation = 'Plastic-free, biodegradable / plant seed packaging';
   } else if (product.packaging === 'recycled') {
     packagingScore = 14;
     packagingExplanation = 'Post-consumer recycled paper / infinite recyclable tin packaging';

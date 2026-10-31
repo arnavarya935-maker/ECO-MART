@@ -43,8 +43,8 @@ const RECYCLING_KNOWLEDGE = [
   { key: 'pp', code: 'PP 5', name: 'Polypropylene', recyclable: 'Widely Recyclable', tip: 'Tubs, caps, and food containers. Check local municipal curbside pickup.' },
   { key: 'ps', code: 'PS 6', name: 'Polystyrene', recyclable: 'Not Recyclable Curbside', tip: 'Foam packaging and cups. Dispose of in general household waste.' },
   { key: 'other', code: 'OTHER 7', name: 'Mixed Plastics', recyclable: 'Specialized Facilities Only', tip: 'Multi-layer packaging. Difficult to recycle without specialist facilities.' },
-  { key: 'pap 20', code: 'PAP 20', name: 'Corrugated Cardboard', recyclable: '100% Recyclable', tip: 'Flatten and place in curbside paper/cardboard bin. Keep clean and dry.' },
-  { key: 'pap 21', code: 'PAP 21', name: 'Non-Corrugated Paperboard', recyclable: '100% Recyclable', tip: 'Cereal boxes and outer cartons. Widely accepted in curbside recycling.' },
+  { key: 'pap 20', code: 'PAP 20', name: 'Corrugated Cardboard', recyclable: 'Widely Recyclable', tip: 'Flatten and place in curbside paper/cardboard bin. Keep clean and dry.' },
+  { key: 'pap 21', code: 'PAP 21', name: 'Non-Corrugated Paperboard', recyclable: 'Widely Recyclable', tip: 'Cereal boxes and outer cartons. Widely accepted in curbside recycling.' },
   { key: 'mobius', code: 'Mobius Loop', name: 'Universal Recycling Symbol', recyclable: 'Recyclable Standard', tip: 'Indicates the packaging is capable of being recycled or contains recycled material.' }
 ];
 

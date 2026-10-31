@@ -15,7 +15,7 @@ const DEFAULT_NOTIFICATIONS = [
     id: 'notif-1',
     category: 'Agent Insight',
     title: 'Plastic-Free Kitchen Swap Available',
-    body: 'Eco Agent reviewed your browsing and discovered a 100% compostable coconut coir dish scrubber that replaces synthetic foam sponges.',
+    body: 'Eco Agent reviewed your browsing and discovered a compostable coconut coir dish scrubber that replaces synthetic foam sponges.',
     timestamp: '2 hours ago',
     unread: true,
     actionRoute: '/shop?category=Kitchen'

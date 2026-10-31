@@ -75,7 +75,7 @@ export default function EcoLeaderboard() {
         <Trophy className="w-8 h-8 text-accent shrink-0" />
       </div>
 
-      {/* Honest Guarantee Notice */}
+      {/* Honest Milestone Notice */}
       <div className="p-3.5 rounded-2xl bg-surface-sunken border border-line text-xs text-secondary flex items-start gap-2.5">
         <ShieldCheck className="w-4 h-4 text-primary shrink-0 mt-0.5" />
         <p className="leading-relaxed">

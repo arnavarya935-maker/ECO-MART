@@ -20,7 +20,7 @@ export default function BenefitsSplit() {
   const environmentalBenefits = [
     {
       title: 'Zero Landfill Accumulation',
-      desc: '100% biodegradable and home-compostable organic materials returning cleanly to soil.',
+      desc: 'Biodegradable and home-compostable organic materials returning cleanly to soil.',
       icon: Trash2
     },
     {
@@ -48,7 +48,7 @@ export default function BenefitsSplit() {
     },
     {
       title: 'Dignified Artisan Partnerships',
-      desc: 'Fair living wages paid directly to certified ethical rural craft cooperatives.',
+      desc: 'Fair living wages paid directly to ethical rural craft cooperatives.',
       icon: Users
     },
     {

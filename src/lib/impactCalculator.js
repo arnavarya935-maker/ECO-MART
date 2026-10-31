@@ -132,7 +132,7 @@ export function calculateCartImpact(cartItems, allProducts) {
     badges.push({
       id: 'champion',
       name: 'Eco Champion',
-      description: 'Masterclass zero-waste cart with 100% plastic-free packaging',
+      description: 'Masterclass zero-waste cart with plastic-free packaging',
       icon: '👑',
       level: 3,
       unlocked: true,

@@ -85,7 +85,7 @@ export default function ImpactCounters() {
       number: CATALOG_STATS.productsScored,
       suffix: '+',
       title: t('impact.products_scored', 'Catalog Staples Scored'),
-      subtext: '100% open algorithms assessing materials, packaging & freight'
+      subtext: 'Open, explained formulas assessing materials, packaging & freight'
     }
   ];
 

@@ -88,7 +88,7 @@ export default function CommunityFeed() {
           Community Tips & Zero-Waste Stories
         </h3>
         <p className="text-xs sm:text-sm text-secondary mt-0.5">
-          Share your daily swaps, upcycling hacks, and learn from fellow conscious shoppers. Seeded sample contributions.
+          Share your daily swaps, upcycling hacks, and learn from fellow conscious shoppers. Posts are saved on this device only.
         </p>
       </div>
 

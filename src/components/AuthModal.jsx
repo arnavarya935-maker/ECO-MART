@@ -90,7 +90,7 @@ export default function AuthModal() {
           <div className="flex justify-center mb-3">
             <img
               src={isDark ? '/images/logo-dark.png' : '/images/logo.png'}
-              alt="EcoSense"
+              alt="Eco Sense"
               width="132"
               height="41"
               className="h-9 w-auto object-contain"

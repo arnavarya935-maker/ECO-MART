@@ -75,7 +75,7 @@ export default function AgentMemoryDrawer({ isOpen, onClose }) {
                 What I Remember
               </h2>
               <p className="text-[10px] text-text-muted font-mono uppercase tracking-wider">
-                100% Local-First In-Memory &amp; LocalStorage State
+                Local-First In-Memory &amp; LocalStorage State
               </p>
             </div>
           </div>

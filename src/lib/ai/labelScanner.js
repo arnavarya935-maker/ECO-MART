@@ -200,7 +200,7 @@ Bottle: HDPE 2 / Cap: PP 5. Made in New Delhi, India.`
       country_of_origin: 'India',
       raw_transcription: `BioClean Zero-Waste Pods (30 Pods)
 Ingredients: Sodium Carbonate, Sodium Percarbonate, Sodium Tripolyphosphate, Polyvinyl Alcohol Film, Citrus Limon Essential Oil.
-Packaging: 100% Plastic-free uncoated kraft board (PAP 20).
+Packaging: Plastic-free uncoated kraft board (PAP 20).
 Claims: Dissolvable plant-based PVA film, Zero synthetic fragrance, Septic tank safe.`
     }
   }

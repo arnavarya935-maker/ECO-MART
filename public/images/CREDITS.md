@@ -1,6 +1,6 @@
 # Product Images Credits & Free Licenses
 
-All product photographs in EcoMart are obtained from free-license photography sources (Unsplash Free License) and stored locally under `/public/images/products/`. They can be used freely for creative and commercial projects without external network dependencies.
+All product photographs in Eco Sense are obtained from free-license photography sources (Unsplash Free License) and stored locally under `/public/images/products/`. They can be used freely for creative and commercial projects without external network dependencies.
 
 | Product ID | Product Name | Photographer | Unsplash Photo ID | Local File |
 |---|---|---|---|---|

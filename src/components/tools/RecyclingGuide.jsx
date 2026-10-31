@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Search, Recycle, Trash2, Sprout } from 'lucide-react';
 
 const RECYCLING_ITEMS = [
-  { item: 'Bamboo Toothbrush Handle', stream: 'Backyard Compost', bin: 'Wet / Organic Waste', tip: 'Snap off bristles with pliers first; 100% bamboo body breaks down in 180 days.', icon: Sprout, color: 'text-primary bg-primary/10 border-primary/20' },
+  { item: 'Bamboo Toothbrush Handle', stream: 'Backyard Compost', bin: 'Wet / Organic Waste', tip: 'Snap off bristles with pliers first; bamboo body breaks down in 180 days.', icon: Sprout, color: 'text-primary bg-primary/10 border-primary/20' },
   { item: 'Castor Bristles (Toothbrush)', stream: 'Industrial Compost', bin: 'Dry Recyclables', tip: 'Bio-nylon based on castor bean oil. Put in municipal dry bin.', icon: Recycle, color: 'text-accent bg-accent/10 border-accent/20' },
   { item: 'Beeswax Food Wraps', stream: 'Compost / Fire Tinder', bin: 'Wet Compost', tip: 'After 1 year of washings, cut into strips for backyard compost or natural fireplace firestarters.', icon: Sprout, color: 'text-primary bg-primary/10 border-primary/20' },
-  { item: 'Kraft Paper Packaging', stream: 'Paper Recycling', bin: 'Blue / Dry Paper Bin', tip: '100% unbleached post-consumer kraft paper can be recycled 5-7 times.', icon: Recycle, color: 'text-info bg-info/10 border-info/20' },
+  { item: 'Kraft Paper Packaging', stream: 'Paper Recycling', bin: 'Blue / Dry Paper Bin', tip: 'Unbleached post-consumer kraft paper can be recycled 5-7 times.', icon: Recycle, color: 'text-info bg-info/10 border-info/20' },
   { item: 'Single-Use Plastic Film / Cling Wrap', stream: 'Non-Recyclable Landfill', bin: 'Red / Hazard Waste', tip: 'LDPE thin film chokes recycling facility sorting machines. Swap for beeswax wraps!', icon: Trash2, color: 'text-danger bg-danger/10 border-danger/20' },
   { item: 'Coconut Shell Bowl', stream: 'Backyard Compost', bin: 'Organic Waste', tip: 'Pure coconut husk. Natural garden mulch after years of kitchen dining use.', icon: Sprout, color: 'text-primary bg-primary/10 border-primary/20' },
   { item: 'Copper Vessel', stream: 'Infinitely Recyclable Metal', bin: 'Metal Scrap Guild', tip: 'Copper never degrades in quality and can be melted down endlessly.', icon: Recycle, color: 'text-warning bg-warning/10 border-warning/20' }

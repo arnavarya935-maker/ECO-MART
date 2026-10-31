@@ -45,7 +45,7 @@ export const HOUSEHOLD_PROFILES = {
     label: 'Zero-Waste Minimalist',
     icon: '✨',
     badge: 'Circular Purist',
-    description: 'Strict 0g plastic, 100% recyclable or home-compostable circular essentials.',
+    description: 'Strict 0g plastic, recyclable or home-compostable circular essentials.',
     constraints: { onlyPlasticFree: true, minEcoScore: 70 },
     weights: { price: 30, carbon: 80, plastic: 100, water: 60, local: 70, certs: 60, ecoScore: 90 }
   }
@@ -221,7 +221,7 @@ export function recommendGifts({ recipient = 'friend', occasion = 'birthday', bu
 
     let reason = `Ideal ${occasion} eco gift under ₹${maxBudget}. High circularity and zero virgin plastic.`;
     if (p.packaging === 'plastic-free') {
-      reason += ' Ships in 100% plastic-free packaging.';
+      reason += ' Ships in plastic-free packaging.';
     }
 
     return {
